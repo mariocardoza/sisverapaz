@@ -11,9 +11,11 @@ const { mix } = require('laravel-mix');
  |
  */
 
- mix.scripts([
- 	'resources/assets/js/jquery.js',
+ mix.js([
+  'resources/assets/js/app.js',
+ 	/*'resources/assets/js/jquery.js',
   //'resources/assets/js/bootstrap.js',
+
  	'resources/assets/js/jquery.mask.min.js',
  	'resources/assets/js/icheck.js',
  	'resources/assets/js/botones.dataTables.min.js',
@@ -32,10 +34,12 @@ const { mix } = require('laravel-mix');
   'resources/assets/js/toastr.js',
   'resources/assets/js/jquery.steps.js',
   'resources/assets/js/chosen.jquery.js',
-  'resources/assets/js/vue.min.js',
   'resources/assets/js/fullcalendar.js',
   'resources/assets/js/es.js',
-], 'public/js/sisverapaz.js')
+  //con esta funcion agrego el js para cargar los municipios por departamento
+  'resources/assets/js/municipios.js',*/
+
+], 'public/js/vue.js')
 .styles([
 	'resources/assets/css/_all-skins.css',
   'resources/assets/css/AdminLTE.css',

@@ -221,6 +221,7 @@ Route::Resource('retenciones','RetencionController');
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
 
+Route::get('cargos/get','CargoController@get');
 Route::Resource('cargos','CargoController');
 
 Route::Resource('cuentas','CuentaController');

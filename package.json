@@ -15,7 +15,7 @@
     "cross-env": "^5.1",
     "jquery": "^3.2",
     "laravel-mix": "^1.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "vue": "^2.5.16"
   },
   "name": "sisverapaz",
@@ -25,7 +25,9 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue-lodash": "^2.0.0"
+  },
   "author": "",
   "license": "ISC",
   "repository": {

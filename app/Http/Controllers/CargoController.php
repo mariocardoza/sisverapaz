@@ -21,9 +21,19 @@ class CargoController extends Controller
         $this->middleware('auth');
     }
 
+    public function get()
+    {
+      $cargos = Cargo::get();
+      return response()->json([
+
+         'cargos'    => $cargos,
+
+     ], 200);
+    }
+
     public function index()
     {
-        $cargos = Cargo::all();
+
         return view('cargos.index',compact('cargos'));
     }
 

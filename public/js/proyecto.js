@@ -107,7 +107,7 @@ $('#btnAgregar').on("click", function(e){
     $('#guardarcategoria').on("click", function(e){
     var cate = $("#cate").val();
     var categoria = cate.toUpperCase();
-    var ruta = "/"+carpeta()+"/public/proyectos/guardarcategoria";
+    var ruta = "guardarcategoria";
     var token = $('meta[name="csrf-token"]').attr('content');
     //alert(nombre);
     $.ajax({
@@ -131,7 +131,7 @@ $('#btnAgregar').on("click", function(e){
   });
 
   $('#btnsubmit').on("click", function(e){
-    var ruta = "/"+carpeta()+"/public/proyectos";
+    var ruta = "../proyectos";
     var token = $('meta[name="csrf-token"]').attr('content');
     var tot=0.0;
     var montos = new Array();
@@ -160,11 +160,12 @@ $('#btnAgregar').on("click", function(e){
       data:{nombre,monto,motivo,direccion,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg},
 
       success: function(msj){
-        window.location.href = "/"+carpeta()+"/public/proyectos";
+        window.location.href = "proyectos";
         console.log(msj);
         toastr.success('Proyecto creado éxitosamente');
       },
       error: function(data, textStatus, errorThrown){
+        console.log(data);
 				toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
 				$.each(data.responseJSON.errors, function( key, value ) {
 					toastr.error(value);
@@ -220,7 +221,7 @@ function onFixed (valor, maximum) {
 }
 
 function cargarFondos(){
-  $.get('/'+carpeta()+'/public/proyectos/listarfondos', function (data){
+  $.get('listarfondos', function (data){
     var html_select = '<option value="">Seleccione una categoria</option>';
     for(var i=0;i<data.length;i++){
       html_select +='<option value="'+data[i].id+'">'+data[i].categoria+'</option>'
