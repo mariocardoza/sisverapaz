@@ -38,7 +38,7 @@
 					<td>{{ $catalogo->unidad_medida }}</td>
 					<td>{{ $catalogo->categoria->nombre_categoria }}</td>
 					<td>
-						@if($estado == 1 ||  $estado == "")
+						@if($catalogo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
 						<a href="{{ url('catalogos/'.$catalogo->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
 						<a href="{{ url('catalogos/'.$catalogo->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
