@@ -16,3 +16,6 @@
   <cargos></cargos>
 </div>
 @endsection
+@section('scripts')
+{{Html::script('js/vue.js')}}
+@endsection
