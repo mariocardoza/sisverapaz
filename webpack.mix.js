@@ -14,7 +14,7 @@ const { mix } = require('laravel-mix');
  mix.js([
   'resources/assets/js/app.js',
  	/*'resources/assets/js/jquery.js',
-  //'resources/assets/js/bootstrap.js',
+  'resources/assets/js/bootstrap.js',
 
  	'resources/assets/js/jquery.mask.min.js',
  	'resources/assets/js/icheck.js',

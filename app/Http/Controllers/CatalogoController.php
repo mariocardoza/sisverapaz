@@ -45,8 +45,22 @@ class CatalogoController extends Controller
      */
     public function store(Request $request)
     {
-        Catalogo::create($request->All());
-        return redirect('catalogos')->with('mensaje','Catalogo registrado');
+        if($request->Ajax())
+        {
+          try{
+              Catalogo::create($request->All());
+              return response()->json([
+                  'mensaje' => 'exito'
+              ]);
+          }catch(\Exception $e){
+              return response()->json([
+                  'mensaje' => $e->getMessage()
+              ]);
+          }
+        }else{
+          Catalogo::create($request->All());
+          return redirect('catalogos')->with('mensaje','Catalogo registrado');
+        }
     }
 
     /**

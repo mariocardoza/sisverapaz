@@ -41,14 +41,12 @@ class UnidadMedidaController extends Controller
         if($request->ajax()){
           UnidadMedida::create($request->All());
           return response()->json([
-            'mensaje' => 'éxito'
+            'mensaje' => 'exito'
           ]);
         }else{
-
+          UnidadMedida::create($request->All());
+          return redirect('unidadmedidas')->with('mensaje','Unidad de medida creado exitosamente');
         }
-
-        UnidadMedida::create($request->All());
-        return redirect('unidadmedidas')->with('mensaje','Unidad medidas creado');
     }
 
     /**

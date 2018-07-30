@@ -1,5 +1,4 @@
 //funciones dentro del document
-
       $(document).ready(function () {
 
 
@@ -320,4 +319,10 @@ function decodificar(data){
   //convertir los datos decodificados a formato JSON
   var datos = JSON.parse(datadecodificada);
   return datos;
+}
+
+//funcion que formatea los valores enteros a 2 decimales
+function onFixed (valor, maximum) {
+  maximum = (!maximum) ? 2 : maximum;
+  return valor.toFixed(maximum);
 }

@@ -11,7 +11,7 @@
                               @else
                                 {!!Form::hidden('',$proyecto->id,['id' => 'proyecto'])!!}
                                 {!! Form::hidden('',$proyecto->monto,['id' => 'monto']) !!}
-                                {!!Form::text('',$proyecto->nombre,['class' => 'form-control','readonly'])!!}
+                                {!!Form::textarea('',$proyecto->nombre,['class' => 'form-control','readonly','rows'=>3])!!}
                               @endif
                             </div>
                         </div>
@@ -66,12 +66,9 @@
                     <div class="form-group">
                       <label for="" class="col-md-4">Ítem</label>
                       <div class="col-md-6">
-                        <select class="chosen-select-width" id="categoria_id">
-                          <option value="">Seleccione un ítem</option>
-                          @foreach($items as $item)
-                            <option value="{{$item->id}}">{{$item->item}} {{$item->nombre_categoria}}</option>
-                          @endforeach
-                        </select>
+                        {{Form::hidden('',$item1->id,['id' => 'categoria_id'])}}
+                        {{Form::text('',$item1->item .' '. $item1->nombre_categoria,['class' => 'form-control'])}}
+
                       </div>
                     </div>
                     <div class="form-group">

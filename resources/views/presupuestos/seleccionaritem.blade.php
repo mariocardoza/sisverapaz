@@ -19,7 +19,7 @@
               <div class="panel panel-primary">
                   <div class="panel-heading">Registro de presupuesto</div>
                   <div class="panel-body">
-                    {{ Form::open(['action' => 'PresupuestoController@crear','class' => 'form-horizontal','id' => 'presupuesto']) }}
+                    {{ Form::open(['action' => 'PresupuestoController@crear','method'=>'get','class' => 'form-horizontal','id' => 'presupuesto']) }}
 
               <div class="form-group">
                 <label for="" class="col-md-4">Proyecto</label>

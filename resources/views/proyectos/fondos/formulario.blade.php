@@ -6,7 +6,7 @@
                             <label for="" class="col-md-4 control-label">Categoría</label>
 
                                 <div class="col-md-6">
-                                  <select class="form-control" id="cat_id">
+                                  <select class="chosen-select-width" id="cat_id">
                                     <option value="">Seleccione una categoria</option>
                                   </select>
                                 </div>

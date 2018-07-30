@@ -15,6 +15,7 @@ use App\Cuentaproy;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
+use Session;
 
 class ProyectoController extends Controller
 {
@@ -92,6 +93,17 @@ class ProyectoController extends Controller
         return Fondocat::get();
     }
 
+    public function listarFondose($id)
+    {
+        $fondos = DB::table('fondocats')
+                  ->whereNotExists(function ($query) use ($id)  {
+                       $query->from('fondos')
+                          ->whereRaw('fondos.fondocat_id = fondocats.id')
+                          ->whereRaw('fondos.proyecto_id ='.$id);
+                      })->get();
+        return $fondos;
+    }
+
     public function getMontos($id)
     {
       /*return $categorias = DB::table('fondocats')
@@ -107,11 +119,14 @@ class ProyectoController extends Controller
     {
       if(isset($id))
       {
-        $fondo = Fondo::findorFail($id);
-        $fondo->delete();
+        //$fondo = Fondo::findorFail($id);
+        //$fondo->delete();
+        $fondos = Session::get('fondos');
+        unset($fondos[$id]); // Unset the index you want
+        Session::push('fondos', $fondos); // Set the array again
 
         return response()->json([
-            'mensaje' => 'exito'
+            'mensaje' => Session::get('fondos', $fondos)
           ]);
       }
 
@@ -130,6 +145,31 @@ class ProyectoController extends Controller
             'mensaje' => $request->All()
           ]);
       }
+    }
+    public function sesion (Request $request)
+    {
+      $fondo = [
+        'cat_id' => $request->cat_id,
+        'categoria' => $request->categoria,
+        'monto' => $request->monto,
+
+      ];
+
+      Session::push('fondos', $fondo);
+
+      return Response()->json([
+        'fondos' => Session::get('fondos')
+      ]);
+    }
+
+    public function getsesion ()
+    {
+      return response(Session::get('fondos'));
+    }
+
+    public function limpiarsesion()
+    {
+      Session::forget('fondos');
     }
 
     /**

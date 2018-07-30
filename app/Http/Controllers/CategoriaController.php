@@ -43,8 +43,22 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        Categoria::create($request->All());
-        return redirect('categorias')->with('mensaje','Categoría registrada');
+        if($request->Ajax())
+        {
+          try{
+              Categoria::create($request->All());
+              return response()->json([
+                  'mensaje' => 'exito'
+              ]);
+          }catch(\Exception $e){
+              return response()->json([
+                  'mensaje' => $e->getMessage()
+              ]);
+          }
+        }else{
+          Categoria::create($request->All());
+          return redirect('categorias')->with('mensaje','Categoría registrada');
+        }
     }
 
     /**

@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container" id=app>
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -24,6 +24,7 @@
                             <button type="submit" class="btn btn-success">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>    Editar
                             </button>
+                            <button type="button" class="btn btn-default" id="limpiar">Limpiar</button>
                         </div>
                     </div>
                 {{ Form::close() }}
@@ -33,5 +34,5 @@
 </div>
 @endsection
 @section('scripts')
-{!! Html::script('js/proyecto.js') !!}
+{!! Html::script('js/proyectoe.js') !!}
 @endsection

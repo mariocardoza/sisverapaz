@@ -101,10 +101,16 @@ Route::post('proyectos/alta/{id}','ProyectoController@alta')->name('proyectos.al
 Route::get('proyectos/listarorganizaciones','ProyectoController@listarOrganizaciones');
 Route::post('proyectos/guardarorganizacion','ProyectoController@guardarOrganizacion');
 Route::get('proyectos/listarfondos','ProyectoController@listarFondos');
+Route::get('proyectos/listarfondose/{id}','ProyectoController@listarFondose');
 Route::post('proyectos/guardarcategoria','ProyectoController@guardarCategoria');
 Route::get('proyectos/getMontos/{id}','ProyectoController@getMontos');
 Route::delete('proyectos/deleteMonto/{id}','ProyectoController@deleteMonto');
 Route::post('proyectos/addMonto','ProyectoController@addMonto');
+//rutas de las sesiones para los montos de los proyectos
+Route::post('proyectos/sesion','ProyectoController@sesion');
+Route::get('proyectos/getsesion','ProyectoController@getsesion');
+Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
+//rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 
 Route::post('tipocontratos/baja/{id}','TipocontratoController@baja')->name('tipocontratos.baja');
@@ -121,13 +127,11 @@ Route::post('ordencompras/guardar','OrdencompraController@guardar');
 Route::get('ordencompras/requisiciones/{id}','OrdencompraController@requisiciones');
 Route::Resource('ordencompras','OrdencompraController');
 
-Route::post('presupuestos/crear','PresupuestoController@crear');
+Route::get('presupuestos/crear','PresupuestoController@crear');
 Route::get('presupuestos/seleccionaritem/{id}','PresupuestoController@seleccionaritem');
 Route::get('presupuestos/getcategorias/{id}','PresupuestoController@getCategorias');
-Route::post('presupuestos/guardarcategoria','PresupuestoController@guardarCategoria');
 Route::get('presupuestos/getcatalogo/{id}','PresupuestoController@getCatalogo');
 Route::get('presupuestos/getunidades','PresupuestoController@getUnidadesMedida');
-Route::post('presupuestos/guardardescripcion','PresupuestoController@guardarDescripcion');
 Route::post('presupuestos/cambiar','PresupuestoController@cambiar')->name('presupuestos.cambiar');
 Route::Resource('presupuestos','PresupuestoController');
 
@@ -136,13 +140,13 @@ Route::get('presupuestodetalles/getcatalogo/{idp}/{idc}','PresupuestoDetalleCont
 Route::Resource('presupuestodetalles','PresupuestoDetalleController');
 
 Route::get('catalogos/create','CatalogoController@create');
-route::post('catalogos/guardar','CatalogoController@guardar');
+Route::post('catalogos/guardar','CatalogoController@guardar');
 Route::Resource('catalogos','CatalogoController');
 Route::post('catalogos/baja/{id}','CatalogoController@baja')->name('catalogos.baja');
 Route::post('catalogos/alta/{id}','CatalogoController@alta')->name('catalogos.alta');
 
 Route::get('categorias/create','CategoriaController@create');
-route::post('categorias/guardar','CatalogoController@guardar');
+Route::post('categorias/guardar','CatalogoController@guardar');
 Route::Resource('categorias','CategoriaController');
 Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias.baja');
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');

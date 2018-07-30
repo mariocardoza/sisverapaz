@@ -57,7 +57,7 @@
                                   </select>
                                 </div>
                                 <div class="col-md-2">
-                                  <button type="button" class="btn btn-primary" name="button" id="" data-toggle="modal" data-target="#btncategoria"><span class="glyphicon glyphicon-plus"></span></button>
+                                  <button type="button" class="btn btn-primary" name="button" id="" data-toggle="modal" data-target="#modalcategoria"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
                         </div>
 
@@ -114,7 +114,7 @@
 
 
 
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="btncategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalcategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="row">
             <div class="panel panel-primary">
@@ -131,7 +131,7 @@
                 </div>
                 <div class="panel-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardarcategoria" class="btn btn-success">Agregar</button>
+                    <button type="button" id="guardarcategoria" data-dismiss="modal" class="btn btn-success">Agregar</button>
                 </div>
             </div>
         </div>

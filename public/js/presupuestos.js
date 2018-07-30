@@ -25,6 +25,10 @@ var monto=0.0;
              var subtotal = parseFloat(precio) * parseFloat(cantidad);
              var dataJson = JSON.stringify({ catalogo: parseInt(catalogo),precio: precio,cantidad:cantidad })
              //console.log(dataJson);
+
+
+
+
              contador++;
              $(tbMaterial).append(
                  "<tr data-catalogo='"+catalogo+"' data-cantidad='"+cantidad+"' data-precio='"+precio+"' >"+
@@ -41,6 +45,7 @@ var monto=0.0;
                      "</td>" +
                  "</tr>"
              );
+             
              total +=( parseFloat(cantidad) * parseFloat(precio) );
              $("#total").val(onFixed(total));
              $("#contador").val(contador);
@@ -49,9 +54,10 @@ var monto=0.0;
              $("#catalogo").val("");
              $("#catalogo").trigger('chosen:updated');
 
+
              //total2=total;
              clearForm();
-             $("#btnagregatabla").modal("hide");
+
          }else{
            swal(
               '¡Aviso!',
@@ -145,7 +151,8 @@ var monto=0.0;
         var nombr = $("#txtcategoria").val();
         var nombre_categoria = nombr.toUpperCase();
         var token = $('meta[name="csrf-token"]').attr('content');
-        var ruta = '/'+carpeta()+'/public/presupuestos/guardarcategoria';
+        var ruta = '../../categorias';
+        console.log(ruta);
         $.ajax({
             url: ruta,
             headers: {'X-CSRF-TOKEN':token},
@@ -153,7 +160,6 @@ var monto=0.0;
             dataType:'json',
             data: {item,nombre_categoria},
            success : function(msj){
-                //window.location.href = "/sisverapaz/public/proyectos";
                 console.log(msj.mensaje);
                 if(msj.mensaje === "exito")
                 {
@@ -162,7 +168,7 @@ var monto=0.0;
                     $("#txtcategoria").val("");
                     listaritems();
                 }else{
-                    toastr.error('Ocurrió un error al guardar');
+                    toastr.error('Ocurrió un error al guardar la categoría');
                 }
 
             },
@@ -182,7 +188,7 @@ var monto=0.0;
         var categoria_id = $("#categoria_id").val();
         var nombre = nombre_descripcion.toUpperCase();
         var token = $('meta[name="csrf-token"]').attr('content');
-        var ruta = '/'+carpeta()+'/public/presupuestos/guardardescripcion';
+        var ruta = '../catalogos';
         $.ajax({
             url: ruta,
             headers: {'X-CSRF-TOKEN':token},
@@ -199,7 +205,7 @@ var monto=0.0;
                     $("#txtunidad").val("");
                     listarcatalogo(it);
                 }else{
-                    toastr.error('Ocurrió un error al guardar');
+                    toastr.error('Ocurrió un error al guardar el catálogo');
                 }
 
             },
@@ -216,7 +222,7 @@ var monto=0.0;
       var unidad = $("#txtnombreunidades").val();
       var nombre_medida = unidad.toUpperCase();
       var token = $('meta[name="csrf-token"]').attr('content');
-      var ruta = '/'+carpeta()+'/public/unidadmedidas';
+      var ruta = '../unidadmedidas';
       $.ajax({
         url: ruta,
         headers: {'X-CSRF-TOKEN':token},
@@ -224,7 +230,7 @@ var monto=0.0;
         dataType:'json',
         data: {nombre_medida},
         success : function(msj){
-             //console.log(msj.mensaje);
+             console.log(msj.mensaje);
              if(msj.mensaje === "exito")
              {
                  toastr.success('Unidad de medida registrado éxitosamente');
@@ -232,7 +238,7 @@ var monto=0.0;
                  listarunidades();
                  $("#txtunidad").trigger('chosen:updated');
              }else{
-                 toastr.error('Ocurrió un error al guardar');
+                 toastr.error('Ocurrió un error al guardar la unidad de medida');
              }
 
          },
@@ -247,7 +253,7 @@ var monto=0.0;
 
     function listaritems(id)
     {
-        $.get('/'+carpeta()+'/public/presupuestos/getcategorias/'+id, function (data){
+        $.get('../getcategorias/'+id, function (data){
         var html_select = '<option value="">Seleccione un ítem</option>';
         //console.log(data.length);
         if(data.length < 1){
@@ -267,7 +273,7 @@ var monto=0.0;
 
     function listarcatalogo(id)
     {
-        $.get('/'+carpeta()+'/public/presupuestos/getcatalogo/'+id, function (data){
+        $.get('getcatalogo/'+id, function (data){
             var html_select = '<option value="">Seleccione una descripción</option>';
             //console.log(data.length);
             if(data.length < 1){
@@ -285,7 +291,7 @@ var monto=0.0;
     }
 
     function listarunidades(){
-      $.get('/'+carpeta()+'/public/presupuestos/getunidades', function(data){
+      $.get('getunidades', function(data){
         var html_select = '<option value="">Seleccione una unidad de medida</option>';
         for(var i=0;i<data.length;i++){
             html_select +='<option value="'+data[i].nombre_medida+'">'+data[i].nombre_medida+'</option>'
@@ -297,7 +303,7 @@ var monto=0.0;
     }
 
     function guardar_presupuesto(){
-      var ruta = "/"+carpeta()+"/public/presupuestos";
+      var ruta = "../presupuestos";
       var token = $('meta[name="csrf-token"]').attr('content');
       var total = $("#total").val();
       var proyecto_id = $("#proyecto").val();
@@ -314,7 +320,6 @@ var monto=0.0;
       });
       console.log(presupuestos);
 
-
 /////////////////////////////////////////////////// funcion ajax para guardar ///////////////////////////////////////////////////////////////////
         $.ajax({
             url: ruta,
@@ -324,7 +329,7 @@ var monto=0.0;
             data: {proyecto_id,categoria_id,total,presupuestos},
            success : function(msj){
               if(msj.mensaje == 'exito'){
-                window.location.href = "/"+carpeta()+"/public/proyectos";
+                window.location.href = "../proyectos";
                 console.log(msj);
                 toastr.success('Presupuesto registrado éxitosamente');
               }else{
