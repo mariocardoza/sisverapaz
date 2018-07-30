@@ -1,4 +1,5 @@
 //funciones dentro del document
+
       $(document).ready(function () {
 
 
@@ -159,7 +160,12 @@
     });
 
 });
-
+// funcion para detectar la url del proyecto
+function carpeta(){
+      var carpeta = window.location.href;
+      var nombre = carpeta.split("/");
+      return nombre[3];
+    }
 
 //cambiarle idioma a datepicker
 $.datepicker.regional['es'] = {

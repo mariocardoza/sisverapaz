@@ -238,6 +238,7 @@
         echo ("<script type='text/javascript'>toastr.error('". Session::get('error') ."');</script>");
        ?>
     @endif
+
       @yield('content')
 
       <!-- /.row (main row) -->
@@ -260,10 +261,7 @@
 </div>
 <!-- ./wrapper -->
 
-
-
-
-
+  
 
 @yield('scripts')
 
