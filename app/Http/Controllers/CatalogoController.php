@@ -115,6 +115,7 @@ class CatalogoController extends Controller
 
     public function baja($cadena)
     {
+        try{
         $datos = explode("+",$cadena);
         $id = $datos[0];
         $motivo = $datos[1];
@@ -126,8 +127,11 @@ class CatalogoController extends Controller
         $catalogo->save();
         bitacora('Dió de baja catálogo');
         return redirect('/catalogos')->with('mensaje','Catálogo dado de baja');
+    }catch(\Exception $e){
+        return redirect('/catalogos')->with('mensaje','Error, no se puede dar de baja');
     }
-
+    }
+    
     public function alta($id)
     {
         $catalogo = Catalogo::find($id);
