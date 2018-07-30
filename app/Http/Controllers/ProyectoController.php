@@ -122,11 +122,15 @@ class ProyectoController extends Controller
         //$fondo = Fondo::findorFail($id);
         //$fondo->delete();
         $fondos = Session::get('fondos');
-        unset($fondos[$id]); // Unset the index you want
-        Session::push('fondos', $fondos); // Set the array again
+
+        foreach ($fondos as $key => $val) {
+            //echo $val[$key]['cat_id'];
+
+        }
+
 
         return response()->json([
-            'mensaje' => Session::get('fondos', $fondos)
+            'mensaje' => $fondos[0]->cat_id
           ]);
       }
 

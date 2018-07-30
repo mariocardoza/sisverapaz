@@ -11,7 +11,9 @@
 
   {!!Html::style('css/sisverapaz.css')!!}
 
+  {!! Html::script('js/sisverapaz.js') !!}
 
+  {!! Html::script('js/funcionesgenerales.js') !!}
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -257,11 +259,11 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-{!! Html::script('js/vue.js') !!}
 
-{!! Html::script('js/sisverapaz.js') !!}
 
-{!! Html::script('js/funcionesgenerales.js') !!}
+
+
+
 
 @yield('scripts')
 
