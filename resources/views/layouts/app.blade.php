@@ -157,7 +157,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{usuario(Auth()->user()->empleado_id) }} </span>
+              <span class="hidden-xs">{{Auth()->user()->empleado->nombre}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -165,7 +165,7 @@
                 <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
 
                 <p>
-                  {{ vercargo(Auth::user()->cargo) }}
+                  {{Auth()->user()->roleuser->role->description}}
                   <small>Miembro {{Auth::user()->created_at->diffForHumans()}} </small>
                 </p>
               </li>
@@ -208,7 +208,7 @@
           <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ usuario(Auth()->user()->empleado_id) }} </p>
+          <p>{{ Auth()->user()->empleado->nombre }} </p>
           <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
         </div>
       </div>
@@ -261,7 +261,7 @@
 </div>
 <!-- ./wrapper -->
 
-  
+
 
 @yield('scripts')
 

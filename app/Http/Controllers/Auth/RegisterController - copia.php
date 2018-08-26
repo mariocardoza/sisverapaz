@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Empleado;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -33,7 +34,8 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('auth.register');
+      $roles = Role::all();
+        return view('auth.register',compact('roles'));
     }
 
     protected function guard()
@@ -62,9 +64,12 @@ class RegisterController extends Controller
         'empleado_id' => $empleado->id,
         'username' => $request->username,
         'email' => $request->email,
-        'cargo' => $request->cargo,
         'password' => $request->password,
        ])));
+
+       $user
+       ->roles()
+       ->attach(Role::where('name','admin')->first());
 
        $this->guard()->login($user);
 
@@ -117,7 +122,6 @@ class RegisterController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'cargo' => 'required',
         ]);
     }
 
@@ -134,7 +138,6 @@ class RegisterController extends Controller
             'empleado_id' => $data['empleado_id'],
             'username' => $data['username'],
             'email' => $data['email'],
-            'cargo' => $data['cargo'],
             'password' => bcrypt($data['password']),
         ]);
     }

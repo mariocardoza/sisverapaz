@@ -66,16 +66,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('cargo') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Cargo</label>
+                        <div class="form-group{{ $errors->has('roles') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">Rol del usuario</label>
 
                             <div class="col-md-6">
-                                {!! Form::select('cargo', ['1' => 'Administrador', '2' => 'Jefe UACI','3' => 'Jefe Tesorería','4'=>'Jefe Registro y Control Tributario','5' => 'Colector'],null,['class' => 'form-control'])!!}
-                                @if ($errors->has('cargo'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cargo') }}</strong>
-                                    </span>
-                                @endif
+                                <select class="chosen-select-width" name="roles">
+                                  @foreach($roles as $rol)
+                                    <option value="{{$rol->id}}">{{$rol->description}}</option>
+                                  @endforeach
+                                </select>
                             </div>
                         </div>
 

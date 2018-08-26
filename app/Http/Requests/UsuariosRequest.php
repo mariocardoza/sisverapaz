@@ -27,7 +27,7 @@ class UsuariosRequest extends FormRequest
             'username' => 'required|min:5|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'cargo' => 'required',
+            'roles' => 'required',
         ];
     }
 
@@ -41,6 +41,7 @@ class UsuariosRequest extends FormRequest
         'password.required'=>'El campo contraseña es obligatorio',
         'password.min'=>'El campo contraseña debe tener al menos 6 caracteres',
         'password.confirmed'=>'El campo confirmación de contraseña no coincide',
+        'roles.required' => 'El rol de usuario es obligatorio',
         ];
     }
 }

@@ -1,6 +1,6 @@
 <ul class="sidebar-menu">
         <li class="header">Menú Principal</li>
-        @if(Auth::user()->cargo == 1)
+        @if(Auth()->user()->hasRole('admin'))
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Bitacora</span>
@@ -47,13 +47,13 @@
           </ul>
         </li>
         @endif
-        @if(Auth::user()->cargo == 2)
+        @if(Auth()->user()->hasRole('uaci'))
         @include('menu.uaci')
         @endif
-        @if(Auth::user()->cargo == 3)
+        @if(Auth()->user()->hasRole('tesoreria'))
           @include('menu.tesoreria')
         @endif
-        @if(Auth::user()->cargo == 4)
+        @if(Auth()->user()->hasRole('catastro'))
           @include('menu.ryct')
         @endif
         <li class="treeview">
