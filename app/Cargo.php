@@ -8,13 +8,13 @@ class Cargo extends Model
 {
 	protected $guarded = [];
 	
-    public function contrato()
+    public function categoriaempleado()
     {
-    	$this->hasMany('App\Contrato');
+    	return $this->hasMany('App\CategoriaEmpleado');
     }
 
-    public function contratoproyecto()
+   /* public function contratoproyecto()
     {
     	$this->hasMany('App\Contratoproyecto');
-    }
+    }*/
 }

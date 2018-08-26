@@ -45,8 +45,18 @@
                       @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                           <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          @if($empleado->estado == 1)
                           <a href="{{ url('empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+
+                          <a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a>
+
+                          @elseif($empleado->estado == 2)
+                          <a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a>
+
                           <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$empleado->id.",'empleados')" }}><span class="glyphicon glyphicon-trash"></span></button>
+
+                          @endif
+
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}

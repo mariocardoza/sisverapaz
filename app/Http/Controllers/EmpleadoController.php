@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Empleado;
 use App\Tipocontrato;
+use App\CategoriaEmpleado;
 use App\Bitacora;
 use App\Http\Requests\EmpleadoRequest;
 

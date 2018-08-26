@@ -108,6 +108,10 @@ Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 
+Route::post('fondocats/baja/{id}','FondocatController@baja')->name('fondocats.baja');
+Route::post('fondocats/alta/{id}','FondocatController@alta')->name('fondocats.alta');
+Route::Resource('fondocats','FondocatController');
+
 Route::post('tipocontratos/baja/{id}','TipocontratoController@baja')->name('tipocontratos.baja');
 Route::post('tipocontratos/alta/{id}','TipocontratoController@alta')->name('tipocontratos.alta');
 Route::Resource('tipocontratos','TipocontratoController');
@@ -200,6 +204,13 @@ Route::Resource('organizaciones','OrganizacionController');
 Route::Resource('calendarizaciones','CalendarizacionController');
 Route::get('inventarios/getmaterial/{id}','ProyectoInventarioController@getMaterial');
 Route::Resource('inventarios','ProyectoInventarioController');
+
+Route::Resource('categoriatrabajos','CategoriaTrabajoController');
+Route::get('categoriatrabajos/create','CategoriaTrabajoController@create');//------------>
+
+Route::Resource('categoriaempleados','CategoriaEmpleadoController');
+Route::get('categoriaempleados/create/{id}','CategoriaEmpleadoController@create');
+//Route::post('categoriaempleados/baja/{id}','CategoriaEmpleadoController');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
 Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
