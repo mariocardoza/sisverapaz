@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li><a href="{{ url('/cotizaciones') }}"><i class="fa fa-balance-scale"></i> Cotizaciones</a></li>
+        <li><a href="{{ url('/cotizaciones?solicitud='.$cotizacion->presupuestosolicitud->id) }}"><i class="fa fa-balance-scale"></i> Cotizaciones</a></li>
         <li class="active">Ver</li>
       </ol>
 @endsection
@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-11">
             <div class="panel panel-primary">
-                <div class="panel-heading">Datos del Cotización </div>
+                <div class="panel-heading">Datos de la Cotización </div>
                 <div class="panel-body">
                   <table class="table">
                     <tr>

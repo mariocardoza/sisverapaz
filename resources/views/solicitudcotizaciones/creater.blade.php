@@ -2,12 +2,11 @@
 
 @section('migasdepan')
     <h1>
-        Ordenes de compra
+        Solicitudes de cotizacion
     </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('/ordencompras') }}"><i class="fa fa-dashboard"></i> Cotizaciones</a></li>
-        <li class="active">Registro</li>
-      </ol>
+    <ol class="breadcrumb">
+        <li><a href="{{ url('/solicitudcotizaciones') }}"><i class="fa fa-align-right"></i> Solicitudes</a></li>
+        <li class="active">Registro</li>      </ol>
 @endsection
 
 @section('content')
@@ -15,12 +14,10 @@
         <div class="row">
             <div class="col-md-11">
             <div class="panel panel-primary">
-                <div class="panel-heading">Orden de compra</div>
+                <div class="panel-heading">Registro de solicitudes para la requisicion</div>
                 <div class="panel-body">
-                    {{ Form::open(['action' => 'OrdencompraController@store','class' => 'form-horizontal']) }}
-                    @include('errors.validacion')
-                    @include('ordencompras.formulario')
-                    @include('ordencompras.cotizacion')
+                    {{ Form::open(['action' => 'SolicitudcotizacionController@store','class' => 'form-horizontal','id' => 'solicitudcotizacion']) }}
+                    @include('solicitudcotizaciones.formularior')
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-1">
@@ -29,7 +26,7 @@
                             </button>
                         </div>
                     </div>
-                    </form>
+                    {{Form::close()}}
                 </div>
             </div>
         </div>
@@ -37,5 +34,5 @@
     </div>
 @endsection
 @section('scripts')
-{!! Html::script('js/ordencompra.js')!!}
+{!! Html::script('js/solicitudcotizacionesr.js') !!}
 @endsection

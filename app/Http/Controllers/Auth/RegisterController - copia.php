@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'telefono_fijo' => $request->telefono_fijo,
             'celular' => $request->celular,
             'direccion' => $request->direccion,
-            'fecha_nacimiento' => $request->fecha_nacimiento,
+            'fecha_nacimiento' => invertir_fecha($request->fecha_nacimiento),
        ]);
 
        //event(new Registered($user = $this->create($request->all())));

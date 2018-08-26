@@ -27,12 +27,12 @@ class Cotizacion extends Model
 
     public function detallecotizacion()
     {
-        return $this->hasMany('App\Detallecotizacion')->orderby('id','asc');
+        return $this->hasMany('App\Detallecotizacion');
     }
 
-    public function presupuestosolicitud()
+    public function solicitudcotizacion()
     {
-        return $this->belongsTo('App\PresupuestoSolicitud');
+        return $this->belongsTo('App\Solicitudcotizacion');
     }
 
     public function proveedor()

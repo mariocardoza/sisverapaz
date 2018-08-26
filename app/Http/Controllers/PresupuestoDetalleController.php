@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Presupuesto;
 use App\Presupuestodetalle;
+use Session;
 use DB;
 
 class PresupuestoDetalleController extends Controller
@@ -14,21 +15,144 @@ class PresupuestoDetalleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function guardarsesion(Request $request)
+     {
+       $presupuestos = Session::get('presupuestos');
+       $si=false;
+
+         if(count($presupuestos) > 0)
+         {
+           for($i=0; $i< count($presupuestos);$i++) {
+               if($presupuestos[$i]['catalogo_id'] == $request->catalogo && $presupuestos[$i]['existe'] == true){
+                 return Response()->json([
+                   'mensaje' => 'error'
+                 ]);
+                 $si=true;
+               }
+           }
+         }else{
+           $presupuesto = [
+             'existe' => true,
+             'catalogo_id' => intval($request->catalogo),
+             'descripcion' => $request->descripcion,
+             'cantidad' => intval($request->cantidad),
+             'precio' => floatval($request->precio),
+             'unidad' => $request->unidad,
+           ];
+
+           Session::push('presupuestos', $presupuesto);
+           return Response()->json([
+             'mensaje' => 'si'
+           ]);
+         }
+
+         if($si){
+           return Response()->json([
+             'mensaje' => 'error',
+           ]);
+         }else{
+           $presupuesto = [
+             'existe' => true,
+             'catalogo_id' => intval($request->catalogo),
+             'descripcion' => $request->descripcion,
+             'cantidad' => intval($request->cantidad),
+             'precio' => floatval($request->precio),
+             'unidad' => $request->unidad,
+           ];
+
+           Session::push('presupuestos', $presupuesto);
+           return Response()->json([
+             'mensaje' => 'si',
+           ]);
+         }
+
+     }
+
+     public function traersesion()
+     {
+       $s1=Session::get('presupuestos');
+       $s2=Session::get('presupuestosbase');
+       if(count($s1) > 0 && count($s2) > 0){
+         $presupuesto = array_merge($s1, $s2);
+       }else{
+         if(count($s1) == 0 ){
+           $presupuesto=$s2;
+         }else{
+           if(count($s2) == 0){
+             $presupuesto=$s1;
+           }else{
+             $presupuesto=null;
+           }
+         }
+       }
+         return response($presupuesto);
+     }
+
+     public function limpiarsesion()
+     {
+       Session::forget('presupuestos');
+       //Session::forget('presupuestosbase');
+       return Response()->json([
+         'mensaje' => 'limpiado',
+       ]);
+     }
+
+     public function eliminarsesion($id)
+     {
+       if(isset($id))
+       {
+         $presupuestos = Session::get('presupuestos');
+         $presupuestosbase = Session::get('presupuestosbase');
+
+         try{
+           for($i=0; $i< count($presupuestos);$i++) {
+               if($presupuestos[$i]['catalogo_id'] == $id && $presupuestos[$i]['existe'] == true){
+
+                 $presupuestos[$i]['existe']=false;
+               }
+               Session::put('presupuestos', $presupuestos);
+           }
+
+           for($i=0; $i< count($presupuestosbase);$i++) {
+               if($presupuestosbase[$i]['catalogo_id'] == $id && $presupuestosbase[$i]['existe'] == true){
+                 //Session::forget('fondosbase.'.$i);
+                 $presupuestosbase[$i]['existe']=false;
+                 $presupuesto=Presupuestodetalle::where('catalogo_id',$id)->first();
+                 $presupuesto->delete();
+               }
+               Session::put('presupuestosbase',$presupuestosbase);
+           }
+
+           return response()->json([
+               'mensaje' => 'borrado',
+               'datos' => Session::get('presupuestos'),
+               'base' => Session::get('presupuestosbase')
+             ]);
+         }catch(\Exception $e){
+           return response()->json([
+               'mensaje' => $e->getMessage(),
+             ]);
+         }
+       }
+     }
+
     public function index()
     {
         //
     }
 
-    public function getCatalogo($idp,$idc)
+    public function getCatalogo(Request $request)
     {
-      //return $idc;
-      return $categorias = DB::table('catalogos')
-                ->where('categoria_id',$idc)
+      $idp=$request->idp;
+      $categorias = DB::table('catalogos')
+                ->where('categoria_id',$request->idc)
                 ->whereNotExists(function ($query) use ($idp) {
                      $query->from('presupuestodetalles')
                         ->whereRaw('presupuestodetalles.catalogo_id = catalogos.id')
                         ->whereRaw('presupuestodetalles.presupuesto_id ='.$idp);
                     })->get();
+      return response($categorias);
     }
 
     /**
@@ -39,6 +163,19 @@ class PresupuestoDetalleController extends Controller
     public function create($id)
     {
       $presupuesto=Presupuesto::findorFail($id);
+      Session::forget('presupuestosbase');
+      foreach($presupuesto->presupuestodetalle as $detalle){
+        $presupuestos = [
+          'existe' => true,
+          'catalogo_id' => intval($detalle->catalogo_id),
+          'descripcion' => str_replace ( " " , "_" ,$detalle->catalogo->nombre),
+          'cantidad' => intval($detalle->cantidad),
+          'precio' => floatval($detalle->preciou),
+          'unidad' => $detalle->catalogo->unidad_medida,
+        ];
+        Session::push('presupuestosbase',$presupuestos);
+      }
+      //dd(Session::get('presupuestosbase'));
       return view('presupuestos.detalle.create', compact('presupuesto'));
 
     }
@@ -53,22 +190,28 @@ class PresupuestoDetalleController extends Controller
     {
         if($request->ajax())
         {
-          $presupuestos = $request->presupuestos;
+          $presupuestos = Session::get('presupuestos');
+          $presupuestosbase = Session::get('presupuestosbase');
           DB::beginTransaction();
           try{
             $presupuesto=Presupuesto::findorFail($request->presupuesto_id);
             $presupuesto->total=$presupuesto->total+$request->total;
             $presupuesto->save();
 
-            foreach($presupuestos as $presu){
-              Presupuestodetalle::create([
-                'presupuesto_id' => $request->presupuesto_id,
-                'cantidad' => $presu['cantidad'],
-                'preciou' => $presu['precio'],
-                'catalogo_id' => $presu['catalogo'],
-              ]);
+            for($i=0; $i< count($presupuestos);$i++) {
+              if($presupuestos[$i]['existe']==true){
+                $detallenuevo=new Presupuestodetalle();
+                $detallenuevo->presupuesto_id = $request->presupuesto_id;
+                $detallenuevo->cantidad = $presupuestos[$i]['cantidad'];
+                $detallenuevo->preciou = $presupuestos[$i]['precio'];
+                $detallenuevo->catalogo_id = $presupuestos[$i]['catalogo_id'];
+                $detallenuevo->save();
+              }
             }
+
               DB::commit();
+              Session::forget('presupuestos');
+              Session::forget('presupuestosbase');
             return response()->json([
               'mensaje' => 'exito',
               'id' => $request->presupuesto_id
@@ -76,7 +219,7 @@ class PresupuestoDetalleController extends Controller
           }catch(\Exception $e){
               DB::rollback();
             return response()->json([
-              'mensaje' => 'error'
+              'mensaje' => $e->getMessage()
             ]);
           }
 

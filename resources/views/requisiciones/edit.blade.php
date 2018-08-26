@@ -15,7 +15,7 @@ Editar <small>{{$requisicion->descripcion}}</small>
 <div class="container">
     <div class="row">
         <div class="panel panel-primary">
-          <div class="panel-heading">Edicion de requisicion</div>
+          <div class="panel-heading">Edicion de requisición</div>
             <div class="panel-body">
                 {{ Form::model($requisicion, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('requisiciones.update', $requisicion->id))) }}
                 @include('requisiciones.formulario')

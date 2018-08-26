@@ -21,6 +21,6 @@
 <div class="form-group{{ $errors->has('cantidad') ? ' has-error' :''}}">
   <label for="" class="col-md-4 control-label">Cantidad</label>
     <div class="col-md-6">
-      {!!Form::text('cantidad',null,['class' => 'form-control', 'id' => 'cantidad' ])!!}
+      {!!Form::number('cantidad',null,['class' => 'form-control', 'id' => 'cantidad','steps'=>'any','min'=>1])!!}
     </div>
 </div>

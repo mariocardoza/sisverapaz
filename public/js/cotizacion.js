@@ -1,6 +1,8 @@
+var token = $('meta[name="csrf-token"]').attr('content');
 $(document).ready(function(e){
+  listarformapagos();
 
-$('input[type="radio"]').on('click', function(e) {
+$('input[name="seleccionar"]').on('click', function(e) {
     idcot = (this.value);
     idproy = $(this).attr('data-proyecto');
 		swal({
@@ -31,6 +33,41 @@ $('input[type="radio"]').on('click', function(e) {
 					'info'
 				)
 				$('input[name=seleccionar]').attr('checked',false);
+			}
+		})
+});
+
+$('input[name="seleccionarr"]').on('click', function(e) {
+    idcot = (this.value);
+    idrequisicion = $(this).attr('data-requisicion');
+		swal({
+			title: '¿Está seguro?',
+			text: "¿Desea seleccionar este proveedor?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '¡Si!',
+			cancelButtonText: '¡No!',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		}).then((result) => {
+			if (result.value) {
+				swal(
+					'¡Seleccionado!',
+					'Proveedor seleccionado.',
+					'success'
+				)
+        seleccionarr(idcot,idrequisicion);
+			} else if (result.dismiss === swal.DismissReason.cancel) {
+				swal(
+					'Cancelado',
+					'Seleccione un proveedor',
+					'info'
+				)
+				$('input[name=seleccionarr]').attr('checked',false);
 			}
 		})
 });
@@ -70,18 +107,6 @@ $('input[type="radio"]').on('click', function(e) {
 
 	});
 
-/*	$(document).on("keyup", ".precios", function (e) {
-		//var cantidad=$(this).parents('tr').find('td:eq(2)').text();
-	//	var valor = $(this).val();
-  var element = $(e.currentTarget),
-    cantidad   = $(element).attr('data-cantidad'),
-    subTotal =  $(element).val(),
-    parent  = element.parents("tr");
-    console.log(subTotal);
-		//var total = parseFloat(cantidad * valor);
-		//$(this).parents('tr').find('td:eq(5)').text("$"+total.toFixed(2));
-	});*/
-
   $(".precios").keyup(function(e){
     var element = $(e.currentTarget),
       cantidad   = $(element).attr('data-cantidad'),
@@ -94,6 +119,62 @@ $('input[type="radio"]').on('click', function(e) {
   			subTotal = 0
       //console.log(parent);
       $(parent).find(".subtotal").text("$"+subTotal.toFixed(2));
+  });
+
+  $("#btnguardar").on("click", function(e){
+    var marcas = new Array();
+    var precios = new Array();
+    var unidades = new Array();
+    var descripciones = new Array();
+    var cantidades = new Array();
+    $('input[name^="marcas"]').each(function() {
+      marcas.push($(this).val());
+    });
+
+    $('input[name^="precios"]').each(function() {
+      precios.push($(this).val());
+    });
+
+    $('input[name^="unidades"]').each(function() {
+      unidades.push($(this).val());
+    });
+
+    $('input[name^="descripciones"]').each(function() {
+      descripciones.push($(this).val());
+    });
+
+    $('input[name^="cantidades"]').each(function() {
+      cantidades.push($(this).val());
+    });
+
+    var proveedor = $("#proveedor").val();
+    var descripcion = $("#formapago").val();
+    var id = $("#id").val();
+
+    $.ajax({
+      url:'../../cotizaciones',
+      headers: {'X-CSRF-TOKEN':token},
+      type:'post',
+      data:{id,proveedor,descripcion,marcas,precios,cantidades,unidades,descripciones},
+      success: function(response){
+        if(response.mensaje=='exito'){
+          toastr.success("Cotización registrada exitosamente");
+          if(response.tipo == 1){
+            location.href="../../solicitudcotizaciones/versolicitudes/"+response.proyecto;
+          }else{
+            location.href="../../requisiciones";
+          }
+        }else{
+          toastr.error("Debe llenar todos los campos de precio unitario");
+        }
+      },
+      error: function(error){
+        console.log(error);
+        $.each(error.responseJSON.errors, function( key, value ) {
+					toastr.error(value);
+				});
+      }
+    });
   });
 
   function seleccionar(id,idproy)
@@ -127,5 +208,77 @@ $('input[type="radio"]').on('click', function(e) {
 			});
 			}
     });
+  }
+
+  function seleccionarr(id,idrequisicion)
+  {
+    var ruta ="../../cotizaciones/seleccionarr";
+    $.ajax({
+      url: ruta,
+			headers: {'X-CSRF-TOKEN':token},
+			type: 'POST',
+			data:{idcot,idrequisicion},
+
+			success: function(data){
+        console.log(data);
+        if(data.mensaje === 'exito'){
+          toastr.success('Proveedor seleccionado con éxito');
+          window.location.href = "../../requisiciones";
+        }else{
+          toastr.error('Ha ocurrido un error en la solucitud contacte al administrador');
+          console.log(data.mensaje);
+        }
+
+			},
+			error: function(data, textStatus, errorThrown){
+        console.log(data);
+				toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
+				$.each(data.responseJSON.errors, function( key, value ) {
+					toastr.error(value);
+			});
+			}
+    });
+  }
+
+  $("#guardarformapago").on("click", function(e){
+		var nombre = $("#nombre").val();
+
+
+		$.ajax({
+			url:'../../formapagos',
+			headers: {'X-CSRF-TOKEN':token},
+			type:'post',
+			data:{nombre},
+			success: function(response){
+				if(response=='exito'){
+					toastr.success('Forma de pago registrada exitosamente');
+					listarformapagos();
+					$("#modalformapago").modal("hide");
+				}
+			},
+			error: function(error){
+				$.each(error.responseJSON.errors, function( key, value ) {
+					toastr.error(value);
+				});
+			}
+		});
+	});
+
+  function listarformapagos()
+  {
+  	$.ajax({
+  		url:'../../formapagos',
+  		type:'get',
+  		data:{},
+  		success:function(data){
+  			var html_select = '<option value="">Seleccione una forma de pago</option>';
+  				$(data).each(function(key, value){
+  					html_select +='<option value="'+value.nombre+'">'+value.nombre+'</option>'
+  					//console.log(data[i]);
+  					$("#formapago").html(html_select);
+  					$("#formapago").trigger('chosen:updated');
+  				});
+  		}
+  	});
   }
 });

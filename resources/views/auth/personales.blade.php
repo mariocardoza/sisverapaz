@@ -2,13 +2,7 @@
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control']) }}
-
-                                @if ($errors->has('nombre'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('nombre') }}</strong>
-                                </span>
-                                @endif
+                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control','required']) }}
                             </div>
                         </div>
 
@@ -16,13 +10,7 @@
                             <label for="dui" class="col-md-4 control-label">Número de DUI</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('dui', null,['id' => 'dui_empleado','class' => 'form-control']) }}
-
-                                @if ($errors->has('dui'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('dui') }}</strong>
-                                    </span>
-                                @endif
+                                {{ Form::text('dui', null,['id' => 'dui_empleado','class' => 'form-control','data-inputmask' => '"mask": "99999999-9"','data-mask']) }}
                             </div>
                         </div>
 
@@ -30,13 +18,7 @@
                             <label for="nit" class="col-md-4 control-label">Número de NIT</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('nit', null,['id'=>'nit_empleado','class' => 'form-control']) }}
-
-                                @if ($errors->has('nit'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nit') }}</strong>
-                                    </span>
-                                @endif
+                                {{ Form::text('nit', null,['id'=>'nit_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-999999-999-9"','data-mask']) }}
                             </div>
                         </div>
 
@@ -51,23 +33,13 @@
                                 Femenino
                                 {{ Form::radio('sexo', 'Femenino',false,['id' => 'femenino']) }}
                             </div>
-                            @if ($errors->has('sexo'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('sexo') }}</strong>
-                                </span>
-                                @endif
                         </div>
 
                         <div class="form-group{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
                             <label for="telefono_fijo" class="col-md-4 control-label">Teléfono fijo</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('telefono_fijo', null,['id' => 'fijo_empleado','class' => 'form-control']) }}
-                                @if ($errors->has('telefono_fijo'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('telefono_fijo') }}</strong>
-                                    </span>
-                                @endif
+                                {{ Form::text('telefono_fijo', null,['id' => 'fijo_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask']) }}
                             </div>
                         </div>
 
@@ -75,12 +47,7 @@
                             <label for="celular" class="col-md-4 control-label">Teléfono celular</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('celular', null,['id'=>'cel_empleado','class' => 'form-control']) }}
-                                @if ($errors->has('celular'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('celular') }}</strong>
-                                    </span>
-                                @endif
+                                {{ Form::text('celular', null,['id'=>'cel_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask']) }}
                             </div>
                         </div>
 
@@ -89,12 +56,6 @@
 
                             <div class="col-md-6">
                                 {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3]) }}
-
-                                @if ($errors->has('direccion'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('direccion') }}</strong>
-                                </span>
-                                @endif
                             </div>
                         </div>
 
@@ -105,6 +66,3 @@
                                 {{Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','id'=>'nacimimiento_empleado'])}}
                             </div>
                         </div>
-
-
-                        

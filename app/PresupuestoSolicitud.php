@@ -10,16 +10,11 @@ class PresupuestoSolicitud extends Model
 
     public function solicitudcotizacion()
     {
-      return $this->belongsTo('App\Solicitudcotizacion');
+      return $this->hasOne('App\Solicitudcotizacion','solicitud_id');
     }
 
     public function presupuesto()
     {
       return $this->belongsTo('App\Presupuesto');
-    }
-
-    public function cotizacion()
-    {
-        return $this->hasMany('App\Cotizacion');
     }
 }

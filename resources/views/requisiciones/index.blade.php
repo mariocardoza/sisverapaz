@@ -28,30 +28,63 @@
               <table class="table table-striped table-bordered table-hover" id="example2">
                 <thead>
                   <th>N°</th>
+                  <th>Código</th>
                   <th>Actividad</th>
-                  <th>Unidad</th>
-                  <th>Justificación</th>
-                  <th>Linea de trabajo</th>
-                  <th>Fuente de financiamiento</th>
+                  <th>Unidad administrativa</th>
+                  <th>Responsable</th>
+                  <th>Observaciones</th>
+                  <th>Estado</th>
                   <th>Accion</th>
-                  <?php $contador=0;?>
                 </thead>
                 <tbody>
-                  @foreach($requisiciones as $requisicion)
-                    <?php $contador++;?>
+                  @foreach($requisiciones as $key => $requisicion)
                   <tr>
-                    <td>{{ $contador }}</td>
-                    <td>{{$requisicion->actividad}}</td>
-                    <td>{{ $requisicion->unidad->nombre_unidad}}</td>
-                    <td>{{ $requisicion->justificacion }}</td>
-                    <td>{{ $requisicion->linea_trabajo }}</td>
-                    <td>{{ $requisicion->fuente_financiamiento }}</td>
+                    <td>{{ $key+1 }}</td>
+                    <td>{{$requisicion->codigo_requisicion }}</td>
+                    <td>{{ $requisicion->actividad }}</td>
+                    <td>{{ $requisicion->user->id }}</td>
+                    <td>{{ $requisicion->user->empleado->nombre }}</td>
+                    <td>{{ $requisicion->observaciones }}</td>
+                    @if($requisicion->estado == 1)
+                    <td><span class="label-primary">En espera</span></td>
                     <td>
                       <div class="btn-group">
                         <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                         <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                       </div>
                     </td>
+                  @elseif($requisicion->estado == 2)
+                      <td><span class="label-danger">Rechazada</span></td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                        </div>
+                      </td>
+                    @elseif( $requisicion->estado == 3)
+                      <td><span class="label-warning">Aprobado</span></td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        </div>
+                      </td>
+                    @elseif ( $requisicion->estado == 4)
+                      <td><span class="label-success">Espera de orden de compra</span></td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        </div>
+                      </td>
+                    @elseif( $requisicion->estado == 5)
+                      <td><span class="label-success">Espera de recibir suministros</span></td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('ordencompras/create/'.$requisicion->id)}}" class="btn btn-success btn-xs"><span class="fa fa-file-pdf-o"></span></a>
+                        </div>
+                      </td>
+                    @endif
                   </tr>
                   @endforeach
                 </tbody>

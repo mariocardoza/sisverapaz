@@ -29,29 +29,7 @@ class PresupuestoController extends Controller
          //Session::forget('presupuestos');
      }
 
-     public function sesion(Request $request)
-     {
-       $presupuesto = [
-         'catalogo' => $request->catalogo,
-         'descripcion' => $request->descripcion,
-         'cantidad' => $request->cantidad,
-         'precio' => $request->precio,
-         'unidad' => $request->unidad,
-       ];
-
-       Session::push('presupuestos', $presupuesto);
-
-
-     }
-
-     public function getsesion()
-     {
-       $presupuesto = Session::get('presupuestos');
-         return Response()->json([
-           'presupuestos' => $presupuesto
-         ]);
-
-     }
+    
 
     public function index(Request $request)
     {

@@ -19,7 +19,7 @@
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
               <div class="btn-group pull-right">
-                <a href="{{ url('/solicitudcotizaciones/versolicitudes/'.$solicitud->presupuesto->proyecto->id) }}" class="btn btn-danger" title="Atras"><span class="glyphicon glyphicon-menu-left"></span></a>
+                <a href="{{ url('/solicitudcotizaciones/versolicitudes/'.$solicitud->presupuestosolicitud->presupuesto->proyecto->id) }}" class="btn btn-danger" title="Atras"><span class="glyphicon glyphicon-menu-left"></span></a>
               </div>
             </div>
             <!-- /.box-header -->
@@ -31,14 +31,12 @@
                   <th>Proveedor</th>
                   <th>Estado</th>
                   <th>Accion</th>
-                  <?php $contador=0 ?>
                 </thead>
                 <tbody>
-                  @foreach($cotizaciones as $cotizacion)
+                  @foreach($solicitud->cotizacion as $key => $cotizacion)
                   <tr>
-                    <?php $contador++ ?>
-                    <td>{{ $contador }}</td>
-                    <td>{{ $cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre }}</td>
+                    <td>{{ $key+1 }}</td>
+                    <td>{{ $cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre }}</td>
                     <td>{{ $cotizacion->proveedor->nombre }}</td>
                     <td>{{ $cotizacion->descripcion }}</td>
                     <td>

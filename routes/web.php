@@ -98,14 +98,9 @@ Route::Resource('contratosuministros','ContratoSuministroController');
 
 Route::post('proyectos/baja/{id}','ProyectoController@baja')->name('proyectos.baja');
 Route::post('proyectos/alta/{id}','ProyectoController@alta')->name('proyectos.alta');
-Route::get('proyectos/listarorganizaciones','ProyectoController@listarOrganizaciones');
-Route::post('proyectos/guardarorganizacion','ProyectoController@guardarOrganizacion');
 Route::get('proyectos/listarfondos','ProyectoController@listarFondos');
-Route::get('proyectos/listarfondose/{id}','ProyectoController@listarFondose');
 Route::post('proyectos/guardarcategoria','ProyectoController@guardarCategoria');
-Route::get('proyectos/getMontos/{id}','ProyectoController@getMontos');
 Route::delete('proyectos/deleteMonto/{id}','ProyectoController@deleteMonto');
-Route::post('proyectos/addMonto','ProyectoController@addMonto');
 //rutas de las sesiones para los montos de los proyectos
 Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
@@ -123,8 +118,9 @@ Route::get('ordencompras/cotizaciones/{id}','OrdencompraController@getCotizacion
 Route::get('ordencompras/montos/{id}','OrdencompraController@getMonto');
 Route::get('ordencompras/realizarorden/{id}','OrdencompraController@realizarorden');
 Route::get('ordencompras/verificar/{id}','OrdencompraController@verificar');
-Route::post('ordencompras/guardar','OrdencompraController@guardar');
-Route::get('ordencompras/requisiciones/{id}','OrdencompraController@requisiciones');
+Route::post('ordencompras/guardar','OrdencompraController@guardar')->name('ordencompras.guardar');
+Route::get('ordencompras/requisiciones','OrdencompraController@requisiciones');
+Route::get('ordencompras/create/{id}','OrdencompraController@create');
 Route::Resource('ordencompras','OrdencompraController');
 
 Route::get('presupuestos/crear','PresupuestoController@crear');
@@ -133,10 +129,16 @@ Route::get('presupuestos/getcategorias/{id}','PresupuestoController@getCategoria
 Route::get('presupuestos/getcatalogo/{id}','PresupuestoController@getCatalogo');
 Route::get('presupuestos/getunidades','PresupuestoController@getUnidadesMedida');
 Route::post('presupuestos/cambiar','PresupuestoController@cambiar')->name('presupuestos.cambiar');
+Route::post('presupuestos/guardarsesion','PresupuestoController@guardarsesion');
+Route::post('presupuestos/traersesion','PresupuestoController@traersesion');
 Route::Resource('presupuestos','PresupuestoController');
 
 Route::get('presupuestodetalles/create/{id}','PresupuestoDetalleController@create');
-Route::get('presupuestodetalles/getcatalogo/{idp}/{idc}','PresupuestoDetalleController@getCatalogo');
+Route::get('presupuestodetalles/getcatalogo','PresupuestoDetalleController@getCatalogo');
+Route::post('presupuestodetalles/guardarsesion','PresupuestoDetalleController@guardarsesion');
+Route::get('presupuestodetalles/traersesion','PresupuestoDetalleController@traersesion');
+Route::delete('presupuestodetalles/eliminarsesion/{id}','PresupuestoDetalleController@eliminarsesion');
+Route::get('presupuestodetalles/limpiarsesion','PresupuestoDetalleController@limpiarsesion');
 Route::Resource('presupuestodetalles','PresupuestoDetalleController');
 
 Route::get('catalogos/create','CatalogoController@create');
@@ -159,10 +161,13 @@ Route::Resource('unidadmedidas','UnidadMedidaController');
 
 Route::get('cotizaciones/ver/cuadros','CotizacionController@cuadros');
 Route::get('cotizaciones/ver/{id}', 'CotizacionController@cotizar');
+Route::get('cotizaciones/cotizarr/{id}', 'CotizacionController@cotizarr');
 Route::post('cotizaciones/seleccionar','CotizacionController@seleccionar');
+Route::post('cotizaciones/seleccionarr','CotizacionController@seleccionarr');
 Route::post('cotizaciones/baja/{id}','CotizacionController@baja')->name('cotizaciones.baja');
 Route::post('cotizaciones/alta/{id}','CotizacionController@alta')->name('cotizaciones.alta');
 Route::get('cotizaciones/realizarcotizacion/{id}','CotizacionController@realizarCotizacion');
+Route::get('cotizaciones/realizarcotizacionr/{id}','CotizacionController@realizarCotizacionr');
 Route::Resource('cotizaciones','CotizacionController');
 
 Route::get('paacs/crear','PaacController@crear');
@@ -179,10 +184,12 @@ Route::Resource('formapagos','FormapagoController');
 Route::post('solicitudcotizaciones/baja/{id}','SolicitudcotizacionController@baja')->name('solicitudcotizaciones.baja');
 Route::post('solicitudcotizaciones/alta/{id}','SolicitudcotizacionController@alta')->name('solicitudcotizaciones.alta');
 Route::get('solicitudcotizaciones/versolicitudes/{id}','SolicitudcotizacionController@versolicitudes');
-Route::get('solicitudcotizaciones/getcategorias/{id}','SolicitudcotizacionController@getCategorias');
-Route::get('solicitudcotizaciones/getpresupuesto/{id}/{idp}','SolicitudcotizacionController@getPresupuesto');
+Route::get('solicitudcotizaciones/getcategorias','SolicitudcotizacionController@getCategorias');
+Route::get('solicitudcotizaciones/getpresupuesto','SolicitudcotizacionController@getPresupuesto');
 Route::post('solicitudcotizaciones/cambiar','SolicitudcotizacionController@cambiar');
 Route::get('solicitudcotizaciones/create/{id}','SolicitudcotizacionController@create');
+Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@creater');
+Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 Route::Resource('requisiciones','RequisicionController');

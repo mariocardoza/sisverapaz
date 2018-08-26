@@ -13,9 +13,10 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="panel panel-default">       
+        <div class="panel panel-default">
             <div class="panel-body">
-                {{ Form::model($formapago, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('formapagos.update', $formapago->id))) }} 
+                {{ Form::model($formapago, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('formapagos.update', $formapago->id))) }}
+                 @include('errors.validacion')
                  @include('formapagos.formulario')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">

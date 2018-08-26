@@ -24,12 +24,10 @@ class CotizacionRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'=>'required|min:3|max:150',
-            'monto'=>'required|numeric',
-            'direccion'=>'required|max:255',
-            'fecha_inicio'=>'required|date',
-            'fecha_fin'=>'required|date',
-            'estado'=>'required',
+            'proveedor'=>'required',
+            'descripcion'=>'required',
+            'marcas'=>'required',
+            'precios'=>'required',
         ];
     }
 }

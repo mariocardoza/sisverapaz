@@ -131,7 +131,7 @@ class CatalogoController extends Controller
         return redirect('/catalogos')->with('mensaje','Error, no se puede dar de baja');
     }
     }
-    
+
     public function alta($id)
     {
         $catalogo = Catalogo::find($id);

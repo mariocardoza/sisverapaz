@@ -21,15 +21,21 @@ class FormapagoController extends Controller
 
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
-        if($estado == "" )$estado=1;
-        if ($estado == 1) {
-            $formapagos = Formapago::where('estado',$estado)->get();
-            return view('formapagos.index',compact('formapagos','estado'));
-        }
-        if ($estado == 2) {
-            $formapagos = Formapago::where('estado',$estado)->get();
-            return view('formapagos.index',compact('formapagos','estado'));
+        if($request->ajax())
+        {
+          $formapagos=Formapago::where('estado',1)->get();
+          return response($formapagos);
+        }else{
+          $estado = $request->get('estado');
+          if($estado == "" )$estado=1;
+          if ($estado == 1) {
+              $formapagos = Formapago::where('estado',$estado)->get();
+              return view('formapagos.index',compact('formapagos','estado'));
+          }
+          if ($estado == 2) {
+              $formapagos = Formapago::where('estado',$estado)->get();
+              return view('formapagos.index',compact('formapagos','estado'));
+          }
         }
     }
 
@@ -51,9 +57,23 @@ class FormapagoController extends Controller
      */
     public function store(FormapagoRequest $request)
     {
-        Formapago::create($request->All());
-        bitacora('Creó un registro');
-        return redirect('/formapagos')->with('mensaje','Registro almacenado con éxito');
+        if($request->ajax()){
+          try{
+            Formapago::create($request->All());
+            bitacora('Registró una forma de pago');
+            return response('exito');
+          }catch(\Exception $e){
+            return response($e->getMessage());
+          }
+        }else{
+          try{
+            Formapago::create($request->All());
+            bitacora('Registró una forma de pago');
+            return redirect('/formapagos')->with('mensaje','Registro almacenado con éxito');
+          }catch(\Exception $e){
+            return redirect('/formapagos/create')->with('error','Ocurrió un error, contacte al administrador');
+          }
+        }
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Requisicion;
+use App\Requisicione;
 use App\Requisiciondetalle;
 use App\Unidad;
 use App\UnidadMedida;
@@ -24,7 +24,7 @@ class RequisicionController extends Controller
 
     public function index()
     {
-        $requisiciones = Requisicion::where('estado',1)->get();
+        $requisiciones = Requisicione::all();
         return view('requisiciones.index',compact('requisiciones'));
     }
 
@@ -35,9 +35,8 @@ class RequisicionController extends Controller
      */
     public function create()
     {
-      $unidades=Unidad::pluck('nombre_unidad', 'id');
       $medidas = UnidadMedida::all();
-        return view('requisiciones.create',compact('unidades','medidas'));
+        return view('requisiciones.create',compact('medidas'));
     }
 
     /**
@@ -54,19 +53,18 @@ class RequisicionController extends Controller
         try{
           $requisiciones = $request->requisiciones;
 
-          $requisicion = Requisicion::create([
+          $requisicion = Requisicione::create([
+              'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
-              'unidad_id' => $request->unidad_admin,
-              'linea_trabajo' => $request->linea_trabajo,
-              'fuente_financiamiento' => $request->fuente_financiamiento,
-              'justificacion' => $request->justificacion,
+              'user_id' => $request->user_id,
+              'observaciones' => $request->observaciones,
               ]);
             foreach($requisiciones as $requi){
               Requisiciondetalle::create([
-                'requisicion_id' => $requisicion->id,
                 'cantidad' => $requi['cantidad'],
                 'unidad_medida' => $requi['unidad'],
                 'descripcion' => $requi['descripcion'],
+                'requisicion_id' => $requisicion->id,
               ]);
             }
             DB::commit();
@@ -76,7 +74,9 @@ class RequisicionController extends Controller
         }catch (\Exception $e){
           DB::rollback();
           return response()->json([
-            'mensaje' => 'error'
+            'mensaje' => 'error',
+            'codigo' => $e->getMessage(),
+            'req' => $requisicion->id
           ]);
         }
         }
@@ -91,7 +91,7 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
-        $requisicion = Requisicion::findorFail($id);
+        $requisicion = Requisicione::findorFail($id);
         //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
         //dd($requisicion);
         return view('requisiciones.show',compact('requisicion'));
@@ -105,7 +105,7 @@ class RequisicionController extends Controller
      */
     public function edit($id)
     {
-      $requisicion=Requisicion::findorFail($id);
+      $requisicion=Requisicione::findorFail($id);
       $unidades=Unidad::pluck('nombre_unidad', 'id');
       $medidas = UnidadMedida::all();
         return view('requisiciones.edit',compact('requisicion','medidas','unidades'));

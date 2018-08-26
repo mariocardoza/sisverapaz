@@ -1,25 +1,35 @@
+var token = $('meta[name="csrf-token"]').attr('content');
+
 $(document).ready(function (){
 
 	$("#actividad").on("change", function(e){
 		var idrequisicion = (this.value);
 		if(idrequisicion != ""){
-			$.get("/"+carpeta()+"/public/ordencompras/requisiciones/"+idrequisicion, function(data){
-				$(data).each(function(key,value){
+			$.ajax({
+				url:'requisiciones',
+				type:'get',
+				data:{idrequisicion},
+				success: function(data){
 					$(requi).empty();
-					$(requi).append(
-		                "<tr>"+
-		                    "<td>" + value.descripcion + "</td>" +
-		                    "<td>" + value.unidad_medida + "</td>" +
-												"<td>" + value.cantidad + "</td>"+
-												"<td>"+
-												"<div class='btn-group'>"+
-												"<button class='btn btn-primary btn-xs'><i class='glyphicon glyphicon-ok'></i></button>"+
-												"<button class='btn btn-warning btn-xs'><i class='glyphicon glyphicon-edit'></i></button>"+
-												"</div>"+
-												"</td>"+
-		                "</tr>"
-		          	);
-				});
+					$(data).each(function(key,value){
+						$(requi).append(
+			                "<tr>"+
+			                    "<td>" + value.descripcion + "</td>" +
+			                    "<td>" + value.unidad_medida + "</td>" +
+													"<td>" + value.cantidad + "</td>"+
+													"<td>"+
+													"<div class='btn-group'>"+
+													"<button class='btn btn-primary btn-xs'><i class='glyphicon glyphicon-ok'></i></button>"+
+													"<button class='btn btn-warning btn-xs'><i class='glyphicon glyphicon-edit'></i></button>"+
+													"</div>"+
+													"</td>"+
+			                "</tr>"
+			          	);
+					});
+				},
+				error: function(error){
+
+				}
 			});
 		}else{
 			$(requi).empty();
@@ -28,6 +38,45 @@ $(document).ready(function (){
             'warning');
 		}
 
+	});
+
+	$("#btnguardar").on("click", function(){
+		var cotizacion_id = $("#cotizacion_id").val(),
+		fecha_inicio = $("#fecha_inicio").val(),
+		fecha_fin = $("#fecha_fin").val(),
+		adminorden =$("#adminorden").val(),
+		direccion_entrega = $("#direccion_entrega").val(),
+		observaciones =$("#observaciones").val();
+
+		$.ajax({
+			url:'../../ordencompras',
+			headers: {'X-CSRF-TOKEN':token},
+			type:'POST',
+			data:{fecha_inicio,fecha_fin,adminorden,direccion_entrega,observaciones,cotizacion_id},
+			success: function(response){
+				if(response.mensaje=="exito"){
+					toastr.success("Orden de compra registrada exitosamente");
+					location.href="../../solicitudcotizaciones/versolicitudes/"+response.proyecto;
+				}else{
+					if(response.mensaje=="si"){
+						toastr.success("Orden de compra registrada exitosamente");
+						location.href="../../ordencompras";
+					}else{
+						if(response.requisicion=='si'){
+							location.href="../../requisiciones";
+						}else{
+							toastr.error("Ocurrió un error revise la informacion o contacte al administrador");
+						}
+					}
+				}
+			},
+			error: function(error){
+				//console.log(error);
+				$.each(error.responseJSON.errors, function(index,value){
+					toastr.error(value);
+				});
+			}
+		});
 	});
 });
 

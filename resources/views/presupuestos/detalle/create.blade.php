@@ -25,9 +25,14 @@
                     <input type="hidden" id="total" readonly>
                     <input type="hidden" name="contador" id="contador" readonly>
                     <div class="form-group">
-                        <div class="col-md-6 col-md-offset-1">
+                        <div class="col-md-6">
                             <button type="button" id="btnsubmit" class="btn btn-success">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>    Registrar
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="btnlimpiar" class="btn btn-info">
+                                <span class="glyphicon glyphicon-remove"></span>    Limpiar
                             </button>
                         </div>
                     </div>

@@ -25,9 +25,8 @@ class RequisicionRequest extends FormRequest
     {
         return [
             'actividad' => 'required',
-            //'unidad_admin' => 'required',
-            'fuente_financiamiento' => 'required',
-            'justificacion' => 'required',
+            'user_id' => 'required',
+            'observaciones' => 'required',
             'requisiciones' => 'required',
         ];
     }
@@ -35,11 +34,9 @@ class RequisicionRequest extends FormRequest
     public function messages()
     {
       return [
-      'actividad.required'=>'El campo actividad es obligatoria',
-      'unidad_admin.required' => 'El campo unidad administrativa es obligatoria',
-      'fuente_financiamiento.required' => 'El campo fuente de financiamiento es obligatoria',
-      'justificacion' => 'La justifiacion es obligatoria',
-      'requisiciones.required' => 'El obligatorio al menos ingresar un material'
+      'actividad.required'=>'El campo actividad es obligatorio',
+      'observaciones.required' => 'Las observaciones son obligatorias',
+      'requisiciones.required' => 'Es obligatorio al menos ingresar un material'
       ];
     }
 }

@@ -20,27 +20,27 @@
                 <div class="panel-body">
                     <table class="table">
                       <tr>
-                        <th>Unidad administrativa</th>
-                        <td>{{$requisicion->unidad->nombre_unidad}}</td>
+                        <th>Requisicion N°</th>
+                        <td>{{ $requisicion->codigo_requisicion}}</td>
+                      </tr>
+                      <tr>
+                        <th>Responsable</th>
+                        <td>{{$requisicion->user->empleado->nombre}}</td>
                       </tr>
                       <tr>
                         <th>Actividad</th>
                         <td>{{$requisicion->actividad}}</td>
                       </tr>
                       <tr>
-                        <th>Línea de trabajo</th>
-                        <td>{{$requisicion->linea_trabajo}}</td>
+                        <th>Unidad solicitante</th>
+                        <td>{{$requisicion->user->cargo}}</td>
                       </tr>
                       <tr>
-                        <th>FUente de financiamiento</th>
-                        <td>{{$requisicion->fuente_financiamiento}}</td>
-                      </tr>
-                      <tr>
-                        <th>Justificación</th>
-                        <td>{{$requisicion->justificacion}}</td>
+                        <th>Observaciones</th>
+                        <td>{{$requisicion->observaciones}}</td>
                       </tr>
                     </table>
-                        
+
                         <br>
                         <a class="btn btn-success" href="{{url('requisiciondetalles/create/'.$requisicion->id)}}">Agregar Necesidad</a>
                         <div>
@@ -60,7 +60,7 @@
                                 <td>
                                   {{ Form::open(['route' => ['requisiciondetalles.destroy', $detalle->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
                                     <div class="btn-group">
-                                      <a href="{{url('requisiciondetalles/'.$detalle->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                                      <a href="{{url('requisiciondetalles/'.$detalle->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
                                         <button class="btn btn-danger btn-xs" type="button" onclick="
                                         return swal({
                                           title: 'Eliminar requisicion',
@@ -90,7 +90,7 @@
                         </div>
 
                       {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a> |
+                      <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
                         <button class="btn btn-danger" type="button" onclick="
                         return swal({
                           title: 'Eliminar requisicion',

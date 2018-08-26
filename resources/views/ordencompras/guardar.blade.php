@@ -5,7 +5,7 @@
         Ordenes de compra
     </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/ordencompras') }}"><i class="fa fa-dashboard"></i> Cotizaciones</a></li>
+        <li><a href="{{ url('/ordencompras') }}"><i class="fa fa-dashboard"></i> Ordenes de compra</a></li>
         <li class="active">Registro</li>
       </ol>
 @endsection
@@ -24,7 +24,8 @@
                         <label for="nombre" class="col-md-4 control-label">Nombre de la actividad</label>
 
                         <div class="col-md-6">
-                            {!!Form::textarea('actividad',null,['rows'=>3,'class' => 'form-control','placeholder' => 'Digite la actividad','autofocus'])!!}
+                          {{Form::hidden('',$cotizacion->id,['id'=>'cotizacion_id'])}}
+                            {!!Form::textarea('actividad',$cotizacion->solicitudcotizacion->requisicion->actividad,['rows'=>3,'class' => 'form-control','placeholder' => 'Digite la actividad','readonly'])!!}
                         </div>
                     </div>
 
@@ -32,12 +33,7 @@
                         <label for="nombre" class="col-md-4 control-label">Nombre del proveedor</label>
 
                         <div class="col-md-6">
-                          <select class="chosen-select-width" name="">
-                            <option value="">Seleccione un proveedor</option>
-                            @foreach ($proveedores as $proveedor)
-                              <option value="{{$proveedor->id}}">{{$proveedor->nombre}}</option>
-                            @endforeach
-                          </select>
+                          {{Form::text('',$cotizacion->proveedor->nombre,['class'=>'form-control','readonly'])}}
                         </div>
                     </div>
 
@@ -46,19 +42,14 @@
                         <label for="nombre" class="col-md-4 control-label">Condiciones de pago</label>
 
                         <div class="col-md-6">
-                          <select class="chosen-select-width" name="">
-                            <option value="">Seleccione una forma de pago</option>
-                            @foreach($formapagos as $formapago)
-                              <option value="{{$formapago->id}}">{{$formapago->nombre}}</option>
-                            @endforeach
-                          </select>
+                          {{Form::text('',$cotizacion->descripcion,['class'=>'form-control','readonly'])}}
                         </div>
                     </div>
 
                     <div class="form-group{{ $errors->has('adminorden') ? ' has-error' : '' }}">
                         <label for="nombre" class="col-md-4 control-label">Nombre del administrador de la orden</label>
                         <div class="col-md-6">
-                            {!!Form::text('adminorden',null,['class'=>'form-control','id'=>'adminorden','placeholder'=>'Digite el nombre del administrador de la orden'])!!}
+                            {!!Form::text('adminorden',$cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre,['class'=>'form-control','id'=>'adminorden','readonly'])!!}
                         </div>
                     </div>
 
@@ -66,7 +57,7 @@
                         <label for="nombre" class="col-md-4 control-label">Dirección de entrega</label>
 
                         <div class="col-md-6">
-                            {!!Form::textarea('direccion_entrega',null,['rows' => 3,'class'=>'form-control','id'=>'direccion','placeholder'=>'Digite la direccion de entrega de los materiales'])!!}
+                            {!!Form::textarea('direccion_entrega',null,['rows' => 3,'class'=>'form-control','id'=>'direccion_entrega','placeholder'=>'Digite la direccion de entrega de los materiales'])!!}
                         </div>
                     </div>
 
@@ -86,13 +77,9 @@
                         <label for="nombre" class="col-md-4 control-label">Observaciones</label>
 
                         <div class="col-md-6">
-                            {!!Form::textarea('observaciones',null,['rows'=>2,'class'=>'form-control','placeholder'=>'Digite las observaciones (si las hay)'])!!}
+                            {!!Form::textarea('observaciones',null,['id'=>'observaciones','rows'=>2,'class'=>'form-control','placeholder'=>'Digite las observaciones (si las hay)'])!!}
                         </div>
                     </div>
-                    <div class="form-group">
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarequi" title="">Agregar requisiciones</button>
-                    </div>
-
 
                     <div class="box-body table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="">
@@ -106,19 +93,26 @@
                                     <th width="10%">Precio Unitario</th>
                                     <th width="15%">Subtotal</th>
                                 </tr>
-                                @php
-                                  $total=0.0;
-                                  $correlativo=0;
-                                @endphp
+                                <?php $total=0.0; ?>
                             </thead>
                             <tbody id="cuerpo">
-
+                              @foreach($cotizacion->detallecotizacion as $key => $detalle)
+                                <?php $total=$total+$detalle->precio_unitario*$detalle->cantidad;?>
+                                <tr>
+                                  <td>{{$key+1}}</td>
+                                  <td>{{$detalle->descripcion}}</td>
+                                  <td>{{$detalle->marca}}</td>
+                                  <td>{{$detalle->unidad_medida}}</td>
+                                  <td>{{$detalle->cantidad}}</td>
+                                  <td>${{number_format($detalle->precio_unitario,2)}}</td>
+                                  <td>${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}}</td>
+                                </tr>
+                              @endforeach
                             </tbody>
                             <tfoot id="pie">
                                 <tr>
-                                  <th> </th>
-                                  <th colspan="5"></th>
-                                  <th>$</th>
+                                  <th colspan="6">Total en letras: {{numaletras($total)}} </th>
+                                  <th>${{number_format($total,2)}}</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -127,62 +121,15 @@
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-1">
-                            <button type="submit" class="btn btn-success">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>    Registrar
+                            <button type="button" id="btnguardar" class="btn btn-success">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>Registrar
                             </button>
                         </div>
                     </div>
-                    </form>
+                    {{Form::close()}}
                 </div>
             </div>
         </div>
-        </div>
-    </div>
-
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="agregarequi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="row">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Registro de Empleado
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="panel-body">
-                      <div class="form-group">
-                        <label for="" class="col-md-4 control-label">Actividad</label>
-                        <div class="col-md-6">
-                          <select class="chosen-select-width" id="actividad">
-                            <option value="">Seleccione una actividad</option>
-                            @foreach($requisiciones as $requisicion)
-                              <option value="{{$requisicion->id}}">{{$requisicion->actividad}}</option>
-                            @endforeach
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th>Descripción</th>
-                              <th>Cantidad</th>
-                              <th>Unidad de medida</th>
-                              <th>Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody id="requi">
-
-                          </tbody>
-                        </table>
-                      </div>
-                        <div class="form-group">
-                          <button class="btn btn-default" type="button" id="comprar"><i class="glyphicon glyphicon-plus-sign"></i></button>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="button" id="guardarempleado" data-dismiss="modal" class="btn btn-success">Guardar</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

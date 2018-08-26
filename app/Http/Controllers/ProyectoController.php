@@ -10,7 +10,6 @@ use App\Presupuesto;
 use App\Presupuestodetalle;
 use App\Fondocat;
 use App\Fondo;
-use App\Fondoorg;
 use App\Cuentaproy;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
@@ -21,7 +20,7 @@ class ProyectoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth','api']);
     }
     /**
      * Display a listing of the resource.
@@ -47,116 +46,86 @@ class ProyectoController extends Controller
         }
     }
 
-    public function guardarOrganizacion(Request $request)
-    {
-      if($request->ajax())
-      {
-        try{
-          Organizacion::create($request->All());
-          return response()->json([
-            'mensaje' => 'Organización creada exitosamente'
-          ]);
-        }catch(\Exception $e){
-          return response()->json([
-            'mensaje' => 'error'
-          ]);
-        }
-
-      }
-    }
-
     public function guardarCategoria(FondocatRequest $request)
     {
       if($request->ajax())
       {
         try{
-          Fondocat::create($request->All());
+          $fondo = Fondocat::create($request->All());
           return response()->json([
-            'mensaje' => 'Organización creada exitosamente'
+            'mensaje' => 'exito',
+            'datos' => $fondo
           ]);
         }catch(\Exception $e){
           return response()->json([
             'mensaje' => 'error'
           ]);
         }
-
       }
     }
 
-    public function listarOrganizaciones()
+    public function listarFondos(Request $request)
     {
-        return Organizacion::get();
-    }
-
-    public function listarFondos()
-    {
+      if($request->id){
+        $id=$request->id;
+          $fondos = DB::table('fondocats')
+                    ->whereNotExists(function ($query) use ($id)  {
+                         $query->from('fondos')
+                            ->whereRaw('fondos.fondocat_id = fondocats.id')
+                            ->whereRaw('fondos.proyecto_id ='.$id);
+                        })->get();
+          return response($fondos);
+      }else{
         return Fondocat::get();
+      }
+
     }
 
-    public function listarFondose($id)
-    {
-        $fondos = DB::table('fondocats')
-                  ->whereNotExists(function ($query) use ($id)  {
-                       $query->from('fondos')
-                          ->whereRaw('fondos.fondocat_id = fondocats.id')
-                          ->whereRaw('fondos.proyecto_id ='.$id);
-                      })->get();
-        return $fondos;
-    }
-
-    public function getMontos($id)
-    {
-      /*return $categorias = DB::table('fondocats')
-                ->whereExists(function ($query) use ($id) {
-                     $query->from('fondos')
-                        ->whereRaw('fondos.fondocat_id = fondocats.id')
-                        ->whereRaw('fondos.proyecto_id ='.$id);
-                    })->get();*/
-      return Fondo::where('proyecto_id',$id)->with('fondocat','proyecto')->get();
-    }
 
     public function deleteMonto($id)
     {
       if(isset($id))
       {
-        //$fondo = Fondo::findorFail($id);
-        //$fondo->delete();
         $fondos = Session::get('fondos');
+        $fondosbase = Session::get('fondosbase');
+        try{
+          for($i=0; $i< count($fondos);$i++) {
+              if($fondos[$i]['cat_id'] == $id && $fondos[$i]['existe'] == true){
 
-        foreach ($fondos as $key => $val) {
-            //echo $val[$key]['cat_id'];
+                $fondos[$i]['existe']=false;
+              }
+              Session::put('fondos', $fondos);
+          }
 
+          for($i=0; $i< count($fondosbase);$i++) {
+              if($fondosbase[$i]['cat_id'] == $id && $fondosbase[$i]['existe'] == true){
+                //Session::forget('fondosbase.'.$i);
+                $fondosbase[$i]['existe']=false;
+                $fondo=Fondo::where('fondocat_id',$id)->first();
+                $fondo->delete();
+              }
+              Session::put('fondosbase',$fondosbase);
+          }
+
+          return response()->json([
+              'mensaje' => 'borrado',
+            ]);
+        }catch(\Exception $e){
+          return response()->json([
+              'mensaje' => $e->getMessage(),
+            ]);
         }
-
-
-        return response()->json([
-            'mensaje' => $fondos[0]->cat_id
-          ]);
       }
 
     }
 
-    public function addMonto(Request $request)
-    {
-      if($request->Ajax())
-      {
-        Fondo::create([
-          'proyecto_id' => $request->id,
-          'fondocat_id' => $request->cat,
-          'monto' => $request->monto,
-        ]);
-        return response()->json([
-            'mensaje' => $request->All()
-          ]);
-      }
-    }
     public function sesion (Request $request)
     {
       $fondo = [
-        'cat_id' => $request->cat_id,
+        'existe' => true,
+        'cat_id' => intval($request->cat_id),
         'categoria' => $request->categoria,
-        'monto' => $request->monto,
-
+        'monto' => floatval($request->monto),
       ];
 
       Session::push('fondos', $fondo);
@@ -168,12 +137,29 @@ class ProyectoController extends Controller
 
     public function getsesion ()
     {
-      return response(Session::get('fondos'));
+      $s1=Session::get('fondos');
+      $s2=Session::get('fondosbase');
+      if(count($s1) >0 && count($s2)>0){
+        $resultado = array_merge($s1, $s2);
+      }else{
+        if(count($s1) == 0 ){
+          $resultado=$s2;
+        }else{
+          if(count($s2)==0){
+            $resultado=$s1;
+          }else{
+            $resultado=null;
+          }
+        }
+      }
+
+      return response($resultado);
     }
 
     public function limpiarsesion()
     {
       Session::forget('fondos');
+      Session::forget('fondosbase');
     }
 
     /**
@@ -201,7 +187,6 @@ class ProyectoController extends Controller
       {
         DB::beginTransaction();
         try{
-          $montosorg = $request->montosorg;
           $montos = $request->montos;
 
           $proyecto = Proyecto::create([
@@ -266,6 +251,23 @@ class ProyectoController extends Controller
     public function edit($id)
     {
         $proyecto = Proyecto::find($id);
+
+        Session::forget('fondosbase');
+
+      if(count($proyecto->fondo) >0){
+      //  for($i=0;$i<count($proyecto->fondo);$i++){
+        foreach($proyecto->fondo as $fondo){
+          $fondo = [
+            'existe' => true,
+            'cat_id' => intval($fondo->fondocat->id),
+            'categoria' => str_replace ( " " , "_" , $fondo->fondocat->categoria ),
+            'monto' => floatval($fondo->monto),
+          ];
+          //guarda en una sesion llamada fondosbase
+          Session::push('fondosbase', $fondo);
+        }
+      }
+
         $organizaciones = Organizacion::all();
         return view('proyectos.edit',compact('proyecto','organizaciones'));
     }
@@ -280,6 +282,9 @@ class ProyectoController extends Controller
 
     public function update(ProyectoRequest $request, $id)
     {
+      $fondos= Session::get('fondos');
+      $fondosbase= Session::get('fondosbase');
+      //dd($fondosbase);
       try{
         $proyecto = Proyecto::findorFail($id);
         $proyecto->nombre=$request->nombre;
@@ -290,10 +295,33 @@ class ProyectoController extends Controller
         $proyecto->direccion=$request->direccion;
         $proyecto->beneficiarios=$request->beneficiarios;
         $proyecto->save();
-        bitacora('Modificó un Proyecto');
-        return redirect('/proyectos')->with('mensaje','Registro modificado con éxito');
+
+        //Insertar datos que estan en la sesion para la guardarlos en la base
+        for($i=0; $i< count($fondos);$i++) {
+          if($fondos[$i]['existe']==true){
+            $fondonuevo=new Fondo();
+            $fondonuevo->proyecto_id = $proyecto->id;
+            $fondonuevo->fondocat_id = $fondos[$i]['cat_id'];
+            $fondonuevo->monto = $fondos[$i]['monto'];
+            $fondonuevo->save();
+          }
+        }
+
+        for($i=0; $i<count($fondosbase); $i++){
+          if($fondosbase[$i]['existe']==true){
+            $fondo=Fondo::where('fondocat_id',$fondosbase[$i]['cat_id'])->first();
+            $fondo->monto=$fondosbase[$i]['monto'];
+            $fondo->save();
+          }
+        }
+        //elimina la sesion ya que ya se guardaron
+        Session::forget('fondos');
+        Session::forget('fondosbase');
+
+        bitacora('Modificó  Proyecto');
+        return redirect('/proyectos')->with('mensaje','Infomacion del proyecto modificada con éxito');
       }catch(\Exception $e){
-        return redirect('proyectos/'.$id.'/edit')->with('error','Ocurrió un error. contacte al administrador');
+        return redirect('proyectos/'.$id.'/edit')->with('error','Ocurrió un error. contacte al administrador '.$e->getMessage());
       }
     }
 

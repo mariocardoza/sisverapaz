@@ -11,7 +11,7 @@
                                   </select>
                                 </div>
                                 <div class="col-md-2">
-                                  <button type="button" class="btn btn-primary" name="button" id="" data-toggle="modal" data-target="#btncategoria"><span class="glyphicon glyphicon-plus"></span></button>
+                                  <button type="button" class="btn btn-primary" name="button" id="" data-toggle="modal" data-target="#modalcategoria"><span class="glyphicon glyphicon-plus"></span></button>
                                 </div>
                         </div>
 

@@ -47,8 +47,8 @@
                      <td>
                        @if($pre->presupuestosolicitud->estado==1)
                         @if(now()->format('Y-m-d') <= $pre->presupuestosolicitud->solicitudcotizacion->fecha_limite)
-                          <a title="Registrar cotización" href="{{ url('cotizaciones/realizarcotizacion/'.$pre->presupuestosolicitud->id) }}" class="btn btn-success btn-xs"><span class="fa fa-outdent"></span></a>
-                          <a href="{{url('cotizaciones?solicitud='.$pre->presupuestosolicitud->id)}}">ver</a>
+                          <a title="Registrar cotización" href="{{ url('cotizaciones/realizarcotizacion/'.$pre->presupuestosolicitud->solicitudcotizacion->id) }}" class="btn btn-success btn-xs"><span class="fa fa-outdent"></span></a>
+                          <a href="{{url('cotizaciones?solicitud='.$pre->presupuestosolicitud->solicitudcotizacion->id)}}">ver</a>
                         @else
                           <a title="Finalizar las cotizaciones" onclick="{{ "cambiar(".$pre->proyecto->id.",".$pre->presupuestosolicitud->id.")" }}" class="btn btn-default btn-xs"><span class="fa fa-check"></span></a>
                         @endif
