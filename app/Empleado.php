@@ -44,6 +44,6 @@ class Empleado extends Model
 
     public function categoriaEmpleado()
     {
-        return $this->hasMany('App\categoriaEmpleado');
+        return $this->belongsTo('App\categoriaEmpleado');
     }
 }

@@ -23,6 +23,7 @@ class CategoriaEmpleadoController extends Controller
     public function index()
     {
         $categoriaempleados = CategoriaEmpleado::all();
+        //dd($categoriaempleados);
         return view('categoriaempleados.index',compact('categoriaempleados'));
     }
 
@@ -31,8 +32,9 @@ class CategoriaEmpleadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        //$empleado = Empleado::findorFail($request->empleado);
         $empleados = Empleado::all();
         $categoriatrabajos = CategoriaTrabajo::all();
         $cargos = Cargo::all();
@@ -48,6 +50,7 @@ class CategoriaEmpleadoController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->All());
         CategoriaEmpleado::create($request->All());
         return redirect('categoriaempleados')->with('mensaje','Categoría registrada');
     }

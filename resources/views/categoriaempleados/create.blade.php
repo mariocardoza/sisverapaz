@@ -17,6 +17,7 @@
 				<div class="panel-heading">Catálogos</div>
 				<div class="panel-body">
 					{{ Form::open(['action'=>'CategoriaEmpleadoController@store', 'class' => 'form-horizontal']) }}
+					@include('errors.validacion')
 					@include('categoriaempleados.formulario')
 
 					<div class="form-group">

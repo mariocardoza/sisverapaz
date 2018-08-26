@@ -263,6 +263,8 @@ Route::get('reportesuaci/cuadrocomparativo/{id}','ReportesUaciController@cuadroc
 
 Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contratoproyecto');
 
+Route::get('reportesuaci/requisicionobra','ReportesUaciController@requisicionobra');
+
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 

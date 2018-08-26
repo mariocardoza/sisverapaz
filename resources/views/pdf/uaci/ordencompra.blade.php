@@ -11,30 +11,34 @@
                         <colgroup></colgroup>
                         <colgroup></colgroup>
                         <tbody>
+
                           <tr>
-                            <td>Señores: <p></p> <b>{{$ordencompra->cotizacion->proveedor->nombre}}</b>
-                              <p></p> NIT: <p></p> <b>{{$ordencompra->cotizacion->proveedor->nit}}</b>
+                            <td>SEÑORES: <b>{{$ordencompra->cotizacion->proveedor->nombre}}</b>
+                              <p></p> NIT N°: <b>{{$ordencompra->cotizacion->proveedor->nit}}</b>
+                              <p></p> DUI N°: <b>{{$ordencompra->cotizacion->proveedor->dui}}</b>
+                              <p></p> TELÉFONO: <b>{{$ordencompra->cotizacion->proveedor->telefono}}</b>
                             </td>
-                            <td>Orden N°: <b>{{$ordencompra->numero_orden}}</b>
+                            <td>ORDEN N°: <b>{{$ordencompra->numero_orden}}</b>
                               <p></p> Solicitud N°: <b>{{$ordencompra->cotizacion->presupuestosolicitud->solicitudcotizacion->numero_solicitud}}</b>
-                              <p></p> Fecha: <b>{{$ordencompra->created_at->format('d-m-Y')}}</b>
+                              <p></p> FECHA DE EMISIÓN: <b>{{$ordencompra->created_at->format('d-m-Y')}}</b>
                             </td>
                           </tr>
 
                         </tbody>
                       </table>
-                      Ruego a ustedes se sirvan entregar de inmediato y en días hábiles, después de recibir la presente Orden de Compra, en las instalaciones de <b>Alcaldía Municipal de Verapaz, ubicada en C. Norberto Marroquín B° Mercedes Verapaz.</b>
+                      <p></p>
+                      Solicito a ustedes por favor entregar a la mayor brevedad posible y en días hábiles, después de haber recibido la Orden de Compra.
                       <br>
-                      <div class="table-responsive">
+                      <!--div class="table-responsive"-->
                         <table width="100%" border="1" rules="all">
                           <thead>
                             <tr>
                               <th width="5%">N°</th>
                               <th width="50%">DESCRIPCIÓN</th>
-                              <th width="10%">UNIDAD DE MEDIDA</th>
-                              <th width="10%">CANTIDAD</th>
-                              <th width="10%">PRECIO UNITARIO</th>
-                              <th width="15%">SUBTOTAL</th>
+                              <th width="15%">U/ DE MEDIDA</th>
+                              <th width="10%">CANT.</th>
+                              <th width="10%">P/ UNIT.</th>
+                              <th width="17%">SUBTOTAL</th>
                               @php
                                 $correlativo=0;
                                 $total=0.0;
@@ -53,36 +57,55 @@
                                 <td>{{$detalle->descripcion}}</td>
                                 <td><center>{{$detalle->unidad_medida}}</center> </td>
                                 <td><center>{{$detalle->cantidad}}</center></td>
-                                <td><p align="right">${{number_format($detalle->precio_unitario,2)}}</p> </td>
-                                <td><p align="right">${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}}</p> </td>
+                                <td><p align="left">${{number_format($detalle->precio_unitario,2)}}</p> </td>
+                                <td><p align="left">${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}}</p> </td>
                               </tr>
                             @endforeach
                           </tbody>
                           <tfoot>
-                            <tr>
+                            <!--<tr>
+
                               <td colspan="5"><center> Total en letras: <b>{{numaletras($total)}}</b></center></td>
-                              <th><p align="right">${{number_format($total,2)}}</p></th>
+                              <th><p align="left">${{number_format($total,2)}}</p></th>
+                            </tr>-->
+
+                            <tr>
+                              <td colspan="5"> <b>SUB TOTAL</b></td>
+                              <th><p align="left">${{number_format($total,2)}}</p></th>
                             </tr>
+
+                            <tr>
+                              <td colspan="5"> <b>(-) RETENCIÓN RENTA 10% </b></td>
+                              <th><p align="left">$</p></th>
+                            </tr>
+
+                            <tr>
+                              <td colspan="5"> <b>LÍQUIDO A RECIBIR: </b></td>
+                              <th><p align="left">$</p></th>
+                            </tr>
+
                           </tfoot>
                         </table>
-                      </div>
+                      <!--</div>-->
+                      <p></p>
+                      NOTA: FAVOR EMITIR FACTURA DE CONSUMIDOR FINAL O RECIBO A NOMBRE DE LA TESORERÍA MUNICIPAL DE VERAPAZ
                       <br>
+
                       <table width="100%" border="" rules="all">
                         <tbody>
+
+                          
+                          
                           <tr>
-                            <th>Observaciones</th>
-                            <td>{{$ordencompra->observaciones}}</td>
-                          </tr>
-                          <tr>
-                            <th>Lugar de entrega</th>
+                            <th>LUGAR DE ENTREGA DE LOS SERVICIOS O PRODUCTOS</th>
                             <td>{{$ordencompra->direccion_entrega}}</td>
                           </tr>
                           <tr>
-                            <th>Condición de pago</th>
+                            <th>CONDICIONES DE PAGO</th>
                             <td>{{$ordencompra->cotizacion->presupuestosolicitud->solicitudcotizacion->formapago->nombre}}</td>
                           </tr>
                           <tr>
-                            <th width="40%">Fuente de financiamiento / Proyecto</th>
+                            <th width="40%">FUENTE DE FINANCIAMIENTO</th>
                             <td width="60%">
                               @foreach($ordencompra->cotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
                                 {{$fondos->fondocat->categoria}} / Contrapartida Municipal para
@@ -91,7 +114,7 @@
                             </td>
                           </tr>
                           <tr>
-                            <th>Fecha de entrega de los productos o servicios</th>
+                            <th>FECHA DE ENTREGA DE LOS PRODUCTOS O SERVICIOS</th>
                             <td>
                               @if($ordencompra->fecha_fin == "")
                               {{$orden->fecha_inicio->format('d-m-Y')}}
@@ -101,16 +124,19 @@
                             </td>
                           </tr>
                         </tbody>
-                      </table><p></p>
+                      </table>
 
                       <table width="100%" border="" rules="all">
                         <tbody>
                           <tr>
-                            <td>Autorizó
-                              <p>TITULAR O DELEGADO. Firma y sello</p>
+                            <td>Autoriza:
+                              <p>ALCALDE MUNICIPAL</p>
+                            </td>
+                            <td>Elaboró Orden de Compra:
+                              <p>JEFE UACI</p>
                             </td>
                             <td>Es conforme:
-                              <p>SUMINISTRANTE. Firma y sello</p>
+                              <p>SUMINISTRANTE</p>
                             </td>
                           </tr>
                         </tbody>
