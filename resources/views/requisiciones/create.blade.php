@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-11">
             <div class="panel panel-primary">
-                <div class="panel-heading">Registro de presupuesto</div>
+                <div class="panel-heading">Registro de una nueva requisición</div>
                 <div class="panel-body">
                     {{ Form::open(['action' => 'RequisicionController@store','class' => 'form-horizontal','id' => 'requisicion']) }}
                     @include('requisiciones.formulario')

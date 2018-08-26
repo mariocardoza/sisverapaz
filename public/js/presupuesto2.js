@@ -1,49 +1,30 @@
+var monto_total=0.0;
+var dataJson;
+var html_select = '';
 $(document).ready(function(){
-  var total=0.0;
-  var contador = 0;
-  var monto=0.0;
   var idpresupuesto = $("#presuid").val();
-  console.log(idpresupuesto);
-
   var it=$("#itemid").val();
   listarcatalogo(idpresupuesto,it);
   listarunidades();
+  traersesion();
   $("#agregaratabla").on("click", function(e) {
+
  //
       e.preventDefault();
           catalogo = $("#catalogo").val() || 0,
-          descripcion =$("#catalogo option:selected").text(),
+          texto =$("#catalogo option:selected").text(),
           cantidad  = $("#cantidad").val() || 0,
           unidad = $("#catalogo option:selected").attr('data-unidad'),
           monto = $("#monto").val(),
           existe = $("#catalogo option:selected");
           precio = $("#precio").val() || 0;
-
+          descripcion=texto.replace(" ","_");
 
       if(cantidad && precio && catalogo){
-          var subtotal = parseFloat(precio) * parseFloat(cantidad);
-          var dataJson = JSON.stringify({ catalogo: parseInt(catalogo),precio: precio,cantidad:cantidad })
-          //console.log(dataJson);
-          contador++;
-          $(tbMaterial).append(
-              "<tr data-catalogo='"+catalogo+"' data-cantidad='"+cantidad+"' data-precio='"+precio+"' >"+
-                  "<td>" + descripcion + "</td>" +
-                  "<td>" + unidad + "</td>" +
-                  "<td>" + cantidad+ "</td>" +
-                  "<td> $" + precio + "</td>" +
-                  "<td>" + onFixed( subtotal, 2 ) + "</td>" +
-                  "<td>"+
-                  "<div class='btn-group'>"+
-                  "<button data-data="+dataJson+" type='button' id='edit-btn' class='btn btn-warning btn-xs'><span class='glyphicon glyphicon-edit'></span></button>"+
-                  "<button type='button' id='delete-btn' class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-remove'></span></button>"+
-                  "</div>"+
-                  "</td>" +
-              "</tr>"
-          );
-          total +=( parseFloat(cantidad) * parseFloat(precio) );
-          $("#total").val(onFixed(total));
-          $("#contador").val(contador);
-          $("#pie #totalEnd").text(onFixed(total));
+          dataJson = JSON.stringify({ catalogo: parseInt(catalogo),descripcion:descripcion,cantidad:parseInt(cantidad),precio: parseFloat(precio), unidad:unidad });
+
+          guardarsesion(dataJson);
+
           $(existe).css("display", "none");
           $("#catalogo").val("");
           $("#catalogo").trigger('chosen:updated');
@@ -60,31 +41,40 @@ $(document).ready(function(){
   $(document).on("click", "#delete-btn", function (e) {
       var tr     = $(e.target).parents("tr"),
           totaltotal  = $("#totalEnd");
-      var totalFila=parseFloat($(this).parents('tr').find('td:eq(4)').text());
-          total = parseFloat(totaltotal.text()) - parseFloat(totalFila);
+      var data = JSON.parse($(e.currentTarget).attr('data-data'));
+      var totalFila=parseFloat(data.precio)*parseFloat(data.cantidad);
+      monto_total = parseFloat(totaltotal.text()) - parseFloat(totalFila);
       quitar_mostrar($(tr).attr("data-catalogo"));
+      //llamar a la funcion eliminar sesiones
+      eliminarsesion(data.catalogo);
+      //recarga el select box de catalogos
+      //listarcatalogo(idpresupuesto,it);
+      //remover la fila
       tr.remove();
-      $("#total").val(onFixed(total));
-      $("#pie #totalEnd").text(onFixed(total));
-      contador--;
-      $("#contador").val(contador);
+      $("#total").val(onFixed(monto_total,2));
+      $("#pie #totalEnd").text(onFixed(monto_total,2));
   });
 
   $(document).on("click","#edit-btn", function(e){
     //obtener los datos de un json y enviarlos al formulario
     var data = JSON.parse($(e.currentTarget).attr('data-data'));
+    //datos para buscar en el select box
+    html_select += '<option value="'+data.catalogo+'">'+data.descripcion+'</option>';
+    $("#catalogo").html(html_select);
     $(document).find("#catalogo").val(data.catalogo);
+    $("#catalogo").trigger('chosen:updated');
     $(document).find("#cantidad").val(data.cantidad);
     $(document).find("#precio").val(data.precio);
-    $("#catalogo").trigger('chosen:updated');
+    //llamar a la funcion eliminar sesiones
+    eliminarsesion(data.catalogo);
     //quitar la fila de la tabla estableciendo el nuevo total temporal antes de la edición
     var tr     = $(e.target).parents("tr"),
     totaltotal  = $("#totalEnd");
-    var totalFila=parseFloat($(this).parents('tr').find('td:eq(4)').text());
-        total = parseFloat(totaltotal.text()) - parseFloat(totalFila);
-        tr.remove();
-        $("#total").val(onFixed(total));
-        $("#pie #totalEnd").text(onFixed(total));
+    var totalFila=parseFloat(data.precio)*parseFloat(data.cantidad);
+    monto_total = parseFloat(totaltotal.text()) - parseFloat(totalFila);
+    tr.remove();
+    $("#total").val(onFixed(monto_total,2));
+    $("#pie #totalEnd").text(onFixed(monto_total,2));
   });
 
   $("#btnsubmit").on("click", function (e) {
@@ -109,31 +99,117 @@ $(document).ready(function(){
       guardar_descripcion();
   });
 
+  $("#btnlimpiar").on("click",function(e){
+    var ruta = '../limpiarsesion';
+    $.ajax({
+        url: ruta,
+        type:'get',
+        dataType:'json',
+        data: {},
+       success : function(msj){
+          if(msj.mensaje==='limpiado'){
+            traersesion();
+          }
+        }
+      });
+  });
+
 });
 
-function listarcatalogo(idp,idc){
-  $.get('/'+carpeta()+'/public/presupuestodetalles/getcatalogo/'+idp+'/'+idc, function (data){
-  var html_select = '<option value="">Seleccione un catalogo</option>';
-  //console.log(data.length);
-
-      for(var i=0;i<data.length;i++){
-        html_select +='<option data-unidad="'+data[i].unidad_medida+'" value="'+data[i].id+'">'+data[i].nombre+'</option>'
-          //console.log(data[i]);
-          $("#catalogo").html(html_select);
-          $("#catalogo").trigger('chosen:updated');
+/// funcion para guardar los datos en una variable de sesion
+function guardarsesion(dataJson){
+  var datos = JSON.parse(dataJson);
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var ruta = '../guardarsesion';
+  $.ajax({
+      url: ruta,
+      headers: {'X-CSRF-TOKEN':token},
+      type:'POST',
+      dataType:'json',
+      data: {catalogo:datos.catalogo,descripcion:datos.descripcion,cantidad:datos.cantidad,
+        precio:datos.precio,unidad:datos.unidad},
+     success : function(msj){
+       console.log(msj);
+          if (msj.mensaje==='error') {
+            toastr.error('Ese elemento ya existe');
+          }else{
+            traersesion();
+          }
+      },
+      error: function(error){
+        console.log(error);
       }
+    });
+}
+//funciones para traer la sesion y llenar la tabla
+function traersesion(){
+  $("#cuerpo").empty();
+  $.ajax({
+    url:'../traersesion',
+    type:'get',
+    data:{},
+    success: function(data){
+      $.each(data, function(index,value){
+        if(value.existe==true){
+          dataJson = JSON.stringify({ catalogo: parseInt(value.catalogo_id),descripcion: value.descripcion,cantidad:value.cantidad,precio:value.precio,unidad:value.unidad });
+          llenar(dataJson);
+        }
+      });
+    }
+  });
+}
 
+function eliminarsesion(id)
+{
+  $.ajax({
+    url: '../eliminarsesion/'+id,
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    type:'DELETE',
+    dataType:'json',
+    data:{id},
+
+    success: function(msj){
+      console.log(msj);
+    },
+    error: function(data, textStatus, errorThrown){
+      toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
+    console.log(data);
+    }
+  });
+}
+
+function listarcatalogo(idp,idc){
+  $.ajax({
+    url:'../getcatalogo',
+    type: 'get',
+    data: {idp,idc},
+    success: function(response){
+      html_select += '<option value="">Seleccione un catalogo</option>';
+      $.each(response,function(index,value){
+        html_select +='<option data-unidad="'+value.unidad_medida+'" value="'+value.id+'">'+value.nombre+'</option>'
+      });
+      $("#catalogo").html(html_select);
+      $("#catalogo").trigger('chosen:updated');
+    }
   });
 }
 
 function listarunidades(){
-  $.get('/'+carpeta()+'/public/presupuestos/getunidades', function(data){
-    var html_select = '<option value="">Seleccione una unidad de medida</option>';
-    for(var i=0;i<data.length;i++){
-        html_select +='<option value="'+data[i].nombre_medida+'">'+data[i].nombre_medida+'</option>'
-        //console.log(data[i]);
-        $("#txtunidad").html(html_select);
-        $("#txtunidad").trigger('chosen:updated');
+  $.ajax({
+    url: '../../presupuestos/getunidades',
+    headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+    type: 'get',
+    data:{},
+    success: function(response){
+      var html_select = '<option value="">Seleccione una unidad de medida</option>';
+      $.each(response, function(index,value){
+        html_select +='<option value="'+value.nombre_medida+'">'+value.nombre_medida+'</option>'
+      });
+      $("#txtunidad").html(html_select);
+      $("#txtunidad").trigger('chosen:updated');
+    },
+    error: function(error){
+      toastr.error('Ocurrio un error en la solicitud');
     }
   });
 }
@@ -182,7 +258,7 @@ function guardarunidades(){
   var unidad = $("#txtnombreunidades").val();
   var nombre_medida = unidad.toUpperCase();
   var token = $('meta[name="csrf-token"]').attr('content');
-  var ruta = '/'+carpeta()+'/public/unidadmedidas';
+  var ruta = '../../unidadmedidas';
   $.ajax({
     url: ruta,
     headers: {'X-CSRF-TOKEN':token},
@@ -212,10 +288,10 @@ function guardarunidades(){
 }
 
 
-function onFixed (valor, maximum) {
+/*function onFixed (valor, maximum) {
     maximum = (!maximum) ? 2 : maximum;
     return valor.toFixed(maximum);
-}
+}*/
 
 function clearForm () {
     $("#presupuestodetalle").find("#precio,#cantidad").each(function (index, element) {
@@ -233,7 +309,7 @@ function quitar_mostrar (ID) {
   }
 
   function guardar_presupuesto(){
-    var ruta = "/"+carpeta()+"/public/presupuestodetalles";
+    var ruta = "../../presupuestodetalles";
     var token = $('meta[name="csrf-token"]').attr('content');
     var total = $("#total").val();
     var presupuesto_id = $("#presuid").val();
@@ -258,9 +334,13 @@ function quitar_mostrar (ID) {
           dataType:'json',
           data: {presupuesto_id,total,presupuestos},
          success : function(msj){
-              window.location.href = "/"+carpeta()+"/public/presupuestos/"+msj.id;
-              console.log(msj);
-              toastr.success('Presupuesto registrado éxitosamente');
+           console.log(msj);
+           if(msj.mensaje==='exito'){
+             window.location.href = "../../presupuestos/"+msj.id;
+             toastr.success('Presupuesto registrado éxitosamente');
+           }else{
+             toastr.error('A ocurrido un error, contacte al administrador');
+           }
           },
           error: function(data, textStatus, errorThrown){
               toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
@@ -269,4 +349,29 @@ function quitar_mostrar (ID) {
           });
           }
     });
+  }
+
+  // funciones llenar
+  function llenar(dataJson){
+    var datos = JSON.parse(dataJson);
+    var subtotal=0.0;
+    subtotal = parseFloat(datos.precio) * parseFloat(datos.cantidad);
+    monto_total=monto_total+subtotal;
+    $(tbMaterial).append(
+        "<tr data-catalogo='"+datos.catalogo+"' data-cantidad='"+datos.cantidad+"' data-precio='"+datos.precio+"' >"+
+            "<td>" + datos.descripcion + "</td>" +
+            "<td>" + datos.unidad + "</td>" +
+            "<td>" + datos.cantidad+ "</td>" +
+            "<td> $" + datos.precio + "</td>" +
+            "<td> $" + onFixed( datos.cantidad*datos.precio, 2 ) + "</td>" +
+            "<td>"+
+            "<div class='btn-group'>"+
+            "<button data-data="+dataJson+" type='button' id='edit-btn' class='btn btn-warning btn-xs'><span class='glyphicon glyphicon-edit'></span></button>"+
+            "<button type='button' data-data="+dataJson+" id='delete-btn' class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-remove'></span></button>"+
+            "</div>"+
+            "</td>" +
+        "</tr>"
+    );
+    $("#total").val(onFixed(monto_total,2));
+    $("#pie #totalEnd").text(onFixed(monto_total,2));
   }

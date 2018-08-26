@@ -17,6 +17,7 @@
                 <div class="panel-heading">Registro de formas de pago</div>
                 <div class="panel-body">
                     {{ Form::open(['action'=> 'FormapagoController@store', 'class' => 'form-horizontal']) }}
+                    @include('errors.validacion')
                     @include('formapagos.formulario')
 
                     <div class="form-group">

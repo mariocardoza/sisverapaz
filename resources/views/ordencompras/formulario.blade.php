@@ -2,7 +2,7 @@
     <label for="nombre" class="col-md-4 control-label">Nombre del proyecto o proceso</label>
 
     <div class="col-md-6">
-        {!!Form::text('',$cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre,['class' => 'form-control','readonly'])!!}
+        {!!Form::text('',$cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre,['class' => 'form-control','readonly'])!!}
     </div>
 </div>
 
@@ -39,15 +39,15 @@
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+<div class="form-group{{ $errors->has('direccion_entrega') ? ' has-error' : '' }}">
     <label for="nombre" class="col-md-4 control-label">Direccion de entrega</label>
 
     <div class="col-md-6">
-        {!!Form::text('direccion_entrega',$cotizacion->presupuestosolicitud->presupuesto->proyecto->direccion,['class'=>'form-control','id'=>'direccion','autofocus'])!!}
+        {!!Form::text('direccion_entrega',$cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->direccion,['class'=>'form-control','id'=>'direccion_entrega','autofocus'])!!}
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+<div class="form-group{{ $errors->has('periodo') ? ' has-error' : '' }}">
     <label for="nombre" class="col-md-4 control-label">Periodo de entrega</label>
 
     <div class="col-md-2">
@@ -59,10 +59,10 @@
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
+<div class="form-group{{ $errors->has('observaciones') ? ' has-error' : '' }}">
     <label for="nombre" class="col-md-4 control-label">Observaciones</label>
 
     <div class="col-md-6">
-        {!!Form::text('observaciones',null,['class'=>'form-control','autofocus'])!!}
+        {!!Form::text('observaciones',null,['class'=>'form-control','id'=>'observaciones'])!!}
     </div>
 </div>

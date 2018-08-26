@@ -37,18 +37,25 @@
                   <th>Categoria</th>
                   <th>Estado</th>
                   <th>Accion</th>
-                  <?php $contador=0; ?>
                 </thead>
                 <tbody>
-                  @foreach($solicitudes as $solicitud)
+                  @foreach($solicitudes as $key => $solicitud)
                   <tr>
-                    <?php $contador++; ?>
-                    <td>{{ $contador }}</td>
-                    <td>{{ $solicitud->presupuesto->proyecto->nombre}}</td>
-                    <td>{{ $solicitud->solicitudcotizacion->formapago->nombre }}</td>
-                    <td>{{ $solicitud->solicitudcotizacion->lugar_entrega }}</td>
-                    <td>{{ $solicitud->solicitudcotizacion->numero_solicitud }}</td>
-                    <td>{{ Categoria::categoria_nombre($solicitud->categoria_id)}}</td>
+                    <td>{{ $key+1 }}</td>
+                    @if($solicitud->solicitud_id)
+                    <td>{{ $solicitud->presupuestosolicitud->presupuesto->proyecto->nombre}}</td>
+                  @elseif ($solicitud->requisicion_id)
+                    <td>{{ $solicitud->requisicion->actividad}}</td>
+                  @endif
+                    <td>{{ $solicitud->formapago->nombre }}</td>
+                    <td>{{ $solicitud->lugar_entrega }}</td>
+                    <td>{{ $solicitud->numero_solicitud }}</td>
+                  @if($solicitud->solicitud_id)
+                    <td>{{ Categoria::categoria_nombre($solicitud->presupuestosolicitud->categoria_id)}}</td>
+                  @elseif($solicitud->requisicion_id)
+                      <td>Requisicion de bienes o servicios</td>
+                  @endif
+
                       @if($estado == "" || $estado == 1 )
                         <td>
                         <label for="" class="label-warning">Pendiente</label>
@@ -57,7 +64,11 @@
                         <div class="btn-group">
                           <a href="{{ url('solicitudcotizaciones/'.$solicitud->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                           <a href="{{url('solicitudcotizaciones/'.$solicitud->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                          @if($solicitud->solicitud_id)
                           <a href="{{ url('cotizaciones/realizarcotizacion/'.$solicitud->id) }}" class="btn btn-success btn-xs"><span class="fa fa-outdent"></span></a>
+                        @elseif($solicitud->requisicion_id)
+                          <a href="{{ url('cotizaciones/realizarcotizacionr/'.$solicitud->id) }}" class="btn btn-success btn-xs"><span class="fa fa-outdent"></span></a>
+                        @endif
                         </div>
                       </td>
                       @elseif ($estado == 2)

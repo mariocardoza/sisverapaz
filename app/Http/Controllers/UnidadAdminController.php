@@ -13,10 +13,15 @@ class UnidadAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $unidades = Unidad::where('estado',1)->get();
-        return view('unidades.index',compact('unidades'));
+        if($request->ajax())
+        {
+          return response(Unidad::where('estado',1)->get());
+        }else{
+          $unidades = Unidad::where('estado',1)->get();
+          return view('unidades.index',compact('unidades'));
+        }
     }
 
     /**
@@ -37,14 +42,23 @@ class UnidadAdminController extends Controller
      */
     public function store(UnidadRequest $request)
     {
-        try
-        {
+        if($request->ajax()){
+          try{
+            Unidad::create($request->All());
+            return response('exito');
+          }catch(\Exception $e){
+            return response($e->getMessage());
+          }
+        }else{
+          try
+          {
             Unidad::create($request->All());
             return redirect('unidades')->with('mensaje','Unidad registrada con éxito');
-        }catch(\Exception $e)
-        {
-            return redirect('unidades/create')->with('error','Ocurrió un error a registrar la unidad');
-        }  
+          }catch(\Exception $e)
+          {
+            return redirect('unidades/create')->with('error','Ocurrió un error a registrar la unidad, contacte al administrador');
+          }
+        }
     }
 
     /**

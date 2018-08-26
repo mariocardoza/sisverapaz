@@ -5,8 +5,6 @@ $(document).ready(function(){
 
   cargarFondos();
 
-
-
 //Agrega los montos a la tabla de fondos y actualiza el monto total
   $('#btnAgregarfondo').on("click", function(e){
     e.preventDefault();
@@ -132,20 +130,23 @@ $(document).ready(function(){
         $("#contador_fondos").val(contador_monto);
   });
 
-    
-
 });
 
 
 
 function cargarFondos(){
-  $.get('listarfondos', function (data){
-    var html_select = '<option value="">Seleccione una categoria</option>';
-    for(var i=0;i<data.length;i++){
-      html_select +='<option value="'+data[i].id+'">'+data[i].categoria+'</option>'
-      //console.log(data[i]);
-      $("#cat_id").html(html_select);
-      $("#cat_id").trigger('chosen:updated');
+  $.ajax({
+    url:'listarfondos',
+    type:'get',
+    data:{},
+    success: function(data){
+      var html_select = '<option value="">Seleccione una categoria</option>';
+      for(var i=0;i<data.length;i++){
+        html_select +='<option value="'+data[i].id+'">'+data[i].categoria+'</option>'
+        //console.log(data[i]);
+        $("#cat_id").html(html_select);
+        $("#cat_id").trigger('chosen:updated');
+      }
     }
   });
 }

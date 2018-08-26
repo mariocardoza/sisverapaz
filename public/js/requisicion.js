@@ -1,4 +1,3 @@
-var contador=0;
 $(document).ready(function(){
 	var tbRequisicion = $("#tbRequisicion");
 	$("#agregar").on("click",function(e){
@@ -6,9 +5,14 @@ $(document).ready(function(){
 		cant = $("#cantidad").val() || 0;
 		unidad = $("#unidad_medida option:selected").text() || 0;
 		descripcion = $("#descripcion").val() || 0;
-		if(cant && unidad && descripcion)
-		{
-			contador++;
+
+		if(cant && unidad && descripcion){
+			if(cant <= 0){
+				swal(
+					 '¡Aviso!',
+					 'El campo de cantidad debe ser mayor a 0',
+					 'warning')
+			}else{
 				$(tbRequisicion).append(//$() Para hacer referencia
 					"<tr data-descripcion='"+descripcion+"' data-cantidad='"+cant+"' data-unidad='"+unidad+"'>"+
 					"<td>"+descripcion+"</td>"+
@@ -18,18 +22,14 @@ $(document).ready(function(){
 					"<button type='button' class='btn btn-danger btn-xs' id='eliminar'><span class='glyphicon glyphicon-remove'></span></button></td>" +
 					"</tr>"
 				);
-				$("#contador").val(contador);
 				limpiar();
-		}else {
-			{
-				swal(
-					 '¡Aviso!',
-					 'Debe llenar todos los campos',
-					 'warning')
 			}
+		}else{
+			swal(
+				 '¡Aviso!',
+				 'Debe llenar todos los campos',
+				 'warning')
 		}
-
-
 	});
 
 	$("#proyecto").on("change", function(){
@@ -38,15 +38,10 @@ $(document).ready(function(){
 	});
 
 	$("#btnguardar").on("click", function(){
-		var ruta = "/"+carpeta()+"/public/requisiciones";
 		var token = $('meta[name="csrf-token"]').attr('content');
-		var total = $("#total").val();
-		var unidad_admin = $("#unidad_admin").val();
 		var actividad = $("#actividad").val();
-		var linea_trabajo = $("#linea_trabajo").val();
-		var fuente_financiamiento = $("#fuente_financiamiento").val();
-		var justificacion = $("#justificacion").val();
-
+		var user_id = $("#user_id").val();
+		var observaciones = $("#observaciones").val();
 		var requisiciones = new Array();
 		$(cuerpo).find("tr").each(function (index, element) {
 				if(element){
@@ -59,27 +54,24 @@ $(document).ready(function(){
 		});
 	//	console.log(unidad_admin);
 
-
 /////////////////////////////////////////////////// funcion ajax para guardar ///////////////////////////////////////////////////////////////////
 			$.ajax({
-					url: ruta,
+					url: "../requisiciones",
 					headers: {'X-CSRF-TOKEN':token},
 					type:'POST',
-					dataType:'json',
-					data: {unidad_admin,actividad,linea_trabajo,justificacion,fuente_financiamiento,requisiciones},
+					data: {actividad,user_id,observaciones,requisiciones},
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){
-							window.location.href = "/"+carpeta()+"/public/requisiciones";
+							window.location.href = "../requisiciones";
 							console.log(msj);
-							toastr.success('Presupuesto registrado éxitosamente');
+							toastr.success('Requisiciones registrada éxitosamente');
 						}else{
 							toastr.error('Ocurrió un error, contacte al administrador');
 						}
 
 					},
 					error: function(data, textStatus, errorThrown){
-							toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
 							$.each(data.responseJSON.errors, function( key, value ) {
 									toastr.error(value);
 					});
@@ -90,9 +82,6 @@ $(document).ready(function(){
 	$(document).on("click","#eliminar",function(e){
 		var tr= $(e.target).parents("tr");
 		tr.remove();
-		contador--;
-		$("#contador").val(contador);
-
 	});
 
 	function limpiar(){

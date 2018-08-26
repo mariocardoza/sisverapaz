@@ -14,9 +14,9 @@ class Solicitudcotizacion extends Model
 
     public $dates = ['fecha_limite'];
 
-    public function presupuesto()
+    public function cotizacion()
     {
-    	return $this->belongsTo('App\Presupuesto');
+        return $this->hasMany('App\Cotizacion');
     }
 
     public function formapago()
@@ -26,7 +26,12 @@ class Solicitudcotizacion extends Model
 
     public function presupuestosolicitud()
     {
-        return $this->hasMany('App\PresupuestoSolicitud');
+        return $this->belongsTo('App\PresupuestoSolicitud','solicitud_id');
+    }
+
+    public function requisicion()
+    {
+      return $this->belongsTo('App\Requisicione');
     }
 
     public static function correlativo()

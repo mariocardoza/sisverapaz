@@ -82,6 +82,13 @@
               "autoWidth": false
           });
 
+          var register = $("#form-register");
+              register.steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+              });
+
           //fechas
             var start = new Date(),
           	end = new Date(),
@@ -158,6 +165,7 @@
       enableAllSteps: true,
       enablePagination: false
     });
+
 
 });
 // funcion para detectar la url del proyecto

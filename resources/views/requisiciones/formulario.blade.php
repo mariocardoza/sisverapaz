@@ -1,33 +1,28 @@
                       <div class="form-group">
                         <label for="" class="col-md-4 control-label">Actividad</label>
                         <div class="col-md-6">
-                          {!! Form::textarea('actividad',null,['id'=>'actividad','class' => 'form-control','placeholder'=>'Digite la actividad a realizar','rows'=>3]) !!}
+                          {!! Form::textarea('',null,['id'=>'actividad','class' => 'form-control','placeholder'=>'Digite la actividad a realizar','rows'=>3]) !!}
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label for="" class="col-md-4 control-label">Unidad administrativa</label>
+                        <label for="" class="col-md-4 control-label">Unidad Solicitante</label>
                         <div class="col-md-6">
-                          {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width']) !!}
-
+                          {{Form::text('',Auth()->user()->cargo,['class'=>'form-control','readonly'])}}
                         </div>
                       </div>
 
                         <div class="form-group">
-                          <label for="" class="col-md-4 control-label">Linea de trabajo</label>
+                          <label for="" class="col-md-4 control-label">Responsable</label>
                             <div class="col-md-6">
-                              {!!Form::text('linea_trabajo',null,['id'=>'linea_trabajo','class' => 'form-control','id'=>'linea_trabajo'])!!}
+                              {{Form::hidden('',Auth()->user()->id,['id'=>'user_id'])}}
+                              {!!Form::text('',Auth()->user()->empleado->nombre,['class' => 'form-control','readonly'])!!}
                             </div>
                         </div>
+
                         <div class="form-group">
-                          <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
+                          <label for="" class="col-md-4 control-label">Observaciones</label>
                             <div class="col-md-6">
-                              {!!Form::text('fuente_financiamiento',null,['id'=>'fuente_financiamiento','class' => 'form-control','id'=>'fuente_financiamiento'])!!}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="" class="col-md-4 control-label">Justificación</label>
-                            <div class="col-md-6">
-                              {!!Form::textarea('justificacion',null,['id'=>'justificacion','class' => 'form-control','rows' => 3,'id'=>'justificacion'])!!}
+                              {!!Form::textarea('',null,['id'=>'observaciones','class' => 'form-control','rows' => 3])!!}
                             </div>
                         </div>

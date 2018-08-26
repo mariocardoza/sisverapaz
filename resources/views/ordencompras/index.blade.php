@@ -44,7 +44,7 @@
               <td>{{$orden->numero_orden}}</td>
               <td>{{$orden->adminorden}}</td>
               <td>{{$orden->cotizacion->proveedor->nombre}}</td>
-              <td>{{$orden->cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}</td>
+              <td>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}</td>
               @if($estado == "")
                 @if($orden->estado==1)
                   <td>Pendiente</td>

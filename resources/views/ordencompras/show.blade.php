@@ -27,7 +27,7 @@
                           </tr>
                           <tr>
                             <td><b>{{$orden->cotizacion->proveedor->nombre}}</b></td>
-                            <td>Solicitud N°: <b>{{$orden->cotizacion->presupuestosolicitud->solicitudcotizacion->numero_solicitud}}</b></td>
+                            <td>Solicitud N°: <b>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->solicitudcotizacion->numero_solicitud}}</b></td>
                           </tr>
                           <tr>
                             <td>NIT:</td>
@@ -51,19 +51,17 @@
                               <th width="10%">PRECIO UNITARIO</th>
                               <th width="15%">SUBTOTAL</th>
                               @php
-                                $correlativo=0;
                                 $total=0.0;
                               @endphp
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach($orden->cotizacion->detallecotizacion as $detalle)
+                            @foreach($orden->cotizacion->detallecotizacion as $key => $detalle)
                               <tr>
                                 @php
-                                  $correlativo++;
                                   $total=$total+$detalle->precio_unitario*$detalle->cantidad;
                                 @endphp
-                                <td><center>{{$correlativo}}</center></td>
+                                <td><center>{{$key+1}}</center></td>
                                 <td>{{$detalle->descripcion}}</td>
                                 <td><center>{{$detalle->unidad_medida}}</center> </td>
                                 <td><center>{{$detalle->cantidad}}</center></td>
@@ -84,6 +82,8 @@
                         </table>
                       </div>
                       <br>
+                      <br>
+
                       <table class="table">
                         <tbody>
                           <tr>
@@ -96,24 +96,24 @@
                           </tr>
                           <tr>
                             <th>Condición de pago</th>
-                            <td>{{$orden->cotizacion->presupuestosolicitud->solicitudcotizacion->formapago->nombre}}</td>
+                            <td>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->solicitudcotizacion->formapago->nombre}}</td>
                           </tr>
                           <tr>
                             <th width="40%">Fuente de financiamiento / Proyecto</th>
                             <td width="60%">
-                              @foreach($orden->cotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
+                              @foreach($orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
                                 {{$fondos->fondocat->categoria}} /
                               @endforeach
-                              {{$orden->cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                              {{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
                             </td>
                           </tr>
                           <tr>
                             <th>Fecha de entrega</th>
                             <td>
                               @if($orden->fecha_fin == "")
-                              {{$orden->fecha_inicio->format('d-m-Y')}}
+                              {{fechaCastellano($orden->fecha_inicio)}}
                             @else
-                              del {{$orden->fecha_inicio->format('l d')}} de {{$orden->fecha_inicio->format('F Y')}} al {{$orden->fecha_fin->format('l d')}} de {{$orden->fecha_fin->format('F Y')}}
+                              del {{fechaCastellano($orden->fecha_inicio)}} al {{fechaCastellano($orden->fecha_fin)}}
                             @endif
                             </td>
                           </tr>

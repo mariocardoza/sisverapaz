@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li><a href="{{ url('/cotizaciones') }}"><i class="fa fa-balance-scale"></i> Cotizaciones</a></li>
+        <li><a href="{{ url('/solicitudcotizaciones/versolicitudes/'.$solicitud->presupuestosolicitud->presupuesto->proyecto->id) }}"><i class="fa fa-balance-scale"></i> Solicitud</a></li>
         <li class="active">Registro</li>
       </ol>
 @endsection
@@ -23,12 +23,13 @@
 
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            <button type="submit" class="btn btn-success">
+                            <button type="button" id="btnguardar" class="btn btn-success">
                                 <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
                             </button>
                         </div>
-                        {{ Form::close() }}
+
                     </div>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>

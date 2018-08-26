@@ -9,11 +9,13 @@ use App\Fondo;
 use App\Ordencompra;
 use App\Presupuesto;
 use App\PresupuestoSolicitud;
+use App\Solicitudcotizacion;
 use App\ProyectoInventario;
 use App\Proveedor;
-use App\Requisicion;
+use App\Requisicione;
 use App\Requisiciondetalle;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrdenCompraRequest;
 use DB;
 use App\Formapago;
 
@@ -43,16 +45,16 @@ class OrdencompraController extends Controller
         return Fondo::where('proyecto_id',$id)->with('fondocat')->get();
      }
 
-     public function requisiciones($id)
+     public function requisiciones(Request $request)
      {
-       return Requisiciondetalle::where('requisicion_id',$id)->get();
+       return Requisiciondetalle::where('requisicion_id',$request->idrequisicion)->get();
      }
 
      public function realizarorden($id)
      {
-       $solicitud=PresupuestoSolicitud::findorFail($id);
-       $presupuesto=Presupuesto::findorFail($solicitud->presupuesto->id);
-       $cotizacion=Cotizacion::where('presupuestosolicitud_id',$solicitud->id)->where('seleccionado',true)->where('estado',2)->with('detallecotizacion')->firstorFail();
+       $solicitud=Solicitudcotizacion::findorFail($id);
+      // $presupuesto=Presupuesto::findorFail($solicitud->presupuesto->id);
+       $cotizacion=Cotizacion::where('solicitudcotizacion_id',$solicitud->id)->where('seleccionado',true)->where('estado',2)->with('detallecotizacion')->firstorFail();
        return view('ordencompras.create',compact('cotizacion'));
      }
 
@@ -88,10 +90,10 @@ class OrdencompraController extends Controller
            $proyecto->estado=8;
            $proyecto->save();
            DB::commit();
-           return redirect('proyectos')->with('mensaje','Materiales recibidos corretamente');
+           return redirect('proyectos')->with('mensaje','Materiales recibidos correctamente');
          }
          DB::commit();
-         return redirect('ordencompras')->with('mensaje','Materiales recibidos corretamente');
+         return redirect('ordencompras')->with('mensaje','Materiales recibidos correctamente');
 
 
        }catch(\Exception $e){
@@ -99,6 +101,11 @@ class OrdencompraController extends Controller
          return redirect('ordencompras')->with('error','Ocurrió un error consulte al administrador');
        }
      }
+
+    public function guardar(Request $request)
+    {
+      dd($request->all());
+    }
 
     public function index(Request $request)
     {
@@ -132,12 +139,12 @@ class OrdencompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        $requisiciones = Requisicion::where('estado',1)->get();
-        $formapagos = Formapago::all();
-        $proveedores = Proveedor::where('estado',1)->get();
-        return view('ordencompras.guardar',compact('proveedores','formapagos','requisiciones'));
+        $requisicion = Requisicione::findorFail($id);
+        $cotizacion=Cotizacion::where('solicitudcotizacion_id',$requisicion->solicitudcotizacion->id)->where('seleccionado',true)->firstorFail();
+        //dd($cotizacion->detallecotizacion);
+        return view('ordencompras.guardar',compact('cotizacion'));
     }
 
     /**
@@ -146,45 +153,71 @@ class OrdencompraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrdenCompraRequest $request)
     {
         //dd($request->All());
-        DB::beginTransaction();
-        try{
-          Ordencompra::create([
-              'numero_orden' => Ordencompra::correlativo(),
-              'fecha_inicio' => invertir_fecha($request->fecha_inicio),
-              'fecha_fin' => invertir_fecha($request->fecha_fin),
-              'cotizacion_id' => $request->cotizacion_id,
-              'observaciones' => $request->observaciones,
-              'direccion_entrega' => $request->direccion_entrega,
-              'adminorden' => $request->adminorden,
-          ]);
-          $cotizacion = Cotizacion::findorFail($request->cotizacion_id);
-          $cotizacion->estado=3;
-          $cotizacion->save();
+        if($request->ajax())
+        {
+          DB::beginTransaction();
+          try{
+            Ordencompra::create([
+                'numero_orden' => Ordencompra::correlativo(),
+                'fecha_inicio' => invertir_fecha($request->fecha_inicio),
+                'fecha_fin' => invertir_fecha($request->fecha_fin),
+                'cotizacion_id' => $request->cotizacion_id,
+                'observaciones' => $request->observaciones,
+                'direccion_entrega' => $request->direccion_entrega,
+                'adminorden' => $request->adminorden,
+            ]);
+            $cotizacion = Cotizacion::findorFail($request->cotizacion_id);
+            $cotizacion->estado=3;
+            $cotizacion->save();
 
-          $solicitud=PresupuestoSolicitud::findorFail($cotizacion->presupuestosolicitud->id);
-          $solicitud->estado=4;
-          $solicitud->save();
+            if($cotizacion->solicitudcotizacion->solicitud_id)
+            {
+              $solicitud=PresupuestoSolicitud::findorFail($cotizacion->solicitudcotizacion->presupuestosolicitud->id);
+              $solicitud->estado=4;
+              $solicitud->save();
 
-          $pre=Presupuesto::where('proyecto_id',$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->get();
-          foreach ($pre as $presi) {
-            $soli=PresupuestoSolicitud::where('estado',3)->where('presupuesto_id',$presi->id)->count();
+              $pre=Presupuesto::where('proyecto_id',$cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id)->get();
+              foreach ($pre as $presi) {
+                $soli=PresupuestoSolicitud::where('estado',3)->where('presupuesto_id',$presi->id)->count();
+              }
+              if($soli==0){
+                $proyecto=Proyecto::findorFail($cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id);
+                $proyecto->estado=7;
+                $proyecto->save();
+                DB::commit();
+                return response()->json([
+                  'mensaje' => 'si'
+                ]);
+                //return redirect('ordencompras')->with('mensaje','Orden de compra registrada con éxito');
+              }
+
+              DB::commit();
+              return response()->json([
+                'mensaje' => 'exito',
+                'proyecto' => $cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id
+              ]);
+            }else{
+              $requisicion=Requisicione::findorFail($cotizacion->solicitudcotizacion->requisicion->id);
+              $requisicion->estado=5;
+              $requisicion->save();
+              DB::commit();
+              return response()->json([
+                'requisicion' => 'si'
+              ]);
+            }
+
+            //return redirect('solicitudcotizaciones/versolicitudes/'.$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->with('mensaje','Orden de compra registrada con éxito');
+          }catch(\Excention $e){
+            DB::rollback();
+            return response()->json([
+              'mensaje' => 'error',
+              'error' => $e->getMessage()
+            ]);
+          //  return redirect('ordencompras/create')->with('error','ocurrió un error al guardar la orden de compras');
           }
-          if($soli==0){
-            $proyecto=Proyecto::findorFail($cotizacion->presupuestosolicitud->presupuesto->proyecto->id);
-            $proyecto->estado=7;
-            $proyecto->save();
-            DB::commit();
-            return redirect('ordencompras')->with('mensaje','Orden de compra registrada con éxito');
-          }
-
-          DB::commit();
-          return redirect('solicitudcotizaciones/versolicitudes/'.$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->with('mensaje','Orden de compra registrada con éxito');
-        }catch(\Excention $e){
-          DB::rollback();
-          return redirect('ordencompras/create')->with('error','ocurrió un error al guardar la orden de compras');
         }
     }
 

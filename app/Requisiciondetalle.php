@@ -6,11 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requisiciondetalle extends Model
 {
-    protected $guarded=[];
-    public $timestamps = false;
+    protected $fillable = ['requisicion_id','cantidad','descripcion','unidad_medida'];
 
-    public function requisicion()
+    public function Requisicione()
     {
-      return $this->belongsTo('App\Requisicion');
+      return $this->belongsTo('App\Requisicione');
     }
 }

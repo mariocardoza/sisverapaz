@@ -8,24 +8,16 @@
                 <div class="form-group">
                     <label for="" class="col-md-4 control-label">Cargo: </label>
                     <div class="col-md-6">
-                        {{Form::text('cargo',vercargo(Auth()->user()->cargo),['readonly','class' => 'form-control', 'id' => 'cargo'])}}
+                      {{Form::text('cargo',vercargo(Auth()->user()->cargo),['readonly','class' => 'form-control', 'id' => 'cargo'])}}
+                        {{Form::hidden('unidad',$requisicion->user->cargo,['readonly','class' => 'form-control', 'id' => 'unidad'])}}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="" class="col-md-4 control-label">Proceso o proyecto: </label>
+                    <label for="" class="col-md-4 control-label">Actividad: </label>
                     <div class="col-md-6">
-                        {{Form::textarea('',$proyecto->nombre,['class' => 'form-control','rows'=>2,'readonly'])}}
-                        {{Form::hidden('proyecto',$proyecto->id,['class' => 'form-control','id' => 'proyecto'])}}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="" class="col-md-4 control-label">Categoria: </label>
-                    <div class="col-md-6">
-                        <select name="categoria" id="categoria" class="chosen-select-width">
-                          <option value="">Seleccione una categoría</option>
-                        </select>
+                        {{Form::textarea('',$requisicion->actividad,['class' => 'form-control','rows'=>2,'readonly'])}}
+                        {{Form::hidden('requisicion',$requisicion->id,['class' => 'form-control','id' => 'requisicion'])}}
                     </div>
                 </div>
 
@@ -38,17 +30,6 @@
                   </div>
                   <div class="col-md-2">
                     <button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#modalformapago"><span class="glyphicon glyphicon-plus"></span></button>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="" class="col-md-4 control-label">Unidad solicitante: </label>
-                  <div class="col-md-6">
-                      <select name="unidad" id="unidad" class="chosen-select-width">
-                          <option value="">Seleccione una unidad administrativa</option>
-                      </select>
-                  </div>
-                  <div class="col-md-2">
-                    <button type="button" class="btn btn-primary" id="" data-toggle="modal" data-target="#modalunidad"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
               </div>
 
@@ -77,14 +58,26 @@
                 <table class="table table-striped" id="tabla" display="block;">
                     <thead>
                         <tr>
-                            <th width="60%">DESCRIPCIÓN</th>
+                            <th width="10%">ÍTEM</th>
+                            <th width="50%">DESCRIPCIÓN</th>
                             <th width="10%"><center>UNIDAD DE MEDIDA</center></th>
                             <th width="10%"><center>CANTIDAD</center></th>
                             <th width="10%"><center>PRECIO UNITARIO</center></th>
                             <th width="10%">SUBTOTAL</th>
                         </tr>
                     </thead>
-                    <tbody id="cuerpo"></tbody>
+                    <tbody>
+                      @foreach($requisicion->requisiciondetalle as $key => $detalle)
+                        <tr>
+                          <td>{{$key+1}}</td>
+                          <td>{{$detalle->descripcion}}</td>
+                          <td>{{$detalle->unidad_medida}}</td>
+                          <td>{{$detalle->cantidad}}</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      @endforeach
+                    </tbody>
                 </table>
 
                 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalformapago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

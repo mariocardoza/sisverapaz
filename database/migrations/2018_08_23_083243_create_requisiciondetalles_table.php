@@ -15,12 +15,12 @@ class CreateRequisiciondetallesTable extends Migration
     {
         Schema::create('requisiciondetalles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('requisicion_id')->unsigned();
-            $table->string('codigo');
             $table->integer('cantidad');
-            $table->string('unidad_medida');
             $table->string('descripcion');
-            $table->foreign('requisicion_id')->references('id')->on('requisicions');
+            $table->string('unidad_medida');
+            $table->bigInteger('requisicion_id')->unsigned();
+            $table->foreign('requisicion_id')->references('id')->on('requisiciones');
+            $table->timestamps();
         });
     }
 
