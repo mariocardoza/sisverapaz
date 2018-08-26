@@ -67,4 +67,13 @@ class ReportesUaciController extends Controller
         $pdf->setPaper('letter','portrait');
         return $pdf->stream('contratacionproyecto.pdf');
     }
+
+    public function requisicionobra()
+    {
+        $requisicionobra = \App\Requision::all();
+        $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
+        $pdf = \PDF::loadView('pdf.uaci.requisicion',compact('requisicionobra','tipo'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('requisicionobra.pdf');
+    }
 }

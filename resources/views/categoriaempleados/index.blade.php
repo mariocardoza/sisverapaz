@@ -55,10 +55,6 @@
 				@endforeach
 			</tbody>
 			</table>
-
-			<div class="pull-right">
-				
-			</div>
 		</div>
 	</div>
 	</div>
