@@ -19,7 +19,7 @@
                               <p></p> TELÉFONO: <b>{{$ordencompra->cotizacion->proveedor->telefono}}</b>
                             </td>
                             <td>ORDEN N°: <b>{{$ordencompra->numero_orden}}</b>
-                              <p></p> Solicitud N°: <b>{{$ordencompra->cotizacion->presupuestosolicitud->solicitudcotizacion->numero_solicitud}}</b>
+                              <p></p> Solicitud N°: <b>{{$ordencompra->cotizacion->solicitudcotizacion->id}}</b>
                               <p></p> FECHA DE EMISIÓN: <b>{{$ordencompra->created_at->format('d-m-Y')}}</b>
                             </td>
                           </tr>

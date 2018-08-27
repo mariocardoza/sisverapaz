@@ -70,7 +70,7 @@ class ReportesUaciController extends Controller
 
     public function requisicionobra()
     {
-        $requisicionobra = \App\Requision::all();
+        $requisicionobra = \App\Requisicion::findorFail($id);
         $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
         $pdf = \PDF::loadView('pdf.uaci.requisicion',compact('requisicionobra','tipo'));
         $pdf->setPaper('letter', 'portrait');
