@@ -8,7 +8,7 @@
                       <div class="form-group">
                         <label for="" class="col-md-4 control-label">Unidad Solicitante</label>
                         <div class="col-md-6">
-                          {{Form::text('',Auth()->user()->cargo,['class'=>'form-control','readonly'])}}
+                          {{Form::text('',Auth()->user()->roleuser->role->description,['class'=>'form-control','readonly'])}}
                         </div>
                       </div>
 
@@ -18,6 +18,18 @@
                               {{Form::hidden('',Auth()->user()->id,['id'=>'user_id'])}}
                               {!!Form::text('',Auth()->user()->empleado->nombre,['class' => 'form-control','readonly'])!!}
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
+                          <div class="col-md-6">
+                            <select class="chosen-select-width" id="fondo">
+                                @foreach($fondos as $fondo)
+                                  <option value="{{$fondo->id}}">{{$fondo->categoria}}</option>
+                                @endforeach
+                            </select>
+
+                          </div>
                         </div>
 
                         <div class="form-group">

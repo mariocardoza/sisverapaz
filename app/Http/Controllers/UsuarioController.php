@@ -29,7 +29,7 @@ class UsuarioController extends Controller
 
     public function index(Request $request)
     {
-      $request->user()->authorizeRoles('admin');
+      Auth()->user()->authorizeRoles('admin');
 
             $estado = $request->get('estado');
             if($estado == "" )$estado=1;
@@ -48,9 +48,9 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-      $request->user()->authorizeRoles('admin');
+      Auth()->user()->authorizeRoles('admin');
       $roles = Role::all();
       $contratos=Contrato::where('estado',1)->get();
       return view('usuarios.create',compact('contratos','roles'));

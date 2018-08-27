@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requisicione extends Model
 {
-  protected $fillable = ['codigo_requisicion','actividad','user_id','observaciones'];
+  protected $fillable = ['codigo_requisicion','actividad','user_id','observaciones','fondocat_id'];
 
   public static function correlativo()
   {
@@ -44,5 +44,10 @@ class Requisicione extends Model
   public function user()
   {
     return $this->belongsTo('App\User');
+  }
+
+  public function fondocat()
+  {
+    return $this->belongsTo('App\Fondocat');
   }
 }

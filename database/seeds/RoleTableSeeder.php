@@ -12,6 +12,12 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
+      $this->truncateTables([
+            'role_user',
+            'roles',
+            'users'
+        ]);
+
       $role = new Role();
       $role->name = 'admin';
       $role->description = 'Administrador';
@@ -41,5 +47,16 @@ class RoleTableSeeder extends Seeder
       $role->name = 'usuario';
       $role->description = 'Usuario';
       $role->save();
+    }
+
+    public function truncateTables(array $tables)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
 }

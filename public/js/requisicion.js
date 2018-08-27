@@ -42,6 +42,7 @@ $(document).ready(function(){
 		var actividad = $("#actividad").val();
 		var user_id = $("#user_id").val();
 		var observaciones = $("#observaciones").val();
+		var fondo = $("#fondo").val();
 		var requisiciones = new Array();
 		$(cuerpo).find("tr").each(function (index, element) {
 				if(element){
@@ -59,7 +60,7 @@ $(document).ready(function(){
 					url: "../requisiciones",
 					headers: {'X-CSRF-TOKEN':token},
 					type:'POST',
-					data: {actividad,user_id,observaciones,requisiciones},
+					data: {actividad,user_id,observaciones,fondo,requisiciones},
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){
