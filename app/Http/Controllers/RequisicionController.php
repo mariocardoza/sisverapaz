@@ -7,6 +7,7 @@ use App\Requisicione;
 use App\Requisiciondetalle;
 use App\Unidad;
 use App\UnidadMedida;
+use App\Fondocat;
 use DB;
 use App\Http\Requests\RequisicionRequest;
 
@@ -36,7 +37,8 @@ class RequisicionController extends Controller
     public function create()
     {
       $medidas = UnidadMedida::all();
-        return view('requisiciones.create',compact('medidas'));
+      $fondos = Fondocat::where('estado',1)->get();
+        return view('requisiciones.create',compact('medidas','fondos'));
     }
 
     /**
@@ -56,6 +58,7 @@ class RequisicionController extends Controller
           $requisicion = Requisicione::create([
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
+              'fondocat_id' => $request->fondo,
               'user_id' => $request->user_id,
               'observaciones' => $request->observaciones,
               ]);
@@ -76,7 +79,7 @@ class RequisicionController extends Controller
           return response()->json([
             'mensaje' => 'error',
             'codigo' => $e->getMessage(),
-            'req' => $requisicion->id
+            'request' => $request->all()
           ]);
         }
         }

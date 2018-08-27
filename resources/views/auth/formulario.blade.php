@@ -24,18 +24,15 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('cargo') ? ' has-error' : '' }}">
-                            <label for="cargo" class="col-md-4 control-label">Cargo</label>
+                        <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
+                            <label for="cargo" class="col-md-4 control-label">Rol de usuario</label>
 
                             <div class="col-md-6">
-                                <select name="cargo" class="form-control">
-                                    <option value="1">Administrador</option>
+                                <select name="role" class="form-control">
+                                    @foreach($roles as $role)
+                                      <option value="{{$role->id}}">{{$role->description}}</option>
+                                    @endforeach
                                 </select>
-                                @if ($errors->has('cargo'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cargo') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 

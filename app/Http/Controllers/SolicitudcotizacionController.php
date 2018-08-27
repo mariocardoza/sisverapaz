@@ -212,9 +212,14 @@ class SolicitudcotizacionController extends Controller
     }
     public function show($id)
     {
-      $solicitud=PresupuestoSolicitud::findorFail($id);
-      $presupuesto = Presupuesto::where('categoria_id', $solicitud->categoria_id)->firstorFail();
+      $solicitud=Solicitudcotizacion::findorFail($id);
+      if($solicitud->solicitud_id){
+        $presupuesto = Presupuesto::where('categoria_id', $solicitud->categoria_id)->firstorFail();
         return view('solicitudcotizaciones.show',compact('solicitud','presupuesto'));
+      }else{
+        return view('solicitudcotizaciones.show',compact('solicitud'));
+
+      }
     }
 
     /**

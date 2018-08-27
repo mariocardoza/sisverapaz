@@ -12,8 +12,9 @@
 
 Route::get('/', function () {
     $users=\App\User::all()->count();
+    $roles = \App\Role::all();
         if($users==0){
-            return view('auth/register');
+            return view('auth/register',compact('roles'));
 
         }else{
             return view('auth/login');

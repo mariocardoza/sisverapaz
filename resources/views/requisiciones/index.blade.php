@@ -31,6 +31,7 @@
                   <th>Código</th>
                   <th>Actividad</th>
                   <th>Unidad administrativa</th>
+                  <th>Fuente de financiamiento</th>
                   <th>Responsable</th>
                   <th>Observaciones</th>
                   <th>Estado</th>
@@ -42,7 +43,8 @@
                     <td>{{ $key+1 }}</td>
                     <td>{{$requisicion->codigo_requisicion }}</td>
                     <td>{{ $requisicion->actividad }}</td>
-                    <td>{{ $requisicion->user->id }}</td>
+                    <td>{{ $requisicion->user->roleuser->role->description }}</td>
+                    <td>{{$requisicion->fondocat->categoria}}</td>
                     <td>{{ $requisicion->user->empleado->nombre }}</td>
                     <td>{{ $requisicion->observaciones }}</td>
                     @if($requisicion->estado == 1)
@@ -51,6 +53,7 @@
                       <div class="btn-group">
                         <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                         <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{{url('solicitudcotizaciones/creater/'.$requisicion->id)}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
                         <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                       </div>
                     </td>
@@ -74,6 +77,7 @@
                       <td>
                         <div class="btn-group">
                           <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('ordencompras/create/'.$requisicion->id)}}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus-sign"></span></a>
                         </div>
                       </td>
                     @elseif( $requisicion->estado == 5)
@@ -81,7 +85,6 @@
                       <td>
                         <div class="btn-group">
                           <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{url('ordencompras/create/'.$requisicion->id)}}" class="btn btn-success btn-xs"><span class="fa fa-file-pdf-o"></span></a>
                         </div>
                       </td>
                     @endif

@@ -108,7 +108,7 @@ class CotizacionController extends Controller
             $solicitud->save();
 
             $requisicion=Requisicione::findorFail($request->idrequisicion);
-            $requisicion->estado=3;
+            $requisicion->estado=4;
             $requisicion->save();
 
               DB::commit();

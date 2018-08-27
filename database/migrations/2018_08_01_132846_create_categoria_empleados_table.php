@@ -14,7 +14,7 @@ class CreateCategoriaEmpleadosTable extends Migration
     public function up()
     {
         Schema::create('categoria_empleados', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->bigInteger('empleado_id')->unsigned();
             $table->bigInteger('categoriatrabajo_id')->unsigned();
             $table->bigInteger('cargo_id')->unsigned();

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Bitacora;
 use App\Contrato;
+use App\Role;
 use App\Http\Requests\UsuariosRequest;
 use App\Http\Requests\ModificarUsuarioRequest;
 use App\Http\Requests\PerfilRequest;
@@ -28,7 +29,8 @@ class UsuarioController extends Controller
 
     public function index(Request $request)
     {
-        if(Auth()->user()->cargo == 1){
+      Auth()->user()->authorizeRoles('admin');
+
             $estado = $request->get('estado');
             if($estado == "" )$estado=1;
             if ($estado == 1) {
@@ -39,10 +41,6 @@ class UsuarioController extends Controller
                 $usuarios = User::where('estado',$estado)->get();
                 return view('usuarios.index',compact('usuarios','estado'));
             }
-        }else{
-            return redirect('home')->with('mensaje','No tiene acceso a usuarios');
-        }
-
     }
 
     /**
@@ -52,14 +50,11 @@ class UsuarioController extends Controller
      */
     public function create()
     {
+      Auth()->user()->authorizeRoles('admin');
+      $roles = Role::all();
       $contratos=Contrato::where('estado',1)->get();
-        if(Auth()->user()->cargo == 1)
-        {
-            return view('usuarios.create',compact('contratos'));
-        }else{
+      return view('usuarios.create',compact('contratos','roles'));
 
-        }
-        return redirect('home')->with('mensaje','No tiene acceso a usuarios');
     }
 
     /**
@@ -70,13 +65,17 @@ class UsuarioController extends Controller
      */
     public function store(UsuariosRequest $request)
     {
-        User::create([
+        $user = User::create([
             'empleado_id' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
-            'cargo' => $request['cargo'],
             'password' => bcrypt($request['password']),
         ]);
+
+        $user
+        ->roles()
+        ->attach(Role::find($request->roles));
+
         bitacora('Registro un usuario');
         return redirect('usuarios')->with('mensaje','Usuario almacenado con éxito');
     }

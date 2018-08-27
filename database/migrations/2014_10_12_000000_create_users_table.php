@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('cargo')->unsigned();
             $table->integer('estado')->unsigned()->default(1);
             $table->string('avatar')->default('avatar.jpg');
             $table->string('motivo')->nullable();

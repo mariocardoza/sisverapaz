@@ -20,12 +20,16 @@ Ver detalle de la solicitud
                 <div class="panel-body">
                   <table class="table">
                     <tr>
-                      <th>Nombre del proyecto o proceso</th>
-                      <th>{{$solicitud->presupuesto->proyecto->nombre}}</th>
+                      <th>Nombre del proyecto o actividad</th>
+                      @if($solicitud->solicitud_id)
+                        <th>{{$solicitud->presupuestosolicitud->presupuesto->proyecto->nombre}}</th>
+                      @elseif($solicitud->requisicion_id)
+                        <th>{{$solicitud->requisicion->actividad}}</th>
+                      @endif
                     </tr>
                     <tr>
                       <th>Forma de pago</th>
-                      <th>{{$solicitud->solicitudcotizacion->formapago->nombre}}</th>
+                      <th>{{$solicitud->formapago->nombre}}</th>
                     </tr>
                     <tr>
                       <th>Unidad solicitante</th>
@@ -34,14 +38,6 @@ Ver detalle de la solicitud
                     <tr>
                       <th>Encargado</th>
                       <th>{{$solicitud->encargado}}</th>
-                    </tr>
-                    <tr>
-                      <th>Valor en dólares</th>
-                      <th>${{number_format($solicitud->presupuesto->proyecto->monto,2)}}</th>
-                    </tr>
-                    <tr>
-                      <th>Valor en letras</th>
-                      <th>{{numaletras($solicitud->presupuesto->proyecto->monto)}}</th>
                     </tr>
                   </table>
                         <div class="table-responsive">
@@ -55,6 +51,7 @@ Ver detalle de la solicitud
                               </tr>
                             </thead>
                             <tbody>
+                              @if(isset($presupuesto))
                               @foreach($presupuesto->presupuestodetalle as $detalle)
                               <tr>
                                 <td>{{$presupuesto->categoria->item}} {{$presupuesto->categoria->nombre_categoria}}</td>
@@ -63,6 +60,16 @@ Ver detalle de la solicitud
                                 <td>{{strtoupper($detalle->catalogo->unidad_medida)}}</td>
                               </tr>
                               @endforeach
+                            @else
+                              @foreach($solicitud->requisicion->requisiciondetalle as $key => $detalle)
+                                <tr>
+                                  <td>{{$key+1}}</td>
+                                  <td>{{strtoupper($detalle->descripcion)}}</td>
+                                  <td>{{$detalle->cantidad}}</td>
+                                  <td>{{strtoupper($detalle->unidad_medida)}}</td>
+                                </tr>
+                              @endforeach
+                            @endif
                             </tbody>
                           </table>
                         </div>
