@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Categoria;
 use App\Bitacora;
-use App\Http\Requests\FondocatRequest;
+use App\Http\Requests\CategoriaRequest;
 
 class CategoriaController extends Controller
 {
@@ -42,7 +42,7 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FondocatRequest $request)
+    public function store(CategoriaRequest $request)
     {
         if($request->Ajax())
         {

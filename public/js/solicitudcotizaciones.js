@@ -1,6 +1,7 @@
 var proy=$("#proyecto").val();
 var token = $('meta[name="csrf-token"]').attr('content');
 $(document).ready(function(){
+	//console.log(proy);
 	listarcategorias(proy);
 	listarformapagos();
 	listarunidades();

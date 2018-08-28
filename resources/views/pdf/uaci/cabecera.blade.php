@@ -9,7 +9,7 @@
           ALCALDIA MUNICIPAL DE VERAPAZ, DEPTO. SAN VICENTE
           UNIDAD DE ADQUISICIONES Y CONTRATACIONES INSTITUCIONAL
           <p></p>
-          {{$tipo}}
+          
         </center></h5>
         </td>
         <td width="15%" rowspan=""><center><img src="{{asset('img/escudoes.gif')}}" width="100px" height="90px" alt="escudo El Salvador"></center></td>

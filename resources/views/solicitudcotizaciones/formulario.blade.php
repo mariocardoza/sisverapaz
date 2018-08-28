@@ -8,7 +8,7 @@
                 <div class="form-group">
                     <label for="" class="col-md-4 control-label">Cargo: </label>
                     <div class="col-md-6">
-                        {{Form::text('cargo',vercargo(Auth()->user()->cargo),['readonly','class' => 'form-control', 'id' => 'cargo'])}}
+                        {{Form::text('cargo',Auth()->user()->roleuser->role->description,['readonly','class' => 'form-control', 'id' => 'cargo'])}}
                     </div>
                 </div>
 

@@ -452,7 +452,6 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.4",
             "version": "2.1.5",
             "source": {
                 "type": "git",

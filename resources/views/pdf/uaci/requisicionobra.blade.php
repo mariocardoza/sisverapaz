@@ -7,20 +7,25 @@
 		<div class="col-md-11">
 			<div class="panel panel-primary">
 				<div class="panel-body">
+					<hr style="color:blue">
+          <hr style="color:red">
+          <br>
+          <center style="border: 1px">{{$tipo}}</center>
+          <br>
 					<table width="100%" border="" rules="all">
 						<colgroup></colgroup>
 						<colgroup></colgroup>
 						<tbody>
 							<tr>
 								<td>
-									<b>UNIDAD SOLICITANTE:</b> {{$requisicion->requisiciondetalle->unidad_id}}
+									<b>UNIDAD SOLICITANTE:</b> {{$requisicion->user->roleuser->role->description}}
 									<p></p>
-									<b>RESPONSABLE:</b> {{requisicion->lineatrabajo}}
+									<b>RESPONSABLE:</b> {{$requisicion->user->empleado->nombre}}
 								</td>
 								<td>
-									<b>FECHA:</b> {{}}
+									<b>FECHA:</b> {{ fechaCastellano($requisicion->created_at) }}
 									<p></p>
-									<b>FIRMA:</b> {{}}
+									<b>FIRMA:</b> 
 								</td>
 							</tr>
 						</tbody>
@@ -40,13 +45,55 @@
 								@endphp
 							</tr>
 						</thead>
-						<tfoot>
-							<p></p>
-							OBSERVACIONES:
-							<p></p>
-							AUTORIZA:
-						</tfoot>
+						<tbody>
+							@foreach($requisicion->requisiciondetalle as $index => $detalle)
+							<tr>
+								<td>
+									{{$index+1}}
+								</td>
+								<td>
+									{{$detalle->cantidad}}
+								</td>
+								<td>
+									{{$detalle->descripcion}}
+								</td>
+								<td>
+									{{$detalle->unidad_medida}}
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
 					</table>
+
+					<p></p>
+					OBSERVACIONES: {{$requisicion->observaciones}}
+
+					<hr>
+
+					<table width="100%" cellspacing="40px">
+						<tr>
+							<td>
+								AUTORIZA:
+							</td>
+							<td>
+								RECIBE:
+							</td>
+						</tr>
+						<tr>
+							<td>	
+								F.____________________
+								<p></p>
+								ALCALDE MUNICIPAL
+							</td>
+							<td>
+								F.____________________
+								<p></p>
+								JEFE DE UACI
+							</td>
+						</tr>
+					</table>
+
+									
 				</div>
 			</div>
 		</div>

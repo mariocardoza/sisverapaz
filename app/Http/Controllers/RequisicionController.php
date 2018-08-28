@@ -46,6 +46,7 @@ class RequisicionController extends Controller
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
       $medidas = UnidadMedida::all();
       $fondos = Fondocat::where('estado',1)->get();
+
         return view('requisiciones.create',compact('medidas','fondos'));
     }
 
@@ -117,10 +118,11 @@ class RequisicionController extends Controller
      */
     public function edit($id)
     {
+      $fondos = Fondocat::where('estado',1)->get();
       $requisicion=Requisicione::findorFail($id);
       $unidades=Unidad::pluck('nombre_unidad', 'id');
       $medidas = UnidadMedida::all();
-        return view('requisiciones.edit',compact('requisicion','medidas','unidades'));
+        return view('requisiciones.edit',compact('fondos','requisicion','medidas','unidades'));
     }
 
     /**
@@ -130,7 +132,7 @@ class RequisicionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Requisicion $requisicione)
+    public function update(Request $request, Requisicione $requisicione)
     {
         $requisicione->fill($request->All());
         $requisicione->save();
