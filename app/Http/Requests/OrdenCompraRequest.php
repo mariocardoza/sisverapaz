@@ -29,7 +29,6 @@ class OrdenCompraRequest extends FormRequest
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
             'direccion_entrega' => 'required',
-            'observaciones' => 'required'
         ];
     }
 
@@ -41,7 +40,6 @@ class OrdenCompraRequest extends FormRequest
         'fecha_inicio.required' => 'Debe selecciona la fecha en que comenzará a recibir los materiales',
         'fecha_fin.required' => 'Debe selecciona la fecha de fin para recibir los materiales',
         'direccion_entrega.required' => 'Debe digitar la dirección de entrega',
-        'observaciones.required' => 'Debe digitar las observaciones',
       ];
     }
 }

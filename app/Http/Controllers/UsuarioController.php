@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Bitacora;
 use App\Contrato;
+use App\Empleado;
 use App\Role;
 use App\Http\Requests\UsuariosRequest;
 use App\Http\Requests\ModificarUsuarioRequest;
@@ -52,8 +53,8 @@ class UsuarioController extends Controller
     {
       Auth()->user()->authorizeRoles('admin');
       $roles = Role::all();
-      $contratos=Contrato::where('estado',1)->get();
-      return view('usuarios.create',compact('contratos','roles'));
+      $empleados=Empleado::where('estado',1)->get();
+      return view('usuarios.create',compact('empleados','roles'));
 
     }
 
@@ -76,7 +77,7 @@ class UsuarioController extends Controller
         ->roles()
         ->attach(Role::find($request->roles));
 
-        bitacora('Registro un usuario');
+        bitacora('Registró un usuario');
         return redirect('usuarios')->with('mensaje','Usuario almacenado con éxito');
     }
 

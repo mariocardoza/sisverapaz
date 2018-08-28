@@ -26,8 +26,8 @@
 
                             <div class="col-md-6">
                               <select class="form-control" name="name">
-                                @foreach ($contratos as $contrato)
-                                  <option value="{{$contrato->empleado->id}}">{{$contrato->empleado->nombre}}</option>
+                                @foreach ($empleados as $contrato)
+                                  <option value="{{$contrato->id}}">{{$contrato->nombre}}</option>
                                 @endforeach
                               </select>
                                 @if ($errors->has('name'))

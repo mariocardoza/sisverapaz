@@ -25,8 +25,15 @@ class RequisicionController extends Controller
 
     public function index()
     {
+        Auth()->user()->authorizeRoles('admin');
         $requisiciones = Requisicione::all();
         return view('requisiciones.index',compact('requisiciones'));
+    }
+
+    public function porusuario()
+    {
+      $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('created_at','<=',date('Y'.'-12-31'))->get();
+      return view('requisiciones.porusuario',compact('requisiciones'));
     }
 
     /**
@@ -36,6 +43,7 @@ class RequisicionController extends Controller
      */
     public function create()
     {
+      Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
       $medidas = UnidadMedida::all();
       $fondos = Fondocat::where('estado',1)->get();
         return view('requisiciones.create',compact('medidas','fondos'));
@@ -72,14 +80,14 @@ class RequisicionController extends Controller
             }
             DB::commit();
             return response()->json([
-              'mensaje' => 'exito'
+              'mensaje' => 'exito',
+              'requisicion' => $requisicion->id
             ]);
         }catch (\Exception $e){
           DB::rollback();
           return response()->json([
             'mensaje' => 'error',
             'codigo' => $e->getMessage(),
-            'request' => $request->all()
           ]);
         }
         }
@@ -94,6 +102,7 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
+      Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
         //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
         //dd($requisicion);

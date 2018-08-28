@@ -1,5 +1,6 @@
 <ul class="sidebar-menu">
         <li class="header">Menú Principal</li>
+        <li class="{{Request::is('/home') ? 'activo' : null}}"><a href="{{url('/home')}}">Página de inicio</a></li>
         @if(Auth()->user()->hasRole('admin'))
         <li class="treeview">
           <a href="#">
@@ -20,8 +21,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="{{ url('/usuarios/create') }}"><i class="fa fa-circle-o"></i> Registrar Usuarios</a></li>
-            <li><a href="{{ url('/usuarios') }}"><i class="fa fa-circle-o"></i> Listado de Usuarios</a></li>
+            <li class="{{ Request::is('/usuarios/create') ? 'activo' : null }}"><a href="{{ url('/usuarios/create') }}"><i class="fa fa-circle-o"></i> Registrar Usuarios</a></li>
+            <li class="{{ Request::is('/usuarios') ? 'activo' : null }}"><a href="{{ url('/usuarios') }}"><i class="fa fa-circle-o"></i> Listado de Usuarios</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -47,7 +48,7 @@
           </ul>
         </li>
         @endif
-        @if(Auth()->user()->hasRole('uaci'))
+        @if(Auth()->user()->hasRole('uaci') || Auth()->user()->hasRole('admin'))
         @include('menu.uaci')
         @endif
         @if(Auth()->user()->hasRole('tesoreria'))

@@ -197,6 +197,7 @@ Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@c
 Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
+Route::get('requisiciones/porusuario','RequisicionController@porusuario');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');

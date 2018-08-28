@@ -32,8 +32,12 @@
                         <td>{{$requisicion->actividad}}</td>
                       </tr>
                       <tr>
+                        <th>Fuente de financiamiento</th>
+                        <td>{{$requisicion->fondocat->categoria}}</td>
+                      </tr>
+                      <tr>
                         <th>Unidad solicitante</th>
-                        <td>{{$requisicion->user->cargo}}</td>
+                        <td>{{$requisicion->user->roleuser->role->description}}</td>
                       </tr>
                       <tr>
                         <th>Observaciones</th>
@@ -42,7 +46,9 @@
                     </table>
 
                         <br>
-                        <a class="btn btn-success" href="{{url('requisiciondetalles/create/'.$requisicion->id)}}">Agregar Necesidad</a>
+                        @if($requisicion->estado==1)
+                          <a class="btn btn-success" href="{{url('requisiciondetalles/create/'.$requisicion->id)}}">Agregar Necesidad</a>
+                        @endif
                         <div>
                           <table class="table">
                             <thead>
@@ -88,7 +94,7 @@
                             </tbody>
                           </table>
                         </div>
-
+                        @if($requisicion->estado==1)
                       {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
                       <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
                         <button class="btn btn-danger" type="button" onclick="
@@ -111,6 +117,7 @@
                           }
                         })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
                       {{ Form::close()}}
+                    @endif
                 </div>
             </div>
         </div>

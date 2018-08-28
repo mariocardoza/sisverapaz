@@ -64,7 +64,7 @@ $(document).ready(function(){
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){
-							window.location.href = "../requisiciones";
+							window.location.href = "../requisiciones/porusuario";
 							console.log(msj);
 							toastr.success('Requisiciones registrada éxitosamente');
 						}else{

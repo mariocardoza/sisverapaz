@@ -165,7 +165,8 @@ class OrdencompraController extends Controller
                 'fecha_inicio' => invertir_fecha($request->fecha_inicio),
                 'fecha_fin' => invertir_fecha($request->fecha_fin),
                 'cotizacion_id' => $request->cotizacion_id,
-                'observaciones' => $request->observaciones,
+                'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones
+,
                 'direccion_entrega' => $request->direccion_entrega,
                 'adminorden' => $request->adminorden,
             ]);
