@@ -50,6 +50,7 @@
                     <td>
                       <div class="btn-group">
                         <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                         <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
                       </div>
                     </td>
@@ -64,7 +65,8 @@
                       <td><span class="label-warning">Aprobado</span></td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>                        <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" target="_blank"><i class="glyphicon glyphicon-file-pdf-o"></i></a>
+                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                         </div>
                       </td>
                     @elseif ( $requisicion->estado == 4)
@@ -72,6 +74,7 @@
                       <td>
                         <div class="btn-group">
                           <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                         </div>
                       </td>
                     @elseif( $requisicion->estado == 5)
@@ -79,6 +82,7 @@
                       <td>
                         <div class="btn-group">
                           <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                         </div>
                       </td>
                     @endif
