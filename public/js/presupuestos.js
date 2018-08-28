@@ -177,6 +177,7 @@ var monto=0.0;
                 $.each(data.responseJSON.errors, function( key, value ) {
                     toastr.error(value);
                 });
+                console.log(data);
             }
         });
     }

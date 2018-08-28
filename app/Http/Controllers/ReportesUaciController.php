@@ -68,11 +68,11 @@ class ReportesUaciController extends Controller
         return $pdf->stream('contratacionproyecto.pdf');
     }
 
-    public function requisicionobra()
+    public function requisicionobra($id)
     {
-        $requisicionobra = \App\Requisicion::findorFail($id);
+        $requisicion = \App\Requisicione::findorFail($id);
         $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
-        $pdf = \PDF::loadView('pdf.uaci.requisicion',compact('requisicionobra','tipo'));
+        $pdf = \PDF::loadView('pdf.uaci.requisicionobra',compact('requisicion','tipo'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('requisicionobra.pdf');
     }
