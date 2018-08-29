@@ -12,9 +12,7 @@
           <br>
           <center style="border: 1px">{{$tipo}}</center>
           <br>
-					<table width="100%" border="" rules="all">
-						<colgroup></colgroup>
-						<colgroup></colgroup>
+					<table width="100%" cellpadding="10px">
 						<tbody>
 							<tr>
 								<td>
@@ -68,7 +66,7 @@
 					<p></p>
 					OBSERVACIONES: {{$requisicion->observaciones}}
 
-					<hr>
+					<p></p>
 
 					<table width="100%" cellspacing="40px">
 						<tr>

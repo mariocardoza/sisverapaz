@@ -278,6 +278,7 @@ $('input[name="seleccionarr"]').on('click', function(e) {
   					$("#formapago").html(html_select);
   					$("#formapago").trigger('chosen:updated');
   				});
+  				//console.log(data);
   		}
   	});
   }
