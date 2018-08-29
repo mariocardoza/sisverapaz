@@ -47,15 +47,15 @@
                       Solicito a ustedes por favor entregar a la mayor brevedad posible y en días hábiles, después de haber recibido la Orden de Compra.
                       <br>
                       <!--div class="table-responsive"-->
-                        <table width="100%" border="1" rules="all">
+                        <table width="100%" cellspacing="10px" rules="all">
                           <thead>
                             <tr>
                               <th width="5%">N°</th>
-                              <th width="50%">DESCRIPCIÓN</th>
+                              <th width="45%">DESCRIPCIÓN</th>
                               <th width="15%">U/ DE MEDIDA</th>
                               <th width="10%">CANT.</th>
                               <th width="10%">P/ UNIT.</th>
-                              <th width="17%">SUBTOTAL</th>
+                              <th width="15%">SUBTOTAL</th>
                               @php
                                 $correlativo=0;
                                 $total=0.0;
@@ -74,8 +74,8 @@
                                 <td>{{$detalle->descripcion}}</td>
                                 <td><center>{{$detalle->unidad_medida}}</center> </td>
                                 <td><center>{{$detalle->cantidad}}</center></td>
-                                <td><p align="left">${{number_format($detalle->precio_unitario,2)}}</p> </td>
-                                <td><p align="left">${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}}</p> </td>
+                                <td align="left">${{number_format($detalle->precio_unitario,2)}} </td>
+                                <td align="left">${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}} </td>
                               </tr>
                             @endforeach
                           </tbody>
@@ -88,17 +88,17 @@
 
                             <tr>
                               <td colspan="5"> <b>SUB TOTAL</b></td>
-                              <th><p align="left">${{number_format($total,2)}}</p></th>
+                              <th align="left">${{number_format($total,2)}}</th>
                             </tr>
 
                             <tr>
                               <td colspan="5"> <b>(-) RETENCIÓN RENTA 10% </b></td>
-                              <th><p align="left">$</p></th>
+                              <th align="left">$</th>
                             </tr>
 
                             <tr>
                               <td colspan="5"> <b>LÍQUIDO A RECIBIR: </b></td>
-                              <th><p align="left">${{number_format($total,2)}}</p></th>
+                              <th align="left">${{number_format($total,2)}}</th>
                             </tr>
 
                           </tfoot>

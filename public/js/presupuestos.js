@@ -198,7 +198,7 @@ var monto=0.0;
             data: {nombre,unidad_medida,categoria_id},
            success : function(msj){
                 //window.location.href = "/sisverapaz/public/proyectos";
-                console.log(msj.mensaje);
+                //console.log(msj.mensaje);
                 if(msj.mensaje === "exito")
                 {
                     toastr.success('Catalogo registrado éxitosamente');
