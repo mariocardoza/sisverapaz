@@ -1,7 +1,7 @@
 @extends('pdf.plantilla')
 @section('reporte')
 @include('pdf.uaci.cabecera')
-
+@include('pdf.uaci.pie')
   <div class="container">
       <div class="row">
           <div class="col-md-11">
@@ -177,7 +177,4 @@
           </div>
       </div>
   </div>
-@endsection
-@section('pie')
-  @include('pdf.uaci.pie')
 @endsection

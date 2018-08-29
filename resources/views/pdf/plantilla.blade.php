@@ -16,7 +16,4 @@
 <body>
 @yield('reporte')
 </body>
-<footer>
-  @yield('pie')
-</footer>
 </html>
