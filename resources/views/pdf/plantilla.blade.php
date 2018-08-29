@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <meta charset="utf-8">
-<head><meta http-equiv="Content-Type">
+<head>
+  <meta http-equiv="Content-Type">
   <style>
 
     @page { margin: 140px 50px; }
@@ -11,7 +12,11 @@
     #comparativo th{font-size: 80%;}
     #comparativo td{font-size: 70%;}
   </style>
-</head><body>
+</head>
+<body>
 @yield('reporte')
 </body>
+<footer>
+  @yield('pie')
+</footer>
 </html>

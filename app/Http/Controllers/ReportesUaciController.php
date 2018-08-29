@@ -38,7 +38,7 @@ class ReportesUaciController extends Controller
     {
     	$ordencompra = \App\Ordencompra::findorFail($id);
     	//dd($ordencompra);
-    	$tipo = "REPORTE DE ORDEN DE COMPRA";
+    	$tipo = "ORDEN DE COMPRA";
     	$pdf = \PDF::loadView('pdf.uaci.ordencompra',compact('ordencompra','tipo'));
     	$pdf->setPaper('letter','portrait');
     	return $pdf->stream('ordencompra.pdf');

@@ -27,7 +27,11 @@
                           </tr>
                           <tr>
                             <td><b>{{$orden->cotizacion->proveedor->nombre}}</b></td>
+                            @if($orden->cotizacion->solicitudcotizacion->tipo==1)
                             <td>Solicitud N°: <b>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->solicitudcotizacion->numero_solicitud}}</b></td>
+                          @elseif($orden->cotizacion->solicitudcotizacion->tipo==2)
+                            <td>requisición N°: <b>{{$orden->cotizacion->solicitudcotizacion->requisicion->codigo_requisicion}}</b></td>
+                          @endif
                           </tr>
                           <tr>
                             <td>NIT:</td>
@@ -96,15 +100,19 @@
                           </tr>
                           <tr>
                             <th>Condición de pago</th>
-                            <td>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->solicitudcotizacion->formapago->nombre}}</td>
+                            <td>{{$orden->cotizacion->solicitudcotizacion->formapago->nombre}}</td>
                           </tr>
                           <tr>
-                            <th width="40%">Fuente de financiamiento / Proyecto</th>
+                            <th width="40%">Fuente de financiamiento</th>
                             <td width="60%">
-                              @foreach($orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
-                                {{$fondos->fondocat->categoria}} /
-                              @endforeach
-                              {{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                              @if($orden->cotizacion->solicitudcotizacion->tipo==1)
+                                @foreach($orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
+                                  {{$fondos->fondocat->categoria}} /
+                                @endforeach
+                                {{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                            @elseif ($orden->cotizacion->solicitudcotizacion->tipo==2)
+                              {{$orden->cotizacion->solicitudcotizacion->requisicion->fondocat->categoria}}
+                            @endif
                             </td>
                           </tr>
                           <tr>

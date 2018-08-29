@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-        Ver requisicion <small>{{$requisicion->justificacion}}</small>
+        Requisición <small>{{$requisicion->actividad}}</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
@@ -16,11 +16,14 @@
     <div class="row">
         <div class="col-md-11">
             <div class="panel panel-primary">
-                <div class="panel-heading">Datos de la requisición </div>
+                <div class="panel-heading">Información sobre la requisición {{$requisicion->codigo_requisicion}} </div>
                 <div class="panel-body">
+                  <div class="pull-right">
+                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                  </div>
                     <table class="table">
                       <tr>
-                        <th>Requisicion N°</th>
+                        <th>Requisición N°</th>
                         <td>{{ $requisicion->codigo_requisicion}}</td>
                       </tr>
                       <tr>
@@ -64,6 +67,7 @@
                                 <td>{{$detalle->unidad_medida}}</td>
                                 <td>{{$detalle->descripcion}}</td>
                                 <td>
+                                  @if($requisicion->estado==1)
                                   {{ Form::open(['route' => ['requisiciondetalles.destroy', $detalle->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
                                     <div class="btn-group">
                                       <a href="{{url('requisiciondetalles/'.$detalle->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
@@ -88,6 +92,7 @@
                                         })";><span class="glyphicon glyphicon-trash"></span></button>
                                     </div>
                                   {{ Form::close()}}
+                                @endif
                                 </td>
                               </tr>
                               @endforeach

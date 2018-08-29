@@ -44,13 +44,18 @@
               <td>{{$orden->numero_orden}}</td>
               <td>{{$orden->adminorden}}</td>
               <td>{{$orden->cotizacion->proveedor->nombre}}</td>
-              <td>{{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}</td>
+              <td>
+                @if($orden->cotizacion->solicitudcotizacion->tipo==1)
+                  {{$orden->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                @elseif($orden->cotizacion->solicitudcotizacion->tipo==2)
+                  {{$orden->cotizacion->solicitudcotizacion->requisicion->actividad}}
+                @endif
+              </td>
               @if($estado == "")
                 @if($orden->estado==1)
                   <td>Pendiente</td>
                   <td>
                     <a class="btn btn-primary btn-xs" href="{{url('ordencompras/'.$orden->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
-                    <a class="btn btn-primary btn-xs" href="{{url('ordencompras/verificar/'.$orden->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
                   </td>
                 @elseif ($orden->estado==2)
                   <td>Inactivo</td>
