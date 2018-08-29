@@ -1,12 +1,29 @@
 @extends('pdf.plantilla')
 @section('reporte')
 @include('pdf.uaci.cabecera')
-@include('pdf.uaci.pie')
+
   <div class="container">
       <div class="row">
           <div class="col-md-11">
               <div class="panel panel-primary">
                   <div class="panel-body">
+                    <table width="100%" rules="">
+                      <tr>
+                        <td width="35%"></td>
+                        <td width="30%">
+                          <center>
+                            {{$tipo}}
+                        </center>
+                      </td>
+                        <td width="35%"></td>
+                      </tr>
+                      <tr>
+                        <td width="35%"></td>
+                        <td width="30%"><hr style="color:blue; border:solid;border-width:3px;"><hr style="color:red; border:solid;border-width:3px;"></td>
+                        <td width="35%"></td>
+                      </tr>
+                    </table>
+
                       <table width="100%" border="" rules="all">
                         <colgroup></colgroup>
                         <colgroup></colgroup>
@@ -19,8 +36,8 @@
                               <p></p> TELÉFONO: <b>{{$ordencompra->cotizacion->proveedor->telefono}}</b>
                             </td>
                             <td>ORDEN N°: <b>{{$ordencompra->numero_orden}}</b>
-                              <p></p> Solicitud N°: <b>{{$ordencompra->cotizacion->solicitudcotizacion->id}}</b>
-                              <p></p> FECHA DE EMISIÓN: <b>{{$ordencompra->created_at->format('d-m-Y')}}</b>
+                              <p></p>
+                              <p></p> FECHA DE EMISIÓN: <b>{{fechaCastellano($ordencompra->created_at)}}</b>
                             </td>
                           </tr>
 
@@ -81,7 +98,7 @@
 
                             <tr>
                               <td colspan="5"> <b>LÍQUIDO A RECIBIR: </b></td>
-                              <th><p align="left">$</p></th>
+                              <th><p align="left">${{number_format($total,2)}}</p></th>
                             </tr>
 
                           </tfoot>
@@ -90,27 +107,32 @@
                       <p></p>
                       NOTA: FAVOR EMITIR FACTURA DE CONSUMIDOR FINAL O RECIBO A NOMBRE DE LA TESORERÍA MUNICIPAL DE VERAPAZ
                       <br>
+                      <br>
 
                       <table width="100%" border="" rules="all">
                         <tbody>
 
-                          
-                          
+
+
                           <tr>
                             <th>LUGAR DE ENTREGA DE LOS SERVICIOS O PRODUCTOS</th>
                             <td>{{$ordencompra->direccion_entrega}}</td>
                           </tr>
                           <tr>
                             <th>CONDICIONES DE PAGO</th>
-                            <td>{{$ordencompra->cotizacion->presupuestosolicitud->solicitudcotizacion->formapago->nombre}}</td>
+                            <td>{{$ordencompra->cotizacion->solicitudcotizacion->formapago->nombre}}</td>
                           </tr>
                           <tr>
                             <th width="40%">FUENTE DE FINANCIAMIENTO</th>
                             <td width="60%">
-                              @foreach($ordencompra->cotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
+                              @if($ordencompra->cotizacion->solicitudcotizacion->tipo==1)
+                              @foreach($ordencompra->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
                                 {{$fondos->fondocat->categoria}} / Contrapartida Municipal para
                               @endforeach
-                              {{$ordencompra->cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                              {{$ordencompra->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                            @elseif($ordencompra->cotizacion->solicitudcotizacion->tipo==2)
+                              {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->fondocat->categoria}}
+                            @endif
                             </td>
                           </tr>
                           <tr>
@@ -125,17 +147,26 @@
                           </tr>
                         </tbody>
                       </table>
-
-                      <table width="100%" border="" rules="all">
+                      <br>
+                      <table width="100%" rules="all">
                         <tbody>
                           <tr>
                             <td>Autoriza:
+                              <p></p>
+                              <hr style="border:none">
+                              F: _______________
                               <p>ALCALDE MUNICIPAL</p>
                             </td>
                             <td>Elaboró Orden de Compra:
+                              <p></p>
+                              <hr style="border:none">
+                              F: _______________
                               <p>JEFE UACI</p>
                             </td>
                             <td>Es conforme:
+                              <hr style="border:none">
+                              <p></p>
+                              F: _______________
                               <p>SUMINISTRANTE</p>
                             </td>
                           </tr>
@@ -146,4 +177,7 @@
           </div>
       </div>
   </div>
+@endsection
+@section('pie')
+  @include('pdf.uaci.pie')
 @endsection
