@@ -153,18 +153,15 @@
                           <tr>
                             <td>Autoriza:
                               <p></p>
-                              <hr style="border:none">
                               F: _______________
                               <p>ALCALDE MUNICIPAL</p>
                             </td>
                             <td>Elaboró Orden de Compra:
                               <p></p>
-                              <hr style="border:none">
                               F: _______________
                               <p>JEFE UACI</p>
                             </td>
                             <td>Es conforme:
-                              <hr style="border:none">
                               <p></p>
                               F: _______________
                               <p>SUMINISTRANTE</p>
