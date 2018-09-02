@@ -8,11 +8,15 @@
 			<div class="panel panel-primary">
 				<div class="panel-body">
 					<hr style="color:blue">
-          <hr style="color:red">
-          <br>
-          <center style="border: 1px">{{$tipo}}</center>
-          <br>
-					<table width="100%" cellpadding="10px">
+					<hr style="color:red">
+					<br>
+					<table align="center" width="70%" border="2" rules="all" cellspacing="7px">
+						<td>
+							<center>{{$tipo}}</center>
+						</td>
+					</table>
+					<br>
+					<table width="100%" rules="" cellspacing="7px">
 						<tbody>
 							<tr>
 								<td>
@@ -68,7 +72,7 @@
 
 					<p></p>
 
-					<table width="100%" cellspacing="40px">
+					<table width="100%" cellspacing="30px">
 						<tr>
 							<td>
 								AUTORIZA:

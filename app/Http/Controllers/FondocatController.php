@@ -55,7 +55,7 @@ class FondocatController extends Controller
     public function show($id)
     {
         $fondocat = Fondocat::findorFail($id);
-        return redirect('fondocats.show', compact('fondocat'));
+        return view('fondocats.show', compact('fondocat'));
     }
 
     /**
@@ -67,7 +67,7 @@ class FondocatController extends Controller
     public function edit($id)
     {
         $fondocat = Fondocat::findorFail($id);
-        return redirect('fondocats.edit', compact('fondocat'));
+        return view('fondocats.edit', compact('fondocat'));
     }
 
     /**

@@ -84,7 +84,8 @@ class CatalogoController extends Controller
     public function edit($id)
     {
         $catalogo = Catalogo::findorFail($id);
-        return view('catalogos.edit', compact('catalogo'));
+        $categorias = Categoria::where('estado',1)->get();
+        return view('catalogos.edit', compact('catalogo', 'categorias'));
     }
 
     /**

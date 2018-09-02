@@ -84,7 +84,7 @@ class CategoriaController extends Controller
     public function edit($id)
     {
         $categoria = Categoria::findorFail($id);
-        return redirect('categorias.edit',compact('categoria'));
+        return view('categorias.edit',compact('categoria'));
     }
 
     /**
