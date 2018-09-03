@@ -166,6 +166,7 @@ $('input[name="seleccionarr"]').on('click', function(e) {
           }
         }else{
           toastr.error("Debe llenar todos los campos de precio unitario");
+          console.log(response);
         }
       },
       error: function(error){

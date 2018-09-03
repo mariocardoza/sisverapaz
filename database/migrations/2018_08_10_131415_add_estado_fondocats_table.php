@@ -14,7 +14,7 @@ class AddEstadoFondocatsTable extends Migration
     public function up()
     {
         Schema::table('fondocats', function (Blueprint $table) {
-            $table->bigInteger('estado')->unsigned()->nullable();
+            $table->bigInteger('estado')->default(1);
             $table->date('fechabaja')->nullable();
             $table->string('motivo')->nullable();
         });

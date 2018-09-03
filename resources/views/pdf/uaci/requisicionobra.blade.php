@@ -1,33 +1,28 @@
 @extends('pdf.plantilla')
-@section('reporte')
 @include('pdf.uaci.cabecera')
-@include('pdf.uaci.pie')
-<div class="container">
-	<div class="row">
-		<div class="col-md-11">
-			<div class="panel panel-primary">
-				<div class="panel-body">
-					<hr style="color:blue">
-					<hr style="color:red">
-					<br>
-					<table align="center" width="70%" border="2" rules="all" cellspacing="7px">
+@section('reporte')
+<div id="content">
+	<br>
+					<hr style="color:blue; border-width:2px;">
+					<hr style="color:red; border-width:2px;">
+					<table align="center" width="70%" border="3" cellspacing="7px">
 						<td>
 							<center>{{$tipo}}</center>
 						</td>
 					</table>
 					<br>
-					<table width="100%" rules="" cellspacing="7px">
+					<table width="100%" rules="">
 						<tbody>
 							<tr>
 								<td>
-									<b>UNIDAD SOLICITANTE:</b> {{$requisicion->user->roleuser->role->description}}
-									<p></p>
+									<p><b>UNIDAD SOLICITANTE:</b> {{$requisicion->user->roleuser->role->description}}
+									</p>
 									<b>RESPONSABLE:</b> {{$requisicion->user->empleado->nombre}}
 								</td>
 								<td>
-									<b>FECHA:</b> {{ fechaCastellano($requisicion->created_at) }}
-									<p></p>
-									<b>FIRMA:</b> 
+									<p><b>FECHA:</b> {{ fechaCastellano($requisicion->created_at) }}
+									</p>
+									<b>FIRMA:</b> ___________________________
 								</td>
 							</tr>
 						</tbody>
@@ -36,10 +31,10 @@
 					<p></p>
 					<table width="100%" border="1" rules="all">
 						<thead>
-							<tr>
+							<tr style="background-color:#BCE4F3;">
 								<th width="5%">N° ITEM</th>
 								<th width="8%">CANTIDAD SOLICITADA</th>
-								<th width="50%%">DESCRIPCIÓN</th>
+								<th width="50%%"><center>DESCRIPCIÓN</center></th>
 								<th width="15%">U/MEDIDA</th>
 								@php
 								$correlativo = 0;
@@ -82,7 +77,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td>	
+							<td>
 								F.____________________
 								<p></p>
 								ALCALDE MUNICIPAL
@@ -94,10 +89,6 @@
 							</td>
 						</tr>
 					</table>
-
-									
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
+@endsection
+@include('pdf.uaci.pie')

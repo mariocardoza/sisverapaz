@@ -12,7 +12,7 @@ class ProveedorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    } 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -50,9 +50,31 @@ class ProveedorController extends Controller
      */
     public function store(ProveedorRequest $request)
     {
-        Proveedor::create($request->All());
-        bitacora('Registro un Proveedor');
-        return redirect('/proveedores')->with('mensaje','Registro almacenado con éxito');
+      if($request->ajax())
+      {
+        try{
+          Proveedor::create($request->All());
+          bitacora('Registro un Proveedor');
+          return Response()->json([
+            'mensaje' => 'exito'
+          ]);
+        }catch(\Exception $e)
+        {
+          return Response()->json([
+            'mensaje' => 'error',
+            'codigo' => $e->getMessage()
+          ]);
+        }
+      }else{
+        try{
+          Proveedor::create($request->All());
+          bitacora('Registro un Proveedor');
+          return redirect('/proveedores')->with('mensaje','Registro almacenado con éxito');
+        }catch(\Exception $e)
+        {
+          return redirect('proveedores/create')->with('error','Ocurrió un error, contacte al administrador');
+        }
+      }
     }
 
     /**

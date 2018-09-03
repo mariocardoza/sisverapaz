@@ -89,6 +89,16 @@
                 transitionEffect: "slideLeft",
               });
 
+              //formulario de configuracion
+              $("#form-configuracion").steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                stepsOrientation: "vertical",
+                enableAllSteps: true,
+                enablePagination: false
+              });
+
           //fechas
             var start = new Date(),
           	end = new Date(),
@@ -156,15 +166,7 @@
       $(selector).chosen(config[selector]);
     }
 
-    //formulario de configuracion
-    $("#form-configuracion").steps({
-      headerTag: "h3",
-      bodyTag: "section",
-      transitionEffect: "slideLeft",
-      stepsOrientation: "vertical",
-      enableAllSteps: true,
-      enablePagination: false
-    });
+
 
 
 });

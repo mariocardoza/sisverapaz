@@ -51,7 +51,6 @@
 
                               @foreach($solicitud->cotizacion as $cotizacion)
                                <td>
-
                                 <table border="1px" width="100%" class="">
                                   <?php $total=0.0;?>
                                   <thead>

@@ -2,6 +2,7 @@
 @section('reporte')
 @include('pdf.uaci.cabecera')
 @include('pdf.uaci.pie')
+<br>
   <div class="container">
       <div class="row">
           <div class="col-md-11">
