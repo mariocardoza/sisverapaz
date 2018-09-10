@@ -22,7 +22,12 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
+        if($request->ajax())
+        {
+            return Empleado::where('estado',1)->get();
+        }
+        else{
+            $estado = $request->get('estado');
         if($estado == "" )$estado = 1;
         if($estado == 1)
         {
@@ -33,6 +38,7 @@ class EmpleadoController extends Controller
         {
             $empleados = Empleado::where('estado',$estado)->get();
             return view('empleados.index',compact('empleados','estado'));
+        }
         }
     }
 
