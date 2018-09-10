@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('migasdepan')
 <h1>
-	Registro de Catálogo
+	Registro de Categoría
 </h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/categoriaempleados') }}"><i class="fa fa-dashboard"></i>Categorías</a></li>

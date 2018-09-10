@@ -2,10 +2,10 @@
 
 @section('migasdepan')
 <h1>
-        Organización: {{ $cargos->nombre }}
+        Cargo: {{ $cargo->cargo }}
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/cargos') }}"><i class="fa fa-dashboard"></i> Cargo</a></li>
+        <li><a href="{{ url('/cargos') }}"><i class="fa fa-dashboard"></i> Cargos</a></li>
         <li class="active">Edición</li>
       </ol>
 @endsection
@@ -15,7 +15,7 @@
     <div class="row">
         <div class="panel panel-default">       
             <div class="panel-body">
-                {{ Form::model($cargos, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('cargos.update', $cargos->id))) }} 
+                {{ Form::model($cargo, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('cargos.update', $cargo->id))) }} 
                  @include('cargos.formulario')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">

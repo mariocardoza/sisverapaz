@@ -21,8 +21,18 @@ class CatalogoController extends Controller
      */
     public function index(Request $request)
     {
-        $catalogos = Catalogo::all();
-        return view('catalogos.index',compact('catalogos'));
+        $estado = $request->get('estado');
+        if($estado == "")$estado = 1;
+        if($estado == 1)
+        {
+            $catalogos = Catalogo::where('estado', $estado)->get();
+            return view('catalogos.index',compact('catalogos','estado'));
+        }
+        if($estado == 2)
+        {
+            $catalogos = Catalogo::where('estado',$estado)->get();
+            return view('catalogos.index',compact('catalogos','estado'));
+        }
     }
 
     /**

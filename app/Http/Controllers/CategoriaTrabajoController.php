@@ -17,10 +17,20 @@ class CategoriaTrabajoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categoriatrabajos = CategoriaTrabajo::all();
-        return view('categoriatrabajos.index', compact('categoriatrabajos'));
+        $estado = $request->get('estado');
+      if($estado == "")$estado = 1;
+      if($estado == 1)
+      {
+        $categoriatrabajos = CategoriaTrabajo::where('estado', $estado)->get();
+        return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
+      }
+      if($estado == 2)
+      {
+        $categoriatrabajos = CategoriaTrabajo::where('estado',$estado)->get();
+        return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
+      }
     }
 
     /**
@@ -79,7 +89,11 @@ class CategoriaTrabajoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoriatrabajo = CategoriaTrabajo::find($id);
+        $categoriatrabajo->fill($request->All());
+        $categoriatrabajo->save();
+        bitacora('Modificó Categoría');
+        return redirect('/categoriatrabajos')->with('mensaje','Registro modificado');
     }
 
     /**
@@ -91,5 +105,30 @@ class CategoriaTrabajoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+
+        $categoriatrabajo = CategoriaTrabajo::find($id);
+        $categoriatrabajo->estado = 2;
+        $categoriatrabajo->motivo = $motivo;
+        $categoriatrabajo->save();
+        bitacora('Dió de baja Categoría');
+        return redirect('/categoriatrabajos')->with('mensaje','Categoría dado de baja');
+    }
+
+    public function alta($id)
+    {
+        $categoriatrabajo = CategoriaTrabajo::find($id);
+        $categoriatrabajo->estado = 1;
+        $categoriatrabajo->motivo = "";
+        $categoriatrabajo->save();
+        Bitacora:bitacora('Dió de alta un Categoría');
+
+        return redirect('/categoriatrabajos')->with('mensaje', 'Categoría dado de alta');
     }
 }

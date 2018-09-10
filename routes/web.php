@@ -208,11 +208,14 @@ Route::get('inventarios/getmaterial/{id}','ProyectoInventarioController@getMater
 Route::Resource('inventarios','ProyectoInventarioController');
 
 Route::Resource('categoriatrabajos','CategoriaTrabajoController');
-Route::get('categoriatrabajos/create','CategoriaTrabajoController@create');//------------>
+Route::get('categoriatrabajos/create','CategoriaTrabajoController@create');
+Route::post('categoriatrabajos/baja/{id}','CategoriaTrabajoController@baja')->name('categoriatrabajos.baja');
+Route::post('categoriatrabajos/alta/{id}','CategoriaTrabajoController@alta')->name('categoriatrabajos.alta');
 
 Route::Resource('categoriaempleados','CategoriaEmpleadoController');
 Route::get('categoriaempleados/create/{id}','CategoriaEmpleadoController@create');
-//Route::post('categoriaempleados/baja/{id}','CategoriaEmpleadoController');
+Route::post('categoriaempleados/baja/{id}','CategoriaEmpleadoController@baja')->name('categoriaempleados.baja');
+Route::post('categoriaempleados/alta/{id}','CategoriaEmpleadoController@alta')->name('categoriaempleados.alta');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
 Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
@@ -247,6 +250,8 @@ Route::Resource('prestamos','PrestamoController');
 
 Route::get('cargos/get','CargoController@get');
 Route::Resource('cargos','CargoController');
+Route::post('cargos/baja/{id}','CargoController@baja')->name('cargos.baja');
+Route::post('cargos/alta/{id}','CargoController@alta')->name('cargos.alta');
 
 Route::Resource('cuentas','CuentaController');
 Route::Resource('cuentaprincipal','CuentaprincipalController');

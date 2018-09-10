@@ -20,11 +20,20 @@ class CategoriaEmpleadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categoriaempleados = CategoriaEmpleado::all();
-        //dd($categoriaempleados);
-        return view('categoriaempleados.index',compact('categoriaempleados'));
+        $estado = $request->get('estado');
+        if($estado == "")$estado = 1;
+        if($estado == 1)
+        {
+            $categoriaempleados = CategoriaEmpleado::where('estado', $estado)->get();
+            return view('categoriaempleados.index',compact('categoriaempleados','estado'));
+        }
+        if($estado == 2)
+        {
+            $categoriaempleados = CategoriaEmpleado::where('estado',$estado)->get();
+            return view('categoriaempleados.index',compact('categoriaempleados','estado'));
+        }
     }
 
     /**
@@ -51,7 +60,11 @@ class CategoriaEmpleadoController extends Controller
     public function store(Request $request)
     {
         //dd($request->All());
-        CategoriaEmpleado::create($request->All());
+        CategoriaEmpleado::create([
+            'cargo_id' => $request->cargo_id,
+            'categoriatrabajo_id' => $request->categoriatrabajo_id,
+            'empleado_id' => $request->empleado_id,
+        ]);
         return redirect('categoriaempleados')->with('mensaje','Categoría registrada');
     }
 
@@ -76,7 +89,8 @@ class CategoriaEmpleadoController extends Controller
     public function edit($id)
     {
         $categoriaempleado = CategoriaEmpleado::findorFail($id);
-        return view('categoriaempleados.edit', compact('categoriaempleado'));
+        $empleados = Empleado::where('estado',1)->get();
+        return view('categoriaempleados.edit', compact('categoriaempleado','empleados'));
     }
 
     /**
@@ -88,7 +102,11 @@ class CategoriaEmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $categoriaempleado = CategoriaEmpleado::find($id);
+        $categoriaempleado->fill($request->All());
+        $categoriaempleado->save();
+        bitacora('Modificó Categoría');
+        return redirect('/categoriaempleados')->with('mensaje','Registro modificado');
     }
 
     /**
@@ -100,5 +118,30 @@ class CategoriaEmpleadoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+
+        $categoriaempleado = CategoriaEmpleado::find($id);
+        $categoriaempleado->estado = 2;
+        $categoriaempleado->motivo = $motivo;
+        $categoriaempleado->save();
+        bitacora('Dió de baja Categoría');
+        return redirect('/categoriaempleados')->with('mensaje','Categoría dado de baja');
+    }
+
+    public function alta($id)
+    {
+        $categoriaempleado = CategoriaEmpleado::find($id);
+        $categoriaempleado->estado = 1;
+        $categoriaempleado->motivo = "";
+        $categoriaempleado->save();
+        Bitacora:bitacora('Dió de alta un Categoría');
+
+        return redirect('/categoriaempleados')->with('mensaje', 'Categoría dado de alta');
     }
 }

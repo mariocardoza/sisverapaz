@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('migasdepan')
-<h1>Ver datos del cargo:</h1>
+<h1>Ver datos del categoría:</h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li><a href="{{ url('/cargos') }}"><i class="fa fa-industry"></i> Cargos</a></li>
-        <li class="active">Ver cargo</li>
+        <li><a href="{{ url('/categoriatrabajos') }}"><i class="fa fa-industry"></i> Categorías</a></li>
+        <li class="active">Ver categoría</li>
       </ol>
 @endsection
 
@@ -19,15 +19,15 @@
                   <table class="table">
                     <tr>
                       <th>Categoría</th>
-                      <th>{{$cargo->cargo}}</th>
+                      <th>{{$categoriatrabajo->nombre_categoria}}</th>
                     </tr>
                     <tr>
                       <th>Fecha creación</th>
-                      <th>{{fechaCastellano($cargo->created_at)}}</th>
+                      <th>{{fechaCastellano($categoriatrabajo->created_at)}}</th>
                     </tr>
                     
                   </table>
-                      <a href="{{ url('cargos/'.$cargo->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+                      <a href="{{ url('categoriatrabajos/'.$categoriatrabajo->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
                 </div>
             </div>
         </div>

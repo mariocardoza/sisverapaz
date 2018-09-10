@@ -27,7 +27,7 @@
                         <th>Accion</th>
                         </thead>
                         <tbody>
-                        @foreach($unidaddes as $unidad)
+                        @foreach($unidades as $unidad)
                             <tr>
                                 <td>{{ $unidad->id }}</td>
                                 <td>{{ $unidad->nombre }}</td>

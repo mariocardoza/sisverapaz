@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-        Categoría
+        Categoría de fondos
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/fondocats') }}"><i class="fa fa-dashboard"></i> Categorías</a></li>

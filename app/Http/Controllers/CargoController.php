@@ -31,10 +31,20 @@ class CargoController extends Controller
      ], 200);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        return view('cargos.index',compact('cargos'));
+        $estado = $request->get('estado');
+        if($estado == "")$estado = 1;
+        if($estado == 1)
+        {
+            $cargos = Cargo::where('estado', $estado)->get();
+            return view('cargos.index',compact('cargos','estado'));
+        }
+        if($estado == 2)
+        {
+            $cargos = Cargo::where('estado',$estado)->get();
+            return view('cargos.index',compact('cargos','estado'));
+        }
     }
 
     /**
