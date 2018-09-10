@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-<meta charset="utf-8">
 <head>
-  <meta http-equiv="Content-Type">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>SisVerapaz</title>
   <style>
 
     @page { margin: 140px 50px; }

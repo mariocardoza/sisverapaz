@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li><a href="{{ url('/cotizaciones?solicitud='.$cotizacion->presupuestosolicitud->id) }}"><i class="fa fa-balance-scale"></i> Cotizaciones</a></li>
+        <li><a href="{{ url('/cotizaciones')}}"><i class="fa fa-balance-scale"></i> Cotizaciones</a></li>
         <li class="active">Ver</li>
       </ol>
 @endsection
@@ -20,8 +20,12 @@
                 <div class="panel-body">
                   <table class="table">
                     <tr>
-                      <th>Nombre del proyecto</th>
-                      <th>{{$cotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}</th>
+                      <th>Nombre del proyecto o actividad</th>
+                      @if($cotizacion->solicitudcotizacion->tipo==1)
+                      <th>{{$cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}</th>
+                    @elseif($cotizacion->solicitudcotizacion->tipo==2)
+                      <th>{{$cotizacion->solicitudcotizacion->requisicion->actividad}}</th>
+                    @endif
                     </tr>
                     <tr>
                       <th>Nombre del proveedor</th>

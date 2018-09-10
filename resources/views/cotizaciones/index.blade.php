@@ -19,7 +19,7 @@
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
               <div class="btn-group pull-right">
-                <a href="{{ url('/solicitudcotizaciones/versolicitudes/'.$solicitud->presupuestosolicitud->presupuesto->proyecto->id) }}" class="btn btn-danger" title="Atras"><span class="glyphicon glyphicon-menu-left"></span></a>
+                <a href="{{ url('/solicitudcotizaciones/versolicitudes') }}" class="btn btn-danger" title="Atras"><span class="glyphicon glyphicon-menu-left"></span></a>
               </div>
             </div>
             <!-- /.box-header -->
@@ -27,16 +27,20 @@
               <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
                   <th>N°</th>
-                  <th>Nombre del proyecto</th>
+                  <th>Nombre del proyecto o actividad</th>
                   <th>Proveedor</th>
                   <th>Estado</th>
                   <th>Accion</th>
                 </thead>
                 <tbody>
-                  @foreach($solicitud->cotizacion as $key => $cotizacion)
+                  @foreach($cotizaciones as $key => $cotizacion)
                   <tr>
                     <td>{{ $key+1 }}</td>
+                    @if($cotizacion->solicitudcotizacion->tipo==1)
                     <td>{{ $cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre }}</td>
+                  @elseif($cotizacion->solicitudcotizacion->tipo==2)
+                    <td>{{ $cotizacion->solicitudcotizacion->requisicion->actividad }}</td>
+                  @endif
                     <td>{{ $cotizacion->proveedor->nombre }}</td>
                     <td>{{ $cotizacion->descripcion }}</td>
                     <td>

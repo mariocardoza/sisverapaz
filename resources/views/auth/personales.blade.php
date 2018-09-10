@@ -54,7 +54,7 @@
                         <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
                             <label for="direccion" class="col-md-4 control-label">Dirección</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3]) }}
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
                             <label for="fecha_nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 {{Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','id'=>'nacimimiento_empleado'])}}
                             </div>
                         </div>
