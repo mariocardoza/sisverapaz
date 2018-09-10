@@ -26,12 +26,21 @@ class ReportesUaciController extends Controller
 
     public function solicitud($id)
     {
-    	$solicitud = \App\PresupuestoSolicitud::findorFail($id);
-    	$presupuesto = \App\Presupuesto::where('categoria_id', "=", $solicitud->categoria_id)->firstorFail();
-    	$tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS POR LIBRE GESTION";
-    	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','presupuesto'));
-    	$pdf->setPaper('letter', 'portrait');
-    	return $pdf->stream('solicitud.pdf');
+    	$solicitud = \App\Solicitudcotizacion::findorFail($id);
+      if($solicitud->tipo==1)
+      {
+        $presupuesto = \App\Presupuesto::where('categoria_id', "=", $solicitud->presupuestosolicitud->categoria_id)->firstorFail();
+        $tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS";
+      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','presupuesto'));
+      	$pdf->setPaper('letter', 'portrait');
+      	return $pdf->stream('solicitud.pdf');
+      }else{
+        $tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS POR LIBRE GESTION";
+      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo'));
+      	$pdf->setPaper('letter', 'portrait');
+      	return $pdf->stream('solicitud.pdf');
+      }
+
     }
 
     public function ordencompra($id)
@@ -42,6 +51,16 @@ class ReportesUaciController extends Controller
     	$pdf = \PDF::loadView('pdf.uaci.ordencompra',compact('ordencompra','tipo'));
     	$pdf->setPaper('letter','portrait');
     	return $pdf->stream('ordencompra.pdf');
+    }
+
+    public function acta($id)
+    {
+      $orden = \App\Ordencompra::findorFail($id);
+      $configuracion = \App\Configuracion::first();
+      $tipo = "ACTA DE ENTREGA Y RECEPCIÓN DE BIENES Y SERVICIOS";
+      $pdf = \PDF::loadview('pdf.uaci.acta',compact('orden','tipo','configuracion'));
+      $pdf->setPaper('letter','portrait');
+      return $pdf->stream('acta.pdf');
     }
 
     public function cuadrocomparativo($id)

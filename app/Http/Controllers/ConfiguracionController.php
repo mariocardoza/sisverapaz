@@ -43,7 +43,7 @@ class ConfiguracionController extends Controller
     {
           Configuracion::create([
           'nombre_alcalde' => $request->nombre_alcalde,
-          'nacimiento_alcalde' => $request->invertir_fecha($request->nacimiento_alcalde),
+          'nacimiento_alcalde' => invertir_fecha($request->nacimiento_alcalde),
           'dui_alcalde' => $request->dui_alcalde,
           'nit_alcalde' => $request->nit_alcalde,
           'domicilio_alcalde' => $request->domicilio_alcalde,
@@ -53,7 +53,7 @@ class ConfiguracionController extends Controller
 
     }
 
-    public function ualcalde(Request $request)
+    public function ualcalde(Request $request,$id)
     {
         $configuracion = Configuracion::find($id);
         $configuracion->nombre_alcalde=$request->nombre_alcalde;

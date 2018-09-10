@@ -9,16 +9,11 @@
     </div>
     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
       <div class="panel-body">
-        
+
        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
         <label for="nombre" class="col-md-4 control-label">Nombre de la Empresa o Proveedor</label>
         <div class="col-md-6">
             {{ Form::text('nombre', null,['class' => 'form-control']) }}
-            @if ($errors->has('nombre'))
-            <span class="help-block">
-                <strong>{{ $errors->first('nombre') }}</strong>
-            </span>
-            @endif
         </div>
     </div>
 
@@ -26,25 +21,15 @@
         <label for="direccion" class="col-md-4 control-label">Dirección</label>
 
         <div class="col-md-6">
-         {{ Form::text('direccion', null,['class' => 'form-control']) }}
-         @if ($errors->has('direccion'))
-         <span class="help-block">
-            <strong>{{ $errors->first('direccion') }}</strong>
-        </span>
-        @endif
+         {{ Form::textarea('direccion', null,['class' => 'form-control','rows'=>2]) }}
     </div>
 </div>
 
         <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
-            <label for="telefono" class="col-md-4 control-label">Telefono de la Empresa o Proveedor</label>
+            <label for="telefono" class="col-md-4 control-label">Teléfono</label>
 
             <div class="col-md-6">
-             {{ Form::text('telefono', null,['class' => 'form-control']) }}
-             @if ($errors->has('telefono'))
-             <span class="help-block">
-                <strong>{{ $errors->first('telefono') }}</strong>
-            </span>
-            @endif
+             {{ Form::text('telefono', null,['class' => 'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask']) }}
         </div>
         </div>
 
@@ -53,11 +38,6 @@
 
             <div class="col-md-6">
                {{ Form::email('email', null,['class' => 'form-control']) }}
-               @if ($errors->has('email'))
-               <span class="help-block">
-                <strong>{{ $errors->first('email') }}</strong>
-                </span>
-                @endif
             </div>
         </div>
           <div class="form-group{{ $errors->has('numero_registro') ? ' has-error' : '' }}">
@@ -65,23 +45,20 @@
 
               <div class="col-md-6">
                   {{ Form::text('numero_registro', null,['class' => 'form-control']) }}
-                  @if ($errors->has('numero_registro'))
-                      <span class="help-block">
-                <strong>{{ $errors->first('numero_registro') }}</strong>
-                </span>
-                  @endif
+              </div>
+          </div>
+          <div class="form-group{{ $errors->has('dui') ? ' has-error' : '' }}">
+              <label for="numero_registro" class="col-md-4 control-label">DUI (Si es persona natural)</label>
+
+              <div class="col-md-6">
+                  {{ Form::text('dui', null,['class' => 'form-control','data-inputmask' => '"mask": "99999999-9"','data-mask']) }}
               </div>
           </div>
           <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
-              <label for="nit" class="col-md-4 control-label">Número de NIT Proveedor</label>
+              <label for="nit" class="col-md-4 control-label">Número de NIT</label>
 
               <div class="col-md-6">
-                  {{ Form::text('nit', null,['class' => 'form-control']) }}
-                  @if ($errors->has('nit'))
-                      <span class="help-block">
-                <strong>{{ $errors->first('nit') }}</strong>
-                </span>
-                  @endif
+                  {{ Form::text('nit', null,['class' => 'form-control','data-inputmask' => '"mask": "9999-999999-999-9"','data-mask']) }}
               </div>
           </div>
       </div>
