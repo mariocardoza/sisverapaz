@@ -17,6 +17,10 @@
               <div class="panel panel-primary">
                   <div class="panel-heading">Orden de compra </div>
                   <div class="panel-body">
+                    <div class="pull-right">
+                      <a title="Imprimir orden de compra" href="{{url('reportesuaci/ordencompra/'.$orden->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    </div>
+                    <hr>
                       <table width="100%" border="1" rules="groups">
                         <colgroup></colgroup>
                         <colgroup></colgroup>

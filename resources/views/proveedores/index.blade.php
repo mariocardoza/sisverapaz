@@ -13,10 +13,10 @@
 
 @section('content')
 <div class="row">
-<div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+<div class="col-md-12">
+          <div class="panel">
+            <div class="panel-header">
+              <h3 class="panel-title">Listado</h3>
               	<a href="{{ url('/proveedores/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 <a href="{{ url('/proveedores?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/proveedores?estado=2') }}" class="btn btn-primary">Papelera</a>
@@ -24,7 +24,7 @@
 
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive">
+            <div class="panel-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
   				<thead>
                   <th>Nombre de Proveedor</th>
@@ -61,7 +61,7 @@
                 	@endforeach
                 </tbody>
               </table>
-            
+
               <div class="pull-right">
 
               </div>

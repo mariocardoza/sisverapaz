@@ -53,9 +53,12 @@
               </td>
               @if($estado == "")
                 @if($orden->estado==1)
-                  <td>Pendiente</td>
+                  <td>Pendiente de acta de recibido</td>
                   <td>
-                    <a class="btn btn-primary btn-xs" href="{{url('ordencompras/'.$orden->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    <div class="btn-group">
+                      <a class="btn btn-primary btn-xs" href="{{url('ordencompras/'.$orden->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a href="{{ url('reportesuaci/ordencompra/'.$orden->id) }}" class="btn btn-success btn-xs" target="_blank" title="Imprimir orden de compra"><i class="fa fa-file-pdf-o"></i></a>
+                    </div>
                   </td>
                 @elseif ($orden->estado==2)
                   <td>Inactivo</td>

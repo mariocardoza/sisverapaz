@@ -32,9 +32,10 @@ class CotizacionController extends Controller
         $estado = $request->get('estado');
         $soli=$request->get('solicitud');
         if($estado == "" ){
-          $solicitud=Solicitudcotizacion::findorFail($soli);
+          $cotizaciones=Cotizacion::all();
+
           //$cotizaciones = Cotizacion::where('presupuestosolicitud_id',$solicitud->id)->get();
-          return view ('cotizaciones.index',compact('estado','solicitud'));
+          return view ('cotizaciones.index',compact('estado','cotizaciones'));
         }
         if ($estado == 1) {
             $cotizaciones = Cotizacion::where('estado',$estado)->get();
@@ -263,7 +264,7 @@ class CotizacionController extends Controller
      */
     public function show($id)
     {
-        $cotizacion = Cotizacion::where('estado',1)->findorFail($id);
+        $cotizacion = Cotizacion::findorFail($id);
 
         return view('cotizaciones.show', compact('cotizacion'));
     }

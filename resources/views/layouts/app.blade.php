@@ -154,6 +154,8 @@
             </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
+          @if(Auth()->guest())
+          @else
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
@@ -194,11 +196,27 @@
               </li>
             </ul>
           </li>
+        @endif
         </ul>
       </div>
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
+  @if(Auth()->guest())
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{{ asset('avatars/avatar.jpg') }}" class="user-image" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Visitante </p>
+          <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
+        </div>
+      </div>
+    </section>
+  </aside>
+  @else
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -217,6 +235,7 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+@endif
  <!-- aqui comienza el contenido -->
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">

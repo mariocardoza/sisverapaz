@@ -32,14 +32,14 @@ Route::get('pdf',function(){
 });
 
 ///////////  RUTAS DE RESPALDO Y RESTAURAR BASE DE DATOS
-Route::get('backups','BackupController@index');
+Route::get('backups','BackupController@index')->name('backups.index');
 Route::get('backups/create','BackupController@create')->name('backup.create');
 Route::get('backups/descargar/{file_name}','BackupController@descargar');
 Route::get('backups/eliminar/{file_name}', 'BackupController@eliminar');
 Route::get('backups/restaurar/{file_name}', 'BackupController@restaurar');
 
 //CONFIGURACIONES DE LA ALCALDIA
-Route::get('configuraciones','ConfiguracionController@create');
+Route::get('configuraciones','ConfiguracionController@create')->name('configuraciones.create');
 Route::post('configuraciones/alcaldia','ConfiguracionController@alcaldia')->name('configuraciones.alcaldia');
 Route::put('configuraciones/ualcaldia/{configuracione}','ConfiguracionController@ualcaldia')->name('configuraciones.ualcaldia');
 Route::post('configuraciones/alcalde','ConfiguracionController@alcalde')->name('configuraciones.alcalde');

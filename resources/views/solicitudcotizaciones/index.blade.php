@@ -56,7 +56,7 @@
                       <td>Requisicion de bienes o servicios</td>
                   @endif
 
-                      @if($estado == "" || $estado == 1 )
+                      @if($solicitud->estado== 1 )
                         <td>
                         <label for="" class="label-warning">Pendiente</label>
                       </td>
@@ -71,15 +71,23 @@
                         @endif
                         </div>
                       </td>
-                      @elseif ($estado == 2)
+                    @elseif ($solicitud->estado==2)
                         <td><label for="" class="label-danger">Inactiva</label></td>
                         <td>
                           <a href="{{ url('solicitudcotizaciones/'.$solicitud->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                         </td>
-                      @elseif ($estado == 3)
-                      <td><label for="" class="label-success">Finalizada</label></td>
+                      @elseif ($solicitud->estado==3)
+                      <td><label for="" class="label-success">Pendiente de cuadro comparativo</label></td>
                       <td>
                         <a href="{{ url('solicitudcotizaciones/'.$solicitud->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      </td>
+                    @elseif($solicitud->estado==4)
+                      <td><label for="" class="label-success">Finalizada</label></td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{ url('solicitudcotizaciones/'.$solicitud->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportesuaci/solicitud/'.$solicitud->id) }}" class="btn btn-success btn-xs" target="_blank"><span class="fa fa-file-pdf-o"></span></a>
+                        </div>
                       </td>
                       @endif
                   </tr>

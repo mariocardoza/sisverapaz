@@ -23,7 +23,7 @@
                         @include('errors.validacion')
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Nombre</label>
-
+        
                             <div class="col-md-6">
                               <select class="form-control" name="name">
                                 @foreach ($empleados as $contrato)

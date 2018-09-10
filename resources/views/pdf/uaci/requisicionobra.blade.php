@@ -1,5 +1,8 @@
 @extends('pdf.plantilla')
 @include('pdf.uaci.cabecera')
+@section('titulo')
+	{{$tipo}}
+@endsection
 @section('reporte')
 <div id="content">
 	<br>

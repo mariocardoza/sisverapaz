@@ -11,7 +11,7 @@
     </ul>
 </li>
 
-<li class="treeview">
+<li class="treeview {{Route::currentRouteName() == 'proyectos.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-industry"></i> <span>Proyectos</span>
         <span class="pull-right-container">
