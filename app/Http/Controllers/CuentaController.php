@@ -55,9 +55,10 @@ class CuentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Cuentaproy $cuenta)
+    public function show($id)
     {
-        //
+        $cuenta = Cuenta::findorFail($id);
+        return view('cuentas.show',compact('cuenta'));
     }
 
     /**
@@ -66,10 +67,10 @@ class CuentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cuentaproy $cuenta)
+    public function edit($id)
     {
-        $proyectos=Proyecto::all();
-        return view('cuentas.edit',compact('cuenta','proyectos'));
+        $cuenta = Cuenta::findorFail($id);
+        return view('cuentas.edit',compact('cuenta'));
     }
 
     /**
@@ -79,8 +80,9 @@ class CuentaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cuentaproy $cuenta)
+    public function update(Request $request, $id)
     {
+        //dd($request->All());
         $cuenta->fill($request->All());
         $cuenta->save();
         return redirect('cuentas')->with('mensaje','Cuenta modificada con éxito');
@@ -95,5 +97,29 @@ class CuentaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+
+        $cuenta = Cuenta::find($id);
+        $cuenta->estado = 2;
+        $cuenta->motivo = $motivo;
+        $cuenta->save();
+        bitacora('Dió de baja una cuenta');
+        return redirect('/cuentas')->with('mensaje', 'Cuenta dada de baja');
+    }
+
+    public function alta($id)
+    {
+        $cuenta = Cuenta::find($id);
+        $cuenta->estado = 1;
+        $cuenta->motivo = "";
+        $cuenta->save();
+        bitacora('Dió de alta una cuenta');
+        return redirect('/cuentas')->with('mensaje', 'Cuenta dada de alta');
     }
 }

@@ -54,7 +54,8 @@ class TiposervicioController extends Controller
      */
     public function show($id)
     {
-        //
+        $tiposervicio = Tiposervicio::findorFail($id);
+        return view('tiposervicios.show',compact('tiposervicio'));
     }
 
     /**

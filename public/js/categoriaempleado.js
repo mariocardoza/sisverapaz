@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	listarempleados();
+	listarcategoriatrabajos();
+	listarcargos();
 });
 
 function listarempleados()
@@ -11,8 +13,8 @@ function listarempleados()
 		data:[],
 		success:function(data)
 		{
+			console.log(data);
 			$.each(data,function(index,valores){
-				//console.log(valores);
 				html+='<option value="'+valores.id+'">'+valores.nombre+'</option>'
 			});
 			$('#empleado').html(html);
@@ -33,8 +35,9 @@ function listarcategoriatrabajos()
 		data:[],
 		success:function(data)
 		{
+			console.log(data);
 			$.each(data, function(index,valores){
-				html+='<option value="' +valores.id '">'+valores.nombre_categoria+'</option>'
+				trabajo+='<option value="'+valores.id+'">'+valores.nombre_categoria+'</option>'
 			});
 			$('#categoriatrabajo').html(trabajo);
 		},
@@ -55,7 +58,7 @@ function listarcargos()
 		success:function(data)
 		{
 			$.each(data, function(index,valores){
-				html+='<option value="' +valores.id '">'+valores.cargo+'</option>'
+				cargo+='<option value="'+valores.id+'">'+valores.cargo+'</option>'
 			});
 			$('#cargo').html(cargo);
 		},

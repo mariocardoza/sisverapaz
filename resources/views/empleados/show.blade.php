@@ -6,7 +6,7 @@
         <small>Ver empleado <b>{{ $empleado->nombre }}</b></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/empleados') }}"><i class="fa fa-dashboard"></i> Usuarios</a></li>
+        <li><a href="{{ url('/empleados') }}"><i class="fa fa-dashboard"></i> Empleados</a></li>
         <li class="active">Ver</li>
       </ol>
 @endsection
@@ -82,19 +82,6 @@
                             <label for="nombre" class="col-md-4 control-label">{{$empleado->num_afp}}</label><br>
 
                         </div>
-
-                        <div class="form-group{{ $errors->has('fecha_contrato') ? ' has-error' : '' }}">
-                            <label for="fecha_contrato" class="col-md-4 control-label">Fecha de contrato: </label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->fecha_contrato->format('d-m-Y')}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('tipocontrato_id') ? ' has-error' : '' }}">
-                            <label for="tipocontrato_id" class="col-md-4 control-label">Tipo de contrato:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->tipocontrato_id}}</label><br>
-
-                        </div>
-
 
                       {{ Form::open(['route' => ['empleados.destroy', $empleado->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
                       <a href="{{ url('empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a> |

@@ -19,18 +19,24 @@ class CategoriaTrabajoController extends Controller
      */
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
-      if($estado == "")$estado = 1;
-      if($estado == 1)
-      {
-        $categoriatrabajos = CategoriaTrabajo::where('estado', $estado)->get();
-        return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
-      }
-      if($estado == 2)
-      {
-        $categoriatrabajos = CategoriaTrabajo::where('estado',$estado)->get();
-        return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
-      }
+        if($request->ajax())
+        {
+            return CategoriaTrabajo::where('estado',1)->get();
+        }
+        else{
+            $estado = $request->get('estado');
+            if($estado == "")$estado = 1;
+            if($estado == 1)
+            {
+                $categoriatrabajos = CategoriaTrabajo::where('estado', $estado)->get();
+                return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
+            }
+            if($estado == 2)
+            {
+                $categoriatrabajos = CategoriaTrabajo::where('estado',$estado)->get();
+                return view('categoriatrabajos.index',compact('categoriatrabajos','estado'));
+            }
+        }
     }
 
     /**

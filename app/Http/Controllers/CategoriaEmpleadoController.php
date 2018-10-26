@@ -22,7 +22,12 @@ class CategoriaEmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
+        if($request->ajax())
+        {
+            return CategoriaEmpleado::where('estado',1)->get();
+        }
+        else{
+            $estado = $request->get('estado');
         if($estado == "")$estado = 1;
         if($estado == 1)
         {
@@ -33,6 +38,7 @@ class CategoriaEmpleadoController extends Controller
         {
             $categoriaempleados = CategoriaEmpleado::where('estado',$estado)->get();
             return view('categoriaempleados.index',compact('categoriaempleados','estado'));
+        }
         }
     }
 

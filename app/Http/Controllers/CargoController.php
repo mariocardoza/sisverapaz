@@ -33,7 +33,12 @@ class CargoController extends Controller
 
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
+        if($request->ajax())
+        {
+            return Cargo::where('estado',1)->get();
+        }
+        else{
+            $estado = $request->get('estado');
         if($estado == "")$estado = 1;
         if($estado == 1)
         {
@@ -44,6 +49,7 @@ class CargoController extends Controller
         {
             $cargos = Cargo::where('estado',$estado)->get();
             return view('cargos.index',compact('cargos','estado'));
+        }
         }
     }
 

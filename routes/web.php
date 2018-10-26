@@ -254,8 +254,11 @@ Route::Resource('cargos','CargoController');
 Route::post('cargos/baja/{id}','CargoController@baja')->name('cargos.baja');
 Route::post('cargos/alta/{id}','CargoController@alta')->name('cargos.alta');
 
+Route::get('cuentas/get','CuentaController@get');
 Route::Resource('cuentas','CuentaController');
-Route::Resource('cuentaprincipal','CuentaprincipalController');
+//Route::Resource('cuentaprincipal','CuentaprincipalController');
+Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
+Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('tipopagos','TipopagoController');
 
