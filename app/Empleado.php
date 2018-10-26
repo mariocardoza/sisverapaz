@@ -36,7 +36,7 @@ class Empleado extends Model
     {
         return $this->hasMany('App\Contrato');
     }
-    
+
     public function contratoproyecto()
     {
         return $this->hasMany('App\Contratoproyecto');
@@ -45,5 +45,9 @@ class Empleado extends Model
     public function categoriaEmpleado()
     {
         return $this->belongsTo('App\categoriaEmpleado');
+    }
+    public function detalleplanilla()
+    {
+      return $this->hasMany('App\Detalleplanilla');
     }
 }

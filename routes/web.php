@@ -284,6 +284,9 @@ Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 
+//Ruta para detalle de planillas
+Route::Resource('detalleplanillas','DetalleplanillaController');
+
 
 
 

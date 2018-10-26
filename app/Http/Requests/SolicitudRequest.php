@@ -27,10 +27,6 @@ class SolicitudRequest extends FormRequest
             'formapago' => 'required',
             'cargo' => 'required',
             'unidad' => 'required',
-            'fecha_limite' => 'required',
-            'tiempo_entrega' => 'required',
-            'categoria' => 'required',
-            'lugar_entrega' => 'required|max:200'
         ];
     }
 
