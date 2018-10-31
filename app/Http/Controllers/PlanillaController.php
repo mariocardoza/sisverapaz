@@ -7,6 +7,7 @@ use App\Empleado;
 use App\Retencion;
 use App\Contrato;
 use App\Planilla;
+use App\Detalleplanilla;
 
 class PlanillaController extends Controller
 {
@@ -19,7 +20,7 @@ class PlanillaController extends Controller
      {
          $this->middleware('auth');
      }
-     
+
     public function index()
     {
         $planillas = Planilla::all();
@@ -35,9 +36,11 @@ class PlanillaController extends Controller
     {
         $mes = date('m');
         $year = date('Y');
-        $empleados = Contrato::all();
-        $retencion = Retencion::first();
-        return view('planillas.create',compact('mes','year','empleados','retencion'));
+        // $empleados = Contrato::all();
+        // $retencion = Retencion::first();
+        $retenciones = Retencion::all();
+        $empleados= Detalleplanilla::empleadosPlanilla();
+        return view('planillas.create',compact('mes','year','empleados','retenciones'));
     }
 
     /**

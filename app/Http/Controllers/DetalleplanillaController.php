@@ -18,12 +18,7 @@ class DetalleplanillaController extends Controller
     public function index()
     {
       // $empleados= Empleado::with('detalleplanilla')->where('estado',1)->where('detalleplanilla.id','>',0)->get();
-      $empleados = DB::table('empleados')
-      ->select('empleados.*','detalleplanillas.*')
-      ->join('detalleplanillas','empleados.id','=','detalleplanillas.empleado_id','left outer')
-      ->where('empleados.estado',1)
-      ->where('detalleplanillas.id','<>',null)
-      ->get();
+      $empleados = Detalleplanilla::empleadosPlanilla();
       return view('detalleplanillas.index',compact('empleados'));
     }
 
@@ -46,7 +41,7 @@ class DetalleplanillaController extends Controller
     public function store(DetalleplanillaRequest $request)
     {
         $detalle=Detalleplanilla::create($request->All());
-        return redirect('detalleplanillas')->with('mensaje','Detalle para planilla registrada');
+        return redirect('detalleplanillas')->with('mensaje','Detalle de planilla registrado');
     }
 
     /**
@@ -57,7 +52,8 @@ class DetalleplanillaController extends Controller
      */
     public function show($id)
     {
-        //
+        $detalle= Detalleplanilla::find($id);
+        return view('detalleplanillas.show',compact('detalle'));
     }
 
     /**
@@ -68,7 +64,8 @@ class DetalleplanillaController extends Controller
      */
     public function edit($id)
     {
-        //
+      $detalle= Detalleplanilla::find($id);
+      return view('detalleplanillas.edit',compact('detalle'));
     }
 
     /**
@@ -78,9 +75,14 @@ class DetalleplanillaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DetalleplanillaRequest $request, $id)
     {
-        //
+      $detalle= Detalleplanilla::find($id);
+      $detalle->salario=$request->salario;
+      $detalle->tipo_pago=$request->tipo_pago;
+      $detalle->pago=$request->pago;
+      $detalle->save();
+      return redirect('detalleplanillas')->with('mensaje','Registro modificado con éxito');
     }
 
     /**

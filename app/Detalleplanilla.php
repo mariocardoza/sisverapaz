@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Detalleplanilla extends Model
 {
@@ -17,5 +18,17 @@ class Detalleplanilla extends Model
       }
     }
     return $a_empleados;
+  }
+  public function Empleado()
+  {
+      return $this->belongsTo('App\Empleado');
+  }
+  public static function empleadosPlanilla(){
+    return DB::table('empleados')
+    ->select('empleados.*','detalleplanillas.*')
+    ->join('detalleplanillas','empleados.id','=','detalleplanillas.empleado_id','left outer')
+    ->where('empleados.estado',1)
+    ->where('detalleplanillas.id','<>',null)
+    ->get();
   }
 }

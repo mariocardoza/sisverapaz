@@ -5,9 +5,15 @@
   $empleados=App\Detalleplanilla::empleados();
 @endphp
     <div class="col-md-6">
-      {!!Form::select('empleado_id',
+      @if (isset($detalle))
+        {!!Form::select('empleado_id',
+          [$detalle->empleado->id=>$detalle->empleado->nombre]
+          ,null, ['class'=>'form-control','readonly'=>'readonly'])!!}
+      @else
+        {!!Form::select('empleado_id',
           $empleados
           ,null, ['class'=>'form-control'])!!}
+      @endif
     </div>
 </div>
 

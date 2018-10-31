@@ -78,6 +78,12 @@ class RentaTableSeeder extends Seeder
            'porcentaje' => 7.25,
            'techo' => 6500,
          ]);
+
+         Retencion::create([
+           'nombre' => 'INSAFORP',
+           'porcentaje' => 6,
+           'techo' => 1000,
+         ]);
      }
      public function truncateTables(array $tables)
      {
