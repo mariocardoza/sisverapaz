@@ -29,6 +29,7 @@ class Detalleplanilla extends Model
     ->join('detalleplanillas','empleados.id','=','detalleplanillas.empleado_id','left outer')
     ->where('empleados.estado',1)
     ->where('detalleplanillas.id','<>',null)
+    ->where('detalleplanillas.tipo_pago',1)
     ->get();
   }
 }

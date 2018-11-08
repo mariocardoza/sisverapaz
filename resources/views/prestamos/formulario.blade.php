@@ -3,9 +3,13 @@
 
 	<div class="col-md-6">
     <select name="empleado_id" class="form-control">
-    @foreach ($empleados as $empleado)
-      <option value="{{$empleado->id}}">{{empleado_prestamo($empleado->id)}}</option>
-    @endforeach
+	@if (!isset($prestamo))
+		@foreach ($empleados as $empleado)
+		<option value="{{$empleado->id}}">{{empleado_prestamo($empleado->id)}}</option>
+		@endforeach
+	@else
+	<option value="{{$prestamo->empleado->id}}">{{$prestamo->empleado->nombre}}</option>
+	@endif
     </select>
 		@if ($errors->has('empleado_id'))
 		<span class="help-block">
@@ -52,6 +56,34 @@
 		@if ($errors->has('banco'))
 		<span class="help-block">
 			<strong>{{ $errors->first('monto') }}</strong>
+		</span>
+		@endif
+	</div>
+</div>
+
+<div class="form-group{{$errors->has('numero_de_cuotas') ? 'has-error' : '' }}">
+	<label for="cuenta" class="col-md-4 control-label">Número de cuotas</label>
+
+	<div class="col-md-6">
+		{{ Form::number('numero_de_cuotas', null, ['class' => 'form-control']) }}
+
+		@if ($errors->has('banco'))
+		<span class="help-block">
+			<strong>{{ $errors->first('numero_de_cuotas') }}</strong>
+		</span>
+		@endif
+	</div>
+</div>
+
+<div class="form-group{{$errors->has('cuota') ? 'has-error' : '' }}">
+	<label for="cuenta" class="col-md-4 control-label">Cuota a pagar</label>
+
+	<div class="col-md-6">
+		{{ Form::number('cuota', null, ['class' => 'form-control']) }}
+
+		@if ($errors->has('banco'))
+		<span class="help-block">
+			<strong>{{ $errors->first('cuota') }}</strong>
 		</span>
 		@endif
 	</div>
