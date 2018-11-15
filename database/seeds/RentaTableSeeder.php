@@ -81,7 +81,7 @@ class RentaTableSeeder extends Seeder
 
          Retencion::create([
            'nombre' => 'INSAFORP',
-           'porcentaje' => 6,
+           'porcentaje' => 1,
            'techo' => 1000,
          ]);
      }
