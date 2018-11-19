@@ -25,7 +25,7 @@ class Detalleplanilla extends Model
   }
   public static function empleadosPlanilla(){
     return DB::table('empleados')
-    ->select('empleados.*','detalleplanillas.*')
+    ->select('empleados.*','detalleplanillas.pago','detalleplanillas.salario')
     ->join('detalleplanillas','empleados.id','=','detalleplanillas.empleado_id','left outer')
     ->where('empleados.estado',1)
     ->where('detalleplanillas.id','<>',null)

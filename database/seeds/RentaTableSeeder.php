@@ -17,7 +17,7 @@ class RentaTableSeeder extends Seeder
              'rentas',
              'retencions'
          ]);
-         $pago=array("Mensual","Quincenal","Semanal");
+         $pago=array("Mensual","Quincenal");
          $tramo_m=array("I","II","III","IV");
          $desde_m=array("0.01","472.01","895.25","2038.11");
          $hasta_m=array("472.00","895.24","2038.10","0");
@@ -32,12 +32,6 @@ class RentaTableSeeder extends Seeder
          $exceso_q=array("0","236.00","447.62","1019.05");
          $cuota_q=array("0","8.83","30.00","144.28");
 
-         $tramo_s=array("I","II","III","IV");
-         $desde_s=array("0.01","118.01","223.82","509.53");
-         $hasta_s=array("118.00","223.81","509.52","0");
-         $porcentaje_s=array("0","10","20","30");
-         $exceso_s=array("0","118.00","223.81","509.52");
-         $cuota_s=array("0","4.42","15.00","72.14");
          for($i=0;$i<4;$i++){
            Renta::create([
              'tipo_pago' => $pago[0],
@@ -57,16 +51,6 @@ class RentaTableSeeder extends Seeder
              'exceso' => $exceso_q[$i],
              'cuota_fija' => $cuota_q[$i]
            ]);
-           Renta::create([
-             'tipo_pago' => $pago[2],
-             'tramo' => $tramo_s[$i],
-             'desde' => $desde_s[$i],
-             'hasta' => $hasta_s[$i],
-             'porcentaje' => $porcentaje_s[$i],
-             'exceso' => $exceso_s[$i],
-             'cuota_fija' => $cuota_s[$i]
-           ]);
-
          }
          Retencion::create([
            'nombre' => 'ISSS',

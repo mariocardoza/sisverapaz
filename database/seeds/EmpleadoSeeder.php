@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Empleado;
+use App\Detalleplanilla;
 require 'C:\xampp\htdocs\sisverapaz\vendor\autoload.php';
 
 
@@ -38,6 +39,13 @@ class EmpleadoSeeder extends Seeder
                 'num_afp'=>random_int(1,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'estado'=>1
             ]);
+            DetallePlanilla::create([
+                'empleado_id'=>$empleado->id,
+                'salario'=>random_int(250,2000).'.'.random_int(0,99),
+                'tipo_pago'=>random_int(1,2),
+                'pago'=>random_int(1,2)
+            ]);
+
 
         }
     }

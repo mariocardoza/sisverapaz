@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 	@php
-		$cuadro=[0=>'m',1=>'q',2=>'s'];
+		$cuadro=[0=>'m',1=>'q'];
 	@endphp
 <h1>
 	Planillas
@@ -20,10 +20,9 @@
 				<div class="btn-group pull-left">
 					<a href="#" class="btn btn-primary active" id="bm" onclick="cambio('m');">Mensual</a>
 					<a href="#" class="btn btn-primary" id="bq" onclick="cambio('q');">Quincenal</a>
-					<a href="#" class="btn btn-primary" id="bs" onclick="cambio('s');">Semanal</a>
 				</div>
 			</div>
-			@for($i=0;$i<3;$i++)
+			@for($i=0;$i<2;$i++)
 				@if ($i==0)
 					<div class="panel panel-primary" id='{{$cuadro[$i]}}' style="display:block;">
 				@else
