@@ -53,12 +53,15 @@
         <td>
           @php
           $prestamo=App\Prestamo::comprobarPrestamo($empleado->id);
-          $sum_retenciones+=$prestamo;
+          $valor_p=($prestamo==null) ?0:$prestamo->cuota;
+          $sum_retenciones+=$valor_p;
           @endphp
-          @if ($prestamo==0)
+          @if ($prestamo==null)
+          <input type="hidden" name='prestamos[]' value="0">
             ---
           @else
-          {{number_format($prestamo,2)}}
+          <input type="hidden" name='prestamos[]' value="{{number_format($prestamo->id,2)}}">
+          {{number_format($valor_p,2)}}
           @endif
         </td>
         <td>{{number_format($sum_retenciones,2)}}</td>

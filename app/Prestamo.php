@@ -21,6 +21,7 @@ class Prestamo extends Model
       return $this->belongsTo('App\Empleado');
     }
     public static function comprobarPrestamo($id){
-      return Prestamo::where('empleado_id',$id)->where('estado',1)->sum('cuota');
+    return $prestamo=Prestamo::where('empleado_id',$id)->where('estado',1)->get()->last();
+
     }
 }
