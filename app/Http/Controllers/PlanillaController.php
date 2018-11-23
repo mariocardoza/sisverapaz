@@ -8,6 +8,8 @@ use App\Retencion;
 use App\Contrato;
 use App\Planilla;
 use App\Detalleplanilla;
+use App\Datoplanilla;
+use DB;
 
 class PlanillaController extends Controller
 {
@@ -51,19 +53,37 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
-      //dd($request->All());
-      $count = count($request->empleado_id);
-        for($i=0;$i<$count;$i++)
-        {
-          Planilla::create([
-            'empleado_id' => $request->empleado_id[$i],
-            'mes' => date('m'),
-            'anio' => date('Y'),
-            'isss' => $request->isss[$i],
-            'afp' => $request->afp[$i],
-            'insaforp' => $request->insaforp[$i],
-            'prestamos' => $request->prestamo[$i],
-          ]);
+        $retenciones = Retencion::all();
+        $count = count($request->empleado_id);
+        try {
+            DB::beginTransaction();
+            $datoplanilla=Datoplanilla::create([
+                'fecha'=>\Carbon\Carbon::now(),
+                'tipo_pago'=>$request->tipo,
+            ]);
+            for($i=0;$i<$count;$i++){
+                if($request->prestamos[$i]=='0'){
+                    $p=null;
+                }else{
+                    $p=$request->prestamos[$i];
+                }
+                Planilla::create([
+                    'empleado_id'=>$request->empleado_id[$i],
+                    'isss'=>$request->ISSS[$i],
+                    'afp'=>$request->AFP[$i],
+                    'insaforp'=>$request->INSAFORP[$i],
+                    'estado'=>0,
+                    'datoplanilla_id'=>$datoplanilla->id,
+                    'prestamo_id'=>$p,
+
+                ]);
+            }
+            DB::commit();
+            return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
+        } catch (\Exception $e) {
+            DB::rollback();
+          return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
+
         }
     }
 

@@ -60,7 +60,7 @@
           <input type="hidden" name='prestamos[]' value="0">
             ---
           @else
-          <input type="hidden" name='prestamos[]' value="{{number_format($prestamo->id,2)}}">
+          <input type="hidden" name='prestamos[]' value="{{$prestamo->id}}">
           {{number_format($valor_p,2)}}
           @endif
         </td>
