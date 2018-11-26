@@ -289,6 +289,8 @@ Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 
 //Ruta para detalle de planillas
 Route::Resource('detalleplanillas','DetalleplanillaController');
+Route::Resource('bancos','BancoController');
+
 
 
 

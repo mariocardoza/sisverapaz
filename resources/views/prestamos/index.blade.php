@@ -27,7 +27,7 @@
                   <th>Banco</th>
                   <th>Número_de_cuenta</th>
                   <th>Monto</th>
-                  <th>Accion</th>
+                  <th>Acción</th>
                 </thead>
                 <tbody>
                   @foreach($prestamos as $prestamo)

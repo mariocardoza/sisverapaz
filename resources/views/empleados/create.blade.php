@@ -26,8 +26,8 @@
                                 <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
                             </button>
                         </div>
-                        {{ Form::close() }}
                     </div>
+                        {{ Form::close() }}
                 </div>
             </div>
         </div>
