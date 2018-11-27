@@ -15,7 +15,7 @@
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
                 <div class="btn-group pull-right">
-                    <a href="{{ url('/bancos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                    <a href="{{ url('/bancos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     <a href="{{ url('/bancos?estado=1') }}" class="btn btn-primary">Activos</a>
                     <a href="{{ url('/bancos?estado=0') }}" class="btn btn-primary">Papelera</a>
                 </div>
@@ -34,8 +34,15 @@
                     <td>{{ $banco->id }}</td>
                     <td>{{ $banco->nombre}}</td>
                     <td>
-                      @if($estado == 1)
-                          <a href="{{ url('bancos/'.$banco->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                      @if($estado == 1 || $estado == "")
+                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
+                        <a href="{{ url('bancos/'.$banco->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                        <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::close()}}
+                      @else
+                        {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
+                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::close()}}
                       @endif
                     </td>
                   </tr>

@@ -14,10 +14,12 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/prestamos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <div class="btn-group pull-right">
+                <a href="{{ url('/prestamos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 <a href="{{ url('/prestamos?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/prestamos?estado=2') }}" class="btn btn-primary">Papelera</a>
             </div>
+          </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
@@ -25,7 +27,7 @@
                   <th>Id</th>
                   <th>Nombre del empleado</th>
                   <th>Banco</th>
-                  <th>Número_de_cuenta</th>
+                  <th>Número de cuenta</th>
                   <th>Monto</th>
                   <th>Acción</th>
                 </thead>
@@ -34,9 +36,9 @@
                   <tr>
                     <td>{{ $prestamo->id }}</td>
                     <td>{{ $prestamo->empleado->nombre }}</td>
-                    <td>{{ $prestamo->banco }}</td>
+                    <td>{{ $prestamo->banco->nombre }}</td>
                     <td>{{ $prestamo->numero_de_cuenta }}</td>
-                    <td>{{ number_format($prestamo->monto,2)}}</td>
+                    <td>$ {{ number_format($prestamo->monto,2)}}</td>
                     <td>
                       <a href="{{ url('prestamos/'.$prestamo->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                       @if($estado == 1 || $estado == "")
@@ -47,9 +49,7 @@
                   @endforeach
                 </tbody>
               </table>
-                
               <div class="pull-right">
-
               </div>
             </div>
             <!-- /.box-body -->

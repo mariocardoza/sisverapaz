@@ -20,7 +20,7 @@ class BorrarCamposPlanilla extends Migration
         });
 
         Schema::table('planillas', function (Blueprint $table) {
-            $table->bigInteger('prestamo_id')->unsigned()->nullable();;
+            $table->bigInteger('prestamo_id')->unsigned()->nullable();
             $table->foreign('prestamo_id')->references('id')->on('prestamos');
         });
     }

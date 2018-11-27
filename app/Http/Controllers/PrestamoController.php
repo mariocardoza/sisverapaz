@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Prestamo;
 use App\Empleado;
 use DB;
+use App\http\Requests\PrestamoRequest;
 
 class PrestamoController extends Controller
 {
@@ -54,7 +55,7 @@ class PrestamoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PrestamoRequest $request)
     {
       Prestamo::create($request->All());
       return redirect('prestamos');

@@ -24,4 +24,8 @@ class Prestamo extends Model
     return $prestamo=Prestamo::where('empleado_id',$id)->where('estado',1)->get()->last();
 
     }
+    public function banco()
+    {
+      return $this->belongsTo('App\Banco');
+    }
 }

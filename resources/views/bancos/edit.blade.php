@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-        Modificar banco
+        Editar banco
         <small>{{$banco->nombre}}</small>
       </h1>
       <ol class="breadcrumb">
@@ -19,10 +19,11 @@
                     <div class="panel-heading">Datos del banco</div>     
             <div class="panel-body">
                 {!!Form::model($banco,['class' =>'form-horizontal','route' =>['bancos.update',$banco->id],'method' =>'PUT','autocomplete'=>'off'])!!}
-                    @include('bancos.formulario')
+                @include('errors.validacion')      
+                @include('bancos.formulario')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-4">
-                            {{Form::button('<span class="glyphicon glyphicon-floppy-disk"></span>Modificar',[
+                            {{Form::button('<span class="glyphicon glyphicon-floppy-disk"></span>Editar',[
                                 'type' => 'submit',
                                 'class'=> 'btn btn-primary',
                              ])}}

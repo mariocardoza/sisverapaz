@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Banco;
+use App\Http\Requests\BancoRequest;
 
 class BancoController extends Controller
 {
@@ -35,7 +36,7 @@ class BancoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BancoRequest $request)
     {
         $banco= new Banco();
         $banco->nombre=$request->nombre;
@@ -77,6 +78,9 @@ class BancoController extends Controller
     public function update(Request $request, $id)
     {
         $banco=Banco::find($id);
+        if($banco->nombre!=$request->nombre){
+            $this->validate($request,['nombre'=>'required|unique:bancos|min:5']);
+        }
         $banco->nombre=$request->nombre;
         $banco->save();
 
@@ -92,5 +96,29 @@ class BancoController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id=$datos[0];
+        $motivo=$datos[1];
+        $banco = Banco::find($id);
+        $banco->estado=0;
+        $banco->motivo=$motivo;
+        $banco->fechabaja=date('Y-m-d');
+        $banco->save();
+        bitacora('Dió de baja a un banco');
+        return redirect('/bancos')->with('mensaje','Banco dado de baja');
+
+    }
+    public function alta($id)
+    {
+        $banco = Banco::find($id);
+        $banco->estado=1;
+        $banco->motivo=null;
+        $banco->fechabaja=null;
+        $banco->save();
+        bitacora('Dió de alta a un registro');
+        return redirect('/bancos')->with('mensaje','Registro dado de alta');
     }
 }

@@ -20,6 +20,7 @@
                 <div class="panel-heading">Registro de Bancos</div>
                 <div class="panel-body">
                     {{ Form::open(['action' => 'BancoController@store','class' => 'form-horizontal','autocomplete'=>'off']) }}
+                        @include('errors.validacion')    
                         @include('bancos.formulario')
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

@@ -21,7 +21,6 @@
                 <a href="{{ url('/proveedores?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/proveedores?estado=2') }}" class="btn btn-primary">Papelera</a>
                 <a href="{{ url('proveedores/resportesuaci/proveedores')}}" class="btn btn-primary"  class="glyphicon glyphicon-list-alt">Imprimir</a>
-
             </div>
             <!-- /.box-header -->
             <div class="panel-body table-responsive">
@@ -45,18 +44,18 @@
                         <td>{{ $proveedor->numero_registro }}</td>
                         <td>{{ $proveedor->nit }}</td>
                 		<td>
-                            @if($estado == 1 || $estado == "")
-                                {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                <a href="{{ url('proveedores/'.$proveedor->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('proveedores/'.$proveedor->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$proveedor->id.",'proveedores')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                                {{ Form::close()}}
-                            @else
-                                {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$proveedor->id.",'proveedores')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                                {{ Form::close()}}
-                             @endif
-                        </td>
+                      @if($estado == 1 || $estado == "")
+                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
+                          <a href="{{ url('proveedores/'.$proveedor->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('proveedores/'.$proveedor->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                          <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$proveedor->id.",'proveedores')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::close()}}
+                      @else
+                        {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
+                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$proveedor->id.",'proveedores')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::close()}}
+                      @endif
+                    </td>
                 	</tr>
                 	@endforeach
                 </tbody>
