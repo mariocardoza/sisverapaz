@@ -16,7 +16,7 @@
 <div class="col-md-12">
           <div class="panel">
             <div class="panel-header">
-              <h3 class="panel-title">Listado</h3>
+              <p></p>
               	<a href="{{ url('/proveedores/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 <a href="{{ url('/proveedores?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/proveedores?estado=2') }}" class="btn btn-primary">Papelera</a>

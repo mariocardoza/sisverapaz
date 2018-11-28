@@ -8,7 +8,7 @@
                         </div>
 
                          <div class="form-group{{ $errors->has('monto') ? ' has-error' : '' }}">
-                            <label for="monto" class="col-md-4 control-label">Monto</label>
+                            <label for="monto" class="col-md-4 control-label">Monto ($)</label>
 
                             <div class="col-md-4">
                                 {!!Form::number('monto',null,['class'=>'form-control','id'=>'monto','readonly','steps' => '0.00'])!!}
@@ -45,6 +45,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('monto_desarrollo') ? ' has-error' : '' }}">
+                            <label for="desarrollo" class="col-md-4 control-label">Monto de Desarrollo  ($)</label>
+                            <div class="col-md-4">
+                                {!!Form::text('monto_desarrollo',null,['class'=>'form-control','id'=>'monto_desarrollo','autofocus'])!!}
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('beneficiarios') ? ' has-error' : '' }}">
                             <label for="fecha_fin" class="col-md-4 control-label">Beneficiarios</label>
 
@@ -75,12 +82,12 @@
     <div class="modal-dialog" role="document">
         <div class="row">
             <div class="panel panel-primary">
-                <div class="panel-heading">Ingreso de Categoría
+                <div class="panel-heading">Ingreso de Fuente
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="" class="col-md-4">Digite la categoría</label>
+                        <label for="" class="col-md-4">Digite fuente de financiamiento</label>
                         <div class="col-md-6">
                             <input type="text" id="cate" class="form-control">
                         </div>

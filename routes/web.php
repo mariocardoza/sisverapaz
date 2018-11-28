@@ -74,6 +74,10 @@ Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedor
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
 
+Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
+Route::post('especialistas/alta/{id}','EspecialistaController@alta')->name('especialistas.alta');
+Route::Resource('especialistas','EspecialistaController');
+
 Route::post('contratos/baja/{id}','ContratoController@alta')->name('contratos.alta');
 Route::post('contratos/alta/{id}','ContratoController@baja')->name('contratos.baja');
 Route::get('contratos/listarempleados','ContratoController@listarEmpleados');
@@ -157,6 +161,8 @@ Route::post('categorias/guardar','CatalogoController@guardar');
 Route::Resource('categorias','CategoriaController');
 Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias.baja');
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');
+
+
 
 Route::get('unidadmedidas/create','UnidadMedidaController@create');
 route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');

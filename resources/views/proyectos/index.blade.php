@@ -15,12 +15,12 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <p></p>
               <div class="btn-group pull-right">
                 <a href="{{ url('/proyectos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 <a href="{{ url('/proyectos') }}" class="btn btn-primary">Todos</a>
-                <a href="{{ url('/proyectos?estado=1') }}" class="btn btn-primary">Aprobados</a>
-                <a href="{{ url('/proyectos?estado=2') }}" class="btn btn-primary">Inactivos</a>
+                <a href="{{ url('/proyectos?estado=1') }}" class="btn btn-primary">Priorizados</a>
+                <a href="{{ url('/proyectos?estado=2') }}" class="btn btn-primary">Liquidación</a>
               </div>
             </div>
             <!-- /.box-header -->

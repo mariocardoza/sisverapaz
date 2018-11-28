@@ -53,6 +53,10 @@
                       <th>{{$proyecto->fecha_fin->format('l d')}} de {{$proyecto->fecha_fin->format('F Y')}}</th>
                     </tr>
                     <tr>
+                      <th>Monto de Desarrollo</th>
+                      <th>{{$proyecto->monto_desarrollo}}</th>
+                    </tr>
+                    <tr>
                       <th>Beneficiarios</th>
                       <th>{{$proyecto->beneficiarios}}</th>
                     </tr>

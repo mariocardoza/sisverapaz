@@ -270,7 +270,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong> &copy; 2017 <a target="_blank" href="http://www.ues.edu.sv">Universidad de El Salvador. FMP</a>.</strong> Todos los derechos reservados
+    <strong> &copy; 2018 <a target="_blank" href="http://www.ues.edu.sv">Universidad de El Salvador. FMP</a>.</strong> Todos los derechos reservados
   </footer>
 
 
