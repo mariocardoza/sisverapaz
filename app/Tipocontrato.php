@@ -22,7 +22,7 @@ class Tipocontrato extends Model
     	if(trim($nombre != "")){
             return $query->where('nombre','iLIKE', '%'.$nombre.'%');
     	}
-    	
+
     }
 
     public function contrato()

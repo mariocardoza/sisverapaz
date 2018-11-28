@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Prestamo;
 use App\Empleado;
 use DB;
+use App\http\Requests\PrestamoRequest;
 
 class PrestamoController extends Controller
 {
@@ -41,7 +42,9 @@ class PrestamoController extends Controller
     public function create()
     {
       //$empleados = Empleado::where('estado',1)->get();
-      $empleados=DB::select('SELECT "id" FROM empleados WHERE estado =1 EXCEPT SELECT empleado_id FROM prestamos');
+    //   $empleados=DB::select('SELECT id FROM empleados WHERE estado =1 EXCEPT SELECT empleado_id FROM prestamos');
+      $empleados=DB::select('SELECT id FROM empleados WHERE NOT id IN(SELECT empleado_id FROM prestamos where estado=1) AND estado=1');
+    //   Select * From Tabla1 where Not Codigo In (Select Codigo From Tabla2)
       //dd($empleados);
         return view('prestamos.create',compact('empleados'));
     }
@@ -52,10 +55,11 @@ class PrestamoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PrestamoRequest $request)
     {
       Prestamo::create($request->All());
       return redirect('prestamos');
+      return redirect('/prestamos')->with('mensaje', 'Préstamo registrado exitosamente');
     }
 
     /**
@@ -66,7 +70,8 @@ class PrestamoController extends Controller
      */
     public function show($id)
     {
-        //
+        $prestamo=Prestamo::find($id);
+        return view('prestamos.show',compact('prestamo'));
     }
 
     /**
@@ -77,7 +82,8 @@ class PrestamoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $prestamo=Prestamo::find($id);
+        return view('prestamos.edit',compact('prestamo'));
     }
 
     /**
@@ -89,7 +95,10 @@ class PrestamoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $prestamo=Prestamo::find($id);
+        $prestamo->fill($request->all());
+        $prestamo->save();
+        return redirect('/prestamos')->with('mensaje', 'Registro modificado con éxito');
     }
 
     /**

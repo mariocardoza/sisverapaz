@@ -27,7 +27,7 @@
                          <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
                             <label for="direccion" class="col-md-4 control-label">Dirección: </label>
                             <label for="nombree" class="col-md-8 control-label">{{$proveedor->direccion}}</label>
-                        </div><br><br>
+                        </div><br>
 
                         <div class="form-group{{ $errors->has('telefonoe') ? ' has-error' : '' }}">
                             <label for="telefonoe" class="col-md-4 control-label">Telefono de la Empresa o Proveedor: </label>

@@ -5,9 +5,15 @@
   $empleados=App\Detalleplanilla::empleados();
 @endphp
     <div class="col-md-6">
-      {!!Form::select('empleado_id',
+      @if (isset($detalle))
+        {!!Form::select('empleado_id',
+          [$detalle->empleado->id=>$detalle->empleado->nombre]
+          ,null, ['class'=>'form-control','readonly'=>'readonly'])!!}
+      @else
+        {!!Form::select('empleado_id',
           $empleados
           ,null, ['class'=>'form-control'])!!}
+      @endif
     </div>
 </div>
 
@@ -31,7 +37,7 @@
     <label for="name" class="col-md-4 control-label">Tiempo de pago</label>
     <div class="col-md-6">
       {!!Form::select('pago',
-          ['1'=>'Mensual','2'=>'Quincenal','3'=>'Semanal']
+          ['1'=>'Mensual','2'=>'Quincenal']
           ,null, ['class'=>'form-control'])!!}
     </div>
 </div>

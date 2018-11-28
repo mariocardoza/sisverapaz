@@ -1,31 +1,28 @@
 <div class="form-group{{$errors->has('empleado_id') ? 'has-error' : '' }}">
-	<label for="num_factura" class="col-md-4 control-label">Nombre del empleado</label>
+	<label for="nombre" class="col-md-4 control-label">Nombre del empleado</label>
 
 	<div class="col-md-6">
     <select name="empleado_id" class="form-control">
-    @foreach ($empleados as $empleado)
-      <option value="{{$empleado->id}}">{{empleado_prestamo($empleado->id)}}</option>
-    @endforeach
+	@if (!isset($prestamo))
+		@foreach ($empleados as $empleado)
+		<option value="{{$empleado->id}}">{{empleado_prestamo($empleado->id)}}</option>
+		@endforeach
+	@else
+	<option value="{{$prestamo->empleado->id}}">{{$prestamo->empleado->nombre}}</option>
+	@endif
     </select>
-		@if ($errors->has('empleado_id'))
-		<span class="help-block">
-			<strong>{{ $errors->first('empleado_id') }}</strong>
-		</span>
-		@endif
 	</div>
 </div>
-
-<div class="form-group{{$errors->has('banco') ? 'has-error' : '' }}">
-	<label for="banco" class="col-md-4 control-label">Nombre del banco</label>
+@php
+	$bancos=App\Banco::bancos();
+@endphp
+<div class="form-group{{$errors->has('banco_id') ? 'has-error' : '' }}">
+	<label for="banco" class="col-md-4 control-label">Banco</label>
 
 	<div class="col-md-6">
-		{{ Form::text('banco', null, ['class' => 'form-control']) }}
-
-		@if ($errors->has('banco'))
-		<span class="help-block">
-			<strong>{{ $errors->first('banco') }}</strong>
-		</span>
-		@endif
+		{!!Form::select('banco_id',
+          $bancos
+          ,null, ['class'=>'form-control'])!!}
 	</div>
 </div>
 
@@ -34,12 +31,6 @@
 
 	<div class="col-md-6">
 		{{ Form::text('numero_de_cuenta', null, ['class' => 'form-control']) }}
-
-		@if ($errors->has('banco'))
-		<span class="help-block">
-			<strong>{{ $errors->first('numero_de_cuenta') }}</strong>
-		</span>
-		@endif
 	</div>
 </div>
 
@@ -47,12 +38,22 @@
 	<label for="monto" class="col-md-4 control-label">Monto del prestamo</label>
 
 	<div class="col-md-6">
-		{{ Form::text('monto', null, ['class' => 'form-control']) }}
+		{{ Form::number('monto', null, ['class' => 'form-control']) }}
+	</div>
+</div>
 
-		@if ($errors->has('banco'))
-		<span class="help-block">
-			<strong>{{ $errors->first('monto') }}</strong>
-		</span>
-		@endif
+<div class="form-group{{$errors->has('numero_de_cuotas') ? 'has-error' : '' }}">
+	<label for="cuotas" class="col-md-4 control-label">Número de cuotas</label>
+
+	<div class="col-md-6">
+		{{ Form::number('numero_de_cuotas', null, ['class' => 'form-control']) }}
+	</div>
+</div>
+
+<div class="form-group{{$errors->has('cuota') ? 'has-error' : '' }}">
+	<label for="cuenta" class="col-md-4 control-label">Cuota a pagar</label>
+
+	<div class="col-md-6">
+		{{ Form::number('cuota', null, ['class' => 'form-control']) }}
 	</div>
 </div>

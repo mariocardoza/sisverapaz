@@ -17,8 +17,8 @@
 				<div class="panel-heading">Registro de pagos</div>
 				<div class="panel-body">
 					{{ Form::open(['action'=> 'PrestamoController@store', 'class' => 'form-horizontal']) }}
+					@include('errors.validacion')    
 					@include('prestamos.formulario')
-
 					<div class="form-group">
 						<div class="col-md-6 col-md-offset-4">
 							<button type="submit" class="btn btn-success">

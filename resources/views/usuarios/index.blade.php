@@ -32,7 +32,7 @@
                       <th>Nombre de Usuario</th>
                       <th>Correo</th>
                       <th>Cargo</th>
-                      <th>Accion</th>
+                      <th>Acción</th>
                     </thead>
                     <tbody>
                     	@foreach($usuarios as $key => $user)

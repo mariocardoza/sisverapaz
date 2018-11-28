@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleTableSeeder::class);
         factory(App\Contribuyente::class,50)->create();
         factory(App\Proveedor::class,50)->create();
-        $this->call(RentaTableSeeder::class);
+        // $this->call(RentaTableSeeder::class);
+        // $this->call(EmpleadoSeeder::class);
+        
     }
 }
