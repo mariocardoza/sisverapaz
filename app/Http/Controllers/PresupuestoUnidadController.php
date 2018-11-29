@@ -69,7 +69,8 @@ class PresupuestoUnidadController extends Controller
      */
     public function show($id)
     {
-        //
+        $presupuesto = Presupuestounidad::findorFail($id);
+        return view('presupuestounidad.show',compact('presupuestounidad'));
     }
 
     /**

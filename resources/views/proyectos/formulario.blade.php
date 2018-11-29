@@ -8,7 +8,7 @@
                         </div>
 
                          <div class="form-group{{ $errors->has('monto') ? ' has-error' : '' }}">
-                            <label for="monto" class="col-md-4 control-label">Monto total</label>
+                            <label for="monto" class="col-md-4 control-label">Monto total  ($)</label>
 
                             <div class="col-md-4">
                                 {!!Form::number('monto',null,['class'=>'form-control','id'=>'monto','readonly','steps' => '0.00'])!!}
@@ -44,16 +44,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('plazo') ? ' has-error' : '' }}">
+                            <label for="plazo" class="col-md-4 control-label">Plazo de ejecución</label>
+
+                            <div class="col-md-4">
+                                {!!Form::number('plazo',null,['class'=>'form-control','id'=>'plazo','readonly'])!!}
+                            </div>
+                        </div>
+
                         <div class="form-group">
                           <center><label for="" class="col-md-12">Fondos del Proyecto</label></center>
                         </div>
 
                         <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
-                            <label for="" class="col-md-4 control-label">Categoría</label>
+                            <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
 
                                 <div class="col-md-6">
                                   <select class="form-control chosen-select-width" id="cat_id">
-                                    <option value="">Seleccione una categoria</option>
+                                    <option value="">Seleccione una fuente</option>
                                   </select>
                                 </div>
                                 <div class="col-md-2">
@@ -78,7 +86,7 @@
                                 <table class="table table-striped table-bordered" id="tbFondos">
                                     <thead>
                                     <tr>
-                                        <th>Categoría</th>
+                                        <th>Fuente</th>
                                         <th>Cantidad</th>
                                         <th>Acción</th>
                                     </tr>
@@ -86,8 +94,8 @@
                                     <tbody id="cuerpo_fondos"></tbody>
                                     <tfoot id="pie_monto">
                                         <tr>
-                                            <td class="text-left" colspan="2">Total $</td>
-                                            <td colspan="2" style="text-align:right;" id="totalEnd">0.00</td>
+                                            <td class="text-left" colspan="1"><b>Total $</b></td>
+                                            <td colspan="2" style="text-align:left;" id="totalEnd">0.00</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -95,7 +103,7 @@
                         </div>
 
 {{--                         <div class="form-group">
-                          <label for="" class="col-md-6">¿El proyecto cuenta con una organizacion colaboradora?</label>
+                          <label for="" class="col-md-6">¿El proyecto cuenta con una organización colaboradora?</label>
                           <input type="checkbox" id="colaboradora">
                         </div> --}}
 
@@ -103,14 +111,21 @@
                           <center id="cola"></center>
                         </div>
 
+                        <div class="form-group{{ $errors->has('monto_desarrollo') ? ' has-error' : '' }}">
+                            <label for="desarrollo" class="col-md-4 control-label">Monto de Desarrollo  ($)</label>
+                            <div class="col-md-4">
+                                {!!Form::text('monto_desarrollo',null,['class'=>'form-control','id'=>'monto_desarrollo','autofocus'])!!}
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('beneficiarios') ? ' has-error' : '' }}">
-                            <label for="fecha_fin" class="col-md-4 control-label">Beneficiarios</label>
+                            <label for="beneficiarios" class="col-md-4 control-label">Beneficiarios</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 {!!Form::text('beneficiarios',null,['class'=>'form-control','id'=>'beneficiarios','autofocus'])!!}
                             </div>
                         </div>
+
 
 
 
@@ -118,12 +133,12 @@
     <div class="modal-dialog" role="document">
         <div class="row">
             <div class="panel panel-primary">
-                <div class="panel-heading">Ingreso de Categoría
+                <div class="panel-heading">Ingreso de Fuente
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="" class="col-md-4">Digite la categoría</label>
+                        <label for="" class="col-md-4">Digite fuente de financiamiento</label>
                         <div class="col-md-6">
                             <input type="text" id="cate" class="form-control">
                         </div>

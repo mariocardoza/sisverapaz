@@ -139,7 +139,7 @@ class FormapagoController extends Controller
         $formapago = Formapago::find($id);
         $formapago->estado=2;
         $formapago->motivo=$motivo;
-        $formapago->fechabaja=date('Y-m-d');
+        $formapago->fecha_baja=date('Y-m-d');
         $formapago->save();
         bitacora('Dió de baja a un registro');
         return redirect('/formapagos')->with('mensaje','Registro dado de baja');
@@ -155,7 +155,7 @@ class FormapagoController extends Controller
         $formapago = Formapago::find($id);
         $formapago->estado=1;
         $formapago->motivo=null;
-        $formapago->fechabaja=null;
+        $formapago->fecha_baja=null;
         $formapago->save();
         Bitacora::bitacora('Dió de alta a un registro');
         return redirect('/formapagos')->with('mensaje','Registro dado de alta');

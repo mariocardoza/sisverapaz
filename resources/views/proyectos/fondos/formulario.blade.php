@@ -3,11 +3,11 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
-                            <label for="" class="col-md-4 control-label">Categoría</label>
+                            <label for="" class="col-md-4 control-label">Fuente</label>
 
                                 <div class="col-md-6">
                                   <select class="chosen-select-width" id="cat_id">
-                                    <option value="">Seleccione una categoria</option>
+                                    <option value="">Seleccione Fuente</option>
                                   </select>
                                 </div>
                                 <div class="col-md-2">
@@ -32,7 +32,7 @@
                                 <table class="table table-striped table-bordered" id="tbFondos">
                                     <thead>
                                     <tr>
-                                        <th>Categoría</th>
+                                        <th>Fuente</th>
                                         <th>Cantidad</th>
                                         <th>Acción</th>
                                     </tr>
