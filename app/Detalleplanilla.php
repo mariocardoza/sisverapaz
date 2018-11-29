@@ -30,6 +30,7 @@ class Detalleplanilla extends Model
     ->where('empleados.estado',1)
     ->where('detalleplanillas.id','<>',null)
     ->where('detalleplanillas.tipo_pago',1)
+    ->orderby('empleados.nombre')
     ->get();
   }
 }

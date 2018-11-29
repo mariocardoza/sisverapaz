@@ -11,7 +11,6 @@ class Prestamo extends Model
     public static function prestamos()
     {
       $prestamo = Prestamo::where('empleado_id',$id)->first();
-    	dd($prestamo->monto);
     	$monto = $prestamo->monto;
       return $monto;
     }
@@ -27,5 +26,17 @@ class Prestamo extends Model
     public function banco()
     {
       return $this->belongsTo('App\Banco');
+    }
+    public static function actualizar(){
+      $prestamos = Prestamo::where('estado',1)->get();
+      foreach($prestamos as $prestamo){
+        $cantidad=Planilla::where('prestamo_id',$prestamo->id)->get()->count();
+        echo $cantidad."-";
+        echo $prestamo->numero_de_cuotas;
+        if($cantidad==$prestamo->numero_de_cuotas){
+          $prestamo->estado=2;
+          $prestamo->save();
+        }
+      }
     }
 }

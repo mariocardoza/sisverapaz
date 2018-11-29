@@ -10,6 +10,7 @@ use App\Planilla;
 use App\Detalleplanilla;
 use App\Datoplanilla;
 use DB;
+use App\Prestamo;
 
 class PlanillaController extends Controller
 {
@@ -25,7 +26,7 @@ class PlanillaController extends Controller
 
     public function index()
     {
-        $planillas = Planilla::all();
+        $planillas = Datoplanilla::all();
         return view('planillas.index',compact('planillas'));
     }
 
@@ -75,15 +76,14 @@ class PlanillaController extends Controller
                     'estado'=>0,
                     'datoplanilla_id'=>$datoplanilla->id,
                     'prestamo_id'=>$p,
-
                 ]);
             }
+            Prestamo::actualizar();
             DB::commit();
             return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
         } catch (\Exception $e) {
             DB::rollback();
           return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
-
         }
     }
 

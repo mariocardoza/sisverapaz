@@ -8,7 +8,7 @@
 	Planillas
 </h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/detalleplanillas') }}"><i class="fa fa-dashboard"></i>Detalles de planilla</a></li>
+	<li><a href="{{ url('/planillas') }}"><i class="fa fa-dashboard"></i>Control de planillas</a></li>
 	<li class="active">Planillas</li> </ol>
 @endsection
 

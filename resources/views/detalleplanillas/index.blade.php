@@ -20,7 +20,7 @@
       <div class="box">
         <div class="box-header">
           <div class="btn-group pull-right">
-            <a href="{{ url('/detalleplanillas/create') }}" class="btn btn-success">Agregar <span class="glyphicon glyphicon-plus-sign"></span></a>
+            <a href="{{ url('/detalleplanillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
           </div>
         </div>
 
