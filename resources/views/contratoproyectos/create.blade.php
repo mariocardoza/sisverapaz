@@ -35,6 +35,7 @@
     </div>
 </div>
 @endsection
+@include('contratoproyectos.modales')
 @section('scripts')
 {!! Html::script('js/contratoproyecto.js') !!}
 @endsection

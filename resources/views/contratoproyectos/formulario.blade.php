@@ -9,14 +9,13 @@
         </select>
     </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#formproyecto"><span class="glyphicon glyphicon-plus"></span></button>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#form_proyecto"><span class="glyphicon glyphicon-plus"></span></button>
     </div>
 </div>
 
 
 <div class="form-group{{ $errors->has('motivo_contratacion') ? ' has-error' : '' }}">
     <label for="motivo_contratacion" class="col-md-4 control-label">Motivo de contratación</label>
-
     <div class="col-md-6">
         {!!Form::text('motivo_contratacion',null,['class'=>'form-control','id'=>'motivo_contratacion','autofocus'])!!}
     </div>

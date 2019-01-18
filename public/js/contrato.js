@@ -11,7 +11,8 @@ $(document).ready(function(){
 	});
 
 	$('#guardartipo').on("click", function(e){
-		var nombre = $("#nombre_tipo").val();
+		//var nombre = $("#nombre_tipo").val();
+		var datos = $("#form_tipo_contra").serialize();
 			var ruta = "/"+carpeta()+"/public/contratos/guardartipo";
 			var token = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
@@ -19,7 +20,7 @@ $(document).ready(function(){
 				headers: {'X-CSRF-TOKEN':token},
 				type:'POST',
 				dataType:'json',
-				data:{nombre:nombre},
+				data:datos,
 
 				success: function(){
 					toastr.success('Tipo de contrato creado con éxito');
@@ -31,7 +32,7 @@ $(document).ready(function(){
 	});
 
 	$('#guardarcargo').on("click", function(e){
-		  var cargo = $("#cargo_nombre").val();
+		  var datos = $("#form_cargo").serialize();
 			var ruta = "/"+carpeta()+"/public/contratos/guardarcargo";
 			var token = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
@@ -39,7 +40,7 @@ $(document).ready(function(){
 				headers: {'X-CSRF-TOKEN':token},
 				type:'POST',
 				dataType:'json',
-				data:{cargo:cargo},
+				data:datos,
 
 				success: function(){
 					toastr.success('Cargo creado con éxito');
@@ -50,6 +51,27 @@ $(document).ready(function(){
 					toastr.error(data.responseJSON.errors.cargo);
 				}
 			});
+	});
+
+	$('#guardarempleado').on("click", function(e){
+		var datos= $("#emple").serialize();
+		console.log(datos);
+		var ruta = "/"+carpeta()+"/public/empleados";
+		var token = $('meta[name="csrf-token"]').attr('content');
+		$.ajax({
+			url: ruta,
+			headers: {'X-CSRF-TOKEN':token},
+			type:'POST',
+			dataType:'json',
+			data:datos,
+
+			success: function(){
+				toastr.success('Empleado creado con éxito');
+				cargarTipo();
+			},error : function(data){
+				toastr.error(data.responseJSON.errors.nombre);
+			}
+		});
 	});
 });
 

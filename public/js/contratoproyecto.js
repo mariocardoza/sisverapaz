@@ -2,6 +2,11 @@ $(document).ready(function(){
 	cargarEmpleados();
 	cargarCargo();
 
+	$(document).on("click","#guardar_proy", function(e){
+		var datos = $("#form_proy").serialize();
+		console.log("esto "+datos );
+	});
+
 	$('#guardarempleado').on("click", function(e){
 		var nombre = $("#nom_empleado").val();
 		var dui = $("#dui_empleado").val();

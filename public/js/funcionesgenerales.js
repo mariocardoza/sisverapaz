@@ -146,10 +146,18 @@
                            changeYear: true,
                            dateFormat: 'dd-mm-yy',
                            minDate: start2,
-                           maxDate: end2
+                           maxDate: end2,
+                  onSelect: function(){
+                    var fecha1 = moment(start2);
+                    var fecha2 = moment($(this).datepicker("getDate"));
+                    $("#plazo").val(fecha2.diff(fecha1, 'days');
+                  }
                		});
+
                	}
                });
+
+
 
       //activar las mascaras
       $("[data-mask]").inputmask();
