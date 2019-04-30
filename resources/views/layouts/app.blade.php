@@ -8,12 +8,13 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
+@php
+  $cod=date("Yisisus");
+@endphp
   {!!Html::style('css/sisverapaz.css')!!}
+  {!! Html::script('js/sisverapaz.js?cod='.$cod) !!}
 
-  {!! Html::script('js/sisverapaz.js') !!}
-
-  {!! Html::script('js/funcionesgenerales.js') !!}
+  {!! Html::script('js/funcionesgenerales.js?cod='.$cod) !!}
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

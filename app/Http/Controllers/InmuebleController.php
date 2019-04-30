@@ -59,15 +59,38 @@ class InmuebleController extends Controller
      */
     public function store(InmuebleRequest $request)
     {
-        $inmuebles = Inmueble::create([
+        if($request->ajax()){
+            try{
+                $inmuebles = Inmueble::create([
+                    'numero_catastral' => $request->numero_catastral,
+                    'tipo_inmueble' => $request->tipo_inmueble,
+                    'contribuyente_id' => $request->contribuyente_id,
+                    'direccion_inmueble' => $request->direccion_inmueble,
+                    'medida_inmueble' => $request->medida_inmueble,
+                    'numero_escritura' => $request->numero_escritura,
+                    'metros_acera' => $request->metros_acera
+                ]);
+                return response()->json([
+                    'mensaje' => 'exito',
+                  ]);
+            }catch(Exception $e){
+                return response()->json([
+                    'mensaje' => 'error',
+                  ]);
+            }
+        }else{
+          $inmuebles = Inmueble::create([
             'numero_catastral' => $request->numero_catastral,
+            'tipo_inmueble' => $request->tipo_inmueble,
             'contribuyente_id' => $request->contribuyente_id,
             'direccion_inmueble' => $request->direccion_inmueble,
             'medida_inmueble' => $request->medida_inmueble,
             'numero_escritura' => $request->numero_escritura,
             'metros_acera' => $request->metros_acera
         ]);
-        return redirect('inmuebles')->with('mensaje','Inmueble registrado con exito');   
+        return redirect('inmuebles')->with('mensaje','Inmueble registrado con exito');  
+        }
+           
     }
 
     /**

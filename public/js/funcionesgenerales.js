@@ -150,7 +150,7 @@
                   onSelect: function(){
                     var fecha1 = moment(start2);
                     var fecha2 = moment($(this).datepicker("getDate"));
-                    $("#plazo").val(fecha2.diff(fecha1, 'days');
+                    //$("#plazo").val(fecha2.diff(fecha1, 'days');
                   }
                		});
 

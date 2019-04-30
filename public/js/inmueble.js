@@ -1,5 +1,30 @@
 $(document).ready(function(){
-	cargarContribuyente();
+	//cargarContribuyente();
+  $(document).on("click","#guardar_inmueble", function(e){
+    var datos=$("#form_inmueble").serialize();
+    var ruta = "/"+carpeta()+"/public/inmuebles";
+    var token = $('meta[name="csrf-token"]').attr('content');
+     $.ajax({
+      url: ruta,
+      headers: {'X-CSRF-TOKEN':token},
+      type:'POST',
+      dataType:'json',
+      data:datos,
+
+      success: function(json){
+        if(json.mensaje=='exito'){
+          window.location.href='../inmuebles';
+          toastr.success('Registro creado exitosamente');
+          $("#btncontribuyente").modal("hide");
+        }
+      },
+      error : function(data){
+          $.each(data.responseJSON.errors, function( key, value ) {
+            toastr.error(value);
+          });
+        }
+    });
+  });
 
 	$('#guardarcontribuyente').on("click", function(e)
   {
@@ -9,11 +34,10 @@ $(document).ready(function(){
     var nacimiento = $("#nacimiento").val();
     var direccion = $("#direc").val();
     var telefono = $("#tel").val();
-    var sexo = $("#sexo").val();
+    var sexo = $('input[name=sexo]:checked').val();
     var motivo = $("#motivo").val();
-    var ruta = "/"+carpeta()+"/public/inmuebles/guardarcontribuyente";
+    var ruta = "/"+carpeta()+"/public/contribuyentes";
     var token = $('meta[name="csrf-token"]').attr('content');
-    alert(sexo);
     $.ajax({
       url: ruta,
       headers: {'X-CSRF-TOKEN':token},
@@ -23,8 +47,14 @@ $(document).ready(function(){
 
       success: function(){
         toastr.success('Registro creado exitosamente');
-        cargarContribuyente();
-      }
+        $("#btncontribuyente").modal("hide");
+        //cargarContribuyente();
+      },
+      error : function(data){
+          $.each(data.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+      });
+        }
     });
   });
   

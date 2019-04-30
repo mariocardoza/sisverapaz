@@ -55,9 +55,24 @@ class ContribuyenteController extends Controller
      */
     public function store(ContribuyenteRequest $request)
     {
-        Contribuyente::create($request->All());
-        bitacora('Registro un contribuyente');
-        return redirect('/contribuyentes')->with('mensaje','Registro almacenado con éxito');
+        if($request->ajax()){
+            try{
+                Contribuyente::create($request->All());
+                bitacora('Registro un contribuyente');
+              return response()->json([
+                'mensaje' => 'exito',
+              ]);
+            }catch(\Exception $e){
+              return response()->json([
+                'mensaje' => 'error'
+              ]);
+            }
+        }else{
+           Contribuyente::create($request->All());
+            bitacora('Registro un contribuyente');
+            return redirect('/contribuyentes')->with('mensaje','Registro almacenado con éxito'); 
+        }
+        
     }
 
     /**

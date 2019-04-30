@@ -12,9 +12,8 @@
 @endsection
 
 @section('content')
-<div class="container" id="app">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">Registro de proyectos</div>
                 <div class="panel-body">
@@ -36,8 +35,10 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
 @section('scripts')
-{!! Html::script('js/proyecto.js') !!}
+  @php
+    $cod=date("Yidisus");
+  @endphp
+<script type="text/javascript" src="{{ asset('js/proyecto.js?cod='.$cod) }}"></script>
 @endsection

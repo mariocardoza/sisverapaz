@@ -141,7 +141,17 @@ class PaacController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $paac=Paac::findorFail($id);
+      try{
+        $paac->delete();
+        return response()->json([
+          'mensaje' => 'exito'
+        ]);
+      }catch(Exception $e){
+        return response()->json([
+          'mensaje' => $e->getMessage()
+        ]);
+      }
     }
 
 

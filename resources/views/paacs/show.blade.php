@@ -12,9 +12,8 @@ Ver detalle del plan anual
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-11">
+<div class="row">
+        <div class="col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">Presupuesto </div>
                 <div class="panel-body">
@@ -159,5 +158,5 @@ Ver detalle del plan anual
             </div>
         </div>
     </div>
-</div>
+
 @endsection
