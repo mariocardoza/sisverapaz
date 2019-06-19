@@ -2,7 +2,7 @@
                             <label for="username" class="col-md-4 control-label">Nombre de Usuario</label>
 
                             <div class="col-md-6">
-                                {!! Form::text('username',null,['class' => 'form-control']) !!}
+                                {!! Form::text('username',null,['class' => 'form-control','autocomplete'=>'off']) !!}
                                 @if ($errors->has('username'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('username') }}</strong>
@@ -15,7 +15,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail</label>
 
                             <div class="col-md-6">
-                                {!! Form::email('email',null,['class' => 'form-control']) !!}
+                                {!! Form::email('email',null,['class' => 'form-control','autocomplete'=>'off']) !!}
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>

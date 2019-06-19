@@ -46,12 +46,14 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
        $this->validator($request->all())->validate();
-
+       //dd($request->All());
        $empleado = Empleado::create([
             'nombre' => $request->nombre,
             'dui' => $request->dui,
             'nit' => $request->nit,
+            'email'=>$request->email,
             'sexo' => $request->sexo,
+            'es_usuario'=>'si',
             'telefono_fijo' => $request->telefono_fijo,
             'celular' => $request->celular,
             'direccion' => $request->direccion,

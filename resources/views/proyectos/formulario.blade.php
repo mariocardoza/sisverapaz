@@ -130,7 +130,7 @@
 
 
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalcategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading">Ingreso de Fuente

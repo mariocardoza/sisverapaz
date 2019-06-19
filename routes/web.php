@@ -113,6 +113,8 @@ Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 
+Route::Resource('indicadores','IndicadoresController');
+
 Route::post('fondocats/baja/{id}','FondocatController@baja')->name('fondocats.baja');
 Route::post('fondocats/alta/{id}','FondocatController@alta')->name('fondocats.alta');
 Route::Resource('fondocats','FondocatController');

@@ -14,15 +14,15 @@ class CambioBanco extends Migration
     public function up()
     {
         Schema::table('bancos', function (Blueprint $table) {
-            $table->string('motivo')->nullable();
-            $table->date('fechabaja')->nullable();
+            //$table->string('motivo')->nullable();
+            //$table->date('fechabaja')->nullable();
         });
         Schema::table('prestamos', function (Blueprint $table) {
-            $table->dropColumn('banco');
+            //$table->dropColumn('banco');
         });
         Schema::table('prestamos', function (Blueprint $table) {
-            $table->bigInteger('banco_id')->unsigned()->nullable();
-            $table->foreign('banco_id')->references('id')->on('bancos');
+            //$table->bigInteger('banco_id')->unsigned()->nullable();
+            //$table->foreign('banco_id')->references('id')->on('bancos');
 
         });
     }

@@ -8,6 +8,7 @@ use App\Bitacora;
 use App\Contrato;
 use App\Empleado;
 use App\Role;
+use DB;
 use App\Http\Requests\UsuariosRequest;
 use App\Http\Requests\ModificarUsuarioRequest;
 use App\Http\Requests\PerfilRequest;
@@ -53,7 +54,11 @@ class UsuarioController extends Controller
     {
       Auth()->user()->authorizeRoles('admin');
       $roles = Role::all();
-      $empleados=Empleado::where('estado',1)->get();
+      $empleados = DB::table('empleados')->where('es_usuario','=','si')
+                    ->whereNotExists(function ($query)  {
+                         $query->from('users')
+                            ->whereRaw('empleados.id = users.empleado_id');
+                        })->get();
       return view('usuarios.create',compact('empleados','roles'));
 
     }

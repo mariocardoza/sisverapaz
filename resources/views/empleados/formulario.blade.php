@@ -2,7 +2,7 @@
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-6">
-                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control']) }}
+                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control','autocomplete'=>'off']) }}
                             </div>
                         </div>
 
@@ -34,6 +34,25 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="" class="col-md-4 control-label">Email</label>
+                            <div class="col-md-6">
+                                {{ Form::text('email', null,['id'=>'email_empleado','class' => 'form-control','autocomplete'=>'off']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('es_usuario') ? ' has-error' : '' }}">
+                            <label for="es_usuario" class="col-md-4 control-label">¿Será usuario del sistema?</label>
+
+                            <div class="col-md-6">
+                                No
+                                {{ Form::radio('es_usuario', 'no', true,['id' => 'no']) }}
+                                Si
+                                {{ Form::radio('es_usuario', 'si',false,['id' => 'si']) }}
+
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
                             <label for="telefono_fijo" class="col-md-4 control-label">Teléfono fijo</label>
 
@@ -56,7 +75,7 @@
                             <label for="direccion" class="col-md-4 control-label">Dirección</label>
 
                             <div class="col-md-6">
-                                {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3]) }}
+                                {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3,'autocomplete'=>'off']) }}
 
                             </div>
                         </div>

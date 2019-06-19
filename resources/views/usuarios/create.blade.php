@@ -25,7 +25,8 @@
                             <label for="name" class="col-md-4 control-label">Nombre</label>
         
                             <div class="col-md-6">
-                              <select class="form-control" name="name">
+                              <select class="chosen-select-width" name="name">
+                                <option value="">Seleccione</option>
                                 @foreach ($empleados as $contrato)
                                   <option value="{{$contrato->id}}">{{$contrato->nombre}}</option>
                                 @endforeach

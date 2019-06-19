@@ -27,16 +27,18 @@ class EmpleadoRequest extends FormRequest
             'nombre'=>'required|min:3|max:150',
             'dui'=>'required|unique:empleados|min:10',
             'nit'=>'required|unique:empleados|min:17',
+            'email'=>'required|email|unique:empleados',
             'direccion'=>'required|max:255',
             'departamento' => 'required',
             'municipio' => 'required',
             'fecha_nacimiento' => 'required|date',
             'sexo'=>'required',
-            'num_cuenta'=>'unique:empleados',
-            'celular' => 'required|min:9',
-            'num_contribuyente' => 'unique:empleados',
-            'num_seguro_social' => 'unique:empleados',
-            'num_afp' => 'unique:empleados',
+            //'num_cuenta'=>'unique:empleados',
+            'celular' => 'required|min:9|unique:empleados',
+            'telefono_fijo' => 'required|min:9|unique:empleados',
+            //'num_contribuyente' => 'unique:empleados',
+            //'num_seguro_social' => 'unique:empleados',
+            //'num_afp' => 'unique:empleados',
         ];
     }
 }

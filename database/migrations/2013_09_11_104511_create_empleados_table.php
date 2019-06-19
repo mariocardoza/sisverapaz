@@ -16,11 +16,12 @@ class CreateEmpleadosTable extends Migration
         Schema::create('empleados', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('dui');
-            $table->string('nit');
+            $table->string('dui')->unique();
+            $table->string('nit')->unique();
             $table->string('sexo');
-            $table->string('telefono_fijo')->nullable();
-            $table->string('celular');
+            $table->string('telefono_fijo')->nullable()->unique();
+            $table->string('email')->unique();
+            $table->string('celular')->unique();
             $table->string('direccion');
             $table->date('fecha_nacimiento');
             $table->string('num_cuenta')->nullable();
@@ -28,6 +29,7 @@ class CreateEmpleadosTable extends Migration
             $table->string('num_seguro_social')->nullable();
             $table->string('num_afp')->nullable();
             $table->integer('estado')->unsigned()->default(1);
+            $table->string('es_usuario')->default('no');
             $table->timestamps();
         });
     }

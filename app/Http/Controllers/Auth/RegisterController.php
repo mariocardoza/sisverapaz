@@ -45,6 +45,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        dd($request->All()); 
        $this->validator($request->all())->validate();
 
        $empleado = Empleado::create([
@@ -52,6 +53,7 @@ class RegisterController extends Controller
             'dui' => $request->dui,
             'nit' => $request->nit,
             'sexo' => $request->sexo,
+            'email'=>$request->email,
             'telefono_fijo' => $request->telefono_fijo,
             'celular' => $request->celular,
             'direccion' => $request->direccion,
@@ -112,11 +114,11 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'nombre' => 'required|string|max:255',
-            'dui' => 'required',
-            'nit' => 'required',
+            'dui' => 'required|unique:empleados',
+            'nit' => 'required|unique:empleados',
             'sexo' => 'required',
-            'telefono_fijo' => 'required',
-            'celular' => 'required',
+            'telefono_fijo' => 'required|unique:empleados',
+            'celular' => 'required|unique:empleados',
             'direccion' => 'required',
             'fecha_nacimiento' => 'required',
             'username' => 'required|string|max:255|unique:users',

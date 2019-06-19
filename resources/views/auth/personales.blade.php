@@ -2,7 +2,7 @@
                             <label for="nombre" class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-8">
-                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control','required']) }}
+                                {{ Form::text('nombre', null,['id'=>'nom_empleado','class' => 'form-control','autocomplete'=>'off']) }}
                             </div>
                         </div>
 
@@ -55,7 +55,7 @@
                             <label for="direccion" class="col-md-4 control-label">Dirección</label>
 
                             <div class="col-md-8">
-                                {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3]) }}
+                                {{ Form::textarea('direccion', null,['id'=> 'dir_empleado','class' => 'form-control','rows' => 3,'autocomplete'=>'off']) }}
                             </div>
                         </div>
 
@@ -63,6 +63,6 @@
                             <label for="fecha_nacimiento" class="col-md-4 control-label">Fecha de Nacimiento</label>
 
                             <div class="col-md-8">
-                                {{Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','id'=>'nacimimiento_empleado'])}}
+                                {{Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','id'=>'nacimimiento_empleado','autocomplete'=>'off'])}}
                             </div>
                         </div>

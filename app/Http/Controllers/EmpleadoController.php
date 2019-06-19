@@ -61,31 +61,30 @@ class EmpleadoController extends Controller
      */
     public function store(EmpleadoRequest $request)
     {
-      
+     //dd($request->All()); 
       if($request->ajax())
       {
         try{
-          Empleado::create([
+          $empleado=Empleado::create([
             'nombre' => $request->nombre,
             'dui' => $request->dui,
             'nit' => $request->nit,
             'sexo' => $request->sexo,
+            'email'=>$request->email,
             'telefono_fijo' => $request->telefono_fijo,
             'celular' => $request->celular,
             'direccion' => $request->direccion,
+            'es_usuario'=>$request->es_usuario,
             'fecha_nacimiento' => invertir_fecha($request->fecha_nacimiento),
             'num_contribuyente' => $request->num_contribuyente,
             'num_seguro_social' => $request->num_seguro_social,
             'num_afp' => $request->num_afp,
           ]);
-          return response()->json([
-            'mensaje' => 'exito'
-          ]);
+         
+          return array(1,"exito",$empleado);
         }catch(\Exception $e)
         {
-          return response()->json([
-            'mensaje' => 'error'
-          ]);
+          return array(-1,"error",$e->getMessage());
         }
       }else{
         try{
@@ -97,10 +96,8 @@ class EmpleadoController extends Controller
             'telefono_fijo' => $request->telefono_fijo,
             'celular' => $request->celular,
             'direccion' => $request->direccion,
-            'fecha_nacimiento' => invertir_fecha($request->fecha_nacimiento),
-            'num_contribuyente' => $request->num_contribuyente,
-            'num_seguro_social' => $request->num_seguro_social,
-            'num_afp' => $request->num_afp,
+            'es_usuario'=>$request->es_usuario,
+            'fecha_nacimiento' => invertir_fecha($request->fecha_nacimiento)
           ]);
           return redirect('/empleados')->with('mensaje', 'Empleado registrado exitosamente');
         }catch(\Exception $e){
