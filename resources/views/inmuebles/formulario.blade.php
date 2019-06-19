@@ -2,13 +2,23 @@
     <label for="numero_catastral" class="col-md-4 control-label">Número catastral</label>
 
     <div class="col-md-6">
-        {{ Form::text('numero_catastral', null,['class' => 'form-control','data-inputmask' => '"mask": "99999999-9999-99"','data-mask']) }}
+        {{ Form::text('numero_catastral', null,['class' => 'form-control','data-inputmask' => '"mask": "99999999999999"','data-mask']) }}
 
         @if ($errors->has('numero_catastral'))
             <span class="help-block">
                 <strong>{{ $errors->first('numero_catastral') }}</strong>
             </span>
          @endif
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="" class="col-md-4 control-label">Tipo de inmueble</label>
+    <div class="col-md-6">
+        <select name="tipo_inmueble" id="tipo_inmueble" class="form-control chosen-select">
+            <option value="Urbano">Urbano</option>
+            <option value="Rural">Rural</option>
+        </select>
     </div>
 </div>
 
@@ -88,6 +98,7 @@
     <div class="modal-dialog" role="document">
         <div class="row">
             <div class="panel panel-primary">
+
                 <div class="panel-heading">Registro de Contribuyente
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -96,8 +107,9 @@
                 </div>
                 <div class="panel-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardarcontribuyente" data-dismiss="modal" class="btn btn-success">Agregar</button>
+                    <button type="button" id="guardarcontribuyente" class="btn btn-success">Agregar</button>
                 </div>
+                
             </div>
         </div>
     </div>
