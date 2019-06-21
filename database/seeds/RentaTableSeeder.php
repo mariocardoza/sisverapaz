@@ -53,20 +53,38 @@ class RentaTableSeeder extends Seeder
            ]);
          }
          Retencion::create([
-           'nombre' => 'ISSS',
+           'nombre' => 'ISSSE',
            'porcentaje' => 3,
            'techo' => 1000,
-         ]);
-         Retencion::create([
-           'nombre' => 'AFP',
-           'porcentaje' => 7.25,
-           'techo' => 6500,
+           'tipo' => 0,
          ]);
 
          Retencion::create([
-           'nombre' => 'INSAFORP',
+          'nombre' => 'ISSSP',
+          'porcentaje' => 7.5,
+          'techo' => 1000,
+          'tipo' => 1,
+        ]);
+
+         Retencion::create([
+           'nombre' => 'AFPE',
+           'porcentaje' => 7.25,
+           'techo' => 6500,
+           'tipo' => 0,
+         ]);
+
+         Retencion::create([
+          'nombre' => 'AFPP',
+          'porcentaje' => 7.75,
+          'techo' => 6500,
+          'tipo' => 1,
+        ]);
+
+         Retencion::create([
+           'nombre' => 'INSAFORPP',
            'porcentaje' => 1,
            'techo' => 1000,
+           'tipo' => 1,
          ]);
      }
      public function truncateTables(array $tables)

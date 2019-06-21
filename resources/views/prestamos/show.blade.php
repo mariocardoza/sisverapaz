@@ -26,7 +26,7 @@
 
                          <div class="form-group{{ $errors->has('banco') ? ' has-error' : '' }}">
                             <label for="dui" class="col-md-4 control-label">Nombre del banco: </label>
-                            <label for="nombre" class="col-md-4 control-label"> {{$prestamo->banco}}</label><br>
+                            <label for="nombre" class="col-md-4 control-label"> {{$prestamo->banco->nombre}}</label><br>
 
                         </div>
 

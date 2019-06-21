@@ -30,6 +30,7 @@ class EmpleadoSeeder extends Seeder
                 'dui'=>random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).'-'.random_int(0,9),
                 'nit'=>random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9),
                 'sexo'=>$s,
+                'email'=>$faker->email,
                 'telefono_fijo'=>"2".random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'celular'=>random_int(6,7).random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'direccion'=>$faker->address,

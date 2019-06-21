@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Planilla extends Model
 {
     protected $guarded = [];
-    protected $fillable = ['empleado_id','isss','afp','insaforp','prestamos','estado','datoplanilla_id','prestamo_id'];
+    protected $fillable = ['empleado_id','issse','afpe','isssp','afpp','insaforpp','renta','prestamos','estado','datoplanilla_id','prestamo_id'];
 }
