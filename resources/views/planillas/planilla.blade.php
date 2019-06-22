@@ -4,7 +4,7 @@
       <th>Empleado</th>
       <th>Salario base</th>
       @foreach ($retenciones as $r)
-        <th>{{$r->nombre}}</th>
+        <th>{{$r->nombreCompleto($r->nombre)}}</th>
       @endforeach
       <th>Renta</th>
       <th>Crédito</th>
@@ -31,7 +31,9 @@
           <td>
             @php
               $retencion=App\Retencion::valor($r->id,$empleado->salario);
+              if($r->tipo==0){
               $sum_retenciones+=$retencion;
+              }
             @endphp
             <input type="hidden" name='{{$r->nombre}}[]' value="{{number_format($retencion,2)}}">
             {{number_format($retencion,2)}}
@@ -41,7 +43,7 @@
           @php
           $nogravado=$empleado->salario-$sum_retenciones;
           $renta=App\Renta::renta($empleado->pago,$nogravado);
-          $sum_retenciones+=$renta;
+            $sum_retenciones+=$renta;
           @endphp
             <input type="hidden" name='renta[]' value="{{number_format($renta,2)}}">
             @if ($renta==0)

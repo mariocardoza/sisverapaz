@@ -41,12 +41,11 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        //dd(bcrypt($request->password));
+        //dd($request->all());
         if (Auth::attempt(['username' => $request->username, 
-            'password' => $request->password,'
-            estado' => 1])
+            'password' => $request->password,'estado' => 1])
             ) {
-            dd('hola');
+            //dd('hola');
             Bitacora::bitacora('inicio de sesion');
             return redirect()->intended('home');
         }else{

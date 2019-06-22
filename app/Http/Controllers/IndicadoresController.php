@@ -24,7 +24,13 @@ class IndicadoresController extends Controller
      */
     public function create()
     {
-        return view("indicadores.create");
+        $proyecto=1;
+        return view("indicadores.create",compact('proyecto'));
+    }
+
+    public function segunproyecto($proyecto){
+        $retorno=IndicadoresProyecto::obtener_indicadores($proyecto);
+        return $retorno;
     }
 
     /**
@@ -35,7 +41,9 @@ class IndicadoresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $retorno=IndicadoresProyecto::guardar($request->All());
+
+        return $retorno;
     }
 
     /**
@@ -80,6 +88,7 @@ class IndicadoresController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $retorno=IndicadoresProyecto::eliminar($id);
+        return $retorno;
     }
 }

@@ -83,6 +83,7 @@ $(document).ready(function(){
     var fecha_inicio = $("#fecha_inicio").val();
     var fecha_fin = $("#fecha_fin").val();
     var beneficiarios = $("#beneficiarios").val();
+    var monto_desarrollo = $("#monto_desarrollo").val();
     $(cuerpo_fondos).find("tr").each(function (index, element) {
       if(element){
         montos.push({
@@ -97,7 +98,7 @@ $(document).ready(function(){
       headers: {'X-CSRF-TOKEN':token},
       type:'POST',
       dataType:'json',
-      data:{nombre,monto,motivo,direccion,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg},
+      data:{nombre,monto,motivo,direccion,monto_desarrollo,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg},
 
       success: function(msj){
         window.location.href = "../proyectos";

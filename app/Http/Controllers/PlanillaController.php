@@ -70,12 +70,15 @@ class PlanillaController extends Controller
                 }
                 Planilla::create([
                     'empleado_id'=>$request->empleado_id[$i],
-                    'isss'=>$request->ISSS[$i],
-                    'afp'=>$request->AFP[$i],
-                    'insaforp'=>$request->INSAFORP[$i],
+                    'issse'=>$request->ISSSE[$i],
+                    'afpe'=>$request->AFPE[$i],
+                    'isssp'=>$request->ISSSP[$i],
+                    'afpp'=>$request->AFPP[$i],
+                    'insaforpp'=>$request->INSAFORPP[$i],
                     'estado'=>0,
                     'datoplanilla_id'=>$datoplanilla->id,
                     'prestamo_id'=>$p,
+                    'renta'=>$request->renta[$i],
                 ]);
             }
             Prestamo::actualizar();

@@ -16,8 +16,8 @@ class CreateIndicadoresProyectosTable extends Migration
         Schema::create('indicadores_proyectos', function (Blueprint $table) {
             $table->string('codigo')->primary();
             $table->string('nombre');
-            $table->string('porcentaje');
-            $table->string('motivo')->nullable();
+            $table->float('porcentaje',8,2);
+            $table->string('descripcion')->nullable();
             $table->integer('estado')->default(1);
             $table->bigInteger('proyectos_id')->unsigned();
             $table->foreign('proyectos_id')->references('id')->on('proyectos');
