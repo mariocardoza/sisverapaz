@@ -197,6 +197,7 @@ class ProyectoController extends Controller
               'fecha_fin' => invertir_fecha($request->fecha_fin),
               'motivo' => $request->motivo,
               'beneficiarios' => $request->beneficiarios,
+              'monto_desarrollo' => $request->monto_desarrollo,
           ]);
 
           if(isset($montos))
@@ -217,7 +218,7 @@ class ProyectoController extends Controller
           bitacora('Registró un proyecto');
           DB::commit();
           return response()->json([
-            'mensaje' => 'exito'
+            'mensaje' => 'exitoo'
           ]);
       }catch (\Exception $e){
         DB::rollback();
