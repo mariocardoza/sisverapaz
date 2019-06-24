@@ -12,4 +12,8 @@ class Planilla extends Model
     {
       return $this->belongsTo('App\Empleado');
     }
+    public function prestamo()
+    {
+      return $this->belongsTo('App\Prestamo');
+    }
 }
