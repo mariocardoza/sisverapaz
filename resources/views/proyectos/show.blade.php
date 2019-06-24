@@ -12,112 +12,99 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Datos del Proyecto </div>
+        <div class="col-md-7">
+            <div class="panel panel-primary" id="div_pre">
+                <div class="panel-heading">Datos del Presupuesto </div>
                 <div class="panel-body">
-                  <table class="table">
-                    <tr>
-                      <th>Nombre del proyecto</th>
-                      <th>{{$proyecto->nombre}}</th>
-                    </tr>
-                    <tr>
-                      <th>Justificación</th>
-                      <th>{{$proyecto->motivo}}</th>
-                    </tr>
-                    <tr>
-                      <th>Dirección donde se ejecutará</th>
-                      <th>{{$proyecto->direccion}}</th>
-                    </tr>
-                    <tr>
-                      <th>Origen de los fondos:</th>
-                      <td>
-                        @foreach($proyecto->fondo as $fondo)
-                        <tr>
-                            <td>{{$fondo->fondocat->categoria}}</td>
-                            <td>${{number_format($fondo->monto,2)}}</td>
-                        </tr>
-                        @endforeach
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Monto total</th>
-                      <th>${{number_format($proyecto->monto,2)}}</th>
-                    </tr>
-                    <tr>
-                      <th>Fecha de inicio</th>
-                      <th>{{$proyecto->fecha_inicio->format('l d')}} de {{$proyecto->fecha_inicio->format('F Y')}}</th>
-                    </tr>
-                    <tr>
-                      <th>Fecha de finalización</th>
-                      <th>{{$proyecto->fecha_fin->format('l d')}} de {{$proyecto->fecha_fin->format('F Y')}}</th>
-                    </tr>
-                    <tr>
-                      <th>Monto de Desarrollo</th>
-                      <th>{{$proyecto->monto_desarrollo}}</th>
-                    </tr>
-                    <tr>
-                      <th>Beneficiarios</th>
-                      <th>{{$proyecto->beneficiarios}}</th>
-                    </tr>
-                  </table>
-                  <br>
-                  @if($proyecto->pre)
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover table-condensed">
-                      <thead>
-                        <tr>
-                          <th>N°</th>
-                          <th>DESCRIPCIÓN</th>
-                          <th>UNIDAD DE MEDIDA</th>
-                          <th>CANTIDAD</th>
-                          <th>PRECIO UNITARIO</th>
-                          <th>SUBTOTAL</th>
-                          <td></td>
-                          <?php $contador=0; $total=0.0 ?>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @foreach($proyecto->presupuesto as $presupuesto)
-                          <tr>
-                            <td colspan="7">ÍTEM {{$presupuesto->categoria->item}} {{$presupuesto->categoria->nombre_categoria}}</td>
-                          </tr>
-                          @foreach($presupuesto->presupuestodetalle as $detalle)
-                        <tr>
-                          <?php $contador++;
-                            $total=$total+$detalle->cantidad*$detalle->preciou;?>
-                          <td>{{$contador}}</td>
-                          <td>{{$detalle->catalogo->nombre}}</td>
-                          <td>{{$detalle->catalogo->unidad_medida}}</td>
-                          <td>{{$detalle->cantidad}}</td>
-                          <td>${{number_format($detalle->preciou,2)}}</td>
-                          <td>${{number_format($detalle->cantidad*$detalle->preciou,2)}}</td>
-                          <td>
-                              {!! Form::open(['method' => 'DELETE', 'route' => ['presupuestodetalles.destroy', $detalle->id]]) !!}
-                              <div class="btn-group">
-                                <a class="btn btn-warning btn-xs" href="{{url('presupuestodetalles/'.$detalle->id.'/edit')}}"><span class="glyphicon glyphicon-edit"></span></a>
-                                <button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
-                                </div>
-                              {{ Form::close() }}
-                          </td>
-                        </tr>
-                          @endforeach
-                        @endforeach
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="5">TOTAL</th>
-                          <th>${{number_format($total,2)}}</th>
-                          <th></th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                @endif
+									@if($proyecto->pre)
+										@include('proyectos.show.presupuesto')
+									@else
+										<center>
+											<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+											<span>Agregue un nuevo presupuesto para visualizar la información</span>
+										</center>
+                	@endif
                       <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
                 </div>
+						</div>
+						
+						<div class="panel panel-primary" id="div_ind" style="display: none">
+                <div class="panel-heading">Datos de indicadores </div>
+                <div class="panel-body">
+									<center>
+										<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+										<span>Agregue los nuevos indicadores para visualizar la información</span>
+									</center>
+                </div>
+						</div>
+						
+						<div class="panel panel-primary" id="div_cot" style="display:none">
+                <div class="panel-heading">Datos de la cotización </div>
+                <div class="panel-body">
+									<center>
+										<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+										<span>Agregue una nueva contización para visualizar la información</span>
+									</center>
+                </div>
             </div>
-        </div>
+				</div>
+				<div class="col-md-4">
+					<div class="panel panel-primary">
+							<div class="panel-heading">Opciones </div>
+							<div class="panel-body">
+								<button type="button" class="btn btn-primary col-sm-12" id="btn_pre" style="margin-bottom: 3px;">
+									Presupuesto
+								</button>
+								<button type="button" class="btn btn-default col-sm-12" id="btn_ind" style="margin-bottom: 3px;">
+									Indicadores
+								</button>
+								<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
+									Cotización
+								</button>
+							</div>
+					</div>
+					<div class="panel panel-primary">
+							<div class="panel-heading">Datos del Proyecto </div>
+							<div class="panel-body">
+								@include('proyectos.show.informacion')
+							</div>
+					</div>
+				</div>
     </div>
 </div>
+	@section('scripts')		
+	<script>
+		$(document).ready(function (){
+			$('#btn_pre').click(function (){
+				$("#div_pre").show();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+		
+				$("#btn_pre").removeClass('btn-default').addClass('btn-primary');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+			});
+		
+			$("#btn_ind").click(function (){
+				$("#div_pre").hide();
+				$("#div_ind").show();
+				$("#div_cot").hide();
+		
+				$("#btn_ind").removeClass('btn-default').addClass('btn-primary');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+			});
+		
+			$("#btn_cot").click(function (){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").show();
+		
+				$("#btn_cot").removeClass('btn-default').addClass('btn-primary');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+			});
+		});
+	</script>
+	@endsection
 @endsection

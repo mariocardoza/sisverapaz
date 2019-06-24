@@ -24,17 +24,17 @@
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive">
-              <table class="table table-striped table-bordered table-hover" id="example2">
+            <div class="box-body">
+              <table class="table table-striped table-hover" id="example2">
                 <thead>
-                  <th with="5%">N°</th>
-                  <th with="20%">Nombre Proyecto</th>
-                  <th with="10%">Monto</th>
-                  <th with="25%">Dirección</th>
-                  <th with="10%">Inicio</th>
-                  <th with="10%">Fin</th>
-                  <th with="10%">Estado</th>
-                  <th with="10%">Accion</th>
+                  <th width="3%">N°</th>
+                  <th width="20%">Nombre Proyecto</th>
+                  <th width="10%">Monto</th>
+                  <th width="25%">Dirección</th>
+                  <th width="10%">Inicio</th>
+                  <th width="10%">Fin</th>
+                  <th width="5%">Estado</th>
+                  <th width="15%">Accion</th>
                   <?php $contador=0; ?>
                 </thead>
                 <tbody>
@@ -48,7 +48,7 @@
                     <td>{{ $proyecto->fecha_inicio->format('d-m-Y') }}</td>
                     <td>{{ $proyecto->fecha_fin->format('d-m-Y') }}</td>
                     <td>
-                      <span class="label-{{estilo_proyecto($proyecto->estado)}}">{{proyecto_estado($proyecto->estado)}}</span>
+                      <span class="col-xs-12 label label-{{estilo_proyecto($proyecto->estado)}}">{{proyecto_estado($proyecto->estado)}}</span>
                     </td>
                     <td>
                       @if( $estado == "" )
@@ -96,7 +96,7 @@
                   </tr>
                   @endforeach
                 </tbody>
-              </table>
+							</table>
               <script>
                 function cambiar(id){
                   swal({
