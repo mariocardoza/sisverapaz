@@ -66,6 +66,8 @@
             </div>
         </div>
     </div>
+    <div id="modal_aqui"></div>                 
+
 </div>
 @endsection
 @section('scripts')
