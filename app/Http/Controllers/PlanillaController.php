@@ -98,7 +98,9 @@ class PlanillaController extends Controller
      */
     public function show($id)
     {
-        //
+        $datoplanilla=Datoplanilla::find($id);
+        $planillas=Planilla::where('datoplanilla_id',$id)->get();
+        return view('planillas.show',compact('planillas','datoplanilla'));
     }
 
     /**

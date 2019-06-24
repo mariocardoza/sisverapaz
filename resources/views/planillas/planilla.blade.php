@@ -9,7 +9,7 @@
       <th>Renta</th>
       <th>Crédito</th>
       <th>Total deducciones</th>
-      <th>Salario liquido</th>
+      <th>Salario líquido</th>
     </tr>
   </thead>
   <tbody>

@@ -24,19 +24,19 @@ class EmpleadoController extends Controller
     {
         if($request->ajax())
         {
-            return Empleado::where('estado',1)->get();
+            return Empleado::where('estado',1)->orderBy('nombre','ASC')->get();
         }
         else{
             $estado = $request->get('estado');
         if($estado == "" )$estado = 1;
         if($estado == 1)
         {
-            $empleados = Empleado::where('estado',$estado)->get();
+            $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
             return view('empleados.index',compact('empleados','estado'));
         }
         if($estado == 2)
         {
-            $empleados = Empleado::where('estado',$estado)->get();
+            $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
             return view('empleados.index',compact('empleados','estado'));
         }
         }

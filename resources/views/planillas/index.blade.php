@@ -10,7 +10,7 @@
   </ol>
 @endsection
 @php
-$tipo_pago= ['1'=>'Planilla','2'=>'Temporal'];
+$tipo_pago= ['1'=>'Planilla','2'=>'Por contrato'];
 @endphp
 @section('content')
   <div class="row">
@@ -41,7 +41,7 @@ $tipo_pago= ['1'=>'Planilla','2'=>'Temporal'];
                   <td>
                     <div class="btn-group">
                       <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('detalleplanillas//edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                      <a href="{{ url('planillas/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                     </div>
                   </td>
                 </tr>

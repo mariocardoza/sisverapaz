@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prestamo extends Model
 {
     protected $guarded = [];
+    protected $fillable = ['empleado_id','banco_id','numero_de_cuenta','monto','numero_de_cuotas','cuota'];
 
     public static function prestamos()
     {

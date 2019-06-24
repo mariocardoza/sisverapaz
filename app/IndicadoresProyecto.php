@@ -37,6 +37,40 @@ class IndicadoresProyecto extends Model
     	}
     }
 
+    public static function modal_editar($id){
+        try{
+            $indicador=IndicadoresProyecto::find($id);
+        return array(1,"exito",$indicador);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+
+    }
+
+    public static function editar($request,$id){
+        $indicador=IndicadoresProyecto::find($id);
+        try{
+            $indicador->nombre=$request->nombre;
+            $indicador->descripcion=$request->descripcion;
+            $indicador->porcentaje=$request->porcen;
+            $indicador->save();
+            return array(1,"exito",$indicador);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public static function completado($codigo){
+        $indicador=IndicadoresProyecto::find($codigo);
+        try{
+            $indicador->estado=2;
+            $indicador->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
     public static function eliminar($id){
         $indicador=IndicadoresProyecto::find($id);
         try{

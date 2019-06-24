@@ -65,7 +65,8 @@ class IndicadoresController extends Controller
      */
     public function edit($id)
     {
-        //
+        $retorno=IndicadoresProyecto::modal_editar($id);
+        return $retorno;
     }
 
     /**
@@ -77,7 +78,9 @@ class IndicadoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $retorno=IndicadoresProyecto::editar($request,$id);
+        return $retorno;
+        
     }
 
     /**
@@ -90,5 +93,10 @@ class IndicadoresController extends Controller
     {
         $retorno=IndicadoresProyecto::eliminar($id);
         return $retorno;
+    }
+
+    public function completado(Request $request){
+       $retorno=IndicadoresProyecto::completado($request->codigo);
+       return $retorno;
     }
 }

@@ -115,6 +115,7 @@ Route::Resource('proyectos','ProyectoController');
 
 Route::Resource('indicadores','IndicadoresController');
 Route::get('indicadores/segunproyecto/{id}','IndicadoresController@segunproyecto');
+Route::post('indicadores/completado','IndicadoresController@completado');
 
 Route::post('fondocats/baja/{id}','FondocatController@baja')->name('fondocats.baja');
 Route::post('fondocats/alta/{id}','FondocatController@alta')->name('fondocats.alta');
@@ -295,12 +296,15 @@ Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
+Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
+
 
 //Ruta para detalle de planillas
 Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');
 Route::post('bancos/alta/{id}','BancoController@alta')->name('bancos.alta');
+
 
 
 

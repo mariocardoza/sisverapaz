@@ -28,7 +28,7 @@
     <label for="name" class="col-md-4 control-label">Forma de pago</label>
     <div class="col-md-6">
       {!!Form::select('tipo_pago',
-          ['1'=>'Planilla','2'=>'Temporal']
+          ['1'=>'Planilla','2'=>'Por contrato']
           ,null, ['class'=>'form-control'])!!}
     </div>
 </div>
