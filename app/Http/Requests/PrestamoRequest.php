@@ -32,4 +32,15 @@ class PrestamoRequest extends FormRequest
             'cuota'=>'required'
         ];
     }
+    public function messages()
+     {
+         return [
+         'empleado_id.required'=>'El campo empleado es obligatorio',
+         'banco_id.required'=>'El campo banco es obligatorio',
+         'numero_de_cuenta.required'=>'El campo número de cuenta es obligatorio',
+         'monto.required'=>'El campo monto es obligatorio',
+         'numero_de_cuotas.required'=>'El campo número de cuotas es obligatorio',
+         'cuota.required'=>'El campo cuota es obligatorio',
+         ];
+     }
 }

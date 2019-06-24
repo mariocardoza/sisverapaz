@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('migasdepan')
   @php
-  $tipo_pago= ['1'=>'Planilla','2'=>'Temporal'];
+  $tipo_pago= ['1'=>'Planilla','2'=>'Por contrato'];
   $pago= ['1'=>'Mensual','2'=>'Quincenal','3'=>'Semanal'];
   @endphp
   <h1>

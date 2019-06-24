@@ -1,32 +1,32 @@
-<div class="form-group{{$errors->has('empleado_id') ? 'has-error' : '' }}">
+<div class="form-group">
 	<label for="nombre" class="col-md-4 control-label">Nombre del empleado</label>
 
 	<div class="col-md-6">
-    <select name="empleado_id" class="form-control">
-	@if (!isset($prestamo))
-		@foreach ($empleados as $empleado)
-		<option value="{{$empleado->id}}">{{empleado_prestamo($empleado->id)}}</option>
-		@endforeach
-	@else
-	<option value="{{$prestamo->empleado->id}}">{{$prestamo->empleado->nombre}}</option>
-	@endif
-    </select>
+		@if (!isset($prestamo))
+			{!!Form::select('empleado_id',
+			$empleados
+			,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un empleado'])!!}
+		@else
+			{!!Form::select('empleado_id',
+			[$prestamo->empleado->id=>$prestamo->empleado->nombre]
+			,null, ['class'=>'form-control'])!!}
+		@endif
 	</div>
 </div>
 @php
 	$bancos=App\Banco::bancos();
 @endphp
-<div class="form-group{{$errors->has('banco_id') ? 'has-error' : '' }}">
+<div class="form-group">
 	<label for="banco" class="col-md-4 control-label">Banco</label>
 
 	<div class="col-md-6">
 		{!!Form::select('banco_id',
           $bancos
-          ,null, ['class'=>'form-control'])!!}
+          ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un banco'])!!}
 	</div>
 </div>
 
-<div class="form-group{{$errors->has('numero_de_cuenta') ? 'has-error' : '' }}">
+<div class="form-group">
 	<label for="numero_de_cuenta" class="col-md-4 control-label">Número de cuenta</label>
 
 	<div class="col-md-6">
@@ -34,8 +34,8 @@
 	</div>
 </div>
 
-<div class="form-group{{$errors->has('monto') ? 'has-error' : '' }}">
-	<label for="monto" class="col-md-4 control-label">Monto del prestamo</label>
+<div class="form-group">
+	<label for="monto" class="col-md-4 control-label">Monto del préstamo</label>
 
 	<div class="col-md-6">
 		{{ Form::number('monto', null, ['class' => 'form-control']) }}
