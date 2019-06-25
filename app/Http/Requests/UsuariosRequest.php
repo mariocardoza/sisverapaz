@@ -35,7 +35,7 @@ class UsuariosRequest extends FormRequest
     {
         return [
         'email.unique'=>'El correo ya está en uso',
-        'username.required'=>'El campo nombre de usuario es obligatorio',
+        'username.required'=>'El nombre de usuario es obligatorio',
         'username.min'=>'El nombre de usuario debe tener al menos 5 caracteres',
         'username.unique'=>'El nombre de usuario ya está en uso',
         'password.required'=>'El campo contraseña es obligatorio',

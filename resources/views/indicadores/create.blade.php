@@ -75,5 +75,4 @@
   var elproyecto='<?php echo $proyecto ?>';
 </script>
 {!! Html::script('js/indicadores.js?cod='.date('Yidisus')) !!}
-{!! Html::script('js/jquery.validate.min.js?cod='.date('Yidisus')) !!}
 @endsection

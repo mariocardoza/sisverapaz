@@ -1,113 +1,200 @@
 @extends('layouts.app')
 
 @section('migasdepan')
-<h1>
-
-        <small>Ver empleado <b>{{ $empleado->nombre }}</b></small>
+<h1>&nbsp;
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/empleados') }}"><i class="fa fa-dashboard"></i> Empleados</a></li>
-        <li class="active">Ver</li>
+        <li class="active">Perfil</li>
       </ol>
 @endsection
 
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Datos del empleado </div>
-                <div class="panel-body">
-                        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-                            <label for="nombre" class="col-md-4 control-label">Nombre del empleado: </label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->nombre}}</label><br>
+        <div class="col-md-6">
 
-                        </div>
+          <div class="panel panel-primary">
+            <div class="panel-heading">Datos del empleado </div>
+            <div class="panel-body">
+              <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.Auth::user()->avatar) }}" alt="User profile picture">
 
-                         <div class="form-group{{ $errors->has('dui') ? ' has-error' : '' }}">
-                            <label for="dui" class="col-md-4 control-label">Número de DUI: </label>
-                            <label for="nombre" class="col-md-4 control-label"> {{$empleado->dui}}</label><br>
+              <h3 class="profile-username text-center">{{$empleado->nombre}}</h3>
 
-                        </div>
+              <p class="text-muted text-center">{{Auth()->user()->roleuser->role->description}}</p>
 
-                        <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
-                            <label for="nit" class="col-md-4 control-label">Número de NIT: </label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->nit}}</label><br>
+              </div>
+              <table class="table">
+                <tr>
+                  <td>Número de DUI</td>
+                  <th>{{$empleado->dui}}</th>
+                </tr>
+                <tr>
+                  <td>Número de NIT</td>
+                  <th>{{$empleado->nit}}</th>
+                </tr>
+                <tr>
+                  <td>Sexo</td>
+                  <th>{{$empleado->sexo}}</th>
+                </tr>
+                <tr>
+                  <td>Número de teléfono</td>
+                  <th>{{$empleado->telefono_fijo}}</th>
+                </tr>
+                <tr>
+                  <td>Número de celular</td>
+                  <th>{{$empleado->celular}}</th>
+                </tr>
+                <tr>
+                  <td>Dirección</td>
+                  <th>{{$empleado->direccion}}</th>
+                </tr>
+                <tr>
+                  <td>Fecha de nacimiento</td>
+                  <th>{{$empleado->fecha_nacimiento->format("d/m/Y")}}</th>
+                </tr>
+                <tr>
+                  <td>Edad</td>
+                  <th>{{$empleado->fecha_nacimiento->age}}</th>
+                </tr>
+              </table>
 
-                        </div>
-
-                        <div class="form-group{{ $errors->has('sexo') ? ' has-error' : '' }}">
-                            <label for="sexo" class="col-md-4 control-label">Sexo:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->sexo}}</label><br>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
-                            <label for="telefono_fijo" class="col-md-4 control-label">Número de teléfono:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->telefono_fijo}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('celular') ? ' has-error' : '' }}">
-                            <label for="celular" class="col-md-4 control-label">Número de celular:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->celular}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
-                            <label for="direccion" class="col-md-4 control-label">Dirección:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->direccion}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('num_cuenta') ? ' has-error' : '' }}">
-                            <label for="num_cuenta" class="col-md-4 control-label">Número de cuenta:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->num_cuenta}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('num_contribuyente') ? ' has-error' : '' }}">
-                            <label for="num_contribuyente" class="col-md-4 control-label">Número de contribuyente:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->num_contribuyente}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('num_seguro_social') ? ' has-error' : '' }}">
-                            <label for="num_seguro_social" class="col-md-4 control-label">Número de Seguro Social:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->num_seguro_social}}</label><br>
-
-                        </div>
-
-                        <div class="form-group{{ $errors->has('num_afp') ? ' has-error' : '' }}">
-                            <label for="num_afp" class="col-md-4 control-label">Número de AFP:</label>
-                            <label for="nombre" class="col-md-4 control-label">{{$empleado->num_afp}}</label><br>
-
-                        </div>
-
-                      {{ Form::open(['route' => ['empleados.destroy', $empleado->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a> |
-                        <button class="btn btn-danger" type="button" onclick="
-                        return swal({
-                          title: 'Eliminar empleado',
-                          text: '¿Está seguro de eliminar empleado?',
-                          type: 'question',
-                          showCancelButton: true,
-                          confirmButtonText: 'Si, Eliminar',
-                          cancelButtonText: 'No, Mantener',
-                          confirmButtonClass: 'btn btn-danger',
-                          cancelButtonClass: 'btn btn-default',
-                          buttonsStyling: false
-                        }).then(function(){
-                          submit();
-                          swal('Hecho', 'El registro a sido eliminado','success')
-                        }, function(dismiss){
-                          if(dismiss == 'cancel'){
-                            swal('Cancelado', 'El registro se mantiene','info')
-                          }
-                        })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                      {{ Form::close()}}
-                </div>
+              <center>
+                
+              <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> Editar</a>
+                <!--button class="btn btn-danger" type="button" id="dar_baja"><span class="glyphicon glyphicon-trash"></span> Eliminar</button-->
+              
+              </center>
             </div>
+          </div>
         </div>
+        
+        <div class="col-md-6">
+          <div class="row">
+            <?php if ($empleado->es_usuario=='si'): ?>
+             <div class="col-md-10">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Datos de inicio de sesión</div>
+                <div class="panel-body">
+                  <form action="">
+                    <div class="form-group">
+                      <?php if ($empleado->user): ?>
+                        <table class="table">
+                          <tr>
+                            <td>Nombre de usuario</td>
+                            <th>{{$empleado->user->username}}</th>
+                          </tr>
+                          <tr>
+                            <td>Correo electrónico</td>
+                            <th>{{$empleado->user->email}}</th>
+                          </tr>
+                        </table>
+                      <?php else: ?>
+                        <center>
+                          <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                          <span>Agregue los datos para iniciar sesión</span><br>
+                          <button class="btn btn-primary" id="modal_usuarios">Agregar</button>
+                        </center>
+                      
+                    <?php endif; ?>
+                      
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <?php endif ?>
+            <div class="col-md-10">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Datos bancarios</div>
+                <div class="panel-body">
+                  <form action="">
+                    <div class="form-group">
+                      <?php if ($empleado->num_cuenta): ?>
+                        <table class="table">
+                          <tr>
+                            <td>Banco</td>
+                            <th>{{$empleado->banco->nombre}}</th>
+                          </tr>
+                          <tr>
+                            <td>Numero de cuenta</td>
+                            <th>{{$empleado->num_cuenta}}</th>
+                          </tr>
+                        </table>
+                      <?php else: ?>
+                        <center>
+                          <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                          <span>Agregue los datos bancarios para visualizar la información</span><br>
+                          <button class="btn btn-primary" id="modal_banco">Agregar</button>
+                        </center>
+                      
+                    <?php endif; ?>
+                      
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-10">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Datos del AFP</div>
+                <div class="panel-body">
+                  <?php if ($empleado->num_afp): ?>
+                    <table class="table">
+                    <tr>
+                      <td>Nombre de la AFP</td>
+                      <th>{{$empleado->afp->nombre}}</th>
+                    </tr>
+                    <tr>
+                      <td>Numero del AFP</td>
+                      <th>{{$empleado->num_afp}}</th>
+                    </tr>
+                  </table>
+                    <?php else: ?>
+                      <center>
+                        <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                        <span>Agregue datos del AFP para visualizar la información</span><br>
+                        <button class="btn btn-primary" id="modal_afps">Agregar</button>
+                      </center>
+                  <?php endif ?>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-10">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Datos del Seguro Social</div>
+                <div class="panel-body">
+                  <?php if ($empleado->num_seguro_social): ?>
+                    <table class="table">
+                    <tr>
+                      <td>Numero del ISSS</td>
+                      <th>{{$empleado->num_seguro_social}}</th>
+                    </tr>
+                  </table>
+                    <?php else: ?>
+                      <center>
+                        <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                        <span>Agregue datos del ISSS para visualizar la información</span><br>
+                        <button class="btn btn-primary" id="modal_isss">Agregar</button>
+                      </center>
+                  <?php endif ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
     </div>
+    @include('empleados.modales')
 </div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+  elempleado='<?php echo $empleado->id ?>';
+</script>
+{!! Html::script('js/empleados.js?cod='.date('Yidisus')) !!}
 @endsection
