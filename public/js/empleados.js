@@ -31,6 +31,15 @@ $(document).ready(function(e){
 	    });
 	});
 
+// para imagenes
+	$(document).on("click", "#img_file", function (e) {
+        $("#file_1").click();
+    });
+
+    $(document).on("change", "#file_1", function(event) {
+        validar_archivo($(this));
+    });
+
 	$(document).on("click","#btn_editar",function(e){
 		var datos=$("#e_empleados").serialize();
 		if(window.location.pathname=='/sisverapaz/public/empleados'){
@@ -246,3 +255,55 @@ $(document).ready(function(e){
 		});
 	});
 });
+
+
+function validar_archivo(file){
+  $("#img_file").attr("src","../img/photo.svg");//31.gif
+      //var ext = file.value.match(/\.(.+)$/)[1];
+       //Para navegadores antiguos
+       if (typeof FileReader !== "function") {
+          $("#img_file").attr("src",'../img/photo.svg');
+          return;
+       }
+       var Lector;
+       var Archivos = file[0].files;
+       var archivo = file;
+       var archivo2 = file.val();
+       if (Archivos.length > 0) {
+
+          Lector = new FileReader();
+
+          Lector.onloadend = function(e) {
+              var origen, tipo, tamanio;
+              //Envia la imagen a la pantalla
+              origen = e.target; //objeto FileReader
+              //Prepara la información sobre la imagen
+              tipo = archivo2.substring(archivo2.lastIndexOf("."));
+              console.log(tipo);
+              tamanio = e.total / 1024;
+              console.log(tamanio);
+
+              //Si el tipo de archivo es válido lo muestra, 
+
+              //sino muestra un mensaje 
+
+              if (tipo !== ".jpeg" && tipo !== ".JPEG" && tipo !== ".jpg" && tipo !== ".JPG" && tipo !== ".png" && tipo !== ".PNG") {
+                  $("#img_file").attr("src",'../img/photo.svg');
+                  $("#error_formato1").removeClass('hidden');
+                  //$("#error_tamanio"+n).hide();
+                  //$("#error_formato"+n).show();
+                  console.log("error_tipo");
+              }
+              else{
+                  $("#img_file").attr("src",origen.result);
+                  $("#error_formato1").addClass('hidden');
+              }
+
+
+         };
+          Lector.onerror = function(e) {
+          console.log(e)
+         }
+         Lector.readAsDataURL(Archivos[0]);
+  }
+}

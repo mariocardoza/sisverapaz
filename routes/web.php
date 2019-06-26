@@ -229,15 +229,15 @@ Route::post('categoriaempleados/alta/{id}','CategoriaEmpleadoController@alta')->
 Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
-Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
+/*Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
 Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('contribuyentes.alta');
-Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');
+Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::Resource('contribuyentes','ContribuyenteController');
 
 Route::Resource('tiposervicios','TiposervicioController');
-Route::post('impuestos/baja/{id}','impuestoController@baja')->name('impuestos.baja');
+/*Route::post('impuestos/baja/{id}','impuestoController@baja')->name('impuestos.baja');
 Route::post('impuestos/alta/{id}','ImpuestoController@alta')->name('impuestos.alta');
-Route::Resource('impuestos','ImpuestoController');
+Route::Resource('impuestos','ImpuestoController');*/
 
 Route::post('rubros/baja/{id}','RubroController@baja')->name('rubros.baja');
 Route::post('rubros/alta/{id}','RubroController@alta')->name('rubros.alta');
@@ -245,9 +245,9 @@ Route::Resource('rubros','RubroController');
 
 Route::Resource('negocios','NegocioController');
 
-Route::post('inmuebles/baja/{id}','InmuebleController@baja')->name('inmuebles.baja');
+/*Route::post('inmuebles/baja/{id}','InmuebleController@baja')->name('inmuebles.baja');
 Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
-Route::Resource('inmuebles','InmuebleController');
+Route::Resource('inmuebles','InmuebleController');*/
 
 Route::Resource('construcciones','ConstruccionController');
 

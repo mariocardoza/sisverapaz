@@ -6,93 +6,84 @@ use App\Http\Requests\TipocontratoRequest;
 use Illuminate\Http\Request;
 use App\Tiposervicio;
 use App\Http\Requests\TiposervicioRequest;
-class TiposervicioController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
+class TipoServicioController extends Controller
+{
     public function index()
     {
-        $tiposervicios = Tiposervicio::all();
-        return view('tiposervicios.index',compact('tiposervicios'));
+        return TipoServicio::select('id', 'nombre', 'costo', 'estado', 'isObligatorio')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show(TipoServicio $tipoServicio)
     {
-        return view('tiposervicios.create');
+        return $tipoServicio;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(TiposervicioRequest $request)
+    /* Nuevo Servicio */
+    public function store(Request $request)
     {
-        Tiposervicio::create($request->All());
-        return redirect('tiposervicios')->with('mensaje','Tipo de servicio registrado con éxito');
+      $tipo  = new Tiposervicio();
+      $params = $request->all();
+
+      $tipo->estado = 1;
+      $tipo->nombre = $params['data']['nombre'];
+      $tipo->costo  = $params['data']['costo'];
+      $tipo->isObligatorio = 0;
+
+      if($tipo->save()){
+        return array(
+          "response"  => true,
+          "data"      => $tipo,
+          "message"   => 'Hemos agregado con exito al nuevo servicio',
+        );
+      }else{
+        return array(
+          "response"  => false,
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+        );
+      }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    /* Editar Servicio */
+    public function update(Request $request, $id)
     {
-        $tiposervicio = Tiposervicio::findorFail($id);
-        return view('tiposervicios.show',compact('tiposervicio'));
+      $params = $request->all();
+      $tipo = Tiposervicio::find($id);
+
+      $tipo->nombre   = $params['data']['nombre'];
+      $tipo->costo    = $params['data']['costo'];
+      
+      if($tipo->save()) {
+        return array(
+          "message"   => 'Hemos actualizado con exito la informacion',
+          "data"      => Tiposervicio::find($id),
+          "ok"        => true
+        );
+      }else{
+        return array(
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "ok"  => false
+        );
+      }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function destroy($id, Request $request)
     {
-        $tiposervicio = Tiposervicio::find($id);
-        return view('tiposervicios.edit',compact('tiposervicio'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(TiposervicioRequest $request, $id)
-    {
-        $tiposervicio = Tiposervicio::find($id);
-        $tiposervicio->fill($request->All());
-        $tiposervicio->save();
-        return redirect('tiposervicios')->with('mensaje','El tipo de servicio se modificó con éxito');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+      $params = $request->all();
+      $tipo = Tiposervicio::find($id);
+      $tipo->estado = $params['estado'] == 'true' ? 1 : 0;
+      
+      if($tipo->save()) {
+        return array(
+          "message"         => 'Hemos actualizado con exito el estado',
+          "ok"  => true
+        );
+      }else{
+        return array(
+          "message"         => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "ok"  => false
+        );
+      }
     }
 }
+

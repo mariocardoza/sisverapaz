@@ -7,7 +7,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('dui') ? ' has-error' : '' }}">
-    <label for="dui" class="col-md-4 control-label">DUI</label>
+    <label for="dui" class="col-md-4 control-label">Número de DUI</label>
 
     <div class="col-md-6">
         {{ Form::text('dui', null,['class' => 'form-control','data-inputmask' => '"mask": "99999999-9"','data-mask']) }}
@@ -15,7 +15,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
-    <label for="nit" class="col-md-4 control-label">NIT</label>
+    <label for="nit" class="col-md-4 control-label">Número de NIT</label>
 
     <div class="col-md-6">
         {{ Form::text('nit', null,['class' => 'form-control','data-inputmask' => '"mask": "9999-999999-999-9"','data-mask']) }}

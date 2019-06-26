@@ -21,7 +21,9 @@ class Rubro extends Model
     {
     	if(trim($nombre != "")){
             return $query->where('nombre','iLIKE', '%'.$nombre.'%');
-    	}
-    	
+    	}    	
+    }
+    public function negocios () {
+        return $this->hasMany('App\Negocio');
     }
 }

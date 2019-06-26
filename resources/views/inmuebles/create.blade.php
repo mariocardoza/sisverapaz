@@ -16,18 +16,17 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Registro de inmueble</div>
                 <div class="panel-body">
-                    {{ Form::open(['action' => 'InmuebleController@store','class' => 'form-horizontal','id'=>'form_inmueble']) }}
+                    {{ Form::open(['action' => 'InmuebleController@store','class' => 'form-horizontal']) }}
                         @include('inmuebles.formulario')
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="button" id="guardar_inmueble" class="btn btn-success">
+                                <button type="submit" class="btn btn-success">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>    Registrar
                                 </button>
                             </div>
-                            
+                            {{ Form::close() }}
                         </div>
-                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
@@ -35,8 +34,5 @@
     </div>
 @endsection
 @section('scripts')
-@php
-    $cod=date("Yidisus");
-@endphp
-{!! Html::script('js/inmueble.js?cod='.$cod) !!}
+{!! Html::script('js/inmueble.js') !!}
 @endsection

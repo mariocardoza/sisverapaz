@@ -29,7 +29,7 @@ class EmpleadoRequest extends FormRequest
             'nit'=>'required|unique:empleados|min:17',
             'email'=>'required|email|unique:empleados',
             'direccion'=>'required|max:255',
-            'departamento' => 'required',
+            //'departamento' => 'required',
             //'municipio' => 'required',
             'fecha_nacimiento' => 'required|date',
             'sexo'=>'required',

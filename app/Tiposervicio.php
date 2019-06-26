@@ -12,4 +12,9 @@ class Tiposervicio extends Model
     {
         return $this->hasMany('App\Servicio');
     }
+
+    public function inmuebles()
+    {
+        return $this->belongsToMany('App\Inmueble')->withTimestamps();
+    }
 }

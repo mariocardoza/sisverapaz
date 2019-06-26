@@ -14,7 +14,7 @@ class NegocioController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function index(Request $request)
@@ -56,17 +56,33 @@ class NegocioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NegocioRequest $request)
+    public function store(Request $request)
     {
+        $parameters = $request->all();
         $negocios = Negocio::create([
-            'contribuyente_id' => $request->contribuyente_id,
-            'direccion' => $request->direccion,
-            'rubro_id' => $request->rubro_id
+            'contribuyente_id'  => $parameters['contribuyente'],
+            'nombre'            => $parameters['object']['nombre'],
+            'direccion'         => $parameters['object']['direccion'],
+            'rubro_id'          => $parameters['object']['rubro_id'],
+            'lat'               => $parameters['object']['lat'],
+            'lng'               => $parameters['object']['lng']
         ]);
 
+        if($negocios) {
+            return array(
+                "response"  => true,
+                "message"   => 'Hemos agregado con exito al nuevo contribuyente',
+                "data"      => Negocio::where('id', $negocios['id'])->with('rubro')->first()
+            );
+        }else {
+            return array(
+                "response"  => false,
+                "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+            );
+        }
         //Negocio::create($request->All());
         //bitacora('Registró un negocio');
-        return redirect('negocios')->with('mensaje','Registro almacenado con éxito');
+        // return redirect('negocios')->with('mensaje','Registro almacenado con éxito');
     }
 
     /**
@@ -87,12 +103,12 @@ class NegocioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Negocio $negocio)
-    {
-        $rubros = Rubro::pluck('nombre', 'id');
-        $contribuyentes = Contribuyente::pluck('nombre', 'id');
-        return view('negocios.edit', compact('negocio', 'rubros', 'contribuyentes'));
-    }
+    // public function edit(Negocio $negocio)
+    // {
+    //     $rubros = Rubro::pluck('nombre', 'id');
+    //     $contribuyentes = Contribuyente::pluck('nombre', 'id');
+    //     return view('negocios.edit', compact('negocio', 'rubros', 'contribuyentes'));
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -102,14 +118,25 @@ class NegocioController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(NegocioRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $rubro = Negocio::find($id);
-        $rubro->fill($request->All());
-        $rubro->save();
-        
-        bitacora('Modificó un negocio');
-        return redirect('negocios')->with('mensaje','Registro modificado con éxito');
+      $parameters = $request->All();
+      $negocio = Negocio::find($id);
+      $negocio->nombre = $parameters['object']['nombre'];
+      $negocio->rubro_id = $parameters['object']['rubro_id'];
+
+      if($negocio->save()){
+        return array(
+          "response"  => true,
+          "message"   => 'Hemos actualizado con exito al negocio',
+          "data"      => Negocio::where('id', $negocio['id'])->with('rubro')->first()
+        );        
+      }else{
+        return array(
+          "response"  => false,
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+        );
+      }
     }
 
     public function viewMapa($id) {
@@ -138,4 +165,9 @@ class NegocioController extends Controller
             ->where('lng', '!=', 0)
             ->with('contribuyente', 'rubro')->get();
     }
+
+    // public function negocioPostControllerAdd (Request $request) {
+    //     $parameters = $request->all();
+    //     return $parameters;
+    // }
 }

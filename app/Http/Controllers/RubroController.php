@@ -18,21 +18,12 @@ class RubroController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     public function index(Request $request)
     {
-        $estado = $request->get('estado');
-        if($estado == "" )$estado=1;
-        if ($estado == 1) {
-            $rubros = Rubro::where('estado',$estado)->get();
-            return view('rubros.index',compact('rubros','estado'));
-        }
-        if ($estado == 2) {
-            $rubros = Rubro::where('estado',$estado)->get();
-            return view('rubros.index',compact('rubros','estado'));
-        }
+        return Rubro::All();
     }
 
     /**
@@ -51,24 +42,27 @@ class RubroController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RubroRequest $request)
+    public function store(Request $request)
     {
-        Rubro::create($request->All());
-        bitacora('Registró un rubro');
-        return redirect('/rubros')->with('mensaje','Registro almacenado con éxito');
-    }
+      $rubro  = new Rubro();
+      $params = $request->all();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $rubro = Rubro::findorFail($id);
+      $rubro->estado = 1;
+      $rubro->nombre = $params['data']['nombre'];
+      $rubro->porcentaje = $params['data']['porcentaje'];
 
-        return view('rubros.show', compact('rubro'));
+      if($rubro->save()){
+        return array(
+          "response"  => true,
+          "data"      => $rubro,
+          "message"   => 'Hemos agregado con exito al nuevo rubro',
+        );
+      }else{
+        return array(
+          "response"  => false,
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+        );
+      }
     }
 
     /**
@@ -91,13 +85,25 @@ class RubroController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(RubroRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $rubro = Rubro::find($id);
-        $rubro->fill($request->All());
-        $rubro->save();
-        bitacora('Modificó un rubro');
-        return redirect('/rubros')->with('mensaje','Registro modificado con éxito');
+      $params = $request->all();
+      $rubro = Rubro::find($id);
+      $rubro->nombre      = $params['data']['nombre'];
+      $rubro->porcentaje  = $params['data']['porcentaje'];
+      
+      if($rubro->save()) {
+        return array(
+          "message"   => 'Hemos actualizado con exito la informacion',
+          "data"      => Rubro::find($id),
+          "ok"        => true
+        );
+      }else{
+        return array(
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "ok"  => false
+        );
+      }
     }
 
     /**
@@ -106,9 +112,23 @@ class RubroController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+      $params = $request->all();
+      $rubro = Rubro::find($id);
+      $rubro->estado = $params['estado'] == 'true' ? 1 : 0;
+      
+      if($rubro->save()) {
+        return array(
+          "message"   => 'Hemos actualizado con exito el estado',
+          "ok"  => true
+        );
+      }else{
+        return array(
+          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "ok"  => false
+        );
+      }
     }
 
     public function baja($cadena)
@@ -141,5 +161,9 @@ class RubroController extends Controller
         $rubro->save();
         Bitacora::bitacora('Dió de alta a un rubro');
         return redirect('/rubros')->with('mensaje','Proyecto dado de alta');
+    }
+
+    public function GetApiController () {
+        return Rubro::all();
     }
 }

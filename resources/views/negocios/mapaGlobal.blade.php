@@ -15,5 +15,5 @@
     </ng-map>
   </div>
 </div>
-{!! Html::script('js/app.js') !!}
+{!! Html::script('js/app-map.js') !!}
 @endsection

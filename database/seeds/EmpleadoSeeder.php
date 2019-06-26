@@ -35,9 +35,9 @@ class EmpleadoSeeder extends Seeder
                 'celular'=>random_int(6,7).random_int(0,9).random_int(0,9).random_int(0,9)."-".random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'direccion'=>$faker->address,
                 'fecha_nacimiento'=>$faker->date($format = 'Y-m-d', $max = '2018-06-01'),
-                'num_contribuyente'=>random_int(0,9).random_int(0,9).random_int(0,9).'-'.random_int(0,9),
-                'num_seguro_social'=>random_int(100000000,999999999),
-                'num_afp'=>random_int(1,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
+                //'num_contribuyente'=>random_int(0,9).random_int(0,9).random_int(0,9).'-'.random_int(0,9),
+                //'num_seguro_social'=>random_int(100000000,999999999),
+                //'num_afp'=>random_int(1,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'estado'=>1
             ]);
             if(random_int(1,2)==1){

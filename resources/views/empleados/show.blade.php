@@ -18,8 +18,13 @@
             <div class="panel-heading">Datos del empleado </div>
             <div class="panel-body">
               <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.Auth::user()->avatar) }}" alt="User profile picture">
-
+              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.Auth::user()->avatar) }}" id="img_file" alt="User profile picture">
+              <input type="file" class="archivos hidden" id="file_1" name="file_1" />
+              <div class="form-group">
+                <div id="error_formato1" class="hidden"><span style="color: red;">Formato de archivo invalido. Solo se permiten los formatos JPG y PNG.</span>
+                </div>
+              </div>
+              
               <h3 class="profile-username text-center">{{$empleado->nombre}}</h3>
 
               <p class="text-muted text-center">{{Auth()->user()->roleuser->role->description}}</p>
