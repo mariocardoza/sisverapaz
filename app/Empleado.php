@@ -50,4 +50,8 @@ class Empleado extends Model
     {
       return $this->hasMany('App\Detalleplanilla');
     }
+    public function contrato()
+    {
+      return $this->hasMany('App\Contrato');
+    }
 }

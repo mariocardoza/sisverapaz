@@ -14,7 +14,9 @@ class Detalleplanilla extends Model
     $a_empleados=[];
     foreach ($empleados as $e) {
       if($e->detalleplanilla->count()<1){
-        $a_empleados[$e->id]=$e->nombre;
+        if($e->contrato->count()<1){
+          $a_empleados[$e->id]=$e->nombre;
+        }
       }
     }
     return $a_empleados;

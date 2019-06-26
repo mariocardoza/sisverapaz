@@ -203,13 +203,6 @@ function cantprov()
     return $count;
 }
 
-function empleado_prestamo($id)
-{
-	$empleado=App\Empleado::where('id',$id)->first();
-	$nombre=$empleado->nombre;
-	return $nombre;
-}
-
 function nombre_proyecto($id)
 {
 	$proyecto = App\Proyecto::where('id',$id)->first();

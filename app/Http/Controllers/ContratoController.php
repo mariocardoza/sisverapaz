@@ -114,6 +114,14 @@ class ContratoController extends Controller
           'cargo_id' => $request->cargo_id,
           'salario' => $request->salario,
           'motivo' => $request->motivo,
+          'funciones'=> $request->funciones,
+          'inicio_contrato'=> $request->inicio_contrato,
+          'fin_contrato'=> $request->fin_contrato,
+          'hora_entrada'=> $request->hora_entrada,
+          'hora_salida'=> $request->hora_salida,
+          'fecha_aprobacion'=> $request->fecha_aprobacion,
+          'fecha_revision'=> $request->fecha_revision,
+
         ]);
         bitacora('Registró un Contrato');
         return redirect('/contratos')->with('mensaje','Registro almacenado con éxito');

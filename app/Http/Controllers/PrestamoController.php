@@ -43,12 +43,15 @@ class PrestamoController extends Controller
     {
       //$empleados = Empleado::where('estado',1)->get();
     //   $empleados=DB::select('SELECT id FROM empleados WHERE estado =1 EXCEPT SELECT empleado_id FROM prestamos');
-      $listaempleados=DB::select('SELECT id FROM empleados WHERE NOT id IN(SELECT empleado_id FROM prestamos where estado=1) AND estado=1 ORDER BY nombre ASC');
+      // $listaempleados=DB::select('SELECT id FROM empleados WHERE NOT id IN(SELECT empleado_id FROM prestamos where estado=1) AND estado=1 ORDER BY nombre ASC');
     //   Select * From Tabla1 where Not Codigo In (Select Codigo From Tabla2)
       //dd($empleados);}
+      $listaempleados=Empleados::where('estado',1)->orderBy('nombre','ASC')->get();
       $empleados= [];
       foreach($listaempleados as $e){
-        $empleados[$e->id]=empleado_prestamo($e->id);
+        if($e->detalleplanilla->count()>0){
+          $empleados[$e->id]=$e->nombre;
+        }
       }
       return view('prestamos.create',compact('empleados'));
     }

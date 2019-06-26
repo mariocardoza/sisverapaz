@@ -1,9 +1,12 @@
 <div class="form-group{{ $errors->has('empleado_id') ? ' has-error' : '' }}">
     <label for="" class="col-md-4 control-label">Empleado</label>
+    @php
+        $empleados=App\Detalleplanilla::empleados();
+    @endphp
     <div class="col-md-6">
-        <select name="empleado_id" id="empleado" class="form-control">
-            <option value="">Seleccione un empleado</option>
-        </select>
+        {!!Form::select('empleado_id',
+          $empleados
+          ,null, ['class'=>'form-control'])!!}
         @if ($errors->has('empleado_id'))
         <span class="help-block">
             <strong>{{ $errors->first('empleado_id') }}</strong>
