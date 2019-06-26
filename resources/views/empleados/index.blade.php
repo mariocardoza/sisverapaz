@@ -25,7 +25,7 @@
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
-                  <th>Id</th>
+                  <th>N°</th>
                   <th>Nombre empleado</th>
                   <th>DUI</th>
                   <th>Celular</th>
@@ -33,9 +33,9 @@
                   <th>Accion</th>
                 </thead>
                 <tbody>
-                  @foreach($empleados as $empleado)
+                  @foreach($empleados as $index => $empleado)
                   <tr>
-                    <td>{{ $empleado->id }}</td>
+                    <td>{{ $index+1 }}</td>
                     <td>{{ $empleado->nombre }}</td>
                     <td>{{ $empleado->dui }}</td>
                     <td>{{ $empleado->celular }}</td>
@@ -46,9 +46,9 @@
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                           <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                           @if($empleado->estado == 1)
-                          <a href="{{ url('empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                          <a id="modal_para_editar" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
 
-                          <a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a>
+                          <!--a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a-->
 
                           @elseif($empleado->estado == 2)
                           <a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a>
@@ -77,5 +77,12 @@
           </div>
           <!-- /.box -->
         </div>
+        @include('empleados.modales')
 </div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+  elempleado='<?php echo $empleado->id ?>';
+</script>
+{!! Html::script('js/empleados.js?cod='.date('Yidisus')) !!}
 @endsection

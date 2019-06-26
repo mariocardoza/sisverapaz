@@ -8,6 +8,11 @@ use App\Tipocontrato;
 use App\CategoriaEmpleado;
 use App\Bitacora;
 use App\Http\Requests\EmpleadoRequest;
+use Validator;
+use App\Role;
+use DB;
+use App\Http\Requests\UsuariosRequest;
+use App\User;
 
 class EmpleadoController extends Controller
 {
@@ -22,6 +27,16 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
+        $roles = Role::all();
+        $losbancos=\App\Banco::where('estado',1)->get();
+        $lasafps=\App\afp::where('estado',1)->get();
+        $bancos=$afps=[];
+        foreach ($losbancos as $banco) {
+            $bancos[$banco->id]=$banco->nombre;
+        }
+        foreach ($lasafps as $afp) {
+            $afps[$afp->codigo]=$afp->nombre;
+        }
         if($request->ajax())
         {
             return Empleado::where('estado',1)->orderBy('nombre','ASC')->get();
@@ -32,12 +47,12 @@ class EmpleadoController extends Controller
         if($estado == 1)
         {
             $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
-            return view('empleados.index',compact('empleados','estado'));
+            return view('empleados.index',compact('empleados','estado','bancos','afps','roles'));
         }
         if($estado == 2)
         {
             $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
-            return view('empleados.index',compact('empleados','estado'));
+            return view('empleados.index',compact('empleados','estado','bancos','afps'));
         }
         }
     }
@@ -115,8 +130,26 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
+        //Auth()->user()->authorizeRoles('admin');
+        $roles = Role::all();
+        $empleados = DB::table('empleados')->where('es_usuario','=','si')
+                    ->whereNotExists(function ($query)  {
+                         $query->from('users')
+                            ->whereRaw('empleados.id = users.empleado_id');
+                        })->get();
         $empleado = Empleado::findorFail($id);
-        return view('empleados.show', compact('empleado'));
+        $losbancos=\App\Banco::where('estado',1)->get();
+        $lasafps=\App\afp::where('estado',1)->get();
+        $bancos=$afps=[];
+        foreach ($losbancos as $banco) {
+            $bancos[$banco->id]=$banco->nombre;
+        }
+
+        foreach ($lasafps as $afp) {
+            $afps[$afp->codigo]=$afp->nombre;
+        }
+
+        return view('empleados.show', compact('empleado','bancos','afps','roles'));
     }
 
     /**
@@ -140,11 +173,16 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $empleado = Empleado::find($id);
-        $empleado->fill($request->All());
-        $empleado->save();
-        bitacora('Modificó un registro');
-        return redirect('empleados')->with('mensaje','Registro modificado con éxito');
+        try{
+           $empleado = Empleado::find($id);
+            $empleado->fill($request->All());
+            $empleado->save();
+            bitacora('Modificó un registro'); 
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+        
     }
 
     /**
@@ -155,6 +193,116 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $empleado=Empleado::find($id);
+            $empleado->estado=2;
+            $empleado->save();
+
+            $usuario=User::where('empleado_id',$empleado->id)->first();
+            $usuario->estado=2;
+            $usuario->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+
+    }
+
+    public function usuarios(UsuariosRequest $request){
+        try{
+            $user = User::create([
+            'empleado_id' => $request['elempleado'],
+            'username' => $request['username'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+        ]);
+
+        $user
+        ->roles()
+        ->attach(Role::find($request->roles));
+
+        bitacora('Registró un usuario');
+        return array(1,"exito");
+    }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+    }
+
+    }
+
+    public function bancarios(Request $request){
+        $this->validar_bancarios($request->all())->validate();
+        try{
+            $empleado=Empleado::find($request->codigo);
+            $empleado->banco_id=$request->banco;
+            $empleado->num_cuenta=$request->num_cuenta;
+            $empleado->save();
+            return array(1,"exito",$empleado);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function afps(Request $request){
+        $this->validar_afps($request->all())->validate();
+        try{
+            $empleado=Empleado::find($request->codigo);
+            $empleado->afp_codigo=$request->afp;
+            $empleado->num_afp=$request->num_afp;
+            $empleado->save();
+            return array(1,"exito",$empleado);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function isss(Request $request){
+        $this->validar_isss($request->all())->validate();
+        try{
+            $empleado=Empleado::find($request->codigo);
+            $empleado->num_seguro_social=$request->num_seguro_social;
+            $empleado->save();
+            return array(1,"exito",$empleado);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    protected function validar_bancarios(array $data)
+    {
+        $mensajes=array(
+            'num_cuenta.required'=>'El número de cuenta es obligatorio',
+            'num_cuenta.unique'=>'El número de cuenta ya esta en uso'
+        );
+        return Validator::make($data, [
+            'num_cuenta' => 'required|unique:empleados',
+        ],$mensajes);
+
+        
+    }
+
+     protected function validar_isss(array $data)
+    {
+        $mensajes=array(
+            'num_seguro_social.required'=>'El número de isss es obligatorio',
+            'num_seguro_social.unique'=>'El número de isss ya esta en uso'
+        );
+        return Validator::make($data, [
+            'num_seguro_social' => 'required|unique:empleados',
+        ],$mensajes);
+
+        
+    }
+
+     protected function validar_afps(array $data)
+    {
+        $mensajes=array(
+            'num_afp.required'=>'El número de afp es obligatorio',
+            'num_afp.unique'=>'El número de afp ya esta en uso'
+        );
+        return Validator::make($data, [
+            'num_afp' => 'required|unique:empleados',
+        ],$mensajes);
+
+        
     }
 }

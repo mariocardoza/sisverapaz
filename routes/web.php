@@ -253,6 +253,13 @@ Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
 Route::Resource('empleados','EmpleadoController');
+Route::post('empleados/bancarios','EmpleadoController@bancarios');
+Route::post('empleados/afps','EmpleadoController@afps');
+Route::post('empleados/isss','EmpleadoController@isss');
+Route::post('empleados/usuarios','EmpleadoController@usuarios');
+
+Route::Resource('afps','AfpController');
+
 
 Route::Resource('retenciones','RetencionController');
 

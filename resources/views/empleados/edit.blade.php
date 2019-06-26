@@ -13,7 +13,8 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="panel panel-default">       
+        <div class="panel panel-primary">     
+        <div class="panel-heading">Editar empleados</div>  
             <div class="panel-body">
                 {{ Form::model($empleado, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('empleados.update', $empleado->id))) }} 
                  @include('empleados.formulario')

@@ -14,4 +14,6 @@ class Banco extends Model
         }
         return $arrayB;
       }
+
+     
 }

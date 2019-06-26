@@ -32,6 +32,10 @@ class Empleado extends Model
       return $this->hasMany('App\Prestamo');
     }
 
+    public function user(){
+        return $this->hasOne('App\User');
+    }
+
     /*public function contrato()
     {
         return $this->hasMany('App\Contrato');
@@ -50,8 +54,17 @@ class Empleado extends Model
     {
       return $this->hasMany('App\Detalleplanilla');
     }
+    
     public function contrato()
     {
       return $this->hasMany('App\Contrato');
+
+    }
+     public function banco(){
+        return $this->belongsTo('App\Banco');
+    }
+
+    public function afp(){
+    return $this->belongsTo('App\Afp');
     }
 }
