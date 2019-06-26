@@ -35,6 +35,7 @@ const { mix } = require('laravel-mix');
   'resources/assets/js/chosen.jquery.js',
   'resources/assets/js/fullcalendar.js',
   'resources/assets/js/es.js',
+  'resources/assets/js/jquery.validate.min.js',
   //con esta funcion agrego el js para cargar los municipios por departamento
   'resources/assets/js/municipios.js',
 
