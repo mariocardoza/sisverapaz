@@ -1,0 +1,79 @@
+<div class="box box-default">
+ <div class="box-header with-border">
+   <i class="fa fa-warning"></i>
+   <h3 class="box-title">Impuesto para el inmueble: (( inmueble.numero_catastral ))</h3>
+   <div class="btn-group pull-right">
+     <button class="btn btn-primary" ng-click="onShowAdd(true);" ng-hide="isShow">
+       <i class="fa fa-fw fa-plus-square"></i>
+     </button>
+     <button type="button" ng-click="cerrar()" class="btn btn-danger">Cerrar</button>
+   </div>
+ </div>
+ <div class="box-body">
+  <div class="col-xs-12" ng-show="isShow">
+    <div class="box box-info">
+      <div class="box-header with-border">
+        <h3 class="box-title">Agregar impuesto</h3>
+      </div>
+      <form class="form-horizontal" name="frmImpuesto" ng-submit="addTipoServicio()">
+        <div class="box-body">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">Impuestos</label>
+            <div class="col-sm-10">
+             <select required name="impuestp" id="impuesto" class="form-control" ng-model="impuesto">
+              <option value="(( i.id ))" ng-repeat="i in tipoServicios">(( i.nombre ))</option>
+             </select>              
+            </div>
+          </div>
+        </div>
+        <div class="box-footer">
+          <button type="button" class="btn btn-default" ng-click="onShowAdd(false);">Cancelar</button>
+          <button type="submit" ng-disabled="frmImpuesto.$invalid" class="btn btn-info pull-right">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Impuestos actuales del inmueble</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body no-padding">
+        <table class="table table-striped">
+         <thead>
+          <tr>
+           <th style="width: 10px">#</th>
+           <th>Impuesto</th>
+           <th class="text-center">Pago (x unidad)</th>
+           <th></th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr ng-if='inmueble.tipo_servicio.length == 0'>
+           <td colspan="5">
+            <h2 class="text-center">
+             No hay impuestos para este inmueble
+            </h2>
+           </td>
+          </tr>
+          <tr ng-repeat="item in inmueble.tipo_servicio" ng-if='inmueble.tipo_servicio.length > 0'>
+           <td>(( $index +1 ))</td>
+           <td class="text-left">(( item.nombre ))</td>
+           <td class="text-center">(( item.costo | currency:'$' ))</td>
+           <td class="text-center">
+            <div class="btn-group">
+             <button class="btn btn-danger" ng-click="deleteImpuesto($index, item.id)" ng-if='item.isObligatorio === 0'>
+               <i class="fa fa-trash-o"></i>
+             </button>
+            </div>
+           </td>
+          </tr>
+         </tbody>
+       </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+  </div>
+ </div>
+</div>

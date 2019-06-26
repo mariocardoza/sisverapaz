@@ -1,0 +1,6 @@
+<div style="width:100%;height:100% !important;position: relative">
+  <ng-map class="center-maps" zoom="17" on-click="updateMarkerPoints()">
+    <marker ng-repeat="position in positions" position="((position.lat)), ((position.lng))" animation="Animation.BOUNCE"></marker>
+  </ng-map>
+  <button type="button" ng-click="cerrar()" class="btn btn-danger btn-sm btn-google-geolocation">Cerrar</button>
+</div>

@@ -1,0 +1,21 @@
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">Dar de baja al contribuyente</h3>
+  </div>
+  <form role="form" ng-submit="onDarBaja();" name="frm">
+    <div class="box-body">
+      <div class="form-group">
+        <h2>Contribuyente: <span>(( people.nombre ))</span> </h2>
+      </div>
+      <div class="form-group">
+        <label>Motivo: </label>
+        <textarea class="form-control" ng-model="motivo" required
+          rows="3" placeholder="Motivo por el cual dara la baja al contribuyente"></textarea>
+      </div>
+    </div>
+    <div class="box-footer">
+      <button type="submit" ng-disabled="frm.$invalid" class="btn btn-primary pull-left">Dar de baja</button>
+      <button type="button" ng-click="cerrar()" class="btn btn-danger pull-right">Cerrar</button>
+    </div>
+  </form>
+</div>

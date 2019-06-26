@@ -1,0 +1,45 @@
+<div class="col-xs-12 table-responsive">
+  <table class="table no-margin">
+    <thead>
+      <tr>
+        <th class="text-center"># Catastral</th>
+        <th class="text-center"># Escritura</th>
+        <th class="text-left">Medida</th>
+        <th class="text-left">Metro Acera</th>
+        <th class="text-center">Ubicacion</th>
+        <th class="text-center">Estado</th>
+        <th class="text-center"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in people.inmuebles">
+        <td class="text-center">(( item.numero_catastral ))</td>
+        <td class="text-center"><span class="label label-success">(( item.numero_escritura ))</span></td>
+        <td class="text-left">(( item.medida_inmueble ))</td>
+        <td class="text-left">(( item.metros_acera ))</td>
+        <td class="text-center">
+          <button ng-click='onViewMap(item, $index)' class="btn btn-primary">Ver Ubicacion</button>
+        </td>
+        <td class="text-center">
+          <span class="label" ng-class="{ 'label-success' : item.estado == 1 ,  'label-danger' : item.estado == 0 }">
+            (( item.estado == 1 ? 'Activo' : 'Inactivo' ))
+          </span>
+        </td>
+        <td class="text-center">
+          <div class="btn-group text-align">
+            <button class="btn btn-warning" ng-click='onViewCreateEditInmuebleController(true, item, $index)'>
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-success" ng-click="onViewTipoServicio(item.id);">
+              <i class="fa fa-fw fa-dollar"></i>
+            </button>
+            <button ng-click='onDeleteBaja(item);' class="btn " 
+              ng-class="( item.estado ? 'btn-primary' : 'btn-danger' )">
+              <i class="fa" ng-class="( item.estado ? 'fa-thumbs-o-up' : 'fa-thumbs-o-down' )"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

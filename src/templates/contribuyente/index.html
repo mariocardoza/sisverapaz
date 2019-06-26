@@ -1,0 +1,26 @@
+<section class="content-header">
+ <h1>Contribuyentes</h1>
+</section>
+
+<section class="content">
+ <div class="row">
+  <div class="col-xs-12">
+   <div class="box">
+    <div class="box-header">
+     <h3>Listado de Contribuyentes</h3>
+     <div class="btn-group pull-right">
+       <button type="button" ng-click='openModalRubros();' class="btn btn-primary">Rubros</button>
+       <button type="button" ng-click="openModalServicio();" class="btn btn-primary">Servicios</button>
+       <button type="button" ng-click='openModalContribuyente();' class="btn btn-primary">Contribuyente Nuevo</button>
+       <button type="button" ng-click='generarPagosContribuyente();' class="btn btn-primary">Generar Pagos</button>
+     </div>
+    </div>
+    <div class="box-body">
+     <table datatable dt-options="dtOptions" dt-columns="dtColumns"
+        id="example1" class="table table-bordered table-striped dataTable">
+    </table>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
