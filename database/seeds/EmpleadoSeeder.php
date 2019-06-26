@@ -16,7 +16,7 @@ class EmpleadoSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create('es_ES');
-        for($i=0;$i<50;$i++){
+        for($i=0;$i<20;$i++){
             $s=random_int(0,1);
             if(!$s){
                 $n=$faker->firstNameMale; 
@@ -40,12 +40,14 @@ class EmpleadoSeeder extends Seeder
                 'num_afp'=>random_int(1,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'estado'=>1
             ]);
+            if(random_int(1,2)==1){
             DetallePlanilla::create([
                 'empleado_id'=>$empleado->id,
                 'salario'=>random_int(250,2000).'.'.random_int(0,99),
-                'tipo_pago'=>random_int(1,2),
+                'tipo_pago'=>1,
                 'pago'=>random_int(1,2)
             ]);
+            }
 
 
         }

@@ -41,7 +41,7 @@ $tipo_pago= ['1'=>'Planilla','2'=>'Por contrato'];
                   <td>
                     <div class="btn-group">
                       <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('planillas/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                      <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success btn-xs" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                     </div>
                   </td>
                 </tr>
