@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Configuracion;
-
+use Validator;
 class ConfiguracionController extends Controller
 {
     public function create()
@@ -16,6 +16,7 @@ class ConfiguracionController extends Controller
 
     public function alcaldia(Request $request)
     {
+      $this->validar_alcaldia($request->all())->validate();
       Configuracion::create([
         "direccion_alcaldia" => $request->direccion_alcaldia,
         "nit_alcaldia" => $request->nit_alcaldia,
@@ -41,6 +42,7 @@ class ConfiguracionController extends Controller
 
     public function alcalde(Request $request)
     {
+      $this->validar_alcalde($request->all())->validate();
           Configuracion::create([
           'nombre_alcalde' => $request->nombre_alcalde,
           'nacimiento_alcalde' => invertir_fecha($request->nacimiento_alcalde),
@@ -67,8 +69,44 @@ class ConfiguracionController extends Controller
 
     }
 
-    public function logo(Request $request)
+    public function logo(Request $request,$id)
     {
-
+      try{
+        $configuracion = \App\Configuracion::find($id);
+        if($configuracion->escudo_alcaldia!=$request->file('logo')->getClientOriginalName()){
+          unlink('img/logos/'.$configuracion->escudo_alcaldia);
+        }
+        $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
+        $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
+        $configuracion->save();
+        return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
+      }catch(Exception $e){
+        return redirect('configuraciones')->with('error','Ocurrió un error al subir la imagen');
+      }
+      
     }
+
+    protected function validar_alcaldia(array $data)
+    {
+        return Validator::make($data, [
+            'direccion_alcaldia' => 'required',
+            'telefono_alcaldia' => 'required',
+            'fax_alcaldia' => 'required',
+            'email_alcaldia' => 'required|email',
+            'nit_alcaldia' => 'required',
+        ]);
+    }
+
+    protected function validar_alcalde(array $data)
+    {
+        return Validator::make($data, [
+            'nombre_alcalde' => 'required',
+            'oficio_alcalde' => 'required',
+            'dui_alcalde' => 'required',
+            'nit_alcalde' => 'required|email',
+            'domicilio_alcalde' => 'required',
+            'nacimiento_alcalde' => 'required|date',
+        ]);
+    }
+
 }

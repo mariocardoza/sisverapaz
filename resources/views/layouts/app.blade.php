@@ -11,9 +11,8 @@
 @php
   $cod=date("Yisisus");
 @endphp
-  {!!Html::style('css/sisverapaz.css')!!}
+  {!! Html::style('css/sisverapaz.css')!!}
   {!! Html::script('js/sisverapaz.js?cod='.$cod) !!}
-{!! Html::script('js/jquery.validate.min.js?cod='.date('Yidisus')) !!}
   {!! Html::script('js/funcionesgenerales.js?cod='.$cod) !!}
 <style>
   .error{
@@ -163,13 +162,13 @@
           @else
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
+              <img src="{{ asset('avatars/'.Auth::user()->empleado->avatar) }}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{Auth()->user()->empleado->nombre}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
+                <img src="{{ asset('avatars/'.Auth::user()->empleado->avatar) }}" class="user-image" alt="User Image">
 
                 <p>
                   {{Auth()->user()->roleuser->role->description}}
@@ -228,7 +227,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
+          <img src="{{ asset('avatars/'.Auth::user()->empleado->avatar) }}" class="user-image" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{ Auth()->user()->empleado->nombre }} </p>

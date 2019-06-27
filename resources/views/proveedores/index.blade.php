@@ -26,13 +26,13 @@
             <div class="panel-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
   				<thead>
-                  <th>Nombre de Proveedor</th>
-                  <th>Dirección</th>
-                  <th>Correo</th>
-                  <th>Telefono</th>
-                  <th>Número de registro</th>
-                  <th>NIT</th>
-                  <th>Accion</th>
+                  <th width="20%">Nombre de Proveedor</th>
+                  <th width="20%">Dirección</th>
+                  <th width="10%">Correo</th>
+                  <th width="10%">Telefono</th>
+                  <th width="10%">Número de registro</th>
+                  <th width="20%">NIT</th>
+                  <th width="10%">Accion</th>
                 </thead>
                 <tbody>
                 	@foreach($proveedores as $proveedor)

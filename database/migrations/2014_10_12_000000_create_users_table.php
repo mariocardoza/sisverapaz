@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('estado')->unsigned()->default(1);
-            $table->string('avatar')->default('avatar.jpg');
             $table->string('motivo')->nullable();
             $table->date('fechabaja')->nullable();
             $table->rememberToken();

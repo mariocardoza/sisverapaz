@@ -2,8 +2,7 @@
 
 @section('migasdepan')
 <h1>
-  Ver proveedor:
-        <small><b>{{ $proveedor->nombre }}</b></small>
+   &nbsp; 
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
@@ -14,76 +13,90 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Datos del Proveedor </div>
-                <div class="panel-body">
-                        <div class="form-group">
-                            <label for="nombree" class="col-md-4 control-label">Nombre de la Empresa o Proveedor: </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->nombre}}</label>
-                        </div><br>
-
-                         <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
-                            <label for="direccion" class="col-md-4 control-label">Dirección: </label>
-                            <label for="nombree" class="col-md-8 control-label">{{$proveedor->direccion}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('telefonoe') ? ' has-error' : '' }}">
-                            <label for="telefonoe" class="col-md-4 control-label">Telefono de la Empresa o Proveedor: </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->telefono}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('emaile') ? ' has-error' : '' }}">
-                            <label for="emaile" class="col-md-4 control-label">E-Mail Proveedor: </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->email}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('nombrer') ? ' has-error' : '' }}">
-                            <label for="nombrer" class="col-md-4 control-label">Nombre de Represetante: </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->nombrer}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('telfijor') ? ' has-error' : '' }}">
-                            <label for="telfijor" class="col-md-4 control-label">Telefono fijo Representante (si lo hay): </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->teldijor}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('celr') ? ' has-error' : '' }}">
-                            <label for="celr" class="col-md-4 control-label">Celular Representante: </label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->celr}}</label>
-                        </div><br>
-
-                        <div class="form-group{{ $errors->has('emailr') ? ' has-error' : '' }}">
-                            <label for="emailr" class="col-md-4 control-label">Dirección email del Representante:</label>
-                            <label for="nombree" class="col-md-4 control-label">{{$proveedor->emailr}}</label>
-                        </div><br>
-
-                      {{ Form::open(['route' => ['proveedores.destroy', $proveedor->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('/proveedores/'.$proveedor->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a> |
-                        <button class="btn btn-danger" type="button" onclick="
-                        return swal({
-                          title: 'Eliminar proveedor',
-                          text: '¿Está seguro de eliminar proveedor?',
-                          type: 'question',
-                          showCancelButton: true,
-                          confirmButtonText: 'Si, Eliminar',
-                          cancelButtonText: 'No, Mantener',
-                          confirmButtonClass: 'btn btn-danger',
-                          cancelButtonClass: 'btn btn-default',
-                          buttonsStyling: false
-                        }).then(function(){
-                          submit();
-                          swal('Hecho', 'El registro a sido eliminado','success')
-                        }, function(dismiss){
-                          if(dismiss == 'cancel'){
-                            swal('Cancelado', 'El registro se mantiene','info')
-                          }
-                        })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                      {{ Form::close()}}
-                </div>
+  <div class="row">
+    <div class="col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Datos del Proveedor </div>
+            <div class="panel-body">
+              <table class="table">
+                  <tr>
+                    <td>Nombre</td>
+                    <th>{{$proveedor->nombre}}</th>
+                  </tr>
+                  <tr>
+                    <td>Dirección</td>
+                    <th>{{$proveedor->direccion}}</th>
+                  </tr>
+                  <tr>
+                    <td>Teléfono</td>
+                    <th>{{$proveedor->telefono}}</th>
+                  </tr>
+                  <tr>
+                    <td>E-Mail</td>
+                    <th>{{$proveedor->email}}</th>
+                  </tr>
+                  <tr>
+                    <td>NIT</td>
+                    <th>{{$proveedor->nit}}</th>
+                  </tr>
+                  <tr>
+                    <td>NRC</td>
+                    <th>{{$proveedor->numero_registro}}</th>
+                  </tr>
+                  <tr>
+                    <td>DUI (persona natural)</td>
+                    <th>{{$proveedor->dui}}</th>
+                  </tr>
+              </table>
+              <center><button id="editar" class="btn btn-primary btn sm"><i class="fa fa-edit"></i> Editar</button></center>
             </div>
-        </div>
+          </div>
     </div>
+    <div class="col-md-5">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Datos de representante legal</div>
+            <div class="panel-body">
+              <?php if($proveedor->nombrer != ''): ?>
+                <table class="table">
+                  <tr>
+                    <td>Nombre</td>
+                    <th>{{$proveedor->nombrer}}</th>
+                  </tr>
+                  <tr>
+                    <td>Celular</td>
+                    <th>{{$proveedor->celular_r}}</th>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <th>{{$proveedor->emailr}}</th>
+                  </tr>
+                   <tr>
+                    <td>Teléfono fijo</td>
+                    <th>{{$proveedor->telfijor}}</th>
+                  </tr>
+                  <tr>
+                    <td>DUI</td>
+                    <th>{{$proveedor->duir}}</th>
+                  </tr>
+                </table>
+              <?php else: ?>
+                <center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>Agregue los datos del representante legal</span><br>
+                  
+                </center>
+              <?php endif; ?>
+              <center><button class="btn btn-primary" id="show_representante">Agregar</button></center>
+            </div>
+          </div>
+    </div>
+  </div>
 </div>
+@include('proveedores.modales')
+@endsection
+@section('scripts')
+<script type="text/javascript">
+  elproveedor='<?php echo $proveedor->id ?>';
+</script>
+{!! Html::script('js/proveedor.js?cod='.date('Yidisus')) !!}
 @endsection

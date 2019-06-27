@@ -14,9 +14,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="panel panel-default">
+        <div class="col-md-11">
+            <div class="panel panel-primary">
+            <div class="panel panel-heading">Editar proveedor</div>
             <div class="panel-body">
-                {{ Form::model($proveedor, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('proveedores.update', $proveedor->id))) }}
+                {{ Form::model($proveedor, array('method' => 'put', 'class' => '' , 'route' => array('proveedores.update', $proveedor->id))) }}
                  @include('proveedores.formulario')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">
@@ -27,6 +29,7 @@
                     </div>
                 {{ Form::close() }}
             </div>
+        </div>
         </div>
     </div>
 </div>

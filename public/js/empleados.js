@@ -15,7 +15,7 @@ $(document).ready(function(e){
 	      	success: function(json){
 	      		if(json[0]==1){
 	      			toastr.success('exito');
-	      			window.location.href = "../empleados";
+	      			window.location.href = "../empleados/"+json[2].id;
 	      		}else{
 	      			toastr.error('error');
 	      		}
@@ -26,7 +26,7 @@ $(document).ready(function(e){
 	      	error : function(data){
 	          	$.each(data.responseJSON.errors,function(index,value){
 	          		toastr.error(value);
-	          	})
+	          	});
 	        }
 	    });
 	});
@@ -39,6 +39,8 @@ $(document).ready(function(e){
     $(document).on("change", "#file_1", function(event) {
         validar_archivo($(this));
     });
+
+
 
 	$(document).on("click","#btn_editar",function(e){
 		var datos=$("#e_empleados").serialize();
@@ -92,6 +94,11 @@ $(document).ready(function(e){
 	$(document).on("click","#modal_usuarios",function(e){
 		e.preventDefault();
 		$("#modal_user").modal("show");
+	});
+
+	$(document).on("click","#editar_usuario",function(e){
+		e.preventDefault();
+		$("#editar_user").modal("show");
 	});
 
 	$(document).on("click","#modal_isss",function(e){
@@ -190,6 +197,35 @@ $(document).ready(function(e){
 					$.each(error.responseJSON.errors,function(index,value){
 	          			toastr.error(value);
 	          		});
+				}
+			})
+		}
+	});
+
+	$(document).on("click","#eledit_user", function(e){
+		var valid=$("#e_usuarios").valid();
+		if(valid){
+			modal_cargando();
+			var datos=$("#e_usuarios").serialize();
+			$.ajax({
+				url:'../empleados/eusuarios',
+				headers: {'X-CSRF-TOKEN':eltoken},
+				type:'POST',
+				dataType:'json',
+				data:datos,
+				success: function(json){
+					if(json[0]==1){
+					toastr.success("Dato de usuario actualizados con éxito");
+					window.location.reload();
+					}else{
+						toastr.error("Ocurrió un error");
+						swal.closeModal();
+					}
+				}, error: function(error){
+					$.each(error.responseJSON.errors,function(index,value){
+	          			toastr.error(value);
+	          		});
+	          		swal.closeModal();
 				}
 			})
 		}
@@ -297,6 +333,7 @@ function validar_archivo(file){
               else{
                   $("#img_file").attr("src",origen.result);
                   $("#error_formato1").addClass('hidden');
+                  $("#elquecambia").css("display","block");
               }
 
 
@@ -307,3 +344,4 @@ function validar_archivo(file){
          Lector.readAsDataURL(Archivos[0]);
   }
 }
+

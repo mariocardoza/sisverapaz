@@ -51,7 +51,7 @@
     </ul>
 </li>
 
-<li class="treeview">
+<li class="treeview {{ Route::currentRouteName() == 'proveedores.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-user-circle-o"></i>
         <span>Proveedores</span>
@@ -61,7 +61,6 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="{{ url('proveedores') }}"><i class="fa fa-circle-o"></i> Listado de Proveedores</a></li>
-        <li><a href="{{ url('proveedores/create') }}"><i class="fa fa-circle-o"></i> Registrar proveedor</a></li>
     </ul>
 </li>
 <li class="treeview">

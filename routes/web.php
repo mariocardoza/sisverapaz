@@ -44,7 +44,7 @@ Route::post('configuraciones/alcaldia','ConfiguracionController@alcaldia')->name
 Route::put('configuraciones/ualcaldia/{configuracione}','ConfiguracionController@ualcaldia')->name('configuraciones.ualcaldia');
 Route::post('configuraciones/alcalde','ConfiguracionController@alcalde')->name('configuraciones.alcalde');
 Route::put('configuraciones/ualcalde/{configuracione}','ConfiguracionController@ualcalde')->name('configuraciones.ualcalde');
-Route::post('configuraciones/logo','ConfiguracionController@logo')->name('configuraciones.logo');
+Route::post('configuraciones/logo/{id}','ConfiguracionController@logo')->name('configuraciones.logo');
 Auth::routes();
 
 Route::post('authenticate','Auth\loginController@authenticate')->name('authenticate');
@@ -73,6 +73,7 @@ Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
+Route::post('proveedores/representante/{id}','ProveedorController@representante');
 
 Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
 Route::post('especialistas/alta/{id}','EspecialistaController@alta')->name('especialistas.alta');
@@ -227,6 +228,7 @@ Route::get('categoriaempleados/create/{id}','CategoriaEmpleadoController@create'
 Route::post('categoriaempleados/baja/{id}','CategoriaEmpleadoController@baja')->name('categoriaempleados.baja');
 Route::post('categoriaempleados/alta/{id}','CategoriaEmpleadoController@alta')->name('categoriaempleados.alta');
 Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
+Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
 /*Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
@@ -257,6 +259,8 @@ Route::post('empleados/bancarios','EmpleadoController@bancarios');
 Route::post('empleados/afps','EmpleadoController@afps');
 Route::post('empleados/isss','EmpleadoController@isss');
 Route::post('empleados/usuarios','EmpleadoController@usuarios');
+Route::post('empleados/eusuarios','EmpleadoController@eusuarios');
+Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
 Route::Resource('afps','AfpController');
 

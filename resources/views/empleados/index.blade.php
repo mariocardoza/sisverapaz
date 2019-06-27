@@ -46,7 +46,7 @@
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                           <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
                           @if($empleado->estado == 1)
-                          <a id="modal_para_editar" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                          <a href="{{ url('empleados/'.$empleado->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
 
                           <!--a title="" href="{{ url('categoriaempleados/create?empleado='.$empleado->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-list-alt"></span></a-->
 

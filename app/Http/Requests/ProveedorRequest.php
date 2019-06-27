@@ -26,10 +26,10 @@ class ProveedorRequest extends FormRequest
         return [
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string',
-            'telefono' => 'required|string',
+            'telefono' => 'required|min:9',
             'email' => 'required|string|email',
             'numero_registro' => 'required',
-            'nit' => 'required',
+            'nit' => 'required|min:17',
         ];
     }
 }

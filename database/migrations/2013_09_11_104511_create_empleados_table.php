@@ -30,6 +30,7 @@ class CreateEmpleadosTable extends Migration
             $table->string('num_afp')->nullable();
             $table->integer('estado')->unsigned()->default(1);
             $table->string('es_usuario')->default('no');
+            $table->string('avatar')->default('avatar.jpg');
             $table->timestamps();
         });
     }

@@ -18,8 +18,12 @@
             <div class="panel-heading">Datos del empleado </div>
             <div class="panel-body">
               <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.Auth::user()->avatar) }}" id="img_file" alt="User profile picture">
-              <input type="file" class="archivos hidden" id="file_1" name="file_1" />
+              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.$empleado->avatar) }}" id="img_file" alt="User profile picture">
+              <form method='post' action="{{ url('empleados/foto/'.$empleado->id) }}" enctype='multipart/form-data'>
+                {{csrf_field()}}
+              <input type="file" class="archivos hidden" id="file_1" name="foto" />
+              <center><button type="submit" class="btn btn-primary" style="display: none;" id="elquecambia">Cambiar</button></center>
+              </form>
               <div class="form-group">
                 <div id="error_formato1" class="hidden"><span style="color: red;">Formato de archivo invalido. Solo se permiten los formatos JPG y PNG.</span>
                 </div>
@@ -27,7 +31,14 @@
               
               <h3 class="profile-username text-center">{{$empleado->nombre}}</h3>
 
-              <p class="text-muted text-center">{{Auth()->user()->roleuser->role->description}}</p>
+              
+                <?php if ($empleado->es_usuario=='si' && $empleado->user): ?>
+                  <p class="text-muted text-center">
+                    {{$empleado->user->roleuser->role->description}}</p>
+                  <?php else: ?>
+                  <p class="text-muted text-center">Empleado</p>
+                <?php endif ?>
+            
 
               </div>
               <table class="table">
@@ -95,6 +106,7 @@
                             <th>{{$empleado->user->email}}</th>
                           </tr>
                         </table>
+                        <center><button class="btn btn-primary btn-sm" id="editar_usuario" type="button">Editar información</button></center>
                       <?php else: ?>
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>

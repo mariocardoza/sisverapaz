@@ -13,6 +13,7 @@ use App\Role;
 use DB;
 use App\Http\Requests\UsuariosRequest;
 use App\User;
+use Auth;
 
 class EmpleadoController extends Controller
 {
@@ -64,6 +65,7 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
+        Auth()->user()->authorizeRoles('admin');
         $tipocontratos = Tipocontrato::where('estado',1);
         return view('empleados.create',compact('tipocontratos'));
     }
@@ -131,7 +133,8 @@ class EmpleadoController extends Controller
     public function show($id)
     {
         //Auth()->user()->authorizeRoles('admin');
-        $roles = Role::all();
+        //$roles = Role::all();
+        $losroles=Role::all();
         $empleados = DB::table('empleados')->where('es_usuario','=','si')
                     ->whereNotExists(function ($query)  {
                          $query->from('users')
@@ -147,6 +150,10 @@ class EmpleadoController extends Controller
 
         foreach ($lasafps as $afp) {
             $afps[$afp->codigo]=$afp->nombre;
+        }
+
+        foreach ($losroles as $rol) {
+            $roles[$rol->id]=$rol->description;
         }
 
         return view('empleados.show', compact('empleado','bancos','afps','roles'));
@@ -229,6 +236,23 @@ class EmpleadoController extends Controller
 
     }
 
+    public function eusuarios(Request $request){
+        $this->validar_usuarios($request->all())->validate();
+        try{
+            $empleado=Empleado::find($request->elempleado);
+            $usuario=$empleado->user;
+            $usuario->username=$request->username;
+            $usuario->email=$request->email;
+            $empleado->email=$request->email;
+            $empleado->save();
+            $usuario->save();
+
+            return array(1,"exito",$empleado);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
     public function bancarios(Request $request){
         $this->validar_bancarios($request->all())->validate();
         try{
@@ -265,6 +289,39 @@ class EmpleadoController extends Controller
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }
+    }
+
+    public function foto(Request $request,$id)
+    {
+      try{
+        $empleado = Empleado::find($id);
+        /*if($empleado->user->avatar!=$request->file('foto')->getClientOriginalName()){
+          if($empleado->user->avatar!='avatar.jpg'){
+            unlink('avatars/'.$empleado->user->avatar);
+          }
+        }*/
+        $request->file('foto')->move('avatars', $request->file('foto')->getClientOriginalName());
+        $empleado->avatar=$request->file('foto')->getClientOriginalName();
+        $empleado->save();
+         Auth()->user()->empleado->avatar=$empleado->avatar;
+        return redirect('empleados/'.$id)->with('mensaje','Imagen cambiada con exito');
+      }catch(Exception $e){
+        return redirect('empleados/'.$id)->with('error','Ocurrió un error al subir la imagen');
+      }
+      
+    }
+
+    protected function validar_usuarios(array $data)
+    {
+        $mensajes=array(
+            'username.required'=>'El número de cuenta es obligatorio',
+            'username.unique'=>'El nombre de usuario ya esta en uso'
+        );
+        return Validator::make($data, [
+            'username' => 'required|unique:users',
+        ],$mensajes);
+
+        
     }
 
     protected function validar_bancarios(array $data)
