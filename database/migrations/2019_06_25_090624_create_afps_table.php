@@ -16,7 +16,7 @@ class CreateAfpsTable extends Migration
         Schema::create('afps', function (Blueprint $table) {
             $table->string('codigo')->primary();
             $table->string('nombre');
-            $table->integer('estado')->unsigned()->default(1);
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }

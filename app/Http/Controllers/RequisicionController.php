@@ -44,8 +44,15 @@ class RequisicionController extends Controller
     public function create()
     {
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
-      $medidas = UnidadMedida::all();
-      $fondos = Fondocat::where('estado',1)->get();
+      $unidades = UnidadMedida::all();
+      foreach ($unidades as $value) {
+        $medidas[$value->id]=$value->nombre_medida;
+      }
+      $losfondos = Fondocat::where('estado',1)->get();
+
+      foreach ($losfondos as $fondito) {
+        $fondos[$fondito->id]=$fondito->categoria;
+      }
 
         return view('requisiciones.create',compact('medidas','fondos'));
     }
@@ -65,20 +72,23 @@ class RequisicionController extends Controller
           $requisiciones = $request->requisiciones;
 
           $requisicion = Requisicione::create([
+              'id'=>date('Yidisus'),
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
               'fondocat_id' => $request->fondo,
-              'user_id' => $request->user_id,
+              'user_id' => Auth()->user()->id,
               'observaciones' => $request->observaciones,
               ]);
-            foreach($requisiciones as $requi){
+            /*foreach($requisiciones as $requi){
+              $elid=Requisiciondetalle::retonrar_id_insertar();
               Requisiciondetalle::create([
+                'id'=>$elid,
                 'cantidad' => $requi['cantidad'],
                 'unidad_medida' => $requi['unidad'],
                 'descripcion' => $requi['descripcion'],
                 'requisicion_id' => $requisicion->id,
               ]);
-            }
+            }*/
             DB::commit();
             return response()->json([
               'mensaje' => 'exito',
@@ -103,11 +113,17 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
+      $unidades = UnidadMedida::all();
+      foreach ($unidades as $value) {
+        $medidas[$value->id]=$value->nombre_medida;
+      }
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
+
+        //dd($requisicion->requisiciondetalle);
         //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
         //dd($requisicion);
-        return view('requisiciones.show',compact('requisicion'));
+        return view('requisiciones.show',compact('requisicion','medidas'));
     }
 
     /**
@@ -118,7 +134,11 @@ class RequisicionController extends Controller
      */
     public function edit($id)
     {
-      $fondos = Fondocat::where('estado',1)->get();
+      $losfondos = Fondocat::where('estado',1)->get();
+
+      foreach ($losfondos as $fondito) {
+        $fondos[$fondito->id]=$fondito->categoria;
+      }
       $requisicion=Requisicione::findorFail($id);
       $unidades=Unidad::pluck('nombre_unidad', 'id');
       $medidas = UnidadMedida::all();

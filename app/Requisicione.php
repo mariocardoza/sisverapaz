@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Requisicione extends Model
 {
-  protected $fillable = ['codigo_requisicion','actividad','user_id','observaciones','fondocat_id'];
+  protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id'];
+  protected $primaryKey = "id";
+  public $incrementing = false;
 
   public static function correlativo()
   {
-    $numero=Requisicione::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->count();
+    $numero=Requisicione::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->where('estado',1)->count();
     if($numero>0 && $numero<10){
       return "RQ-00".($numero+1)."-".date("Y");
     }else{

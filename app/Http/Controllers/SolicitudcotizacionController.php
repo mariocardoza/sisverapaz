@@ -105,7 +105,7 @@ class SolicitudcotizacionController extends Controller
     {
       $requisicion = Requisicione::findorFail($id);
       $formapagos = Formapago::all();
-      return view('solicitudcotizaciones.creater',compact('formapagos','requisicion','unidades'));
+      return view('solicitudcotizaciones.creater',compact('formapagos','requisicion'));
     }
 
     /**

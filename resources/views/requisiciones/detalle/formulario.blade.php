@@ -8,12 +8,7 @@
 <div class="form-group{{ $errors->has('unidad_medida') ? ' has-error' :''}}">
   <label for="" class="col-md-4 control-label">Unidad de medida</label>
   <div class="col-md-6">
-    <select name="unidad_medida" id="unidad_medida" class="chosen-select-width">
-      <option value="">Seleccione</option>
-      @foreach($medidas as $medida)
-        <option>{{$medida->nombre_medida}}</option>
-      @endforeach
-    </select>
+    {{Form::select('unidad_medida',$medidas,null,['class'=>'chosen-select-width','id'=>'unidad_medida','placeholder'=>'Seleccione una unidad de medida'])}}
   </div>
 </div>
 

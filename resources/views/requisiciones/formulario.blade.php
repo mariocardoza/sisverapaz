@@ -23,11 +23,8 @@
                         <div class="form-group">
                           <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
                           <div class="col-md-6">
-                            <select class="chosen-select-width" id="fondo">
-                                @foreach($fondos as $fondo)
-                                  <option value="{{$fondo->id}}">{{$fondo->categoria}}</option>
-                                @endforeach
-                            </select>
+                            {{Form::select('',$fondos,null,['class'=>'chosen-select-width','id'=>'fondo'])}}
+                        
 
                           </div>
                         </div>

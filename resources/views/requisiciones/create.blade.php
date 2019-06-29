@@ -21,37 +21,20 @@
                     {{ Form::open(['action' => 'RequisicionController@store','class' => 'form-horizontal','id' => 'requisicion']) }}
                     @include('requisiciones.formulario')
                     <br>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                       Agregar requisiciones
-                    </button>
+                    </button-->
                     <br>
-                    @include('requisiciones.tabla')
-                    <input type="hidden" name="contador" id="contador" readonly>
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-1">
+                    
+                    
+                    <center><div class="form-group">
+                        <div class="">
                             <button id="btnguardar" type="button" class="btn btn-success">
                                 <span class="glyphicon glyphicon-floppy-disk"></span>    Registrar
                             </button>
                         </div>
                     </div>
-                    <!-- Modal -->
-                    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Necesidad de la requisicion</h4>
-                      </div>
-                      <div class="modal-body">
-                        @include('requisiciones.detalle.formulario')
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="button" id="agregar" class="btn btn-success">Agregar</button>
-                      </div>
-                    </div>
-                    </div>
-                    </div>
+                    </center>
                     {{ Form::close() }}
                 </div>
             </div>
@@ -60,5 +43,5 @@
     </div>
 @endsection
 @section('scripts')
-{!! Html::script('js/requisicion.js') !!}
+{!! Html::script('js/requisicion.js?cod='.date('Yidisus')) !!}
 @endsection

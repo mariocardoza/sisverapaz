@@ -26,7 +26,7 @@ class RequisiciondetalleRequest extends FormRequest
         return [
             'unidad_medida' => 'required',
             'cantidad' => 'required|numeric',
-            'descripcion' => 'required|unique:requisiciondetalles',
+            'descripcion' => 'required',
 
         ];
     }

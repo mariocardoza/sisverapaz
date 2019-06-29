@@ -180,7 +180,7 @@
 
       //activar las mascaras
       $("[data-mask]").inputmask();
-
+      $(".chosen-select").chosen();
       //activar el chosen select
       var config = {
         '.chosen-select'           : {},

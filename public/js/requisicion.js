@@ -44,7 +44,7 @@ $(document).ready(function(){
 		var observaciones = $("#observaciones").val();
 		var fondo = $("#fondo").val();
 		var requisiciones = new Array();
-		$(cuerpo).find("tr").each(function (index, element) {
+		/*$(cuerpo).find("tr").each(function (index, element) {
 				if(element){
 						requisiciones.push({
 								descripcion: $(element).attr("data-descripcion"),
@@ -52,7 +52,7 @@ $(document).ready(function(){
 								unidad : $(element).attr("data-unidad")
 						});
 				}
-		});
+		});*/
 	//	console.log(unidad_admin);
 
 /////////////////////////////////////////////////// funcion ajax para guardar ///////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ $(document).ready(function(){
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){
-							window.location.href = "../requisiciones/porusuario";
+							window.location.href = "../requisiciones/"+msj.requisicion;
 							console.log(msj);
 							toastr.success('Requisiciones registrada éxitosamente');
 						}else{
