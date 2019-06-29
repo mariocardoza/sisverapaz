@@ -196,7 +196,7 @@
           <div class="panel panel-primary" id="coti" style="display: none;">
             <div class="panel-heading">Cotizaciones</div>
             <div class="panel">
-              <?php if ($requisicion->solicitudcotizacion->cotizacion): ?>
+              <?php if (isset($requisicion->solicitudcotizacion->cotizacion) && $requisicion->solicitudcotizacion->cotizacion): ?>
                 
                 <table class="table">
                     <thead>
