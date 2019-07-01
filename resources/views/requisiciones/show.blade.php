@@ -40,7 +40,7 @@
                       </tr>
                       <tr>
                         <th>Unidad solicitante</th>
-                        <td>{{$requisicion->user->roleuser->role->description}}</td>
+                        <td>{{$requisicion->unidad->nombre_unidad}}</td>
                       </tr>
                       <tr>
                         <th>Observaciones</th>
@@ -92,9 +92,9 @@
                 <?php if($requisicion->requisiciondetalle->count() > 0): ?>
 
                     @if($requisicion->estado==1)
-                      <center><a class="btn btn-success" id="agregar_nueva">Agregar Necesidad</a></center><br>
+                      <center><a class="btn btn-success pull-right" id="agregar_nueva">Agregar Necesidad</a></center><br>
                     @endif
-                          <table class="table">
+                          <table class="table" id="example2">
                             <thead>
                               <th>Descripción</th>
                               <th>Cantidad</th>
@@ -196,9 +196,13 @@
           <div class="panel panel-primary" id="coti" style="display: none;">
             <div class="panel-heading">Cotizaciones</div>
             <div class="panel">
-              <?php if (isset($requisicion->solicitudcotizacion->cotizacion) && $requisicion->solicitudcotizacion->cotizacion): ?>
-                
-                <table class="table">
+              <?php if (isset($requisicion->solicitudcotizacion->cotizacion)): ?>
+                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d')): ?>
+                  <a href="{{url('/cotizaciones/cotizarr/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
+                <?php else: ?>
+                <center><button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button></center>
+                <?php endif ?>
+                <table class="table" id="example2">
                     <thead>
                       <tr>
                       <th>Proveedor</th>
@@ -210,7 +214,7 @@
                       @foreach($requisicion->solicitudcotizacion->cotizacion as $cotizacion)
                       <tr>
                         <th>{{$cotizacion->proveedor->nombre}}</th>
-                        <th>{{$cotizacion->descripcion}}</th>
+                        <th>{{$cotizacion->formapago->nombre}}</th>
                         <th>
                           <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-eye"></i></button>
                         </th>
@@ -218,13 +222,22 @@
                       @endforeach
                     </tbody>
                 </table>
-              
+              <?php elseif ($requisicion->solicitudcotizacion->fecha_limite>date('Y-m-d')): ?>
+               
               <?php else: ?>
-              <center>
-                <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                <span>Registre las cotizaciones</span><br>
-                <button class="btn btn-primary" id="registrar_cotizacion">Registrar</button>
-              </center>
+                 @if(isset($requisicion->solicitudcotizacion))
+                 <center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>Registre las cotizaciones</span><br>
+                  <button class="btn btn-primary" id="registrar_cotizacion">Registrar</button>
+                </center>
+                  @else
+                  <center>
+                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                    <span>Registre primero la solicitud de cotización</span><br>
+                    
+                  </center>
+                  @endif
               <?php endif; ?>
               
               
@@ -239,6 +252,7 @@
 @section('scripts')
 <script>
     $(document).ready(function(e){
+      listarformapagos();
       var token = $('meta[name="csrf-token"]').attr('content');
       $(document).on("click","#agregar_nueva",function(e){
         e.preventDefault();
@@ -335,6 +349,146 @@
             $("#coti").css("display","block");
           }
         });
+
+        ///*** Registrar cotizaciones ***//
+        $(document).on("click","#registrar_cotizacion",function(e){
+          e.preventDefault();
+          $("#modal_registrar_coti").modal("show");
+        });
+
+        $(document).on("keyup",".precios",function(e){
+          var element = $(e.currentTarget),
+            cantidad   = $(element).attr('data-cantidad'),
+            subTotal =  $(element).val(),
+            parent  = element.parents("tr");
+
+            if($.isNumeric($(element).val()) && $.trim($(element).val()))
+              subTotal = ( $(element).val() * parseFloat(cantidad) );
+            else
+              subTotal = 0
+            //console.log(parent);
+            $(parent).find(".subtotal").text("$"+subTotal.toFixed(2));
+        });
+
+         $(document).on("click","#registrar_lacoti", function(e){
+          var marcas = new Array();
+          var precios = new Array();
+          var unidades = new Array();
+          var descripciones = new Array();
+          var cantidades = new Array();
+          $('input[name^="marcas"]').each(function() {
+            marcas.push($(this).val());
+          });
+
+          $('input[name^="precios"]').each(function() {
+            precios.push($(this).val());
+          });
+
+          $('input[name^="unidades"]').each(function() {
+            unidades.push($(this).val());
+          });
+
+          $('input[name^="descripciones"]').each(function() {
+            descripciones.push($(this).val());
+          });
+
+          $('input[name^="cantidades"]').each(function() {
+            cantidades.push($(this).val());
+          });
+
+          var proveedor = $("#proveedor").val();
+          var descripcion = $(".laformapago").val();
+          var id = $("#id").val();
+
+          $.ajax({
+            url:'../cotizaciones',
+            headers: {'X-CSRF-TOKEN':token},
+            type:'post',
+            data:{id,proveedor,descripcion,marcas,precios,cantidades,unidades,descripciones},
+            success: function(response){
+              if(response[0]==1){
+                toastr.success("Cotización registrada exitosamente");
+                if(response[2].tipo == 1){
+                  location.href="../../solicitudcotizaciones/versolicitudes/"+response.proyecto;
+                }else{
+                  location.reload();
+                  $("#requi").css("display","none");
+                  $("#soli").css("display","none");
+                  $("#coti").css("display","block");
+                }
+              }else{
+                toastr.error("Debe llenar todos los campos de precio unitario");
+                console.log(response);
+              }
+            },
+            error: function(error){
+              console.log(error);
+              $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+              });
+            }
+          });
+        });
+
+         $(document).on("click","#registrar_solicitud",function(e){
+          e.preventDefault();
+          $("#modal_registrar_soli").modal("show");
+         });
+
+         $(document).on("click","#agregar_soli", function(e){
+          var formapago = $("#formapago").val();
+          var encargado = $("#encargado").val();
+          var cargo = $("#cargo").val();
+          var requisicion = $("#requisicion").val();
+          var unidad = $("#unidad").val();
+          var lugar_entrega = $("#lugar_entrega").val();
+          var fecha_limite = $("#fecha_limite").val();
+          var tiempo_entrega = $("#tiempo_entrega").val();
+
+          $.ajax({
+            url:'../solicitudcotizaciones/storer',
+            headers: {'X-CSRF-TOKEN':token},
+            type:'post',
+            data:{formapago,encargado,cargo,requisicion,unidad,lugar_entrega,fecha_limite,tiempo_entrega},
+            success: function(response){
+              if(response.mensaje=='exito'){
+                toastr.success('Solicitud registrada exitosamente');
+                location.reload();
+              }else{
+                  console.log(response);
+                  toastr.error('Ocurrió un error, contacte al administrador');
+                }
+            },
+            error: function(error){
+              console.log(error);
+              $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+              });
+            }
+          });
+        });
     });
+
+ function listarformapagos()
+  {
+    $.ajax({
+      url:'../formapagos',
+      type:'get',
+      data:{},
+      success:function(data){
+        var html_select = '<option value="">Seleccione una forma de pago</option>';
+          $(data).each(function(key, value){
+            html_select +='<option value="'+value.id+'">'+value.nombre+'</option>'
+            //console.log(data[i]);
+            $("#formapago").html(html_select);
+            $(".laformapago").html(html_select);
+            $("#formapago").trigger('chosen:updated');
+            $(".laformapago").trigger('chosen:updated');
+
+          });
+          //console.log(data);
+      }
+    });
+  }
 </script>
 @endsection

@@ -43,7 +43,7 @@
                     <td>{{ $key+1 }}</td>
                     <td>{{$requisicion->codigo_requisicion }}</td>
                     <td>{{ $requisicion->actividad }}</td>
-                    <td>{{ $requisicion->user->roleuser->role->description }}</td>
+                    <td>{{ $requisicion->unidad->nombre_unidad }}</td>
                     <td>{{$requisicion->fondocat->categoria}}</td>
                     <td>{{ $requisicion->user->empleado->nombre }}</td>
                     <td>{{ $requisicion->observaciones }}</td>

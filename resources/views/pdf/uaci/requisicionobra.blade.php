@@ -18,7 +18,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<p><b>UNIDAD SOLICITANTE:</b> {{$requisicion->user->roleuser->role->description}}
+									<p><b>UNIDAD SOLICITANTE:</b> {{$requisicion->unidad->nombre_unidad}}
 									</p>
 									<b>RESPONSABLE:</b> {{$requisicion->user->empleado->nombre}}
 								</td>
@@ -58,7 +58,7 @@
 									{{$detalle->descripcion}}
 								</td>
 								<td>
-									{{$detalle->unidad_medida}}
+									{{$detalle->unidadmedida->nombre_medida}}
 								</td>
 							</tr>
 							@endforeach
@@ -81,12 +81,14 @@
 						</tr>
 						<tr>
 							<td>
-								F.____________________
+								F.____________________<br>
+								<b>{{$configuracion->nombre_alcalde}}</b>
 								<p></p>
 								ALCALDE MUNICIPAL
 							</td>
 							<td>
-								F.____________________
+								F.____________________<br>
+								<b>{{Auth()->user()->empleado->nombre}}</b>
 								<p></p>
 								JEFE DE UACI
 							</td>

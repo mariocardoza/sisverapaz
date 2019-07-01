@@ -35,6 +35,11 @@ class Cotizacion extends Model
         return $this->belongsTo('App\Solicitudcotizacion');
     }
 
+    public function formapago()
+    {
+        return $this->belongsTo('App\Formapago','descripcion');
+    }
+
     public function proveedor()
     {
         return $this->belongsTo('App\Proveedor');

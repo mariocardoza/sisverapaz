@@ -230,7 +230,8 @@ class CotizacionController extends Controller
             $solicitud=Solicitudcotizacion::findorFail($request->id);
             bitacora('Registró una cotización');
             DB::commit();
-            if($solicitud->tipo == 1){
+            return array(1,"exito",$solicitud,$cotizacion);
+            /*if($solicitud->tipo == 1){
               return response()->json([
                 'mensaje' => 'exito',
                 'tipo' => $solicitud->tipo,
@@ -241,7 +242,7 @@ class CotizacionController extends Controller
                 'mensaje' => 'exito',
                 'tipo' => $solicitud->tipo,
               ]);
-            }
+            }*/
 
           //  return redirect('solicitudcotizaciones/versolicitudes/'.$solicitud->presupuesto->proyecto->id)->with('mensaje','Registro almacenado con éxito');
         }catch (\Exception $e){

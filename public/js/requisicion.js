@@ -43,6 +43,7 @@ $(document).ready(function(){
 		var user_id = $("#user_id").val();
 		var observaciones = $("#observaciones").val();
 		var fondo = $("#fondo").val();
+		var unidad_id = $("#unidad_id").val();
 		var requisiciones = new Array();
 		/*$(cuerpo).find("tr").each(function (index, element) {
 				if(element){
@@ -60,7 +61,7 @@ $(document).ready(function(){
 					url: "../requisiciones",
 					headers: {'X-CSRF-TOKEN':token},
 					type:'POST',
-					data: {actividad,user_id,observaciones,fondo,requisiciones},
+					data: {actividad,user_id,observaciones,fondo,unidad_id,requisiciones},
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){

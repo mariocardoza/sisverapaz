@@ -44,8 +44,9 @@ class RequisicionController extends Controller
     public function create()
     {
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
-      $unidades = UnidadMedida::all();
-      foreach ($unidades as $value) {
+      $lasmedidas = UnidadMedida::all();
+      $unidads = Unidad::all();
+      foreach ($lasmedidas as $value) {
         $medidas[$value->id]=$value->nombre_medida;
       }
       $losfondos = Fondocat::where('estado',1)->get();
@@ -54,7 +55,11 @@ class RequisicionController extends Controller
         $fondos[$fondito->id]=$fondito->categoria;
       }
 
-        return view('requisiciones.create',compact('medidas','fondos'));
+      foreach ($unidads as $launidad) {
+        $unidades[$launidad->id]=$launidad->nombre_unidad; 
+      }
+
+        return view('requisiciones.create',compact('medidas','fondos','unidades'));
     }
 
     /**
@@ -78,6 +83,7 @@ class RequisicionController extends Controller
               'fondocat_id' => $request->fondo,
               'user_id' => Auth()->user()->id,
               'observaciones' => $request->observaciones,
+              'unidad_id'=>$request->unidad_id
               ]);
             /*foreach($requisiciones as $requi){
               $elid=Requisiciondetalle::retonrar_id_insertar();
@@ -117,13 +123,19 @@ class RequisicionController extends Controller
       foreach ($unidades as $value) {
         $medidas[$value->id]=$value->nombre_medida;
       }
+      $proveedores = DB::table('proveedors')
+                        ->whereRaw('estado = 1')
+                        ->whereNotExists(function ($query){
+                          $query->from('cotizacions')
+                          ->whereRaw('cotizacions.proveedor_id = proveedors.id');
+                        })->get();
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
 
         //dd($requisicion->requisiciondetalle);
         //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
         //dd($requisicion);
-        return view('requisiciones.show',compact('requisicion','medidas'));
+        return view('requisiciones.show',compact('requisicion','medidas','proveedores'));
     }
 
     /**
