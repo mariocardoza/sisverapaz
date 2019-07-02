@@ -28,6 +28,36 @@ class Requisicione extends Model
     }
   }
 
+  public static function estado_ver($id){
+    $requisicion=Requisicione::find($id);
+    $html="";
+    switch ($requisicion->estado) {
+      case 1:
+        $html.='<span class="label-primary">En espera</span>';
+        break;
+      case 2:
+        $html.='<span class="label-danger">Rechazado</span>';
+        break;
+      case 3:
+        $html.='<span class="label-info">Aceptada y recibiendo cotizaciones</span>';
+        break;
+      case 4:
+        $html.='<span class="label-warning">Pendiente de realizar orden de compra</span>';
+        break;
+      case 5:
+        $html.='<span class="label-success"><strong>Pendiente de recibir insumos</strong></span>';
+        break;
+      case 5:
+        $html.='<span class="label-success"Proceso Finalizado</span>';
+        break;
+      default:
+        $html.='<span class="label-success">Default</span>';
+        break;
+    }
+
+    return $html;
+  }
+
   public function unidad()
   {
     return $this->belongsTo('App\Unidad');

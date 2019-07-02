@@ -59,6 +59,8 @@ class RequisicionController extends Controller
         $unidades[$launidad->id]=$launidad->nombre_unidad; 
       }
 
+
+
         return view('requisiciones.create',compact('medidas','fondos','unidades'));
     }
 
@@ -119,6 +121,7 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
+      $orden=[];
       $unidades = UnidadMedida::all();
       foreach ($unidades as $value) {
         $medidas[$value->id]=$value->nombre_medida;
@@ -131,11 +134,19 @@ class RequisicionController extends Controller
                         })->get();
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
-
+      $elestado=Requisicione::estado_ver($id);
+      if(isset($requisicion->solicitudcotizacion->id)){
+        $cotizacion=\App\Cotizacion::where('solicitudcotizacion_id',$requisicion->solicitudcotizacion->id)->where('seleccionado',1)->first();
+      }
+      if(isset($cotizacion->id)){
+        $orden=\App\Ordencompra::where('cotizacion_id',$cotizacion->id)->first();
+      
+      }
+      //dd($orden);
         //dd($requisicion->requisiciondetalle);
         //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
         //dd($requisicion);
-        return view('requisiciones.show',compact('requisicion','medidas','proveedores'));
+        return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado','orden'));
     }
 
     /**

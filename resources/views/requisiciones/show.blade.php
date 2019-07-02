@@ -23,6 +23,11 @@
                   </div>
                     <table class="table">
                       <tr>
+                        <th colspan="2">
+                          <center>{!! $elestado !!}</center>
+                        </th>
+                      </tr>
+                      <tr>
                         <th>Requisición N°</th>
                         <td>{{ $requisicion->codigo_requisicion}}</td>
                       </tr>
@@ -84,6 +89,7 @@
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             <button class="btn btn-primary que_ver" data-tipo="2">Solicitud</button>
             <button class="btn btn-primary que_ver" data-tipo="3">Cotizaciones</button>
+            <button class="btn btn-primary que_ver" data-tipo="4">Orden de compra</button>
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">
             <div class="panel-heading">Detalle</div>
@@ -197,10 +203,12 @@
             <div class="panel-heading">Cotizaciones</div>
             <div class="panel">
               <?php if (isset($requisicion->solicitudcotizacion->cotizacion)): ?>
-                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d')): ?>
+                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d') && $requisicion->estado != 5): ?>
                   <a href="{{url('/cotizaciones/cotizarr/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
                 <?php else: ?>
-                <center><button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button></center>
+                  <?php if($requisicion->estado==3):?>
+                    <center><button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button></center>
+                  <?php endif; ?>
                 <?php endif ?>
                 <table class="table" id="example2">
                     <thead>
@@ -241,6 +249,33 @@
               <?php endif; ?>
               
               
+            </div>
+          </div>
+          <div class="panel panel-primary" id="orden" style="display: none;">
+            <div class="panel-heading">Orden de compra</div>
+            <div class="panel">
+              @if(isset($orden->numero_orden))
+              <table class="table">
+                <tr>
+                  <td>Número de orden</td>
+                  <th>{{$orden->numero_orden}}</th>
+                </tr>
+                <tr>
+                  <td>Dirección de entrega</td>
+                  <th>{{$orden->direccion_entrega}}</th>
+                </tr>
+                <tr>
+                  <td>Administrador de la orden</td>
+                  <th>{{$orden->adminorden}}</th>
+                </tr>
+              </table>
+              @else
+                <center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>Aun no se ha registrado la orden de compra</span><br>
+                  <button class="btn btn-primary" id="registrar_orden">Registrar</button>
+                </center>
+              @endif
             </div>
           </div>
         </div>
@@ -339,14 +374,22 @@
             $("#requi").css("display","block");
             $("#soli").css("display","none");
             $("#coti").css("display","none");
+            $("#orden").css("display","none");
           }else if(opcion==2){
             $("#requi").css("display","none");
             $("#soli").css("display","block");
             $("#coti").css("display","none");
+            $("#orden").css("display","none");
           }else if(opcion==3){
             $("#requi").css("display","none");
             $("#soli").css("display","none");
             $("#coti").css("display","block");
+            $("#orden").css("display","none");
+          }else if(opcion==4){
+            $("#requi").css("display","none");
+            $("#soli").css("display","none");
+            $("#coti").css("display","none");
+            $("#orden").css("display","block");
           }
         });
 
