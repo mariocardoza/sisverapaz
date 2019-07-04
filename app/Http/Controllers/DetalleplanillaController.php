@@ -40,8 +40,18 @@ class DetalleplanillaController extends Controller
      */
     public function store(DetalleplanillaRequest $request)
     {
-        $detalle=Detalleplanilla::create($request->All());
-        return redirect('detalleplanillas')->with('mensaje','Detalle de planilla registrado');
+        if($request->ajax()){
+            try{
+            $detalle=Detalleplanilla::create($request->All());
+            return array(1,"exito");
+           }catch(Excection $e){
+            return array(-1,"error",$e->getMessage());
+           }
+        }else{
+            $detalle=Detalleplanilla::create($request->All());
+            return redirect('detalleplanillas')->with('mensaje','Detalle de planilla registrado');
+        }
+        
     }
 
     /**

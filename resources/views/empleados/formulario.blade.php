@@ -40,7 +40,7 @@
         {{ Form::text('email', null,['id'=>'email_empleado','class' => 'form-control','autocomplete'=>'off']) }}
     </div>
 </div>
-
+@if(Auth()->user()->hasRole('admin'))
 <div class="form-group{{ $errors->has('es_usuario') ? ' has-error' : '' }}">
     <label for="es_usuario" class="col-md-4 control-label">¿Será usuario del sistema?</label>
 
@@ -52,7 +52,7 @@
 
     </div>
 </div>
-
+@endif
 <div class="form-group{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
     <label for="telefono_fijo" class="col-md-4 control-label">Teléfono fijo</label>
 

@@ -156,7 +156,16 @@ class EmpleadoController extends Controller
             $roles[$rol->id]=$rol->description;
         }
 
-        return view('empleados.show', compact('empleado','bancos','afps','roles'));
+        $listaempleados=\App\Empleado::where('estado',1)->where('id',$id)->orderBy('nombre','ASC')->get();
+        //dd($listaempleados);
+          $empleados= [];
+          foreach($listaempleados as $e){
+            //if($e->detalleplanilla->count()>0){
+              $empleados[$e->id]=$e->nombre;
+           // }
+          }
+
+        return view('empleados.show', compact('empleado','bancos','afps','roles','empleados'));
     }
 
     /**

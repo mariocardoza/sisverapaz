@@ -209,6 +209,7 @@ Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
@@ -269,6 +270,7 @@ Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
+Route::Resource('prestamotipos','PrestamotiposController');
 
 Route::get('cargos/get','CargoController@get');
 Route::Resource('cargos','CargoController');

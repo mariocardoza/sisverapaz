@@ -2,7 +2,10 @@
     <label for="name" class="col-md-4 control-label">Empleado</label>
 
 @php
+  $cargos=App\Cargo::cargos();
+  if(!isset($empleado)):
   $empleados=App\Detalleplanilla::empleados();
+  endif;
 @endphp
     <div class="col-md-6">
       @if (isset($detalle))
@@ -24,12 +27,21 @@
     </div>
 </div>
 
+<div class="form-group{{ $errors->has('cargo_id') ? ' has-error' : '' }}">
+    <label for="name" class="col-md-4 control-label">Cargo</label>
+    <div class="col-md-6">
+      {!!Form::select('cargo_id',
+          $cargos
+          ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo'])!!}
+    </div>
+</div>
+
 <div class="form-group{{ $errors->has('tipo_pago') ? ' has-error' : '' }}">
     <label for="name" class="col-md-4 control-label">Forma de pago</label>
     <div class="col-md-6">
       {!!Form::select('tipo_pago',
           ['1'=>'Planilla']
-          ,null, ['class'=>'form-control'])!!}
+          ,null, ['class'=>'chosen-select-width'])!!}
     </div>
 </div>
 
@@ -38,6 +50,6 @@
     <div class="col-md-6">
       {!!Form::select('pago',
           ['1'=>'Mensual','2'=>'Quincenal']
-          ,null, ['class'=>'form-control'])!!}
+          ,null, ['class'=>'chosen-select-width'])!!}
     </div>
 </div>

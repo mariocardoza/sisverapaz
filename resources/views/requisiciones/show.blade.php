@@ -87,9 +87,11 @@
         <div class="col-md-7">
           <div class="btn-group">
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
+            @if(Auth()->user()->hasRole('uaci'))
             <button class="btn btn-primary que_ver" data-tipo="2">Solicitud</button>
             <button class="btn btn-primary que_ver" data-tipo="3">Cotizaciones</button>
             <button class="btn btn-primary que_ver" data-tipo="4">Orden de compra</button>
+            @endif
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">
             <div class="panel-heading">Detalle</div>
@@ -224,13 +226,13 @@
                         <th>{{$cotizacion->proveedor->nombre}}</th>
                         <th>{{$cotizacion->formapago->nombre}}</th>
                         <th>
-                          <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-eye"></i></button>
+                          <button class="btn btn-primary btn-sm" id="ver_coti" data-id="{{$cotizacion->id}}" type="button"><i class="fa fa-eye"></i></button>
                         </th>
                       </tr>
                       @endforeach
                     </tbody>
                 </table>
-              <?php elseif ($requisicion->solicitudcotizacion->fecha_limite>date('Y-m-d')): ?>
+            
                
               <?php else: ?>
                  @if(isset($requisicion->solicitudcotizacion))
@@ -255,6 +257,7 @@
             <div class="panel-heading">Orden de compra</div>
             <div class="panel">
               @if(isset($orden->numero_orden))
+              <a href="{{ url('/reportesuaci/ordencompra/'.$orden->id) }}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
               <table class="table">
                 <tr>
                   <td>Número de orden</td>
@@ -510,6 +513,26 @@
             }
           });
         });
+
+
+         ///ver cotizaciones //
+         $(document).on("click","#ver_coti",function(e){
+          var id=$(this).attr("data-id");
+          $.ajax({
+            url:'../requisiciones/vercotizacion/'+id,
+            type:'GET',
+            dataType:'json',
+            data:{},
+            success:function(json){
+              if(json[0]==1){
+                $("#aqui_poner_coti").empty();
+                $("#aqui_poner_coti").html(json[2]);
+                $("#titulo_ver_coti").text(json[3]);
+                $("#modal_ver_coti").modal("show");
+              }
+            }
+          });
+         });
     });
 
  function listarformapagos()

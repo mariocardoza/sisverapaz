@@ -96,6 +96,11 @@ $(document).ready(function(e){
 		$("#modal_user").modal("show");
 	});
 
+	$(document).on("click","#modal_prestamo",function(e){
+		e.preventDefault();
+		$("#md_prestamo").modal("show");
+	})
+
 	$(document).on("click","#editar_usuario",function(e){
 		e.preventDefault();
 		$("#editar_user").modal("show");
@@ -147,6 +152,79 @@ $(document).ready(function(e){
 		}
 	});
 
+	$(document).on("click","#regi_prestamo", function(e){
+		var valid=$("#form_prestamo").valid();
+		//if(valid){
+			modal_cargando();
+			var datos=$("#form_prestamo").serialize();
+			$.ajax({
+				url:'../prestamos',
+				headers: {'X-CSRF-TOKEN':eltoken},
+				type:'POST',
+				dataType:'json',
+				data:datos,
+				success: function(json){
+					if(json[0]==1){
+					toastr.success("El préstamo se registro con éxito");
+					window.location.reload();
+					}else{
+						toastr.error("Ocurrió un error");
+						swal.closeModal();
+					}
+				}, error: function(error){
+					$.each(error.responseJSON.errors,function(index,value){
+	          			toastr.error(value);
+	          		});
+	          		swal.closeModal();
+				}
+			})
+		//}
+	});
+
+	$(document).on("click",".que_ver",function(e){
+		e.preventDefault();
+		var opcion=$(this).attr("data-opcion");
+		if(opcion==1){
+			$("#general").hide();
+			$("#descuentos").hide();
+			$("#contrato").show();
+		}else if(opcion==2){
+			$("#general").show();
+			$("#descuentos").hide();
+			$("#contrato").hide();
+		}else if(opcion==3){
+			$("#general").hide();
+			$("#descuentos").show();
+			$("#contrato").hide();
+		}
+	});
+
+	$(document).on("click","#btn_guardarcontrato", function(e){
+		modal_cargando();
+			var datos=$("#form_planilla").serialize();
+			$.ajax({
+				url:'../detalleplanillas',
+				headers: {'X-CSRF-TOKEN':eltoken},
+				type:'POST',
+				dataType:'json',
+				data:datos,
+				success: function(json){
+				if(json[0]==1){
+					toastr.success("Contrato registrado con exito");
+					window.location.reload();
+				}else{
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
+				}
+				}, error: function(error){
+					$.each(error.responseJSON.errors,function(index,value){
+	          			toastr.error(value);
+	          		});
+	          		swal.closeModal();
+				}
+			});
+	});
+
 	$(document).on("click","#registrar_afp", function(e){
 		var valid=$("#afps").valid();
 		if(valid){
@@ -172,7 +250,7 @@ $(document).ready(function(e){
 	          		});
 	          		swal.closeModal();
 				}
-			})
+			});
 		}
 	});
 

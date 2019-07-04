@@ -13,7 +13,7 @@ class Banco extends Model
           $arrayB[$banco->id]=$banco->nombre;
         }
         return $arrayB;
-      }
+    }
 
      
 }

@@ -12,4 +12,8 @@ class Detallecotizacion extends Model
     {
     	return $this->belongsTo('App\Cotizacion');
     }
+
+    public function unidadmedida(){
+    	return $this->belongsTo("App\Unidadmedida",'unidad_medida');
+    }
 }

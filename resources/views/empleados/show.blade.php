@@ -12,7 +12,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
 
           <div class="panel panel-primary">
             <div class="panel-heading">Datos del empleado </div>
@@ -77,8 +77,9 @@
               </table>
 
               <center>
-                
+              @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
               <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> Editar</a>
+              @endif
                 <!--button class="btn btn-danger" type="button" id="dar_baja"><span class="glyphicon glyphicon-trash"></span> Eliminar</button-->
               
               </center>
@@ -86,8 +87,62 @@
           </div>
         </div>
         
-        <div class="col-md-6">
-          <div class="row">
+        <div class="col-md-7">
+          <div class="btn-group">
+            <button class="btn btn-primary que_ver" type="button" data-opcion="1">Contrato</button>
+            <button class="btn btn-primary que_ver" type="button" data-opcion="2">Información</button>
+            <button class="btn btn-primary que_ver" type="button" data-opcion="3">Descuentos</button>
+          </div>
+          <br><br>
+          <div class="row" id="contrato">
+            <div class="col-md-10">
+              @if(isset($empleado->detalleplanilla))
+              <div class="panel panel-primary">
+                <div class="panel-heading">Información del contrato</div>
+                <div class="panel">
+                  <table class="table">
+                    <tr>
+                      <td>Salario</td>
+                      <th>${{number_format($empleado->detalleplanilla->salario,2)}}</th>
+                    </tr>
+                    <tr>
+                      <td>Cargo</td>
+                      <th>{{$empleado->detalleplanilla->cargo->cargo}}</th>
+                    </tr>
+                    <tr>
+                      <td>Tipo de pago</td>
+                      @if($empleado->detalleplanilla->tipo_pago==1)
+                      <th>Planilla</th>
+                      @else
+                      <th>Honorarios</th>
+                      @endif
+                    </tr>
+                    <tr>
+                      <td>Pago</td>
+                      @if($empleado->detalleplanilla->pago==1)
+                      <th>Mensual</th>
+                      @else
+                      <th>Quincenal</th>
+                      @endif
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              @else
+                <div class="panel panel-primary">
+                <div class="panel-heading">Registrar contrato</div>
+                <div class="panel">
+                 <form id="form_planilla" class="form-horizontal">
+                   @include('detalleplanillas.formulario')
+
+                   <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
+                 </form>
+                </div>
+              </div>
+              @endif
+            </div>
+          </div>
+          <div class="row" id="general" style="display: none;">
             <?php if ($empleado->es_usuario=='si'): ?>
              <div class="col-md-10">
               <div class="panel panel-primary">
@@ -111,7 +166,9 @@
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                           <span>Agregue los datos para iniciar sesión</span><br>
+                          @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                           <button class="btn btn-primary" id="modal_usuarios">Agregar</button>
+                          @endif
                         </center>
                       
                     <?php endif; ?>
@@ -143,7 +200,9 @@
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                           <span>Agregue los datos bancarios para visualizar la información</span><br>
+                          @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                           <button class="btn btn-primary" id="modal_banco">Agregar</button>
+                          @endif
                         </center>
                       
                     <?php endif; ?>
@@ -173,7 +232,9 @@
                       <center>
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del AFP para visualizar la información</span><br>
+                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                         <button class="btn btn-primary" id="modal_afps">Agregar</button>
+                        @endif
                       </center>
                   <?php endif ?>
                 </div>
@@ -184,6 +245,7 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Datos del Seguro Social</div>
                 <div class="panel-body">
+
                   <?php if ($empleado->num_seguro_social): ?>
                     <table class="table">
                     <tr>
@@ -195,9 +257,57 @@
                       <center>
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del ISSS para visualizar la información</span><br>
+                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                         <button class="btn btn-primary" id="modal_isss">Agregar</button>
+                        @endif
                       </center>
                   <?php endif ?>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" id="descuentos" style="display: none;">
+            <div class="col-md-10">
+              <div class="panel panel-primary">
+                <div class="panel-heading">Préstamos</div>
+                <div class="panel">
+                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
+                  <button class="btn btn-success btn-sm pull-right" type="button" id="modal_prestamo"><i class="fa fa-plus"></i></button><br>
+                  @endif
+                  <table class="table">
+                  <thead>
+                    <tr>
+                      <th>N°</th>
+                      <th>Banco</th>
+                      <th>N° de cuenta</th>
+                      <th>Monto</th>
+                      <th>Cuota</th>
+                      <th>Tipo</th>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($empleado->prestamo as $key => $prestamo): ?>
+                      <tr>
+                        <td>{{$key+1}}</td>
+                        <td>{{$prestamo->banco->nombre}}</td>
+                        <td>{{$prestamo->numero_de_cuenta}}</td>
+                        <td>${{number_format($prestamo->monto,2)}}</td>
+                        <td>${{number_format($prestamo->cuota,2)}}</td>
+                        <td>{{$prestamo->prestamotipo->nombre}}</td>
+                        <td><button class="btn btn-primary btn-sm" type="button" id="ver_prestamo"><i class="fa fa-eye"></i></button></td>
+                      </tr>
+                    <?php endforeach ?>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+              <br>
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">Otros descuentos</div>
+                <div class="panel">
+                  
                 </div>
               </div>
             </div>

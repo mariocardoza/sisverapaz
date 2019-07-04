@@ -6,14 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Prestamo extends Model
 {
-    protected $guarded = [];
-    protected $fillable = ['empleado_id','banco_id','numero_de_cuenta','monto','numero_de_cuotas','cuota'];
+    protected $fillable = ['empleado_id','banco_id','numero_de_cuenta','monto','numero_de_cuotas','cuota','tasa_interes','fecha_inicio','fecha_fin','prestamotipo_id','fecha_corte'];
 
     public static function prestamos()
     {
-      $prestamo = Prestamo::where('empleado_id',$id)->first();
-    	$monto = $prestamo->monto;
+      $prestamo = Prestamo::where('empleado_id',$id)->get();
+      foreach ($prestamo as $presta) {
+        $monto = $monto+ $presta->monto;
+      }
+    	
       return $monto;
+    }
+
+    
+
+    public function prestamotipo(){
+      return $this->belongsTo('App\Prestamotipo');
     }
 
     public function empleado()

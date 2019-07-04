@@ -8,6 +8,7 @@ use App\Requisiciondetalle;
 use App\Unidad;
 use App\UnidadMedida;
 use App\Fondocat;
+use App\Cotizacion;
 use DB;
 use App\Http\Requests\RequisicionRequest;
 
@@ -25,7 +26,7 @@ class RequisicionController extends Controller
 
     public function index()
     {
-        Auth()->user()->authorizeRoles('admin');
+        Auth()->user()->authorizeRoles(['admin','uaci']);
         $requisiciones = Requisicione::all();
         return view('requisiciones.index',compact('requisiciones'));
     }
@@ -191,5 +192,10 @@ class RequisicionController extends Controller
     public function destroy(Requisicion $requisicione)
     {
 
+    }
+
+    public function ver_cotizacion($id){
+      $retorno=Cotizacion::ver_cotizacion($id);
+      return $retorno;
     }
 }

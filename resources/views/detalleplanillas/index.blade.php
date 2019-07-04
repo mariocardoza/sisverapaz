@@ -45,8 +45,8 @@
 
                   <td>
                     <div class="btn-group">
-                      <a href="{{ url('detalleplanillas/'.$empleado->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('detalleplanillas/'.$empleado->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                      <a href="{{ url('detalleplanillas/'.$empleado->elid)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a href="{{ url('detalleplanillas/'.$empleado->elid.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                     </div>
                   </td>
                 </tr>

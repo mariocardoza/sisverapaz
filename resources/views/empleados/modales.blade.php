@@ -236,3 +236,29 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" tabindex="-1" id="md_prestamo" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar préstamo</h4>
+      </div>
+      <div class="modal-body">
+        <form action="" id="form_prestamo" class="form-horizontal"> 
+          <div class="row">
+              <div class="col-md-12">
+                 @include('prestamos.formulario')
+
+         
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="regi_prestamo" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
