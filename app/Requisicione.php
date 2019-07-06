@@ -82,4 +82,21 @@ class Requisicione extends Model
   {
     return $this->belongsTo('App\Fondocat');
   }
+
+  public static function materiales($id){
+    $materiales=Materiales::where('estado',1)->get();
+    $tabla='';
+    foreach ($materiales as $key => $material) {
+      $tabla.='<tr>
+                <td>'.($key+1).'</td>
+                <td>'.$material->nombre.'</td>
+                <td>'.$material->categoria->nombre_categoria.'</td>
+                <td>'.$material->unidadmedida->nombre_medida.'</td>
+                <td><input type="number" class="form-control canti"></td>
+                <td><button type="button" id="esteagrega"><i class="fa fa-check"></i></button></td>
+              </tr>';
+    }
+
+    return array(1,"exito",$tabla);
+  }
 }

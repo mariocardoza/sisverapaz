@@ -198,4 +198,10 @@ class RequisicionController extends Controller
       $retorno=Cotizacion::ver_cotizacion($id);
       return $retorno;
     }
+
+    public function materiales()
+    {
+      $retorno=Requisicione::materiales('11');
+      return $retorno;
+    }
 }

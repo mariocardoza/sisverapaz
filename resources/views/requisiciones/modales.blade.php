@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_detalle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -9,13 +9,27 @@
     <div class="modal-body">
       <form id="form_detalle" class="form-horizontal">
         <input type="hidden" name="requisicion_id" value="{{$requisicion->id}}">
-      @include('requisiciones.detalle.formulario')
+      <table class="table" id="example2">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Unidad de medida</th>
+            <th>Cantidad</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="losmateriales">
+          
+        </tbody>
+      </table>
       </form>
     </div>
-    <div class="modal-footer">
+    <!--div class="modal-footer">
       <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       <button type="button" id="agregar_otro" class="btn btn-success">Agregar</button></center>
-    </div>
+    </div-->
   </div>
   </div>
 </div>

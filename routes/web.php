@@ -167,6 +167,10 @@ Route::Resource('categorias','CategoriaController');
 Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias.baja');
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');
 
+Route::Resource('materiales','MaterialesController');
+Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
+Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
+
 
 
 Route::get('unidadmedidas/create','UnidadMedidaController@create');
@@ -209,6 +213,7 @@ Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/materiales','RequisicionController@materiales');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');

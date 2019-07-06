@@ -14,11 +14,11 @@ class CreateMaterialesTable extends Migration
     public function up()
     {
         Schema::create('materiales', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('material');
-            $table->bigInteger('estado')->unsigned()->default(1);
-            $table->date('fecha_baja')->nullable();
-            $table->string('motivo')->nullable();
+            $table->string('id')->primary();
+            $table->string('nombre');
+            $table->string('categoria_id');
+            $table->string('unidad_id');
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }

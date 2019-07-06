@@ -12,13 +12,12 @@
 
 @section('content')
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-md-12">
 		<div class="box">
-		<div class="box-header">
+		<div class="box-header btn-group">
 			<h3 class="box-tittle">Listado</h3>
 			<a href="{{ url('/catalogos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span>Agregar</a>
-			<a href="{{ url('/catalogos?estado=1') }}" class="btn btn-primary">Activos</a>
-			<a href="{{ url('catalogos?estado=2') }}" class="btn btn-primary">Papelera</a>
+			<a href="javascript:void(0)" class="btn btn-primary">Registrar categoría</a>
 		</div>
 
 		<div class="box-body table-responsive">

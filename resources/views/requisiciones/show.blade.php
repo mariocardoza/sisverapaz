@@ -294,6 +294,7 @@
       var token = $('meta[name="csrf-token"]').attr('content');
       $(document).on("click","#agregar_nueva",function(e){
         e.preventDefault();
+        listarmateriales();
         $("#modal_detalle").modal("show");
       });
 
@@ -553,6 +554,22 @@
 
           });
           //console.log(data);
+      }
+    });
+  }
+
+   function listarmateriales()
+  {
+    $.ajax({
+      url:'../requisiciones/materiales',
+      type:'get',
+      data:{},
+      success:function(data){
+        if(data[0]==1){
+          $("#losmateriales").empty();
+          $("#losmateriales").html(data[2]);
+          //console.log(data);
+        }
       }
     });
   }
