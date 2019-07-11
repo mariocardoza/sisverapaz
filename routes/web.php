@@ -213,7 +213,9 @@ Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
-Route::get('requisiciones/materiales','RequisicionController@materiales');
+Route::post('requisiciones/subir','RequisicionController@subir');
+Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
+Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');

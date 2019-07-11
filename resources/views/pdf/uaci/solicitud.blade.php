@@ -56,8 +56,8 @@
         @foreach($solicitud->requisicion->requisiciondetalle as $indice => $detalle)
         <tr>
           <td>{{$indice+1}}</td>
-          <td>{{$detalle->descripcion}}</td>
-          <td>{{$detalle->unidad_medida}}</td>
+          <td>{{$detalle->material->nombre}}</td>
+          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>

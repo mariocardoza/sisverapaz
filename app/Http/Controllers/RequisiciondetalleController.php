@@ -48,7 +48,7 @@ class RequisiciondetalleController extends Controller
             'requisicion_id'=>$request->requisicion_id,
             'cantidad'=>$request->cantidad,
             'unidad_medida'=>$request->unidad_medida,
-            'descripcion'=>$request->descripcion,
+            'materiale_id'=>$request->materiale_id,
             'id'=>Requisiciondetalle::retonrar_id_insertar()
         ]);
         return array(1,"exito",$request->requisicion_id);

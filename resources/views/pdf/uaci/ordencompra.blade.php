@@ -73,7 +73,7 @@
                                 <td><center>{{$correlativo}}</center></td>
 
                                 <td>{{$detalle->descripcion}}</td>
-                                <td><center>{{$detalle->unidad_medida}}</center> </td>
+                                <td><center>{{$detalle->unidadmedida->nombre_medida}}</center> </td>
                                 <td><center>{{$detalle->cantidad}}</center></td>
                                 <td align="left">${{number_format($detalle->precio_unitario,2)}} </td>
                                 <td align="left">${{number_format($detalle->precio_unitario*$detalle->cantidad,2)}} </td>
@@ -91,12 +91,14 @@
                               <td colspan="5"> <b>SUB TOTAL</b></td>
                               <th align="left">${{number_format($total,2)}}</th>
                             </tr>
-
+                            <?php $renta=0.0;
+                            $renta=$total*0.1;
+                             ?>
                             <tr>
                               <td colspan="5"> <b>(-) RETENCIÓN RENTA 10% </b></td>
-                              <th align="left">$</th>
+                              <th align="left">${{number_format($renta,2)}}</th>
                             </tr>
-
+                            <?php $total=$total-$renta; ?>
                             <tr>
                               <td colspan="5"> <b>LÍQUIDO A RECIBIR: </b></td>
                               <th align="left">${{number_format($total,2)}}</th>
@@ -142,7 +144,7 @@
                               @if($ordencompra->fecha_fin == "")
                               {{$orden->fecha_inicio->format('d-m-Y')}}
                             @else
-                              Desde {{$ordencompra->fecha_inicio->format('l d')}} de {{$ordencompra->fecha_inicio->format('F')}} del {{$ordencompra->fecha_inicio->format('Y')}} al {{$ordencompra->fecha_fin->format('l d')}} de {{$ordencompra->fecha_fin->format('F')}} del {{$ordencompra->fecha_fin->format('Y')}}
+                              Desde el {{$ordencompra->fecha_inicio->format('l d')}} de {{$ordencompra->fecha_inicio->format('F')}} del {{$ordencompra->fecha_inicio->format('Y')}} al {{$ordencompra->fecha_fin->format('l d')}} de {{$ordencompra->fecha_fin->format('F')}} del {{$ordencompra->fecha_fin->format('Y')}}
                             @endif
                             </td>
                           </tr>

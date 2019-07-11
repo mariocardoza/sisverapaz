@@ -27,7 +27,7 @@ class RequisicionController extends Controller
     public function index()
     {
         Auth()->user()->authorizeRoles(['admin','uaci']);
-        $requisiciones = Requisicione::all();
+        $requisiciones = Requisicione::orderBy('codigo_requisicion')->get();
         return view('requisiciones.index',compact('requisiciones'));
     }
 
@@ -122,7 +122,6 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
-      $orden=[];
       $unidades = UnidadMedida::all();
       foreach ($unidades as $value) {
         $medidas[$value->id]=$value->nombre_medida;
@@ -136,18 +135,7 @@ class RequisicionController extends Controller
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
       $elestado=Requisicione::estado_ver($id);
-      if(isset($requisicion->solicitudcotizacion->id)){
-        $cotizacion=\App\Cotizacion::where('solicitudcotizacion_id',$requisicion->solicitudcotizacion->id)->where('seleccionado',1)->first();
-      }
-      if(isset($cotizacion->id)){
-        $orden=\App\Ordencompra::where('cotizacion_id',$cotizacion->id)->first();
-      
-      }
-      //dd($orden);
-        //dd($requisicion->requisiciondetalle);
-        //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
-        //dd($requisicion);
-        return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado','orden'));
+        return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado'));
     }
 
     /**
@@ -194,14 +182,31 @@ class RequisicionController extends Controller
 
     }
 
+    public function subir(Request $request)
+    {
+      $request->file('archivo')->store('requisiciones');
+      dd($request->file('archivo'));
+    }
+
+    public function cambiarestado(Request $request,$id){
+      $requisicion=Requisicione::find($id);
+      try{
+        $requisicion->estado=$request->estado;
+        $requisicion->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
     public function ver_cotizacion($id){
       $retorno=Cotizacion::ver_cotizacion($id);
       return $retorno;
     }
 
-    public function materiales()
+    public function materiales($id)
     {
-      $retorno=Requisicione::materiales('11');
+      $retorno=Requisicione::materiales($id);
       return $retorno;
     }
 }

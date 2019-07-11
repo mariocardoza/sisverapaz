@@ -55,7 +55,7 @@
 									{{$detalle->cantidad}}
 								</td>
 								<td>
-									{{$detalle->descripcion}}
+									{{$detalle->material->nombre}}
 								</td>
 								<td>
 									{{$detalle->unidadmedida->nombre_medida}}

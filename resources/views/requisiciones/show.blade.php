@@ -19,7 +19,14 @@
                 <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
                 <div class="panel-body">
                   <div class="pull-right">
-                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    @if($requisicion->estado==5)
+                      <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
+                    @elseif($requisicion->estado==6)
+                    <a title="Acta"  href="{{url('reportesuaci/acta/'.$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
+                    @else
+                      <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    @endif
                   </div>
                     <table class="table">
                       <tr>
@@ -31,13 +38,13 @@
                         <th>Requisición N°</th>
                         <td>{{ $requisicion->codigo_requisicion}}</td>
                       </tr>
+                       <tr>
+                        <th>Actividad</th>
+                        <td>{{$requisicion->actividad}}</td>
+                      </tr>
                       <tr>
                         <th>Responsable</th>
                         <td>{{$requisicion->user->empleado->nombre}}</td>
-                      </tr>
-                      <tr>
-                        <th>Actividad</th>
-                        <td>{{$requisicion->actividad}}</td>
                       </tr>
                       <tr>
                         <th>Fuente de financiamiento</th>
@@ -55,7 +62,7 @@
 
                         <br>
                         
-                        
+                        <center>
                         @if($requisicion->estado==1)
                       {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
                       <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
@@ -80,6 +87,7 @@
                         })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
                       {{ Form::close()}}
                     @endif
+                  </center>
                 </div>
             </div>
         </div>
@@ -95,14 +103,16 @@
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">
             <div class="panel-heading">Detalle</div>
-            <div class="panel-body">
+            <div class="panel-body" id="body_requi">
               <div>
                 <?php if($requisicion->requisiciondetalle->count() > 0): ?>
 
                     @if($requisicion->estado==1)
                       <center><a class="btn btn-success pull-right" id="agregar_nueva">Agregar Necesidad</a></center><br>
+                    @else
+                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     @endif
-                          <table class="table" id="example2">
+                          <table class="table estee" id="tabla_requi">
                             <thead>
                               <th>Descripción</th>
                               <th>Cantidad</th>
@@ -112,7 +122,7 @@
                             <tbody>
                               @foreach($requisicion->requisiciondetalle as $detalle)
                               <tr>
-                                <td>{{$detalle->descripcion}}</td>
+                                <td>{{$detalle->material->nombre}}</td>
                                 <td>{{$detalle->cantidad}}</td>
                                 <td>{{$detalle->unidadmedida->nombre_medida}}</td>
                                 <td>
@@ -183,7 +193,7 @@
                     </tr>
                     <tr>
                       <td>Fecha límite para cotizar</td>
-                      <th>{{$requisicion->solicitudcotizacion->fecha_limite->format("d-m-Y")}}</th>
+                      <th>{{$requisicion->solicitudcotizacion->fecha_limite->format("d/m/Y")}}</th>
                     </tr>
                     <tr>
                       <td>Tiempo máximo para entrega de materiales</td>
@@ -205,7 +215,7 @@
             <div class="panel-heading">Cotizaciones</div>
             <div class="panel">
               <?php if (isset($requisicion->solicitudcotizacion->cotizacion)): ?>
-                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d') && $requisicion->estado != 5): ?>
+                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d') && ($requisicion->estado != 4 && $requisicion->estado != 5 && $requisicion->estado != 6 && $requisicion->estado != 7)): ?>
                   <a href="{{url('/cotizaciones/cotizarr/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
                 <?php else: ?>
                   <?php if($requisicion->estado==3):?>
@@ -256,28 +266,39 @@
           <div class="panel panel-primary" id="orden" style="display: none;">
             <div class="panel-heading">Orden de compra</div>
             <div class="panel">
-              @if(isset($orden->numero_orden))
-              <a href="{{ url('/reportesuaci/ordencompra/'.$orden->id) }}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
+              @if(isset($requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra))
+              <a href="{{ url('/reportesuaci/ordencompra/'.$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->id) }}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
               <table class="table">
                 <tr>
                   <td>Número de orden</td>
-                  <th>{{$orden->numero_orden}}</th>
+                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->numero_orden}}</th>
+                </tr>
+                <tr>
+                  <td>Proveedor seleccionado</td>
+                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->proveedor->nombre}}</th>
                 </tr>
                 <tr>
                   <td>Dirección de entrega</td>
-                  <th>{{$orden->direccion_entrega}}</th>
+                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->direccion_entrega}}</th>
                 </tr>
                 <tr>
                   <td>Administrador de la orden</td>
-                  <th>{{$orden->adminorden}}</th>
+                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->adminorden}}</th>
                 </tr>
               </table>
               @else
+              @if(isset($requisicion->solicitudcotizacion->cotizacion_seleccionada))
                 <center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                   <span>Aun no se ha registrado la orden de compra</span><br>
                   <button class="btn btn-primary" id="registrar_orden">Registrar</button>
                 </center>
+                @else
+                  <center>
+                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                    <span>Se estan recibiendo cotizaciones</span><br>
+                  </center>
+                @endif
               @endif
             </div>
           </div>
@@ -289,289 +310,7 @@
 @endsection
 @section('scripts')
 <script>
-    $(document).ready(function(e){
-      listarformapagos();
-      var token = $('meta[name="csrf-token"]').attr('content');
-      $(document).on("click","#agregar_nueva",function(e){
-        e.preventDefault();
-        listarmateriales();
-        $("#modal_detalle").modal("show");
-      });
-
-        $(document).on("click","#agregar_otro",function(e){
-          var datos=$("#form_detalle").serialize();
-          modal_cargando();
-          $.ajax({
-            url:'../requisiciondetalles',
-            headers: {'X-CSRF-TOKEN':token},
-            type:'POST',
-            dataType:'json',
-            data:datos,
-            success:function(json){
-              console.log(json);
-              if(json[0]==1){
-                toastr.success("Necesidad agregada exitosamente");
-                window.location.reload();
-              }else{
-                swal.closeModal();
-                toastr.error("Ocurrió un error");
-              }
-              
-            }, error: function(error){
-              console.log(error);
-              swal.closeModal();
-              $.each(error.responseJSON.errors, function( key, value ) {
-                  toastr.error(value);
-              });
-            }
-          });
-        });
-
-        $(document).on("click","#editar_detalle",function(e){
-          e.preventDefault();
-          var id=$(this).attr("data-id");
-          $.ajax({
-            url:'../requisiciondetalles/'+id+'/edit',
-            type:'get',
-            dataType:'json',
-            data:{},
-            success: function(json){
-              if(json[0]==1){
-                $("#modal_aqui").empty();
-                $("#modal_aqui").html(json[3]);
-                $("#elmodal_editar").modal("show");
-              }
-            }
-          })
-        });
-
-        $(document).on("click","#editar_eldetalle",function(e){
-          var id=$("#elcodigo_detalle").val();
-          var datos=$("#form_editar_eldetalle").serialize();
-          modal_cargando();
-          $.ajax({
-            url:'../requisiciondetalles/'+id,
-            headers: {'X-CSRF-TOKEN':token},
-            type:'PUT',
-            dataType:'json',
-            data:datos,
-            success: function(json){
-              if(json[0]==1){
-                toastr.success("Actualizado con éxito");
-                window.location.reload();
-              }else{
-                toastr.error("Ocurrió un error");
-                swal.closeModal();
-              }
-            },error: function(error){
-              $.each(error.responseJSON.errors, function( key, value ) {
-                  toastr.error(value);
-              });
-              swal.closeModal();
-            }
-          });
-        });
-
-        $(document).on("click",".que_ver",function(e){
-          var opcion=$(this).attr("data-tipo");
-          if(opcion==1){
-            $("#requi").css("display","block");
-            $("#soli").css("display","none");
-            $("#coti").css("display","none");
-            $("#orden").css("display","none");
-          }else if(opcion==2){
-            $("#requi").css("display","none");
-            $("#soli").css("display","block");
-            $("#coti").css("display","none");
-            $("#orden").css("display","none");
-          }else if(opcion==3){
-            $("#requi").css("display","none");
-            $("#soli").css("display","none");
-            $("#coti").css("display","block");
-            $("#orden").css("display","none");
-          }else if(opcion==4){
-            $("#requi").css("display","none");
-            $("#soli").css("display","none");
-            $("#coti").css("display","none");
-            $("#orden").css("display","block");
-          }
-        });
-
-        ///*** Registrar cotizaciones ***//
-        $(document).on("click","#registrar_cotizacion",function(e){
-          e.preventDefault();
-          $("#modal_registrar_coti").modal("show");
-        });
-
-        $(document).on("keyup",".precios",function(e){
-          var element = $(e.currentTarget),
-            cantidad   = $(element).attr('data-cantidad'),
-            subTotal =  $(element).val(),
-            parent  = element.parents("tr");
-
-            if($.isNumeric($(element).val()) && $.trim($(element).val()))
-              subTotal = ( $(element).val() * parseFloat(cantidad) );
-            else
-              subTotal = 0
-            //console.log(parent);
-            $(parent).find(".subtotal").text("$"+subTotal.toFixed(2));
-        });
-
-         $(document).on("click","#registrar_lacoti", function(e){
-          var marcas = new Array();
-          var precios = new Array();
-          var unidades = new Array();
-          var descripciones = new Array();
-          var cantidades = new Array();
-          $('input[name^="marcas"]').each(function() {
-            marcas.push($(this).val());
-          });
-
-          $('input[name^="precios"]').each(function() {
-            precios.push($(this).val());
-          });
-
-          $('input[name^="unidades"]').each(function() {
-            unidades.push($(this).val());
-          });
-
-          $('input[name^="descripciones"]').each(function() {
-            descripciones.push($(this).val());
-          });
-
-          $('input[name^="cantidades"]').each(function() {
-            cantidades.push($(this).val());
-          });
-
-          var proveedor = $("#proveedor").val();
-          var descripcion = $(".laformapago").val();
-          var id = $("#id").val();
-
-          $.ajax({
-            url:'../cotizaciones',
-            headers: {'X-CSRF-TOKEN':token},
-            type:'post',
-            data:{id,proveedor,descripcion,marcas,precios,cantidades,unidades,descripciones},
-            success: function(response){
-              if(response[0]==1){
-                toastr.success("Cotización registrada exitosamente");
-                if(response[2].tipo == 1){
-                  location.href="../../solicitudcotizaciones/versolicitudes/"+response.proyecto;
-                }else{
-                  location.reload();
-                  $("#requi").css("display","none");
-                  $("#soli").css("display","none");
-                  $("#coti").css("display","block");
-                }
-              }else{
-                toastr.error("Debe llenar todos los campos de precio unitario");
-                console.log(response);
-              }
-            },
-            error: function(error){
-              console.log(error);
-              $.each(error.responseJSON.errors, function( key, value ) {
-                toastr.error(value);
-              });
-            }
-          });
-        });
-
-         $(document).on("click","#registrar_solicitud",function(e){
-          e.preventDefault();
-          $("#modal_registrar_soli").modal("show");
-         });
-
-         $(document).on("click","#agregar_soli", function(e){
-          var formapago = $("#formapago").val();
-          var encargado = $("#encargado").val();
-          var cargo = $("#cargo").val();
-          var requisicion = $("#requisicion").val();
-          var unidad = $("#unidad").val();
-          var lugar_entrega = $("#lugar_entrega").val();
-          var fecha_limite = $("#fecha_limite").val();
-          var tiempo_entrega = $("#tiempo_entrega").val();
-
-          $.ajax({
-            url:'../solicitudcotizaciones/storer',
-            headers: {'X-CSRF-TOKEN':token},
-            type:'post',
-            data:{formapago,encargado,cargo,requisicion,unidad,lugar_entrega,fecha_limite,tiempo_entrega},
-            success: function(response){
-              if(response.mensaje=='exito'){
-                toastr.success('Solicitud registrada exitosamente');
-                location.reload();
-              }else{
-                  console.log(response);
-                  toastr.error('Ocurrió un error, contacte al administrador');
-                }
-            },
-            error: function(error){
-              console.log(error);
-              $.each(error.responseJSON.errors, function( key, value ) {
-                toastr.error(value);
-              });
-            }
-          });
-        });
-
-
-         ///ver cotizaciones //
-         $(document).on("click","#ver_coti",function(e){
-          var id=$(this).attr("data-id");
-          $.ajax({
-            url:'../requisiciones/vercotizacion/'+id,
-            type:'GET',
-            dataType:'json',
-            data:{},
-            success:function(json){
-              if(json[0]==1){
-                $("#aqui_poner_coti").empty();
-                $("#aqui_poner_coti").html(json[2]);
-                $("#titulo_ver_coti").text(json[3]);
-                $("#modal_ver_coti").modal("show");
-              }
-            }
-          });
-         });
-    });
-
- function listarformapagos()
-  {
-    $.ajax({
-      url:'../formapagos',
-      type:'get',
-      data:{},
-      success:function(data){
-        var html_select = '<option value="">Seleccione una forma de pago</option>';
-          $(data).each(function(key, value){
-            html_select +='<option value="'+value.id+'">'+value.nombre+'</option>'
-            //console.log(data[i]);
-            $("#formapago").html(html_select);
-            $(".laformapago").html(html_select);
-            $("#formapago").trigger('chosen:updated');
-            $(".laformapago").trigger('chosen:updated');
-
-          });
-          //console.log(data);
-      }
-    });
-  }
-
-   function listarmateriales()
-  {
-    $.ajax({
-      url:'../requisiciones/materiales',
-      type:'get',
-      data:{},
-      success:function(data){
-        if(data[0]==1){
-          $("#losmateriales").empty();
-          $("#losmateriales").html(data[2]);
-          //console.log(data);
-        }
-      }
-    });
-  }
+  var elid='<?php echo $requisicion->id ?>';
 </script>
+{!! Html::script('js/requisicion_show.js?cod='.date('Yidisus')) !!}
 @endsection

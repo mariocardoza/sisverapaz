@@ -205,9 +205,7 @@ class OrdencompraController extends Controller
               $requisicion->estado=5;
               $requisicion->save();
               DB::commit();
-              return response()->json([
-                'requisicion' => 'si'
-              ]);
+              return array(1,"exito");
             }
 
             //return redirect('solicitudcotizaciones/versolicitudes/'.$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->with('mensaje','Orden de compra registrada con éxito');
