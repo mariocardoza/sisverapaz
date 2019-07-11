@@ -222,7 +222,10 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
       }).then((json) => {
         if(json.response){
           $scope.inmueble.tipo_servicio.splice($index, 1);
-          toastr.info('se elimino correctamente el servicio', 'servico eliminado inmueble');
+          toastr.info(
+            'se elimino correctamente el servicio', 
+            'servico eliminado inmueble', { "hideDuration": "5000" }
+          );
         }
       });
       };
@@ -235,7 +238,11 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
         $scope.onShowAdd(false);
         if(json.response){
         $scope.inmueble.tipo_servicio.push(json.data);
-        toastr.info('se agrego correctamente el servicio', 'servico agregado inmueble');
+        toastr.info(
+          'se agrego correctamente el servicio', 
+          'servico agregado inmueble',
+          { "timeOut": "0", }
+        );
         }else{
           toastr.error(json.message, 'Error');
         }
