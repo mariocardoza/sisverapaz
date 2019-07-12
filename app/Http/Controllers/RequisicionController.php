@@ -10,6 +10,8 @@ use App\UnidadMedida;
 use App\Fondocat;
 use App\Cotizacion;
 use DB;
+use Redirect;
+use Storage;
 use App\Http\Requests\RequisicionRequest;
 
 class RequisicionController extends Controller
@@ -184,8 +186,34 @@ class RequisicionController extends Controller
 
     public function subir(Request $request)
     {
-      $request->file('archivo')->store('requisiciones');
-      dd($request->file('archivo'));
+      /*$file= $request->file('archivo')->store('requisiciones');*/
+      $request->file('archivo')->storeAs('requisiciones', $request->file('archivo')->getClientOriginalName());
+      $requisicion=Requisicione::find($request->requisicion_id);
+      $requisicion->nombre_archivo=$request->file('archivo')->getClientOriginalName();
+      $requisicion->estado=7;
+      $requisicion->save();
+  
+      return redirect('requisiciones/'.$requisicion->id)->with("mensaje","archivo subido con exito");
+    }
+
+    public function bajar($file_name){
+      $file = '/requisiciones/' . $file_name;
+      //dd($file);
+      $disk = Storage::disk('local');
+      if ($disk->exists($file)) {
+          $fs = Storage::disk('local')->getDriver();
+          $stream = $fs->readStream($file);
+          return \Response::stream(function () use ($stream) {
+              fpassthru($stream);
+          }, 200, [
+              "Content-Type" => $fs->getMimetype($file),
+              "Content-Length" => $fs->getSize($file),
+              "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
+          ]);
+      } else {
+        return Redirect::back()->with('error', 'Archivo no encontrado');
+          //abort(404, "The backup file doesn't exist.");
+      }
     }
 
     public function cambiarestado(Request $request,$id){

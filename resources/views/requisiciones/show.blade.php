@@ -24,6 +24,8 @@
                     @elseif($requisicion->estado==6)
                     <a title="Acta"  href="{{url('reportesuaci/acta/'.$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
+                    @elseif($requisicion->estado==7)
+                    <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
                     @else
                       <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     @endif
