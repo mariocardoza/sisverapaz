@@ -26,7 +26,7 @@ class AddMontoDesarrolloToProyectosTable extends Migration
     public function down()
     {
         Schema::table('proyectos', function (Blueprint $table) {
-            //
+            $table->dropColumn('monto_desarrollo');
         });
     }
 }

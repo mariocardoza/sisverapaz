@@ -19,9 +19,9 @@ class CambioBanco extends Migration
         });
 
         Schema::table('prestamos', function (Blueprint $table) {
-            $table->dropColumn('banco');
-            $table->bigInteger('banco_id')->unsigned()->nullable();
-            $table->foreign('banco_id')->references('id')->on('bancos');
+            //$table->dropColumn('banco');
+            //$table->bigInteger('banco_id')->unsigned()->nullable();
+            //$table->foreign('banco_id')->references('id')->on('bancos');
 
         });
     }
@@ -38,9 +38,9 @@ class CambioBanco extends Migration
             $table->dropColumn('fechabaja');
         });
         Schema::table('prestamos', function (Blueprint $table) {
-            $table->string('banco');
-            $table->dropForeign('prestamos_banco_id_foreign');
-            $table->dropColumn('banco_id')->unsigned()->nullable();
+            //$table->string('banco');
+            //$table->dropForeign('prestamos_banco_id_foreign');
+            //$table->dropColumn('banco_id')->unsigned()->nullable();
         });
     } 
 }

@@ -21,7 +21,7 @@ class CreateRequisicionesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('observaciones');
             $table->integer('estado')->unsigned()->default(1);
-            $table->foreign('unidad_id')->references('id')->on("unidads");
+            //$table->foreign('unidad_id')->references('id')->on("unidads");
             $table->timestamps();
         });
     }

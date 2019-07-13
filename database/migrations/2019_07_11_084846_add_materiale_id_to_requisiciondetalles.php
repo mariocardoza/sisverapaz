@@ -29,7 +29,7 @@ class AddMaterialeIdToRequisiciondetalles extends Migration
     {
         Schema::table('requisiciondetalles', function (Blueprint $table) {
             $table->string('descripcion');
-            $table>dropColumn('materiale_id');
+            $table->dropColumn('materiale_id');
         });
     }
 }

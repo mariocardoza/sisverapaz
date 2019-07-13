@@ -30,7 +30,11 @@ class CambioPrestamosBanco extends Migration
     public function down()
     {
         Schema::table('prestamos', function (Blueprint $table) {
+            $table->dropForeign('prestamos_banco_id_foreign');
             $table->dropColumn('banco_id');
+        });
+        Schema::table('prestamos', function (Blueprint $table) {
+            $table->string('banco');
         });
     }
 }

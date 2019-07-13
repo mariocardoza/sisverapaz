@@ -27,8 +27,8 @@ class DeleteColumnFromContratostable extends Migration
     public function down()
     {
         Schema::table('contratos', function (Blueprint $table) {
-            $table->bigInteger('cargo_id');
-            $table->foreign('cargo_id')->references('id')->on('cargos');
+            $table->bigInteger('cargo_id')->nullable();
+            //$table->foreign('cargo_id')->references('id')->on('cargos');
         });
     }
 }
