@@ -15,8 +15,8 @@
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
                 <div class="btn-group pull-right">
-                    <a href="{{ url('/prestamotipos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    <a href="{{ url('/prestamotipos?estado=1') }}" class="btn btn-primary">Activos</a>
+                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    <a href="{{ url('/prestamotipos?estado=1') }}" id="este" class="btn btn-primary">Activos</a>
                     <a href="{{ url('/prestamotipos?estado=0') }}" class="btn btn-primary">Papelera</a>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     <td>
                       @if($tipo->estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="{{ url('prestamotipos/'.$tipo->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                        <a href="javascript:void(0)" id="edit" data-id="{{$tipo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                         <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$tipo->id.",'pretamotipos')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
@@ -59,4 +59,58 @@
           <!-- /.box -->
       </div>
 </div>
+
+@include("prestamotipos.modales")
+@endsection
+
+@section("scripts")
+<script>
+  $(document).ready(function(e){
+    $(document).on("click", "#btnmodalagregar", function(e){
+      $("#modal_registrar").modal("show");
+    });
+
+    $(document).on("click", "#btnguardar", function(e){
+      e.preventDefault();
+      var datos=$("#form_prestamotipo").serialize();
+      $.ajax({
+        url:"prestamotipos",
+        type:"post",
+        data:datos,
+        success:function(retorno){
+          if(retorno[0]==1){
+            toastr.success("Registrado con exito");
+            $("#modal_registrar").modal("hide");
+            window.location.reload();
+          }
+          else{
+            toastr.error("Falló");
+          }
+        },
+        error:function(error){
+          console.log();
+          $(error.responseJSON.errors).each(function(index,valor){
+            toastr.error(valor.nombre);
+          })
+        }
+      });
+    });
+
+    $(document).on("click", "#edit", function(){
+      var id = $(this).attr("data-id");
+      $.ajax({
+        url:"prestamotipos/"+id+"/edit",
+        type:"get",
+        data:{},
+        success:function(retorno){
+          if(retorno[0]== 1){
+            $("#modal_editar").modal("show");
+            $("#e_nombre").val(retorno[2].nombre);
+            $("#elid").val(retorno[2].id);
+          }
+        }
+      });
+    });
+  });
+</script>
 @endsection

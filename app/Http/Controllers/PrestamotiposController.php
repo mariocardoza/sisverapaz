@@ -42,7 +42,7 @@ class PrestamotiposController extends Controller
             'nombre'=>$request->nombre
         ]);
 
-        return redirect('prestamotipos')->with('mensaje', 'Tipo registrado');
+        return array(1,"exito");
     }
 
     protected function validar(array $data)
@@ -74,7 +74,8 @@ class PrestamotiposController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tipo = Prestamotipo::find($id);
+        return array(1,"éxito",$tipo);
     }
 
     /**
