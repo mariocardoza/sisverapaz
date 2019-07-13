@@ -39,7 +39,12 @@ class PaacController extends Controller
     public function guardar(Request $request)
     {
         try{
-          $paac=Paac::create($request->All());
+          $paac=Paac::create([
+            'id'=> date('Yidisus'),
+            'anio'=>$request->anio,
+            'descripcion'=>$request->descripcion,
+            'total'=>$request->total
+          ]);
           return array(1,"exito",$paac);
         }catch(Exception $e){
           return array(-1,"error",$e->getMessage());

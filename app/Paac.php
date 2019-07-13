@@ -8,6 +8,7 @@ class Paac extends Model
 {
     protected $guarded = [];
     protected $dates = [];
+    public $incrementing = false;
 
     public function paacdetalle()
     {

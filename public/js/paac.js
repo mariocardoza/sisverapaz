@@ -3,7 +3,59 @@ var contador = 0;
     $(document).ready(function(){
     var tbMaterial = $("#tbMaterial");
 
-     $("#agregar").on("click", function(e) {
+    //agregar un nuevo
+    $(document).on("click","#registrar", function(e){
+        $("#elplan").hide();
+        $("#panel_registrar").show();
+    });
+
+    $(document).on("click","#cancelar_guardar", function(e){
+        $("#elplan").show();
+        $("#panel_registrar").hide();
+    });
+
+    $(document).on("click","#guardar", function(e){
+        e.preventDefault();
+        obra = $("#obra").val() || 0,
+             ene = $("#ene").val() || 0.00,
+             feb = $("#feb").val() || 0.00,
+             mar = $("#mar").val() || 0.00,
+             abr = $("#abr").val() || 0.00,
+             may = $("#may").val() || 0.00,
+             jun = $("#jun").val() || 0.00,
+             jul = $("#jul").val() || 0.00,
+             ago = $("#ago").val() || 0.00,
+             sep = $("#sep").val() || 0.00,
+             oct = $("#oct").val() || 0.00,
+             nov = $("#nov").val() || 0.00,
+             dic = $("#dic").val() || 0.00;
+        if(obra){
+            var datos=$("#form_paac").serialize();
+            modal_cargando();
+            $.ajax({
+                url:'../paacdetalles',
+                type:'POST',
+                data:datos,
+                success: function(json){
+                    if(json[0]==1){
+                        toastr.success("Información guardada con éxito");
+                        window.location.reload();
+                    }else{
+                        swal.closeModal();
+                        toastr.error("Error");
+                    }
+                }
+            })
+        }else{
+            swal(
+                '¡Aviso!',
+                'Debe llenar todos los campos',
+                'warning'
+            );
+        }
+    });
+    
+     $(document).on("click","#agregar", function(e) {
     //     //var tr     = $(e.target).parents("tr"),
 
          e.preventDefault();
@@ -59,7 +111,7 @@ var contador = 0;
               '¡Aviso!',
               'Debe llenar todos los campos',
               'warning'
-)
+            );
          }
      });
 

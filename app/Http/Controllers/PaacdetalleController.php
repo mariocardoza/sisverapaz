@@ -37,7 +37,28 @@ class PaacdetalleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+          $paac=Paacdetalle::create([
+            'id'=>Paacdetalle::retornar_id(),
+            'obra'=>$request->obra,
+            'paac_id'=>$request->paac_id,
+            'enero'=>$request->enero,
+            'febrero'=>$request->febrero,
+            'marzo'=>$request->marzo,
+            'abril'=>$request->abril,
+            'mayo'=>$request->mayo,
+            'junio'=>$request->junio,
+            'julio'=>$request->julio,
+            'agosto'=>$request->agosto,
+            'septiembre'=>$request->septiembre,
+            'octubre'=>$request->octubre,
+            'noviembre'=>$request->noviembre,
+            'diciembre'=>$request->diciembre
+          ]);
+          return array(1,"exito");
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
