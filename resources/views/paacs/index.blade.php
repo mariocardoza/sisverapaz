@@ -16,7 +16,7 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/paacs/crear') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                <a id="crear" href="javascript:void(0)" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
@@ -55,11 +55,39 @@
           </div>
           <!-- /.box -->
         </div>
+        @include('paacs.modales')
 </div>
 @endsection
 @section('scripts')
 <script type="text/javascript">
   $(document).ready(function(e){
+
+    $(document).on("click","#crear", function(e){
+      e.preventDefault();
+      $("#modal_crear").modal("show");
+    });
+
+    $(document).on("click","#registrar_paac", function(e){
+      var datos=$("#form_paac").serialize();
+      modal_cargando();
+      $.ajax({
+        url:'paacs/guardar',
+        type:'POST',
+        dataType:'json',
+        data:datos,
+        success:function(json){
+          if(json[0]==1){
+            toastr.success("Plan registrado con exito");
+            location.reload();
+          }else{
+            toastr.error("Ocurrió un error");
+          }
+        }, error: function(error){
+
+        }
+      })
+    });
+
     $(document).on("click","#btn_eliminar",function(e){
         var id=$(this).attr("data-id");
         var token = $('meta[name="csrf-token"]').attr('content');

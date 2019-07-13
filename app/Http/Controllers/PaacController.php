@@ -38,8 +38,12 @@ class PaacController extends Controller
 
     public function guardar(Request $request)
     {
-        Paac::create($request->All());
-        return redirect('paacs')->with('mensaje','Registrado con exito');
+        try{
+          $paac=Paac::create($request->All());
+          return array(1,"exito",$paac);
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
     public function create()
     {

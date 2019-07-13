@@ -26,6 +26,7 @@ class CambioPrestamo extends Migration
      */
     public function down()
     {
-        //
+        $table->dropColumn('numero_de_cuotas');
+        $tabla->dropColumn('cuota');
     }
 }

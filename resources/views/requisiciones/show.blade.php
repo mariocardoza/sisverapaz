@@ -221,7 +221,9 @@
                   <a href="{{url('/cotizaciones/cotizarr/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
                 <?php else: ?>
                   <?php if($requisicion->estado==3):?>
-                    <center><button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button></center>
+                    <button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button>
+                  <?php elseif($requisicion->estado > 5): ?>
+                    <a class="btn btn-primary pull-left" href="{{ url('reportesuaci/cotizaciones/'.$requisicion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
                   <?php endif; ?>
                 <?php endif ?>
                 <table class="table" id="example2">

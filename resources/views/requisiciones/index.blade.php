@@ -98,6 +98,14 @@
                           
                         </div>
                       </td>
+                      @elseif( $requisicion->estado == 7)
+                      <td><span class="label-success">Finalizado</span></td>
+                        <td>
+                          <div class="btn-group">
+                            <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
+                            
+                          </div>
+                        </td>
                     @endif
                   </tr>
                   @endforeach

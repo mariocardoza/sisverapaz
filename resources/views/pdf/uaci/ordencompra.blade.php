@@ -6,7 +6,7 @@
   <div class="container">
       <div class="row">
           <div class="col-md-11">
-              <div class="panel panel-primary">
+              <div class="">
                   <div class="panel-body">
                     <table width="100%" rules="">
                       <tr>
@@ -25,7 +25,7 @@
                       </tr>
                     </table>
 
-                      <table width="100%" border="" rules="all">
+                      <table width="100%" border="" class="table table-bordered">
                         <colgroup></colgroup>
                         <colgroup></colgroup>
                         <tbody>
@@ -46,9 +46,9 @@
                       </table>
                       <p></p>
                       Solicito a ustedes por favor entregar a la mayor brevedad posible y en días hábiles, después de haber recibido la Orden de Compra.
-                      <br>
+                      <br><br>
                       <!--div class="table-responsive"-->
-                        <table width="100%" cellspacing="10px" rules="all">
+                        <table width="100%" cellspacing="10px" class="table table-striped table-bordered" >
                           <thead>
                             <tr>
                               <th width="5%">N°</th>
@@ -112,7 +112,7 @@
                       <br>
                       <br>
 
-                      <table width="100%" border="" rules="all">
+                      <table width="100%" border="" class="table table-striped table-bordered" >
                         <tbody>
 
 
@@ -151,7 +151,7 @@
                         </tbody>
                       </table>
                       <br>
-                      <table width="100%" rules="all">
+                      <table width="100%" class="table table-bordered">
                         <tbody>
                           <tr>
                             <td>Autoriza:

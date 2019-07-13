@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+set_time_limit(300);
 use Illuminate\Http\Request;
 
 class ReportesUaciController extends Controller
@@ -22,6 +22,15 @@ class ReportesUaciController extends Controller
     	$pdf = \PDF::loadView('pdf.uaci.proveedor',compact('proveedores','tipo'));
     	$pdf->setPaper('letter', 'landscape');
     	return $pdf->stream('proveedores.pdf');
+    }
+
+    public function cotizaciones($id)
+    {
+      $requisicion = \App\Requisicione::findorFail($id);
+      $tipo = "REPORTE DE COTIZACIONES";
+    	$pdf = \PDF::loadView('pdf.uaci.cotizaciones',compact('tipo','requisicion'));
+    	$pdf->setPaper('letter', 'landscape');
+    	return $pdf->stream('cotizaciones.pdf');
     }
 
     public function solicitud($id)

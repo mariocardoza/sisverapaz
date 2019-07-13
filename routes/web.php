@@ -314,6 +314,7 @@ Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contrato
 
 Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisicionobra');
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
+Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
