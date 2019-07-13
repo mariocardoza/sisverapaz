@@ -37,7 +37,7 @@
                       @if($tipo->estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                         <a href="javascript:void(0)" id="edit" data-id="{{$tipo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                        <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$tipo->id.",'pretamotipos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja('".$tipo->id."','prestamotipos')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
@@ -108,9 +108,36 @@
             $("#e_nombre").val(retorno[2].nombre);
             $("#elid").val(retorno[2].id);
           }
+          else{
+            toastr.error("error");
+          }
         }
       });
-    });
+    });    //Fin modal para editar
+
+    $(document).on("click", "#btneditar", function(e){
+      var id = $("#elid").val();
+      var nombre = $("#e_nombre").val();
+
+      $.ajax({
+        url: "prestamotipos/"+id,
+        type: "put",
+        data: {nombre},
+        success:function(retorno){
+          if(retorno[0] == 1){
+            toastr.success("Exitoso");
+            $("#modal_editar").modal("hide");
+            window.location.reload();
+          }
+          else{
+            toastr.error("error");
+          }
+        }
+      });
+    });         //Fin de btneditar
+
+    $(document).on()
+
   });
 </script>
 @endsection

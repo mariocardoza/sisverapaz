@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         // La creación de datos de roles debe ejecutarse primero
-        //$this->call(RoleTableSeeder::class);
+        $this->call(RoleTableSeeder::class);
         //factory(App\Contribuyente::class,50)->create();
         //factory(App\Proveedor::class,50)->create();
          //$this->call(RentaTableSeeder::class);
-         $this->call(EmpleadoSeeder::class);
+         //$this->call(EmpleadoSeeder::class);
         
     }
 }

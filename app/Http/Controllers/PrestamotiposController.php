@@ -87,7 +87,10 @@ class PrestamotiposController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tipo = Prestamotipo::find($id);
+        $tipo->nombre = $request->nombre;
+        $tipo->save();
+        return array(1,"exitoso",$tipo);
     }
 
     /**
@@ -99,5 +102,18 @@ class PrestamotiposController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        //$motivo = 
+
+        $tipo = Prestamotipo::find($id);
+        $tipo->estado = 2;
+        $tipo->save();
+
+        return redirect("prestamotipos")->with("mensaje","Tipo eliminado");
     }
 }

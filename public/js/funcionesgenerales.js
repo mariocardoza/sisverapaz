@@ -231,6 +231,7 @@ $.datepicker.setDefaults($.datepicker.regional['es']);
 //funcion para dar de baja
 function baja(id,ruta)
   {
+   // alert(id);
       swal({
         title: 'Motivo por el que da de baja',
         input: 'text',
