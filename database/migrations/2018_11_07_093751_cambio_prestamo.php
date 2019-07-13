@@ -26,7 +26,9 @@ class CambioPrestamo extends Migration
      */
     public function down()
     {
-        $table->dropColumn('numero_de_cuotas');
-        $tabla->dropColumn('cuota');
+        Schema::table('prestamos', function (Blueprint $table) {
+            $table->dropColumn('numero_de_cuotas');
+            $tabla->dropColumn('cuota');
+        });
     }
 }
