@@ -22162,3 +22162,23 @@ be a descendant of the grid when it is being dragged.
 .fc-unthemed .fc-list-empty {
   /* theme will provide own background */
   background-color: #eee; }
+.dataTable {
+  width: 100% !important;
+}
+
+.uib-tab .nav-link {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.uib-tab.active .nav-link, 
+.uib-tab:hover .nav-link {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.center-maps {
+  height: 100%;
+}
