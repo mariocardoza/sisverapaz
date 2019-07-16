@@ -280,6 +280,8 @@ Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
+
+Route::post('prestamotipos/baja/{id}','PrestamotiposController@baja')->name('prestamotipos.baja');
 Route::Resource('prestamotipos','PrestamotiposController');
 
 Route::get('cargos/get','CargoController@get');
