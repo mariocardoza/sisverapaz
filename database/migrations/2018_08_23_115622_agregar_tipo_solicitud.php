@@ -16,8 +16,7 @@ class AgregarTipoSolicitud extends Migration
         Schema::table('solicitudcotizacions', function (Blueprint $table) {
             $table->integer('tipo')->nullable();
             $table->bigInteger('solicitud_id')->unsigned()->nullable();
-            $table->bigInteger('requisicion_id')->unsigned()->nullable();
-            $table->foreign('requisicion_id')->references('id')->on('requisiciones');
+            $table->string('requisicion_id')->nullable();
             $table->foreign('solicitud_id')->references('id')->on('presupuesto_solicituds');
         });
     }
@@ -31,10 +30,9 @@ class AgregarTipoSolicitud extends Migration
     {
         Schema::table('solicitudcotizacions', function (Blueprint $table) {
           $table->dropColumn('tipo');
-          $table->dropColumn('solicitud_id');
           $table->dropColumn('requisicion_id');
           $table->dropForeign('solicitudcotizacions_solicitud_id_foreign');
-          $table->dropForeign('solicitudcotizacions_requisicion_id_foreign');
+          $table->dropColumn('solicitud_id');
         });
     }
 }

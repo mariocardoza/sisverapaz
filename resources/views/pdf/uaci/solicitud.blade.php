@@ -56,8 +56,8 @@
         @foreach($solicitud->requisicion->requisiciondetalle as $indice => $detalle)
         <tr>
           <td>{{$indice+1}}</td>
-          <td>{{$detalle->descripcion}}</td>
-          <td>{{$detalle->unidad_medida}}</td>
+          <td>{{$detalle->material->nombre}}</td>
+          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>
@@ -71,13 +71,13 @@
       <td>
       Condiciones de Compra:
       <p></p>
-      1. Enviar cotización a nombre de Alcaldía Municipal de Verapaz, depto. de San Vicente, debidamente sellada y firmada por Representante Legal o Ejecutivo de Ventas, con atención a {{$solicitud->encargado}}, {{$solicitud->cargo_encargado}} a más tardar el día {{$solicitud->fecha_limite->format('l d, F Y')}}, en oficinas de la Alcaldía Municipal de Verapaz en la dirección física o la dirección electrónica descrita al pie de ésta página.
+      1. Enviar cotización a nombre de Alcaldía Municipal de Verapaz, depto. de San Vicente, debidamente sellada y firmada por Representante Legal o Ejecutivo de Ventas, con atención a <b>{{$solicitud->encargado}}</b>, {{$solicitud->cargo_encargado}} a más tardar el día <b>{{$solicitud->fecha_limite->format('l d, F Y')}}</b>, en oficinas de la Alcaldía Municipal de Verapaz en la dirección física o la dirección electrónica descrita al pie de ésta página.
       <p></p>
       2. Los precios deben ser en US$, con IVA incluido.
       <p></p>
       3. Periodo de vigencia de la oferta de __ dias.
       <p></p>
-      4. La forma de pago para este suministro es {{$solicitud->formapago->nombre}}.
+      4. La forma de pago para este suministro es: <b>{{$solicitud->formapago->nombre}}.</b>
       <p></p>
       5. Adjuntar fotocopia de NIT y NRC de la Empresa o Persona natural, si es contribuyente; caso contrario anexar fotocopia de DUI.
       <p></p>

@@ -8,7 +8,10 @@ use App\Requisiciondetalle;
 use App\Unidad;
 use App\UnidadMedida;
 use App\Fondocat;
+use App\Cotizacion;
 use DB;
+use Redirect;
+use Storage;
 use App\Http\Requests\RequisicionRequest;
 
 class RequisicionController extends Controller
@@ -25,8 +28,8 @@ class RequisicionController extends Controller
 
     public function index()
     {
-        Auth()->user()->authorizeRoles('admin');
-        $requisiciones = Requisicione::all();
+        Auth()->user()->authorizeRoles(['admin','uaci']);
+        $requisiciones = Requisicione::orderBy('codigo_requisicion')->get();
         return view('requisiciones.index',compact('requisiciones'));
     }
 
@@ -44,10 +47,24 @@ class RequisicionController extends Controller
     public function create()
     {
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
-      $medidas = UnidadMedida::all();
-      $fondos = Fondocat::where('estado',1)->get();
+      $lasmedidas = UnidadMedida::all();
+      $unidads = Unidad::all();
+      foreach ($lasmedidas as $value) {
+        $medidas[$value->id]=$value->nombre_medida;
+      }
+      $losfondos = Fondocat::where('estado',1)->get();
 
-        return view('requisiciones.create',compact('medidas','fondos'));
+      foreach ($losfondos as $fondito) {
+        $fondos[$fondito->id]=$fondito->categoria;
+      }
+
+      foreach ($unidads as $launidad) {
+        $unidades[$launidad->id]=$launidad->nombre_unidad; 
+      }
+
+
+
+        return view('requisiciones.create',compact('medidas','fondos','unidades'));
     }
 
     /**
@@ -65,20 +82,24 @@ class RequisicionController extends Controller
           $requisiciones = $request->requisiciones;
 
           $requisicion = Requisicione::create([
+              'id'=>date('Yidisus'),
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
               'fondocat_id' => $request->fondo,
-              'user_id' => $request->user_id,
+              'user_id' => Auth()->user()->id,
               'observaciones' => $request->observaciones,
+              'unidad_id'=>$request->unidad_id
               ]);
-            foreach($requisiciones as $requi){
+            /*foreach($requisiciones as $requi){
+              $elid=Requisiciondetalle::retonrar_id_insertar();
               Requisiciondetalle::create([
+                'id'=>$elid,
                 'cantidad' => $requi['cantidad'],
                 'unidad_medida' => $requi['unidad'],
                 'descripcion' => $requi['descripcion'],
                 'requisicion_id' => $requisicion->id,
               ]);
-            }
+            }*/
             DB::commit();
             return response()->json([
               'mensaje' => 'exito',
@@ -103,11 +124,20 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
+      $unidades = UnidadMedida::all();
+      foreach ($unidades as $value) {
+        $medidas[$value->id]=$value->nombre_medida;
+      }
+      $proveedores = DB::table('proveedors')
+                        ->whereRaw('estado = 1')
+                        ->whereNotExists(function ($query){
+                          $query->from('cotizacions')
+                          ->whereRaw('cotizacions.proveedor_id = proveedors.id');
+                        })->get();
       Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
-        //$detalles = Requisiciondetalle::where('requisicion_id',$requisicion->id)->get();
-        //dd($requisicion);
-        return view('requisiciones.show',compact('requisicion'));
+      $elestado=Requisicione::estado_ver($id);
+        return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado'));
     }
 
     /**
@@ -118,7 +148,11 @@ class RequisicionController extends Controller
      */
     public function edit($id)
     {
-      $fondos = Fondocat::where('estado',1)->get();
+      $losfondos = Fondocat::where('estado',1)->get();
+
+      foreach ($losfondos as $fondito) {
+        $fondos[$fondito->id]=$fondito->categoria;
+      }
       $requisicion=Requisicione::findorFail($id);
       $unidades=Unidad::pluck('nombre_unidad', 'id');
       $medidas = UnidadMedida::all();
@@ -148,5 +182,59 @@ class RequisicionController extends Controller
     public function destroy(Requisicion $requisicione)
     {
 
+    }
+
+    public function subir(Request $request)
+    {
+      /*$file= $request->file('archivo')->store('requisiciones');*/
+      $request->file('archivo')->storeAs('requisiciones', $request->file('archivo')->getClientOriginalName());
+      $requisicion=Requisicione::find($request->requisicion_id);
+      $requisicion->nombre_archivo=$request->file('archivo')->getClientOriginalName();
+      $requisicion->estado=7;
+      $requisicion->save();
+  
+      return redirect('requisiciones/'.$requisicion->id)->with("mensaje","archivo subido con exito");
+    }
+
+    public function bajar($file_name){
+      $file = '/requisiciones/' . $file_name;
+      //dd($file);
+      $disk = Storage::disk('local');
+      if ($disk->exists($file)) {
+          $fs = Storage::disk('local')->getDriver();
+          $stream = $fs->readStream($file);
+          return \Response::stream(function () use ($stream) {
+              fpassthru($stream);
+          }, 200, [
+              "Content-Type" => $fs->getMimetype($file),
+              "Content-Length" => $fs->getSize($file),
+              "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
+          ]);
+      } else {
+        return Redirect::back()->with('error', 'Archivo no encontrado');
+          //abort(404, "The backup file doesn't exist.");
+      }
+    }
+
+    public function cambiarestado(Request $request,$id){
+      $requisicion=Requisicione::find($id);
+      try{
+        $requisicion->estado=$request->estado;
+        $requisicion->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function ver_cotizacion($id){
+      $retorno=Cotizacion::ver_cotizacion($id);
+      return $retorno;
+    }
+
+    public function materiales($id)
+    {
+      $retorno=Requisicione::materiales($id);
+      return $retorno;
     }
 }

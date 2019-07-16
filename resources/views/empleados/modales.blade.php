@@ -167,11 +167,7 @@
                             <label for="password" class="control-label">Rol del usuario</label>
 
                             <div class="">
-                                <select class="chosen-select-width" name="roles">
-                                  @foreach($roles as $rol)
-                                    <option value="{{$rol->id}}">{{$rol->description}}</option>
-                                  @endforeach
-                                </select>
+                                 {{Form::select('roles',$roles,null, ['class'=>'form-control','placeholder'=>'Seleccione un rol'])}}
                             </div>
                         </div>
 
@@ -199,6 +195,69 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="registrar_user" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="editar_user" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Editar datos del usuario</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::model($empleado, array('class' => '','id'=>'e_usuarios')) }} 
+          <div class="row">
+              <div class="col-md-12">
+                 <div class="form-group">
+                    <label for="username" class="control-label">Nombre de Usuario</label>
+
+                    <div class="">
+                      <?php if ($empleado->es_usuario=='si' && $empleado->user): ?>
+                        
+                     
+                        <input id="username" type="text" autocomplete="off" class="form-control" name="username" value="{{$empleado->user->username}}">
+                        <input id="empleado_id" type="hidden" autocomplete="off" class="form-control" name="elempleado" value="{{$empleado->id}}">
+                         <?php endif ?>
+                    </div>
+                </div>
+
+         
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="eledit_user" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="md_prestamo" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar préstamo</h4>
+      </div>
+      <div class="modal-body">
+        <form action="" id="form_prestamo" class="form-horizontal"> 
+          <div class="row">
+              <div class="col-md-12">
+                 @include('prestamos.formulario')
+
+         
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="regi_prestamo" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

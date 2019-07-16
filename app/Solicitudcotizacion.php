@@ -19,6 +19,11 @@ class Solicitudcotizacion extends Model
         return $this->hasMany('App\Cotizacion');
     }
 
+    public function cotizacion_seleccionada()
+    {
+        return $this->hasOne('App\Cotizacion')->where('seleccionado',1);
+    }
+
     public function formapago()
     {
     	return $this->belongsTo('App\Formapago');

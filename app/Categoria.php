@@ -19,4 +19,12 @@ class Categoria extends Model
       $nombre = $categoria->item." ".$categoria->nombre_categoria;
       return $nombre;
     }
+
+    public static function categorias(){
+      $lascates=Categoria::where('estado',1)->get();
+      foreach ($lascates as $cate) {
+        $categorias[$cate->id]=$cate->nombre_categoria;
+      }
+      return $categorias;
+    }
 }

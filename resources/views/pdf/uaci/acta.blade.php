@@ -2,6 +2,7 @@
 @include('pdf.uaci.cabecera')
 @include('pdf.uaci.pie')
 @section('reporte')
+<br>
   <table width="100%" rules="">
     <tr>
       <td colspan="3" width="">
@@ -19,6 +20,6 @@
 
   <p style="font-size:14">Reunidos en: .......................................................................................; a las: ...........................</p>
   <p style="font-size:14">................. del día: ......................................................................................................................<p>
-      <p style="font-size:14"> Los señores: {{$orden->cotizacion->proveedor->nombre}} y {{$configuracion->nombre_alcalde}}</p>
-      <p style="font-size:14">A efecto de constatar que lo que a continuación se detalle, se entrega y recibe de acuerdo a lo establecido en la Orden de Compra correspondiente;</p>
+      <p style="font-size:14"> Los señores: <b>{{$orden->cotizacion->proveedor->nombre}}</b> Ofertante y <b>{{$configuracion->nombre_alcalde}}</b> Alcalde municipal</p>
+      <p style="font-size:14">A efecto de constatar que lo que a continuación se detalla, se entrega y recibe de acuerdo a lo establecido en la Orden de Compra correspondiente;</p>
 @endsection

@@ -44,7 +44,7 @@ Route::post('configuraciones/alcaldia','ConfiguracionController@alcaldia')->name
 Route::put('configuraciones/ualcaldia/{configuracione}','ConfiguracionController@ualcaldia')->name('configuraciones.ualcaldia');
 Route::post('configuraciones/alcalde','ConfiguracionController@alcalde')->name('configuraciones.alcalde');
 Route::put('configuraciones/ualcalde/{configuracione}','ConfiguracionController@ualcalde')->name('configuraciones.ualcalde');
-Route::post('configuraciones/logo','ConfiguracionController@logo')->name('configuraciones.logo');
+Route::post('configuraciones/logo/{id}','ConfiguracionController@logo')->name('configuraciones.logo');
 Auth::routes();
 
 Route::post('authenticate','Auth\loginController@authenticate')->name('authenticate');
@@ -73,6 +73,7 @@ Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
+Route::post('proveedores/representante/{id}','ProveedorController@representante');
 
 Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
 Route::post('especialistas/alta/{id}','EspecialistaController@alta')->name('especialistas.alta');
@@ -166,6 +167,10 @@ Route::Resource('categorias','CategoriaController');
 Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias.baja');
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');
 
+Route::Resource('materiales','MaterialesController');
+Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
+Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
+
 
 
 Route::get('unidadmedidas/create','UnidadMedidaController@create');
@@ -187,6 +192,8 @@ Route::Resource('cotizaciones','CotizacionController');
 
 Route::get('paacs/crear','PaacController@crear');
 route::post('paacs/guardar','PaacController@guardar');
+Route::get('paacs/exportar/{id}','PaacController@exportar');
+Route::get('paacs/show2/{id}','PaacController@show2');
 Route::Resource('paacs','PaacController');
 Route::Resource('paacdetalles','PaacdetalleController');
 
@@ -208,6 +215,11 @@ Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::post('requisiciones/subir','RequisicionController@subir');
+Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
+Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
+Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
+Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
@@ -226,6 +238,7 @@ Route::Resource('categoriaempleados','CategoriaEmpleadoController');
 Route::get('categoriaempleados/create/{id}','CategoriaEmpleadoController@create');
 Route::post('categoriaempleados/baja/{id}','CategoriaEmpleadoController@baja')->name('categoriaempleados.baja');
 Route::post('categoriaempleados/alta/{id}','CategoriaEmpleadoController@alta')->name('categoriaempleados.alta');
+Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
 Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
@@ -257,6 +270,8 @@ Route::post('empleados/bancarios','EmpleadoController@bancarios');
 Route::post('empleados/afps','EmpleadoController@afps');
 Route::post('empleados/isss','EmpleadoController@isss');
 Route::post('empleados/usuarios','EmpleadoController@usuarios');
+Route::post('empleados/eusuarios','EmpleadoController@eusuarios');
+Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
 Route::Resource('afps','AfpController');
 
@@ -265,6 +280,9 @@ Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
+
+Route::post('prestamotipos/baja/{id}','PrestamotiposController@baja')->name('prestamotipos.baja');
+Route::Resource('prestamotipos','PrestamotiposController');
 
 Route::get('cargos/get','CargoController@get');
 Route::Resource('cargos','CargoController');
@@ -300,6 +318,7 @@ Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contrato
 
 Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisicionobra');
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
+Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');

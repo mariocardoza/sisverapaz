@@ -29,7 +29,9 @@ class PrestamoRequest extends FormRequest
             'numero_de_cuenta'=>'required',
             'monto'=>'required',
             'numero_de_cuotas'=>'required',
-            'cuota'=>'required'
+            'cuota'=>'required',
+            'tasa_interes'=>'required',
+
         ];
     }
     public function messages()
@@ -41,6 +43,7 @@ class PrestamoRequest extends FormRequest
          'monto.required'=>'El campo monto es obligatorio',
          'numero_de_cuotas.required'=>'El campo número de cuotas es obligatorio',
          'cuota.required'=>'El campo cuota es obligatorio',
+         'tasa_interes.required'=>'El campo tasa de interés es obligatorio',
          ];
      }
 }

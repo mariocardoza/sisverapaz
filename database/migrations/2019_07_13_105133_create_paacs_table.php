@@ -14,7 +14,7 @@ class CreatePaacsTable extends Migration
     public function up()
     {
         Schema::create('paacs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->string('id');
             $table->integer('anio');
             $table->string('descripcion');
             $table->double('total',8,2);

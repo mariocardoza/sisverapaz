@@ -5,20 +5,22 @@
 @endsection
 @section('reporte')
 <div id="content">
-	<br>
-					<hr style="color:blue; border-width:2px;">
-					<hr style="color:red; border-width:2px;">
-					<table align="center" width="70%" border="3" cellspacing="7px">
-						<td>
-							<center>{{$tipo}}</center>
-						</td>
-					</table>
+	<br><br>
+					<hr style="border: 2px solid; color:blue;">
+					<hr style="border: 2px solid; color:red;">
+					<div class="row">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-6 text-center" >
+							<p style="border: 1px solid;">{{$tipo}}</p>
+						</div>
+						<div class="col-xs-3"></div>
+					</div>
 					<br>
 					<table width="100%" rules="">
 						<tbody>
 							<tr>
 								<td>
-									<p><b>UNIDAD SOLICITANTE:</b> {{$requisicion->user->roleuser->role->description}}
+									<p><b>UNIDAD SOLICITANTE:</b> {{$requisicion->unidad->nombre_unidad}}
 									</p>
 									<b>RESPONSABLE:</b> {{$requisicion->user->empleado->nombre}}
 								</td>
@@ -30,9 +32,9 @@
 							</tr>
 						</tbody>
 					</table>
-
+					<br><br>
 					<p></p>
-					<table width="100%" border="1" rules="all">
+					<table width="100%" border="1" class="table" rules="all">
 						<thead>
 							<tr style="background-color:#BCE4F3;">
 								<th width="5%">N° ITEM</th>
@@ -55,10 +57,10 @@
 									{{$detalle->cantidad}}
 								</td>
 								<td>
-									{{$detalle->descripcion}}
+									{{$detalle->material->nombre}}
 								</td>
 								<td>
-									{{$detalle->unidad_medida}}
+									{{$detalle->unidadmedida->nombre_medida}}
 								</td>
 							</tr>
 							@endforeach
@@ -81,12 +83,14 @@
 						</tr>
 						<tr>
 							<td>
-								F.____________________
+								F.____________________<br>
+								<b>{{$configuracion->nombre_alcalde}}</b>
 								<p></p>
 								ALCALDE MUNICIPAL
 							</td>
 							<td>
-								F.____________________
+								F.____________________<br>
+								<b>{{Auth()->user()->empleado->nombre}}</b>
 								<p></p>
 								JEFE DE UACI
 							</td>

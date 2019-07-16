@@ -52,7 +52,7 @@ class Empleado extends Model
     }
     public function detalleplanilla()
     {
-      return $this->hasMany('App\Detalleplanilla');
+      return $this->hasOne('App\Detalleplanilla');
     }
     
     public function contrato()

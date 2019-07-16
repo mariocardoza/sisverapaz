@@ -35,6 +35,11 @@ class Cotizacion extends Model
         return $this->belongsTo('App\Solicitudcotizacion');
     }
 
+    public function formapago()
+    {
+        return $this->belongsTo('App\Formapago','descripcion');
+    }
+
     public function proveedor()
     {
         return $this->belongsTo('App\Proveedor');
@@ -43,5 +48,20 @@ class Cotizacion extends Model
     public function ordencompra()
     {
         return $this->hasOne('App\Ordencompra');
+    }
+
+    public static function ver_cotizacion($id){
+        $cotizacion=Cotizacion::find($id);
+        $html="";
+        foreach ($cotizacion->Detallecotizacion as $detalle) {
+            $html.='<tr>
+                <td>'.mb_strtoupper($detalle->descripcion).'</td>
+                <td>'.$detalle->marca.'</td>
+                <td>'.strtoupper($detalle->unidadmedida->nombre_medida).'</td>
+                <td>'.$detalle->cantidad.'</td>
+                <td>$'.number_format($detalle->precio_unitario,2).'</td>
+                </tr>';
+        }
+        return array(1,"exito",$html,$cotizacion->proveedor->nombre);
     }
 }

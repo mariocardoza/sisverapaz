@@ -37,15 +37,14 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <h1>Logo alcaldia</h1>
-    				<img src="{{ asset('img/escudo.png') }}" width="150" height="200" class="user-image" alt="User Image">
-    				<form method='post' action='{{url("configuraciones/logo")}}' enctype='multipart/form-data'>
+    				<img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+    				<form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>
     					{{csrf_field()}}
     					<div class='form-group'>
-    						<label for='image'>Imagen: </label>
-    						<input type="file" name="logo" />
+    						<input type="file" class="hidden" name="logo" id="file_1" />
     						<div class='text-danger'>{{$errors->first('avatar')}}</div>
     					</div>
-    					<button type='submit' class='btn btn-primary'>Cambiar</button>
+    					<button type='sutmit'  class='btn btn-primary'>Cambiar</button>
     				</form>
           </div>
         </div>
@@ -82,3 +81,5 @@
         </div>
       </section>
   </div>
+
+  

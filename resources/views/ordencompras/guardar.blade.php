@@ -42,7 +42,7 @@
                         <label for="nombre" class="col-md-4 control-label">Condiciones de pago</label>
 
                         <div class="col-md-6">
-                          {{Form::text('',$cotizacion->descripcion,['class'=>'form-control','readonly'])}}
+                          {{Form::text('',$cotizacion->formapago->nombre,['class'=>'form-control','readonly'])}}
                         </div>
                     </div>
 

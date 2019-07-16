@@ -105,7 +105,7 @@ class SolicitudcotizacionController extends Controller
     {
       $requisicion = Requisicione::findorFail($id);
       $formapagos = Formapago::all();
-      return view('solicitudcotizaciones.creater',compact('formapagos','requisicion','unidades'));
+      return view('solicitudcotizaciones.creater',compact('formapagos','requisicion'));
     }
 
     /**
@@ -174,6 +174,7 @@ class SolicitudcotizacionController extends Controller
      */
     public function storer(Request $request)
     {
+      $this->valid_creater($request->all())->validate();
       if($request->ajax())
       {
         DB::beginTransaction();
@@ -195,6 +196,10 @@ class SolicitudcotizacionController extends Controller
             $requisicion->estado=3;
             $requisicion->save();
             DB::commit();
+            return response()->json([
+            'requisicion' => $solicitud->id,
+            'mensaje' => 'exito'
+          ]);
           }catch(\Exception $e){
             DB::rollback();
             return response()->json([
@@ -202,13 +207,19 @@ class SolicitudcotizacionController extends Controller
               'error' => $e->getMessage()
             ]);
           }
-
-
-          return response()->json([
-            'requisicion' => $solicitud->id,
-            'mensaje' => 'exito'
-          ]);
       }
+    }
+
+    protected function valid_creater(array $data){
+      $mensajes=array(
+            'formapago.required'=>'La forma de pago es obligatoria',
+        );
+      return Validator::make($data, [
+        'lugar_entrega'=>'required',
+        'fecha_limite'=>'required',
+        'tiempo_entrega'=>'required',
+        'formapago'=>'required',
+        ],$mensajes);
     }
     public function show($id)
     {

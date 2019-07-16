@@ -83,7 +83,7 @@
                                       <th><small>${{number_format($total,2)}}</small></th>
                                     </tr>
                                     <tr><th colspan="3"><small>Plazo de la oferta</small></th></tr>
-                                    <tr><th colspan="3"><small>{{$cotizacion->descripcion}}</small></th></tr>
+                                    <tr><th colspan="3"><small>{{$cotizacion->formapago->nombre}}</small></th></tr>
                                   </tfoot>
                                 </table>
                                 </td>

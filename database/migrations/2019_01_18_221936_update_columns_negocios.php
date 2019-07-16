@@ -14,8 +14,8 @@ class UpdateColumnsNegocios extends Migration
     public function up()
     {
       Schema::table("negocios", function (Blueprint $table) {
-        $table->double('lat', 15, 8)->change();
-        $table->double('lng', 15, 8)->change();
+        //$table->double('lat', 15, 8)->change();
+       // $table->double('lng', 15, 8)->change();
       });
     }
 
@@ -27,8 +27,8 @@ class UpdateColumnsNegocios extends Migration
     public function down()
     {
       Schema::table('negocios', function (Blueprint $table) {
-        $table->dropColumn('lat');
-        $table->dropColumn('lng');
+        //$table->dropColumn('lat');
+        //$table->dropColumn('lng');
       });
     }
 }

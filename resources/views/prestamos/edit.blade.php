@@ -6,7 +6,7 @@
         <small>Modificar Préstamo de {{ $prestamo->empleado->nombre }}</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{ url('/tiposervicios') }}"><i class="fa fa-dashboard"></i> Tipos de servicio</a></li>
+        <li><a href="{{ url('/prestamos') }}"><i class="fa fa-dashboard"></i> Préstamos</a></li>
         <li class="active">Edición</li>
     </ol>
 @endsection
@@ -14,8 +14,9 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Edicion de tipo de servicio</div>
+            <div class="col-md-11">
+                <div class="panel panel-primary">
+                <div class="panel-heading">Edicion del préstamo</div>
                 <div class="panel-body">
                     {{ Form::model($prestamo, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('prestamos.update', $prestamo->id))) }}
                     @include('prestamos.formulario')
@@ -28,6 +29,7 @@
                     </div>
                     {{ Form::close() }}
                 </div>
+            </div>
             </div>
         </div>
     </div>

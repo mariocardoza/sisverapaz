@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+set_time_limit(300);
 use Illuminate\Http\Request;
 
 class ReportesUaciController extends Controller
@@ -24,19 +24,29 @@ class ReportesUaciController extends Controller
     	return $pdf->stream('proveedores.pdf');
     }
 
+    public function cotizaciones($id)
+    {
+      $requisicion = \App\Requisicione::findorFail($id);
+      $tipo = "REPORTE DE COTIZACIONES";
+    	$pdf = \PDF::loadView('pdf.uaci.cotizaciones',compact('tipo','requisicion'));
+    	$pdf->setPaper('letter', 'landscape');
+    	return $pdf->stream('cotizaciones.pdf');
+    }
+
     public function solicitud($id)
     {
     	$solicitud = \App\Solicitudcotizacion::findorFail($id);
+      $configuracion=\App\Configuracion::first();
       if($solicitud->tipo==1)
       {
         $presupuesto = \App\Presupuesto::where('categoria_id', "=", $solicitud->presupuestosolicitud->categoria_id)->firstorFail();
         $tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS";
-      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','presupuesto'));
+      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','presupuesto','configuracion'));
       	$pdf->setPaper('letter', 'portrait');
       	return $pdf->stream('solicitud.pdf');
       }else{
         $tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS POR LIBRE GESTION";
-      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo'));
+      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','configuracion'));
       	$pdf->setPaper('letter', 'portrait');
       	return $pdf->stream('solicitud.pdf');
       }
@@ -89,9 +99,10 @@ class ReportesUaciController extends Controller
 
     public function requisicionobra($id)
     {
+        $configuracion=\App\Configuracion::first();
         $requisicion = \App\Requisicione::findorFail($id);
         $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
-        $pdf = \PDF::loadView('pdf.uaci.requisicionobra',compact('requisicion','tipo'));
+        $pdf = \PDF::loadView('pdf.uaci.requisicionobra',compact('requisicion','tipo','configuracion'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('requisicionobra.pdf');
     }

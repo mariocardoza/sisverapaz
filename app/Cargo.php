@@ -13,6 +13,16 @@ class Cargo extends Model
     	return $this->hasMany('App\CategoriaEmpleado');
     }
 
+    public static function cargos()
+    {
+        $loscargos=Cargo::where('estado',1)->get();
+        foreach ($loscargos as $cargoo) {
+            $cargos[$cargoo->id]=$cargoo->cargo;
+        }
+
+        return $cargos;
+    }
+
    /* public function contratoproyecto()
     {
     	$this->hasMany('App\Contratoproyecto');

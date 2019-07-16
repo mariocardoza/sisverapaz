@@ -16,14 +16,14 @@
   <div class="form-group">
     <label for="" class="control-label col-md-2">Teléfono</label>
     <div class="col-md-9">
-      {{Form::text("telefono_alcaldia",null,['class'=>'form-control'])}}
+      {{Form::text("telefono_alcaldia",null,['class'=>'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask'])}}
     </div>
   </div>
 
   <div class="form-group">
     <label for="" class="control-label col-md-2">Fax</label>
     <div class="col-md-9">
-      {{Form::text("fax_alcaldia",null,['class'=>'form-control'])}}
+      {{Form::text("fax_alcaldia",null,['class'=>'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask'])}}
     </div>
   </div>
 

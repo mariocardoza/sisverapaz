@@ -27,6 +27,7 @@ class AddContratosIdCargo extends Migration
     public function down()
     {
         Schema::table('contratos', function (Blueprint $table) {
+            $table->dropForeign('contratos_cargo_id_foreign');
             $table->dropColumn('cargo_id');
         });
     }

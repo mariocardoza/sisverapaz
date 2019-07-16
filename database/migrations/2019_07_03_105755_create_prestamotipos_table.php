@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMaterialesTable extends Migration
+class CreatePrestamotiposTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateMaterialesTable extends Migration
      */
     public function up()
     {
-        Schema::create('materiales', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('material');
-            $table->bigInteger('estado')->unsigned()->default(1);
-            $table->date('fecha_baja')->nullable();
-            $table->string('motivo')->nullable();
+        Schema::create('prestamotipos', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->string('nombre');
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateMaterialesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materiales');
+        Schema::dropIfExists('prestamotipos');
     }
 }

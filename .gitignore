@@ -2,6 +2,7 @@
 /public/hot
 /storage/*
 /public/storage
+/public/avatars
 /storage/*.key
 /vendor
 /.idea
@@ -10,3 +11,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 .env
+/package-lock.json

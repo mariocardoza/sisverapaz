@@ -112,11 +112,15 @@ class ProveedorController extends Controller
      */
     public function update(ProveedorRequest $request, $id)
     {
-        $proveedor = Proveedor::find($id);
-        $proveedor->fill($request->All());
-        $proveedor->save();
-        bitacora('Modificó un Proveedor');
-        return redirect('/proveedores')->with('mensaje','Registro modificado con éxito');
+        try{
+            $proveedor = Proveedor::find($id);
+            $proveedor->fill($request->All());
+            $proveedor->save();
+            bitacora('Modificó un Proveedor');
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -159,6 +163,21 @@ class ProveedorController extends Controller
         $proveedor->save();
         Bitacora::bitacora('Dió de alta a un proveedor');
         return redirect('/proveedores')->with('mensaje','Proveedor dado de alta');
+    }
+
+    public function representante(Request $request,$id){
+        try{
+            $proveedor=Proveedor::find($id);
+            $proveedor->nombrer=$request->nombrer;
+            $proveedor->telfijor=$request->telfijor;
+            $proveedor->celular_r=$request->celular_r;
+            $proveedor->emailr=$request->emailr;
+            $proveedor->duir=$request->duir;
+            $proveedor->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
 

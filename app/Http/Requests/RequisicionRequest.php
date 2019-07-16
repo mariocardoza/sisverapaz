@@ -27,7 +27,7 @@ class RequisicionRequest extends FormRequest
             'actividad' => 'required',
             'user_id' => 'required',
             'observaciones' => 'required',
-            'requisiciones' => 'required',
+            'unidad_id' => 'required',
         ];
     }
 
@@ -36,7 +36,7 @@ class RequisicionRequest extends FormRequest
       return [
       'actividad.required'=>'El campo actividad es obligatorio',
       'observaciones.required' => 'Las observaciones son obligatorias',
-      'requisiciones.required' => 'Es obligatorio al menos ingresar un material'
+      'unidad_id.required' => 'La unidad solicitante es obligatoria',
       ];
     }
 }

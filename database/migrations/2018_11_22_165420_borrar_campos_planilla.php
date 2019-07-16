@@ -32,6 +32,15 @@ class BorrarCamposPlanilla extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('planillas', function (Blueprint $table) {
+            $table->integer('mes');
+            $table->integer('anio');
+            $table->double('prestamos');
+        });
+
+        Schema::table('planillas', function (Blueprint $table) {
+            $table->dropForeign('planillas_prestamo_id_foreign');
+            $table->dropColumn('prestamo_id');
+        });
     }
 }

@@ -4,11 +4,16 @@ namespace App;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\BitacoraSaved;
 
 class Bitacora extends Model
 {
     protected $guarded = [];
     protected $dates = ['registro'];
+
+    protected $events = [
+        'saved'=>BitacoraSaved::class,
+    ];
 
     public static function bitacora($accion)
     {

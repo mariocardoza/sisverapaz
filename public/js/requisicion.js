@@ -43,8 +43,9 @@ $(document).ready(function(){
 		var user_id = $("#user_id").val();
 		var observaciones = $("#observaciones").val();
 		var fondo = $("#fondo").val();
+		var unidad_id = $("#unidad_id").val();
 		var requisiciones = new Array();
-		$(cuerpo).find("tr").each(function (index, element) {
+		/*$(cuerpo).find("tr").each(function (index, element) {
 				if(element){
 						requisiciones.push({
 								descripcion: $(element).attr("data-descripcion"),
@@ -52,7 +53,7 @@ $(document).ready(function(){
 								unidad : $(element).attr("data-unidad")
 						});
 				}
-		});
+		});*/
 	//	console.log(unidad_admin);
 
 /////////////////////////////////////////////////// funcion ajax para guardar ///////////////////////////////////////////////////////////////////
@@ -60,11 +61,11 @@ $(document).ready(function(){
 					url: "../requisiciones",
 					headers: {'X-CSRF-TOKEN':token},
 					type:'POST',
-					data: {actividad,user_id,observaciones,fondo,requisiciones},
+					data: {actividad,user_id,observaciones,fondo,unidad_id,requisiciones},
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){
-							window.location.href = "../requisiciones/porusuario";
+							window.location.href = "../requisiciones/"+msj.requisicion;
 							console.log(msj);
 							toastr.success('Requisiciones registrada éxitosamente');
 						}else{

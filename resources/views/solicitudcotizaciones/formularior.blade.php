@@ -44,14 +44,14 @@
                 <div class="form-group">
                   <label for="fecha_limite" class="col-md-4 control-label">Fecha limite para cotizar</label>
                   <div class="col-md-6">
-                    {!!Form::text('fecha_limite',null,['class' => 'form-control unafecha','id'=>'fecha_limite'])!!}
+                    {!!Form::text('fecha_limite',null,['class' => 'form-control unafecha','id'=>'fecha_limite','autocomplete'=>'off'])!!}
                   </div>
                 </div>
-
+           
                 <div class="form-group">
-                  <label for="tiempo_entrega" class="col-md-4 control-label">Tiempo de entrega</label>
+                  <label for="tiempo_entrega"  class="col-md-4 control-label">Tiempo de entrega</label>
                   <div class="col-md-6">
-                    {!!Form::text('tiempo_entrega',null,['class' => 'form-control','id'=>'tiempo_entrega'])!!}
+                    {!!Form::text('tiempo_entrega',null,['class' => 'form-control','id'=>'tiempo_entrega','autocomplete'=>'off'])!!}
                   </div>
                 </div>
 
@@ -70,8 +70,8 @@
                       @foreach($requisicion->requisiciondetalle as $key => $detalle)
                         <tr>
                           <td>{{$key+1}}</td>
-                          <td>{{$detalle->descripcion}}</td>
-                          <td>{{$detalle->unidad_medida}}</td>
+                          <td>{{$detalle->material->nombre}}</td>
+                          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
                           <td>{{$detalle->cantidad}}</td>
                           <td></td>
                           <td></td>
