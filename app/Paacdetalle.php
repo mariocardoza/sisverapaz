@@ -15,7 +15,7 @@ class Paacdetalle extends Model
     }
 
     public static function retornar_id(){
-      $numero=Requisiciondetalle::count();
+      $numero=Paacdetalle::count();
       return date("Yidisus").'-'.$numero;
     }
 }

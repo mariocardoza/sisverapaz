@@ -76,10 +76,4 @@
 
 
                         <br>
-                        <div class="form-group">
-                            <center>
-                                <button type="button" id="guardar" class="btn btn-success">Agregar</button>
-                                <button class="btn btn-info" id="cancelar_guardar" type="button">Cancelar</button>
-                            </center>
-
-                        </div>
+                      

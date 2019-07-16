@@ -7,6 +7,8 @@ use App\Http\Requests\PaacRequest;
 use App\Paac;
 use App\Paacdetalle;
 use DB;
+use App\Exports\PaacExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PaacController extends Controller
 {
@@ -117,6 +119,11 @@ class PaacController extends Controller
         return view('paacs.show',compact('paac','detalles'));
     }
 
+    public function show2($id){
+      $retorno=Paac::show($id);
+      return $retorno;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -162,6 +169,12 @@ class PaacController extends Controller
         ]);
       }
     }
+
+
+    public function exportar($id) 
+{
+    return Excel::download(new PaacExport, 'users.pdf');
+}
 
 
 }

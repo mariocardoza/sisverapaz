@@ -38,7 +38,7 @@ class PaacdetalleController extends Controller
     public function store(Request $request)
     {
         try{
-          $paac=Paacdetalle::create([
+          $paacdetalle=Paacdetalle::create([
             'id'=>Paacdetalle::retornar_id(),
             'obra'=>$request->obra,
             'paac_id'=>$request->paac_id,
@@ -53,8 +53,14 @@ class PaacdetalleController extends Controller
             'septiembre'=>$request->septiembre,
             'octubre'=>$request->octubre,
             'noviembre'=>$request->noviembre,
-            'diciembre'=>$request->diciembre
+            'diciembre'=>$request->diciembre,
+            'subtotal'=>$request->subtotal
           ]);
+          $paac=Paac::find($request->paac_id);
+          $total=floatval($paac->total);
+          $total=$total+floatval($request->subtotal);
+          $paac->total=$total;
+          $paac->save();
           return array(1,"exito");
         }catch(Exception $e){
           return array(-1,"error",$e->getMessage());
@@ -80,8 +86,8 @@ class PaacdetalleController extends Controller
      */
     public function edit($id)
     {
-      $paac = Paacdetalle::findorFail($id);
-      return view('paacs.editdetalle',compact('paac'));
+      $retorno=Paac::editar($id);
+      return $retorno;
     }
 
     /**
@@ -110,10 +116,10 @@ class PaacdetalleController extends Controller
         $paac->total=$totalito;
         $paac->save();
         DB::commit();
-        return redirect('paacs/'.$paac->id)->with('mensaje','Actualizado con exito');
+        return array(1,"exito");
       }catch (\Exception $e){
         DB::rollback();
-        return redirect('paacdetalles/'.$id.'/edit')->with('error','Paac con error '.$e->getMessage());
+        return array(1,'error',$e->getMessage());
       }
     }
 
@@ -131,6 +137,6 @@ class PaacdetalleController extends Controller
         $paac->total=$total-$detalle->subtotal;
         $paac->save();
         $detalle->delete();
-        return redirect('paacs/'.$paac->id)->with('mensaje','Actualizado con exito');
+        return array(1,"exito");
     }
 }

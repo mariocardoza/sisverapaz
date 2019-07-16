@@ -192,6 +192,8 @@ Route::Resource('cotizaciones','CotizacionController');
 
 Route::get('paacs/crear','PaacController@crear');
 route::post('paacs/guardar','PaacController@guardar');
+Route::get('paacs/exportar/{id}','PaacController@exportar');
+Route::get('paacs/show2/{id}','PaacController@show2');
 Route::Resource('paacs','PaacController');
 Route::Resource('paacdetalles','PaacdetalleController');
 

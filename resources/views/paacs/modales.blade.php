@@ -20,7 +20,7 @@ $date = $date->format('Y');
                   <div class="">
                       <select name="descripcion" id="" class="chosen-select-width">
                           <option value="Fodes 20% Gasto Corriente">Fodes 20% Gasto Corriente</option>
-                          <option value="Fodes 80% Gasto Corriente">Fodes 80% Gasto Corriente</option>
+                          <option value="Fodes 80% Gasto de Capital">Fodes 80% Gasto de Capital</option>
                           <option value="Financiación propia">Financiación propia</option>
                       </select>
                   </div>
