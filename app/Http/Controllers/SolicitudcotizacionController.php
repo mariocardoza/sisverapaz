@@ -258,5 +258,20 @@ class SolicitudcotizacionController extends Controller
     public function destroy($id)
     {
         //
-    }
+		}
+		
+		//Funciones R
+		public function categorias_ne(Request $request){
+			$id = $request->id;
+			$categorias = Categoria::whereNotExists(
+				function ($query) use ($id){
+					$query->select(DB::raw(1))
+					->from('presupuestos')
+					->whereRaw('categorias.id = presupuestos.categoria_id')
+					->whereRaw('presupuestos.proyecto_id = '.$id);
+				}
+			)->orderBy('item')->get();
+
+			return $categorias;
+		}
 }

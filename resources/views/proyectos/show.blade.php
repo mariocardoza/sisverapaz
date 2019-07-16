@@ -22,6 +22,9 @@
 										<center>
 											<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
 											<span>Agregue un nuevo presupuesto para visualizar la información</span>
+											<br><br>
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+											@include('proyectos.show.m_nueva_categoria')
 										</center>
                 	@endif
                       <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
@@ -106,5 +109,6 @@
 			});
 		});
 	</script>
+	{!! Html::script('js/presupuestoR.js') !!}
 	@endsection
 @endsection

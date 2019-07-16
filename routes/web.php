@@ -312,6 +312,9 @@ Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');
 Route::post('bancos/alta/{id}','BancoController@alta')->name('bancos.alta');
 
+//Rutas R
+Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->name('categoria.listar');
+
 
 
 
