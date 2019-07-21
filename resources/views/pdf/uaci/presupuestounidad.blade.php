@@ -3,7 +3,7 @@
 @include('pdf.uaci.cabecera')
 @include('pdf.uaci.pie')
 <div id="content">
-	<table class="table table-hover" width="100%" rules="all">
+	<table class="table table-bordered" width="100%" >
 		<thead>
 			<tr>
 				<th>N°</th>
@@ -15,14 +15,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($presupuestounidades as $presupuestounidad)
+			@foreach($presupuesto->presupuestodetalle as $correlativo => $presupuestounidad)
 			<tr>
-				<?php $correlativo++?>
-				<td>{{ $presupuestounidad->material }}</td>
+				<td>{{$correlativo+1}}</td>
+				<td>{{ $presupuestounidad->material->nombre }}</td>
 				
-				
+				<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
 				<td>{{ $presupuestounidad->cantidad }}</td>
-				<td>{{ $presupuestounidad->preciou }}</td>
+				<td>{{ $presupuestounidad->precio }}</td>
 			</tr>
 			@endforeach
 		</tbody>
