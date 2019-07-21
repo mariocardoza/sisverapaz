@@ -22,6 +22,7 @@ class Categoria extends Model
 
     public static function categorias(){
       $lascates=Categoria::where('estado',1)->get();
+      $categorias=[];
       foreach ($lascates as $cate) {
         $categorias[$cate->id]=$cate->nombre_categoria;
       }

@@ -9,7 +9,8 @@ class UnidadMedida extends Model
     protected $fillable = ['nombre_medida'];
 
     public static function medidas(){
-    	$lasmedidas=UnidadMedida::all();
+		$lasmedidas=UnidadMedida::all();
+		$medidas=[];
     	foreach ($lasmedidas as $medida) {
     		$medidas[$medida->id]=$medida->nombre_medida;
     	}
