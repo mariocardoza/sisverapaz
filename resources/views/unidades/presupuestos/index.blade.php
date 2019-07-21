@@ -17,7 +17,7 @@
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
               <div class="btn-group pull-right">
-                <a href="{{ url('/presupuestos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                <a href="javascript:void(0)" id="abrir_registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 <a href="{{ url('/presupuestos?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/presupuestos?estado=2') }}" class="btn btn-primary">Papelera</a>
               </div>
@@ -26,18 +26,20 @@
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
-                  <th>Id</th>
+                  <th>N°</th>
                   <th>Año</th>
                   <th>Unidad</th>
+                  <th>Responsable</th>
                   <th>Monto</th>
                   <th>Accion</th>
                 </thead>
                 <tbody>
-                  @foreach($presupuestos as $presupuesto)
+                  @foreach($presupuestos as $key => $presupuesto)
                     <tr>
-                      <td>{{$presupuesto->id}}</td>
-                      <td>{{$presupuesto->created_at->format('Y')}}</td>
+                      <td>{{$key+1}}</td>
+                      <td>{{$presupuesto->anio}}</td>
                       <td>{{$presupuesto->unidad->nombre_unidad}}</td>
+                      <td>{{$presupuesto->user->empleado->nombre}}</td>
                       <td>${{number_format($presupuesto->total,2)}}</td>
                       <td><a href="{{url('presupuestounidades/'.$presupuesto->id)}}" class="btn btn-primary btn-xs">Ver</a></td>
                     </tr>
@@ -53,4 +55,34 @@
           <!-- /.box -->
         </div>
 </div>
+@include('unidades.presupuestos.modales')
+@endsection
+@section('scripts')
+<script>
+  $(document).ready(function(e){
+    $(document).on("click","#abrir_registrar", function(e){
+      $("#modal_registrar_presupuesto").modal("show");
+    });
+
+    $(document).on("click","#registrar_presupuesto", function(e){
+      e.preventDefault();
+      var datos=$("#form_presupuesto").serialize();
+      $.ajax({
+        url:'presupuestounidades',
+        type:'POST',
+        data:datos,
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Presupuesto guardado exitosamente");
+            window.location.href="presupuestounidades/"+json[2];
+          }else{
+            toastr.error("Ocurrió un error");
+          }
+        },error: function(error){
+            
+          }
+      });
+    });
+  });
+</script>
 @endsection

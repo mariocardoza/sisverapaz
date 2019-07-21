@@ -13,7 +13,7 @@ class CreateColumnInmueble extends Migration
      */
     public function up()
     {
-        Schema::create('inmueble', function (Blueprint $table) {
+        Schema::table('inmuebles', function (Blueprint $table) {
             $table->tinyInteger('estado');
             $table->float('latitude', 20,  18);
             $table->float('longitude', 20, 18);
@@ -27,6 +27,10 @@ class CreateColumnInmueble extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inmueble');
+        Schema::table('inmuebles', function (Blueprint $table) {
+            $table->dropColumn('estado');
+            $table->dropColumn('latitude');
+            $table->dropColumn('longitude');
+        });
     }
 }

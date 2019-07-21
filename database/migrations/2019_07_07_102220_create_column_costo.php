@@ -13,7 +13,7 @@ class CreateColumnCosto extends Migration
      */
     public function up()
     {
-        Schema::create('tiposervicios', function (Blueprint $table) {
+        Schema::table('tiposervicios', function (Blueprint $table) {
             $table->float('costo', 5, 2);
             $table->tinyInteger('isObligatorio');            
             $table->tinyInteger('estado');
@@ -27,6 +27,10 @@ class CreateColumnCosto extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tiposervicios');
+        Schema::table('tiposervicios', function(Blueprint $table){
+            $table->dropColumn('costo');
+            $table->dropColumn('isObligatorio');
+            $table->dropColumn('estado');
+        });
     }
 }

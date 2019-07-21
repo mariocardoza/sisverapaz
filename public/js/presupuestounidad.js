@@ -1,92 +1,160 @@
 $(document).ready(function(){
-	var total=0.0;
-	var tbMaterial = $("#tbMaterial");
-	$("#agregar").on("click", function(e){
-
-		e.preventDefault();
-		var unidad_medida = $("#unidad_medida").val() || 0;
-		var descripcion = $("#descripcion").val() || 0;
-		var precio = $("#precio").val() || 0;
-		var cantidad = $("#cantidad").val() || 0;
-		if(unidad_medida && descripcion && precio && cantidad)
-		{
-			var subtotal = parseFloat(precio) * parseFloat(cantidad);
-			$(tbMaterial).append(
-				"<tr data-descripcion="+descripcion+" data-unidad="+unidad_medida+" data-precio="+precio+" data-cantidad="+cantidad+">"+
-					"<td>"+descripcion+"</td>"+
-					"<td>"+unidad_medida+"</td>"+
-					"<td>"+precio+"</td>"+
-					"<td>"+cantidad+"</td>"+
-					"<td>"+onFixed(parseFloat(subtotal),2)+"</td>"+
-					"<td><button type='button' id='eliminar' class='btn btn-danger btn-xs'><span class='glyphicon glyphicon-trash'></span></button>"+
-				"</tr>"
-			);
-			total+=subtotal;
-			$("#pie #totalEnd").text(onFixed(parseFloat(total),2));
-		}else{
-			swal('¡Aviso!',
-              'Debe llenar los espacios',
-              'warning');
-		}
+	$(document).on("click","#add_material", function(e){
+		listarmateriales(id_presupuesto);
+		$("#modal_detalle").modal("show");
 	});
 
-	$("#btnsub").on("click", function(e){
-		var nFilas = $("#cuerpo tr").length;
-		var ruta = "/"+carpeta()+"/public/presupuestounidades";
-		var token = $('meta[name="csrf-token"]').attr('content');
-		var unidad_admin = $("#unidad_admin").val();
-		totalp    = $("#pie #totalEnd").text();
-		var presupuesto = new Array();
-		if(nFilas>0 && unidad_admin != ''){
-		$(cuerpo).find("tr").each(function(index,element){
-			if(element)
-			{
-				presupuesto.push({
-					descripcion : $(element).attr("data-descripcion"),
-					unidad_medida : $(element).attr("data-unidad"),
-					precio : $(element).attr("data-precio"),
-					cantidad : $(element).attr("data-cantidad")
-				});
-			}
-		});
-		console.log(total);
+	$(document).on("click","#esteagrega", function(e){
+		var td=$(this).parents("tr").children('td:eq(4)');
+		var material=$(this).attr("data-material");
+		var unidad=$(this).attr('data-unidad');
+		var nombre=$(this).attr('data-nombre');
+		var id=$(".elid").val();
+		$("#nom_material").text(nombre);
+		$("#id_mat").val(material);
+		$("#elpresuid").val(id_presupuesto);
+		$("#modal_detalle").modal("hide");
+		$("#modal_registrar_material").modal("show");
+	  });
+
+	  $(document).on("click","#registrar_presupuesto",function(e){
+		var valid=$("#form_material").valid();
+		if(valid){
+			var datos=$("#form_material").serialize();
+			$.ajax({
+				url:'../presupuestounidaddetalles',
+				type:'POST',
+				data:datos,
+				success: function(json){
+					if(json[0]==1){
+						toastr.success("Ítem registrado exitosamente");
+						window.location.reload();
+					}else{
+						toastr.error("Ocurrió un error");
+					}
+				},error: function(error){
+
+				}
+			})
+		}
+	  });
+
+	  $(document).on("click","#eleditar",function(e){
+		var id=$(this).attr("data-id");
 		$.ajax({
-			url:ruta,
-			headers: {'X-CSRF-TOKEN':token},
-			type: 'POST',
-			dataType: 'json',
-			data:{unidad_admin,totalp,presupuesto}, 
-			success: function(msj){
-        	window.location.href = "/sisverapaz/public/presupuestounidades";
-        	console.log(msj);
-        	toastr.success('Proyecto creado éxitosamente');
-      		},
-      		error: function(data, textStatus, errorThrown){
-				toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
-				$.each(data.responseJSON.errors, function( key, value ) {
-					toastr.error(value);
-				});
+			url:'../presupuestounidaddetalles/'+id+"/edit",
+			type:'GET',
+			dataType:'json',
+			data:{},
+			success: function(json){
+				if(json[0]==1){
+					$("#modal_aqui").empty();
+					$("#modal_aqui").html(json[2]);
+					$("#modal_editar_material").modal("show");
+				}else{
+
+				}
 			}
 		});
-		}else{
-			swal('¡Aviso!',
-              'Nada que guardar',
-              'error');
-		}
+	  });
 
-	});
+	  $(document).on("click","#editar_presupuesto",function(e){
+		  e.preventDefault();
+		  var id=$("#elpresuid_edit").val();
+		  var datos=$("#form_edit_material").serialize();
+		  var valid=$("#form_edit_material").valid();
+		  if(valid){
+			  modal_cargando();
+			  $.ajax({
+				  url:'../presupuestounidaddetalles/'+id,
+				  type:'PUT',
+				  data:datos,
+				  success: function(json){
+					if(json[0]==1){
+						toastr.success("Editado exisamente");
+						location.reload();
+					}else{
+						swal.closeModal();
+						toastr.error("Ocurrió un error");
+					}
+				  }
+			  });
+		  }
+	  });
 
-	$(document).on("click","#eliminar",function(e){
-		var tr = $(e.target).parents("tr");
-		var auxiliar = $("#totalEnd");
-		var totalfila = parseFloat($(this).parents("tr").find("td:eq(4)").text());
-		total = parseFloat(auxiliar.text() - parseFloat(totalfila));
-		$("#pie #totalEnd").text(onFixed(parseFloat(total),2));
-		tr.remove();
+	  $(document).on("click","#eleliminar",function(e){
+		var id=$(this).attr('data-id');
+        swal({
+            title: 'Eliminar',
+            text: "¿Está seguro de eliminar este ítem?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si!',
+            cancelButtonText: '¡No!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
+                url:'../presupuestounidaddetalles/'+id,
+                type:'DELETE',
+                dataType:'json',
+                data:{},
+                success: function(json){
+                  if(json[0]==1){
+                    location.reload();
+                    toastr.success("Eliminado con exito");
+                  }else{
+                    toastr.error("Ocurrió un error");
+                  }
+                }, error: function(error){
+  
+                }
+              });
+			}
+			
+	  });
 	});
 });
-function onFixed(valor,maximo){
-	maximo = (!maximo) ? 2 : maximo;
-	return valor.toFixed(maximo);
-}
 
+function listarmateriales(id)
+{
+	modal_cargando();
+  $.ajax({
+	url:'../presupuestounidades/materiales/'+id,
+	type:'get',
+	data:{},
+	success:function(data){
+	  if(data[0]==1){
+		$("#losmateriales").empty();
+		//console.log(latabla);
+		//latabla.clear();
+		$("#losmateriales").html(data[2]);
+		var latabla=inicializar_tabla("latabla");
+		var valor = 0;
+		swal.closeModal();
+		/**$("#latabla tbody tr").each(function(){
+		  console.log($(this).find('td:eq(1)').text());
+		  latabla.row.add([
+			$(this).find('td:eq(0)').text(),
+			$(this).find('td:eq(1)').text(),
+			$(this).find('td:eq(2)').text(),
+			$(this).find('td:eq(3)').text(),
+			$(this).find('td:eq(4)').text()
+			]);
+		});
+		latabla.draw();*/
+		//console.log(data);
+		
+		//latabla.destroy();
+
+	  }else{
+		  swal.closeModal();
+	  }
+	}
+  });
+}

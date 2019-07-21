@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('migasdepan')
-<h1>
-Ver detalle del plan anual
-      </h1>
+<h3>
+Plan Anual: {{$paac->descripcion}}
+      </h3>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li><a href="{{ url('/paacs') }}"><i class="fa fa-dashboard"></i> Plan anual</a></li>
-        <li class="active">Detalle del presupuesto</li>
+        <li><a href="{{ url('/paacs') }}"><i class="glyphicon glyphicon-shopping-cart"></i> Plan Anual de Adquisiciones y Compras</a></li>
+        <li class="active">Detalle</li>
       </ol>
 @endsection
 

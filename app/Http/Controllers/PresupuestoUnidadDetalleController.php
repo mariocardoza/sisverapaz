@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Unidad;
-use App\Presupuestounidad;
 use App\Presupuestounidaddetalle;
 
-class PresupuestoUnidadController extends Controller
+class PresupuestoUnidadDetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,7 @@ class PresupuestoUnidadController extends Controller
      */
     public function index()
     {
-        $presupuestos = Presupuestounidad::where('estado',1)->get();
-        return view('unidades.presupuestos.index',compact('presupuestos'));
+        //
     }
 
     /**
@@ -27,8 +24,7 @@ class PresupuestoUnidadController extends Controller
      */
     public function create()
     {
-        $unidades = Unidad::where('estado',1)->get();
-        return view('unidades.presupuestos.create',compact('unidades'));
+        //
     }
 
     /**
@@ -39,17 +35,12 @@ class PresupuestoUnidadController extends Controller
      */
     public function store(Request $request)
     {
-       try{
-        $presupuestounidad = Presupuestounidad::create([
-            'unidad_id' => $request->unidad_admin,
-            'anio' => $request->anio,
-            'user_id'=>Auth()->user()->id
-        ]);
-        
-        return array(1,"exito",$presupuestounidad->id);
-       }catch(Exception $e){
-        return array(-1,"error",$e->getMessage());
-       } 
+        try{
+            Presupuestounidaddetalle::create($request->All());
+            return array(1,"exito",$request->All());
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -60,8 +51,7 @@ class PresupuestoUnidadController extends Controller
      */
     public function show($id)
     {
-        $presupuesto = Presupuestounidad::findorFail($id);
-        return view('unidades.presupuestos.show',compact('presupuesto'));
+        //
     }
 
     /**
@@ -72,7 +62,8 @@ class PresupuestoUnidadController extends Controller
      */
     public function edit($id)
     {
-        //
+        $retorno=Presupuestounidaddetalle::modal_editar($id);
+        return $retorno;
     }
 
     /**
@@ -84,7 +75,10 @@ class PresupuestoUnidadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $detalle=Presupuestounidaddetalle::find($id);
+        $detalle->fill($request->all());
+        $detalle->save();
+        return array(1,"exito");
     }
 
     /**
@@ -95,12 +89,12 @@ class PresupuestoUnidadController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function materiales($id)
-    {
-      $retorno=Presupuestounidad::materiales($id);
-      return $retorno;
+        try{
+            $detalle=Presupuestounidaddetalle::find($id);
+            $detalle->delete();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 }

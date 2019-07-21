@@ -23,7 +23,7 @@ class Paac extends Model
         <div class="panel-heading">'.$paac->descripcion.'</div>
         <div class="panel-body">
           <a href="javascript:void(0)" id="registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar elementos</a>
-        <br>
+        <br><br>
         <table class="table">
           <tr>
             <td>Año de ejecución</td>

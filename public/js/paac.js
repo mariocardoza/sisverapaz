@@ -2,7 +2,6 @@ var total=0.0;
 var contador = 0;
     $(document).ready(function(){
         inicio();
-    var tbMaterial = $("#tbMaterial");
 
     //agregar un nuevo
     $(document).on("click","#registrar", function(e){

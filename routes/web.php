@@ -377,7 +377,9 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 
 Route::Resource('unidades','UnidadAdminController');
+Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
 Route::Resource('presupuestounidades','PresupuestoUnidadController');
+Route::Resource('presupuestounidaddetalles','PresupuestoUnidadDetalleController');
 
 
 

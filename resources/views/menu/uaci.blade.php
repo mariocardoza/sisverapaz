@@ -1,4 +1,4 @@
-<li class="treeview">
+<li class="treeview {{Route::currentRouteName() == 'paacs.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-line-chart"></i> <span>Plan anual de compras</span>
         <span class="pull-right-container">
@@ -7,7 +7,6 @@
     </a>
     <ul class="treeview-menu">
       <li><a href="{{ url('paacs')}}"><i class="fa fa-circle-o"></i> listado de plan anual</a></li>
-        <li><a href="{{ url('paacs/crear')}}"><i class="fa fa-circle-o"></i> Registro de plan anual</a></li>
     </ul>
 </li>
 
@@ -37,7 +36,7 @@
     </ul>
 </li>
 
-<li class="treeview">
+<li class="treeview {{Route::currentRouteName() == 'requisiciones.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-bar-chart"></i>
         <span>Requisicion</span>
@@ -47,7 +46,6 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="{{url('requisiciones')}}"><i class="fa fa-circle-o"></i> Ver requisiciones</a></li>
-        <li><a href="{{url('requisiciones/create')}}"><i class="fa fa-circle-o"></i> Registrar requisiciones</a></li>
     </ul>
 </li>
 
