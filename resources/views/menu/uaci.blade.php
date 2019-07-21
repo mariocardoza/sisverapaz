@@ -31,8 +31,7 @@
             </span>
     </a>
     <ul class="treeview-menu">
-        <li><a href="{{url('presupuestos')}}"><i class="fa fa-circle-o"></i> Ver presupuesto</a></li>
-        <li><a href="{{url('presupuestos/create')}}"><i class="fa fa-circle-o"></i> Registrar presupuesto</a></li>
+        <li><a href="{{url('presupuestounidades')}}"><i class="fa fa-circle-o"></i> Ver presupuesto</a></li>
     </ul>
 </li>
 

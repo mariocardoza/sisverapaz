@@ -11,6 +11,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
 <div class="col-xs-12">
           <div class="box">
@@ -40,7 +41,7 @@
                       <td>{{$presupuesto->anio}}</td>
                       <td>{{$presupuesto->unidad->nombre_unidad}}</td>
                       <td>{{$presupuesto->user->empleado->nombre}}</td>
-                      <td>${{number_format($presupuesto->total,2)}}</td>
+                      <td>${{number_format(App\Presupuestounidad::total_presupuesto($presupuesto->id),2)}}</td>
                       <td><a href="{{url('presupuestounidades/'.$presupuesto->id)}}" class="btn btn-primary btn-xs">Ver</a></td>
                     </tr>
                   @endforeach

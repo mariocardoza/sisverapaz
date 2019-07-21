@@ -47,7 +47,6 @@
           </div>
           <div class="modal-body">
               <form id="form_detalle" class="form-horizontal">
-              <input type="hidden" name="presupuesto_id" class="elid" value="{{$presupuesto->id}}">
               <table class="table" id="latabla">
                   <thead>
                   <tr>

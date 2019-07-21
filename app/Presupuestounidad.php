@@ -47,4 +47,14 @@ class Presupuestounidad extends Model
     
         return array(1,"exito",$tabla,$materiales);
       }
+
+      public static function total_presupuesto($id){
+        $presupuesto=Presupuestounidad::find($id);
+        $total=0.0;
+        foreach($presupuesto->presupuestodetalle as $deta){
+          $total=$total+($deta->precio*$deta->cantidad);
+        }
+
+        return $total;
+      }
 }

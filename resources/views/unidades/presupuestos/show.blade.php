@@ -27,8 +27,16 @@
                             <th>{{$presupuesto->user->empleado->nombre}}</th>
                         </tr>
                         <tr>
+                            <td>Nombre de la unidad</td>
+                            <th>{{$presupuesto->unidad->nombre_unidad}}</th>
+                        </tr>
+                        <tr>
                             <td>Año</td>
                             <th>{{$presupuesto->anio}}</th>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <th>${{number_format(App\Presupuestounidad::total_presupuesto($presupuesto->id),2)}}</th>
                         </tr>
                     </table>
                 </div>
