@@ -106,4 +106,13 @@ class ReportesUaciController extends Controller
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('requisicionobra.pdf');
     }
+
+    public function presupuestounidad($id)
+    {
+      $presupuesto = \App\Presupuestounidad::find($id);
+      $tipo = "PRESUPUESTO DE UNIDADES";
+      $pdf = \PDF::loadView('pdf.uaci.presupuestounidad',compact('presupuesto','tipo'));
+      $pdf->setPaper('letter', 'portrait');
+      return $pdf->stream('presupuestounidad.pdf');
+    }
 }

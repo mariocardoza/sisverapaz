@@ -320,6 +320,8 @@ Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisici
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
 
+Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupuestounidad');
+
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
