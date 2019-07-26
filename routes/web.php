@@ -135,6 +135,7 @@ Route::get('ordencompras/verificar/{id}','OrdencompraController@verificar');
 Route::post('ordencompras/guardar','OrdencompraController@guardar')->name('ordencompras.guardar');
 Route::get('ordencompras/requisiciones','OrdencompraController@requisiciones');
 Route::get('ordencompras/create/{id}','OrdencompraController@create');
+Route::get('ordencompras/modal_registrar/{id}','OrdencompraController@modal_registrar');
 Route::Resource('ordencompras','OrdencompraController');
 
 Route::get('presupuestos/crear','PresupuestoController@crear');
@@ -206,6 +207,7 @@ Route::Resource('formapagos','FormapagoController');
 Route::post('solicitudcotizaciones/baja/{id}','SolicitudcotizacionController@baja')->name('solicitudcotizaciones.baja');
 Route::post('solicitudcotizaciones/alta/{id}','SolicitudcotizacionController@alta')->name('solicitudcotizaciones.alta');
 Route::get('solicitudcotizaciones/versolicitudes/{id}','SolicitudcotizacionController@versolicitudes');
+Route::get('solicitudcotizaciones/modal_cotizacion/{id}','SolicitudcotizacionController@modal_cotizacion');
 Route::get('solicitudcotizaciones/getcategorias','SolicitudcotizacionController@getCategorias');
 Route::get('solicitudcotizaciones/getpresupuesto','SolicitudcotizacionController@getPresupuesto');
 Route::post('solicitudcotizaciones/cambiar','SolicitudcotizacionController@cambiar');

@@ -70,8 +70,7 @@
                         <div class="btn-group">
                           <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
                           <!--a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank" title="Imprimir requisicion"><i class="fa fa-file-pdf-o"></i></a>
-                          <a href="{{url('reportesuaci/solicitud/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-success btn-xs" target="_blank" title="Imprimir solicitud"><i class="fa fa-file-pdf-o"></i></a>
-                            <a href="{{ url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></a-->
+                          <a href="{{ url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></a-->
                         </div>
                       </td>
                     @elseif ( $requisicion->estado == 4)

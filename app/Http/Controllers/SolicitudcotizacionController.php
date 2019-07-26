@@ -177,6 +177,9 @@ class SolicitudcotizacionController extends Controller
       $this->valid_creater($request->all())->validate();
       if($request->ajax())
       {
+        $requisiciones=$request->requi;
+        
+        
         DB::beginTransaction();
           try{
             $solicitud=Solicitudcotizacion::create([
@@ -195,6 +198,20 @@ class SolicitudcotizacionController extends Controller
             $requisicion=Requisicione::findorFail($request->requisicion);
             $requisicion->estado=3;
             $requisicion->save();
+
+            foreach($requisiciones as $req){
+              $deta=\App\Requisiciondetalle::find($req['idcambiar']);
+              $deta->estado=2;
+              $deta->save();
+
+              $solideta=\App\Solicitudcotizaciondetalle::create([
+                'material_id'=>$req['idmaterial'],
+                'cantidad'=>$req['cantidad'],
+                'solicitud_id'=>$solicitud->id
+              ]);
+
+            }
+
             DB::commit();
             return response()->json([
             'requisicion' => $solicitud->id,
@@ -210,15 +227,23 @@ class SolicitudcotizacionController extends Controller
       }
     }
 
+    public function modal_cotizacion($id)
+    {
+      $retorno=Solicitudcotizacion::modal_cotizacion($id);
+      return $retorno;
+    }
+
     protected function valid_creater(array $data){
       $mensajes=array(
             'formapago.required'=>'La forma de pago es obligatoria',
+            'requi.required'=>'Debe seleccionar al menos un ítem'
         );
       return Validator::make($data, [
         'lugar_entrega'=>'required',
         'fecha_limite'=>'required',
         'tiempo_entrega'=>'required',
         'formapago'=>'required',
+        'requi'=>'required'
         ],$mensajes);
     }
     public function show($id)

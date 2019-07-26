@@ -165,7 +165,22 @@ $(document).ready(function(e){
         ///*** Registrar cotizaciones ***//
         $(document).on("click","#registrar_cotizacion",function(e){
           e.preventDefault();
-          $("#modal_registrar_coti").modal("show");
+          var id=$(this).attr("data-id");
+          $.ajax({
+            url:'../solicitudcotizaciones/modal_cotizacion/'+id,
+            type:'get',
+            data:{},
+            success:function(json){
+              if(json[0]==1){
+                $("#modal_aqui").empty();
+                $("#modal_aqui").html(json[2]);
+                $(".chosen-select-width").chosen({
+                  width:"100%"
+                });
+                $("#modal_registrar_coti").modal("show");
+              }
+            }
+          })
         });
 
         $(document).on("keyup",".precios",function(e){
@@ -210,7 +225,7 @@ $(document).ready(function(e){
 
           var proveedor = $("#proveedor").val();
           var descripcion = $(".laformapago").val();
-          var id = $("#id").val();
+          var id = $("#id_solicoti").val();
 
           $.ajax({
             url:'../cotizaciones',
@@ -256,32 +271,95 @@ $(document).ready(function(e){
           var lugar_entrega = $("#lugar_entrega").val();
           var fecha_limite = $("#fecha_limite").val();
           var tiempo_entrega = $("#tiempo_entrega").val();
-
-          $.ajax({
-            url:'../solicitudcotizaciones/storer',
-            headers: {'X-CSRF-TOKEN':token},
-            type:'post',
-            data:{formapago,encargado,cargo,requisicion,unidad,lugar_entrega,fecha_limite,tiempo_entrega},
-            success: function(response){
-              if(response.mensaje=='exito'){
-                toastr.success('Solicitud registrada exitosamente');
-                location.reload();
-              }else{
-                  console.log(response);
-                  toastr.error('Ocurrió un error, contacte al administrador');
-                }
-            },
-            error: function(error){
-              console.log(error);
-              $.each(error.responseJSON.errors, function( key, value ) {
-                toastr.error(value);
+          var requi=new Array();
+          var chec=$(document).find(".lositems");
+          $.each(chec,function(i,v){
+            if($(v).is(":checked")){
+              requi.push({
+                idcambiar:$(this).attr("data-idcambiar"),
+                idmaterial:$(this).attr("data-material"),
+                cantidad:$(this).attr("data-cantidad")
               });
             }
           });
+
+         // if(requi.length==0){
+            //swal('aviso','Seleccione los ítems','warning');
+          //}else{
+            $.ajax({
+              url:'../solicitudcotizaciones/storer',
+              headers: {'X-CSRF-TOKEN':token},
+              type:'post',
+              data:{formapago,encargado,cargo,requisicion,unidad,lugar_entrega,fecha_limite,tiempo_entrega,requi},
+              success: function(response){
+                if(response.mensaje=='exito'){
+                  toastr.success('Solicitud registrada exitosamente');
+                  location.reload();
+                }else{
+                    console.log(response);
+                    toastr.error('Ocurrió un error, contacte al administrador');
+                  }
+              },
+              error: function(error){
+                console.log(error);
+                $.each(error.responseJSON.errors, function( key, value ) {
+                  toastr.error(value);
+                });
+              }
+            });
+          //}
         });
 
          $(document).on("click","#registrar_orden", function(e){
-          $("#modal_registrar_orden").modal("show");
+           var id=$(this).attr("data-id");
+           $.ajax({
+             url:'../ordencompras/modal_registrar/'+id,
+             type:'get',
+              data:{},
+              success: function(json){
+                if(json[0]==1){
+                  $("#modal_aqui").empty();
+                  $("#modal_aqui").html(json[2]);
+                  var start = new Date(),
+                  end = new Date(),
+                  start2, end2;
+                  end.setDate(end.getDate() + 365);
+      
+                  $("#fecha_inicio").datepicker({
+                    selectOtherMonths: true,
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'dd-mm-yy',
+                    minDate: start,
+                    maxDate: end,
+                  onSelect: function(){
+                    start2 = $(this).datepicker("getDate");
+                    end2 = $(this).datepicker("getDate");
+ 
+                    start2.setDate(start2.getDate() + 1);
+                    end2.setDate(end2.getDate() + 365);
+ 
+                    $("#fecha_fin").datepicker({
+                            selectOtherMonths: true,
+                            changeMonth: true,
+                            changeYear: true,
+                            dateFormat: 'dd-mm-yy',
+                            minDate: start2,
+                            maxDate: end2,
+                   onSelect: function(){
+                     var fecha1 = moment(start2);
+                     var fecha2 = moment($(this).datepicker("getDate"));
+                     //$("#plazo").val(fecha2.diff(fecha1, 'days');
+                   }
+                    });
+ 
+                  }
+                });
+                  $("#modal_registrar_orden").modal("show");
+                }
+              }
+            });
+          //
          });
 
          $(document).on("click","#agregar_orden", function(e){
@@ -369,6 +447,25 @@ $(document).ready(function(e){
               }
             });
           }
+        });
+
+        $(document).on("change","#todos",function(e){
+          if( $(this).is(':checked') ) {
+            $('.lositems').prop('checked', true);
+          }else{
+            $('.lositems').prop('checked', false);
+          }
+        });
+
+        $(document).on("change",".lositems",function(e){
+          if(! $(this).is(':checked') ) {
+            $('#todos').prop('checked', false);
+          }
+        });
+
+        $(document).on("click","#larequii",function(e){
+          
+          console.log(array);
         });
     });
 

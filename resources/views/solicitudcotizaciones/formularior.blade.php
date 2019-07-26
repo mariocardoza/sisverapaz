@@ -1,7 +1,7 @@
                 <div class="form-group">
                     <label for="" class="col-md-4 control-label">Encargado\a del proceso: </label>
                     <div class="col-md-6">
-                        {{Form::text('encargado',usuario(Auth()->user()->empleado_id),['readonly','class' => 'form-control', 'id' => 'encargado'])}}
+                        {{Form::text('encargado',Auth()->user()->empleado->nombre,['readonly','class' => 'form-control', 'id' => 'encargado'])}}
                     </div>
                 </div>
 
@@ -55,27 +55,31 @@
                   </div>
                 </div>
 
-                <table class="table table-striped" id="tabla" display="block;">
+                <table class="table table-striped" id="tablasoli" display="block;">
                     <thead>
                         <tr>
-                            <th width="10%">ÍTEM</th>
+                            <th><input type="checkbox" checked id="todos">Todos</th>
+                            <th width="5%">ÍTEM</th>
                             <th width="50%">DESCRIPCIÓN</th>
-                            <th width="10%"><center>UNIDAD DE MEDIDA</center></th>
-                            <th width="10%"><center>CANTIDAD</center></th>
-                            <th width="10%"><center>PRECIO UNITARIO</center></th>
+                            <th width="15%">UNIDAD DE MEDIDA</th>
+                            <th width="10%">CANTIDAD</th>
+                            <th width="10%">PRECIO UNITARIO</th>
                             <th width="10%">SUBTOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
                       @foreach($requisicion->requisiciondetalle as $key => $detalle)
+                        @if($detalle->estado==1):
                         <tr>
-                          <td>{{$key+1}}</td>
-                          <td>{{$detalle->material->nombre}}</td>
-                          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
-                          <td>{{$detalle->cantidad}}</td>
-                          <td></td>
-                          <td></td>
+                        <td><input type="checkbox" checked data-idcambiar="{{$detalle->id}}" data-material="{{$detalle->materiale_id}}" data-cantidad="{{$detalle->cantidad}}" class="lositems"></td>
+                            <td>{{$key+1}}</td>
+                            <td>{{$detalle->material->nombre}}</td>
+                            <td>{{$detalle->unidadmedida->nombre_medida}}</td>
+                            <td>{{$detalle->cantidad}}</td>
+                            <td></td>
+                            <td></td>
                         </tr>
+                        @endif
                       @endforeach
                     </tbody>
                 </table>

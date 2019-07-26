@@ -265,4 +265,10 @@ class OrdencompraController extends Controller
     {
         //
     }
+
+    public function modal_registrar($id)
+    {
+      $retorno=Ordencompra::modal_registrar($id);
+      return $retorno;
+    }
 }
