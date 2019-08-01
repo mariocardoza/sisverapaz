@@ -14,11 +14,18 @@
                 id="duitxt" placeholder="Digite el Numero Catastral" />
             </div>
 
-            <div class="form-group col-xs-6">
-              <label for="nittxt">Medida Inmueble</label>
-              <input type="text" class="form-control" ng-model="inmueble.medida_inmueble" required
-                id="nittxt" placeholder="Digite la medida del inmueble" />
+            <div class="form-group col-xs-3">
+              <label for="nittxt">Ancho Inmueble</label>
+              <input type="number" class="form-control" ng-model="inmueble.ancho_inmueble" required
+                id="nittxt" placeholder="Digite la ancho del inmueble" step="any" />
             </div>
+
+            <div class="form-group col-xs-3">
+              <label for="nittxt">Lago Inmueble</label>
+              <input type="number" class="form-control" ng-model="inmueble.largo_inmueble" required
+                id="nittxt" placeholder="Digite la largo del inmueble" step="any" />
+            </div>
+
 
             <div class="form-group col-xs-6">
                 <label for="teltxt">Numero de escritura</label>
@@ -33,7 +40,6 @@
             <div class="col-xs-12" ng-if='inmueble.direccion_inmueble'>
               <h4>Direccion: </h4>
               <h5>(( inmueble.direccion_inmueble ))</h5>
-            	<!-- <textarea required name="direccion_inmueble" id="direccion_inmueble" placeholder="Digite la direccion del inmueble" ng-model='inmueble.direccion_inmueble' class="form-control"></textarea> -->
             </div>
         </div>
         <div class="row" ng-hide='isNew'>
@@ -45,7 +51,7 @@
         </div>
       </div>
       <div class="box-footer">
-        <button type="submit" ng-disabled="form.$invalid"
+        <button type="submit" ng-disabled="form.$invalid" ng-if='inmueble.direccion_inmueble'
           class="btn btn-primary">
           (( isNew ? 'Editar' : 'Agregar' ))
         </button>

@@ -268,6 +268,7 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
 
     NgMap.getMap().then(map => {
       $scope.map = map;
+      console.log(item);
       $scope.geocoder = new google.maps.Geocoder();
       let center = {
         "lat": parseFloat(item.latitude),
