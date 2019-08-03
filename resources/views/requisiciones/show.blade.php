@@ -12,88 +12,9 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="">
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
-                <div class="panel-body">
-                  <div class="pull-right">
-                    @if($requisicion->estado==5)
-                      <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
-                    @elseif($requisicion->estado==6)
-                    <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
-                    @elseif($requisicion->estado==7)
-                    <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
-                    @else
-                      <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
-                    @endif
-                  </div>
-                    <table class="table">
-                      <tr>
-                        <th colspan="2">
-                          <center>{!! $elestado !!}</center>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>Requisición N°</th>
-                        <td>{{ $requisicion->codigo_requisicion}}</td>
-                      </tr>
-                       <tr>
-                        <th>Actividad</th>
-                        <td>{{$requisicion->actividad}}</td>
-                      </tr>
-                      <tr>
-                        <th>Responsable</th>
-                        <td>{{$requisicion->user->empleado->nombre}}</td>
-                      </tr>
-                      <tr>
-                        <th>Fuente de financiamiento</th>
-                        <td>{{$requisicion->fondocat->categoria}}</td>
-                      </tr>
-                      <tr>
-                        <th>Unidad solicitante</th>
-                        <td>{{$requisicion->unidad->nombre_unidad}}</td>
-                      </tr>
-                      <tr>
-                        <th>Observaciones</th>
-                        <td>{{$requisicion->observaciones}}</td>
-                      </tr>
-                    </table>
-
-                        <br>
-                        
-                        <center>
-                        @if($requisicion->estado==1)
-                      {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
-                        <button class="btn btn-danger" type="button" onclick="
-                        return swal({
-                          title: 'Eliminar requisicion',
-                          text: '¿Está seguro de eliminar requisicion?',
-                          type: 'question',
-                          showCancelButton: true,
-                          confirmButtonText: 'Si, Eliminar',
-                          cancelButtonText: 'No, Mantener',
-                          confirmButtonClass: 'btn btn-danger',
-                          cancelButtonClass: 'btn btn-default',
-                          buttonsStyling: false
-                        }).then(function(){
-                          submit();
-                          swal('Hecho', 'El registro a sido eliminado','success')
-                        }, function(dismiss){
-                          if(dismiss == 'cancel'){
-                            swal('Cancelado', 'El registro se mantiene','info')
-                          }
-                        })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                      {{ Form::close()}}
-                    @endif
-                  </center>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-7">
+        <div class="col-md-9">
           <div class="btn-group">
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             @if(Auth()->user()->hasRole('uaci'))
@@ -177,6 +98,24 @@
                     <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
                   </center>
                 <?php endif; ?>
+                <div class="row">
+                  <div class="col-xs-2">
+                    <div class="col-sm-12">
+                      <span>Orden:</span>
+                    </div>
+                    @foreach($requisicion->solicitudcotizacion as $soli)
+                    <button data-id="{{$soli->id}}" id="lasolicitud" class="btn btn-primary col-sm-12">{{$soli->numero_solicitud}}</button>
+                    @if(!$loop->last)
+                      <div class="clearfix"></div>
+                      <hr style="margin-top: 3px; margin-bottom: 3px;">
+                    @endif
+                    @endforeach
+                  </div>
+                  <div class="col-xs-9" id="aquilasoli">
+                    
+                  </div>
+                </div>
+               
                 <table class="table" >
                   <thead>
                     <tr>
@@ -198,7 +137,7 @@
                                 <a href="{{url('/cotizaciones/cotizarr/'.$soli->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
                                 @else
                                   @if($soli->estado==1)
-                                  <a href="{{url('/cotizaciones/cotizarr/'.$soli->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
+                                  <a href="javascript:void(0)" id="registrar_cotizacion" data-id="{{$soli->id}}" class="btn btn-primary pull-right">este</a>
                                   @elseif($soli->estado==4)
                                     @if(isset($soli->cotizacion_seleccionada->ordencompra))
                                     <a href="{{url('/reportesuaci/ordencompra/'.$soli->cotizacion_seleccionada->ordencompra->id)}}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
@@ -313,6 +252,106 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="panel panel-primary">
+              <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
+              <div class="panel-body">
+                <div class="pull-right">
+                  @if($requisicion->estado==5)
+                    <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
+                  @elseif($requisicion->estado==6)
+                  <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
+                  @elseif($requisicion->estado==7)
+                  <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
+                  @else
+                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                  @endif
+                </div>
+                <br><br>
+                <div class="col-sm-12">
+                  <span><center>{!! $elestado !!}</center></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Requisición N°:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{ $requisicion->codigo_requisicion}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Actividad:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->actividad}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Responsable:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->user->empleado->nombre}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Fuente de financiamiento:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->fondocat->categoria}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Unidad solicitante:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->unidad->nombre_unidad}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-xs-12">
+                  <span style="font-weight: normal;">Observaciones:</span>
+                </div>
+                <div class="col-xs-12">
+                  <span><b>{{$requisicion->observaciones}}</b></span>
+                </div>
+                
+
+                      <br>
+                      
+                      <center>
+                      @if($requisicion->estado==1)
+                    {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
+                    <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
+                      <button class="btn btn-danger" type="button" onclick="
+                      return swal({
+                        title: 'Eliminar requisicion',
+                        text: '¿Está seguro de eliminar requisicion?',
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Si, Eliminar',
+                        cancelButtonText: 'No, Mantener',
+                        confirmButtonClass: 'btn btn-danger',
+                        cancelButtonClass: 'btn btn-default',
+                        buttonsStyling: false
+                      }).then(function(){
+                        submit();
+                        swal('Hecho', 'El registro a sido eliminado','success')
+                      }, function(dismiss){
+                        if(dismiss == 'cancel'){
+                          swal('Cancelado', 'El registro se mantiene','info')
+                        }
+                      })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                    {{ Form::close()}}
+                  @endif
+                </center>
+              </div>
+          </div>
+      </div>
     </div>
     <div id="modal_aqui"></div>
 </div>

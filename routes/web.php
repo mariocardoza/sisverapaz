@@ -222,6 +222,7 @@ Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
+Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');

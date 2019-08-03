@@ -69,7 +69,7 @@
                     </thead>
                     <tbody>
                       @foreach($requisicion->requisiciondetalle as $key => $detalle)
-                        @if($detalle->estado==1):
+                        @if($detalle->estado==1)
                         <tr>
                         <td><input type="checkbox" checked data-idcambiar="{{$detalle->id}}" data-material="{{$detalle->materiale_id}}" data-cantidad="{{$detalle->cantidad}}" class="lositems"></td>
                             <td>{{$key+1}}</td>

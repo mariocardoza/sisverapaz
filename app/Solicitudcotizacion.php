@@ -150,4 +150,67 @@ class Solicitudcotizacion extends Model
 
       return array(1,"exito",$modal);
     }
+
+    public static function lasolicitud($id)
+    {
+      $html='';
+      try{
+        $solicitud=Solicitudcotizacion::find($id);
+        $html.='<div class="panel">
+                  <div class="row">
+                    <div class="col-sm-3">
+                    <span style="font-weight: normal;">Orden N°:</span>
+                    </div>
+                    <div class="col-sm-3">
+                      <span><b>'. $solicitud->numero_solicitud.'</b></span>
+                    </div>
+                    <div class="col-sm-3">
+                    <span style="font-weight: normal;">Encargado:</span>
+                    </div>
+                    <div class="col-sm-3">
+                      <span><b>'. $solicitud->encargado.'</b></span>
+                    </div>
+                  </div>
+                      <div>
+                      <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Ítem</th>
+                          <th>Cantidad</th>';
+                          foreach($solicitud->cotizacion as $coti):
+                            $html.='<th>'.$coti->proveedor->nombre.'</th>';
+                          endforeach;
+                        $html.='</tr>
+                      </thead>
+                      <tbody>';
+                        foreach ($solicitud->detalle as $detalle):
+                            $html.='<tr>
+                            <td>'.$detalle->material->nombre.'</td>
+                            <td>'.$detalle->cantidad.'</td>';
+                            foreach($solicitud->cotizacion as $lacoti):
+                              foreach($lacoti->detallecotizacion as $key => $eldeta):
+                                if(($eldeta->cantidad==$detalle->cantidad) ):
+                                  $html.='<td>$'.number_format($detalle->cantidad*$eldeta->precio_unitario,2).'</td>';
+                                endif;
+                              endforeach;
+                            endforeach;
+                            $html.='</tr>';
+                        endforeach;
+                      $html.='</tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="2"></th>';
+                          foreach($solicitud->cotizacion as $coti):
+                            $html.='<th>$</th>';
+                          endforeach;
+                        $html.='</tr>
+                      </tfoot>
+                    </div>
+                      </div>
+                    </div>';
+                return array(1,"exito",$html);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
 }

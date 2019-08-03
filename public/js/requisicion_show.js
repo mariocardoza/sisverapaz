@@ -183,6 +183,28 @@ $(document).ready(function(e){
           })
         });
 
+        /// Obtener la solicitud
+        $(document).on("click","#lasolicitud",function(e){
+          var id=$(this).attr("data-id");
+          modal_cargando();
+          $.ajax({
+            url:'../requisiciones/versolicitud/'+id,
+            type:'GET',
+            data:{},
+            success: function(json){
+              if(json[0]==1){
+                swal.closeModal();
+                $("#aquilasoli").empty();
+                $("#aquilasoli").html(json[2]);
+              }else{
+                swal.closeModal();
+              }
+            }, error: function(error){
+              swal.closeModal();
+            }
+          })
+        });
+
         $(document).on("keyup",".precios",function(e){
           var element = $(e.currentTarget),
             cantidad   = $(element).attr('data-cantidad'),
