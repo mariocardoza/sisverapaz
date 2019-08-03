@@ -205,6 +205,42 @@ $(document).ready(function(e){
           })
         });
 
+        ////*** Seleccionar la cotizacion */
+        $(document).on("click","#seleccionar",function(e){
+          idcot = $(this).attr("data-id");
+          idrequisicion = $(this).attr('data-requisicion');
+          swal({
+            title: '¿Está seguro?',
+            text: "¿Desea seleccionar este proveedor?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si!',
+            cancelButtonText: '¡No!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              swal(
+                '¡Seleccionado!',
+                'Proveedor seleccionado.',
+                'success'
+              )
+              seleccionarr(idcot,idrequisicion);
+            } else if (result.dismiss === swal.DismissReason.cancel) {
+              swal(
+                'Cancelado',
+                'Seleccione un proveedor',
+                'info'
+              )
+              $('input[name=seleccionarr]').attr('checked',false);
+            }
+          });
+        });
+
         $(document).on("keyup",".precios",function(e){
           var element = $(e.currentTarget),
             cantidad   = $(element).attr('data-cantidad'),
@@ -544,5 +580,34 @@ $(document).ready(function(e){
 
         }
       }
+    });
+  }
+
+  function seleccionarr(idcot,idrequisicion)
+  {
+    var ruta ="../cotizaciones/seleccionarr";
+    $.ajax({
+      url: ruta,
+			type: 'POST',
+			data:{idcot,idrequisicion},
+
+			success: function(data){
+        console.log(data);
+        if(data.mensaje === 'exito'){
+          toastr.success('Proveedor seleccionado con éxito');
+          window.location.reload();
+        }else{
+          toastr.error('Ha ocurrido un error en la solucitud contacte al administrador');
+          console.log(data.mensaje);
+        }
+
+			},
+			error: function(data, textStatus, errorThrown){
+        console.log(data);
+				toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
+				$.each(data.responseJSON.errors, function( key, value ) {
+					toastr.error(value);
+			});
+			}
     });
   }

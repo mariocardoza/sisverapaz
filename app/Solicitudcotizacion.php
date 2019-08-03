@@ -158,27 +158,42 @@ class Solicitudcotizacion extends Model
         $solicitud=Solicitudcotizacion::find($id);
         $html.='<div class="panel">
                   <div class="row">
+                  <fieldset>
+                  <legend>Solicitud de cotización</legend>
                     <div class="col-sm-3">
-                    <span style="font-weight: normal;">Orden N°:</span>
+                    <span style="font-weight: normal;">Solicitud N°:</span>
                     </div>
                     <div class="col-sm-3">
                       <span><b>'. $solicitud->numero_solicitud.'</b></span>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                     <span style="font-weight: normal;">Encargado:</span>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
+                    <div class="col-sm-2">
+                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                    </div>
+                    </fieldset>
                   </div>
-                      <div>
-                      <table class="table">
+                  <br>
+                  <br>
+                  <fieldset>
+                  <legend>Cotizaciones</legend>
+                      <div id="">
+                    <table class="table">
                       <thead>
                         <tr>
                           <th>Ítem</th>
                           <th>Cantidad</th>';
                           foreach($solicitud->cotizacion as $coti):
-                            $html.='<th>'.$coti->proveedor->nombre.'</th>';
+                            $html.='<th>
+                            <span title="Click para ver información" style="cursor:pointer;" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            if($solicitud->estado==1):
+                            $html.='<button id="seleccionar" type="button" data-id="'.$coti->id.'" data-requisicion="'.$solicitud->requisicion->id.'" class="btn btn-primary btn-sm"><i class="fa fa-check"></i></button>';
+                            endif;
+                            $html.='</th>';
                           endforeach;
                         $html.='</tr>
                       </thead>
@@ -199,14 +214,38 @@ class Solicitudcotizacion extends Model
                       $html.='</tbody>
                       <tfoot>
                         <tr>
-                          <th colspan="2"></th>';
+                          <th colspan="2">Total</th>';
                           foreach($solicitud->cotizacion as $coti):
-                            $html.='<th>$</th>';
+                            $html.='<th>$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                          endforeach;
+                        $html.='</tr>
+                        <tr>
+                          <th colspan="2">Forma de pago</th>';
+                          foreach($solicitud->cotizacion as $coti):
+                            $html.='<th>'.$coti->formapago->nombre.'</th>';
                           endforeach;
                         $html.='</tr>
                       </tfoot>
+                    </table>
+                      <fieldset>
                     </div>
-                      </div>
+                  <br><br>';
+                  if($solicitud->cotizacion_seleccionada->ordencompra):
+                  $html.='<div>
+                  <fieldset>
+                  <legend>Orden de compra</legend>
+                  <div class="row">
+                    <div class="col-md-4">
+                    <span style="font-weight: normal;">Orden N°:</span>
+                    </div>
+                  </div>
+                  <fieldset>
+                  </div>';
+                  else:
+                      $html.='<button type="button" class="btn btn-primary" data-id="'.$solicitud->id.'">Registrar</button>';
+                    
+                  endif;
+                      $html.'</div>
                     </div>';
                 return array(1,"exito",$html);
       }catch(Exception $e){

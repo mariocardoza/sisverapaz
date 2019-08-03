@@ -19,7 +19,6 @@
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             @if(Auth()->user()->hasRole('uaci'))
             <button class="btn btn-primary que_ver" data-tipo="2">Solicitudes</button>
-            <button class="btn btn-primary que_ver" data-tipo="3">Cotizaciones</button>
             <button class="btn btn-primary que_ver" data-tipo="4">Orden de compra</button>
             @endif
           </div><br><br>
@@ -101,7 +100,7 @@
                 <div class="row">
                   <div class="col-xs-2">
                     <div class="col-sm-12">
-                      <span>Orden:</span>
+                      <span>&nbsp</span>
                     </div>
                     @foreach($requisicion->solicitudcotizacion as $soli)
                     <button data-id="{{$soli->id}}" id="lasolicitud" class="btn btn-primary col-sm-12">{{$soli->numero_solicitud}}</button>
@@ -116,7 +115,7 @@
                   </div>
                 </div>
                
-                <table class="table" >
+                <!--table class="table" >
                   <thead>
                     <tr>
                       <td>Número de solicitud</td>
@@ -167,7 +166,7 @@
                                     <td>{{$cotizacion->proveedor->nombre}}</td>
                                     <td>{{$cotizacion->formapago->nombre}}</td>
                                     <td>
-                                      <button class="btn btn-primary btn-sm pull-right" id="ver_coti" data-id="{{$cotizacion->id}}" type="button"><i class="fa fa-eye"></i></button>
+                                      <button class="btn btn-primary btn-sm pull-right"  type="button"><i class="fa fa-eye"></i></button>
                                     </td>
                                   </tr>
                                   @endforeach
@@ -178,7 +177,7 @@
                         </tr>
                     @endforeach
                   </tbody>
-                </table>
+                </table-->
            
               <?php else: ?>
                 <center>
