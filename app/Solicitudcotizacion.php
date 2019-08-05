@@ -230,20 +230,39 @@ class Solicitudcotizacion extends Model
                       <fieldset>
                     </div>
                   <br><br>';
-                  if($solicitud->cotizacion_seleccionada->ordencompra):
-                  $html.='<div>
-                  <fieldset>
-                  <legend>Orden de compra</legend>
-                  <div class="row">
-                    <div class="col-md-4">
-                    <span style="font-weight: normal;">Orden N°:</span>
+                  if(isset($solicitud->cotizacion_seleccionada)):
+                    if(isset($solicitud->cotizacion_seleccionada->ordencompra)):
+                    $html.='<div>
+                    <fieldset>
+                    <legend>Orden de compra</legend>
+                    <div class="row">
+                      <div class="col-md-2">
+                      <span style="font-weight: normal;">Orden N°:</span>
+                      </div>
+                      <div class="col-md-2">
+                      <span><b>'.$solicitud->cotizacion_seleccionada->ordencompra->numero_orden.'</b></span>
+                      </div>
+                      <div class="col-md-3">
+                      <span style="font-weight: normal;">Fuente de financiamiento:</span>
+                      </div>
+                      <div class="col-md-3">
+                      <span><b>'.$solicitud->requisicion->fondocat->categoria.'</b></span>
+                      </div>
+                      <!--div class="col-md-3">
+                      <span style="font-weight: normal;">Entrega de bienes:</span>
+                      </div>
+                      <div class="col-md-3">
+                      <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
+                      </div-->
+                      <div class="col-sm-2">
+                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                      </div>
                     </div>
-                  </div>
-                  <fieldset>
-                  </div>';
-                  else:
-                      $html.='<button type="button" class="btn btn-primary" data-id="'.$solicitud->id.'">Registrar</button>';
-                    
+                    <fieldset>
+                    </div>';
+                    else:
+                      $html.='<button type="button" id="registrar_orden" class="btn btn-primary" data-id="'.$solicitud->cotizacion_seleccionada->id.'">Registrar</button>';
+                    endif; 
                   endif;
                       $html.'</div>
                     </div>';

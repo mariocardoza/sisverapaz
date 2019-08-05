@@ -19,7 +19,6 @@
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             @if(Auth()->user()->hasRole('uaci'))
             <button class="btn btn-primary que_ver" data-tipo="2">Solicitudes</button>
-            <button class="btn btn-primary que_ver" data-tipo="4">Orden de compra</button>
             @endif
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">

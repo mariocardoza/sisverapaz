@@ -186,23 +186,7 @@ $(document).ready(function(e){
         /// Obtener la solicitud
         $(document).on("click","#lasolicitud",function(e){
           var id=$(this).attr("data-id");
-          modal_cargando();
-          $.ajax({
-            url:'../requisiciones/versolicitud/'+id,
-            type:'GET',
-            data:{},
-            success: function(json){
-              if(json[0]==1){
-                swal.closeModal();
-                $("#aquilasoli").empty();
-                $("#aquilasoli").html(json[2]);
-              }else{
-                swal.closeModal();
-              }
-            }, error: function(error){
-              swal.closeModal();
-            }
-          })
+          mostrar_informacion(id);
         });
 
         ////*** Seleccionar la cotizacion */
@@ -431,7 +415,11 @@ $(document).ready(function(e){
             success: function(json){
               if(json[0]==1){
                 toastr.success("Orden de compra registrada con éxito");
-                window.location.reload();
+                mostrar_informacion(json[2]);
+                $("#modal_registrar_orden").modal("hide");
+                $("#laordencompra").trigger("reset");
+                swal.closeModal();
+                //window.location.reload();
               }else{
                 swal.closeModal();
                 toastr.error("Ocurrió un error");
@@ -526,6 +514,27 @@ $(document).ready(function(e){
           console.log(array);
         });
     });
+
+  function mostrar_informacion(id)
+  {
+    modal_cargando();
+      $.ajax({
+        url:'../requisiciones/versolicitud/'+id,
+        type:'GET',
+        data:{},
+        success: function(json){
+          if(json[0]==1){
+            swal.closeModal();
+            $("#aquilasoli").empty();
+            $("#aquilasoli").html(json[2]);
+          }else{
+            swal.closeModal();
+          }
+        }, error: function(error){
+          swal.closeModal();
+        }
+      });
+  }
 
  function listarformapagos()
   {

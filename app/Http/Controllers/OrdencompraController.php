@@ -165,8 +165,7 @@ class OrdencompraController extends Controller
                 'fecha_inicio' => invertir_fecha($request->fecha_inicio),
                 'fecha_fin' => invertir_fecha($request->fecha_fin),
                 'cotizacion_id' => $request->cotizacion_id,
-                'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones
-,
+                'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones,
                 'direccion_entrega' => $request->direccion_entrega,
                 'adminorden' => $request->adminorden,
             ]);
@@ -205,7 +204,7 @@ class OrdencompraController extends Controller
               $requisicion->estado=5;
               $requisicion->save();
               DB::commit();
-              return array(1,"exito");
+              return array(1,"exito",$cotizacion->solicitudcotizacion->id);
             }
 
             //return redirect('solicitudcotizaciones/versolicitudes/'.$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->with('mensaje','Orden de compra registrada con éxito');
