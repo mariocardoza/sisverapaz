@@ -62,6 +62,7 @@ class NegocioController extends Controller
         $negocios = Negocio::create([
             'contribuyente_id'  => $parameters['contribuyente'],
             'nombre'            => $parameters['object']['nombre'],
+            'capital'           => $parameters['object']['capital'],
             'direccion'         => $parameters['object']['direccion'],
             'rubro_id'          => $parameters['object']['rubro_id'],
             'lat'               => $parameters['object']['lat'],
@@ -123,6 +124,7 @@ class NegocioController extends Controller
       $parameters = $request->All();
       $negocio = Negocio::find($id);
       $negocio->nombre = $parameters['object']['nombre'];
+      $negocio->capital = $parameters['object']['capital'];
       $negocio->rubro_id = $parameters['object']['rubro_id'];
 
       if($negocio->save()){
