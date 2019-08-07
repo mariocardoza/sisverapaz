@@ -53,11 +53,11 @@
         </tr>
         @endforeach
       @else
-        @foreach($solicitud->requisicion->requisiciondetalle as $indice => $detalle)
+        @foreach($solicitud->detalle as $indice => $detalle)
         <tr>
           <td>{{$indice+1}}</td>
           <td>{{$detalle->material->nombre}}</td>
-          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
+          <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>

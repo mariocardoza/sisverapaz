@@ -237,4 +237,10 @@ class RequisicionController extends Controller
       $retorno=Requisicione::materiales($id);
       return $retorno;
     }
+
+    public function ver_solicitud($id)
+    {
+      $retorno=\App\Solicitudcotizacion::lasolicitud($id);
+      return $retorno;
+    }
 }

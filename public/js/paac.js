@@ -302,9 +302,60 @@ function inicio(){
                 swal.closeModal();
                 $("#elplan").empty();
                 $("#elplan").html(json[2]);
+                tabla_excel("latabla",eltitulo);
             }else{
                 swal.closeModal();
             }
         }
     })
 }
+
+function tabla_excel(tabla,titulo){
+    $('#'+tabla).DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+          {
+              extend: 'excelHtml5',
+              footer: true,
+              title: 'Pan de compras',
+              messageTop: 'Plan anual '+titulo+' año '+anioplan,
+              text: '<button class="btn btn-info">Exportar a Excel <i class="fa fa-file-excel-o"></i></button>',
+              exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] } 
+
+          },
+          {
+              extend:'pdfHtml5',
+              footer:true,
+              title: 'Pan de compras',
+              orientation: 'landscape',
+              messageTop: 'Plan anual '+titulo+' año '+anioplan,
+              exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] },
+              text: '<button class="btn btn-info">Exportar a PDF <i class="fa fa-file-pdf-o"></i></button>'
+          }
+      ],
+        language: {
+            processing: "Búsqueda en curso...",
+            search: "Búscar:",
+            lengthMenu: "Mostrar _MENU_ Elementos",
+            info: "Mostrando _START_ de _END_ de un total de _TOTAL_ Elementos",
+            infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
+            infoFiltered: "(Filtrado de _MAX_ elementos en total)",
+            infoPostFix: "",
+            loadingRecords: "Carga de datos en proceso..",
+            zeroRecords: "Elementos no encontrado",
+            emptyTable: "La tabla no contiene datos",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "siguiente",
+                last: "Último"
+            },
+        },
+        "paging": true,
+        "lengthChange": true,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "autoWidth": true
+    });
+  }

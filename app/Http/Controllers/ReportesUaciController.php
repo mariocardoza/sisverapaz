@@ -87,6 +87,20 @@ class ReportesUaciController extends Controller
     	return $pdf->stream('cuadrocomparativo.pdf');
     }
 
+    public function cuadrocomparativo2($id)
+    {
+    	$solicitud = \App\Solicitudcotizacion::findorFail($id);
+        $presupuesto = \App\Presupuesto::findorFail($solicitud->presupuesto->id);
+        //dd($presupuesto);
+        $detalles = \App\Presupuestodetalle::where('presupuesto_id',$presupuesto->id)->get();
+        $cotizaciones = \App\Cotizacion::where('presupuestosolicitud_id',$solicitud->id)->with('detallecotizacion')->get();
+        //dd($cotizaciones);
+    	$tipo = "REPORTE DE CUADRO COMPARATIVO DE OFERTAS";
+    	$pdf = \PDF::loadView('pdf.uaci.cuadrocomparativo2',compact('solicitud','presupuesto','detalles','cotizaciones','tipo'));
+    	$pdf->setPaper('letter','landscape');
+    	return $pdf->stream('cuadrocomparativo.pdf');
+    }
+
     public function contratoproyecto($id)
     {
         $alcaldia=\App\Configuracion::first();
@@ -105,5 +119,14 @@ class ReportesUaciController extends Controller
         $pdf = \PDF::loadView('pdf.uaci.requisicionobra',compact('requisicion','tipo','configuracion'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('requisicionobra.pdf');
+    }
+
+    public function presupuestounidad($id)
+    {
+      $presupuesto = \App\Presupuestounidad::find($id);
+      $tipo = "PRESUPUESTO DE UNIDADES";
+      $pdf = \PDF::loadView('pdf.uaci.presupuestounidad',compact('presupuesto','tipo'));
+      $pdf->setPaper('letter', 'portrait');
+      return $pdf->stream('presupuestounidad.pdf');
     }
 }

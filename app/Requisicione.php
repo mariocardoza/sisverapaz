@@ -74,7 +74,7 @@ class Requisicione extends Model
 
   public function solicitudcotizacion()
   {
-    return $this->hasOne('App\Solicitudcotizacion','requisicion_id');
+    return $this->hasMany('App\Solicitudcotizacion','requisicion_id');
   }
 
   public function user()
@@ -85,6 +85,17 @@ class Requisicione extends Model
   public function fondocat()
   {
     return $this->belongsTo('App\Fondocat');
+  }
+
+  public static function tiene_materiales($id){
+    $retorno=false;
+    $detas=Requisiciondetalle::where('requisicion_id',$id)->get();
+    foreach($detas as $deta){
+      if($deta['estado']==1){
+        $retorno=true;
+      }
+    }
+    return $retorno;
   }
 
   public static function materiales($id){

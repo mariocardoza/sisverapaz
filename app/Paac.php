@@ -24,7 +24,7 @@ class Paac extends Model
         <div class="panel-body">
           <a href="javascript:void(0)" id="registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar elementos</a>
         <br><br>
-        <table class="table">
+        <table class="table" >
           <tr>
             <td>Año de ejecución</td>
             <th>'.$paac->anio.'</th>
@@ -39,7 +39,7 @@ class Paac extends Model
           </tr>
         </table>
           <div style="overflow-x:auto;">
-            <table class="table table-bordered table-striped table-hover table-condensed">
+            <table class="table table-striped" id="latabla">
               <thead>';
                 $enero=0.0;
                 $febrero=0.0;

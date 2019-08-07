@@ -297,6 +297,8 @@ function baja(id,ruta)
           });
   }
 
+  
+
 //funcion para dar de alta
   function alta(id,ruta)
   {

@@ -135,6 +135,7 @@ Route::get('ordencompras/verificar/{id}','OrdencompraController@verificar');
 Route::post('ordencompras/guardar','OrdencompraController@guardar')->name('ordencompras.guardar');
 Route::get('ordencompras/requisiciones','OrdencompraController@requisiciones');
 Route::get('ordencompras/create/{id}','OrdencompraController@create');
+Route::get('ordencompras/modal_registrar/{id}','OrdencompraController@modal_registrar');
 Route::Resource('ordencompras','OrdencompraController');
 
 Route::get('presupuestos/crear','PresupuestoController@crear');
@@ -206,6 +207,7 @@ Route::Resource('formapagos','FormapagoController');
 Route::post('solicitudcotizaciones/baja/{id}','SolicitudcotizacionController@baja')->name('solicitudcotizaciones.baja');
 Route::post('solicitudcotizaciones/alta/{id}','SolicitudcotizacionController@alta')->name('solicitudcotizaciones.alta');
 Route::get('solicitudcotizaciones/versolicitudes/{id}','SolicitudcotizacionController@versolicitudes');
+Route::get('solicitudcotizaciones/modal_cotizacion/{id}','SolicitudcotizacionController@modal_cotizacion');
 Route::get('solicitudcotizaciones/getcategorias','SolicitudcotizacionController@getCategorias');
 Route::get('solicitudcotizaciones/getpresupuesto','SolicitudcotizacionController@getPresupuesto');
 Route::post('solicitudcotizaciones/cambiar','SolicitudcotizacionController@cambiar');
@@ -220,6 +222,7 @@ Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
+Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
@@ -319,6 +322,8 @@ Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contrato
 Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisicionobra');
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
+
+Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupuestounidad');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');

@@ -51,6 +51,8 @@ Plan Anual: {{$paac->descripcion}}
 @section('scripts')
 <script>
 var idpaac='<?php echo $paac->id ?>';
+var eltitulo='<?php echo $paac->descripcion ?>';
+var anioplan='<?php echo $paac->anio ?>';
 </script>
 {!! Html::script('js/paac.js?cod='.date('Yidisus')) !!}
 @endsection

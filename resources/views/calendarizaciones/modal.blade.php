@@ -1,9 +1,4 @@
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-6">
-    <div id="calendario"></div>
-  </div>
-</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal">
@@ -17,14 +12,16 @@
       </div>
       <div class="modal-body">        
         <div class="box-body">
-          <div class="form-group">
-            <label for="eventoId">Evento</label>
-            <input type="text" class="form-control" id="eventoId" placeholder="Ingrese el nombre del evento" />
-          </div>
-          <div class="form-group">
-            <label for="descripcion">Descripcion del Evento</label>
-            <textarea type="text" class="form-control" id="descripcion" placeholder="Digite la descripcion"></textarea>
-          </div>
+          <form id="add_evento">
+            <div class="form-group">
+              <label for="eventoId">Evento</label>
+              <input type="text" class="form-control" required id="eventoId" placeholder="Ingrese el nombre del evento" />
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Descripcion del Evento</label>
+              <textarea type="text" class="form-control" required id="descripcion" placeholder="Digite la descripcion"></textarea>
+            </div>
+          </form>
           <div class="box-footer">
             <button type="button" id="btnSubmit" class="btn btn-primary">Agregar</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>

@@ -33,11 +33,11 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    @foreach($solicitud->requisicion->requisiciondetalle as $detalle)
+                                    @foreach($solicitud->detalle as $detalle)
                                       <tr>
                                         <td><small>Adquisic</small></td>
                                         <td><small>{{$detalle->cantidad}}</small></td>
-                                        <td><small>{{$detalle->descripcion}}</small></td>
+                                        <td><small>{{$detalle->material->nombre}}</small></td>
                                       </tr>
                                     @endforeach
                                   </tbody>

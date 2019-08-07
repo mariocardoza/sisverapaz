@@ -12,95 +12,13 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="">
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
-                <div class="panel-body">
-                  <div class="pull-right">
-                    @if($requisicion->estado==5)
-                      <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
-                    @elseif($requisicion->estado==6)
-                    <a title="Acta"  href="{{url('reportesuaci/acta/'.$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
-                    <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
-                    @elseif($requisicion->estado==7)
-                    <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
-                    @else
-                      <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
-                    @endif
-                  </div>
-                    <table class="table">
-                      <tr>
-                        <th colspan="2">
-                          <center>{!! $elestado !!}</center>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>Requisición N°</th>
-                        <td>{{ $requisicion->codigo_requisicion}}</td>
-                      </tr>
-                       <tr>
-                        <th>Actividad</th>
-                        <td>{{$requisicion->actividad}}</td>
-                      </tr>
-                      <tr>
-                        <th>Responsable</th>
-                        <td>{{$requisicion->user->empleado->nombre}}</td>
-                      </tr>
-                      <tr>
-                        <th>Fuente de financiamiento</th>
-                        <td>{{$requisicion->fondocat->categoria}}</td>
-                      </tr>
-                      <tr>
-                        <th>Unidad solicitante</th>
-                        <td>{{$requisicion->unidad->nombre_unidad}}</td>
-                      </tr>
-                      <tr>
-                        <th>Observaciones</th>
-                        <td>{{$requisicion->observaciones}}</td>
-                      </tr>
-                    </table>
-
-                        <br>
-                        
-                        <center>
-                        @if($requisicion->estado==1)
-                      {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
-                        <button class="btn btn-danger" type="button" onclick="
-                        return swal({
-                          title: 'Eliminar requisicion',
-                          text: '¿Está seguro de eliminar requisicion?',
-                          type: 'question',
-                          showCancelButton: true,
-                          confirmButtonText: 'Si, Eliminar',
-                          cancelButtonText: 'No, Mantener',
-                          confirmButtonClass: 'btn btn-danger',
-                          cancelButtonClass: 'btn btn-default',
-                          buttonsStyling: false
-                        }).then(function(){
-                          submit();
-                          swal('Hecho', 'El registro a sido eliminado','success')
-                        }, function(dismiss){
-                          if(dismiss == 'cancel'){
-                            swal('Cancelado', 'El registro se mantiene','info')
-                          }
-                        })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                      {{ Form::close()}}
-                    @endif
-                  </center>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-7">
+        <div class="col-md-9">
           <div class="btn-group">
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             @if(Auth()->user()->hasRole('uaci'))
-            <button class="btn btn-primary que_ver" data-tipo="2">Solicitud</button>
-            <button class="btn btn-primary que_ver" data-tipo="3">Cotizaciones</button>
-            <button class="btn btn-primary que_ver" data-tipo="4">Orden de compra</button>
+            <button class="btn btn-primary que_ver" data-tipo="2">Solicitudes</button>
             @endif
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">
@@ -159,13 +77,13 @@
                               @endforeach
                             </tbody>
                           </table>
-                          <?php else: ?>
+                <?php else: ?>
                             <center>
                               <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                               <span>Agregue requerimientos de materiales</span><br>
                               <button class="btn btn-primary" id="agregar_nueva">Agregar</button>
                             </center>
-                      <?php endif; ?>
+                <?php endif; ?>
                         </div>
             </div>
           </div>
@@ -173,35 +91,93 @@
             <div class="panel-heading">Solicitud de cotización</div>
             <div class="panel">
               <?php if($requisicion->solicitudcotizacion): ?>
-                <div class="pull-right">
-                    <a title="Imprimir solicitud de cotización" href="{{url('reportesuaci/solicitud/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                <?php if(App\Requisicione::tiene_materiales($requisicion->id)): ?>
+                  <center>
+                    <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
+                  </center>
+                <?php endif; ?>
+                <div class="row">
+                  <div class="col-xs-2">
+                    <div class="col-sm-12">
+                      <span>&nbsp</span>
+                    </div>
+                    @foreach($requisicion->solicitudcotizacion as $soli)
+                    <button data-id="{{$soli->id}}" id="lasolicitud" class="btn btn-primary col-sm-12">{{$soli->numero_solicitud}}</button>
+                    @if(!$loop->last)
+                      <div class="clearfix"></div>
+                      <hr style="margin-top: 3px; margin-bottom: 3px;">
+                    @endif
+                    @endforeach
                   </div>
-                  <table class="table">
+                  <div class="col-xs-9" id="aquilasoli">
+                    
+                  </div>
+                </div>
+               
+                <!--table class="table" >
+                  <thead>
                     <tr>
                       <td>Número de solicitud</td>
-                      <th>{{$requisicion->solicitudcotizacion->numero_solicitud}}</th>
-                    </tr>
-                    <tr>
                       <td>Encargado</td>
-                      <th>{{$requisicion->solicitudcotizacion->encargado}}</th>
+                      <td></td>
                     </tr>
-                    <tr>
-                      <td>Cargo</td>
-                      <th>{{$requisicion->solicitudcotizacion->cargo_encargado}}</th>
-                    </tr>
-                    <tr>
-                      <td>Lugar de entrega</td>
-                      <th>{{$requisicion->solicitudcotizacion->lugar_entrega}}</th>
-                    </tr>
-                    <tr>
-                      <td>Fecha límite para cotizar</td>
-                      <th>{{$requisicion->solicitudcotizacion->fecha_limite->format("d/m/Y")}}</th>
-                    </tr>
-                    <tr>
-                      <td>Tiempo máximo para entrega de materiales</td>
-                      <th>{{$requisicion->solicitudcotizacion->tiempo_entrega}}</th>
-                    </tr>
-                  </table>
+                  </thead>
+                  <tbody>
+                    
+                    @foreach ($requisicion->solicitudcotizacion as $soli)
+                        <tr>
+                        <td>{{$soli->numero_solicitud}}</td>
+                        <td>{{$soli->encargado}}</td>
+                          <td>
+                            <div class="pull-right">
+                                <a title="Imprimir solicitud de cotización" href="{{url('reportesuaci/solicitud/'.$soli->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                                @if(date("Y-m-d") > $soli->fecha_limite->format('Y-m-d') && ($requisicion->estado != 4 && $requisicion->estado != 5 && $requisicion->estado != 6 && $requisicion->estado != 7))
+                                <a href="{{url('/cotizaciones/cotizarr/'.$soli->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
+                                @else
+                                  @if($soli->estado==1)
+                                  <a href="javascript:void(0)" id="registrar_cotizacion" data-id="{{$soli->id}}" class="btn btn-primary pull-right">este</a>
+                                  @elseif($soli->estado==4)
+                                    @if(isset($soli->cotizacion_seleccionada->ordencompra))
+                                    <a href="{{url('/reportesuaci/ordencompra/'.$soli->cotizacion_seleccionada->ordencompra->id)}}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
+                                    @else
+                                      <button data-id="{{$soli->cotizacion_seleccionada->id}}" class="btn btn-primary" id="registrar_orden">Registrar</button>    
+                                    @endif
+                                  @endif
+                                @endif
+                              </div>
+                         </td>
+                        </tr>
+                        <tr colspan="3">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="3">Cotizaciones</th>
+                                      </tr>
+                                  <tr>
+                                  <th>Proveedor</th>
+                                  <th>Forma de pago</th>
+                                  <th></th>
+                                  </tr>
+                                  
+                                </thead>
+                                <tbody>
+                                  @foreach($soli->cotizacion as $cotizacion)
+                                  <tr>
+                                    <td>{{$cotizacion->proveedor->nombre}}</td>
+                                    <td>{{$cotizacion->formapago->nombre}}</td>
+                                    <td>
+                                      <button class="btn btn-primary btn-sm pull-right"  type="button"><i class="fa fa-eye"></i></button>
+                                    </td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                        </tr>
+                        <tr>
+                          <th colspan="3"><hr></th>
+                        </tr>
+                    @endforeach
+                  </tbody>
+                </table-->
+           
               <?php else: ?>
                 <center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
@@ -253,7 +229,7 @@
                  <center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                   <span>Registre las cotizaciones</span><br>
-                  <button class="btn btn-primary" id="registrar_cotizacion">Registrar</button>
+                  <button class="btn btn-primary" id="registrar_cotizacione">Registrar</button>
                 </center>
                   @else
                   <center>
@@ -270,43 +246,110 @@
           <div class="panel panel-primary" id="orden" style="display: none;">
             <div class="panel-heading">Orden de compra</div>
             <div class="panel">
-              @if(isset($requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra))
-              <a href="{{ url('/reportesuaci/ordencompra/'.$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->id) }}" class="btn btn-primary pull-right" target="_blank"><i class="fa fa-print"></i></a>
-              <table class="table">
-                <tr>
-                  <td>Número de orden</td>
-                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->numero_orden}}</th>
-                </tr>
-                <tr>
-                  <td>Proveedor seleccionado</td>
-                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->proveedor->nombre}}</th>
-                </tr>
-                <tr>
-                  <td>Dirección de entrega</td>
-                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->direccion_entrega}}</th>
-                </tr>
-                <tr>
-                  <td>Administrador de la orden</td>
-                  <th>{{$requisicion->solicitudcotizacion->cotizacion_seleccionada->ordencompra->adminorden}}</th>
-                </tr>
-              </table>
-              @else
-              @if(isset($requisicion->solicitudcotizacion->cotizacion_seleccionada))
-                <center>
-                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                  <span>Aun no se ha registrado la orden de compra</span><br>
-                  <button class="btn btn-primary" id="registrar_orden">Registrar</button>
-                </center>
-                @else
-                  <center>
-                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                    <span>Se estan recibiendo cotizaciones</span><br>
-                  </center>
-                @endif
-              @endif
+              
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="panel panel-primary">
+              <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
+              <div class="panel-body">
+                <div class="pull-right">
+                  @if($requisicion->estado==5)
+                    <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
+                  @elseif($requisicion->estado==6)
+                  <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
+                  @elseif($requisicion->estado==7)
+                  <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
+                  @else
+                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                  @endif
+                </div>
+                <br><br>
+                <div class="col-sm-12">
+                  <span><center>{!! $elestado !!}</center></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Requisición N°:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{ $requisicion->codigo_requisicion}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Actividad:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->actividad}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Responsable:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->user->empleado->nombre}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Fuente de financiamiento:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->fondocat->categoria}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                  <span style="font-weight: normal;">Unidad solicitante:</span>
+                </div>
+                <div class="col-sm-12">
+                  <span><b>{{$requisicion->unidad->nombre_unidad}}</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-xs-12">
+                  <span style="font-weight: normal;">Observaciones:</span>
+                </div>
+                <div class="col-xs-12">
+                  <span><b>{{$requisicion->observaciones}}</b></span>
+                </div>
+                
+
+                      <br>
+                      
+                      <center>
+                      @if($requisicion->estado==1)
+                    {{ Form::open(['route' => ['requisiciones.destroy', $requisicion->id ], 'method' => 'DELETE', 'class' => 'form-horizontal'])}}
+                    <a href="{{ url('/requisiciones/'.$requisicion->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a> |
+                      <button class="btn btn-danger" type="button" onclick="
+                      return swal({
+                        title: 'Eliminar requisicion',
+                        text: '¿Está seguro de eliminar requisicion?',
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Si, Eliminar',
+                        cancelButtonText: 'No, Mantener',
+                        confirmButtonClass: 'btn btn-danger',
+                        cancelButtonClass: 'btn btn-default',
+                        buttonsStyling: false
+                      }).then(function(){
+                        submit();
+                        swal('Hecho', 'El registro a sido eliminado','success')
+                      }, function(dismiss){
+                        if(dismiss == 'cancel'){
+                          swal('Cancelado', 'El registro se mantiene','info')
+                        }
+                      })";><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                    {{ Form::close()}}
+                  @endif
+                </center>
+              </div>
+          </div>
+      </div>
     </div>
     <div id="modal_aqui"></div>
 </div>
