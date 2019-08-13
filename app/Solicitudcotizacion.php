@@ -180,8 +180,12 @@ class Solicitudcotizacion extends Model
                   <br>
                   <br>
                   <fieldset>
-                  <legend>Cotizaciones</legend>
-                      <div id="">
+                  <legend>Cotizaciones';
+                  if($solicitud->estado==1):  
+                  $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                  endif;
+                  $html.='</legend>
+                  <div id="">
                     <table class="table">
                       <thead>
                         <tr>
@@ -227,7 +231,7 @@ class Solicitudcotizacion extends Model
                         $html.='</tr>
                       </tfoot>
                     </table>
-                      <fieldset>
+                      </fieldset>
                     </div>
                   <br><br>';
                   if(isset($solicitud->cotizacion_seleccionada)):
@@ -258,8 +262,15 @@ class Solicitudcotizacion extends Model
                         <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
-                    <fieldset>
-                    </div>';
+                    </fieldset>
+                    <br><br>';
+                    if($solicitud->requisicion->estado>=6):
+                    $html.='<fieldset>
+                    <legend>Acta de recepcion de bienes</legend>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    </fieldset>';
+                    endif;
+                    $html.='</div>';
                     else:
                       $html.='<button type="button" id="registrar_orden" class="btn btn-primary" data-id="'.$solicitud->cotizacion_seleccionada->id.'">Registrar</button>';
                     endif; 

@@ -230,7 +230,7 @@ class CotizacionController extends Controller
             $solicitud=Solicitudcotizacion::findorFail($request->id);
             bitacora('Registró una cotización');
             DB::commit();
-            return array(1,"exito",$solicitud,$cotizacion);
+            return array(1,"exito",$solicitud->id,$cotizacion);
             /*if($solicitud->tipo == 1){
               return response()->json([
                 'mensaje' => 'exito',

@@ -280,10 +280,12 @@ $(document).ready(function(e){
                 if(response[2].tipo == 1){
                   location.href="../../solicitudcotizaciones/versolicitudes/"+response.proyecto;
                 }else{
-                  location.reload();
-                  $("#requi").css("display","none");
-                  $("#soli").css("display","none");
-                  $("#coti").css("display","block");
+                  mostrar_informacion(response[2]);
+                  $("#modal_registrar_coti").modal("hide");
+                  //location.reload();
+                 // $("#requi").css("display","none");
+                  //$("#soli").css("display","none");
+                  //$("#coti").css("display","block");
                 }
               }else{
                 toastr.error("Debe llenar todos los campos de precio unitario");

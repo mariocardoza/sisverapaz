@@ -31,6 +31,52 @@ class Proyecto extends Model
 
     }
 
+    public static function codigo_proyecto($monto)
+    {
+      $configurarion=Configuracion::first();
+      if($monto>$configurarion->licitacion){
+        $numero=Proyecto::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->where('monto','>',$configurarion->licitacion)->count();
+        if($numero>0 && $numero<10){
+          return "LP-00".($numero+1)."-".date("Y");
+        }else{
+          if($numero >= 10 && $numero <100){
+            return "LP-0".($numero+1)."-".date("Y");
+          }else{
+            if($numero>=100){
+              return "LP-".($numero+1)."-".date("Y");
+            }else{
+              return "LP-001-".date("Y");
+            }
+          }
+        }
+      }else{
+        $numero=Proyecto::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->where('monto','<=',$configurarion->licitacion)->count();
+        if($numero>0 && $numero<10){
+          return "LG-00".($numero+1)."-".date("Y");
+        }else{
+          if($numero >= 10 && $numero <100){
+            return "LG-0".($numero+1)."-".date("Y");
+          }else{
+            if($numero>=100){
+              return "LG-".($numero+1)."-".date("Y");
+            }else{
+              return "LG-001-".date("Y");
+            }
+          }
+        }
+      }
+    }
+
+    public static function tipo_proyecto($monto)
+    {
+      $configurarion=Configuracion::first();
+      if($monto>$configurarion->licitacion){
+        return 2;
+      }else{
+        return 1;
+      }
+    }
+
     public function presupuestoinventario()
     {
       return $this->hasMany('App\PresupuestoInventario');

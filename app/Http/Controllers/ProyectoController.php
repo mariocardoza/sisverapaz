@@ -198,6 +198,8 @@ class ProyectoController extends Controller
               'motivo' => $request->motivo,
               'beneficiarios' => $request->beneficiarios,
               'monto_desarrollo' => $request->monto_desarrollo,
+              'codigo_proyecto'=>Proyecto::codigo_proyecto($request->monto),
+              'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto)
           ]);
 
           if(isset($montos))
@@ -222,9 +224,7 @@ class ProyectoController extends Controller
           ]);
       }catch (\Exception $e){
         DB::rollback();
-        return response()->json([
-          'mensaje' => $e->getMessage()
-        ]);
+        return array(-1, $e->getMessage());
         }
       }
 
