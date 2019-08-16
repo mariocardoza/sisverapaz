@@ -218,8 +218,13 @@ Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@c
 Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
+Route::Resource('contratorequisiciones','ContratoRequisicionController');
+Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
+
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/mostrarcontrato/{id}','RequisicionController@mostrar_contrato');
 Route::post('requisiciones/subir','RequisicionController@subir');
+Route::post('requisiciones/subircontrato','RequisicionController@subircontrato');
 Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');

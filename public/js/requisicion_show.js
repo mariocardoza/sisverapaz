@@ -150,6 +150,7 @@ $(document).ready(function(e){
             $("#coti").css("display","none");
             $("#orden").css("display","none");
           }else if(opcion==3){
+            mostrar_contrato(elid);
             $("#requi").css("display","none");
             $("#soli").css("display","none");
             $("#coti").css("display","block");
@@ -305,6 +306,55 @@ $(document).ready(function(e){
           e.preventDefault();
           $("#modal_registrar_soli").modal("show");
          });
+
+         $(document).on("click","#subir_contrato", function(e){
+          e.preventDefault();
+          $("#modal_subir_contrato").modal("show");
+         });
+
+         $(document).on("click","#btn_subir_contrato",function(e){
+          var formData = $("#form_subircontrato").serialize();
+          
+          $.ajax({
+            url:'../requisiciones/subircontrato',
+            type:'POST',
+            dataType:'json',
+            data:formData,
+            success:function(json){
+
+            }
+          });
+         });
+
+         $(document).on('submit','#form_subircontrato', function(e) {
+          // evito que propague el submit
+          e.preventDefault();
+          
+          // agrego la data del form a formData
+          var formData = new FormData(this);
+          formData.append('_token', $('input[name=_token]').val());
+        
+          $.ajax({
+              type:'POST',
+              url:'../requisiciones/subircontrato',
+              data:formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              success:function(data){
+                  if(data[0]==1){
+                    toastr.success("Contrato subido con exito");
+                    mostrar_contrato(data[2]);
+                    $("#modal_subir_contrato").modal("hide");
+                    $("#form_subircontrato").trigger("reset");
+
+                  }
+              },
+              error: function(jqXHR, text, error){
+                  toastr.error('Validation error!', 'No se pudo Añadir los datos<br>' + error, {timeOut: 5000});
+              }
+          });
+        });
 
          $(document).on("click","#agregar_soli", function(e){
           var formapago = $("#formapago").val();
@@ -517,6 +567,27 @@ $(document).ready(function(e){
         });
     });
 
+  function mostrar_contrato(id){
+    modal_cargando();
+      $.ajax({
+        url:'../requisiciones/mostrarcontrato/'+id,
+        type:'GET',
+        data:{},
+        success: function(json){
+          if(json[0]==1){
+            swal.closeModal();
+            $("#aqui_contra").empty();
+            $("#aqui_contra").html(json[2]);
+            inicializar_tabla("latabla");
+          }else{
+            swal.closeModal();
+          }
+        }, error: function(error){
+          swal.closeModal();
+        }
+      });
+  }
+
   function mostrar_informacion(id)
   {
     modal_cargando();
@@ -622,3 +693,8 @@ $(document).ready(function(e){
 			}
     });
   }
+
+  function cambiar(){
+    var pdrs = document.getElementById('file-upload').files[0].name;
+    document.getElementById('info3').innerHTML = pdrs;
+}

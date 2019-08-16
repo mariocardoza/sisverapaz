@@ -87,6 +87,11 @@ class Requisicione extends Model
     return $this->belongsTo('App\Fondocat');
   }
 
+  public function contratorequisicion()
+  {
+    return $this->hasMany('App\ContratoRequisicione','requisicion_id');
+  }
+
   public static function tiene_materiales($id){
     $retorno=false;
     $detas=Requisiciondetalle::where('requisicion_id',$id)->get();

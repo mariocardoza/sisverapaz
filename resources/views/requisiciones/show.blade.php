@@ -12,6 +12,19 @@
 @endsection
 
 @section('content')
+<style>
+.subir{
+    padding: 5px 10px;
+    background: #f55d3e;
+    color:#fff;
+    border:0px solid #fff;
+}
+ 
+.subir:hover{
+    color:#fff;
+    background: #f7cb15;
+}
+</style>
 <div class="">
     <div class="row">
         <div class="col-md-9">
@@ -19,6 +32,7 @@
             <button class="btn btn-primary que_ver" data-tipo="1" >Requisiciones</button>
             @if(Auth()->user()->hasRole('uaci'))
             <button class="btn btn-primary que_ver" data-tipo="2">Solicitudes</button>
+            <button class="btn btn-primary que_ver" data-tipo="3">Contratos</button>
             @endif
           </div><br><br>
           <div class="panel panel-primary" id="requi" style="display: block;">
@@ -190,62 +204,8 @@
             </div>
           </div>
           <div class="panel panel-primary" id="coti" style="display: none;">
-            <div class="panel-heading">Cotizaciones</div>
-            <div class="panel">
-              <?php if (isset($requisicion->solicitudcotizacion->cotizacion)): ?>
-                <?php if (date("Y-m-d") > $requisicion->solicitudcotizacion->fecha_limite->format('Y-m-d') && ($requisicion->estado != 4 && $requisicion->estado != 5 && $requisicion->estado != 6 && $requisicion->estado != 7)): ?>
-                  <a href="{{url('/cotizaciones/cotizarr/'.$requisicion->solicitudcotizacion->id)}}" class="btn btn-primary pull-right">Ver cuadro comparativo</a>
-                <?php else: ?>
-                  <?php if($requisicion->estado==3):?>
-                    <button class="btn btn-primary pull-right" id="registrar_cotizacion">Registrar</button>
-                  <?php elseif($requisicion->estado > 5): ?>
-                    <a class="btn btn-primary pull-left" href="{{ url('reportesuaci/cotizaciones/'.$requisicion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
-                  <?php endif; ?>
-                <?php endif ?>
-                <table class="table" id="example2">
-                    <thead>
-                      <tr>
-                      <th>Proveedor</th>
-                      <th>Forma de pago</th>
-                      <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach($requisicion->solicitudcotizacion->cotizacion as $cotizacion)
-                      <tr>
-                        <th>{{$cotizacion->proveedor->nombre}}</th>
-                        <th>{{$cotizacion->formapago->nombre}}</th>
-                        <th>
-                          <button class="btn btn-primary btn-sm" id="ver_coti" data-id="{{$cotizacion->id}}" type="button"><i class="fa fa-eye"></i></button>
-                        </th>
-                      </tr>
-                      @endforeach
-                    </tbody>
-                </table>
-            
-               
-              <?php else: ?>
-                 @if(isset($requisicion->solicitudcotizacion))
-                 <center>
-                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                  <span>Registre las cotizaciones</span><br>
-                  <button class="btn btn-primary" id="registrar_cotizacione">Registrar</button>
-                </center>
-                  @else
-                  <center>
-                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                    <span>Registre primero la solicitud de cotización</span><br>
-                    
-                  </center>
-                  @endif
-              <?php endif; ?>
-              
-              
-            </div>
-          </div>
-          <div class="panel panel-primary" id="orden" style="display: none;">
-            <div class="panel-heading">Orden de compra</div>
-            <div class="panel">
+            <div class="panel-heading">Contratos</div>
+            <div class="panel" id="aqui_contra">    
               
             </div>
           </div>

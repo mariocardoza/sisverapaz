@@ -113,3 +113,43 @@
   </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_contrato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Subir contrato</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['action'=>'RequisicionController@subircontrato', 'class' => '','id' => 'form_subircontrato','enctype'=>'multipart/form-data']) }}
+            <input type="hidden" name="requisicion_id" value="{{$requisicion->id}}">
+            <div class="form-group">
+              <label for="" class="control-label">Nombre</label>
+              <div>
+                <input type="text" class="form-control" name="nombre" autocomplete="off" placeholder="Nombre del contrato">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label">Descripción</label>
+              <div>
+                <input type="text" class="form-control" name="descripcion" autocomplete="off" placeholder="Nombre del contrato">
+              </div>
+            </div>
+            <label for="file-upload" class="subir">
+              <i class="glyphicon glyphicon-cloud"></i> Subir archivo
+          </label>
+          <input id="file-upload" onchange='cambiar()' name="archivo" type="file" style='display: none;'/>
+          <div id="info3"></div>
+              <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit"  class="btn btn-success">Guardar</button></center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
+    </div>
+    </div>
+  </div>

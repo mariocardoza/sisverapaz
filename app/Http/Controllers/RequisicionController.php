@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Requisicione;
+use App\ContratoRequisicione;
 use App\Requisiciondetalle;
 use App\Unidad;
 use App\UnidadMedida;
@@ -182,6 +183,30 @@ class RequisicionController extends Controller
     public function destroy(Requisicion $requisicione)
     {
 
+    }
+
+    public function subircontrato(Request $request)
+    {
+      try{
+        $request->file('archivo')->storeAs('requisiciones/contratos', $request->file('archivo')->getClientOriginalName());
+        $contrato=ContratoRequisicione::create([
+          'id'=>date('Yidisus'),
+          'nombre'=>$request->nombre,
+          'descripcion'=>$request->descripcion,
+          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'requisicion_id'=>$request->requisicion_id
+        ]);
+
+        return array(1,"exito",$request->requisicion_id);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function mostrar_contrato($id)
+    {
+      $retorno=ContratoRequisicione::mostrar_contratos($id);
+      return $retorno;
     }
 
     public function subir(Request $request)
