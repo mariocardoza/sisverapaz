@@ -42,7 +42,11 @@
                     <td>{{ $requisicion->codigo_requisicion }}</td>
                     <td>{{ $requisicion->actividad }}</td>
                     <td>{{ $requisicion->user->roleuser->role->description }}</td>
-                    <td>{{ $requisicion->fondocat->categoria}}</td>
+                    @if(isset($requisicion->cuenta_id))
+                    <td>{{ $requisicion->cuenta->nombre}}</td>
+                    @else 
+                    <td>Sin definir</td>
+                    @endif
                     <td>{{ $requisicion->user->empleado->nombre }}</td>
                     <td>{{ $requisicion->observaciones }}</td>
                     @if($requisicion->estado == 1)

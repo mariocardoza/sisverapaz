@@ -7,8 +7,9 @@ use DB;
 
 class Requisicione extends Model
 {
-  protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id'];
+  protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id','fecha_actividad','anio'];
   protected $primaryKey = "id";
+  protected $dates= ['fecha_actividad'];
   public $incrementing = false;
 
   public static function correlativo()
@@ -82,9 +83,9 @@ class Requisicione extends Model
     return $this->belongsTo('App\User');
   }
 
-  public function fondocat()
+  public function cuenta()
   {
-    return $this->belongsTo('App\Fondocat');
+    return $this->belongsTo('App\Cuenta');
   }
 
   public function contratorequisicion()
@@ -127,5 +128,252 @@ class Requisicione extends Model
     }
 
     return array(1,"exito",$tabla,$materiales);
+  }
+
+  public static function informacion($id)
+  {
+    $html="";
+    $tabla="";
+    try{
+      $requisicion=Requisicione::find($id);
+      $html.='<div class="pull-right">';
+      if($requisicion->estado==1):
+        $html.='<a title="Aprobar requisicion" href="javascript:void(0)" id="modal_aprobar" class="btn btn-primary" ><i class="fa fa-check"></i></a>';
+      elseif($requisicion->estado==5):
+        $html.='<a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>';
+      elseif($requisicion->estado==6):
+        $html.='<a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>';
+      elseif($requisicion->estado==7):
+        $html.='<a title="Descargar" href="requisiciones/bajar/'.$requisicion->nombre_archivo.'" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>';
+      else:
+        $html.='<a title="Imprimir requisición" href="reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+      endif;
+      $html.='</div>
+      <br><br>
+      <div class="col-sm-12">
+        <span><center>'.Requisicione::estado_ver($requisicion->id).'</center></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Requisición N°:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->codigo_requisicion.'</b></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Actividad:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->actividad.'</b></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Responsable:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->user->empleado->nombre.'</b></span>
+      </div>';
+      if(isset($requisicion->cuenta_id)):
+      $html.='<div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Fuente de financiamiento:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->cuenta->nombre.'</b></span>
+      </div>';
+      else:
+        $html.='<div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Fuente de financiamiento:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>Sin definir</b></span>
+      </div>';
+      endif;
+      $html.='<div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Unidad solicitante:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->unidad->nombre_unidad.'</b></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-xs-12">
+        <span style="font-weight: normal;">Observaciones:</span>
+      </div>
+      <div class="col-xs-12">
+        <span><b>'.$requisicion->observaciones.'</b></span>
+      </div>
+      <br>';
+      if($requisicion->estado==1):
+      $html.='<a href="../requisiciones/'.$requisicion->id.'/edit" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+      <a href="javascript:void(0)" data-id="'.$requisicion->id.'" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>';
+      endif;
+
+      $tabla.='<div>';
+      if($requisicion->requisiciondetalle->count() > 0):
+
+          if($requisicion->estado==1):
+          $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva">Agregar Necesidad</a></center><br>';
+          else:
+          $tabla.='<a title="Imprimir requisición" href="reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+          endif;
+                $tabla.='<table class="table estee" id="tabla_requi2">
+                  <thead>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Unidad de medida</th>
+                    <th></th>
+                  </thead>
+                  <tbody>';
+                    foreach($requisicion->requisiciondetalle as $detalle):
+                    $tabla.='<tr>
+                      <td>'.$detalle->material->nombre.'</td>
+                      <td>'.$detalle->cantidad.'</td>
+                      <td>'.$detalle->unidadmedida->nombre_medida.'</td>
+                      <td>';
+                        if($requisicion->estado==1):
+                          $tabla.='<div class="btn-group">
+                            <a id="editar_detalle" data-id="'.$detalle->id.'" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                              <button class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+                          </div>';
+                        endif;
+                      $tabla.='</td>
+                    </tr>';
+                      endforeach;
+                  $tabla.='</tbody>
+                </table>';
+              else:
+                  $tabla.='<center>
+                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                    <span>Agregue requerimientos de materiales</span><br>
+                    <button class="btn btn-primary" id="agregar_nueva">Agregar</button>
+                  </center>';
+            endif;
+          $tabla.='</div>';
+      return array(1,$html,$tabla);
+    }catch(Exception $e){
+
+    }
+  }
+
+  public static function requisiciones_por_tipo($tipo)
+  {
+    switch($tipo){
+      case 2:
+      $requisiciones=Requisicione::where('estado',2)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      break;
+      case 7:
+      $requisiciones=Requisicione::where('estado',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      break;
+      default:
+      $requisiciones=Requisicione::where('estado','<>',2)->where('estado','<>',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+    }
+
+    $html="";
+
+    $html.='<table class="table table-striped table-bordered" id="latabla">
+    <thead>
+      <th width="3%">N°</th>
+      <th width="10%">Código</th>
+      <th>Actividad</th>
+      <th>Unidad administrativa</th>
+      <th>Fuente de financiamiento</th>
+      <th>Responsable</th>
+      <th>Observaciones</th>
+      <th>Estado</th>
+      <th>Accion</th>
+    </thead>
+    <tbody>';
+
+    foreach($requisiciones as $key => $requisicion):
+      $html.='<tr>
+      <td>'.($key+1).'</td>
+      <td>'.$requisicion->codigo_requisicion.'</td>
+      <td>'.$requisicion->actividad.'</td>
+      <td>'. $requisicion->unidad->nombre_unidad.'</td>';
+      if(isset($requisicion->cuenta_id)):
+      $html.='<td>'.$requisicion->cuenta->nombre.'</td>';
+      else:
+      $html.='<td>Sin definir</td>';
+      endif;
+      $html.='<td>'.$requisicion->user->empleado->nombre.'</td>
+      <td>'.$requisicion->observaciones.'</td>
+      <td>'.Requisicione::estado_ver($requisicion->id).'</td>
+      <td><a href="requisiciones/'.$requisicion->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+      </tr>';
+    endforeach;
+    $html.='</tbody></table>';
+
+    return array(1,$html);
+  
+  }
+
+  public static function requisiciones_por_anio($anio)
+  {
+    $html="";
+
+    try{
+      $requisiciones=Requisicione::whereYear('created_at',$anio)->orderBy('created_at','DESC')->get();
+
+      $html.='<table class="table table-striped table-bordered" id="latabla">
+    <thead>
+      <th width="3%">N°</th>
+      <th width="10%">Código</th>
+      <th>Actividad</th>
+      <th>Unidad administrativa</th>
+      <th>Fuente de financiamiento</th>
+      <th>Responsable</th>
+      <th>Observaciones</th>
+      <th>Estado</th>
+      <th>Acción</th>
+    </thead>
+    <tbody>';
+
+    foreach($requisiciones as $key => $requisicion):
+      $html.='<tr>
+      <td>'.($key+1).'</td>
+      <td>'.$requisicion->codigo_requisicion.'</td>
+      <td>'.$requisicion->actividad.'</td>
+      <td>'. $requisicion->unidad->nombre_unidad.'</td>';
+      if(isset($requisicion->cuenta_id)):
+      $html.='<td>'.$requisicion->cuenta->nombre.'</td>';
+      else:
+      $html.='<td>Sin definir</td>';
+      endif;
+      $html.='<td>'.$requisicion->user->empleado->nombre.'</td>
+      <td>'.$requisicion->observaciones.'</td>
+      <td>'.Requisicione::estado_ver($requisicion->id).'</td>
+      <td><a href="requisiciones/'.$requisicion->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+      </tr>';
+    endforeach;
+    $html.='</tbody></table>';
+
+    return array(1,$html);
+    }catch(Exception $e){
+      $html.='<table class="table table-striped table-bordered" id="latabla">
+    <thead>
+      <th width="3%">N°</th>
+      <th width="10%">Código</th>
+      <th>Actividad</th>
+      <th>Unidad administrativa</th>
+      <th>Fuente de financiamiento</th>
+      <th>Responsable</th>
+      <th>Observaciones</th>
+      <th>Estado</th>
+      <th>Acción</th>
+    </thead>
+    <tbody></tbody></table>';
+    return array(-1,$html);
+    }
+  
   }
 }

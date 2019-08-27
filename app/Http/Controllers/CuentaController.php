@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cuentaproy;
 use App\Cuenta;
+use App\CuentaDetalle;
 use App\Proyecto;
 use App\Http\Requests\CuentaRequest;
 use App\Http\Requests\CuentauRequest;
+use DB;
 
 class CuentaController extends Controller
 {
@@ -23,7 +25,7 @@ class CuentaController extends Controller
      */
     public function index()
     {
-        $cuentas = Cuentaproy::all();
+        $cuentas = Cuenta::all();
         return view('cuentas.index',compact('cuentas'));
     }
 
@@ -34,8 +36,8 @@ class CuentaController extends Controller
      */
     public function create()
     {
-        /*$proyectos=Proyecto::all();
-        return view('cuentas.create',compact('proyectos'));*/
+        
+        return view('cuentas.create');
     }
 
     /**
@@ -46,7 +48,31 @@ class CuentaController extends Controller
      */
     public function store(CuentaRequest $request)
     {
-        Cuentaproy::create($request->All());
+        try{
+            DB::beginTransaction();
+            $cuenta=Cuenta::create([
+                'nombre'=>$request->nombre,
+                'monto_inicial'=>$request->monto_inicial,
+                'banco_id'=>$request->banco_id,
+                'numero_cuenta'=>$request->numero_cuenta,
+                'fecha_de_apertura'=>invertir_fecha($request->fecha_de_apertura),
+                'principal'=>0   
+            ]);
+
+            $detalle=CuentaDetalle::create([
+                'id'=>date('Yididus'),
+                'cuenta_id'=>$cuenta->id,
+                'accion'=>'Apertura de cuenta',
+                'monto'=>$request->monto_inicial,
+                'tipo'=>1
+            ]);
+            DB::commit();
+            return array(1,"exito");
+        }catch(Exception $e){
+            DB::rollback();
+            return array(-1,"error",$cuenta);
+        }
+        
     }
 
     /**

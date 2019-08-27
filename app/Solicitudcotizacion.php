@@ -250,7 +250,7 @@ class Solicitudcotizacion extends Model
                       <span style="font-weight: normal;">Fuente de financiamiento:</span>
                       </div>
                       <div class="col-md-3">
-                      <span><b>'.$solicitud->requisicion->fondocat->categoria.'</b></span>
+                      <span><b>'.$solicitud->requisicion->cuenta->nombre.'</b></span>
                       </div>
                       <!--div class="col-md-3">
                       <span style="font-weight: normal;">Entrega de bienes:</span>

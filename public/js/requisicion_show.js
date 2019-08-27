@@ -1,5 +1,5 @@
 $(document).ready(function(e){
-      
+      info(elid);
       listarformapagos();
       inicializar_tabla("tabla_requi");
       var token = $('meta[name="csrf-token"]').attr('content');
@@ -92,6 +92,32 @@ $(document).ready(function(e){
         });
       });
 
+      ///aprobar la requisicion
+      $(document).on("click","#modal_aprobar",function(e){
+        $("#modal_aprobar_requisicion").modal("show");
+      });
+
+      $(document).on("click","#aprobar_requisicion", function(e){
+        var datos=$("#form_aprobarrequi").serialize();
+        modal_cargando();
+        $.ajax({
+          url:'../requisiciones/aprobar',
+          type:'POST',
+          dataType:'json',
+          data:datos,
+          success: function(json){
+            if(json[0]==1){
+              toastr.success("Aprobada con exito");
+              swal.closeModal();
+              location.reload();
+            }else{
+              toastr.error("Ocurrió un error");
+              swal.closeModal();
+            }
+          }
+        });
+      });
+
       $(document).on("click","#editar_detalle",function(e){
         e.preventDefault();
         var id=$(this).attr("data-id");
@@ -109,6 +135,8 @@ $(document).ready(function(e){
           }
         })
       });
+
+
 
         $(document).on("click","#editar_eldetalle",function(e){
           var id=$("#elcodigo_detalle").val();
@@ -697,4 +725,27 @@ $(document).ready(function(e){
   function cambiar(){
     var pdrs = document.getElementById('file-upload').files[0].name;
     document.getElementById('info3').innerHTML = pdrs;
+}
+
+function info(id){
+  modal_cargando();
+      $.ajax({
+        url:'../requisiciones/informacion/'+id,
+        type:'GET',
+        data:{},
+        success: function(json){
+          if(json[0]==1){
+            swal.closeModal();
+            $("#info_aquii").empty();
+            $("#body_requi").empty()
+            $("#info_aquii").html(json[1]);
+            $("#body_requi").html(json[2]);
+            inicializar_tabla("tabla_requi2");
+          }else{
+            swal.closeModal();
+          }
+        }, error: function(error){
+          swal.closeModal();
+        }
+      });
 }

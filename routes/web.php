@@ -222,6 +222,10 @@ Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 
 Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/portipo/{tipo}','RequisicionController@portipo');
+Route::get('requisiciones/poranio/{anio}','RequisicionController@poranio');
+Route::get('requisiciones/informacion/{id}','RequisicionController@informacion');
+Route::post('requisiciones/aprobar','RequisicionController@aprobar');
 Route::get('requisiciones/mostrarcontrato/{id}','RequisicionController@mostrar_contrato');
 Route::post('requisiciones/subir','RequisicionController@subir');
 Route::post('requisiciones/subircontrato','RequisicionController@subircontrato');

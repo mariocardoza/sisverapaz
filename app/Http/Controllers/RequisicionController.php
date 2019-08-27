@@ -31,7 +31,11 @@ class RequisicionController extends Controller
     {
         Auth()->user()->authorizeRoles(['admin','uaci']);
         $requisiciones = Requisicione::orderBy('codigo_requisicion')->get();
-        return view('requisiciones.index',compact('requisiciones'));
+        //$anios=DB::select("select  FROM requisiciones");
+        
+        $anios=DB::table('requisiciones')->distinct()->get(['anio']);
+       //dd($los);
+        return view('requisiciones.index',compact('requisiciones','anios'));
     }
 
     public function porusuario()
@@ -86,10 +90,11 @@ class RequisicionController extends Controller
               'id'=>date('Yidisus'),
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
-              'fondocat_id' => $request->fondo,
               'user_id' => Auth()->user()->id,
               'observaciones' => $request->observaciones,
-              'unidad_id'=>$request->unidad_id
+              'unidad_id'=>$request->unidad_id,
+              'anio'=>date('Y'),
+              'fecha_actividad'=>$request->fecha_actividad
               ]);
             /*foreach($requisiciones as $requi){
               $elid=Requisiciondetalle::retonrar_id_insertar();
@@ -183,6 +188,33 @@ class RequisicionController extends Controller
     public function destroy(Requisicion $requisicione)
     {
 
+    }
+
+    public static function portipo($tipo){
+      $retorno=Requisicione::requisiciones_por_tipo($tipo);
+      return $retorno;
+    }
+
+    public static function poranio($anio){
+      $retorno=Requisicione::requisiciones_por_anio($anio);
+      return $retorno;
+    }
+
+    public static function informacion($id){
+      $retorno=Requisicione::informacion($id);
+      return $retorno;
+    }
+
+    public function aprobar(Request $request){
+      try{
+        $requisicion=Requisicione::find($request->requisicion_id);
+        $requisicion->cuenta_id=$request->cuenta_id;
+        $requisicion->estado=3;
+        $requisicion->save();
+        return array(1,"eito");
+      }catch(Exception $e){
+        return array(1,"error",$e->getMessage());
+      }
     }
 
     public function subircontrato(Request $request)

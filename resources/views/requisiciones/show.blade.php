@@ -98,7 +98,7 @@
                               <button class="btn btn-primary" id="agregar_nueva">Agregar</button>
                             </center>
                 <?php endif; ?>
-                        </div>
+                </div>
             </div>
           </div>
           <div class="panel panel-primary" id="soli" style="display: none;">
@@ -213,70 +213,8 @@
         <div class="col-md-3">
           <div class="panel panel-primary">
               <div class="panel-heading">Información sobre la requisición <b>{{$requisicion->codigo_requisicion}}<b> </div>
-              <div class="panel-body">
-                <div class="pull-right">
-                  @if($requisicion->estado==5)
-                    <a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>
-                  @elseif($requisicion->estado==6)
-                  <a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>
-                  @elseif($requisicion->estado==7)
-                  <a title="Descargar" href="{{ url('requisiciones/bajar/'.$requisicion->nombre_archivo) }}" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>
-                  @else
-                    <a title="Imprimir requisición" href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
-                  @endif
-                </div>
-                <br><br>
-                <div class="col-sm-12">
-                  <span><center>{!! $elestado !!}</center></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-sm-12">
-                  <span style="font-weight: normal;">Requisición N°:</span>
-                </div>
-                <div class="col-sm-12">
-                  <span><b>{{ $requisicion->codigo_requisicion}}</b></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-sm-12">
-                  <span style="font-weight: normal;">Actividad:</span>
-                </div>
-                <div class="col-sm-12">
-                  <span><b>{{$requisicion->actividad}}</b></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-sm-12">
-                  <span style="font-weight: normal;">Responsable:</span>
-                </div>
-                <div class="col-sm-12">
-                  <span><b>{{$requisicion->user->empleado->nombre}}</b></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-sm-12">
-                  <span style="font-weight: normal;">Fuente de financiamiento:</span>
-                </div>
-                <div class="col-sm-12">
-                  <span><b>{{$requisicion->fondocat->categoria}}</b></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-sm-12">
-                  <span style="font-weight: normal;">Unidad solicitante:</span>
-                </div>
-                <div class="col-sm-12">
-                  <span><b>{{$requisicion->unidad->nombre_unidad}}</b></span>
-                </div>
-                <div class="clearfix"></div>
-                <hr style="margin-top: 3px; margin-bottom: 3px;">
-                <div class="col-xs-12">
-                  <span style="font-weight: normal;">Observaciones:</span>
-                </div>
-                <div class="col-xs-12">
-                  <span><b>{{$requisicion->observaciones}}</b></span>
-                </div>
+              <div class="panel-body" id="info_aquii">
+                
                 
 
                       <br>

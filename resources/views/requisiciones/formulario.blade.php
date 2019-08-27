@@ -20,14 +20,14 @@
       </div>
   </div>
 
-  <div class="form-group">
+  <!--div class="form-group">
     <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
     <div class="col-md-6">
       {{Form::select('',$fondos,null,['class'=>'chosen-select-width','id'=>'fondo'])}}
   
 
     </div>
-  </div>
+  </div-->
 
   <div class="form-group">
     <label for="" class="col-md-4 control-label">Observaciones</label>

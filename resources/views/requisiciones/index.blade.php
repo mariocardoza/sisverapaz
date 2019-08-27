@@ -16,16 +16,32 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-              <div class="btn-group pull-right">
-                <a href="{{ url('/requisiciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                <a href="{{ url('/requisiciones?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/requisiciones?estado=2') }}" class="btn btn-primary">Papelera</a>
+              <h3 class="box-title"></h3>
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="btn-group">
+                    <a href="{{ url('/requisiciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                    <a href="javascript:void(0)" data-tipo="1" class="btn btn-primary elver">Activos</a>
+                    <a href="javascript:void(0)" data-tipo="2" class="btn btn-primary elver">Rechazados</a>
+                    <a href="javascript:void(0)" data-tipo="7" class="btn btn-primary elver">Finalizados</a>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <select name="" id="select_anio" class="chosen-select pull-right">
+                    <option selected value="0">Seleccione un año</option>
+                    @foreach ($anios as $anio)
+                        <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
+              
+
+              
           </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive">
-              <table class="table table-striped table-bordered table-hover" id="example2">
+            <div class="box-body table-responsive" id="aqui_tabla">
+              <table class="table table-striped table-bordered" id="latabla">
                 <thead>
                   <th width="3%">N°</th>
                   <th width="10%">Código</th>
@@ -38,76 +54,7 @@
                   <th>Accion</th>
                 </thead>
                 <tbody>
-                  @foreach($requisiciones as $key => $requisicion)
-                  <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td>{{$requisicion->codigo_requisicion }}</td>
-                    <td>{{ $requisicion->actividad }}</td>
-                    <td>{{ $requisicion->unidad->nombre_unidad }}</td>
-                    <td>{{$requisicion->fondocat->categoria}}</td>
-                    <td>{{ $requisicion->user->empleado->nombre }}</td>
-                    <td>{{ $requisicion->observaciones }}</td>
-                    @if($requisicion->estado == 1)
-                    <td><span class="label-primary">En espera</span></td>
-                    <td>
-                      <div class="btn-group">
-                        <a href="{{ url('requisiciones/'.$requisicion->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                        <!--a href="{{ url('reportesuaci/requisicionobra/'.$requisicion->id) }}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                        <a href="{{ url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></a-->
-                      </div>
-                    </td>
-                  @elseif($requisicion->estado == 2)
-                      <td><span class="label-danger">Rechazada</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          
-                        </div>
-                      </td>
-                    @elseif( $requisicion->estado == 3)
-                      <td><span class="label-warning">Aprobado</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <!--a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank" title="Imprimir requisicion"><i class="fa fa-file-pdf-o"></i></a>
-                          <a href="{{ url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></a-->
-                        </div>
-                      </td>
-                    @elseif ( $requisicion->estado == 4)
-                      <td><span class="label-success">Espera de orden de compra</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          
-                        </div>
-                      </td>
-                    @elseif( $requisicion->estado == 5)
-                      <td><span class="label-success">Espera de recibir suministros</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          
-                        </div>
-                      </td>
-                    @elseif( $requisicion->estado == 6)
-                    <td><span class="label-success">Suministros recibidos</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          
-                        </div>
-                      </td>
-                      @elseif( $requisicion->estado == 7)
-                      <td><span class="label-success">Finalizado</span></td>
-                        <td>
-                          <div class="btn-group">
-                            <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
-                            
-                          </div>
-                        </td>
-                    @endif
-                  </tr>
-                  @endforeach
+                  
                 </tbody>
               </table>
             </div>
@@ -116,4 +63,75 @@
           <!-- /.box -->
         </div>
 </div>
+@endsection
+@section('scripts')
+<script> 
+  $(document).ready(function(e){
+    cargar_requisiciones(tipo=1);
+
+    $(document).on("click",".elver",function(e){
+    var tipo=$(this).attr("data-tipo");
+    cargar_requisiciones(tipo);
+    });
+
+    $(document).on("change","#select_anio",function(e){
+      var anio=$(this).val();
+      if(anio!=''){
+        cargar_poranio(anio);
+      }
+      
+    });
+  });
+
+
+  function cargar_poranio(anio){
+    modal_cargando();
+    $.ajax({
+      url:'requisiciones/poranio/'+anio,
+      type:'get',
+      data:{},
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          
+          swal.closeModal();
+          
+        }
+        else{
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          swal.closeModal();
+        }
+
+        inicializar_tabla("latabla");
+      }
+    });
+  }
+
+  function cargar_requisiciones(tipo){
+    modal_cargando();
+    $.ajax({
+      url:'requisiciones/portipo/'+tipo,
+      type:'get',
+      data:{},
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          
+          swal.closeModal();
+          
+        }
+        else{
+          swal.closeModal();
+        }
+
+        inicializar_tabla("latabla");
+      }
+    });
+  }
+</script>
 @endsection

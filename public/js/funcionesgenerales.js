@@ -81,7 +81,7 @@
             } ],
               language: {
                   processing: "Búsqueda en curso...",
-                  search: "Búscar:",
+                  search: "Buscar:",
                   lengthMenu: "Mostrar _MENU_ Elementos",
                   info: "Mostrando _START_ de _END_ de un total de _TOTAL_ Elementos",
                   infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
@@ -271,7 +271,7 @@ function baja(id,ruta)
     $('#'+tabla).DataTable({
               language: {
                   processing: "Búsqueda en curso...",
-                  search: "Búscar:",
+                  search: "Buscar:",
                   lengthMenu: "Mostrar _MENU_ Elementos",
                   info: "Mostrando _START_ de _END_ de un total de _TOTAL_ elementos",
                   infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
