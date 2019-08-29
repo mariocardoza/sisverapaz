@@ -5,12 +5,12 @@ use Carbon\Carbon; ?>
 
 @section('migasdepan')
 <h1>
-        Bitacora
-        <small>Control de bitacora</small>
+        Bitácora
+        <small>Control de bitácora</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Listado de bitacoras</li>
+        <li class="active">Listado de bitácoras</li>
       </ol>
 @endsection
 

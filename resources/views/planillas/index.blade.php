@@ -10,19 +10,18 @@
   </ol>
 @endsection
 @php
-$tipo_pago= ['1'=>'Planilla','2'=>'Por contrato'];
+$tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
 @endphp
 @section('content')
   <div class="row">
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <div class="btn-group pull-right">
+          <h3 class="box-title">Listado</h3>
             <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-          </div>
         </div>
 
-        <div class="box-body table-responsive no-padding">
+        <div class="box-body table-responsive">
           <table class="table table-striped table-bordered table-hover" id="example2">
             <thead>
               <th>Fecha </th>
@@ -48,7 +47,9 @@ $tipo_pago= ['1'=>'Planilla','2'=>'Por contrato'];
               @endforeach
             </tbody>
           </table>
+          <div class="pull-right">
 
+          </div>
         </div>
       </div>
     </div>

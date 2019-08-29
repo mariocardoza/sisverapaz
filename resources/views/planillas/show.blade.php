@@ -29,6 +29,21 @@
                 $columna[$i]=0;
             }
         @endphp
+        @if($datoplanilla->tipo_pago==1)
+            <b>
+            Del 01 al 
+            @php
+                setlocale(LC_TIME, 'spanish');
+                $fecha = $dato[2]."-".$dato[1]."-".$dato[0];
+                $timestamp = strtotime( $fecha );
+                $diasdelmes = date( "t", $timestamp );
+                echo $diasdelmes;
+            @endphp
+            de 
+            {{App\Datoplanilla::obtenerMes($dato[1])}}
+            </b>
+            <br>
+        @endif
         Fecha de generación: <b>{{$dato[2]."-".$dato[1]."-".$dato[0]}}</b>
             <table class="table table-striped table-bordered table-hover" >
                 <thead>
