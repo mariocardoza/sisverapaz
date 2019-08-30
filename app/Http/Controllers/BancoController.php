@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Banco;
-use App\Http\Requests\BancoRequest;
+use Validator;
 
 class BancoController extends Controller
 {
@@ -36,13 +36,21 @@ class BancoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BancoRequest $request)
+    public function store(Request $request)
     {
-        $banco= new Banco();
-        $banco->nombre=$request->nombre;
-        $banco->save();
+        $this->validar($request->all())->validate();
+        Banco::create([
+            'nombre'=>$request->nombre
+        ]);
 
-        return redirect('bancos')->with('mensaje','Banco registrado');
+        return array(1,"éxito");
+    }
+
+    protected function validar(array $data)
+    {
+        return Validator::make($data, [
+            'nombre' => 'required|unique:bancos',
+        ]);
     }
 
     /**
@@ -65,7 +73,8 @@ class BancoController extends Controller
     public function edit($id)
     {
         $banco=Banco::find($id);
-        return view('bancos.edit',compact('banco'));
+        
+        return array(1,"exitoso",$banco);
     }
 
     /**
@@ -84,7 +93,7 @@ class BancoController extends Controller
         $banco->nombre=$request->nombre;
         $banco->save();
 
-        return redirect('bancos')->with('mensaje','Registro modificado con éxito');
+        return array(1,"éxito");
     }
 
     /**

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Banco extends Model
 {
+	protected $guarded=[];
+	
     public static function bancos(){
         $bancos=Banco::where('estado',true)->orderBy('nombre')->get();
         $arrayB= [];

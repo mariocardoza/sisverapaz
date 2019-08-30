@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CargoRequest;
 use App\Cargo;
-use Carbon\Carbon;
-use App\Bitacora;
+use Validator;
 
 class CargoController extends Controller
 {
@@ -69,10 +68,20 @@ class CargoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CargoRequest $request)
+    public function store(Request $request)
     {
-        Cargo::create($request->All());
-        return redirect('cargos')->with('mensaje', 'Cargo registrado');
+        $this->validar($request->all())->validate();
+        Cargo::create([
+            'cargo'=>$request->cargo
+        ]);
+        return array(1,"éxito");
+    }
+
+    protected function validar(array $data)
+    {
+        return Validator::make($data, [
+            'cargo' => 'required|unique:cargos',
+        ]);
     }
 
     /**
@@ -83,8 +92,7 @@ class CargoController extends Controller
      */
     public function show($id)
     {
-        $cargo = Cargo::findorFail($id);
-        return view('cargos.show',compact('cargo'));
+        //
     }
 
     /**
@@ -95,8 +103,8 @@ class CargoController extends Controller
      */
     public function edit($id)
     {
-        $cargo = Cargo::findorFail($id);
-        return view('cargos.edit',compact('cargo'));
+        $cargo = Cargo::find($id);
+        return array(1,"exitoso",$cargo);
     }
 
     /**
@@ -106,13 +114,16 @@ class CargoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CargoRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $cargo = Cargo::find($id);
-        $cargo->fill($request->All());
+        if($cargo->cargo!=$request->cargo){
+            $this->validate($request,['cargo'=> 'required|unique:cargos|min:5']);
+        }
+
         $cargo->save();
-        bitacora('Modificó Cargo');
-        return redirect('/cargos')->with('mensaje','Registro modificado');
+
+        return array(1,"éxito");
     }
 
     /**
