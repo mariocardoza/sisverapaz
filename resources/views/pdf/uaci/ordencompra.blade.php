@@ -20,7 +20,7 @@
                       </tr>
                       <tr>
                         <td width="35%"></td>
-                        <td width="30%"><hr style="color:blue; border:solid;border-width:3px;"><hr style="color:red; border:solid;border-width:3px;"></td>
+                        <!--td width="30%"><hr style="color:blue; border:solid;border-width:3px;"><hr style="color:red; border:solid;border-width:3px;"></td-->
                         <td width="35%"></td>
                       </tr>
                     </table>
@@ -72,7 +72,7 @@
                                 @endphp
                                 <td><center>{{$correlativo}}</center></td>
 
-                                <td>{{$detalle->descripcion}}</td>
+                                <td>{{$detalle->material->nombre}}</td>
                                 <td><center>{{$detalle->unidadmedida->nombre_medida}}</center> </td>
                                 <td><center>{{$detalle->cantidad}}</center></td>
                                 <td align="left">${{number_format($detalle->precio_unitario,2)}} </td>
@@ -134,7 +134,7 @@
                               @endforeach
                               {{$ordencompra->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
                             @elseif($ordencompra->cotizacion->solicitudcotizacion->tipo==2)
-                              {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->fondocat->categoria}}
+                              {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->cuenta->nombre}}
                             @endif
                             </td>
                           </tr>

@@ -24,9 +24,8 @@ class CuentaRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero_de_cuenta' => 'required|unique:cuentas',
-            'proyecto_id' => 'required|unique:cuentas',
-            'banco' => 'required',
+            'numero_cuenta' => 'required|unique:cuentas',
+            'banco_id' => 'required',
             'fecha_de_apertura' => 'required',
             'monto_inicial' => 'required|numeric',
         ];

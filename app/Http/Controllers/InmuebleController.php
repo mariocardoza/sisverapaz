@@ -81,7 +81,8 @@ class InmuebleController extends Controller
         $inmueble->latitude            = $all['object']['latitude'];
         $inmueble->longitude           = $all['object']['longitude'];
         $inmueble->metros_acera        = $all['object']['metros_acera'];
-        $inmueble->medida_inmueble     = $all['object']['medida_inmueble'];
+        $inmueble->ancho_inmueble      = $all['object']['ancho_inmueble'];
+        $inmueble->largo_inmueble      = $all['object']['largo_inmueble'];
         $inmueble->numero_escritura    = $all['object']['numero_escritura'];
         $inmueble->numero_catastral    = $all['object']['numero_catastral'];
         $inmueble->direccion_inmueble  = $all['object']['direccion_inmueble'];
@@ -96,7 +97,7 @@ class InmuebleController extends Controller
         }else{
           return array(
             'response' => false,
-            'message' => 'Lo sentimos pero no puedes agregar dos veces el mismo impuesto'
+            'message' => 'Lo sentimos pero no puedes agregar dos veces el inmueble'
           );
         }
     }

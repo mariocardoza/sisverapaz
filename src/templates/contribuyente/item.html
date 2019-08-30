@@ -60,8 +60,7 @@
               <tr>
                 <th class="text-center"># Catastral</th>
                 <th class="text-center"># Escritura</th>
-                <th class="text-left">Medida</th>
-                <th class="text-left">Metro Acera</th>
+                <th class="text-center">Metro Acera</th>
                 <th class="text-center">Ubicacion</th>
                 <th class="text-center">Estado</th>
                 <th class="text-center"></th>
@@ -71,8 +70,7 @@
               <tr ng-repeat="item in people.inmuebles">
                 <td class="text-center">(( item.numero_catastral ))</td>
                 <td class="text-center"><span class="label label-success">(( item.numero_escritura ))</span></td>
-                <td class="text-left">(( item.medida_inmueble ))</td>
-                <td class="text-left">(( item.metros_acera ))</td>
+                <td class="text-center">(( item.metros_acera | number: 2 ))</td>
                 <td class="text-center">
                   <button ng-click='onViewMap(item, $index)' class="btn btn-primary">Ver Ubicacion</button>
                 </td>
@@ -113,8 +111,10 @@
             <tr>
               <th class="text-center">#</th>
               <th class="text-center">Nombre</th>
-              <th class="text-left">Rubro</th>
-              <th class="text-left">Porcentaje</th>
+              <th class="text-center">Rubro</th>
+              <th class="text-center">Porcentaje</th>
+              <th class="text-center">Capital</th>              
+              <th class="text-center">Cobro</th>
               <th class="text-center">Estado</th>
               <th class="text-center"></th>
             </tr>
@@ -122,9 +122,11 @@
           <tbody>
             <tr ng-repeat="negocio in people.negocios">
               <td class="text-center">(( $index + 1 ))</td>
-              <td class="text-center">(( negocio.nombre ))</td>
-              <td class="text-left">(( negocio.rubro.nombre ))</td>
-              <td class="text-left">(( negocio.rubro.porcentaje ))</td>
+              <td class="text-center">(( negocio.nombre ))</td>              
+              <td class="text-center">(( negocio.rubro.nombre ))</td>
+              <td class="text-center">(( negocio.capital | currency: '$' ))</td>
+              <td class="text-center">(( (negocio.rubro.porcentaje * 100) | number: 2 ))% </td>
+              <td class="text-center">(( (negocio.capital * negocio.rubro.porcentaje) | currency: "$" ))</td>
               <td class="text-center">
                 <span class="label" ng-class="{ 'label-success' : negocio.estado == 1 ,  'label-danger' : negocio.estado == 0 }">
                   (( negocio.estado == 1 ? 'Activo' : 'Inactivo' ))
@@ -134,9 +136,6 @@
                 <div class="btn-group text-align">
                   <button class="btn btn-warning" ng-click='modalOpenCreateEditNegocio(true, people, $index)'>
                     <i class="fa fa-edit"></i>
-                  </button>
-                  <button class="btn btn-success" ng-click="onViewTipoServicio(negocio.id);">
-                    <i class="fa fa-fw fa-dollar"></i>
                   </button>
                   <button ng-click='onDesactivarNegocio(negocio);' class="btn " 
                     ng-class="( negocio.estado ? 'btn-primary' : 'btn-danger' )">

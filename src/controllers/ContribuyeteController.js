@@ -45,7 +45,7 @@ module.exports =  ["$scope", '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', 
     DTColumnBuilder.newColumn('telefono').withTitle('Telefono'),
     DTColumnBuilder.newColumn('dui').withTitle('DUI').notSortable(),
     DTColumnBuilder.newColumn('nit').withTitle('NIT').notSortable(),
-    DTColumnBuilder.newColumn(null).withTitle('Actions').notSortable()
+    DTColumnBuilder.newColumn(null).withTitle('Opciones').notSortable()
     .renderWith(actionsHtml)
   ]
 

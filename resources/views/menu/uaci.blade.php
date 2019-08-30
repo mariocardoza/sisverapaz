@@ -60,28 +60,4 @@
         <li><a href="{{ url('proveedores') }}"><i class="fa fa-circle-o"></i> Listado de Proveedores</a></li>
     </ul>
 </li>
-<li class="treeview">
-    <a href="#">
-        <i class="glyphicon glyphicon-duplicate"></i>
-        <span>Contratos</span>
-        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-    </a>
-    <ul class="treeview-menu">
-        <li><a href="{{ url('contratos') }}"><i class="fa fa-circle-o"></i> Listado de Contratos</a></li>
-        <li><a href="{{ url('contratos/create') }}"><i class="fa fa-circle-o"></i> Registro del Contrato</a></li>
-    </ul>
-</li>
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-edit"></i> <span>Tipos de contratos</span>
-        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-    </a>
-    <ul class="treeview-menu">
-        <li><a href="{{ url('tipocontratos?dato=1') }}"><i class="fa fa-circle-o"></i> Tipos de contratos</a></li>
-        <li><a href="{{ url('tipocontratos/create') }}"><i class="fa fa-circle-o"></i> Registro de Tipo contratos</a></li>
-    </ul>
-</li>
+

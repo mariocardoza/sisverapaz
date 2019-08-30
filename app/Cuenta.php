@@ -19,4 +19,14 @@ class Cuenta extends Model
     {
     	return $this->belongsTo('App\Pago');
     }
+
+    public function banco()
+    {
+      return $this->belongsTo('App\Banco');
+    }
+
+    public function cuentadetalle()
+    {
+      return $this->hasMany('App\CuentaDetalle');
+    }
 }

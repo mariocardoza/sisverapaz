@@ -33,14 +33,18 @@
             {{ Form::open(['action'=> 'PlanillaController@store', 'class' => 'form-horizontal']) }}
             @include('planillas.planilla')
             <div class="form-group">
-							<input type="hidden" name="tipo" value="{{$i+1}}">
-  						<div class="col-md-6 col-md-offset-4">
-  							<button type="submit" class="btn btn-success">
-  								<span class="glyphicon glyphicon-floppy-disk">Registrar</span>
-  							</button>
-  						</div>
-  						{{ Form::close() }}
-  					</div>
+				<input type="hidden" name="tipo" value="{{$i+1}}">
+  				<div class="col-md-6 col-md-offset-4">
+					@if(App\Datoplanilla::comprobar($cuadro[$i]))
+						<button type="submit" class="btn btn-success">
+					@else
+						<button type="submit" class="btn btn-success">
+					@endif
+  						<span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+					  </button>
+  				</div>
+			</div>
+				{{ Form::close() }}
 				</div>
 			</div>
 		@endfor

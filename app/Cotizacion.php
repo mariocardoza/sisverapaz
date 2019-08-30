@@ -50,12 +50,24 @@ class Cotizacion extends Model
         return $this->hasOne('App\Ordencompra');
     }
 
+    public static function total_cotizacion($id)
+    {
+        $cotizacion=Cotizacion::find($id);
+        $total=0.0;
+        foreach($cotizacion->detallecotizacion as $detalle)
+        {
+            $total=$total+($detalle->precio_unitario*$detalle->cantidad);
+        }
+
+        return $total;
+    }
+
     public static function ver_cotizacion($id){
         $cotizacion=Cotizacion::find($id);
         $html="";
         foreach ($cotizacion->Detallecotizacion as $detalle) {
             $html.='<tr>
-                <td>'.mb_strtoupper($detalle->descripcion).'</td>
+                <td>'.mb_strtoupper($detalle->material->nombre).'</td>
                 <td>'.$detalle->marca.'</td>
                 <td>'.strtoupper($detalle->unidadmedida->nombre_medida).'</td>
                 <td>'.$detalle->cantidad.'</td>

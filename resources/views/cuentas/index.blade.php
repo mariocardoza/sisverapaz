@@ -16,28 +16,31 @@
     <div class="box">
     <div class="box-header">
       <h3 class="box-tittle">Listado</h3>
-      <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
-      <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
+      <div class="btn-group">
+          <a href="javascript:void(0)" id="modal_registrar" class="btn btn-success">Registrar</a>
+          <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
+          <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
+      </div>
     </div>
 
     <div class="box-body table-responsive">
       <table class="table table-striped table-bordered table-hover" id="example2">
         <thead>
-          <!--th>Nombre</th-->
-          <th>Monto</th>
+          <th>N°</th>
+          <th>Nombre</th>
           <th>Número de cuenta</th>
+          <th>Monto</th>
           <th>Banco</th>
           <th>Acción</th>
-          <?php $contador = 0 ?>
         </thead>
       <tbody>
-        @foreach($cuentas as $cuenta)
+        @foreach($cuentas as $index=> $cuenta)
         <tr>
-          <?php $contador++ ?>
-          <!--td>{{ $cuenta->nombre }}</td-->
-          <td>{{ $cuenta->monto_inicial }}</td>
+          <td>{{$index+1}}</td>
+          <td>{{ $cuenta->nombre }}</td>
           <td>{{ $cuenta->numero_cuenta }}</td>
-          <td>{{ $cuenta->banco }}</td>
+          <td>${{ number_format($cuenta->monto_inicial,2) }}</td>
+          <td>{{ $cuenta->banco->nombre }}</td>
           
           <td>
             @if($cuenta->estado == 1)
@@ -66,4 +69,40 @@
   </div>
   </div>
 </div>
+@include('cuentas.modales')
+@endsection
+@section('scripts')
+<script>
+  $(document).ready(function(e){
+    
+    $(document).on("click","#modal_registrar",function(e){
+      $("#modal_registrar_cuenta").modal("show");
+    });
+
+    $(document).on("click","#registrar_cuenta",function(e){
+      var datos=$("#form_cuenta").serialize();
+      modal_cargando();
+      $.ajax({
+        url:'cuentas',
+        type:'POST',
+        dataType:'json',
+        data:datos,
+        success:function(json){
+          if(json[0]==1){
+            toastr.success("cuenta registrada exitosamente");
+            location.reload();
+          }else{
+            swal.closeModal();
+            toastr.error("Ocurrió un error");
+          }
+        },error: function(error){
+          $.each(error.responseJSON.errors,function(index,value){
+	          toastr.error(value);
+	        });
+          swal.closeModal();
+        }
+      });
+    });
+  });
+</script>
 @endsection

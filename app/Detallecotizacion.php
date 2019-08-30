@@ -16,4 +16,9 @@ class Detallecotizacion extends Model
     public function unidadmedida(){
     	return $this->belongsTo("App\Unidadmedida",'unidad_medida');
     }
+
+    public function material()
+    {
+        return $this->belongsTo('App\Materiales','material_id');
+    }
 }

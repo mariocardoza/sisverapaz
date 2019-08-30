@@ -8,13 +8,19 @@
       ng-submit="onSaveEditNegocio()">
       <div class="box-body">
         <div class="row">
-            <div class="form-group col-xs-6">
+            <div class="form-group col-xs-4">
               <label for="nombretxt">Nombre: </label>
               <input type="text" class="form-control" ng-model="negocio.nombre" required
                 id="nombretxt" placeholder="Digite el nombre del negocio" />
             </div>
 
-            <div class="form-group col-xs-6">
+            <div class="form-group col-xs-4">
+              <label for="nombretxt">Capital: </label>
+              <input type="number" class="form-control" ng-model="negocio.capital" required
+                id="nombretxt" step="any" placeholder="Digite el capital base del negocio" />
+            </div>
+
+            <div class="form-group col-xs-4">
               <label for="rubroselect">Rubro</label>
               <select name="rubroselect" id="rubroselect" class="form-control" ng-model='negocio.rubro_id' required>
                 <option></option>
@@ -35,7 +41,7 @@
         </div>
       </div>
       <div class="box-footer">
-        <button type="submit" ng-disabled="form.$invalid"
+        <button type="submit" ng-disabled="form.$invalid"  ng-if='negocio.direccion'
           class="btn btn-primary">
           (( isNew ? 'Editar' : 'Agregar' ))
         </button>

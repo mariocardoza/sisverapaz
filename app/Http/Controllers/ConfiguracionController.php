@@ -86,6 +86,24 @@ class ConfiguracionController extends Controller
       
     }
 
+    public function limitesproyecto(Request $request)
+    {
+      Configuracion::create([
+        'libre_gestion' => $request->libre_gestion,
+        'licitacion' => invertir_fecha($request->licitacion),
+      ]);
+      return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
+    }
+
+    public function ulimitesproyecto(Request $request,$id)
+    {
+        $configuracion = Configuracion::find($id);
+        $configuracion->libre_gestion = $request->libre_gestion;
+        $configuracion->licitacion = $request->licitacion;
+        $configuracion->save();
+      return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
+    }
+
     protected function validar_alcaldia(array $data)
     {
         return Validator::make($data, [

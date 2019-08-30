@@ -80,6 +80,37 @@
           </div>
         </div>
       </section>
+      <h3>Montos límites de proyectos</h3>
+      <section>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            @if($configuraciones != null)
+              {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ulimites', $configuraciones->id))) }}
+            @else
+              {{ Form::open(['action'=> 'ConfiguracionController@limites', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+            @endif
+            @include('configuraciones.limites')
+            @if($configuraciones != null)
+              <div class="form-group">
+                <div class="col-md-6 col-md-offset-4">
+                  <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-floppy-disk">Guardar</span>
+                  </button>
+                </div>
+              </div>
+            @else
+            <div class="form-group">
+              <div class="col-md-6 col-md-offset-4">
+                <button type="submit" class="btn btn-success">
+                  <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                </button>
+              </div>
+            </div>
+          @endif
+          {{Form::close()}}
+          </div>
+        </div>
+      </section>
   </div>
 
   
