@@ -67,7 +67,7 @@ class Cotizacion extends Model
         $html="";
         foreach ($cotizacion->Detallecotizacion as $detalle) {
             $html.='<tr>
-                <td>'.mb_strtoupper($detalle->descripcion).'</td>
+                <td>'.mb_strtoupper($detalle->material->nombre).'</td>
                 <td>'.$detalle->marca.'</td>
                 <td>'.strtoupper($detalle->unidadmedida->nombre_medida).'</td>
                 <td>'.$detalle->cantidad.'</td>

@@ -113,9 +113,7 @@ class CotizacionController extends Controller
             $requisicion->save();
 
               DB::commit();
-            return response()->json([
-              'mensaje' => 'exito',
-            ]);
+            return array(1,"exito",$solicitud->id);
           }catch(\Exception $e){
               DB::rollback();
             return response()->json([
@@ -220,7 +218,7 @@ class CotizacionController extends Controller
             {
                 Detallecotizacion::create([
                     'cotizacion_id' => $cotizacion->id,
-                    'descripcion' => $request->descripciones[$i],
+                    'material_id' => $request->descripciones[$i],
                     'marca' => $request->marcas[$i],
                     'unidad_medida' => $request->unidades[$i],
                     'cantidad' => $request->cantidades[$i],

@@ -9,7 +9,7 @@ class Requisicione extends Model
 {
   protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id','fecha_actividad','anio'];
   protected $primaryKey = "id";
-  protected $dates= ['fecha_actividad'];
+  protected $dates= ['fecha_actividad','fecha_baja'];
   public $incrementing = false;
 
   public static function correlativo()
@@ -116,22 +116,41 @@ class Requisicione extends Model
                         })->get();
     //$materiales=Materiales::where('estado',1)->get();
     $tabla='';
+    
+    $tabla.='<table class="table" id="latabla">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Unidad de medida</th>
+        <!--th>Cantidad</th-->
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="losmateriales">';
     foreach ($materiales as $key => $material) {
       $tabla.='<tr>
                 <td>'.($key+1).'</td>
                 <td>'.$material->nombre.'</td>
                 <td>'.$material->nombre_categoria.'</td>
-                <td>'.$material->nombre_medida.'</td>
-                <td><input type="number" class="form-control canti"></td>
+                <td>'.$material->nombre_medida.'
+                  <input type="hidden" name="materiales[]" value="'.$material->id.'"/>
+                </td>
+                <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
                 <td><button type="button" data-unidad="'.$material->elid.'" data-material="'.$material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
               </tr>';
     }
+    $tabla.='      
+    </tbody>
+  </table>';
 
     return array(1,"exito",$tabla,$materiales);
   }
 
   public static function informacion($id)
   {
+    $lasoli="";
     $html="";
     $tabla="";
     try{
@@ -211,11 +230,29 @@ class Requisicione extends Model
       </div>
       <div class="col-xs-12">
         <span><b>'.$requisicion->observaciones.'</b></span>
+      </div>';
+      if($requisicion->estado==2):
+      $html.='<div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-xs-12">
+        <span style="font-weight: normal;">Motivo por el que se rechazó:</span>
       </div>
-      <br>';
+      <div class="col-xs-12">
+        <span><b>'.$requisicion->motivo_baja.'</b></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-xs-12">
+        <span style="font-weight: normal;">Fecha en que se rechazó:</span>
+      </div>
+      <div class="col-xs-12">
+        <span><b>'.$requisicion->fecha_baja->format('d/m/Y').'</b></span>
+      </div>';
+      endif;
+      $html.='<br>';
       if($requisicion->estado==1):
       $html.='<a href="../requisiciones/'.$requisicion->id.'/edit" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Editar</a>
-      <a href="javascript:void(0)" data-id="'.$requisicion->id.'" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>';
+      <a href="javascript:void(0)" data-id="'.$requisicion->id.'" id="quita_requi" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>';
       endif;
 
       $tabla.='<div>';
@@ -243,7 +280,7 @@ class Requisicione extends Model
                         if($requisicion->estado==1):
                           $tabla.='<div class="btn-group">
                             <a id="editar_detalle" data-id="'.$detalle->id.'" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                              <button class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+                              <button data-id="'.$detalle->id.'" id="eliminar_detalle" class="btn btn-danger btn-xs" type="button"><span class="glyphicon glyphicon-trash"></span></button>
                           </div>';
                         endif;
                       $tabla.='</td>
@@ -252,14 +289,58 @@ class Requisicione extends Model
                   $tabla.='</tbody>
                 </table>';
               else:
+                if($requisicion->estado==2):
+                  $tabla.='<center>
+                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                    <span>La requisicion fue rechazada</span><br>
+                  </center>';
+                else:
                   $tabla.='<center>
                     <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                     <span>Agregue requerimientos de materiales</span><br>
                     <button class="btn btn-primary" id="agregar_nueva">Agregar</button>
                   </center>';
+                endif;
             endif;
           $tabla.='</div>';
-      return array(1,$html,$tabla);
+            $lasoli.='<div>';
+          if($requisicion->solicitudcotizacion->count() > 0): 
+              if(Requisicione::tiene_materiales($requisicion->id)):
+              $lasoli.='<center>
+                <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
+              </center>';
+              endif; 
+              $lasoli.='<div class="row">
+              <div class="col-xs-2">
+                <div class="col-sm-12">
+                  <span>&nbsp</span>
+                </div>';
+                foreach($requisicion->solicitudcotizacion as $soli):
+                $lasoli.='<button data-id="'.$soli->id.'" id="lasolicitud" class="btn btn-primary col-sm-12">'.$soli->numero_solicitud.'</button>';
+                  $lasoli.='<div class="clearfix"></div>
+                  <hr style="margin-top: 3px; margin-bottom: 3px;">';
+                endforeach;
+              $lasoli.='</div>
+              <div class="col-xs-9" id="aquilasoli">
+                
+              </div>
+            </div>';
+          else: 
+            if($requisicion->estado==1):
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>La requisición no ha sido aprobada</span><br>
+                </center>';
+            else:
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>Registre la solicitud</span><br>
+                  <button class="btn btn-primary" id="registrar_solicitud">Registrar</button>
+                </center>';
+            endif;
+          endif;
+          $lasoli.='</div>';
+      return array(1,$html,$tabla,$lasoli);
     }catch(Exception $e){
 
     }

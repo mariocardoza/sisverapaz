@@ -133,7 +133,7 @@ class Ordencompra extends Model
                      $total=$total+$detalle->precio_unitario*$detalle->cantidad;
                     $modal.='<tr>
                       <td>'.($key+1).'</td>
-                      <td>'.$detalle->descripcion.'</td>
+                      <td>'.$detalle->material->nombre.'</td>
                       <td>'.$detalle->marca.'</td>
                       <td>'.$detalle->unidadmedida->nombre_medida.'</td>
                       <td>'.$detalle->cantidad.'</td>

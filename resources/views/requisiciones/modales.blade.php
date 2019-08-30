@@ -16,21 +16,8 @@
     <div class="modal-body">
       <form id="form_detalle" class="form-horizontal">
         <input type="hidden" name="requisicion_id" class="elid" value="{{$requisicion->id}}">
-        <table class="table" id="latabla">
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Unidad de medida</th>
-              <th>Cantidad</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="losmateriales">
-            
-          </tbody>
-        </table>
+        <div id="dibujar_materiales"></div>
+        
       </form>
     </div>
     <!--div class="modal-footer">
@@ -58,7 +45,7 @@
     </div>
     <div class="modal-footer">
       <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      <button type="button" id="agregar_soli" class="btn btn-success">Agregar</button>
+      <button type="button" id="agregar_soli" class="btn btn-success">Agregar</button></center>
     </div>
   </div>
   </div>
@@ -176,7 +163,7 @@
               <div class="form-group">
                 <label for="" class="control-label"></label>
                 <div>
-                  {!! Form::select('cuenta_id',$cuentas,null,['class'=>'chosen-select-width','placeholder'=>'seleccione la fuente e financiamiento','required'=>'required']) !!}
+                  {!! Form::select('cuenta_id',$cuentas,null,['class'=>'chosen-select-width','placeholder'=>'seleccione la fuente e financiamiento','required'=>'']) !!}
                 </div>
               </div>
           
@@ -184,8 +171,71 @@
         </div>
         <div class="modal-footer">
           <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" id="aprobar_requisicion" class="btn btn-success">Agregar</button></center>
+          <button type="button" id="aprobar_requisicion" class="btn btn-success">Aprobar</button></center>
         </div>
       </div>
       </div>
     </div>
+
+
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_material" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="nom_material">Registrar material</h4>
+          </div>
+          <div class="modal-body">
+            {{ Form::open(['class' => '','id' => 'form_material']) }}
+                
+              <div class="form-group">
+                  <label for="" class="control-label">Cantidad</label>
+                  <div class="">
+                      <input type="number" autocomplete="off" min="1" steps="any" id="estecanti" required name="cantidad" value="" class="form-control">
+                      <input type="hidden" id="id_mat" name="material_id" value="" class="form-control">
+                      <input type="hidden" id="id_uni" name="unidad_medida" value="" class="form-control">
+                    <input type="hidden" id="requi_id" name="requisicion_id" value="" class="form-control">
+  
+              </div>
+              </div>
+                        
+            {{Form::close()}}
+          </div>
+          <div class="modal-footer">
+            <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="registrar_mate" class="btn btn-success">Agregar</button></center>
+          </div>
+        </div>
+        </div>
+  </div>
+
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_darbaja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="nom_material">Eliminar requisición</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::open(['class' => '','id' => 'form_darbaja']) }}
+              
+            <div class="form-group">
+                <label for="" class="control-label">Motivo</label>
+                <div class="">
+                    <input type="text" autocomplete="off" placeholder="Digite el motivo para eliminar"  required name="motivo_baja" value="" class="form-control">
+
+                <input type="hidden" name="requisicion_id" value="{{$requisicion->id}}" class="form-control">
+
+            </div>
+            </div>
+                      
+          {{Form::close()}}
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="dar_baja" class="btn btn-success">Agregar</button></center>
+        </div>
+      </div>
+      </div>
+</div>

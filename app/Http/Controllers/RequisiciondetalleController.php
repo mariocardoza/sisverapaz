@@ -48,7 +48,7 @@ class RequisiciondetalleController extends Controller
             'requisicion_id'=>$request->requisicion_id,
             'cantidad'=>$request->cantidad,
             'unidad_medida'=>$request->unidad_medida,
-            'materiale_id'=>$request->materiale_id,
+            'materiale_id'=>$request->material_id,
             'id'=>Requisiciondetalle::retonrar_id_insertar()
         ]);
         return array(1,"exito",$request->requisicion_id);
@@ -96,14 +96,14 @@ class RequisiciondetalleController extends Controller
                         <div class="form-group">
                           <label for="" class="col-md-4 control-label">Descripcion</label>
                             <div class="col-md-6">
-                                <input type="text" name="descripcion" class="form-control" value="'.$requisicion->descripcion.'"> 
+                                <input type="text" class="form-control" value="'.$requisicion->material->nombre.'"> 
                             </div>
                         </div>
 
                         <div class="form-group">
                           <label for="" class="col-md-4 control-label">Unidad de medida</label>
                           <div class="col-md-6">
-                          <select class="chosen-select-width" name="unidad_medida">';
+                          <select class="chosen-select-width">';
                           foreach ($medidas as $medida):
                              if($medida->id==$requisicion->unidad_medida):
                                 $modal.='<option selected value="'.$medida->id.'">'.$medida->nombre_medida.'</option>';
@@ -119,6 +119,7 @@ class RequisiciondetalleController extends Controller
                         <div class="form-group">
                           <label for="" class="col-md-4 control-label">Cantidad</label>
                             <div class="col-md-6">
+                            <input type="hidden" value="'.$requisicion->requisicion_id.'" name="requisicion_id">
                             <input type="text" name="cantidad" class="form-control" value="'.$requisicion->cantidad.'"> 
                               
                             </div>
@@ -166,7 +167,11 @@ class RequisiciondetalleController extends Controller
      */
     public function destroy(Requisiciondetalle $requisiciondetalle)
     {
+      try{
         $requisiciondetalle->delete();
-        return redirect('requisiciones')->with('mensaje','Se eliminó con exito');
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 }

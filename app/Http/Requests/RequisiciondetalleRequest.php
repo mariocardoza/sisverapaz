@@ -24,18 +24,8 @@ class RequisiciondetalleRequest extends FormRequest
     public function rules()
     {
         return [
-            'unidad_medida' => 'required',
             'cantidad' => 'required|numeric',
-            'materiale_id' => 'required',
-
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-        'unidad_medida.required'=>'La unidad de medida es obligatoria',
-        'materiale_id.required'=>'El material es obligatorio',
+            'requisicion_id'=>'required'
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Cotizacion;
 use DB;
 use Redirect;
 use Storage;
+use Validator;
 use App\Http\Requests\RequisicionRequest;
 
 class RequisicionController extends Controller
@@ -94,7 +95,7 @@ class RequisicionController extends Controller
               'observaciones' => $request->observaciones,
               'unidad_id'=>$request->unidad_id,
               'anio'=>date('Y'),
-              'fecha_actividad'=>$request->fecha_actividad
+              'fecha_actividad'=>invertir_fecha($request->fecha_actividad)
               ]);
             /*foreach($requisiciones as $requi){
               $elid=Requisiciondetalle::retonrar_id_insertar();
@@ -190,22 +191,23 @@ class RequisicionController extends Controller
 
     }
 
-    public static function portipo($tipo){
+    public function portipo($tipo){
       $retorno=Requisicione::requisiciones_por_tipo($tipo);
       return $retorno;
     }
 
-    public static function poranio($anio){
+    public function poranio($anio){
       $retorno=Requisicione::requisiciones_por_anio($anio);
       return $retorno;
     }
 
-    public static function informacion($id){
+    public function informacion($id){
       $retorno=Requisicione::informacion($id);
       return $retorno;
     }
 
     public function aprobar(Request $request){
+      $this->validar_aprobar($request->all())->validate();
       try{
         $requisicion=Requisicione::find($request->requisicion_id);
         $requisicion->cuenta_id=$request->cuenta_id;
@@ -217,8 +219,22 @@ class RequisicionController extends Controller
       }
     }
 
+    protected function validar_aprobar(array $data)
+    {
+        $mensajes=array(
+            'cuenta_id.required'=>'Seleccione una cuenta para aprobar la requisición',
+        );
+        return Validator::make($data, [
+            'cuenta_id' => 'required',
+
+        ],$mensajes);
+
+        
+    }
+
     public function subircontrato(Request $request)
     {
+      $this->validar_contrato($request->all())->validate();
       try{
         $request->file('archivo')->storeAs('requisiciones/contratos', $request->file('archivo')->getClientOriginalName());
         $contrato=ContratoRequisicione::create([
@@ -233,6 +249,24 @@ class RequisicionController extends Controller
       }catch(Exception $e){
         return array(-1,"error",$e->getMessage);
       }
+    }
+
+    protected function validar_contrato(array $data)
+    {
+        $mensajes=array(
+            'nombre.required'=>'El nombre del contrato es obligatorio',
+            'descripcion.required'=>'La descripcion del contrato es obligatoria',
+            'archivo.required'=>'Debe adjuntar el contrato',
+            'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+            'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+        );
+        return Validator::make($data, [
+            'nombre' => 'required',
+            'descripcion'=>'required',
+            'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+        ],$mensajes);
+
+        
     }
 
     public function mostrar_contrato($id)
@@ -277,6 +311,19 @@ class RequisicionController extends Controller
       $requisicion=Requisicione::find($id);
       try{
         $requisicion->estado=$request->estado;
+        $requisicion->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function darbaja(Request $request){
+      try{
+        $requisicion=Requisicione::find($request->requisicion_id);
+        $requisicion->estado=2;
+        $requisicion->motivo_baja=$request->motivo_baja;
+        $requisicion->fecha_baja=date('Y-m-d');
         $requisicion->save();
         return array(1,"exito");
       }catch(Exception $e){

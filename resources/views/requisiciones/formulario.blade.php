@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="" class="col-md-4 control-label">Actividad</label>
   <div class="col-md-6">
-    {!! Form::textarea('',null,['id'=>'actividad','class' => 'form-control','placeholder'=>'Digite la actividad a realizar','rows'=>3]) !!}
+    {!! Form::textarea('actividad',null,['id'=>'actividad','class' => 'form-control','placeholder'=>'Digite la actividad a realizar','rows'=>3]) !!}
   </div>
 </div>
 
@@ -20,18 +20,18 @@
       </div>
   </div>
 
-  <!--div class="form-group">
-    <label for="" class="col-md-4 control-label">Fuente de financiamiento</label>
+  <div class="form-group">
+    <label for="" class="col-md-4 control-label">Fecha actividad</label>
     <div class="col-md-6">
-      {{Form::select('',$fondos,null,['class'=>'chosen-select-width','id'=>'fondo'])}}
+      {{Form::text('fecha_actividad',null,['class'=>'form-control unafecha','autocomplete'=>'off','id'=>'fecha_actividad'])}}
   
 
     </div>
-  </div-->
+  </div>
 
   <div class="form-group">
     <label for="" class="col-md-4 control-label">Observaciones</label>
       <div class="col-md-6">
-        {!!Form::textarea('',null,['id'=>'observaciones','class' => 'form-control','rows' => 3])!!}
+        {!!Form::textarea('observaciones',null,['id'=>'observaciones','class' => 'form-control','rows' => 3])!!}
       </div>
   </div>

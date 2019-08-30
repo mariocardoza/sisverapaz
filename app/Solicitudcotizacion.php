@@ -125,7 +125,7 @@ class Solicitudcotizacion extends Model
                               <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
                               <td>'.$detalle->cantidad.'
                                 <input type="hidden" name="unidades[]" value="'.$detalle->material->unidadmedida->id.'"/>
-                                <input type="hidden" name="descripciones[]" value="'.$detalle->material->nombre.'"/>
+                                <input type="hidden" name="descripciones[]" value="'.$detalle->material->id.'"/>
                                 <input type="hidden" name="cantidades[]" value="'.$detalle->cantidad.'"/>
                               </td>
                               <td><input type="text" name="marcas[]" class="marcas form-control"/></td>
@@ -192,8 +192,12 @@ class Solicitudcotizacion extends Model
                           <th>Ítem</th>
                           <th>Cantidad</th>';
                           foreach($solicitud->cotizacion as $coti):
-                            $html.='<th>
-                            <span title="Click para ver información" style="cursor:pointer;" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            $html.='<th>';
+                            if($coti->seleccionado==1):
+                            $html.='<span title="Click para ver información" style="cursor:pointer; color:green" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            else:
+                              $html.='<span title="Click para ver información" style="cursor:pointer;" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            endif;
                             if($solicitud->estado==1):
                             $html.='<button id="seleccionar" type="button" data-id="'.$coti->id.'" data-requisicion="'.$solicitud->requisicion->id.'" class="btn btn-primary btn-sm"><i class="fa fa-check"></i></button>';
                             endif;
@@ -208,8 +212,12 @@ class Solicitudcotizacion extends Model
                             <td>'.$detalle->cantidad.'</td>';
                             foreach($solicitud->cotizacion as $lacoti):
                               foreach($lacoti->detallecotizacion as $key => $eldeta):
-                                if(($eldeta->cantidad==$detalle->cantidad) ):
+                                if(($eldeta->material_id==$detalle->material_id) ):
+                                  if($lacoti->seleccionado==1):
+                                  $html.='<td style="color:green">$'.number_format($detalle->cantidad*$eldeta->precio_unitario,2).'</td>';
+                                  else:
                                   $html.='<td>$'.number_format($detalle->cantidad*$eldeta->precio_unitario,2).'</td>';
+                                  endif;
                                 endif;
                               endforeach;
                             endforeach;
@@ -220,13 +228,21 @@ class Solicitudcotizacion extends Model
                         <tr>
                           <th colspan="2">Total</th>';
                           foreach($solicitud->cotizacion as $coti):
-                            $html.='<th>$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                            if($coti->seleccionado==1):
+                              $html.='<th style="color:green;">$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                            else:
+                              $html.='<th>$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                            endif;
                           endforeach;
                         $html.='</tr>
                         <tr>
                           <th colspan="2">Forma de pago</th>';
                           foreach($solicitud->cotizacion as $coti):
+                            if($coti->seleccionado==1):
+                            $html.='<th style="color:green;">'.$coti->formapago->nombre.'</th>';
+                            else:
                             $html.='<th>'.$coti->formapago->nombre.'</th>';
+                            endif;
                           endforeach;
                         $html.='</tr>
                       </tfoot>

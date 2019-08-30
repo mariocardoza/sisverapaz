@@ -42,10 +42,16 @@ class ContratoRequisicione extends Model
                 $html.='</tbody>
               </table>';
             else:
-              $html.='<h4 class="text-yellow text-center"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+              if($requisicion->estado==2):
+                $html.='<h4 class="text-yellow text-center"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+              <center><span class="text-center">La requisición fue rechazada</span><br>
+              </center>';
+              else:
+                $html.='<h4 class="text-yellow text-center"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
               <center><span class="text-center">Aún no ha registrado ningún contrato</span><br>
               <button class="btn btn-primary btn-sm" id="subir_contrato" type="button">Registrar</button>
               </center>';
+              endif;
             endif;
             return array(1,"exito",$html);
         }catch(Exception $e){

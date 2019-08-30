@@ -28,6 +28,7 @@ class RequisicionRequest extends FormRequest
             'user_id' => 'required',
             'observaciones' => 'required',
             'unidad_id' => 'required',
+            'fecha_actividad'=>'required'
         ];
     }
 
@@ -37,6 +38,7 @@ class RequisicionRequest extends FormRequest
       'actividad.required'=>'El campo actividad es obligatorio',
       'observaciones.required' => 'Las observaciones son obligatorias',
       'unidad_id.required' => 'La unidad solicitante es obligatoria',
+      'fecha_actividad.required'=>'La fecha de la actividad es obligatoria',
       ];
     }
 }
