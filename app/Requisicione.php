@@ -30,7 +30,8 @@ class Requisicione extends Model
     }
   }
 
-  public static function estado_ver($id){
+  public static function estado_ver($id)
+  {
     $requisicion=Requisicione::find($id);
     $html="";
     switch ($requisicion->estado) {
@@ -104,7 +105,8 @@ class Requisicione extends Model
     return $retorno;
   }
 
-  public static function materiales($id){
+  public static function materiales($id)
+  {
     $materiales = DB::table('materiales as m')
                   ->select('m.*','c.nombre_categoria','u.id as elid','u.nombre_medida')
                   ->join('categorias as c','m.categoria_id','=','c.id')
@@ -143,7 +145,7 @@ class Requisicione extends Model
     }
     $tabla.='      
     </tbody>
-  </table>';
+    </table>';
 
     return array(1,"exito",$tabla,$materiales);
   }
@@ -303,7 +305,9 @@ class Requisicione extends Model
                 endif;
             endif;
           $tabla.='</div>';
-            $lasoli.='<div>';
+
+
+          $lasoli.='<div>';
           if($requisicion->solicitudcotizacion->count() > 0): 
               if(Requisicione::tiene_materiales($requisicion->id)):
               $lasoli.='<center>
@@ -330,6 +334,11 @@ class Requisicione extends Model
               $lasoli.='<center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                   <span>La requisición no ha sido aprobada</span><br>
+                </center>';
+            elseif($requisicion->estado==2):
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>La requisición fue rechazada</span><br>
                 </center>';
             else:
               $lasoli.='<center>

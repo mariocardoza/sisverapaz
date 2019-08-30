@@ -66,7 +66,7 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$detalle->material->nombre}}</td>
                                 <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
-                                <td>{{$detalle->cantidad}}</td>
+                                <td>{{$detalle->disponibles->count()}}</td>
                                 <td>${{number_format($detalle->precio,2)}}</td>
                                 <td>
                                     <div class="btn-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Presupuestounidaddetalle;
+use App\MaterialUnidad;
 
 class PresupuestoUnidadDetalleController extends Controller
 {
@@ -36,7 +37,14 @@ class PresupuestoUnidadDetalleController extends Controller
     public function store(Request $request)
     {
         try{
-            Presupuestounidaddetalle::create($request->All());
+            $pre=Presupuestounidaddetalle::create($request->All());
+           for($i=0;$i<(int)$request->cantidad;$i++){
+               MaterialUnidad::create([
+                'id'=>MaterialUnidad::retornar_id(),
+                'presupuestounidad_id'=>$pre->id,
+                'material_id'=>$request->material_id,
+               ]);
+           }
             return array(1,"exito",$request->All());
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Unidad;
 use App\Presupuestounidad;
 use App\Presupuestounidaddetalle;
+use App\MaterialUnidad;
 
 class PresupuestoUnidadController extends Controller
 {

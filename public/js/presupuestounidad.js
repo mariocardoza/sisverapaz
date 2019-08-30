@@ -20,6 +20,7 @@ $(document).ready(function(){
 	  $(document).on("click","#registrar_presupuesto",function(e){
 		var valid=$("#form_material").valid();
 		if(valid){
+			modal_cargando();
 			var datos=$("#form_material").serialize();
 			$.ajax({
 				url:'../presupuestounidaddetalles',
@@ -31,9 +32,10 @@ $(document).ready(function(){
 						window.location.reload();
 					}else{
 						toastr.error("Ocurrió un error");
+						swal.closeModal();
 					}
 				},error: function(error){
-
+					swal.closeModal();
 				}
 			})
 		}

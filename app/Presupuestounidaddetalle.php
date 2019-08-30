@@ -14,6 +14,16 @@ class Presupuestounidaddetalle extends Model
         return $this->belongsTo('App\Materiales');
     }
 
+    public function materialunidad()
+    {
+      return $this->hasMany('App\MaterialUnidad','presupuestounidad_id');
+    }
+
+    public function disponibles()
+    {
+      return $this->hasMany('App\MaterialUnidad','presupuestounidad_id')->where('estado',1);
+    }
+
     public static function modal_editar($id){
         try{
             $detalle=Presupuestounidaddetalle::find($id);
