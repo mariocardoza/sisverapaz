@@ -107,7 +107,11 @@
                     </tr>
                     <tr>
                       <td>Cargo</td>
+                      @if($empleado->detalleplanilla->cargo)
                       <th>{{$empleado->detalleplanilla->cargo->cargo}}</th>
+                      @else
+                      <th>Cargo no asignado</th>
+                      @endif
                     </tr>
                     <tr>
                       <td>Tipo de pago</td>
@@ -123,6 +127,14 @@
                       <th>Mensual</th>
                       @else
                       <th>Quincenal</th>
+                      @endif
+                    </tr>
+                    <tr>
+                      <td>Fecha de inicio de labores</td>
+                      @if($empleado->detalleplanilla->fecha_inicio!="")
+                      <th>{{$empleado->detalleplanilla->fecha_inicio->format("d/m/Y")}}</th>
+                      @else
+                      <th>Fecha no registrada</th>
                       @endif
                     </tr>
                   </table>

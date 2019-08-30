@@ -7,7 +7,7 @@ use DB;
 
 class Detalleplanilla extends Model
 {
-  protected $fillable = ['empleado_id','salario','tipo_pago','pago'];
+  protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio'];
   protected $dates = ['fecha_inicio'];
   public static function empleados(){
     $empleados=Empleado::orderBy('nombre')->get();

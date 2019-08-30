@@ -26,8 +26,10 @@ class DetalleplanillaRequest extends FormRequest
          return [
              'empleado_id' => 'required',
              'salario' => 'required',
+             'cargo' => 'required',
              'tipo_pago' => 'required',
              'pago' => 'required',
+             'fecha_inicio' => 'required',
          ];
      }
 
@@ -38,6 +40,7 @@ class DetalleplanillaRequest extends FormRequest
          'salario.required'=>'El campo salario es obligatorio',
          'tipo_pago.required'=>'El campo forma de pago es obligatorio',
          'pago.required'=>'El campo tiempo de pago es obligatorio',
+         'fecha_inicio.required'=>'El campo fecha de inicio es obligatorio',
          ];
      }
 }
