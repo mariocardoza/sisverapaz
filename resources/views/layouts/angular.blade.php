@@ -232,11 +232,10 @@
   {!! Html::script('js/vendors/jquery-1.12.4.min.js') !!}
   {!! Html::script('js/vendors/angular.min.js') !!}
   {!! Html::script('js/vendors/jquery.dataTables.min.js') !!}
-  {{-- {!! Html::script('js/vendors/datatables.min.js') !!} --}}  
+  {!! Html::script('js/vendors/datatables.min.js') !!}  
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
-  <!-- {!! Html::script('js/main.js') !!} -->
+  {{-- {!! Html::script('js/main.js') !!} --}}
   {!! Html::script('js/sisverapaz.js') !!}
   <script src="http://localhost:9000/main.js" type="text/javascript"></script>
-
 </body>
 </html>
