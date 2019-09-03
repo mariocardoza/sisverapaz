@@ -17,7 +17,7 @@ $(document).ready(function () {
 				$(data).each(function (k, v) { 
 					catalogo_original.push(v);
 					catalogo_original_index.push(v.id);
-					var html = '<option data-unidad="' + v.unidad_medida + '" value="' + v.id + '">' + v.nombre + '</option>';
+					var html = '<option data-unidad="' + v.unidad_id + '" value="' + v.id + '">' + v.nombre + '</option>';
 					select.append(html);
 				});
 				select.trigger('chosen:updated');

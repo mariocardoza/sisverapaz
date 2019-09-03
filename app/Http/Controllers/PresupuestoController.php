@@ -11,6 +11,7 @@ use App\Presupuesto;
 use App\Presupuestodetalle;
 use App\Categoria;
 use App\Catalogo;
+use App\Materiales;
 use App\BitacoraProyecto;
 use Session;
 use DB;
@@ -103,7 +104,7 @@ class PresupuestoController extends Controller
 
     public function getCatalogo($id)
     {
-        return Catalogo::where('categoria_id',$id)->orderby('nombre','asc')->get();
+        return Materiales::where('categoria_id',$id)->orderby('nombre','asc')->get();
     }
 
     public function getUnidadesMedida()

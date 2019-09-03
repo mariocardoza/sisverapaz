@@ -3,7 +3,12 @@
     <i class="fa fa-edit"></i> <span>Contribuyentes</span>
   </a>
 </li>
-<li class="treeview">
+<li>
+  <a href="{{ url('cementerios') }}">
+    <i class="fa fa-edit"></i><span>Cementerios</span>
+  </a>
+</li>
+{{-- <li class="treeview">
   <a href="#">
     <i class="fa fa-edit"></i> <span>Servicios Municipales</span>
     <span class="pull-right-container">
@@ -68,4 +73,4 @@
       >
     </li>
   </ul>
-</li>
+</li> --}}

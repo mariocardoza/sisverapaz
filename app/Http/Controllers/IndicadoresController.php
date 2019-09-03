@@ -96,7 +96,7 @@ class IndicadoresController extends Controller
     }
 
     public function completado(Request $request){
-       $retorno=IndicadoresProyecto::completado($request->codigo);
+       $retorno=IndicadoresProyecto::completado($request->id);
        return $retorno;
     }
 }

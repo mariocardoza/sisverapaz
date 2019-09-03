@@ -23,6 +23,14 @@
 <div class="clearfix"></div>
 <hr style="margin-top: 3px; margin-bottom: 3px;">
 <div class="col-sm-12">
+	<span>Avance del proyecto:</span>
+</div>
+<div class="col-sm-12 label label-success">
+	<span><b>{{$proyecto->indicadores_completado->sum('porcentaje')}}%</b></span>
+</div>
+<div class="clearfix"></div>
+<hr style="margin-top: 3px; margin-bottom: 3px;">
+<div class="col-sm-12">
 	<span>Origen de los fondos:</span>
 </div>
 @foreach ($proyecto->fondo as $fondo)
@@ -66,7 +74,7 @@
 </div>
 <div class="col-sm-5">
 	<span class="label label-primary col-sm-12">
-		{{$proyecto->monto_desarrollo}}
+		${{number_format($proyecto->monto_desarrollo,2)}}
 	</span>
 </div>
 <div class="clearfix"></div>

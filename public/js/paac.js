@@ -288,6 +288,10 @@ var contador = 0;
 
         });*/
     });
+
+    $(document).on("click",".realizado",function(e){
+        exportado();
+    });
 });
 
 function inicio(){
@@ -307,7 +311,7 @@ function inicio(){
                 swal.closeModal();
             }
         }
-    })
+    });
 }
 
 function tabla_excel(tabla,titulo){
@@ -317,25 +321,26 @@ function tabla_excel(tabla,titulo){
           {
               extend: 'excelHtml5',
               footer: true,
-              title: 'Pan de compras',
+              title: 'Plan de compras',
               messageTop: 'Plan anual '+titulo+' año '+anioplan,
-              text: '<button class="btn btn-info">Exportar a Excel <i class="fa fa-file-excel-o"></i></button>',
-              exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] } 
+              text: '<button class="btn btn-info realizado">Exportar a Excel <i class="fa fa-file-excel-o"></i></button>',
+              exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] },
+              
 
           },
           {
               extend:'pdfHtml5',
               footer:true,
-              title: 'Pan de compras',
+              title: 'Plan de compras',
               orientation: 'landscape',
               messageTop: 'Plan anual '+titulo+' año '+anioplan,
               exportOptions: { columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13] },
-              text: '<button class="btn btn-info">Exportar a PDF <i class="fa fa-file-pdf-o"></i></button>'
+              text: '<button class="btn btn-info realizado">Exportar a PDF <i class="fa fa-file-pdf-o"></i></button>'
           }
       ],
         language: {
             processing: "Búsqueda en curso...",
-            search: "Búscar:",
+            search: "Buscar:",
             lengthMenu: "Mostrar _MENU_ Elementos",
             info: "Mostrando _START_ de _END_ de un total de _TOTAL_ Elementos",
             infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
@@ -358,4 +363,26 @@ function tabla_excel(tabla,titulo){
         "info": true,
         "autoWidth": true
     });
+  }
+
+  function exportado(){
+      modal_cargando();
+      $.ajax({
+          url:'../paacs/exportar/'+idpaac,
+          type:'get',
+          dataType:'json',
+          data:{},
+          success: function(json){
+            if(json[0]==1){
+                toastr.success('Exportado exitosamente');
+                inicio(idpaac);
+                swal.closeModal();
+            }else{
+                swal.closeModal();
+            }
+          },
+          error: function(error){
+            swal.closeModal();
+          }
+      });
   }

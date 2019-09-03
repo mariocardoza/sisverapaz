@@ -21,10 +21,12 @@ class Paac extends Model
         $html="";
         $html.='<div class="panel panel-primary">
         <div class="panel-heading">'.$paac->descripcion.'</div>
-        <div class="panel-body">
-          <a href="javascript:void(0)" id="registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar elementos</a>
-        <br><br>
-        <table class="table" >
+        <div class="panel-body">';
+        if($paac->estado==1):
+          $html.='<a href="javascript:void(0)" id="registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar elementos</a>
+        <br><br>';
+        endif;
+        $html.='<table class="table" >
           <tr>
             <td>Año de ejecución</td>
             <th>'.$paac->anio.'</th>
@@ -70,9 +72,11 @@ class Paac extends Model
                   <th>Octubre</th>
                   <th>Noviembre</th>
                   <th>Diciembre</th>
-                  <th>Total</th>
-                  <th>Acción</th>
-                </tr>
+                  <th>Total</th>';
+                  if($paac->estado==1):
+                  $html.='<th>Acción</th>';
+                  endif;
+                $html.='</tr>
               </thead>
               <tbody>';
                 foreach($detalles as $detalle):
@@ -108,14 +112,16 @@ class Paac extends Model
                   <td>$'.number_format($detalle->octubre,2).'</td>
                   <td>$'.number_format($detalle->noviembre,2).'</td>
                   <td>$'.number_format($detalle->diciembre,2).'</td>
-                  <td>$'.number_format($subto,2).'</td>
-                  <td>
-                  <div class="btn-group">
+                  <td>$'.number_format($subto,2).'</td>';
+                  if($paac->estado==1):
+                    $html.='<td>
+                    <div class="btn-group">
                     <a href="javascript:void(0)" data-id="'.$detalle->id.'" id="eleditar" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
                     <a href="javascript:void(0)" class="btn btn-danger btn-sm" id="eliminar" data-id="'.$detalle->id.'"><i class="fa fa-remove"></i></a>
                   </div>
-                  </td>
-                </tr>';
+                  </td>';
+                  endif;
+                  $html.='</tr>';
                 endforeach;
               $html.='</tbody>
               <tfoot>
@@ -133,9 +139,11 @@ class Paac extends Model
                     <th>$'.number_format($octubre,2).'</th>
                     <th>$'.number_format($noviembre,2).'</th>
                     <th>$'.number_format($diciembre,2).'</th>
-                    <th>$'.number_format($total,2).'</th>
-                    <th></th>
-                </tr>
+                    <th>$'.number_format($total,2).'</th>';
+                    if($paac->estado==1):
+                      $html.='<th>Acción</th>';
+                      endif;
+                    $html.='</tr>
               </tfoot>
             </table>
           </div>

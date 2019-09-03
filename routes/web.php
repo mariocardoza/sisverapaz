@@ -10,6 +10,7 @@
 |
 */
 
+
 Route::get('/', function () {
     $users = \App\User::all()->count();
     $roles = \App\Role::all();
@@ -408,3 +409,6 @@ Route::post('negocio/mapa/create', 'NegocioController@mapas');
 Route::get('mapa', 'NegocioController@mapa');
 Route::post('mapa/all', 'NegocioController@mapasAll');
 Route::get('reporte', 'ReportesUaciController@reportePDF');
+
+// Routas para el cementerio
+Route::Resource("/cementerios", "CementerioController");
