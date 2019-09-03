@@ -82,6 +82,16 @@ class Proyecto extends Model
       return $this->hasMany('App\PresupuestoInventario');
     }
 
+    public function indicadores()
+    {
+      return $this->hasMany('App\IndicadoresProyecto');
+    }
+
+    public function indicadores_completado()
+    {
+      return $this->hasMany('App\IndicadoresProyecto')->where('estado',2);
+    }
+
     public function presupuesto()
     {
       return $this->hasMany('App\Presupuesto');

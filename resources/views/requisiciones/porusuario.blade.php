@@ -49,47 +49,13 @@
                     @endif
                     <td>{{ $requisicion->user->empleado->nombre }}</td>
                     <td>{{ $requisicion->observaciones }}</td>
-                    @if($requisicion->estado == 1)
-                    <td><span class="label-primary">En espera</span></td>
+                    <td>{!! \App\requisicione::estado_ver($requisicion->id) !!}</td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                        <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                        <a href="{{url('requisiciones/'.$requisicion->id.'/edit')}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
                       </div>
                     </td>
-                  @elseif($requisicion->estado == 2)
-                      <td><span class="label-danger">Rechazada</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                        </div>
-                      </td>
-                    @elseif( $requisicion->estado == 3)
-                      <td><span class="label-warning">Aprobado</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>                        <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" target="_blank"><i class="glyphicon glyphicon-file-pdf-o"></i></a>
-                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                        </div>
-                      </td>
-                    @elseif ( $requisicion->estado == 4)
-                      <td><span class="label-success">Espera de orden de compra</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                        </div>
-                      </td>
-                    @elseif( $requisicion->estado == 5)
-                      <td><span class="label-success">Espera de recibir suministros</span></td>
-                      <td>
-                        <div class="btn-group">
-                          <a href="{{url('requisiciones/'.$requisicion->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{url('reportesuaci/requisicionobra/'.$requisicion->id)}}" class="btn btn-success btn-xs" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-                        </div>
-                      </td>
-                    @endif
+                  
                   </tr>
                   @endforeach
                 </tbody>

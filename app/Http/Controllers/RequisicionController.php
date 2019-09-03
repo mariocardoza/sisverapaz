@@ -41,7 +41,7 @@ class RequisicionController extends Controller
 
     public function porusuario()
     {
-      $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('created_at','<=',date('Y'.'-12-31'))->get();
+      $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('created_at','<=',date('Y'.'-12-31'))->orderBy('created_at','DESC')->get();
       return view('requisiciones.porusuario',compact('requisiciones'));
     }
 

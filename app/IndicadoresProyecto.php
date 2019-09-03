@@ -8,7 +8,6 @@ class IndicadoresProyecto extends Model
 {
     protected $guarded = [];
     protected $dates = ['created_at'];
-    protected $primaryKey = "codigo";
     public $incrementing = false;
 
     public static function obtener_indicadores($proyecto){
@@ -25,7 +24,7 @@ class IndicadoresProyecto extends Model
     public static function guardar($data){
     	try{
     		$indicador=IndicadoresProyecto::create([
-    			'codigo'=>date("Yidisus"),
+    			'id'=>date("Yidisus"),
     			'nombre'=>$data['nombre'],
     			'porcentaje'=>$data['porcen'],
     			'descripcion'=>$data['descripcion'],
@@ -60,8 +59,8 @@ class IndicadoresProyecto extends Model
         }
     }
 
-    public static function completado($codigo){
-        $indicador=IndicadoresProyecto::find($codigo);
+    public static function completado($id){
+        $indicador=IndicadoresProyecto::find($id);
         try{
             $indicador->estado=2;
             $indicador->save();
@@ -76,6 +75,17 @@ class IndicadoresProyecto extends Model
         try{
             $indicador->delete();
             return array(1,"exito",$indicador);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public static function los_indicadores($id)
+    {
+        try{
+            $indicadores=IndicadoresProyecto::find($id);
+            $html="";
+            $html.='';
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }

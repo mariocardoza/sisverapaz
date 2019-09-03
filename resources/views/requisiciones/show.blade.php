@@ -6,7 +6,11 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+        @if(Auth()->user()->hasRole('uaci'))
         <li><a href="{{ url('/requisiciones') }}"><i class="fa fa-balance-scale"></i> Requisiciones</a></li>
+        @else
+        <li><a href="{{ url('/requisiciones/porusuario') }}"><i class="fa fa-balance-scale"></i> Mis requisiciones</a></li>
+        @endif
         <li class="active">Ver</li>
       </ol>
 @endsection
