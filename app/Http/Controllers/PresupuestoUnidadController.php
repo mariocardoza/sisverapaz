@@ -17,8 +17,15 @@ class PresupuestoUnidadController extends Controller
      */
     public function index()
     {
-        $presupuestos = Presupuestounidad::where('estado',1)->get();
+        Auth()->user()->authorizeRoles(['admin','uaci']);
+        $presupuestos = Presupuestounidad::get();
         return view('unidades.presupuestos.index',compact('presupuestos'));
+    }
+
+    public function porunidad()
+    {
+        $presupuestos = Presupuestounidad::where('user_id',Auth()->user()->id)->get();
+        return view('unidades.presupuestos.porunidad',compact('presupuestos'));
     }
 
     /**

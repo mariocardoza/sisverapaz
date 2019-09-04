@@ -213,7 +213,7 @@ class RequisicionController extends Controller
         $requisicion->cuenta_id=$request->cuenta_id;
         $requisicion->estado=3;
         $requisicion->save();
-        return array(1,"eito");
+        return array(1,"exito");
       }catch(Exception $e){
         return array(1,"error",$e->getMessage());
       }
@@ -339,6 +339,13 @@ class RequisicionController extends Controller
     public function materiales($id)
     {
       $retorno=Requisicione::materiales($id);
+      return $retorno;
+    }
+
+    public function presupuesto($id)
+    {
+      $requi=Requisicione::find($id);
+      $retorno=Requisicione::presupuesto($requi->user_id);
       return $retorno;
     }
 

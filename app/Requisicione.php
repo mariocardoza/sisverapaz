@@ -150,6 +150,67 @@ class Requisicione extends Model
     return array(1,"exito",$tabla,$materiales);
   }
 
+  public static function presupuesto($id)
+  {
+    /*$materiales = DB::table('materiales as m')
+                  ->select('m.*','c.nombre_categoria','u.id as elid','u.nombre_medida')
+                  ->join('categorias as c','m.categoria_id','=','c.id')
+                  ->join('unidad_medidas as u','m.unidad_id','=','u.id')
+                    ->whereNotExists(function ($query) use ($id)  {
+                         $query->from('requisiciondetalles')
+                            ->whereRaw('requisiciondetalles.materiale_id = m.id')
+                            ->whereRaw('requisiciondetalles.requisicion_id ='.$id);
+                        })->get();*/
+    $presupuesto=Presupuestounidad::where('estado',1)->where('anio',date("Y"))->where('user_id',$id)->first();
+    $tabla='';
+    
+    $tabla.='<table class="table" id="latabla">
+    <thead>
+      <tr>
+        <th>N°</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Unidad de medida</th>
+        <th>Disponible</th>
+        <!--th>Cantidad</th-->
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="losmateriales">';
+    foreach ($presupuesto->presupuestodetalle as $key => $material) {
+      $tabla.='<tr>
+                <td>'.($key+1).'</td>
+                <td>'.$material->material->nombre.'</td>
+                <td>'.$material->material->categoria->nombre_categoria.'</td>
+                <td>'.$material->material->unidadmedida->nombre_medida.'
+                  <input type="hidden" name="materiales[]" value="'.$material->material->id.'"/>
+                </td>
+                <td>'.$material->disponibles->count().'</td>
+                <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
+                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
+              </tr>';
+    }
+    $tabla.='      
+    </tbody>
+    </table>';
+
+    return array(1,"exito",$tabla,$presupuesto);
+  }
+
+  public static function descontar_presupuesto($id,$cantidad,$material_id)
+  {
+    $presupuesto=Presupuestounidad::where('estado',1)->where('anio',date("Y"))->where('user_id',$id)->first();
+    for($i=0;$i<(int)$cantidad;$i++){
+      foreach($presupuesto->presupuestodetalle as $presu){
+        if($presu['material_id']==$material_id){
+          $deta=\App\MaterialUnidad::where('material_id',$presu['material_id'])->where('estado',1)->first();
+          $deta->estado=2;
+          $deta->save();
+        }
+      }
+    }
+  }
+
   public static function informacion($id)
   {
     $lasoli="";

@@ -69,7 +69,7 @@
       e.preventDefault();
       var datos=$("#form_presupuesto").serialize();
       $.ajax({
-        url:'presupuestounidades',
+        url:'../presupuestounidades',
         type:'POST',
         data:datos,
         success: function(json){

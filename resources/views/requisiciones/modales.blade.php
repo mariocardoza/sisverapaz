@@ -188,7 +188,12 @@
           </div>
           <div class="modal-body">
             {{ Form::open(['class' => '','id' => 'form_material']) }}
-                
+              <div class="form-group">
+                <label for="" class="control-label">Disponible</label>
+                <div>
+                  <input type="text" id="canti_dis" class="form-control" readonly>
+                </div>
+              </div>
               <div class="form-group">
                   <label for="" class="control-label">Cantidad</label>
                   <div class="">

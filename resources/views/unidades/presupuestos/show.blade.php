@@ -6,7 +6,11 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+        @if(Auth()->user()->hasRole('uaci'))
         <li><a href="{{ url('/presupuestounidades') }}"><i class="glyphicon glyphicon-home"></i> Presupuestos</a></li>
+        @else 
+        <li><a href="{{ url('/presupuestounidades/porunidad') }}"><i class="glyphicon glyphicon-home"></i> Mis presupuestos</a></li>
+        @endif
         <li class="active">Detalle</li>
       </ol>
 @endsection
@@ -55,7 +59,9 @@
                                 <th>N°</th>
                                 <th>Nombre</th>
                                 <th>Unidad de medida</th>
-                                <th>Cantidad</th>
+                                <th>Disponibles</th>
+                                <th>Utilizados</th>
+                                <th>Presupuestados</th>
                                 <th>Precio</th>
                                 <th></th>
                             </tr>
@@ -67,6 +73,8 @@
                                 <td>{{$detalle->material->nombre}}</td>
                                 <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
                                 <td>{{$detalle->disponibles->count()}}</td>
+                                <td>{{$detalle->utilizados->count()}}</td>
+                                <td>{{$detalle->materialunidad->count()}}</td>
                                 <td>${{number_format($detalle->precio,2)}}</td>
                                 <td>
                                     <div class="btn-group">

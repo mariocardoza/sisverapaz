@@ -210,6 +210,8 @@ class SolicitudcotizacionController extends Controller
                 'solicitud_id'=>$solicitud->id
               ]);
 
+              Requisicione::descontar_presupuesto($requisicion->user_id,$req['cantidad'],$req['idmaterial']);
+
             }
 
             DB::commit();

@@ -221,7 +221,7 @@ Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 
-Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/porusuario','RequisicionController@porusuario')->name('requisiciones.porusuario');
 Route::post('requisiciones/darbaja','RequisicionController@darbaja');
 Route::get('requisiciones/portipo/{tipo}','RequisicionController@portipo');
 Route::get('requisiciones/poranio/{anio}','RequisicionController@poranio');
@@ -233,6 +233,7 @@ Route::post('requisiciones/subircontrato','RequisicionController@subircontrato')
 Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
+Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::Resource('requisiciones','RequisicionController');
@@ -395,6 +396,7 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 Route::Resource('unidades','UnidadAdminController');
 Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
+Route::get('presupuestounidades/porunidad','PresupuestoUnidadController@porunidad')->name('presupuestounidades.porunidad');
 Route::Resource('presupuestounidades','PresupuestoUnidadController');
 Route::Resource('presupuestounidaddetalles','PresupuestoUnidadDetalleController');
 
