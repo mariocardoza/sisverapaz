@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-set_time_limit(300);
+// set_time_limit(300);
 use Illuminate\Http\Request;
+use App\Contribuyente;
 
 class ReportesUaciController extends Controller
 {
@@ -113,12 +114,26 @@ class ReportesUaciController extends Controller
 
     public function requisicionobra($id)
     {
-        $configuracion=\App\Configuracion::first();
-        $requisicion = \App\Requisicione::findorFail($id);
-        $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
-        $pdf = \PDF::loadView('pdf.uaci.requisicionobra',compact('requisicion','tipo','configuracion'));
-        $pdf->setPaper('letter', 'portrait');
-        return $pdf->stream('requisicionobra.pdf');
+      $configuracion=\App\Configuracion::first();
+      $requisicion = \App\Requisicione::findorFail($id);
+      $tipo = "REQUISICIÓN DE OBRAS, BIENES Y SERVICIOS";
+      
+      $pdf = \PDF::loadView('pdf.uaci.requisicionobra',  compact('requisicion','tipo','configuracion'));
+      $pdf->setPaper('letter', 'portrait');
+      return $pdf->stream('requisicionobra.pdf');
+    }
+
+    public function reportePDF()
+    {
+      //$contribuyentes = Contribuyente::take(10)->get();
+      $contribuyentes = Contribuyente::all();
+      $configuracion=\App\Configuracion::first();
+      // $requisicion = \App\Requisicione::findorFail($id);
+      $tipo = "Contribuyentes";
+      
+      $pdf = \PDF::loadView('pdf.reporte.contribuyentes',  compact('contribuyentes', 'configuracion'));
+      $pdf->setPaper('letter', 'portrait');
+      return $pdf->stream('contribuyentes.pdf');
     }
 
     public function presupuestounidad($id)

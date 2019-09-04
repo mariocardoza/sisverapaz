@@ -6,10 +6,11 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($users as $user)
+        @foreach ($users as $key => $user)
             <tr>
-            <th>{{$user->username}}</th>
-            <th>{{$user->email}}</th>
+                <td>{{ $key + 1 }}</td>
+                <th>{{$user->username}}</th>
+                <th>{{$user->email}}</th>
             </tr>
         @endforeach
     </tbody>

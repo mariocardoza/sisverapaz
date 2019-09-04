@@ -41,7 +41,7 @@ class EmpleadoSeeder extends Seeder
                 //'num_afp'=>random_int(1,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9).random_int(0,9),
                 'estado'=>1
             ]);
-            $numero=random_int(1,count($arrayC))-1;
+            // $numero = random_int( 1, count($arrayC) )-1;
             if(random_int(1,2)==1){
             DetallePlanilla::create([
                 'empleado_id'=>$empleado->id,
@@ -53,8 +53,6 @@ class EmpleadoSeeder extends Seeder
             }else{
                 //enviarlos a por contrato
             }
-
-
         }
     }
 }

@@ -1,5 +1,5 @@
 <div style="width:100%;height:100% !important;position: relative; overflow: auto;">
-  <ng-map class="center-maps" zoom="17" on-click="updateMarkerPoints()">
+  <ng-map style="width: 400px" class="center-maps" zoom="17" on-click="updateMarkerPoints()">
     <marker ng-repeat="position in positions" position="((position.lat)), ((position.lng))" animation="Animation.BOUNCE"></marker>
   </ng-map>
   <button type="button" style="float: right;margin: 15px 9px;"

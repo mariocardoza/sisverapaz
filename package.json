@@ -48,7 +48,6 @@
   "dependencies": {
     "angular-animate": "^1.7.2",
     "angular-toastr": "^2.1.1",
-    
     "vue-lodash": "^2.0.0"
   },
   "author": "",

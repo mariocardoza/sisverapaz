@@ -10,15 +10,15 @@
 |
 */
 
-Route::get('/', function () {
-    $users=\App\User::all()->count();
-    $roles = \App\Role::all();
-        if($users==0){
-            return view('auth/register',compact('roles'));
 
-        }else{
-            return view('auth/login');
-        }
+Route::get('/', function () {
+    $users = \App\User::all()->count();
+    $roles = \App\Role::all();
+    if ($users == 0) {
+      return view('auth/register', compact('roles'));
+    } else {
+      return view('auth/login');
+    }
 });
 
 Route::get('pdf',function(){
@@ -410,3 +410,7 @@ Route::get('negocio/mapa/{id}', 'NegocioController@viewMapa');
 Route::post('negocio/mapa/create', 'NegocioController@mapas');
 Route::get('mapa', 'NegocioController@mapa');
 Route::post('mapa/all', 'NegocioController@mapasAll');
+Route::get('reporte', 'ReportesUaciController@reportePDF');
+
+// Routas para el cementerio
+Route::Resource("/cementerios", "CementerioController");

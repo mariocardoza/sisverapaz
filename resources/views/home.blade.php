@@ -2,13 +2,13 @@
 
 @section('migasdepan')
 <h1>
-        Panel de inicio
-        <small>Administrador</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Panel de inicio</li>
-      </ol>
+  Panel de inicio
+  <small>Administrador</small>
+</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+  <li class="active">Panel de inicio</li>
+</ol>
 @endsection
 @section('content')
 <div class="row">
@@ -26,7 +26,4 @@
     @include('partials.homeusuario')
   @endif
 </div>
-      <!-- /.row -->
-      <!-- Main row -->
-
 @endsection

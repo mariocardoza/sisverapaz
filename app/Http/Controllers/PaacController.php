@@ -24,7 +24,7 @@ class PaacController extends Controller
     public function index()
     {
       $paacs = Paac::all();
-        return view('paacs.index',compact('paacs'));
+      return view('paacs.index',compact('paacs'));
     }
 
     /**
@@ -115,8 +115,8 @@ class PaacController extends Controller
     public function show($id)
     {
       $paac=Paac::findorFail($id);
-      $detalles = Paacdetalle::where('paac_id',$paac->id)->orderBy('id','ASC')->get();
-        return view('paacs.show',compact('paac','detalles'));
+      $detalles = Paacdetalle::where('paac_id', $paac->id)->orderBy('id','ASC')->get();
+      return view('paacs.show',compact('paac','detalles'));
     }
 
     public function show2($id){
@@ -171,6 +171,11 @@ class PaacController extends Controller
     }
 
 
+<<<<<<< HEAD
+    public function exportar($id) {
+    return Excel::download(new PaacExport, 'users.pdf');
+  }
+=======
     public function exportar($id) 
     {
         try{
@@ -184,4 +189,5 @@ class PaacController extends Controller
     }
 
 
+>>>>>>> 97cc0b20c580ef0459504a6c4048256940d70f46
 }
