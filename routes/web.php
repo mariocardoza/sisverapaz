@@ -348,6 +348,8 @@ Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');
 Route::post('bancos/alta/{id}','BancoController@alta')->name('bancos.alta');
+Route::Resource('vacaciones','VacacionController');
+Route::post('vacaciones/fecha','VacacionController@fecha');
 
 //Rutas R
 Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->name('categoria.listar');

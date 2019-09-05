@@ -30,7 +30,7 @@
                   <th>DUI</th>
                   <th>Celular</th>
                   <th>Dirección</th>
-                  <th>Accion</th>
+                  <th>Acción</th>
                 </thead>
                 <tbody>
                   @foreach($empleados as $index => $empleado)
