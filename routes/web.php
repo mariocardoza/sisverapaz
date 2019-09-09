@@ -398,6 +398,8 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 Route::Resource('unidades','UnidadAdminController');
 Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
+Route::post('presupuestounidades/cambiar/{id}','PresupuestoUnidadController@cambiar');
+Route::get('presupuestounidades/clonar/{id}','PresupuestoUnidadController@clonar');
 Route::get('presupuestounidades/porunidad','PresupuestoUnidadController@porunidad')->name('presupuestounidades.porunidad');
 Route::Resource('presupuestounidades','PresupuestoUnidadController');
 Route::Resource('presupuestounidaddetalles','PresupuestoUnidadDetalleController');

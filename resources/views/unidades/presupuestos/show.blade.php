@@ -17,14 +17,73 @@
 
 @section('content')
     <div class="row">
+            <div class="col-md-9">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Presupuesto</div>
+                        <div class="panel">
+                            <br>
+                            <button class="btn btn-primary pull-right" type="button" id="add_material">Agregar</button>
+                            <br><br>
+                            <table class="table" id="example2">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Nombre</th>
+                                        <th>Unidad de medida</th>
+                                        <th>Disponibles</th>
+                                        @if($presupuesto->estado==3)
+                                        <th>Utilizados</th>
+                                        <th>Presupuestados</th>
+                                        @endif
+                                        <th>Precio</th>
+                                        @if($presupuesto->estado==1)
+                                        <th></th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($presupuesto->presupuestodetalle as $key => $detalle)
+                                        <tr>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$detalle->material->nombre}}</td>
+                                        <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
+                                        <td>{{$detalle->disponibles->count()}}</td>
+                                        @if($presupuesto->estado==3)
+                                        <td>{{$detalle->utilizados->count()}}</td>
+                                        <td>{{$detalle->materialunidad->count()}}</td>
+                                        @endif
+                                        <td>${{number_format($detalle->precio,2)}}</td>
+                                        @if($presupuesto->estado==1)
+                                        <td>
+                                            <div class="btn-group">
+                                            <a href="javascript:void(0)" id="eleditar" data-id="{{$detalle->id}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                                <a href="javascript:void(0)" id="eleliminar" data-id="{{$detalle->id}}" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
+                                            </div>
+                                        </td>
+                                        @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">Información</div>
                 <div class="panel">
+                    <br>
+                        @if(Auth()->user()->hasRole('uaci') && $presupuesto->estado == 1)
+                        <center>
+                            <button type="button" class="btn btn-primary estado" data-estado="3" data-id="{{$presupuesto->id}}">Aprobar</button>
+                            <button class="btn btn-danger estado" type="button" data-estado="2" data-id="{{$presupuesto->id}}">Rechazar</button>
+                        </center>
+                        @endif
                     <table class="table">
                         <tr>
-                            <td>Actividad</td>
-                            <th></th>
+                            <td colspan="2">
+                                {!! App\Presupuestounidad::estado_ver($presupuesto->id) !!}
+                            </td>
                         </tr>
                         <tr>
                             <td>Responsable</td>
@@ -43,52 +102,11 @@
                             <th>${{number_format(App\Presupuestounidad::total_presupuesto($presupuesto->id),2)}}</th>
                         </tr>
                     </table>
+                    
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Presupuesto</div>
-                <div class="panel">
-                    <br>
-                    <button class="btn btn-primary pull-right" type="button" id="add_material">Agregar</button>
-                    <br><br>
-                    <table class="table" id="example2">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Nombre</th>
-                                <th>Unidad de medida</th>
-                                <th>Disponibles</th>
-                                <th>Utilizados</th>
-                                <th>Presupuestados</th>
-                                <th>Precio</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($presupuesto->presupuestodetalle as $key => $detalle)
-                                <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{$detalle->material->nombre}}</td>
-                                <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
-                                <td>{{$detalle->disponibles->count()}}</td>
-                                <td>{{$detalle->utilizados->count()}}</td>
-                                <td>{{$detalle->materialunidad->count()}}</td>
-                                <td>${{number_format($detalle->precio,2)}}</td>
-                                <td>
-                                    <div class="btn-group">
-                                    <a href="javascript:void(0)" id="eleditar" data-id="{{$detalle->id}}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a href="javascript:void(0)" id="eleliminar" data-id="{{$detalle->id}}" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
-                                    </div>
-                                </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <div id="modal_aqui"></div>
     @include('unidades.presupuestos.modales')

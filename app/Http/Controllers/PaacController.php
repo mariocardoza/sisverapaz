@@ -171,23 +171,16 @@ class PaacController extends Controller
     }
 
 
-<<<<<<< HEAD
-    public function exportar($id) {
-    return Excel::download(new PaacExport, 'users.pdf');
-  }
-=======
     public function exportar($id) 
     {
-        try{
-          $paac=Paac::find($id);
-          $paac->estado=3;
-          $paac->save();
-          return array(1,"exito",$paac->id);
-        }catch(Exception $e){
-          return array(-1,"error",$e->getMessage());
-        }
+      try{
+        $paac=Paac::find($id);
+        $paac->estado=3;
+        $paac->save();
+        return array(1,"exito",$paac->id);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 
-
->>>>>>> 97cc0b20c580ef0459504a6c4048256940d70f46
 }

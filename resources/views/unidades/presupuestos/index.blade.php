@@ -17,10 +17,11 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
-              <div class="btn-group pull-right">
+              <div class="btn-group">
                 <a href="javascript:void(0)" id="abrir_registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                <a href="{{ url('/presupuestos?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/presupuestos?estado=2') }}" class="btn btn-primary">Papelera</a>
+                <a href="{{ url('/presupuestounidades?estado=1') }}" class="btn btn-primary">Activos</a>
+                <a href="{{ url('/presupuestounidades?estado=2') }}" class="btn btn-primary">Rechazados</a>
+                <a href="{{ url('/presupuestounidades?estado=4') }}" class="btn btn-primary">Finalizados</a>
               </div>
             </div>
             <!-- /.box-header -->
@@ -32,6 +33,7 @@
                   <th>Unidad</th>
                   <th>Responsable</th>
                   <th>Monto</th>
+                  <th>Estado</th>
                   <th>Accion</th>
                 </thead>
                 <tbody>
@@ -42,6 +44,7 @@
                       <td>{{$presupuesto->unidad->nombre_unidad}}</td>
                       <td>{{$presupuesto->user->empleado->nombre}}</td>
                       <td>${{number_format(App\Presupuestounidad::total_presupuesto($presupuesto->id),2)}}</td>
+                      <td>{!! App\Presupuestounidad::estado_ver($presupuesto->id) !!}</td>
                       <td><a href="{{url('presupuestounidades/'.$presupuesto->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a></td>
                     </tr>
                   @endforeach
