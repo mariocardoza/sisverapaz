@@ -4,32 +4,19 @@
 @section('reporte')
   <div id="content">
     <br>
-    <table width="100%" rules="">
-      <tr>
-        <td colspan="3" width="">
-          <center>
-            {{$tipo}}
-        </center>
-        </td>
-      </tr>
-      <tr>
-        <td width="35%"></td>
-        <td width="30%"><hr style="color:blue; border:solid;border-width:3px;"><hr style="color:red; border:solid;border-width:3px;"></td>
-        <td width="35%"></td>
-      </tr>
-    </table>
+
 
 
     <table width="100%" border="1px">
       <td>
 
-      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas el {{$solicitud->tipo==1 ? $solicitud->presupuestosolicitud->presupuesto->proyecto->nombre : $solicitud->requisicion->actividad}}
+      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas {{$solicitud->tipo==1 ? 'el proyecto: '. $solicitud->presupuestosolicitud->presupuesto->proyecto->nombre : 'la actividad: '. $solicitud->requisicion->actividad}}
       <p>Según detalle:</p>
 
       </td>
     </table>
     <br>
-    <table class="table table-hover" width="100%" rules=all>
+    <table class="table table-bordered" width="100%" rules=>
       <thead>
         <tr>
           <th>Item</th>

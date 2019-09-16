@@ -146,10 +146,11 @@
       </div-->
     </div>
     </div>
-  </div>
+</div>
 
   <!-- Modal -->
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_aprobar_requisicion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_aprobar_requisicion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content modal-sm">
         <div class="modal-header">

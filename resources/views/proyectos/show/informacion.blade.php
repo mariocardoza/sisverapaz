@@ -25,8 +25,12 @@
 <div class="col-sm-12">
 	<span>Avance del proyecto:</span>
 </div>
-<div class="col-sm-12 label label-success">
-	<span><b>{{$proyecto->indicadores_completado->sum('porcentaje')}}%</b></span>
+<div class="col-sm-12 progress progress-striped active">
+	<div class="progress-bar progress-bar-success" role="progressbar"
+			aria-valuenow="{{$proyecto->indicadores_completado->sum('porcentaje')}}" aria-valuemin="0" aria-valuemax="100"
+		style="width: {{$proyecto->indicadores_completado->sum('porcentaje')}}%">
+		<span class="">{{$proyecto->indicadores_completado->sum('porcentaje')}}% completado</span>
+	</div>
 </div>
 <div class="clearfix"></div>
 <hr style="margin-top: 3px; margin-bottom: 3px;">

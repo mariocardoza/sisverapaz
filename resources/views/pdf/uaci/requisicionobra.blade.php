@@ -3,15 +3,8 @@
 @endsection @section('reporte')
 <div id="content">
   <br /><br />
-  <hr style="border: 2px solid; color:blue;" />
-  <hr style="border: 2px solid; color:red;" />
-  <div class="row">
-    <div class="col-xs-3"></div>
-    <div class="col-xs-6 text-center">
-      <p style="border: 1px solid;">{{ $tipo }}</p>
-    </div>
-    <div class="col-xs-3"></div>
-  </div>
+  
+ 
   <br />
   <table width="100%" rules="">
     <tbody>
@@ -78,13 +71,11 @@
     <tr>
       <td>
         F.____________________<br />
-        <b>{{$configuracion->nombre_alcalde}}</b>
         <p></p>
         ALCALDE MUNICIPAL
       </td>
       <td>
         F.____________________<br />
-        <b>{{Auth()->user()->empleado->nombre}}</b>
         <p></p>
         JEFE DE UACI
       </td>

@@ -90,19 +90,11 @@ Route::post('contratos/guardartipo','ContratoController@guardarTipo');
 Route::post('contratos/guardarcargo','ContratoController@guardarCargo');
 Route::Resource('contratos','ContratoController');
 
-Route::get('contratacionproyectos/listadeempleados/{id}','EPContratacionController@listadeempleados');
-Route::get('contratacionproyectos/todos','EPContratacionController@todosloscontratos');
-Route::get('contratacionproyectos/create/{id}','EPContratacionController@create');
-Route::get('contratacionproyectos/vercontratado/{id}','EPContratacionController@vercontratado');
-Route::Resource('contratacionproyectos','EPContratacionController');
-
-Route::post('contratoproyectos/baja/{id}','ContratoproyectoController@baja')->name('contratoproyectos.baja');
-Route::post('contratoproyectos/alta/{id}','ContratoproyectoController@alta')->name('contratoproyectos.alta');
-Route::Resource('contratoproyectos','ContratoproyectoController');
-
 Route::post('contratosuministros/baja{id}','ContratoSuministroController@baja')->name('contratosuministros.baja');
 Route::post('contratosuministros/alta/{id}','ContratoSuministroController@alta')->name('contratosuministros.alta');
 Route::Resource('contratosuministros','ContratoSuministroController');
+
+Route::get('contratoproyectos/bajar/{archivo}','ContratoproyectoController@bajar');
 
 Route::post('proyectos/baja/{id}','ProyectoController@baja')->name('proyectos.baja');
 Route::post('proyectos/alta/{id}','ProyectoController@alta')->name('proyectos.alta');
@@ -113,6 +105,9 @@ Route::delete('proyectos/deleteMonto/{id}','ProyectoController@deleteMonto');
 Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
+Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
+Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
+Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 

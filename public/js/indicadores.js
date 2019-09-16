@@ -165,6 +165,7 @@ $(document).ready(function(e){
 		    		if(json[0]==1){
 		    			toastr.success("El indicador se completó exitosamente");
 		    			cargar_indicadores(elid);
+		    			informacion(elid);
 		    		}
 		    	}, error: function(error){
 		    		console.log(error);

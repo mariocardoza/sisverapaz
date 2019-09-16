@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Proyecto;
+use App\ContratoProyecto;
 use App\Organizacion;
 use App\Bitacora;
 use App\Presupuesto;
@@ -14,6 +15,7 @@ use App\Cuentaproy;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
+use Validator;
 use Session;
 
 class ProyectoController extends Controller
@@ -160,6 +162,37 @@ class ProyectoController extends Controller
     {
       Session::forget('fondos');
       Session::forget('fondosbase');
+    }
+
+    public function informacion($id)
+    {
+      $retorno=Proyecto::informacion($id);
+      return $retorno;
+    }
+
+    public function contratos($id)
+    {
+      $retorno=ContratoProyecto::mostrar_contratos($id);
+      return $retorno;
+    }
+
+    public function subircontrato(Request $request)
+    {
+      $this->validar_contrato($request->all())->validate();
+      try{
+        $request->file('archivo')->storeAs('proyectos/contratos', $request->file('archivo')->getClientOriginalName());
+        $contrato=ContratoProyecto::create([
+          'id'=>date('Yidisus'),
+          'nombre'=>$request->nombre,
+          'descripcion'=>$request->descripcion,
+          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage);
+      }
     }
 
     /**
@@ -372,5 +405,23 @@ class ProyectoController extends Controller
         return redirect('/proyectos')->with('error','Ocurrió un error, contacte al administrador');
       }
 
+    }
+
+    protected function validar_contrato(array $data)
+    {
+        $mensajes=array(
+            'nombre.required'=>'El nombre del contrato es obligatorio',
+            'descripcion.required'=>'La descripcion del contrato es obligatoria',
+            'archivo.required'=>'Debe adjuntar el contrato',
+            'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+            'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+        );
+        return Validator::make($data, [
+            'nombre' => 'required',
+            'descripcion'=>'required',
+            'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+        ],$mensajes);
+
+        
     }
 }

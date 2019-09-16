@@ -22,8 +22,10 @@
                         <div class="panel-heading">Presupuesto</div>
                         <div class="panel">
                             <br>
+                            @if($presupuesto->estado==1)
                             <button class="btn btn-primary pull-right" type="button" id="add_material">Agregar</button>
                             <br><br>
+                            @endif
                             <table class="table" id="example2">
                                 <thead>
                                     <tr>
@@ -77,8 +79,12 @@
                         <center>
                             <button type="button" class="btn btn-primary estado" data-estado="3" data-id="{{$presupuesto->id}}">Aprobar</button>
                             <button class="btn btn-danger estado" type="button" data-estado="2" data-id="{{$presupuesto->id}}">Rechazar</button>
+                            <a href="{{ url('../reportesuaci/presupuestounidad/'.$presupuesto->id)}}" class="btn btn-primary"><i class="fa fa-print"></i></a>
                         </center>
                         @endif
+                        <center>
+                            <a href="{{ url('reportesuaci/presupuestounidad/'.$presupuesto->id)}}" class="btn btn-primary" target="_blank"><i class="fa fa-print"></i></a>
+                        </center>
                     <table class="table">
                         <tr>
                             <td colspan="2">

@@ -47,7 +47,7 @@
                 </div>
 						</div>
 						
-						<div class="panel panel-primary" id="div_cot" style="display:none">
+			<div class="panel panel-primary" id="div_cot" style="display:none">
                 <div class="panel-heading">Datos de la cotización </div>
                 <div class="panel-body">
 					<center>
@@ -55,7 +55,16 @@
 						<span>Agregue una nueva contización para visualizar la información</span>
 					</center>
                 </div>
-            </div>
+			</div>
+			<div class="panel panel-primary" id="div_contra" style="display:none">
+					<div class="panel-heading">Datos de los contratos </div>
+					<div class="panel-body" id="contrato_aqui">
+						<center>
+							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+							<span>Agregue un nuevo contrato para visualizar la información</span>
+						</center>
+					</div>
+				</div>
 				</div>
 				<div class="col-md-4">
 					<div class="panel panel-primary">
@@ -70,12 +79,15 @@
 								<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
 									Cotización
 								</button>
+								<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
+										Contratos
+								</button>
 							</div>
 					</div>
 					<div class="panel panel-primary">
 							<div class="panel-heading">Datos del Proyecto </div>
-							<div class="panel-body">
-								@include('proyectos.show.informacion')
+							<div class="panel-body" id="aqui_info">
+								
 							</div>
 					</div>
 				</div>
@@ -86,24 +98,29 @@
 	<script>
 		var elid='<?php echo $proyecto->id ?>';
 		$(document).ready(function (){
+			informacion(elid);
 			$('#btn_pre').click(function (){
 				$("#div_pre").show();
 				$("#div_ind").hide();
 				$("#div_cot").hide();
+				$("#div_contra").hide();
 		
 				$("#btn_pre").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 			});
 		
 			$("#btn_ind").click(function (){
 				$("#div_pre").hide();
 				$("#div_ind").show();
 				$("#div_cot").hide();
+				$("#div_contra").hide();
 		
 				$("#btn_ind").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				cargar_indicadores(elid);
 			});
 		
@@ -111,10 +128,25 @@
 				$("#div_pre").hide();
 				$("#div_ind").hide();
 				$("#div_cot").show();
+				$("#div_contra").hide();
 		
 				$("#btn_cot").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+			});
+
+			$("#btn_contra").click(function (){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").show();
+		
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-primary');
+				contratos(elid);
 			});
 
 		});
@@ -155,9 +187,40 @@
 				}	
 			});
 		}
+
+		function informacion(elid){
+			$.ajax({
+				url:'../proyectos/informacion/'+elid,
+				type:'get',
+				data:{},
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						$("#aqui_info").empty();
+						$("#aqui_info").html(json[2]);
+					}
+				}
+			});
+		}
+
+		function contratos(elid){
+			$.ajax({
+				url:'../proyectos/contratos/'+elid,
+				type:'get',
+				data:{},
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						$("#contrato_aqui").empty();
+						$("#contrato_aqui").html(json[2]);
+					}
+				}
+			});
+		}
 	</script>
 	{!! Html::script('js/presupuestoR.js?cod='.date('yidisus')) !!}
 	{!! Html::script('js/indicadores.js?cod='.date('yidisus')) !!}
+	{!! Html::script('js/proyecto_show.js?cod='.date('yidisus')) !!}
 	
 	@endsection
 @endsection
