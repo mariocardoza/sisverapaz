@@ -14,13 +14,10 @@ class Presupuestodetalle extends Model
       return $this->belongsTo('App\Presupuesto');
     }
 
-    public function catalogo()
-    {
-    	return $this->belongsTo('App\Catalogo')->orderBy('nombre','asc');
-    }
+    
 
-    public function categoria()
+    public function material()
     {
-      return $this->belongsTo('App\Categoria')->orderBy('nombre');
+      return $this->belongsTo('App\Materiales','material_id')->orderBy('categoria_id','ASC');
     }
 }

@@ -121,12 +121,9 @@ class SolicitudcotizacionController extends Controller
         {
           DB::beginTransaction();
           try{
-            $presupuesto = Presupuesto::where('categoria_id',$request->categoria)->where('proyecto_id',$request->proyecto)->first();
-
-            $pre=PresupuestoSolicitud::create([
-              'presupuesto_id' => $presupuesto->id,
-              'categoria_id' => $request->categoria,
-            ]);
+            $proyecto=Proyecto::find($request->proyecto);
+            $presupuestos=$request->presu;
+            
 
             $solicitud=Solicitudcotizacion::create([
                 "formapago_id" => $request->formapago,
@@ -138,22 +135,24 @@ class SolicitudcotizacionController extends Controller
                 'fecha_limite' => invertir_fecha($request->fecha_limite),
                 'tiempo_entrega' => $request->tiempo_entrega,
                 'tipo' => 1,
-                'solicitud_id' => $pre->id,
+                'proyecto_id' => $proyecto->id,
             ]);
 
-            $presupuesto->estado=2;
-            $presupuesto->save();
+            //$proyecto->presupuesto->estado=2;
+            //$proyecto->presupuesto->save();
 
-            $presuu=Presupuesto::where('estado',1)->count();
-            if($presuu==0){
-              $proyecto=Proyecto::findorFail($request->proyecto);
-              $proyecto->estado=4;
-              $proyecto->save();
-              DB::commit();
-              return response()->json([
-                'mensaje' => 'exito',
-                'proyecto' => $proyecto->id
+            foreach($presupuestos as $req){
+              $deta=\App\Presupuestodetalle::find($req['idcambiar']);
+              $deta->estado=2;
+              $deta->save();
+
+              $solideta=\App\Solicitudcotizaciondetalle::create([
+                'material_id'=>$req['idmaterial'],
+                'cantidad'=>$req['cantidad'],
+                'solicitud_id'=>$solicitud->id
               ]);
+
+
             }
             DB::commit();
             return response()->json([
@@ -300,15 +299,16 @@ class SolicitudcotizacionController extends Controller
 		
 		//Funciones R
 		public function categorias_ne(Request $request){
-			$id = $request->id;
-			$categorias = Categoria::whereNotExists(
+      $id = $request->id;
+      $categorias=Categoria::where('estado',1)->orderBy('item')->get();
+			/*$categorias = Categoria::whereNotExists(
 				function ($query) use ($id){
 					$query->select(DB::raw(1))
 					->from('presupuestos')
 					->whereRaw('categorias.id = presupuestos.categoria_id')
 					->whereRaw('presupuestos.proyecto_id = '.$id);
 				}
-			)->orderBy('item')->get();
+			)->orderBy('item')->get();*/
 
 			return $categorias;
 		}

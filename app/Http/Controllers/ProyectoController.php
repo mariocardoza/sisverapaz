@@ -12,6 +12,8 @@ use App\Presupuestodetalle;
 use App\Fondocat;
 use App\Fondo;
 use App\Cuentaproy;
+use App\Categoria;
+use App\Formapago;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
@@ -272,8 +274,10 @@ class ProyectoController extends Controller
     public function show($id)
     {
         $proyecto = Proyecto::findorFail($id);
+        $categorias=Categoria::where('estado',1)->get();
+        $formapagos=Formapago::where('estado',1)->get();
         //$presupuesto = Presupuesto::where('proyecto_id',$proyecto->id)->get()->first();
-        return view('proyectos.show', compact('proyecto'));
+        return view('proyectos.show', compact('proyecto','categorias','formapagos'));
     }
 
     /**
@@ -368,6 +372,52 @@ class ProyectoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function presupuesto_categoria($id,$idproy)
+    {
+      $proyecto=Proyecto::find($idproy);
+      if($id!=0){
+        $detalles=DB::table('presupuestodetalles as pre')
+        ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
+        ->join('materiales as ma','ma.id','=','pre.material_id','inner')
+        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
+        ->where('ma.categoria_id','=',$id)
+        ->orderby('ma.categoria_id')
+        ->get();
+      }else{
+        $detalles=DB::table('presupuestodetalles as pre')
+        ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
+        ->join('materiales as ma','ma.id','=','pre.material_id','inner')
+        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
+        ->orderby('ma.categoria_id')
+        ->get();
+      }
+      
+      
+        $eltbody="";
+        foreach($detalles as $key => $detalle):
+          if($detalle->estado==1):
+          $eltbody.='<tr>
+          <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+              <td>'.($key+1).'</td>
+              <td>'.$detalle->nom_material.'</td>
+              <td>'.$detalle->nombre_medida.'</td>
+              <td>'.$detalle->cantidad.'</td>
+              <td></td>
+              <td></td>
+          </tr>';
+          endif;
+        endforeach;
+      return array(1,"exito",$proyecto,$eltbody);
+    }
+
+    public function elpresupuesto($id)
+    {
+      $retorno=Proyecto::elpresupuesto($id);
+      return $retorno;
     }
 
     public function baja($cadena)

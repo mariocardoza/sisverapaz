@@ -10,14 +10,35 @@
 @endsection
 
 @section('content')
+<style>
+	.subir{
+		padding: 5px 10px;
+		background: #f55d3e;
+		color:#fff;
+		border:0px solid #fff;
+	}
+	
+	.skin-blue{
+	  padding-right: 0px !important;
+	}
+	 
+	.subir:hover{
+		color:#fff;
+		background: #f7cb15;
+	}
+	</style>
 <div class="container">
-    <div class="row">
+    <div class="row" id="elshow">
         <div class="col-md-7">
             <div class="panel panel-primary" id="div_pre">
                 <div class="panel-heading">Datos del Presupuesto </div>
                 <div class="panel-body">
-					@if($proyecto->pre)
-						@include('proyectos.show.presupuesto')
+					@if($proyecto->presupuesto!="")
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+						@if($proyecto->presupuesto!="")
+						<div id="elpresu_aqui"></div>
+						@endif
+						@include('proyectos.show.m_nueva_categoria')
 					@else
 						<center>
 							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
@@ -48,12 +69,29 @@
 						</div>
 						
 			<div class="panel panel-primary" id="div_cot" style="display:none">
-                <div class="panel-heading">Datos de la cotización </div>
+                <div class="panel-heading">Datos de las Solicitudes </div>
                 <div class="panel-body">
-					<center>
-						<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-						<span>Agregue una nueva contización para visualizar la información</span>
-					</center>
+					@if($proyecto->solicitudcotizacion->count() > 0)
+					<div>
+							
+						<div class="row">
+							<div class="col-md-2">
+								@foreach ($proyecto->solicitudcotizacion as $item)
+								<button class="btn btn-primary" data-id="{{$item}}">{{$item->numero_solicitud}}</button>
+								@endforeach
+							</div>
+							<div class="col-md-9">
+								
+							</div>
+						</div>
+					</div>
+					@else
+						<center>
+							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+							<span>Agregue una nueva contización para visualizar la información</span><br>
+							<button class="btn btn-primary btn-sm" id="modal_soli">Registrar</button>
+						</center>
+					@endif
                 </div>
 			</div>
 			<div class="panel panel-primary" id="div_contra" style="display:none">
@@ -77,7 +115,7 @@
 									Indicadores
 								</button>
 								<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
-									Cotización
+									Solicitudes
 								</button>
 								<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
 										Contratos
@@ -91,7 +129,28 @@
 							</div>
 					</div>
 				</div>
-    </div>
+	</div>
+	<div class="row" id="elformulario" style="display: none;">
+            <div class="col-md-11">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Registro de solicitudes</div>
+                <div class="panel-body">
+                    {{ Form::open(['action' => 'SolicitudcotizacionController@store','class' => 'form-horizontal','id' => 'form_solicitudcotizacion']) }}
+                    @include('solicitudcotizaciones.formulario')
+
+                    <div class="form-group">
+                        <center>
+                            <button type="button" id="registrar_soli" class="btn btn-success">
+                                Registrar
+							</button>
+							<button id="cancelar_soli" class="btn btn-primary">Cancelar</button>
+                        </center>
+                    </div>
+                    {{Form::close()}}
+                </div>
+            </div>
+            </div>
+        </div>
 </div>
 @include('proyectos.modales')
 	@section('scripts')		
@@ -151,6 +210,7 @@
 
 		});
 		function cargar_indicadores(elid){
+			modal_cargando();
 			porcentaje=0.0;
 			var html="";
 			$.ajax({
@@ -181,9 +241,13 @@
 						});
 						$("#los_indicadores").empty();
 						$("#los_indicadores").append(html);
+						swal.closeModal();
+					}else{
+						swal.closeModal();
 					}
 				},error:function(error){
 					console.log(error);
+					swal.closeModal();
 				}	
 			});
 		}
@@ -218,9 +282,17 @@
 			});
 		}
 	</script>
+	@if($proyecto->presupuesto!="")
+		<?php $unavariable=$proyecto->presupuesto->id; ?>
+	@else
+	<?php $unavariable=0; ?>
+	@endif
 	{!! Html::script('js/presupuestoR.js?cod='.date('yidisus')) !!}
 	{!! Html::script('js/indicadores.js?cod='.date('yidisus')) !!}
 	{!! Html::script('js/proyecto_show.js?cod='.date('yidisus')) !!}
-	
+	<script>
+		var elid='<?php echo $proyecto->id ?>';
+		var preid='<?php  echo $unavariable ?>';
+	</script>
 	@endsection
 @endsection

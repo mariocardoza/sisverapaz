@@ -37,6 +37,11 @@ class Proyecto extends Model
       try{
         $proyecto=Proyecto::find($id);
         $informacion.='<div class="col-sm-12">
+        <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+        </div>
+        <div class="clearfix"></div>
+        <hr style="margin-top: 3px; margin-bottom: 3px;">
+        <div class="col-sm-12">
         <span>Nombre del proyecto:</span>
       </div>
       <div class="col-sm-12">
@@ -135,6 +140,72 @@ class Proyecto extends Model
       }
     }
 
+    public static function elpresupuesto($id){
+      $presu="";
+      try{
+        $proyecto=Proyecto::find($id);
+        $presu.='	<h4><i class="glyphicon glyphicon-briefcase"></i></h4>
+		
+        <table class="table table-striped table-hover" id="example2">
+          <thead>
+            <th>Descripción</th>
+            <th>Unidad de medida</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>Opciones</th>';
+             $contador=0; $total=0.0;
+          $presu.='</thead>
+          <tbody>';
+            
+              $categ=array();
+            
+            foreach($proyecto->presupuesto->presupuestodetalle as $detalle):
+            
+              if(!in_array($detalle->material->categoria->nombre_categoria,$categ)){
+                $categ[]=$detalle->material->categoria->nombre_categoria;
+              }
+              
+            
+            endforeach;
+          foreach($categ as $c):
+            $presu.='<tr><th colspan="6" class="text-center">'.$c.'</th></tr>';
+            foreach($proyecto->presupuesto->presupuestodetalle as $detalle):
+            if($c==$detalle->material->categoria->nombre_categoria):
+           
+              $presu.='<tr>';
+                $contador++;
+                  $total=$total+$detalle->cantidad*$detalle->preciou;
+                $presu.='<td>'.$detalle->material->nombre.'</td>
+                <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
+                <td>'.$detalle->cantidad.'</td>
+                <td class="text-right">$'.number_format($detalle->preciou,2).'</td>
+                <td class="text-right">$'.number_format($detalle->cantidad*$detalle->preciou,2).'</td>
+                <td>
+                  
+                  <div class="btn-group">
+                    <a class="btn btn-warning btn-xs" href="javascript:void(0)"><span class="glyphicon glyphicon-edit"></span></a>
+                    <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                  
+                </td>
+              </tr>';
+            endif;
+          endforeach;
+        endforeach;
+              $presu.='<tr>
+                <td colspan="5" class="text-center">TOTAL</td>
+                <td class="text-right" colspan="2"><b>$'.number_format($total,2).'</b></td>
+              </tr>
+          </tbody>
+        </table>';
+
+        return array(1,"exito",$presu);
+      }catch(Exception $e){
+
+      }
+    }
+
     public static function codigo_proyecto($monto)
     {
       $configurarion=Configuracion::first();
@@ -181,6 +252,17 @@ class Proyecto extends Model
       }
     }
 
+    public static function tiene_materiales($id){
+      $retorno=false;
+      $detas=Presupuestodetalle::where('presupuesto_id',$id)->get();
+      foreach($detas as $deta){
+        if($deta['estado']==1){
+          $retorno=true;
+        }
+      }
+      return $retorno;
+    }
+
     public function contratoproyectos()
     {
       return $this->hasMany('App\ContratoProyecto');
@@ -201,9 +283,14 @@ class Proyecto extends Model
       return $this->hasMany('App\IndicadoresProyecto')->where('estado',2);
     }
 
+    public function solicitudcotizacion()
+    {
+      return $this->hasMany('App\Solicitudcotizacion','proyecto_id');
+    }
+
     public function presupuesto()
     {
-      return $this->hasMany('App\Presupuesto');
+      return $this->hasOne('App\Presupuesto');
     }
 
     public function fondo()

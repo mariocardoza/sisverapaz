@@ -124,3 +124,26 @@
       </div>
       </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_soli" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Registrar la solicitud</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::open(['class' => 'form-horizontal','id' => 'solicitudcotizacion']) }}
+              @include('solicitudcotizaciones.formulario')
+    
+                      
+          {{Form::close()}}
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="agregar_soli" class="btn btn-success">Agregar</button></center>
+        </div>
+      </div>
+      </div>
+    </div>

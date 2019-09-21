@@ -20,20 +20,16 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="" class="col-md-4 control-label">Categoria: </label>
-                    <div class="col-md-6">
-                        <select name="categoria" id="categoria" class="chosen-select-width">
-                          <option value="">Seleccione una categoría</option>
-                        </select>
-                    </div>
-                </div>
+            
 
                 <div class="form-group">
                     <label for="" class="col-md-4 control-label">Forma de pago: </label>
                     <div class="col-md-6">
                       <select name="formapago" id="formapago" class="chosen-select-width">
                           <option value="">Seleccione una forma de pago...</option>
+                          @foreach ($formapagos as $forma)
+                            <option value="{{$forma->id}}">{{$forma->nombre}}</option>
+                          @endforeach   
                       </select>
                   </div>
                   <div class="col-md-2">
@@ -73,18 +69,49 @@
                     {!!Form::text('tiempo_entrega',null,['class' => 'form-control','id'=>'tiempo_entrega'])!!}
                   </div>
                 </div>
+                
+                <div class="form-group">
+                    <label for="" class="control-label col-md-4">
+                        Seleccione la categoría
+                    </label>
+                    <div class="col-md-6">
+                        <select name="" id="filtrar_categoria" class="chosen-select-width"> 
+                            <option value="0">Todos</option>
+                            @foreach ($categorias  as $item)
+                                <option value="{{$item->id}}">{{$item->nombre_categoria}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <table class="table table-striped" id="tabla" display="block;">
                     <thead>
                         <tr>
-                            <th width="60%">DESCRIPCIÓN</th>
+                            <th width="5%"><input type="checkbox" checked id="todos">Todos</th>
+                            
+                            <th width="10%">N°</th>
+                            <th width="50%">DESCRIPCIÓN</th>
                             <th width="10%"><center>UNIDAD DE MEDIDA</center></th>
                             <th width="10%"><center>CANTIDAD</center></th>
                             <th width="10%"><center>PRECIO UNITARIO</center></th>
-                            <th width="10%">SUBTOTAL</th>
+                            <th width="5%">SUBTOTAL</th>
                         </tr>
                     </thead>
-                    <tbody id="cuerpo"></tbody>
+                    <tbody id="cuerpo2">
+                        @foreach($proyecto->presupuesto->presupuestodetalle as $key => $detalle)
+                            @if($detalle->estado==1)
+                            <tr>
+                            <td><input type="checkbox" checked data-idcambiar="{{$detalle->id}}" data-material="{{$detalle->material_id}}" data-cantidad="{{$detalle->cantidad}}" class="lositemss"></td>
+                                <td>{{$key+1}}</td>
+                                <td>{{$detalle->material->nombre}}</td>
+                                <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
+                                <td>{{$detalle->cantidad}}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
                 </table>
 
                 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalformapago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

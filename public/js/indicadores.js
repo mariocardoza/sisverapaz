@@ -179,6 +179,7 @@ $(document).ready(function(e){
 });
 
 function cargar_indicadorese(elid){
+	modal_cargando();
 	porcentaje=0.0;
 	var html="";
 	$.ajax({
@@ -210,9 +211,13 @@ function cargar_indicadorese(elid){
 				});
 				$("#los_indicadores").empty();
 				$("#los_indicadores").append(html);
+				swal.closeModal();
+			}else{
+				swal.closeModal();
 			}
 		},error:function(error){
 			console.log(error);
+			swal.closeModal();
 		}	
 	});
 }

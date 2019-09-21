@@ -26,7 +26,6 @@ class SolicitudRequest extends FormRequest
         return [
             'formapago' => 'required',
             'cargo' => 'required',
-            'unidad' => 'required',
         ];
     }
 

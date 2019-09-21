@@ -49,9 +49,9 @@ class ContratoProyecto extends Model
                 $html.='</tbody>
               </table>';
             else:
-              if($proyecto->estado==2):
+              if($proyecto->estado==11):
                 $html.='<h4 class="text-yellow text-center"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-              <center><span class="text-center">El proyecti fue rechazada</span><br>
+              <center><span class="text-center">El proyecto fue rechazado</span><br>
               </center>';
               else:
                 $html.='<h4 class="text-yellow text-center"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>

@@ -161,7 +161,7 @@ class Requisicione extends Model
                             ->whereRaw('requisiciondetalles.materiale_id = m.id')
                             ->whereRaw('requisiciondetalles.requisicion_id ='.$id);
                         })->get();*/
-    $presupuesto=Presupuestounidad::where('estado',1)->where('anio',date("Y"))->where('user_id',$id)->first();
+    $presupuesto=Presupuestounidad::where('estado',3)->where('anio',date("Y"))->where('user_id',$id)->first();
     $tabla='';
     
     $tabla.='<table class="table" id="latabla">
@@ -177,6 +177,7 @@ class Requisicione extends Model
       </tr>
     </thead>
     <tbody id="losmateriales">';
+    if(isset($presupuesto->presupuestodetalle)):
     foreach ($presupuesto->presupuestodetalle as $key => $material) {
       $tabla.='<tr>
                 <td>'.($key+1).'</td>
@@ -190,6 +191,7 @@ class Requisicione extends Model
                 <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
               </tr>';
     }
+  endif;
     $tabla.='      
     </tbody>
     </table>';

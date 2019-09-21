@@ -105,9 +105,12 @@ Route::delete('proyectos/deleteMonto/{id}','ProyectoController@deleteMonto');
 Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
+//nueva forma
 Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
 Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
+Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 
@@ -138,7 +141,7 @@ Route::Resource('ordencompras','OrdencompraController');
 Route::get('presupuestos/crear','PresupuestoController@crear');
 Route::get('presupuestos/seleccionaritem/{id}','PresupuestoController@seleccionaritem');
 Route::get('presupuestos/getcategorias/{id}','PresupuestoController@getCategorias');
-Route::get('presupuestos/getcatalogo/{id}','PresupuestoController@getCatalogo');
+Route::get('presupuestos/getcatalogo/{id}/{idd}','PresupuestoController@getCatalogo');
 Route::get('presupuestos/getunidades','PresupuestoController@getUnidadesMedida');
 Route::post('presupuestos/cambiar','PresupuestoController@cambiar')->name('presupuestos.cambiar');
 Route::post('presupuestos/guardarsesion','PresupuestoController@guardarsesion');
