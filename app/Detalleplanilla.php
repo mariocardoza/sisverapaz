@@ -13,10 +13,8 @@ class Detalleplanilla extends Model
     $empleados=Empleado::orderBy('nombre')->get();
     $a_empleados=[];
     foreach ($empleados as $e) {
-      if($e->detalleplanilla){
-        if($e->contrato->count()<1){
+      if(!$e->detalleplanilla && $e->contrato->count()<1){
           $a_empleados[$e->id]=$e->nombre;
-        }
       }
     }
     return $a_empleados;
@@ -30,6 +28,11 @@ class Detalleplanilla extends Model
   public function cargo(){
     return $this->belongsTo('App\Cargo');
   }
+
+  // public static function vacacion($id){//Recibe el id de planilla
+  //   $mes = \Carbon\Carbon::now()->addMonths(1)->format('m');
+  //  return Vacacion::where('estado',1)->where('detalleplanilla_id',$id)->whereBetween('fecha_vacacion', [date('Y').date('m').date('d'),'31'.$mes.date('d')])->get()->first();
+  // }
   
   public static function empleadosPlanilla(){
     return DB::table('empleados')
@@ -40,5 +43,14 @@ class Detalleplanilla extends Model
     ->where('detalleplanillas.tipo_pago',1)
     ->orderby('empleados.nombre')
     ->get();
+  }
+
+  public static function pago($id){//Recibe detalle planilla id
+    $detalle=Detalleplanilla::find($id);
+    $salario=$detalle->salario;
+    if($detalle->pago==1){
+      $salario=$salario/2;
+    }
+    return $salario+($salario*0.3);
   }
 }

@@ -17,7 +17,7 @@
         <ul class="menu">
         @if($empleadosv!=0)
           <li>
-            <a href="#">
+            <a href="{{ url('/vacaciones') }}">
               <i class="fa fa-user text-red"></i>Asignar vacaciones a {{$empleadosv}} empleados
             </a>
           </li>

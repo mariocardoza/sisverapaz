@@ -29,7 +29,9 @@ $(document).ready(function (e) {
     $(document).on("click", "#btn_vacacion", function (e) {
         e.preventDefault();
         var id = $(this).attr('data-id');
+        var pago = $(this).attr('data-pago');
         $('#id_vacacion').val(id);
+        $('#pago').val(pago);
         $('#modal_fecha').modal('show');
     });
 });

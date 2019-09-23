@@ -15,7 +15,7 @@
 @section('content')
 <div class="container">
 	<div class="row">
-		<div class="col-md-10" >
+		<div class="col-md-11" >
 			<div class="box-header">
 				<div class="btn-group pull-left">
 					<a href="#" class="btn btn-primary active" id="bm" onclick="cambio('m');">Mensual</a>

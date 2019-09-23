@@ -65,7 +65,7 @@
                         $p=0;
                     @endphp
                     <tr>
-                    <td>{{$planilla->empleado->nombre}}</td>
+                        <td>{{$planilla->empleado->nombre}}</td>
                         <td>${{$planilla->empleado->detalleplanilla[0]->salario}}</td>
                     <td>${{$planilla->issse}}</td>
                         <td>${{$planilla->isssp}}</td>

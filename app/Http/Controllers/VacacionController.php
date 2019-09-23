@@ -90,8 +90,10 @@ class VacacionController extends Controller
       {
         try{
             $vacacion=Vacacion::find($request->id_vacacion);
-            $vacacion->estado=1;
+            $vacacion->estado=2;
             $vacacion->fecha_vacacion=$request->fecha_vacacion;
+            $vacacion->fecha_pago=$request->fecha_pago;
+            $vacacion->pago=$request->pago;
             $vacacion->save();
           return array(1,'exito');
         }catch(\Exception $e){

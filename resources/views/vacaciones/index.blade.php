@@ -37,7 +37,10 @@
                     <td>{{ $index+1 }}</td>
                     <td>{{ $vacacion->detalleplanilla->empleado->nombre }}</td>
                     <td>{{ $vacacion->detalleplanilla->fecha_inicio->format('d-m-Y') }}</td>
-                    <td><button type="button" data-id="{{$vacacion->id}}" class="btn btn-primary" name="button" id="btn_vacacion"><span class="glyphicon glyphicon-ok"></span></button></td>
+                    @php
+                        $pago=App\detalleplanilla::pago($vacacion->detalleplanilla->id);
+                    @endphp
+                    <td><button type="button" data-id="{{$vacacion->id}}" data-pago="{{$pago}}" class="btn btn-primary" name="button" id="btn_vacacion"><span class="glyphicon glyphicon-ok"></span></button></td>
                   </tr>
                   @endforeach
                 </tbody>
