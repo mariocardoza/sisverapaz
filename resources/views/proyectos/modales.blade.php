@@ -135,7 +135,7 @@
         </div>
         <div class="modal-body">
           {{ Form::open(['class' => 'form-horizontal','id' => 'solicitudcotizacion']) }}
-              @include('solicitudcotizaciones.formulario')
+             
     
                       
           {{Form::close()}}

@@ -52,10 +52,15 @@ class Ordencompra extends Model
             <label for="nombre" class="col-md-4 control-label">Nombre de la actividad</label>
         
             <div class="col-md-6">
-              <input type="hidden" name="cotizacion_id" value="'.$cotizacion->id.'" id="cotizacion_id">
-                <textarea name="actividad" rows="3" class="form-control" readonly>'.$cotizacion->solicitudcotizacion->requisicion->actividad.'
-                </textarea>
-            </div>
+              <input type="hidden" name="cotizacion_id" value="'.$cotizacion->id.'" id="cotizacion_id">';
+              if($cotizacion->solicitudcotizacion->tipo==1):
+                $modal.='<textarea name="actividad" rows="3" class="form-control" readonly>'.$cotizacion->solicitudcotizacion->proyecto->nombre.'
+                </textarea>';
+              else:
+                $modal.='<textarea name="actividad" rows="3" class="form-control" readonly>'.$cotizacion->solicitudcotizacion->requisicion->actividad.'
+                </textarea>';
+              endif;
+            $modal.='</div>
         </div>
         
         <div class="form-group">
@@ -78,10 +83,13 @@ class Ordencompra extends Model
         
         <div class="form-group">
             <label for="nombre" class="col-md-4 control-label">Nombre del administrador de la orden</label>
-            <div class="col-md-6">
-            <input type="text" name="adminorden" value="'.$cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre.'" class="form-control" readonly>
-
-            </div>
+            <div class="col-md-6">';
+            if($cotizacion->solicitudcotizacion->tipo==1):
+              $modal.='<input type="text" name="adminorden" value="'.Auth()->user()->empleado->nombre.'" class="form-control" readonly>';
+            else:
+            $modal.='<input type="text" name="adminorden" value="'.$cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre.'" class="form-control" readonly>';
+            endif;
+            $modal.='</div>
         </div>
         
         <div class="form-group">

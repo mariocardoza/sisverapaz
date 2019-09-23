@@ -40,9 +40,8 @@ class ReportesUaciController extends Controller
       $configuracion=\App\Configuracion::first();
       if($solicitud->tipo==1)
       {
-        $presupuesto = \App\Presupuesto::where('categoria_id', "=", $solicitud->presupuestosolicitud->categoria_id)->firstorFail();
         $tipo = "SOLICITUD DE COTIZACION DE BIENES Y SERVICIOS";
-      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','presupuesto','configuracion'));
+      	$pdf = \PDF::loadView('pdf.uaci.solicitud',compact('solicitud','tipo','configuracion'));
       	$pdf->setPaper('letter', 'portrait');
       	return $pdf->stream('solicitud.pdf');
       }else{

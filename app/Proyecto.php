@@ -134,10 +134,61 @@ class Proyecto extends Model
           '.$proyecto->beneficiarios.'
         </span>
       </div>';
+
+
         return array(1,"exito",$informacion);
       }catch(Exception $e){
         return array(-1,"error",$e->getMessage());
       }
+    }
+
+    public static function solicitudes($id)
+    {
+      $lasoli="";
+      $proyecto=Proyecto::find($id);
+      $lasoli.='<div>';
+          if($proyecto->solicitudcotizacion->count() > 0): 
+              if(Proyecto::tiene_materiales($proyecto->presupuesto->id)):
+              $lasoli.='<center>
+                <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
+              </center>';
+              endif; 
+              $lasoli.='<div class="row">
+              <div class="col-xs-2">
+                <div class="col-sm-12">
+                  <span>&nbsp</span>
+                </div>';
+                foreach($proyecto->solicitudcotizacion as $soli):
+                $lasoli.='<button data-id="'.$soli->id.'" id="lasolicitud" class="btn btn-primary col-sm-12">'.$soli->numero_solicitud.'</button>';
+                  $lasoli.='<div class="clearfix"></div>
+                  <hr style="margin-top: 3px; margin-bottom: 3px;">';
+                endforeach;
+              $lasoli.='</div>
+              <div class="col-xs-9" id="aquilasoli">
+                <h2 class="text-center">Seleccione una solicitud para mostrar la información</h2>
+              </div>
+            </div>';
+          else: 
+            if($proyecto->estado==1):
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>El proyecto no tiene presupuesto aprobado</span><br>
+                </center>';
+            elseif($proyecto->estado==11):
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>La requisición fue rechazada</span><br>
+                </center>';
+            else:
+              $lasoli.='<center>
+                  <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                  <span>Registre la solicitud</span><br>
+                  <button class="btn btn-primary" id="registrar_solicitud">Registrar</button>
+                </center>';
+            endif;
+          endif;
+          $lasoli.='</div>';
+          return array(1,"exito",$lasoli);
     }
 
     public static function elpresupuesto($id){
@@ -152,8 +203,10 @@ class Proyecto extends Model
             <th>Unidad de medida</th>
             <th>Cantidad</th>
             <th>Precio Unitario</th>
-            <th>Subtotal</th>
-            <th>Opciones</th>';
+            <th>Subtotal</th>';
+            if($proyecto->estado==1):
+            $presu.='<th>Opciones</th>';
+            endif;
              $contador=0; $total=0.0;
           $presu.='</thead>
           <tbody>';
@@ -181,21 +234,25 @@ class Proyecto extends Model
                 <td>'.$detalle->cantidad.'</td>
                 <td class="text-right">$'.number_format($detalle->preciou,2).'</td>
                 <td class="text-right">$'.number_format($detalle->cantidad*$detalle->preciou,2).'</td>
-                <td>
-                  
-                  <div class="btn-group">
+                <td>';
+                  if($proyecto->estado==1):
+                  $presu.='<div class="btn-group">
                     <a class="btn btn-warning btn-xs" href="javascript:void(0)"><span class="glyphicon glyphicon-edit"></span></a>
                     <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                  
-                </td>
+                    </div>';
+                  endif;
+                $presu.='</td>
               </tr>';
             endif;
           endforeach;
         endforeach;
-              $presu.='<tr>
-                <td colspan="5" class="text-center">TOTAL</td>
-                <td class="text-right" colspan="2"><b>$'.number_format($total,2).'</b></td>
+              $presu.='<tr>';
+              if($proyecto->estado==1):
+                $presu.='<td colspan="5" class="text-center">TOTAL</td>';
+              else:
+                $presu.='<td colspan="4" class="text-center">TOTAL</td>';
+              endif;
+                $presu.='<td class="text-right" colspan="2"><b>$'.number_format($total,2).'</b></td>
               </tr>
           </tbody>
         </table>';
@@ -251,6 +308,113 @@ class Proyecto extends Model
         return 1;
       }
     }
+
+    public static function portipo($tipo)
+    {
+      switch($tipo){
+        case 2:
+        $proyectos=Proyecto::where('estado',11)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+        break;
+        case 9:
+        $proyectos=Proyecto::where('estado',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+        break;
+        default:
+        $proyectos=Proyecto::where('estado','<>',11)->where('estado','<>',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      }
+  
+      $html="";
+  
+      $html.='<table class="table table-striped table-bordered" id="latabla">
+      <thead>
+        <th width="1%">N°</th>
+        <th width="15%">Código</th>
+        <th width="20%">Nombre Proyecto</th>
+        <th width="4%">Monto</th>
+        <th width="25%">Dirección</th>
+        <th width="10%">Inicio</th>
+        <th width="10%">Fin</th>
+        <th width="5%">Estado</th>
+        <th width="10%">Acción</th>
+      </thead>
+      <tbody>';
+  
+      foreach($proyectos as $key => $proyecto):
+        $html.='<tr>
+        <td>'. ($key+1).'</td>
+        <td>'. $proyecto->codigo_proyecto .'</td>
+        <td>'. $proyecto->nombre .'</td>
+        <td>$'. number_format($proyecto->monto,2) .'</td>
+        <td>'. $proyecto->direccion .'</td>
+        <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
+        <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
+        <td>
+          <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+        </td>
+        <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+        </tr>';
+      endforeach;
+      $html.='</tbody></table>';
+  
+      return array(1,$html);
+    }
+
+    public static function poranio($anio)
+  {
+    $html="";
+
+    try{
+      $proyectos=Proyecto::whereYear('created_at',$anio)->orderBy('created_at','DESC')->get();
+
+      $html.='<table class="table table-striped table-bordered" id="latabla">
+      <thead>
+        <th width="1%">N°</th>
+        <th width="15%">Código</th>
+        <th width="20%">Nombre Proyecto</th>
+        <th width="4%">Monto</th>
+        <th width="25%">Dirección</th>
+        <th width="10%">Inicio</th>
+        <th width="10%">Fin</th>
+        <th width="5%">Estado</th>
+        <th width="10%">Acción</th>
+      </thead>
+      <tbody>';
+  
+      foreach($proyectos as $key => $proyecto):
+        $html.='<tr>
+        <td>'. ($key+1).'</td>
+        <td>'. $proyecto->codigo_proyecto.'</td>
+        <td>'. $proyecto->nombre .'</td>
+        <td>$'. number_format($proyecto->monto,2) .'</td>
+        <td>'. $proyecto->direccion .'</td>
+        <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
+        <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
+        <td>
+          <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+        </td>
+        <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+        </tr>';
+      endforeach;
+      $html.='</tbody></table>';
+
+    return array(1,$html);
+    }catch(Exception $e){
+      $html.='<table class="table table-striped table-bordered" id="latabla">
+    <thead>
+      <th width="3%">N°</th>
+      <th width="5%">Código</th>
+      <th width="20%">Nombre Proyecto</th>
+      <th width="5%">Monto</th>
+      <th width="25%">Dirección</th>
+      <th width="10%">Inicio</th>
+      <th width="10%">Fin</th>
+      <th width="5%">Estado</th>
+      <th width="15%">Acción</th>
+    </thead>
+    <tbody></tbody></table>';
+    return array(-1,$html);
+    }
+  
+  }
 
     public static function tiene_materiales($id){
       $retorno=false;

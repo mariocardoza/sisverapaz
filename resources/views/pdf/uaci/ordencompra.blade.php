@@ -150,10 +150,10 @@
                               <th width="40%">FUENTE DE FINANCIAMIENTO</th>
                               <td width="60%">
                                 @if($ordencompra->cotizacion->solicitudcotizacion->tipo==1)
-                                @foreach($ordencompra->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->fondo as $fondos)
+                                @foreach($ordencompra->cotizacion->solicitudcotizacion->proyecto->fondo as $fondos)
                                   {{$fondos->fondocat->categoria}} / Contrapartida Municipal para
                                 @endforeach
-                                {{$ordencompra->cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->nombre}}
+                                {{$ordencompra->cotizacion->solicitudcotizacion->proyecto->nombre}}
                               @elseif($ordencompra->cotizacion->solicitudcotizacion->tipo==2)
                                 {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->cuenta->nombre}}
                               @endif

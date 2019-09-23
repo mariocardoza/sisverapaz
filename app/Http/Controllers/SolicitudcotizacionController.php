@@ -155,9 +155,7 @@ class SolicitudcotizacionController extends Controller
 
             }
             DB::commit();
-            return response()->json([
-              'mensaje' => 'proyectos',
-            ]);
+            return array(1,"exito",$proyecto->id);
           }catch(\Exception $e){
             DB::rollback();
             return response($e->getMessage());

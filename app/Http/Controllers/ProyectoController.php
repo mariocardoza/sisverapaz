@@ -14,6 +14,7 @@ use App\Fondo;
 use App\Cuentaproy;
 use App\Categoria;
 use App\Formapago;
+use App\Solicitudcotizacion;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
@@ -35,19 +36,14 @@ class ProyectoController extends Controller
     public function index(Request $request)
     {
         $estado = $request->get('estado');
+        $anios=DB::table('proyectos')->distinct()->get(['anio']);
+        
         //if($estado == "" )$estado=1;
-        if($estado == ""){
-          $proyectos = Proyecto::orderBy('id','asc')->get();
-          return view('proyectos.index',compact('proyectos','estado'));
-        }
-        if ($estado == 1) {
-            $proyectos = Proyecto::where('estado',$estado)->orderBy('id','asc')->get();
-            return view('proyectos.index',compact('proyectos','estado'));
-        }
-        if ($estado == 2) {
-            $proyectos = Proyecto::where('estado',$estado)->orderBy('id','asc')->get();
-            return view('proyectos.index',compact('proyectos','estado'));
-        }
+       
+          $proyectos = Proyecto::whereYear('created_at',date("Y"))->orderBy('created_at','DESC')->get();
+          return view('proyectos.index',compact('proyectos','estado','anios'));
+        
+        
     }
 
     public function guardarCategoria(FondocatRequest $request)
@@ -172,6 +168,12 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function solicitudes($id)
+    {
+      $retorno=Proyecto::solicitudes($id);
+      return $retorno;
+    }
+
     public function contratos($id)
     {
       $retorno=ContratoProyecto::mostrar_contratos($id);
@@ -234,7 +236,8 @@ class ProyectoController extends Controller
               'beneficiarios' => $request->beneficiarios,
               'monto_desarrollo' => $request->monto_desarrollo,
               'codigo_proyecto'=>Proyecto::codigo_proyecto($request->monto),
-              'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto)
+              'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto),
+              'anio'=>date("Y")
           ]);
 
           if(isset($montos))
@@ -374,6 +377,12 @@ class ProyectoController extends Controller
         //
     }
 
+    public function versolicitud($id)
+    {
+      $retorno=Solicitudcotizacion::lasolicitud_proyecto($id);
+      return $retorno;
+    }
+
     public function presupuesto_categoria($id,$idproy)
     {
       $proyecto=Proyecto::find($idproy);
@@ -398,11 +407,13 @@ class ProyectoController extends Controller
       
       
         $eltbody="";
+        $n=0;
         foreach($detalles as $key => $detalle):
           if($detalle->estado==1):
+            $n++;
           $eltbody.='<tr>
           <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
-              <td>'.($key+1).'</td>
+              <td>'.($n).'</td>
               <td>'.$detalle->nom_material.'</td>
               <td>'.$detalle->nombre_medida.'</td>
               <td>'.$detalle->cantidad.'</td>
@@ -455,6 +466,18 @@ class ProyectoController extends Controller
         return redirect('/proyectos')->with('error','Ocurrió un error, contacte al administrador');
       }
 
+    }
+
+    public function portipo($tipo)
+    {
+      $retorno=Proyecto::portipo($tipo);
+      return $retorno;
+    }
+
+    public function poranio($anio)
+    {
+      $retorno=Proyecto::poranio($anio);
+      return $retorno;
     }
 
     protected function validar_contrato(array $data)

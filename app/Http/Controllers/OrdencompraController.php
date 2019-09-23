@@ -173,32 +173,14 @@ class OrdencompraController extends Controller
             $cotizacion->estado=3;
             $cotizacion->save();
 
-            if($cotizacion->solicitudcotizacion->solicitud_id)
+            if($cotizacion->solicitudcotizacion->tipo==1)
             {
-              $solicitud=PresupuestoSolicitud::findorFail($cotizacion->solicitudcotizacion->presupuestosolicitud->id);
-              $solicitud->estado=4;
-              $solicitud->save();
-
-              $pre=Presupuesto::where('proyecto_id',$cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id)->get();
-              foreach ($pre as $presi) {
-                $soli=PresupuestoSolicitud::where('estado',3)->where('presupuesto_id',$presi->id)->count();
-              }
-              if($soli==0){
-                $proyecto=Proyecto::findorFail($cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id);
-                $proyecto->estado=7;
-                $proyecto->save();
-                DB::commit();
-                return response()->json([
-                  'mensaje' => 'si'
-                ]);
-                //return redirect('ordencompras')->with('mensaje','Orden de compra registrada con éxito');
-              }
-
+              $proyecto=Proyecto::findorFail($cotizacion->solicitudcotizacion->proyecto->id);
+              $proyecto->estado=7;
+              $proyecto->save();
               DB::commit();
-              return response()->json([
-                'mensaje' => 'exito',
-                'proyecto' => $cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id
-              ]);
+              
+              return array(1,"exito",$cotizacion->solicitudcotizacion->id);
             }else{
               $requisicion=Requisicione::findorFail($cotizacion->solicitudcotizacion->requisicion->id);
               $requisicion->estado=5;

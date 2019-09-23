@@ -10,7 +10,7 @@
     <table width="100%" border="1px">
       <td>
 
-      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas {{$solicitud->tipo==1 ? 'el proyecto: '. $solicitud->presupuestosolicitud->presupuesto->proyecto->nombre : 'la actividad: '. $solicitud->requisicion->actividad}}
+      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas {{$solicitud->tipo==1 ? 'el proyecto: '. $solicitud->proyecto->nombre : 'la actividad: '. $solicitud->requisicion->actividad}}
       <p>Según detalle:</p>
 
       </td>
@@ -28,12 +28,12 @@
         </tr>
       </thead>
       <tbody>
-        @if(isset($presupuesto))
-        @foreach($presupuesto->presupuestodetalle as $detalle)
+        @if($tipo==1)
+        @foreach($solicitud->detalle as $detalle)
         <tr>
-          <td>{{$presupuesto->categoria->item}}</td>
-          <td>{{$detalle->catalogo->nombre}}</td>
-          <td>{{$detalle->catalogo->unidad_medida}}</td>
+          <td>{{$indice+1}}</td>
+          <td>{{$detalle->material->nombre}}</td>
+          <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>
@@ -72,7 +72,7 @@
       <p></p>
       7. Tiempo de entrega, 1 día hábil después de emitida la Orden de Compra.
       <p></p>
-      8. Lugar de entrega del suministro es {{ $solicitud->tipo==1 ?$solicitud->presupuestosolicitud->presupuesto->proyecto->direccion : "Calle Pbro Norberto Marroquin y 1° av sur, barrio Mercedes, Verapaz, San Vicente"}} y los costos de entrega del suministro corren por cuenta del suministrante.
+      8. Lugar de entrega del suministro es {{ $solicitud->tipo==1 ?$solicitud->proyecto->direccion : "Calle Pbro Norberto Marroquin y 1° av sur, barrio Mercedes, Verapaz, San Vicente"}} y los costos de entrega del suministro corren por cuenta del suministrante.
       <p></p>
       9. La municipalidad se reserva el derecho de adjudicar el bien o servicio objeto de esta invitación cuya oferta económica no sea necesariamente la de menor precio, ya que se tomará en cuenta la oferta que más convenga a los intereses institucionales.
       <p></p>

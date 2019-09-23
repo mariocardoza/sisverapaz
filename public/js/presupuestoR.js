@@ -208,7 +208,7 @@ $(document).ready(function () {
         }
       });
 	//cargar formulario de solicitud
-	$(document).on("click","#modal_soli",function(e){
+	$(document).on("click","#registrar_solicitud",function(e){
 		e.preventDefault();
 		$("#elshow").hide();
 		$("#elformulario").show();
@@ -219,6 +219,34 @@ $(document).ready(function () {
 		$("#elformulario").hide();
 		$("#form_solicitudcotizacion").trigger("reset");
 	});
+
+	//area para las solicitudes
+	$(document).on("click","#lasolicitud",function(e){
+		var id=$(this).attr('data-id');
+		mostrar_solicitud(id);
+	});
+
+	///*** Registrar cotizaciones ***//
+	$(document).on("click","#registrar_cotizacion",function(e){
+        e.preventDefault();
+        var id=$(this).attr("data-id");
+        $.ajax({
+          url:'../solicitudcotizaciones/modal_cotizacion/'+id,
+          type:'get',
+          data:{},
+          success:function(json){
+            if(json[0]==1){
+              $("#modal_aqui").empty();
+              $("#modal_aqui").html(json[2]);
+              $(".chosen-select-width").chosen({
+                width:"100%"
+              });
+              $("#modal_registrar_coti").modal("show");
+            }
+          }
+        })
+	  });
+	  
 
 	/// registrar la solicitud de cotizacion
 	$(document).on("click","#registrar_soli", function(e){
@@ -245,16 +273,24 @@ $(document).ready(function () {
 		// if(requi.length==0){
 		  //swal('aviso','Seleccione los ítems','warning');
 		//}else{
+			modal_cargando();
 		  $.ajax({
 			url:'../solicitudcotizaciones',
 			type:'post',
 			data:{formapago,encargado,cargo,proyecto,unidad,lugar_entrega,fecha_limite,tiempo_entrega,presu},
 			success: function(response){
-			  if(response.mensaje=='exito'){
+			  if(response[0]==1){
 				toastr.success('Solicitud registrada exitosamente');
+				informacion(response[2]);
+				solicitudes(response[2]);
+				$("#elshow").show();
+				$("#elformulario").hide();
+				$("#form_solicitudcotizacion").trigger("reset");
+				swal.closeModal();
 			  }else{
 				  console.log(response);
 				  toastr.error('Ocurrió un error, contacte al administrador');
+				  swal.closeModal();
 				}
 			},
 			error: function(error){
@@ -262,10 +298,195 @@ $(document).ready(function () {
 			  $.each(error.responseJSON.errors, function( key, value ) {
 				toastr.error(value);
 			  });
+			  swal.closeModal();
 			}
 		  });
 		//}
 	});
+
+	//registrar la cotizacion
+	$(document).on("click","#registrar_lacoti", function(e){
+        var marcas = new Array();
+        var precios = new Array();
+        var unidades = new Array();
+        var descripciones = new Array();
+        var cantidades = new Array();
+        $('input[name^="marcas"]').each(function() {
+          marcas.push($(this).val());
+        });
+
+        $('input[name^="precios"]').each(function() {
+          precios.push($(this).val());
+        });
+
+        $('input[name^="unidades"]').each(function() {
+          unidades.push($(this).val());
+        });
+
+        $('input[name^="descripciones"]').each(function() {
+          descripciones.push($(this).val());
+        });
+
+        $('input[name^="cantidades"]').each(function() {
+          cantidades.push($(this).val());
+        });
+
+        var proveedor = $("#proveedor").val();
+        var descripcion = $(".laformapago").val();
+        var id = $("#id_solicoti").val();
+        modal_cargando();
+        $.ajax({
+          url:'../cotizaciones',
+          headers: {'X-CSRF-TOKEN':token},
+          type:'post',
+          data:{id,proveedor,descripcion,marcas,precios,cantidades,unidades,descripciones},
+          success: function(response){
+            if(response[0]==1){
+              toastr.success("Cotización registrada exitosamente");
+              if(response[4] == 1){
+				mostrar_solicitud(response[2]);
+				informacion(elid);
+				$("#modal_registrar_coti").modal("hide");
+                swal.closeModal();
+              }else{
+                mostrar_informacion(response[2]);
+                $("#modal_registrar_coti").modal("hide");
+                swal.closeModal();
+              }
+            }else{
+              toastr.error("Debe llenar todos los campos de precio unitario");
+              console.log(response);
+              swal.closeModal();
+            }
+          },
+          error: function(error){
+            console.log(error);
+            $.each(error.responseJSON.errors, function( key, value ) {
+              toastr.error(value);
+            });
+          }
+        });
+	  });
+	  
+	  ////*** Seleccionar la cotizacion */
+      $(document).on("click","#seleccionar",function(e){
+        idcot = $(this).attr("data-id");
+        idproyecto = $(this).attr('data-proyecto');
+        swal({
+          title: '¿Está seguro?',
+          text: "¿Desea seleccionar este proveedor?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            swal(
+              '¡Seleccionado!',
+              'Proveedor seleccionado.',
+              'success'
+            )
+            seleccionar(idcot,idproyecto);
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Cancelado',
+              'Seleccione un proveedor',
+              'info'
+            )
+            $('input[name=seleccionarr]').attr('checked',false);
+          }
+        });
+	  });
+	  
+	//modla para registrar la orden de compra
+	$(document).on("click","#registrar_orden", function(e){
+        var id=$(this).attr("data-id");
+        $.ajax({
+          url:'../ordencompras/modal_registrar/'+id,
+          type:'get',
+          data:{},
+          success: function(json){
+            if(json[0]==1){
+              $("#modal_aqui").empty();
+              $("#modal_aqui").html(json[2]);
+              var start = new Date(),
+              end = new Date(),
+              start2, end2;
+              end.setDate(end.getDate() + 365);
+  
+              $("#fecha_inicio").datepicker({
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd-mm-yy',
+                minDate: start,
+                maxDate: end,
+              onSelect: function(){
+                start2 = $(this).datepicker("getDate");
+                end2 = $(this).datepicker("getDate");
+
+                start2.setDate(start2.getDate() + 1);
+                end2.setDate(end2.getDate() + 365);
+
+                $("#fecha_fin").datepicker({
+                        selectOtherMonths: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'dd-mm-yy',
+                        minDate: start2,
+                        maxDate: end2,
+                onSelect: function(){
+                  var fecha1 = moment(start2);
+                  var fecha2 = moment($(this).datepicker("getDate"));
+                  //$("#plazo").val(fecha2.diff(fecha1, 'days');
+                }
+                });
+
+              }
+            });
+              $("#modal_registrar_orden").modal("show");
+            }
+          }
+        });
+      //
+	  });
+	  
+	//registra la orden de compra
+	$(document).on("click","#agregar_orden", function(e){
+		var datos= $("#laordencompra").serialize();
+		modal_cargando();
+		$.ajax({
+		  url:'../ordencompras',
+		  type:'POST',
+		  dataType:'json',
+		  data:datos,
+		  success: function(json){
+			if(json[0]==1){
+			  toastr.success("Orden de compra registrada con éxito");
+			  mostrar_solicitud(json[2]);
+			  informacion(elid);
+			  $("#modal_registrar_orden").modal("hide");
+			  $("#laordencompra").trigger("reset");
+			  swal.closeModal();
+			  //window.location.reload();
+			}else{
+			  swal.closeModal();
+			  toastr.error("Ocurrió un error");
+			}
+		  },error: function(error){
+			swal.closeModal();
+			  $.each(error.responseJSON.errors, function( key, value ) {
+				  toastr.error(value);
+			  });
+		  }
+		});
+		});
 
 	//filtrar por categorias en la solicitud
 	$(document).on("change","#filtrar_categoria",function(e){
@@ -282,6 +503,21 @@ $(document).ready(function () {
 			}
 		});
 	});
+
+	//funcion para los precios en la cotizacion
+	$(document).on("keyup",".precios",function(e){
+        var element = $(e.currentTarget),
+          cantidad   = $(element).attr('data-cantidad'),
+          subTotal =  $(element).val(),
+          parent  = element.parents("tr");
+
+          if($.isNumeric($(element).val()) && $.trim($(element).val()))
+            subTotal = ( $(element).val() * parseFloat(cantidad) );
+          else
+            subTotal = 0
+          //console.log(parent);
+          $(parent).find(".subtotal").text("$"+subTotal.toFixed(2));
+      });
 });
 
 //Funcion para cargar los item de las categorias
@@ -333,3 +569,55 @@ function cargar_presupuesto(elid){
 		}
 	});
 }
+
+function mostrar_solicitud(id)
+  {
+    modal_cargando();
+      $.ajax({
+        url:'../proyectos/versolicitud/'+id,
+        type:'GET',
+        data:{},
+        success: function(json){
+          if(json[0]==1){
+            swal.closeModal();
+            $("#aquilasoli").empty();
+            $("#aquilasoli").html(json[2]);
+          }else{
+            swal.closeModal();
+          }
+        }, error: function(error){
+          swal.closeModal();
+        }
+      });
+  }
+
+  //seleccionar una cotizacion
+  function seleccionar(idcot,idproyecto)
+  {
+    var ruta ="../cotizaciones/seleccionar";
+    $.ajax({
+      url: ruta,
+			type: 'POST',
+			dataType: 'json',
+			data:{idcot,idproyecto},
+			success: function(data){
+        console.log(data);
+        if(data[0]== 1){
+          toastr.success('Proveedor seleccionado con éxito');
+		  mostrar_solicitud(data[2]);
+		  informacion(elid);
+        }else{
+          toastr.error('Ha ocurrido un error en la solucitud contacte al administrador');
+          console.log(data.mensaje);
+        }
+
+			},
+			error: function(data, textStatus, errorThrown){
+        console.log(data);
+				toastr.error('Ha ocurrido un '+textStatus+' en la solucitud');
+				$.each(data.responseJSON.errors, function( key, value ) {
+					toastr.error(value);
+			});
+			}
+    });
+  }

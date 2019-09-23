@@ -16,128 +16,103 @@
           <div class="box">
             <div class="box-header">
               <p></p>
-              <div class="btn-group pull-right">
-                <a href="{{ url('/proyectos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                <a href="{{ url('/proyectos') }}" class="btn btn-primary">Todos</a>
-                <a href="{{ url('/proyectos?estado=1') }}" class="btn btn-primary">Priorizados</a>
-                <a href="{{ url('/proyectos?estado=2') }}" class="btn btn-primary">Liquidación</a>
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="btn-group">
+                    <a href="{{ url('/proyectos/create') }}" class="btn btn-success">Registrar</a>
+                    <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="1">Todos</a>
+                    <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="2">Rechazados</a>
+                    <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="9">Finalizados</a>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <select name="" id="select_anio" class="chosen-select pull-right">
+                    <option selected value="0">Seleccione un año</option>
+                    @foreach ($anios as $anio)
+                        <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-              <table class="table table-striped table-hover" id="example2">
-                <thead>
-                  <th width="3%">N°</th>
-                  <th width="20%">Nombre Proyecto</th>
-                  <th width="10%">Monto</th>
-                  <th width="25%">Dirección</th>
-                  <th width="10%">Inicio</th>
-                  <th width="10%">Fin</th>
-                  <th width="5%">Estado</th>
-                  <th width="15%">Accion</th>
-                  <?php $contador=0; ?>
-                </thead>
-                <tbody>
-                  @foreach($proyectos as $proyecto)
-                  <tr>
-                    <?php $contador++; ?>
-                    <td>{{ $contador }}</td>
-                    <td>{{ $proyecto->nombre }}</td>
-                    <td>${{ number_format($proyecto->monto,2) }}</td>
-                    <td>{{ $proyecto->direccion }}</td>
-                    <td>{{ $proyecto->fecha_inicio->format('d-m-Y') }}</td>
-                    <td>{{ $proyecto->fecha_fin->format('d-m-Y') }}</td>
-                    <td>
-                      <span class="col-xs-12 label label-{{estilo_proyecto($proyecto->estado)}}">{{proyecto_estado($proyecto->estado)}}</span>
-                    </td>
-                    <td>
-                      @if( $estado == "" )
-                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <div class="btn-group">
-                          <a title="Ver información del proyecto" href="{{ url('proyectos/'.$proyecto->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          @if( $proyecto->estado == 1 )
-                            <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                            <a title="Ver y registar el presupuesto para este proyecto" href="{{ url('presupuestos?proyecto='.$proyecto->id) }}" class="btn btn-success btn-xs"><span class="fa fa-balance-scale"></span></a>
-                          @elseif( $proyecto->estado == 2)
-                            <a title="Ver y registar el presupuesto para este proyecto" href="{{ url('presupuestos?proyecto='.$proyecto->id) }}" class="btn btn-success btn-xs"><span class="fa fa-balance-scale"></span></a>
-                            <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                            <button title="Finalizar el registro de los presupuestos" type="button" onclick="{{ "cambiar(".$proyecto->id.")" }}" class="btn btn-default btn-xs"><span class="fa fa-check"></span></button>
-                          @elseif( $proyecto->estado == 3)
-                            <a title="Ver y registrar las cotizaciones" href="{{ url('solicitudcotizaciones/create/'.$proyecto->id) }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-align-right"></span></a>
-                            <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                          @elseif( $proyecto->estado == 4 || $proyecto->estado==5 )
-                            <a title="Ver las solicitudes realizadas para este proyecto" href="{{url('solicitudcotizaciones/versolicitudes/'.$proyecto->id)}}" class="btn btn-success btn-xs"><span class="fa fa-list"></span></a>
-                          @elseif( $proyecto->estado == 6 )
-                            <a href="{{url('solicitudcotizaciones/versolicitudes/'.$proyecto->id)}}">ver orden</a>
-                          @elseif( $proyecto->estado == 8)
-                            <a href="{{url('inventarios?proyecto='.$proyecto->id)}}">Ver inventario</a>
-                          @endif
-                          <button title="Dar de baja al proyecto" class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$proyecto->id.",'proyectos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        {{ Form::close()}}
-
-                      @endif
-                      @if( $estado == 1 )
-                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <div class="btn-group">
-                          <a href="{{ url('proyectos/'.$proyecto->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('presupuestos/crear/'.$proyecto->id) }}" class="btn btn-success btn-xs"><span class="fa fa-balance-scale"></span></a>
-                          <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-edit"></span></a>
-                          <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$proyecto->id.",'proyectos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                        </div>
-                        {{ Form::close()}}
-                      @endif
-                      @if( $estado == 9 )
-                        {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$proyecto->id.",'proyectos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                        {{ Form::close()}}
-                      @endif
-                    </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-							</table>
-              <script>
-                function cambiar(id){
-                  swal({
-                    title: '¿Está seguro de enviar el proyecto a cotizar?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'si, continuar!'
-                  }).then((result) => {
-                    if (result.value) {
-                      var token = $('meta[name="csrf-token"]').attr('content');
-                      var ruta ="/"+carpeta()+"/public/presupuestos/cambiar";
-                      $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        url: ruta,
-                        headers: {'X-CSRF-TOKEN':token},
-                        data:{id},
-                        success : function(msj){
-                          console.log(msj);
-                          if(msj.mensaje == "exito"){
-                            window.location.href = "/"+carpeta()+"/public/proyectos";
-                            console.log(msj);
-                            toastr.success('Proyecto listo para cotizar');
-                          }else{
-                            toastr.error('Ocurrió un error');
-                          }
-
-                        },
-                        error: function(){
-                          toastr.error('Ocurrió un error');
-                        }
-                      });
-
-                    }
-                  })
-                }
-              </script>
+            <div class="box-body" id="aqui_tabla">
+              
+              
             </div>
           </div>
         </div>
 </div>
+@endsection
+@section("scripts")
+<script> 
+  $(document).ready(function(e){
+    cargar_proyectos(tipo=1);
+
+    $(document).on("click",".elver",function(e){
+      e.preventDefault();
+      var tipo=$(this).attr("data-tipo");
+      cargar_proyectos(tipo);
+    });
+
+    $(document).on("change","#select_anio",function(e){
+      var anio=$(this).val();
+      if(anio!=''){
+        cargar_poranio(anio);
+      }
+      
+    });
+  });
+
+
+  function cargar_poranio(anio){
+    modal_cargando();
+    $.ajax({
+      url:'proyectos/poranio/'+anio,
+      type:'get',
+      data:{},
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          
+          swal.closeModal();
+          
+        }
+        else{
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          swal.closeModal();
+        }
+
+        inicializar_tabla("latabla");
+      }
+    });
+  }
+
+  function cargar_proyectos(tipo){
+    modal_cargando();
+    $.ajax({
+      url:'proyectos/portipo/'+tipo,
+      type:'get',
+      data:{},
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          $("#aqui_tabla").empty();
+          $("#aqui_tabla").html(json[1]);
+          
+          swal.closeModal();
+          
+        }
+        else{
+          swal.closeModal();
+        }
+
+        inicializar_tabla("latabla");
+      }
+    });
+  }
+</script>
 @endsection

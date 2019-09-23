@@ -70,28 +70,8 @@
 						
 			<div class="panel panel-primary" id="div_cot" style="display:none">
                 <div class="panel-heading">Datos de las Solicitudes </div>
-                <div class="panel-body">
-					@if($proyecto->solicitudcotizacion->count() > 0)
-					<div>
-							
-						<div class="row">
-							<div class="col-md-2">
-								@foreach ($proyecto->solicitudcotizacion as $item)
-								<button class="btn btn-primary" data-id="{{$item}}">{{$item->numero_solicitud}}</button>
-								@endforeach
-							</div>
-							<div class="col-md-9">
-								
-							</div>
-						</div>
-					</div>
-					@else
-						<center>
-							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-							<span>Agregue una nueva contización para visualizar la información</span><br>
-							<button class="btn btn-primary btn-sm" id="modal_soli">Registrar</button>
-						</center>
-					@endif
+                <div class="panel-body" id="solicitud_aqui">
+					
                 </div>
 			</div>
 			<div class="panel panel-primary" id="div_contra" style="display:none">
@@ -130,6 +110,7 @@
 					</div>
 				</div>
 	</div>
+	@if(isset($proyecto->presupuesto->presupuestodetalle))
 	<div class="row" id="elformulario" style="display: none;">
             <div class="col-md-11">
             <div class="panel panel-primary">
@@ -150,8 +131,10 @@
                 </div>
             </div>
             </div>
-        </div>
+		</div>
+	@endif
 </div>
+<div id="modal_aqui"></div>
 @include('proyectos.modales')
 	@section('scripts')		
 	<script>
@@ -193,6 +176,7 @@
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				solicitudes(elid);
 			});
 
 			$("#btn_contra").click(function (){
@@ -262,6 +246,21 @@
 					if(json[0]==1){
 						$("#aqui_info").empty();
 						$("#aqui_info").html(json[2]);
+					}
+				}
+			});
+		}
+
+		function solicitudes(elid){
+			$.ajax({
+				url:'../proyectos/solicitudes/'+elid,
+				type:'get',
+				data:{},
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						$("#solicitud_aqui").empty();
+						$("#solicitud_aqui").html(json[2]);
 					}
 				}
 			});

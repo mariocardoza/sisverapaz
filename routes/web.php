@@ -106,10 +106,14 @@ Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //nueva forma
+Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
+Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
 Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
+Route::get('proyectos/solicitudes/{id}','ProyectoController@solicitudes');
 Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
+Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
