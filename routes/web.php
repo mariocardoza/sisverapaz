@@ -108,6 +108,7 @@ Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //nueva forma
 Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
 Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
+Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
 Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
 Route::get('proyectos/solicitudes/{id}','ProyectoController@solicitudes');
 Route::get('proyectos/contratos/{id}','ProyectoController@contratos');

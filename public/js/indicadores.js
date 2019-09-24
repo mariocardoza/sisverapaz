@@ -15,6 +15,7 @@ $(document).ready(function(e){
 			porcentaje=porcentaje+porcen;
 			if(porcentaje>100){
 				swal('Aviso','Sobrepasa el 100%','warning');
+				toastr.info("Sobrepasa el 100%");
 				cargar_indicadores(elid);
 				$("#form_indicador").trigger("updated");
 			}else{

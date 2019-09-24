@@ -480,6 +480,24 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function cambiarestado(Request $request,$id)
+    {
+      try{
+        $proyecto=Proyecto::find($id);
+        $proyecto->estado=$request->estado;
+        if(isset($request->fecha_acta)):
+          $proyecto->fecha_acta=date("Y-m-d H:i:s");
+        endif;
+        if(isset($request->motivo_pausa)):
+          $proyecto->motivo_pausa=$request->motivo_pausa;
+        endif;
+        $proyecto->save();
+        return array(1,"exito");
+      }catch(Excpetion $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
     protected function validar_contrato(array $data)
     {
         $mensajes=array(

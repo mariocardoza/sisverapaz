@@ -486,7 +486,139 @@ $(document).ready(function () {
 			  });
 		  }
 		});
-		});
+	});
+
+	//materiales ya fueron recibidos
+	$(document).on("click","#materiales_recibidos", function(e){
+        swal({
+          title: 'Materiales',
+          text: "¿Los materiales se recibieron segun lo estipulado en la solicitud?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              url:'../proyectos/cambiarestado/'+elid,
+              type:'PUT',
+              dataType:'json',
+              data:{fecha_acta:'si',estado:8},
+              success: function(json){
+                if(json[0]==1){
+                  informacion(elid);
+                  toastr.success("Materiales recibidos");
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              }, error: function(error){
+
+              }
+            });
+            swal(
+              '¡Éxito!',
+              'Materiales ya en posesión del encargando',
+              'success'
+            );
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Nueva revisión',
+              'Se pide verificar bien los materiales',
+              'info'
+            );
+          }
+        });
+	});
+	
+	//modal para pausar
+	$(document).on("click","#modal_pausar",function(e){
+		e.preventDefault();
+		$("#modal_pausar_proyecto").modal("show");
+	});
+
+	//pausar la ejecución de un proyecto
+	$(document).on("click","#pausar_proyecto",function(e){
+		var valid = $("#form_pausar").valid();
+		if(valid){
+			var datos=$("#form_pausar").serialize();
+			modal_cargando();
+			$.ajax({
+				url:'../proyectos/cambiarestado/'+elid,
+				type:'PUT',
+				dataType:'json',
+				data:datos,
+				success: function(json){
+				  if(json[0]==1){
+					informacion(elid);
+					toastr.success("Pausado con éxito");
+					swal.closeModal();
+					$("#modal_pausar_proyecto").modal("hide");
+					$("#form_pausar").trigger("reset");
+				  }else{
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
+				  }
+				}, error: function(error){
+					swal.closeModal();
+				}
+			  });
+		}
+	});
+
+	//reanudar el proyecto
+	$(document).on("click","#reanudar_proyecto",function(e){
+		e.preventDefault();
+		swal({
+			title: '',
+			text: "¿Está seguro de reanudar la ejecución del proyecto?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '¡Si!',
+			cancelButtonText: '¡No!',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		  }).then((result) => {
+			if (result.value) {
+			  $.ajax({
+				url:'../proyectos/cambiarestado/'+elid,
+				type:'PUT',
+				dataType:'json',
+				data:{estado:8},
+				success: function(json){
+				  if(json[0]==1){
+					informacion(elid);
+					toastr.success("Reanudado con éxito");
+				  }else{
+					toastr.error("Ocurrió un error");
+				  }
+				}, error: function(error){
+  
+				}
+			  });
+			  swal(
+				'¡Éxito!',
+				'Éxito',
+				'success'
+			  );
+			} else if (result.dismiss === swal.DismissReason.cancel) {
+			  swal(
+				'Nueva revisión',
+				'Verifique los detalles del proyecto',
+				'info'
+			  );
+			}
+		  });
+	});
 
 	//filtrar por categorias en la solicitud
 	$(document).on("change","#filtrar_categoria",function(e){

@@ -293,7 +293,7 @@ function proyecto_estado($estado)
             return 'En marcha';
             break;
         case '9':
-            return 'Inconcluso';
+            return 'En pausa';
             break;
 		case '10':
 			return 'Inactivo';
@@ -338,6 +338,9 @@ function estilo_proyecto($estado)
 					return 'danger';
 					break;
 			case '10':
+					return 'danger';
+                    break;
+            case '11':
 					return 'danger';
 					break;
 			default:

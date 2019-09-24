@@ -12,7 +12,7 @@ class Proyecto extends Model
 {
   use DatesTranslator;
     protected $guarded = [];
-    protected $dates = ['fecha_inicio','fecha_fin'];
+    protected $dates = ['fecha_inicio','fecha_fin','fecha_acta'];
 
     public static function Buscar($nombre,$estado)
     {
@@ -36,12 +36,35 @@ class Proyecto extends Model
       $informacion="";
       try{
         $proyecto=Proyecto::find($id);
+        if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7):
+        $informacion.='<div class="col-sm-12">
+          <center><button class="btn btn-primary btn-sm" id="materiales_recibidos" title="Materiales recibidos"><i class="fa fa-check"></i></button></center>
+        </div></br><br>';
+        elseif($proyecto->estado==8):
+          $informacion.='<div class="col-sm-12">
+          <center><button class="btn btn-primary btn-sm" id="modal_pausar" title="Pausar el proyecto"><i class="fa fa-pause"></i></button></center>
+        </div></br><br>';
+        elseif($proyecto->estado==9):
+          $informacion.='<div class="col-sm-12">
+          <center><button class="btn btn-primary btn-sm" id="reanudar_proyecto" title="Reanudar el proyecto"><i class="fa fa-play"></i></button></center>
+        </div></br><br>';
+        endif;
         $informacion.='<div class="col-sm-12">
         <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
         </div>
         <div class="clearfix"></div>
-        <hr style="margin-top: 3px; margin-bottom: 3px;">
+        <hr style="margin-top: 3px; margin-bottom: 3px;">';
+        if($proyecto->estado==9):
+          $informacion.='<div class="col-sm-12">
+          <span>Motivo de pausa:</span>
+        </div>
         <div class="col-sm-12">
+          <span><b>'.$proyecto->motivo_pausa.'</b></span>
+        </div>
+        <div class="clearfix"></div>
+        <hr style="margin-top: 3px; margin-bottom: 3px; background-color:red;">';
+        endif;
+        $informacion.='<div class="col-sm-12">
         <span>Nombre del proyecto:</span>
       </div>
       <div class="col-sm-12">
@@ -268,14 +291,15 @@ class Proyecto extends Model
       $configurarion=Configuracion::first();
       if($monto>$configurarion->licitacion){
         $numero=Proyecto::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->where('monto','>',$configurarion->licitacion)->count();
+        $numero=$numero++;
         if($numero>0 && $numero<10){
-          return "LP-00".($numero+1)."-".date("Y");
+          return "LP-00".($numero)."-".date("Y");
         }else{
           if($numero >= 10 && $numero <100){
-            return "LP-0".($numero+1)."-".date("Y");
+            return "LP-0".($numero)."-".date("Y");
           }else{
             if($numero>=100){
-              return "LP-".($numero+1)."-".date("Y");
+              return "LP-".($numero)."-".date("Y");
             }else{
               return "LP-001-".date("Y");
             }
@@ -283,14 +307,15 @@ class Proyecto extends Model
         }
       }else{
         $numero=Proyecto::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->where('monto','<=',$configurarion->licitacion)->count();
+        $numero=$numero++;
         if($numero>0 && $numero<10){
-          return "LG-00".($numero+1)."-".date("Y");
+          return "LG-00".($numero)."-".date("Y");
         }else{
           if($numero >= 10 && $numero <100){
-            return "LG-0".($numero+1)."-".date("Y");
+            return "LG-0".($numero)."-".date("Y");
           }else{
             if($numero>=100){
-              return "LG-".($numero+1)."-".date("Y");
+              return "LG-".($numero)."-".date("Y");
             }else{
               return "LG-001-".date("Y");
             }
@@ -425,6 +450,11 @@ class Proyecto extends Model
         }
       }
       return $retorno;
+    }
+
+    public function tiene_solicitudes()
+    {
+      return $this->hasMany('App\Solicitudcotizacion')->where('estado',3);
     }
 
     public function contratoproyectos()

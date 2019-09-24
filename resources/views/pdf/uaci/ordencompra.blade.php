@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SisVerapaz</title>
+  <title>SisVerapaz - Orden de compra</title>
   <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
   <style>
     

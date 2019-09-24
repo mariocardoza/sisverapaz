@@ -9,7 +9,7 @@ class Requisicione extends Model
 {
   protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id','fecha_actividad','anio'];
   protected $primaryKey = "id";
-  protected $dates= ['fecha_actividad','fecha_baja'];
+  protected $dates= ['fecha_actividad','fecha_baja','fecha_acta'];
   public $incrementing = false;
 
   public static function correlativo()

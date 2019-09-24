@@ -433,7 +433,7 @@ class Solicitudcotizacion extends Model
                     </div>
                     </fieldset>
                     <br><br>';
-                    if($solicitud->proyecto->estado>=6):
+                    if($solicitud->proyecto->estado>=8):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
                     <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>

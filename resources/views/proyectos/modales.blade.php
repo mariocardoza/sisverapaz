@@ -147,3 +147,28 @@
       </div>
       </div>
     </div>
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_pausar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">¿Pausar el proyecto?</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::open(['class' => '','id' => 'form_pausar']) }}
+             <label for="" class="control-label">Motivo por el cual pausa el proyecto</label>
+          <div>
+            <textarea class="form-control" required name="motivo_pausa"></textarea>
+            <input type="hidden" name="estado" value="9">
+          </div>
+                      
+          {{Form::close()}}
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="pausar_proyecto" class="btn btn-success">Pausar</button></center>
+        </div>
+      </div>
+      </div>
+    </div>

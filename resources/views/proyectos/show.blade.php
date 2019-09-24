@@ -33,8 +33,10 @@
             <div class="panel panel-primary" id="div_pre">
                 <div class="panel-heading">Datos del Presupuesto </div>
                 <div class="panel-body">
-					@if($proyecto->presupuesto!="")
+					@if($proyecto->presupuesto!="" )
+					@if($proyecto->estado==1 || $proyecto->estado==2)
 					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+					@endif
 						@if($proyecto->presupuesto!="")
 						<div id="elpresu_aqui"></div>
 						@endif
@@ -54,10 +56,12 @@
 						
 						<div class="panel panel-primary" id="div_ind" style="display: none">
                 <div class="panel-heading">Datos de indicadores </div>
-                <div class="panel-body" >
+                <div class="panel-body" id="div_indicadores">
 					@if($proyecto->indicadores->count() > 0)
 					<ul class="todo-list" id="los_indicadores"></ul>
+					@if($proyecto->indicadores->sum('porcentaje') < 100)
 					<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
+					@endif
 					@else
 					<center>
 						<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
@@ -83,20 +87,38 @@
 						</center>
 					</div>
 				</div>
+				<div class="panel panel-primary" id="div_lic" style="display:none">
+						<div class="panel-heading">Licitaciones </div>
+						<div class="panel-body" id="licitaciones_aqui">
+							<center>
+								<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+								<span>Agregue una nueva licitación para visualizar la información</span>
+							</center>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="panel panel-primary">
 							<div class="panel-heading">Opciones </div>
 							<div class="panel-body">
+								@if($proyecto->tipo_proyecto==1)
 								<button type="button" class="btn btn-primary col-sm-12" id="btn_pre" style="margin-bottom: 3px;">
 									Presupuesto
 								</button>
+								@else
+								<button type="button" class="btn btn-default col-sm-12" id="btn_lic" style="margin-bottom: 3px;">
+										Licitación
+									</button>
+								@endif
 								<button type="button" class="btn btn-default col-sm-12" id="btn_ind" style="margin-bottom: 3px;">
 									Indicadores
 								</button>
+								@if($proyecto->tipo_proyecto==1)
 								<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
 									Solicitudes
 								</button>
+								
+								@endif
 								<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
 										Contratos
 								</button>
@@ -139,18 +161,22 @@
 	@section('scripts')		
 	<script>
 		var elid='<?php echo $proyecto->id ?>';
+		var eltipo='<?php echo $proyecto->tipo_proyecto ?>';
 		$(document).ready(function (){
 			informacion(elid);
+			verificar_tipo(eltipo);
 			$('#btn_pre').click(function (){
 				$("#div_pre").show();
 				$("#div_ind").hide();
 				$("#div_cot").hide();
 				$("#div_contra").hide();
+				$("#div_lic").hide();
 		
 				$("#btn_pre").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 			});
 		
 			$("#btn_ind").click(function (){
@@ -158,11 +184,13 @@
 				$("#div_ind").show();
 				$("#div_cot").hide();
 				$("#div_contra").hide();
+				$("#div_lic").hide();
 		
 				$("#btn_ind").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 				cargar_indicadores(elid);
 			});
 		
@@ -171,11 +199,13 @@
 				$("#div_ind").hide();
 				$("#div_cot").show();
 				$("#div_contra").hide();
+				$("#div_lic").hide();
 		
 				$("#btn_cot").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 				solicitudes(elid);
 			});
 
@@ -184,15 +214,49 @@
 				$("#div_ind").hide();
 				$("#div_cot").hide();
 				$("#div_contra").show();
+				$("#div_lic").hide();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 				contratos(elid);
 			});
 
+			$("#btn_lic").click(function (){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").show();
+		
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
+				//contratos(elid);
+			});
+
 		});
+		function verificar_tipo(eltipito)
+		{
+			if(eltipito==2){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").show();
+		
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
+			}
+		}
+
 		function cargar_indicadores(elid){
 			modal_cargando();
 			porcentaje=0.0;
@@ -204,27 +268,9 @@
 				data:{elid},
 				success: function(json){
 					if(json[0]==1){
-						$(json[2]).each(function(index,value){
-							var laclase="";
-							if(value.estado==2){
-								laclase='done';
-							}
-							porcentaje+=value.porcentaje;
-							html+='<li class="'+laclase+'">'+
-									'<span class="handle">'+
-										'<i class="fa fa-ellipsis-v"></i>'+
-									'</span>'+
-								'<input type="checkbox" data-id="'+value.id+'" id="indicador_completado" value="">'+
-								'<span class="text">'+value.nombre+'</span>'+
-								'<small class="label label-danger"><i class="glyphicon glyphicon-ok"></i> '+value.porcentaje+' %</small>'+
-								'<div class="tools">'+
-									'<i data-id="'+value.id+'" id="editar_indicador" class="fa fa-edit"></i>'+
-									'<i data-id="'+value.id+'" id="eliminar_indicador" class="fa fa-trash-o"></i>'+
-								'</div>'+
-								'</li>';
-						});
-						$("#los_indicadores").empty();
-						$("#los_indicadores").append(html);
+						porcentaje=parseFloat(json[4]);
+						$("#div_indicadores").empty();
+						$("#div_indicadores").append(json[3]);
 						swal.closeModal();
 					}else{
 						swal.closeModal();

@@ -15,6 +15,12 @@ class AgregarAnioAProyectos extends Migration
     {
         Schema::table('proyectos', function (Blueprint $table) {
             $table->integer('anio')->nullable()->unsigned();
+            $table->dateTime('fecha_acta')->nullable();
+            $table->string('motivo_pausa')->nullable();
+        });
+
+        Schema::table('requisiciones', function (Blueprint $table) {
+            $table->dateTime('fecha_acta')->nullable();
         });
     }
 
@@ -27,6 +33,12 @@ class AgregarAnioAProyectos extends Migration
     {
         Schema::table('proyectos', function (Blueprint $table) {
             $table->dropColumn('anio');
+            $table->dropColumn('fecha_acta');
+            $table->dropColumn('motivo_pausa');
+        });
+
+        Schema::table('requisiciones', function (Blueprint $table) {
+            $table->dropColumn('fecha_acta');
         });
     }
 }
