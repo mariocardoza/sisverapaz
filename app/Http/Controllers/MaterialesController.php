@@ -83,7 +83,15 @@ class MaterialesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validar($request->all())->validate();
+        try{
+            $material=Materiales::find($id);
+            $material->fill($request->all());
+            $material->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -95,6 +103,12 @@ class MaterialesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function modaleditar($id)
+    {
+        $retorno=Materiales::modal_editar($id);
+        return $retorno;
     }
 
     protected function validar(array $data)

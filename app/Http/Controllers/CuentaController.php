@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cuentaproy;
+use App\CuentaproyDetalle;
 use App\Cuenta;
 use App\CuentaDetalle;
 use App\Proyecto;
+use App\Fondo;
 use App\Http\Requests\CuentaRequest;
 use App\Http\Requests\CuentauRequest;
 use DB;
@@ -29,6 +31,27 @@ class CuentaController extends Controller
         return view('cuentas.index',compact('cuentas'));
     }
 
+    public function proyectos()
+    {
+        $cuentas = Cuentaproy::all();
+        //dd($cuentas);
+        return view('cuentas.proyectos',compact('cuentas'));
+    }
+
+
+
+    public function editarproyectos(Request $request,$id)
+    {
+        try{
+            $cuenta=Cuentaproy::find($id);
+            $cuenta->fill($request->all());
+            $cuenta->save();
+            return array(1,"exito",$cuenta);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -53,6 +76,7 @@ class CuentaController extends Controller
             $cuenta=Cuenta::create([
                 'nombre'=>$request->nombre,
                 'monto_inicial'=>$request->monto_inicial,
+                'descripcion'=>$request->descripcion,
                 'banco_id'=>$request->banco_id,
                 'numero_cuenta'=>$request->numero_cuenta,
                 'fecha_de_apertura'=>invertir_fecha($request->fecha_de_apertura),
@@ -85,6 +109,61 @@ class CuentaController extends Controller
     {
         $cuenta = Cuenta::findorFail($id);
         return view('cuentas.show',compact('cuenta'));
+    }
+
+    public function show2($id)
+    {
+        $cuenta = Cuentaproy::findorFail($id);
+        return view('cuentas.show2',compact('cuenta'));
+    }
+
+    public function modal_asignar($id)
+    {
+        $retorno=Cuentaproy::modal_asignarfondos($id);
+        return $retorno;
+    }
+
+    public function abonarproyecto(Request $request)
+    {
+        \DB::beginTransaction();
+        try{
+            CuentaproyDetalle::create([
+                'id'=>date("Yidisus"),
+                'cuentaproy_id'=>$request->cuentaproy_id,
+                'accion'=>$request->accion,
+                'tipo'=>$request->tipo,
+                'monto'=>$request->monto
+            ]);
+            
+            $fondo=Fondo::find($request->elfondo);
+            $actual=$fondo->monto_disponible;
+            $fondo->monto_disponible=$actual-$request->monto;
+            $fondo->save();
+
+            $cuentaproy=Cuentaproy::find($request->cuentaproy_id);
+            $loactual=$cuentaproy->monto_inicial;
+            $cuentaproy->monto_inicial=$loactual+$request->monto;
+            $cuentaproy->save();
+
+            $cuenta=Cuenta::find($request->idcuenta);
+            $otroactual=$cuenta->monto_inicial;
+            $cuenta->monto_inicial=$otroactual+$request->monto;
+            $cuenta->save();
+
+            $cuentadeta=CuentaDetalle::create([
+                'id'=>date("Yidisus"),
+                'cuenta_id'=>$cuenta->id,
+                'accion'=>'Se tranfirió la cantidad de $'.$request->monto.' a la cuenta del proyecto '.$cuentaproy->proyecto->nombre,
+                'tipo'=>2,
+                'monto'=>$request->monto
+            ]);
+
+            \DB::commit();
+            return array(1,"exito");
+        }catch(Exception $e){
+            \DB::rollback();
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**

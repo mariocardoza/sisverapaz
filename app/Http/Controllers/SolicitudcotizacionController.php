@@ -152,6 +152,13 @@ class SolicitudcotizacionController extends Controller
                 'solicitud_id'=>$solicitud->id
               ]);
 
+            $proyecto->estado=3;
+            $proyecto->save();
+            
+            if(!Proyecto::tiene_materiales($proyecto->presupuesto->id)):
+              $proyecto->estado=4;
+              $proyecto->save();
+            endif;
 
             }
             DB::commit();

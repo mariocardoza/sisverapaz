@@ -67,8 +67,13 @@ class CotizacionController extends Controller
             $solicitud->save();
 
             $proyecto=Proyecto::findorFail($request->idproyecto);
-            $proyecto->estado=6;
-            $proyecto->save();
+            if($proyecto->tiene_solicitudes->count() == 0):
+              $proyecto->estado=6;
+              $proyecto->save();
+            else:
+              $proyecto->estado=5;
+              $proyecto->save();
+            endif;
 
               DB::commit();
             return array(1,"exito",$solicitud->id);

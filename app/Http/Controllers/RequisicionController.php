@@ -311,6 +311,9 @@ class RequisicionController extends Controller
       $requisicion=Requisicione::find($id);
       try{
         $requisicion->estado=$request->estado;
+        if(isset($request->fecha_acta)):
+          $requisicion->fecha_acta=date("Y-m-d H:i:s");
+        endif;
         $requisicion->save();
         return array(1,"exito");
       }catch(Exception $e){

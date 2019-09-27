@@ -9,7 +9,7 @@ use App\Organizacion;
 use App\Bitacora;
 use App\Presupuesto;
 use App\Presupuestodetalle;
-use App\Fondocat;
+use App\Cuenta;
 use App\Fondo;
 use App\Cuentaproy;
 use App\Categoria;
@@ -68,15 +68,15 @@ class ProyectoController extends Controller
     {
       if($request->id){
         $id=$request->id;
-          $fondos = DB::table('fondocats')
+          $fondos = DB::table('cuentas')
                     ->whereNotExists(function ($query) use ($id)  {
                          $query->from('fondos')
-                            ->whereRaw('fondos.fondocat_id = fondocats.id')
+                            ->whereRaw('fondos.cuenta_id = cuentas.id')
                             ->whereRaw('fondos.proyecto_id ='.$id);
                         })->get();
           return response($fondos);
       }else{
-        return Fondocat::get();
+        return Cuenta::get();
       }
 
     }
@@ -244,22 +244,23 @@ class ProyectoController extends Controller
           {
             foreach ($montos as $monto) {
               Fondo::create([
+                'id'=>Fondo::retonrar_id_insertar(),
                 'proyecto_id' => $proyecto->id,
-                'fondocat_id' => $monto['categoria'],
+                'cuenta_id' => $monto['categoria'],
                 'monto' => $monto['monto'],
+                'monto_disponible' => $monto['monto'],
               ]);
             }
           }
 
           Cuentaproy::create([
             'proyecto_id' => $proyecto->id,
-            'monto_inicial' => $request->monto,
+            'monto' => $request->monto,
+            'monto_inicial'=>0
           ]);
           bitacora('Registró un proyecto');
           DB::commit();
-          return response()->json([
-            'mensaje' => 'exitoo'
-          ]);
+          return array(1,"exito");
       }catch (\Exception $e){
         DB::rollback();
         return array(-1, $e->getMessage());

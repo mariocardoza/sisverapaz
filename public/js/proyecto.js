@@ -101,9 +101,13 @@ $(document).ready(function(){
       data:{nombre,monto,motivo,direccion,monto_desarrollo,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg},
 
       success: function(msj){
-        window.location.href = "../proyectos";
         console.log(msj);
-        toastr.success('Proyecto creado éxitosamente');
+        if(msj[0]==1){
+          window.location.href = "../proyectos";
+          toastr.success('Proyecto creado éxitosamente');
+        }else{
+          toastr.error("Ocurrió un error");
+        }
       },
       error: function(data, textStatus, errorThrown){
         console.log(data);
@@ -113,6 +117,12 @@ $(document).ready(function(){
 			});
 			}
     });
+  });
+
+  $(document).on("click","#cat_id",function(e){
+    e.preventDefault();
+    console.log("aqui");
+    cargarFondos();
   });
 
 
@@ -136,18 +146,23 @@ $(document).ready(function(){
 
 
 function cargarFondos(){
+  modal_cargando();
   $.ajax({
     url:'listarfondos',
     type:'get',
     data:{},
     success: function(data){
+      swal.closeModal();
       var html_select = '<option value="">Seleccione una categoria</option>';
       for(var i=0;i<data.length;i++){
-        html_select +='<option value="'+data[i].id+'">'+data[i].categoria+'</option>'
+        html_select +='<option value="'+data[i].id+'">'+data[i].nombre+'</option>'
         //console.log(data[i]);
         $("#cat_id").html(html_select);
         $("#cat_id").trigger('chosen:updated');
       }
+    },error: function(error){
+      swal.closeModal();
+      toastr.error("Ocurrió un error");
     }
   });
 }

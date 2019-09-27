@@ -105,7 +105,7 @@ class Proyecto extends Model
       </div>';
       foreach ($proyecto->fondo as $fondo):
           $informacion.='<div class="col-sm-7">
-            <span><b>&nbsp;&nbsp;'.$fondo->fondocat->categoria.'</b></span>
+            <span><b>&nbsp;&nbsp;'.$fondo->cuenta->nombre.'</b></span>
           </div>
           <div class="col-sm-5">
             <span class="label label-primary col-sm-12">

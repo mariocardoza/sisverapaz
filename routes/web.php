@@ -174,6 +174,7 @@ Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');
 
 Route::Resource('materiales','MaterialesController');
+Route::get('materiales/modaleditar/{id}','MaterialesController@modaleditar');
 Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
 Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
 
@@ -309,7 +310,13 @@ Route::post('cargos/baja/{id}','CargoController@baja')->name('cargos.baja');
 Route::post('cargos/alta/{id}','CargoController@alta')->name('cargos.alta');
 
 Route::get('cuentas/get','CuentaController@get');
+Route::get('cuentas/proyectos','CuentaController@proyectos');
+Route::put('cuentas/editarproyectos/{id}','CuentaController@editarproyectos');
+Route::get('cuentas/movimientos/{id}','CuentaController@show2');
+Route::get('cuentas/modalasignar/{id}','CuentaController@modal_asignar');
+Route::post('cuentas/abonarproyecto','CuentaController@abonarproyecto');
 Route::Resource('cuentas','CuentaController');
+
 //Route::Resource('cuentaprincipal','CuentaprincipalController');
 Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');

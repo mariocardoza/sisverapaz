@@ -1,7 +1,7 @@
 var porcentaje=0.0;
 var token = $('meta[name="csrf-token"]').attr('content');
 $(document).ready(function(e){
-	cargar_indicadorese();
+	//cargar_indicadorese();
 	$(document).on("click","#add_indicador",function(e){
 		$("#modal_indicador").modal("show");
 	});

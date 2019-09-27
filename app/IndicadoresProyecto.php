@@ -16,14 +16,15 @@ class IndicadoresProyecto extends Model
     	try{
             $proyecto=Proyecto::find($proyecto);
             $indicadores=IndicadoresProyecto::where('proyecto_id',$proyecto)->orderBy('created_at')->get();
-                if($proyecto->indicadores->count() > 0):
-                    $html.='<ul class="todo-list" id="los_indicadores">';
-                    foreach($proyecto->indicadores as $indicador):
-                        $porcentaje+=$indicador->porcentaje;
-                    if($indicador->estado==2):
-                        $laclase="done";
-                    endif;
-                $html.='<li class="$laclase">
+            if($proyecto->indicadores->count() > 0):
+                $html.='<ul class="todo-list" id="los_indicadores">';
+                foreach($proyecto->indicadores as $indicador):
+                    $laclase="";
+                    $porcentaje+=$indicador->porcentaje;
+                if($indicador->estado==2):
+                    $laclase="done";
+                endif;
+                $html.='<li data-estado="'.$indicador->estado.'" class="'.$laclase.'">
                     <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                     </span>

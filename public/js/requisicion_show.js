@@ -37,7 +37,7 @@ $(document).ready(function(e){
               url:'../requisiciones/cambiarestado/'+elid,
               type:'PUT',
               dataType:'json',
-              data:{estado:6},
+              data:{fecha_acta:'si',estado:6},
               success: function(json){
                 if(json[0]==1){
                   info(elid);

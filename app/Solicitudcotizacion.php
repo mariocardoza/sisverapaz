@@ -403,7 +403,7 @@ class Solicitudcotizacion extends Model
                       </fieldset>
                     </div>
                   <br><br>';
-                  if(isset($solicitud->cotizacion_seleccionada)):
+                  if(isset($solicitud->cotizacion_seleccionada) && $solicitud->proyecto->estado>=6):
                     if(isset($solicitud->cotizacion_seleccionada->ordencompra)):
                     $html.='<div>
                     <fieldset>
@@ -441,7 +441,8 @@ class Solicitudcotizacion extends Model
                     endif;
                     $html.='</div>';
                     else:
-                      $html.='<button type="button" id="registrar_orden" class="btn btn-primary" data-id="'.$solicitud->cotizacion_seleccionada->id.'">Registrar</button>';
+                      $html.='<label class="control-label">Registrar orden de compra</label><br>
+                      <button type="button" id="registrar_orden" class="btn btn-primary" data-id="'.$solicitud->cotizacion_seleccionada->id.'">Registrar</button>';
                     endif; 
                   endif;
                       $html.'</div>

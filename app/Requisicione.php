@@ -201,7 +201,7 @@ class Requisicione extends Model
 
   public static function descontar_presupuesto($id,$cantidad,$material_id)
   {
-    $presupuesto=Presupuestounidad::where('estado',1)->where('anio',date("Y"))->where('user_id',$id)->first();
+    $presupuesto=Presupuestounidad::where('estado',3)->where('anio',date("Y"))->where('user_id',$id)->first();
     for($i=0;$i<(int)$cantidad;$i++){
       foreach($presupuesto->presupuestodetalle as $presu){
         if($presu['material_id']==$material_id){

@@ -60,7 +60,7 @@
         <li><a href="{{ url('proveedores') }}"><i class="fa fa-circle-o"></i> Listado de Proveedores</a></li>
     </ul>
 </li>
-<li class="treeview {{ Route::currentRouteName() == 'proveedores.index' ? 'active':null}}">
+<li class="treeview {{ Route::currentRouteName() == 'materiales.index' ? 'active':null}}">
         <a href="#">
             <i class="fa fa-user-circle-o"></i>
             <span>Materiales</span>

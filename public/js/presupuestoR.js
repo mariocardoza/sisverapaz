@@ -119,6 +119,7 @@ $(document).ready(function () {
 			}
 		});
 		console.log(presupuestos);
+		modal_cargando();
 
 		/////////////////////////////////////////////////// funcion ajax para guardar ///////////////////////////////////////////////////////////////////
 		$.ajax({
@@ -135,6 +136,8 @@ $(document).ready(function () {
 					location.reload();
 				} else {
 					console.log(msj);
+					swal.closeModal();
+					toastr.error("Ocurrió un error");
 				}
 
 			},
@@ -166,6 +169,7 @@ $(document).ready(function () {
 		//console.log(presupuestos);
 
 		/////////////////////////////////////////////////// funcion ajax para editar ///////////////////////////////////////////////////////////////////
+		modal_cargando();
 		$.ajax({
 			url: ruta,
 			type: 'PUT',
@@ -177,8 +181,14 @@ $(document).ready(function () {
 					//window.location.href = "../proyectos";
 					toastr.success('Presupuesto agregado éxitosamente');
 					cargar_presupuesto(elid);
+					swal.closeModal();
+					$("#descripcion-item").trigger('chosen:updated');
+					$("#item").prop('disabled', false);
+					$("#item").trigger('chosen:updated');
 				} else {
 					console.log(json);
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
 				}
 
 			},
@@ -366,7 +376,26 @@ $(document).ready(function () {
             });
           }
         });
-	  });
+	});
+
+	///ver cotizaciones //
+	$(document).on("click","#ver_coti",function(e){
+		var id=$(this).attr("data-id");
+		$.ajax({
+		  url:'../requisiciones/vercotizacion/'+id,
+		  type:'GET',
+		  dataType:'json',
+		  data:{},
+		  success:function(json){
+			if(json[0]==1){
+			  $("#aqui_poner_coti").empty();
+			  $("#aqui_poner_coti").html(json[2]);
+			  $("#titulo_ver_coti").text(json[3]);
+			  $("#modal_ver_coti").modal("show");
+			}
+		  }
+		});
+		});
 	  
 	  ////*** Seleccionar la cotizacion */
       $(document).on("click","#seleccionar",function(e){
