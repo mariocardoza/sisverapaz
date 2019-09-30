@@ -1,12 +1,38 @@
-<li class="treeview">
+<li class="treeview {{ Route::currentRouteName() == 'cuentas.index' ? 'active':null}}">
     <a href="#">
-        <i class="fa fa-edit"></i> <span>Cuenta principal</span>
+        <i class="fa fa-edit"></i> <span>Cuentas</span>
         <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
     </a>
     <ul class="treeview-menu">
-        <li><a href="{{ url('cuentaprincipal') }}"><i class="fa fa-circle-o"></i> Listado de cuentas</a></li>
+        <li><a href="{{ url('cuentas') }}"><i class="fa fa-circle-o"></i> Listado de cuentas</a></li>
+        
+    </ul>
+</li>
+
+<li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Empleados</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('empleados') }}"><i class="fa fa-circle-o"></i> Listado de empleados</a></li>
+        
+    </ul>
+</li>
+
+<li class="treeview {{ Route::currentRouteName() == 'planillas.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Planillas</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('planillas') }}"><i class="fa fa-circle-o"></i> Planillas </a></li>
         
     </ul>
 </li>

@@ -21,6 +21,9 @@
           <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
           <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
       </div>
+      <div class="btn-group pull-right">
+      <a href="{{ url('cuentas')}}" class="btn btn-primary">Cuentas </a>
+      </div>
     </div>
 
     <div class="box-body table-responsive">
@@ -93,7 +96,7 @@
     $(document).on("click","#asignar_fondos",function(e){
         var id=$(this).attr("data-id");
         $.ajax({
-            url:'modalasignar/'+id,
+            url:'modalasignar/'+id+'/'+2,
             type:'get',
             dataType:'json',
             success: function(json){

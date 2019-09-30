@@ -313,7 +313,8 @@ Route::get('cuentas/get','CuentaController@get');
 Route::get('cuentas/proyectos','CuentaController@proyectos');
 Route::put('cuentas/editarproyectos/{id}','CuentaController@editarproyectos');
 Route::get('cuentas/movimientos/{id}','CuentaController@show2');
-Route::get('cuentas/modalasignar/{id}','CuentaController@modal_asignar');
+Route::get('cuentas/modalasignar/{id}/{tipo}','CuentaController@modal_asignar');
+Route::post('cuentas/abonarcuenta','CuentaController@abonarcuenta');
 Route::post('cuentas/abonarproyecto','CuentaController@abonarproyecto');
 Route::Resource('cuentas','CuentaController');
 

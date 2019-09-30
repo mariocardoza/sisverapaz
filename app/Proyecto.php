@@ -504,7 +504,7 @@ class Proyecto extends Model
 
     public function cuenta()
     {
-      return $this->hasOne('App\Cuenta');
+      return $this->hasOne('App\Cuentaproy');
     }
 
     public function bitacoraproyecto()

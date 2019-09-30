@@ -30,6 +30,7 @@
                     <div class="col-xs-3">{{$detalle->created_at->format('d/m/Y')}}</div> 
                     <div class="col-xs-2">{{$detalle->created_at->format('g:i a')}}</div>
                     <div class="col-xs-2 text-right">${{number_format($detalle->monto,2)}}</div>  
+                    <div class="col-xs-12"><hr></div> 
                 @endforeach
                 <div class="col-xs-12"><hr></div>
                 <div class="col-xs-10">Disponible &nbsp; </div>

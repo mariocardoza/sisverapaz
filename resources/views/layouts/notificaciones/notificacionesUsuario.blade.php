@@ -1,4 +1,4 @@
-@if(@Auth::user()->roleuser->role->name=="admin")
+@if(Auth()->user()->roleuser->role->name=="admin" || Auth()->user()->roleuser->role->name=="tesoreria")
     @include('layouts.notificaciones.administrador')
 @else
 {{-- Código default de mensajes --}}
@@ -42,6 +42,6 @@
       </li>
       <li class="footer"><a href="#">View all</a></li>
     </ul>
-  </li>
+</li>
 
 @endif

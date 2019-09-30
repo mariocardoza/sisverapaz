@@ -21,6 +21,9 @@
             <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
             <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
         </div>
+        <div class="btn-group pull-right">
+          <a href="{{ url('cuentas/proyectos')}}" class="btn btn-primary">Cuentas de proyectos</a>
+          </div>
       </div>
 
     <div class="box-body table-responsive">
@@ -47,7 +50,7 @@
               {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
               <a href="{{ url('cuentas/'.$cuenta->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
               <a href="{{ url('cuentas/'.$cuenta->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-              <a href="{{ url('cuentas/'.$cuenta->id.'/reasigna') }}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-retweet"></span></a>
+              <a href="javascript:void(0)" id="asignar_fondos" data-id="{{$cuenta->id}}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-retweet"></span></a>
 
               <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cuenta->id.",'cuentas')" }}><span class="glyphicon glyphicon-trash"></span></button>
               {{ Form::close()}}
@@ -69,6 +72,7 @@
   </div>
   </div>
 </div>
+<div id="modal_aqui"></div>
 @include('cuentas.modales')
 @endsection
 @section('scripts')
@@ -77,6 +81,71 @@
     
     $(document).on("click","#modal_registrar",function(e){
       $("#modal_registrar_cuenta").modal("show");
+    });
+
+    //asignarle fondos a la cuenta del pryecto
+    $(document).on("click","#asignar_fondos",function(e){
+        var id=$(this).attr("data-id");
+        $.ajax({
+            url:'cuentas/modalasignar/'+id+'/'+1,
+            type:'get',
+            dataType:'json',
+            success: function(json){
+                if(json[0]==1){
+                    $("#modal_aqui").empty();
+                    $("#modal_aqui").html(json[2]);
+                    $("#modal_agregarfondo_cuenta").modal("show");
+                    $(".chosen").chosen({
+                        'width':'100%'
+                    });
+                }
+            }
+        })
+    });
+
+    //abonar la cuenta
+    $(document).on("click","#abonar_cuenta",function(e){
+        e.preventDefault();
+        var id=$(this).attr("data-id");
+        var elfondo=$("#select_fondo").val();
+        var lacuenta=$("#select_fondo option:selected").text();
+        var idcuenta=$("#select_fondo").val();
+        var monto_cuenta=parseFloat($("#select_fondo option:selected").attr("data-montocuenta")) || 0;
+        var abono=parseFloat($("#elmonto_abonar").val()) || 0;
+        if(elfondo!=''){
+            if(abono!=0){
+                if(abono <= monto_cuenta){
+                  modal_cargando();
+                  $.ajax({
+                      url:'cuentas/abonarcuenta',
+                      type:'POST',
+                      dataType:'json',
+                      data:{cuenta_id:id,accion:'Se abono de la cuenta '+lacuenta+'',tipo:1,monto:abono,elfondo,idcuenta},
+                      success: function(json){
+                          if(json[0]==1){
+                              toastr.success("Abono realizado con éxito");
+                              location.reload();
+                              swal.closeModal();
+                          }else{
+                              toastr.error("Ocurrió un error");
+                              swal.closeModal();
+                          }
+                      },error: function(error){
+                          toastr.error("Ocurrió un error");
+                          swal.closeModal(); 
+                      }
+                  });
+                }else{
+                    toastr.error("El monto supero a lo disponible en la cuenta "+lacuenta);
+                }
+            }else{
+                toastr.error("Digite el monto a abonar");
+            }
+        }else{
+            toastr.error("Seleccione una cuenta");
+        }
+        
+        
     });
 
     $(document).on("click","#registrar_cuenta",function(e){

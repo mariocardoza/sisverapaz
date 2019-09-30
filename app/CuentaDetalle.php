@@ -23,4 +23,10 @@ class CuentaDetalle extends Model
 
         return $total;
     }
+
+    public static function retonrar_id_insertar(){
+        $numero=CuentaDetalle::count();
+        $numero+=1;
+        return date("Yidisus").'-'.$numero;
+    }
 }

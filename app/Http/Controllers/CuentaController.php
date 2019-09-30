@@ -84,7 +84,7 @@ class CuentaController extends Controller
             ]);
 
             $detalle=CuentaDetalle::create([
-                'id'=>date('Yididus'),
+                'id'=>CuentaDetalle::retonrar_id_insertar(),
                 'cuenta_id'=>$cuenta->id,
                 'accion'=>'Apertura de cuenta',
                 'monto'=>$request->monto_inicial,
@@ -117,10 +117,54 @@ class CuentaController extends Controller
         return view('cuentas.show2',compact('cuenta'));
     }
 
-    public function modal_asignar($id)
+    public function modal_asignar($id,$tipo)
     {
-        $retorno=Cuentaproy::modal_asignarfondos($id);
-        return $retorno;
+        if($tipo==2){
+            $retorno=Cuentaproy::modal_asignarfondos($id);
+            return $retorno;
+        }else{
+            $retorno=Cuenta::modal_asignarfondos($id);
+            return $retorno;
+        }
+    }
+
+    public function abonarcuenta(Request $request)
+    {
+        \DB::beginTransaction();
+        try{
+            $cuenta_origen=Cuenta::find($request->idcuenta);
+            $monto_origen=$cuenta_origen->monto_inicial;
+            $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial-$request->monto;
+            $cuenta_origen->save();
+
+            $cuenta_destino=Cuenta::find($request->cuenta_id);
+            $monto_destino=$cuenta_destino->monto_inicial;
+            $cuenta_destino->monto_inicial=$cuenta_destino->monto_inicial+$request->monto;
+            $cuenta_destino->save();
+
+            $detalle_origen=CuentaDetalle::create([
+                'id'=>CuentaDetalle::retonrar_id_insertar(),
+                'cuenta_id'=>$cuenta_origen->id,
+                'accion'=>'Se tranfirió la cantidad de $'.$request->monto.' a la cuenta '.$cuenta_destino->nombre,
+                'tipo'=>2,
+                'monto'=>$request->monto
+            ]);
+
+            $detalle_destino=CuentaDetalle::create([
+                'id'=>CuentaDetalle::retonrar_id_insertar(),
+                'cuenta_id'=>$cuenta_destino->id,
+                'accion'=>'Se tranfirió la cantidad de $'.$request->monto.' de la cuenta '.$cuenta_origen->nombre,
+                'tipo'=>1,
+                'monto'=>$request->monto
+            ]);
+
+
+            \DB::commit();
+            return array(1,"exito",$cuenta_origen,$cuenta_destino);
+        }catch(Exception $e){
+            \DB::rollback();
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function abonarproyecto(Request $request)
@@ -151,7 +195,7 @@ class CuentaController extends Controller
             $cuenta->save();
 
             $cuentadeta=CuentaDetalle::create([
-                'id'=>date("Yidisus"),
+                'id'=>CuentaDetalle::retonrar_id_insertar(),
                 'cuenta_id'=>$cuenta->id,
                 'accion'=>'Se tranfirió la cantidad de $'.$request->monto.' a la cuenta del proyecto '.$cuentaproy->proyecto->nombre,
                 'tipo'=>2,

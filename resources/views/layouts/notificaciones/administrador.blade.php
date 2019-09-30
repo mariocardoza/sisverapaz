@@ -26,4 +26,4 @@
       </li>
       <li class="footer"><a href="#">View all</a></li>
     </ul>
-  </li>
+</li>
