@@ -25,7 +25,6 @@ class PagoRequest extends FormRequest
     {
         return [
             'tipopago_id'=>'required',
-            'cuenta_id'=>'required',
             'monto'=>'required',
             'num_cuenta'=>'required',
         ];
