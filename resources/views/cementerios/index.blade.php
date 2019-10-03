@@ -8,10 +8,10 @@
         </div>
         <form action="#" id="formulario" name="formulario">
           <div class="box-body">
-            <div style="height: 600px;" class="form-group">
+            <div style="height: 400px;" class="form-group">
               {!! $map['html'] !!}
             </div>
-            <!-- <div class="form-group col-sm-7">
+            <div class="form-group col-sm-7">
               <label for="nombre">Nombre del cementerio: </label>
               <input
                 type="text"
@@ -28,7 +28,7 @@
                 id="cantidad" min='100'
                 placeholder="Cantidad Maxima de puestos de perpetuidad"
               />
-            </div> -->
+            </div>
             <div class="form-group col-sm-1">
               <button
                 type="submit"
