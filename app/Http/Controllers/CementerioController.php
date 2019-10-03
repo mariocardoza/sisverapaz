@@ -16,33 +16,6 @@ class CementerioController extends Controller
     public function index()
     {
         $gmap = new GMaps();
-        // $leftTopControls = ['document.getElementById("leftTopControl")']; // values must be html or javascript element
-        // $gmap->injectControlsInLeftTop = $leftTopControls; // inject into map
-        // $leftCenterControls = ['document.getElementById("leftCenterControl")'];
-        // $gmap->injectControlsInLeftCenter = $leftCenterControls;
-        // $leftBottomControls = ['document.getElementById("leftBottomControl")'];
-        // $gmap->injectControlsInLeftBottom = $leftBottomControls;
-        // $bottomLeftControls = ['document.getElementById("bottomLeftControl")'];
-        // $gmap->injectControlsInBottomLeft = $bottomLeftControls;
-        // $bottomCenterControls = ['document.getElementById("bottomCenterControl")'];
-        // $gmap->injectControlsInBottomCenter = $bottomCenterControls;
-        // $bottomRightControls = ['document.getElementById("bottomRightControl")'];
-        // $gmap->injectControlsInBottomRight = $bottomRightControls;
-        // $rightTopControls = ['document.getElementById("rightTopControl")'];
-        // $gmap->injectControlsInRightTop = $rightTopControls;
-        // $rightCenterControls = ['document.getElementById("rightCenterControl")'];
-        // $gmap->injectControlsInRightCenter = $rightCenterControls;
-        // $rightBottomControls = ['document.getElementById("rightBottomControl")'];
-        // $gmap->injectControlsInRightBottom = $rightBottomControls;
-        // $topLeftControls = ['document.getElementById("topLeftControl")'];
-        // $gmap->injectControlsInTopLeft = $topLeftControls;
-        // $topCenterControls = ['document.getElementById("topCenterControl")'];
-        // $gmap->injectControlsInTopCenter = $topCenterControls;
-        // $topRightControls = ['document.getElementById("topRightControl")'];
-        // $gmap->injectControlsInTopRight = $topRightControls;
-
-        
-
         $config = array();
         $config['center'] = '13.644985, -88.865193';
         $config['zoom'] = '19';
@@ -53,17 +26,17 @@ class CementerioController extends Controller
         $config['drawingModes'] = array('polygon');
         $gmap->initialize($config);
 
-        $marker = array();
-        $marker['position'] = '13.645341, -88.865775';
-        $marker['infowindow_content'] = 'clary dormite!';
-        $marker['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|9999FF|000000';
-        $gmap->add_marker($marker);
+        // $marker = array();
+        // $marker['position'] = '13.645341, -88.865775';
+        // $marker['infowindow_content'] = 'clary dormite!';
+        // $marker['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|9999FF|000000';
+        // $gmap->add_marker($marker);
 
-        $marker = array();
-        $marker['position'] = '13.645313, -88.865653';
-        $marker['draggable'] = TRUE;
-        $marker['animation'] = 'DROP';
-        $gmap->add_marker($marker);
+        // $marker = array();
+        // $marker['position'] = '13.645313, -88.865653';
+        // $marker['draggable'] = TRUE;
+        // $marker['animation'] = 'DROP';
+        // $gmap->add_marker($marker);
 
         $map = $gmap->create_map();
         return view("cementerios.index", [
