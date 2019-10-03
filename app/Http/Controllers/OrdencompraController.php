@@ -14,6 +14,7 @@ use App\ProyectoInventario;
 use App\Proveedor;
 use App\Requisicione;
 use App\Requisiciondetalle;
+use App\Desembolso;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrdenCompraRequest;
 use DB;
@@ -160,7 +161,7 @@ class OrdencompraController extends Controller
         {
           DB::beginTransaction();
           try{
-            Ordencompra::create([
+           $orden = Ordencompra::create([
                 'numero_orden' => Ordencompra::correlativo(),
                 'fecha_inicio' => invertir_fecha($request->fecha_inicio),
                 'fecha_fin' => invertir_fecha($request->fecha_fin),
@@ -178,6 +179,14 @@ class OrdencompraController extends Controller
               $proyecto=Proyecto::findorFail($cotizacion->solicitudcotizacion->proyecto->id);
               $proyecto->estado=7;
               $proyecto->save();
+
+              $desembolso=Desembolso::create([
+                'id'=>date("Yidisus"),
+                'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para proyecto: '.$cotizacion->solicitudcotizacion->proyecto->nombre,
+                'cuentaproy_id'=>$cotizacion->solicitudcotizacion->proyecto->cuenta->id
+              ]);
+
               DB::commit();
               
               return array(1,"exito",$cotizacion->solicitudcotizacion->id);
@@ -185,6 +194,14 @@ class OrdencompraController extends Controller
               $requisicion=Requisicione::findorFail($cotizacion->solicitudcotizacion->requisicion->id);
               $requisicion->estado=5;
               $requisicion->save();
+
+              $desembolso=Desembolso::create([
+                'id'=>date("Yidisus"),
+                'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para actividad: '.$cotizacion->solicitudcotizacion->requisicion->actividad,
+                'cuenta_id'=>$cotizacion->solicitudcotizacion->requisicion->cuenta->id
+              ]);
+
               DB::commit();
               return array(1,"exito",$cotizacion->solicitudcotizacion->id);
             }

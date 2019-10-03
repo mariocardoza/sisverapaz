@@ -322,6 +322,8 @@ Route::Resource('cuentas','CuentaController');
 Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
+Route::Resource('desembolsos','DesembolsoController');
+
 Route::Resource('tipopagos','TipopagoController');
 
 Route::Resource('pagos','PagoController');

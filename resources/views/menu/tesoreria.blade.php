@@ -11,6 +11,19 @@
     </ul>
 </li>
 
+<li class="treeview {{ Route::currentRouteName() == 'desembolsos.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Egresos</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('desembolsos') }}"><i class="fa fa-circle-o"></i> Egresos </a></li>
+        
+    </ul>
+</li>
+
 <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-edit"></i> <span>Empleados</span>

@@ -122,7 +122,7 @@
                               <?php $total=$total-$renta; ?>
                               <tr>
                                 <td colspan="5"> <b>LÍQUIDO A RECIBIR: </b></td>
-                                <th align="left">${{number_format($total,2)}}</th>
+                                <th align="left">${{number_format(\App\Detallecotizacion::total_cotizacion($ordencompra->cotizacion->id),2)}}</th>
                               </tr>
   
                             </tfoot>

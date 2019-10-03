@@ -1,4 +1,4 @@
-@if(Auth()->user()->roleuser->role->name=="admin" || Auth()->user()->roleuser->role->name=="tesoreria")
+@if(Auth()->user()->hasRole('tesoreria') || Auth()->user()->hasRole('admin'))
     @include('layouts.notificaciones.administrador')
 @else
 {{-- Código default de mensajes --}}
