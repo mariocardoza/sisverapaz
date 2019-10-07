@@ -34,7 +34,7 @@
         </div>
         <div class="row" ng-show='isViewMap'>
         	<div style="width:900px;height:500px !important;position: relative; margin: 25px auto 0;">
-					  <ng-map center="[13.644366, -88.870235]" class="center-maps" zoom="16" on-click="updateMarkerPoints()">
+					  <ng-map center="[13.644366, -88.870235]" style="height:100%" zoom="16" on-click="updateMarkerPoints()">
 					    <marker position="((position.lat)), ((position.lng))" animation="Animation.BOUNCE"></marker>
 					  </ng-map>
 					</div>

@@ -40,7 +40,7 @@ border: 1px solid #f4f4f4;
                                     UNIDAD DE REGISTRO Y CONTROL TRIBUTARIO
                                 </center></h5>
                             </td>
-                            <td width="15%" rowspan=""><center><img src="{{asset('img/escudoes.gif')}}" width=7" height="100px" alt="escudo El Salvador"></center></td>
+                            <td width="15%" rowspan=""><center><img src="{{asset('img/escudoes.gif')}}" height="100px" alt="escudo El Salvador"></center></td>
                         </tr>                    
                     </table>
                 </div>
