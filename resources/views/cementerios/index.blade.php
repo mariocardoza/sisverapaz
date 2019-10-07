@@ -1,5 +1,5 @@
 @extends('layouts.app') @section('content')
-<div class="container">
+<div style="width: 100%;">
   <div class="row">
     <div class="col-lg-12">
       <div class="box box-primary">
@@ -16,16 +16,16 @@
               <input
                 type="text"
                 class="form-control"
-                id="nombre" required
+                id="nombre" name="nombre"
                 placeholder="Nombre del cementerio"
               />
             </div>
             <div class="form-group col-sm-4">
-              <label for="cantidad">Cantidad</label>
+              <label for="cantidad">Cantidad de puestos de perpetuidad</label>
               <input
                 type="number"
                 class="form-control"
-                id="cantidad" min='100'
+                id="cantidad" min='100' name="cantidad"
                 placeholder="Cantidad Maxima de puestos de perpetuidad"
               />
             </div>
@@ -43,23 +43,7 @@
     </div>
   </div>
 </div>
-{!! $map['js'] !!} @endsection @section('scripts')
-<script type="text/javascript">
-  window.onload = function () {
-    var pointers = [];
-    google.maps.event.addListener(drawingManager, "overlaycomplete", function(polygon) {      
-      google.maps.event.addListener(polygon.overlay.getPath(), "insert_at", function() {
-        pointers = (polygon.overlay.getPath().getArray());
-      });
-      google.maps.event.addListener(polygon.overlay.getPath(), "set_at", function() {
-        pointers = (polygon.overlay.getPath().getArray());
-      });
-    });
+{!! $map['js'] !!} @endsection @section('scripts') 
 
-    document.getElementById('formulario').onsubmit = function(e) {
-      e.preventDefault();
-      console.log(pointers);
-    }
-  }
-</script>
+<script src="{{ asset('js/cementerios.js') }}"></script>
 @endsection
