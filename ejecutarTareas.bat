@@ -1,3 +1,3 @@
 cd c:\xampp\htdocs\sisverapaz
 
-php artisan schedule:run
+php artisan registered:vacations
