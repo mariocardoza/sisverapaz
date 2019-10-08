@@ -6,6 +6,17 @@
   if(!isset($empleado)):
   $empleados=App\Detalleplanilla::empleados();
   endif;
+
+  $proys=App\Proyecto::where('anio',date("Y"))->where('estado','!=',12)->get();
+  $proyectos=[];
+  foreach ($proys as $e) {
+      $proyectos[$e->id]=$e->nombre;
+    }
+  $unids=App\Unidad::where('estado',1)->get();
+  $unidades=[];
+  foreach ($unids as $u ) {
+    $unidades[$u->id]=$u->nombre_unidad;
+  }
 @endphp
     <div class="col-md-6">
       @if (isset($detalle))
@@ -23,7 +34,16 @@
 <div class="form-group{{ $errors->has('salario') ? ' has-error' : '' }}">
     <label for="name" class="col-md-4 control-label">Salario</label>
     <div class="col-md-6">
-      {!!Form::number('salario',null,['class'=>'form-control'])!!}
+      {!!Form::number('salario',null,['class'=>'form-control','placeholder'=>'Ej. 300'])!!}
+    </div>
+</div>
+
+<div class="form-group{{ $errors->has('tipo_pago') ? ' has-error' : '' }}">
+    <label for="name" class="col-md-4 control-label">Forma de pago</label>
+    <div class="col-md-6">
+      {!!Form::select('tipo_pago',
+          [''=>'Seleccione la forma de pago','1'=>'Planilla','2'=>'Contrato']
+          ,null, ['class'=>'chosen-select-width','id'=>'select_tipo'])!!}
     </div>
 </div>
 
@@ -32,27 +52,44 @@
     <div class="col-md-6">
       {!!Form::select('cargo_id',
           $cargos
-          ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo'])!!}
+          ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo','id'=>'select_cargo'])!!}
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('tipo_pago') ? ' has-error' : '' }}">
-    <label for="name" class="col-md-4 control-label">Forma de pago</label>
+<div class="form-group">
+  <label for="" class="col-md-4 control-label">Unidad administrativa</label>
+  <div class="col-md-6">
+      {!!Form::select('unidad_id',
+      $unidades
+      ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa','id'=>'select_unidad'])!!}
+  </div>
+</div>
+
+<div class="form-group{{ $errors->has('proyecto_id') ? ' has-error' : '' }} elproy" style="display:none;">
+    <label for="name" class="col-md-4 control-label">Proyecto</label>
     <div class="col-md-6">
-      {!!Form::select('tipo_pago',
-          ['1'=>'Planilla']
-          ,null, ['class'=>'chosen-select-width'])!!}
+      <input type="hidden" name="pago" value="1">
+      {!!Form::select('proyecto_id',$proyectos
+          ,null, ['class'=>'chosen-select-width','id'=>'select_proy','disabled'])!!}
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('pago') ? ' has-error' : '' }}">
+<!--div class="form-group{{ $errors->has('pago') ? ' has-error' : '' }}">
     <label for="name" class="col-md-4 control-label">Tiempo de pago</label>
     <div class="col-md-6">
       {!!Form::select('pago',
           ['1'=>'Mensual','2'=>'Quincenal']
           ,null, ['class'=>'chosen-select-width'])!!}
     </div>
+</div-->
+
+<div class="form-group">
+  <label for="numero_acuerdo" class="col-md-4 control-label">Número del acuerdo</label>
+  <div class="col-md-6">
+    {{Form::text('numero_acuerdo',null,['class'=>'form-control','placeholder'=>'Digite el número de acuerdo para el contrato'])}}
+  </div>
 </div>
+
 <div class="form-group{{ $errors->has('fecha_inicio') ? ' has-error' : '' }}">
   <label for="name" class="col-md-4 control-label">Fecha de inicio de labores</label>
   <div class="col-md-6">

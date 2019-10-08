@@ -1,8 +1,8 @@
 const path = require('path')
 
 module.exports = {
- performance: { hints: false },
- mode: 'production',
+ //performance: { hints: false },
+ //mode: 'development',
  devServer: {
   port: 9000
  },

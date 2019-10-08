@@ -55,7 +55,7 @@ class BackupController extends Controller
 
   public function descargar($file_name)
   {
-    $file = '/backups/' . $file_name;
+    $file = 'backups/' . $file_name;
     $disk = Storage::disk('local');
     if ($disk->exists($file)) {
         $fs = Storage::disk('local')->getDriver();

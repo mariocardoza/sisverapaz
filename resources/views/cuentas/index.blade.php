@@ -50,7 +50,8 @@
               {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
               <a href="{{ url('cuentas/'.$cuenta->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
               <a href="{{ url('cuentas/'.$cuenta->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-              <a href="javascript:void(0)" id="asignar_fondos" data-id="{{$cuenta->id}}" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-retweet"></span></a>
+              <a href="javascript:void(0)" id="remesar" data-id="{{$cuenta->id}}" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a>
+              <a href="javascript:void(0)" id="asignar_fondos" data-id="{{$cuenta->id}}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-retweet"></span></a>
 
               <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cuenta->id.",'cuentas')" }}><span class="glyphicon glyphicon-trash"></span></button>
               {{ Form::close()}}
@@ -101,6 +102,63 @@
                 }
             }
         })
+    });
+
+    //asignarle fondos a la cuenta del pryecto
+    $(document).on("click","#remesar",function(e){
+        var id=$(this).attr("data-id");
+        $.ajax({
+            url:'cuentas/modalremesar/'+id+'/'+1,
+            type:'get',
+            dataType:'json',
+            success: function(json){
+                if(json[0]==1){
+                    $("#modal_aqui").empty();
+                    $("#modal_aqui").html(json[2]);
+                    $("#modal_remesar_cuenta").modal("show");
+                    $(".chosen").chosen({
+                        'width':'100%'
+                    });
+                }
+            }
+        })
+    });
+
+    /// imprimir el monto de la cuenta
+    $(document).on("change","#select_fondo",function(e){
+      var id=$(this).val();
+      if(id!=''){
+        var monto_cuenta=parseFloat($("#select_fondo option:selected").attr("data-montocuenta")) || 0;
+        $("#imp_monto").text("");
+        $("#imp_monto").text("$"+monto_cuenta);
+      }
+    });
+
+    ///remesar cuenta
+    $(document).on("click","#remesar_cuenta",function(e){
+      e.preventDefault();
+      var datos=$("#form_remesar_cuenta").serialize();
+      $.ajax({
+          url:'cuentas/remesarcuenta',
+          type:'POST',
+          dataType:'json',
+          data:datos,
+          success: function(json){
+              if(json[0]==1){
+                  toastr.success("Remesa realizada con éxito");
+                  location.reload();
+                  swal.closeModal();
+              }else{
+                  toastr.error("Ocurrió un error");
+                  swal.closeModal();
+              }
+          },error: function(error){
+            $.each(error.responseJSON.errors, function( key, value ) {
+              toastr.error(value);
+            });
+              swal.closeModal(); 
+          }
+      });
     });
 
     //abonar la cuenta

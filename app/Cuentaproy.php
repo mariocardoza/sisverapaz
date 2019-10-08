@@ -52,7 +52,8 @@ class Cuentaproy extends Model
                                     $modal.='<option data-montocuenta="'.$detalle->cuenta->monto_inicial.'" data-cuenta="'.$detalle->cuenta->id.'" data-disponible="'.$detalle->monto_disponible.'" data-tope="'.$detalle->monto.'" value="'.$detalle->id.'">'.$detalle->cuenta->nombre.'</option>';
                                 endforeach;
                             $modal.='</select>
-                        </div>
+                        </div><br>
+                        <span><b id="imp_monto"></b></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Monto a transferir</label>

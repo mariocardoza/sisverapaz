@@ -16,6 +16,8 @@ class PresupuestoUnidadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function index(Request $request)
     {
         Auth()->user()->authorizeRoles(['admin','uaci']);
@@ -208,5 +210,14 @@ class PresupuestoUnidadController extends Controller
     {
       $retorno=Presupuestounidad::materiales($id);
       return $retorno;
+    }
+
+    public function anio(Request $request,$anio)
+    {
+        if($anio>0){
+            $presu=Presupuestounidad::where('anio',$anio)->whereIn('estado',[1,3])->where('unidad_id',$request->unidad_id)->get();
+            
+        }
+        return $presu;
     }
 }

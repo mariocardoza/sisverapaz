@@ -1,34 +1,51 @@
 $(document).ready(function(e){
 	var eltoken = $('meta[name="csrf-token"]').attr('content');
 	$(document).on("click","#btn_guardar",function(e){
-		var datos=$("#empleado_form").serialize();
-		console.log(datos);
-		var ruta = "../empleados";
-		var token = $('meta[name="csrf-token"]').attr('content');
-		$.ajax({
-	      	url: ruta,
-	      	headers: {'X-CSRF-TOKEN':token},
-	      	type:'POST',
-	      	dataType:'json',
-	      	data:datos,
+		e.preventDefault();
+		var valor=$("#nit_empleado").val();
+		var fecha=$("#fecha_nacimiento").val();
+		if(valor!='' && fecha != ''){
+			var partes=valor.split("-");
+		
+			var nuevo=partes[1][0]+partes[1][1]+"-"+partes[1][2]+partes[1][3]+"-"+partes[1][4]+partes[1][5];
+			
+			var fechan=fecha[0]+fecha[1]+"-"+fecha[3]+fecha[4]+"-"+fecha[8]+fecha[9];		
+		
+			if(nuevo === fechan){
+				var datos=$("#empleado_form").serialize();
+				console.log(datos);
+				var ruta = "../empleados";
+				var token = $('meta[name="csrf-token"]').attr('content');
+				$.ajax({
+					url: ruta,
+					headers: {'X-CSRF-TOKEN':token},
+					type:'POST',
+					dataType:'json',
+					data:datos,
 
-	      	success: function(json){
-	      		if(json[0]==1){
-	      			toastr.success('exito');
-	      			window.location.href = "../empleados/"+json[2].id;
-	      		}else{
-	      			toastr.error('error');
-	      		}
-	      		console.log(json);
-	        	
-	        
-	      	},
-	      	error : function(data){
-	          	$.each(data.responseJSON.errors,function(index,value){
-	          		toastr.error(value);
-	          	});
-	        }
-	    });
+					success: function(json){
+						if(json[0]==1){
+							toastr.success('exito');
+							window.location.href = "../empleados/"+json[2].id;
+						}else{
+							toastr.error('error');
+						}
+						console.log(json);
+						
+					
+					},
+					error : function(data){
+						$.each(data.responseJSON.errors,function(index,value){
+							toastr.error(value);
+						});
+					}
+				});
+			}else{
+				toastr.error("La fecha de nacimiento no coincide según el número de NIT");
+			}
+		}else{
+			toastr.error("Complete todos los campos obligatorios");
+		}
 	});
 
 // para imagenes
@@ -38,9 +55,107 @@ $(document).ready(function(e){
 
     $(document).on("change", "#file_1", function(event) {
         validar_archivo($(this));
-    });
+	});
+	
+	//input del NIT
+	$(document).on("blur","#nit_empleado",function(e){
+		e.preventDefault();
+		
+	});
 
+	//select para el tipo de planilla
+	$(document).on("change","#select_tipo",function(e){
+		var tipo=$(this).val();
+		//alert(tipo);
+		if(tipo!=''){
+			if(tipo=='2'){
+				$(".elproy").show();
+				$("#select_proy").removeAttr("disabled");
+				$("#select_proy").trigger("chosen:updated");
+				$("#select_cargo").prop('disabled', 'disabled');
+				$("#select_cargo").trigger("chosen:updated");
+				$("#select_unidad").prop('disabled', 'disabled');
+				$("#select_unidad").trigger("chosen:updated");
+			}else{
+				$(".elproy").hide();
+				$("#select_proy").trigger("chosen:updated");
+				$("#select_proy").prop('disabled', 'disabled');
+				$("#select_cargo").removeAttr("disabled");
+				$("#select_cargo").trigger("chosen:updated");
+				$("#select_unidad").removeAttr("disabled");
+				$("#select_unidad").trigger("chosen:updated");
+			}
+		}else{
+			$(".elproy").hide();
+			$("#select_proy").trigger("chosen:updated");
+			$("#select_proy").prop('disabled', 'disabled');
+			$("#select_cargo").removeAttr("disabled");
+			$("#select_cargo").trigger("chosen:updated");
+			$("#select_unidad").removeAttr("disabled");
+			$("#select_unidad").trigger("chosen:updated");
+		}
+	});
 
+	//*** Editar el contrato *****/
+	$(Document).on("click","#formedit_contrato",function(e){
+		var id=$(this).attr('data-id');
+		var tipo=$(this).attr("data-tipo");
+		if(tipo==2){
+			$(".elproy").show();
+			$("#select_proy").removeAttr("disabled");
+			$("#select_proy").trigger("chosen:updated");
+			$("#select_cargo").prop('disabled', 'disabled');
+			$("#select_cargo").trigger("chosen:updated");
+			$("#select_unidad").prop('disabled', 'disabled');
+			$("#select_unidad").trigger("chosen:updated");
+		}else{
+			$(".elproy").hide();
+			$("#select_proy").trigger("chosen:updated");
+			$("#select_proy").prop('disabled', 'disabled');
+			$("#select_cargo").removeAttr("disabled");
+			$("#select_cargo").trigger("chosen:updated");
+			$("#select_unidad").removeAttr("disabled");
+			$("#select_unidad").trigger("chosen:updated");
+		}
+
+		$("#btn_editarcontrato").attr("data-id",id);
+		e.preventDefault();
+		$("#info_contra").hide();
+		$("#edi_contrato").show();
+
+	});
+
+	$(document).on("click","#btn_cancelarcontrato",function(e){
+		e.preventDefault();
+		$("#info_contra").show();
+		$("#edi_contrato").hide();
+	});
+
+	$(document).on("click","#btn_editarcontrato",function(e){
+		e.preventDefault();
+		var id=$(this).attr('data-id');
+		var datos=$("#form_editcontra").serialize();
+		$.ajax({
+			url:'../detalleplanillas/'+id,
+			type:'put',
+			dataType:'json',
+			data:datos,
+			success: function(json){
+			if(json[0]==1){
+				toastr.success("Contrato registrado con exito");
+				window.location.reload();
+			}else{
+				toastr.error("Ocurrió un error");
+				swal.closeModal();
+			}
+			}, error: function(error){
+				$.each(error.responseJSON.errors,function(index,value){
+					  toastr.error(value);
+				  });
+				  swal.closeModal();
+			}
+		});
+	});
 
 	$(document).on("click","#btn_editar",function(e){
 		var datos=$("#e_empleados").serialize();
@@ -99,7 +214,12 @@ $(document).ready(function(e){
 	$(document).on("click","#modal_prestamo",function(e){
 		e.preventDefault();
 		$("#md_prestamo").modal("show");
-	})
+	});
+
+	$(document).on("click","#modal_descuento",function(e){
+		e.preventDefault();
+		$("#md_descuento").modal("show");
+	});
 
 	$(document).on("click","#editar_usuario",function(e){
 		e.preventDefault();
@@ -166,6 +286,35 @@ $(document).ready(function(e){
 				success: function(json){
 					if(json[0]==1){
 					toastr.success("El préstamo se registro con éxito");
+					window.location.reload();
+					}else{
+						toastr.error("Ocurrió un error");
+						swal.closeModal();
+					}
+				}, error: function(error){
+					$.each(error.responseJSON.errors,function(index,value){
+	          			toastr.error(value);
+	          		});
+	          		swal.closeModal();
+				}
+			})
+		//}
+	});
+
+	$(document).on("click","#regi_descuento", function(e){
+		var valid=$("#form_descuento").valid();
+		//if(valid){
+			modal_cargando();
+			var datos=$("#form_descuento").serialize();
+			$.ajax({
+				url:'../descuentos',
+				headers: {'X-CSRF-TOKEN':eltoken},
+				type:'POST',
+				dataType:'json',
+				data:datos,
+				success: function(json){
+					if(json[0]==1){
+					toastr.success("El descuento se registro con éxito");
 					window.location.reload();
 					}else{
 						toastr.error("Ocurrió un error");

@@ -96,6 +96,43 @@
 							</center>
 						</div>
 					</div>
+					<div class="panel panel-primary" id="div_emple" style="display:none">
+						<div class="panel-heading">Empleados temporales</div>
+						<div class="panel-body" id="empleados_aqui">
+							<button class="btn btn-primary" id="nuevo_emp">Nuevo</button>
+							<div id="tabla_empleados"></div>
+						</div>
+						<div class="panel-body" id="emple_form" style="display: none;">
+							@include('proyectos.show.empleados')
+						</div>
+					</div>
+					<div class="panel panel-primary" id="div_plani" style="display:none;">
+						<div class="panel-heading">Planillas mensuales</div>
+						<div class="panel-body">
+							<div id="laplanilla">
+								<button class="btn btn-primary" id="crear_planilla">Nueva</button>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>N°</th>
+											<th>Fecha</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($proyecto->datoplanilla as $index => $item)
+											<tr>
+												<td>{{$index+1}}</td>
+												<td>{{$item->fecha}}</td>
+												<td></td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+							<div id="plani_aqui" style="display: none;"></div>
+						</div>
+					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="panel panel-primary">
@@ -120,7 +157,13 @@
 								
 								@endif
 								<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
-										Contratos
+									Contratos
+								</button>
+								<button type="button" class="btn btn-default col-sm-12" id="btn_emple" style="margin-bottom: 3px;">
+									Empleados
+								</button>
+								<button type="button" class="btn btn-default col-sm-12" id="btn_plani" style="margin-bottom: 3px;">
+									Planillas
 								</button>
 							</div>
 					</div>
@@ -171,12 +214,16 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
 		
 				$("#btn_pre").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 			});
 		
 			$("#btn_ind").click(function (){
@@ -185,12 +232,16 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
 		
 				$("#btn_ind").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				cargar_indicadores(elid);
 			});
 		
@@ -200,12 +251,16 @@
 				$("#div_cot").show();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
 		
 				$("#btn_cot").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				solicitudes(elid);
 			});
 
@@ -215,12 +270,16 @@
 				$("#div_cot").hide();
 				$("#div_contra").show();
 				$("#div_lic").hide();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				contratos(elid);
 			});
 
@@ -230,13 +289,58 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").show();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
-				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				//contratos(elid);
+			});
+
+			$("#btn_emple").click(function(){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").hide();
+				$("#div_plani").hide();
+				$("#div_emple").show();
+
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				empleados(elid);
+
+			});
+
+			$("#btn_plani").click(function(){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").hide();
+				$("#div_emple").hide();
+				$("#div_plani").show();
+				
+
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-primary');
+				//empleados(elid);
+
 			});
 
 		});
@@ -254,6 +358,7 @@
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
+				
 			}
 		}
 
@@ -322,6 +427,22 @@
 					if(json[0]==1){
 						$("#contrato_aqui").empty();
 						$("#contrato_aqui").html(json[2]);
+					}
+				}
+			});
+		}
+
+		function empleados(elid){
+			$.ajax({
+				url:'../proyectos/empleados/'+elid,
+				type:'get',
+				data:{},
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						$("#tabla_empleados").empty();
+						$("#tabla_empleados").html(json[2]);
+						inicializar_tabla("latabla");
 					}
 				}
 			});

@@ -91,8 +91,14 @@ class DetalleplanillaController extends Controller
       $detalle->salario=$request->salario;
       $detalle->tipo_pago=$request->tipo_pago;
       $detalle->pago=$request->pago;
+      $detalle->unidad_id=$request->unidad_id;
+      $detalle->numero_acuerdo=$request->numero_acuerdo;
       $detalle->save();
-      return redirect('detalleplanillas')->with('mensaje','Registro modificado con éxito');
+      if($request->ajax()){
+          return array(1,"exito");
+      }else{
+        return redirect('detalleplanillas')->with('mensaje','Registro modificado con éxito');
+      }
     }
 
     /**

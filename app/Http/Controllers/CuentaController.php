@@ -12,6 +12,7 @@ use App\Fondo;
 use App\Http\Requests\CuentaRequest;
 use App\Http\Requests\CuentauRequest;
 use DB;
+use Validator;
 
 class CuentaController extends Controller
 {
@@ -125,6 +126,41 @@ class CuentaController extends Controller
         }else{
             $retorno=Cuenta::modal_asignarfondos($id);
             return $retorno;
+        }
+    }
+
+    public function modal_remesar($id,$tipo)
+    {
+        if($tipo==2){
+            $retorno=Cuentaproy::modal_remesar($id);
+            return $retorno;
+        }else{
+            $retorno=Cuenta::modal_remesar($id);
+            return $retorno;
+        }
+    }
+
+    public function remesarcuenta(Request $request)
+    {
+        $this->validar_remesa($request->all())->validate();
+        \DB::beginTransaction();
+        try{
+            CuentaDetalle::create([
+                'id'=>CuentaDetalle::retonrar_id_insertar(),
+                'cuenta_id'=>$request->cuenta_id,
+                'accion'=>$request->detalle,
+                'tipo'=>1,
+                'monto'=>$request->monto
+            ]);
+
+            $cuenta=Cuenta::find($request->cuenta_id);
+            $monto=$cuenta->monto_inicial;
+            $cuenta->monto_inicial=$cuenta->monto_inicial+$request->monto;
+            $cuenta->save();
+            \DB::commit();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
         }
     }
 
@@ -270,5 +306,20 @@ class CuentaController extends Controller
         $cuenta->save();
         bitacora('Dió de alta una cuenta');
         return redirect('/cuentas')->with('mensaje', 'Cuenta dada de alta');
+    }
+
+    protected function validar_remesa(array $data)
+    {
+        $mensajes=array(
+            'monto.required'=>'El monto a remesar es obligatorio',
+            'monto.min'=>'El monto a remesar debe ser mayor a cero',
+            'detalle.required'=>'El detalle es obligatorio'
+        );
+        return Validator::make($data, [
+            'monto' => 'required|numeric',
+            'detalle'=>'required'
+        ],$mensajes);
+
+        
     }
 }

@@ -432,6 +432,18 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function empleados($id)
+    {
+      $retorno=Proyecto::empleados($id);
+      return $retorno;
+    }
+
+    public function planilla($id)
+    {
+      $retorno=\App\Planilla::planilla_proyecto($id);
+      return $retorno;
+    }
+
     public function baja($cadena)
     {
       try{

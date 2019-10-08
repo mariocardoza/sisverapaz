@@ -26,6 +26,11 @@
       max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
       min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
     });
+
+    $('.nit').inputmask("9999-999999-999-9", { "clearIncomplete": true });
+    $('.dui').inputmask("99999999-9", { "clearIncomplete": true });
+    $('.telefono').inputmask("9999-9999", { "clearIncomplete": true });
+  
           //datatables
           var tabla = $('#example2').DataTable({
               language: {

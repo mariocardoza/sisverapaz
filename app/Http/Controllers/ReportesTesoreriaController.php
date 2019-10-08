@@ -21,5 +21,14 @@ class ReportesTesoreriaController extends Controller
     	$pdf = \PDF::loadView('pdf.tesoreria.planilla',compact('datoplanilla','planillas','tipo'));
     	$pdf->setPaper('letter', 'landscape');
     	return $pdf->stream('planilla.pdf');
+	}
+	
+	public function planillas2($id){
+        $datoplanilla=\App\Datoplanilla::find($id);
+        $planillas=\App\Planilla::where('datoplanilla_id',$id)->get();
+    	$tipo = "PLANILLA DE EMPLEADOS";
+    	$pdf = \PDF::loadView('pdf.tesoreria.planilla2',compact('datoplanilla','planillas','tipo'));
+    	$pdf->setPaper('letter', 'landscape');
+    	return $pdf->stream('planilla.pdf');
     }
 }

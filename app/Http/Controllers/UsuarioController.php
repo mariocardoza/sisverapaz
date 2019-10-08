@@ -105,9 +105,10 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
+        $roles = Role::all();
         $usuario = User::find($id);
         //dd($cargos);
-        return view('usuarios.edit',compact('usuario'));
+        return view('usuarios.edit',compact('usuario','roles'));
     }
 
     /**
@@ -120,10 +121,16 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         $usuario = User::find($id);
-        $usuario->fill($request->All());
+        $usuario->empleado_id=$request->empleado_id;
+        $usuario->username=$request->username;
+        $usuario->email=$request->email;
+        $usuario->unidad_id=$request->unidad_id;
         bitacora('Usuario '.$request['name'].' modificado');
-        $usuario->save();
+        $usuario->save();   
 
+        $rol=$usuario->roleuser;
+        $rol->role_id=$request->roles;
+        $rol->save();
 
         return redirect('usuarios')->with('mensaje','Usuario '.$request['name'] .' modificado con éxito');
     }

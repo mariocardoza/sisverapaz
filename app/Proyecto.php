@@ -452,6 +452,35 @@ class Proyecto extends Model
       return $retorno;
     }
 
+    public static function empleados($id)
+    {
+      try{
+        $proyecto=Proyecto::find($id);
+        $html="";
+        $html.='<table class="table" id="latabla">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Empleado</th>
+            <th>Salario</th>
+          </tr>
+        </thead>
+        <tbody>';
+          foreach ($proyecto->detalleplanilla as $index => $item):
+            $html.='<tr>
+              <td>'.($index+1).'</td>
+              <td>'.$item->empleado->nombre.'</td>
+              <td>$'.number_format($item->salario,2).'</td>
+            </tr>';
+          endforeach;
+        $html.='</tbody>
+      </table>';
+      return array(1,"exito",$html);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
     public function tiene_solicitudes()
     {
       return $this->hasMany('App\Solicitudcotizacion')->where('estado',3);
@@ -510,5 +539,15 @@ class Proyecto extends Model
     public function bitacoraproyecto()
     {
       return $this->hasMany('App\BitacoraProyecto');
+    }
+
+    public function detalleplanilla()
+    {
+      return $this->hasMany('App\Detalleplanilla');
+    }
+
+    public function datoplanilla()
+    {
+      return $this->hasMany('App\Datoplanilla');
     }
 }

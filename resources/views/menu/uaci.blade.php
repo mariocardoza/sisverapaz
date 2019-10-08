@@ -72,4 +72,29 @@
             <li><a href="{{ url('materiales') }}"><i class="fa fa-circle-o"></i> Listado de materiales</a></li>
         </ul>
     </li>
+    <li class="treeview {{ Route::currentRouteName() == 'categorias.index' ? 'active':null}}">
+        <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+            <span>Categorías</span>
+            <span class="pull-right-container">
+                  <span class="label label-primary pull-right"></span>
+                </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{ url('categorias') }}"><i class="fa fa-circle-o"></i> Listado de categorías</a></li>
+        </ul>
+    </li>
+
+    <li class="treeview {{ Route::currentRouteName() == 'unidadmedidas.index' ? 'active':null}}">
+        <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+            <span>Unidades de medida</span>
+            <span class="pull-right-container">
+                  <span class="label label-primary pull-right"></span>
+                </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{ url('unidadmedidas') }}"><i class="fa fa-circle-o"></i> Listado de unidades de medida</a></li>
+        </ul>
+    </li>
 

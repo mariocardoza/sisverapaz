@@ -18,7 +18,11 @@
             <div class="panel-heading">Datos del empleado </div>
             <div class="panel-body">
               <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.$empleado->avatar) }}" id="img_file" alt="User profile picture">
+                @if($empleado->avatar!="")
+                <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.$empleado->avatar) }}" id="img_file" alt="User profile picture">
+                @else
+              <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/avatar.jpg') }}" id="img_file" alt="User profile picture">
+              @endif
               <form method='post' action="{{ url('empleados/foto/'.$empleado->id) }}" enctype='multipart/form-data'>
                 {{csrf_field()}}
               <input type="file" class="archivos hidden" id="file_1" name="foto" />
@@ -90,16 +94,18 @@
         <div class="col-md-7">
           <div class="btn-group">
             <button class="btn btn-primary que_ver" type="button" data-opcion="1">Contrato</button>
+            @if(isset($empleado->detalleplanilla) && $empleado->detalleplanilla->proyecto_id =='')
             <button class="btn btn-primary que_ver" type="button" data-opcion="2">Información</button>
             <button class="btn btn-primary que_ver" type="button" data-opcion="3">Descuentos</button>
+            @endif
           </div>
           <br><br>
           <div class="row" id="contrato">
             <div class="col-md-10">
               @if(isset($empleado->detalleplanilla))
-              <div class="panel panel-primary">
+              <div class="panel panel-primary" id="info_contra">
                 <div class="panel-heading">Información del contrato</div>
-                <div class="panel">
+                <div class="panel" >
                   <table class="table">
                     <tr>
                       <td>Salario</td>
@@ -114,6 +120,14 @@
                       @endif
                     </tr>
                     <tr>
+                        <td>Unidad</td>
+                        @if($empleado->detalleplanilla->unidad_id)
+                        <th>{{$empleado->detalleplanilla->unidad->nombre_unidad}}</th>
+                        @else
+                        <th>Unidad de proyectos</th>
+                        @endif
+                      </tr>
+                    <tr>
                       <td>Tipo de pago</td>
                       @if($empleado->detalleplanilla->tipo_pago==1)
                       <th>Planilla</th>
@@ -121,6 +135,14 @@
                       <th>Honorarios</th>
                       @endif
                     </tr>
+                    @if($empleado->detalleplanilla->proyecto_id != '')
+                    <tr>
+                      <td>Proyecto</td>
+                      <th>{{$empleado->detalleplanilla->proyecto->nombre}}</th>
+                    </tr>
+                    @else 
+                    
+                    @endif
                     <tr>
                       <td>Pago</td>
                       @if($empleado->detalleplanilla->pago==1)
@@ -137,21 +159,44 @@
                       <th>Fecha no registrada</th>
                       @endif
                     </tr>
+                    <tr>
+                      <td>N° de acuerdo</td>
+                      <th>{{$empleado->detalleplanilla->numero_acuerdo}}</th>
+                    </tr>
                   </table>
+                  <center>
+                    <button class="btn btn-warning btn-sm" data-tipo="{{$empleado->detalleplanilla->tipo_pago}}" data-id="{{$empleado->detalleplanilla->id}}" id="formedit_contrato">Editar</button>
+                  </center>
                 </div>
               </div>
               @else
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" id="reg_contrato">
                 <div class="panel-heading">Registrar contrato</div>
-                <div class="panel">
+                <div class="panel" >
                  <form id="form_planilla" class="form-horizontal">
                    @include('detalleplanillas.formulario')
 
                    <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
                  </form>
                 </div>
+                
               </div>
               @endif
+              <div class="panel panel-primary" id="edi_contrato" style="display:none;">
+                <div class="panel-heading">Editar contrato</div>
+                @if(isset($empleado->detalleplanilla))
+                <div class="panel" >
+                    {{ Form::model($empleado->detalleplanilla, array('method' => 'put', 'class' => 'form-horizontal','id'=>'form_editcontra' , 'route' => array('detalleplanillas.update', $empleado->detalleplanilla->id))) }}
+                    @include('detalleplanillas.formulario')
+
+                   <center>
+                     <button class="btn btn-primary" id="btn_editarcontrato" type="button">Guardar</button>
+                     <button class="btn btn-danger" id="btn_cancelarcontrato" type="button">Cancelar</button>
+                  </center>
+                 </form>
+                </div>
+                @endif
+              </div>
             </div>
           </div>
           <div class="row" id="general" style="display: none;">
@@ -172,6 +217,12 @@
                             <td>Correo electrónico</td>
                             <th>{{$empleado->user->email}}</th>
                           </tr>
+                          @if(isset($empleado->user->unidad_id))
+                          <tr>
+                            <td>Unidad</td>
+                            <th>{{$empleado->user->unidad->nombre_unidad}}</th>
+                          </tr>
+                          @endif
                         </table>
                         <center><button class="btn btn-primary btn-sm" id="editar_usuario" type="button">Editar información</button></center>
                       <?php else: ?>
@@ -319,7 +370,29 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Otros descuentos</div>
                 <div class="panel">
-                  
+                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
+                  <button class="btn btn-success btn-sm pull-right" type="button" id="modal_descuento"><i class="fa fa-plus"></i></button><br>
+                  @endif
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>N°</th>
+                        <th>Descuento</th>
+                        <th>Cuota</th>
+                        <td></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($empleado->descuento as $key => $descuento): ?>
+                        <tr>
+                          <td>{{$key+1}}</td>
+                          <td>{{$descuento->categoriadescuento->nombre}}</td>
+                          <td>${{number_format($descuento->cuota,2)}}</td>
+                          <td><button class="btn btn-primary btn-sm" type="button" id="ver_prestamo"><i class="fa fa-eye"></i></button></td>
+                        </tr>
+                      <?php endforeach ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

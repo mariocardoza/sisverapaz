@@ -85,10 +85,11 @@
                 <label for="" class="control-label">Unidad administrativa</label>
                 <div class="">
                     @if(isset($unidades))
-                      <select name="unidad_admin" class="form-control chosen-select-width ">
-                          <option value="">Seleccione una unidad administrativa...</option>
+                      <select id="uni_id" name="unidad_admin" class="form-control chosen-select-width ">
                           @foreach($unidades as $unidad)
-                            <option value="{{$unidad->id}}">{{$unidad->nombre_unidad}}</option>
+                            @if($unidad->id==Auth()->user()->unidad_id)
+                            <option selected value="{{$unidad->id}}">{{$unidad->nombre_unidad}}</option>
+                            @endif
                           @endforeach
                       </select>
                     @else
@@ -99,7 +100,7 @@
             <div class="form-group">
                 <label for="" class="control-label">Año</label>
                 <div>
-                <input type="text" name="anio" value="{{date('Y')}}" class="form-control">
+                <input type="text" id="elaniopresu" name="anio" value="{{date('Y')}}" class="form-control">
                 </div>
             </div>
                       

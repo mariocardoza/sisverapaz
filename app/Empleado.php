@@ -32,6 +32,11 @@ class Empleado extends Model
       return $this->hasMany('App\Prestamo');
     }
 
+    public function descuento()
+    {
+      return $this->hasMany('App\Descuento');
+    }
+
     public function user(){
         return $this->hasOne('App\User');
     }
