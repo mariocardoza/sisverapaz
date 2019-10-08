@@ -12,15 +12,10 @@ class VacacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if(!isset($request->estado)){
-            $estado=0;
-        }else{
-            $estado=$request->estado;
-        }
-        $vacaciones=Vacacion::where('estado',$estado)->orderBy('created_at')->get();
-        return view('vacaciones.index',compact('vacaciones','estado'));
+        $vacaciones=Vacacion::where('estado',0)->get();
+        return view('vacaciones.index',compact('vacaciones'));
     }
 
     /**
