@@ -82,6 +82,51 @@ $(document).ready(function(e){
         });
     });
 
+    //modal acta de cierre
+    $(document).on("click","#finalizar_proyecto", function(e){
+      e.preventDefault();
+      $("#modal_subir_acta").modal("show");
+    });
+
+    $(document).on('submit','#form_subiracta', function(e) {
+      // evito que propague el submit
+      e.preventDefault();
+      //modal_cargando();
+      // agrego la data del form a formData
+      var formData = new FormData(this);
+      formData.append('_token', $('input[name=_token]').val());
+      var fi= document.getElementById('file-upload2');
+      var tamanio =fi.files[0].size/1024/1024;
+      console.log(tamanio +"MB");
+      if(tamanio <= 10){
+          $.ajax({
+            type:'POST',
+            url:'../proyectos/subiracta', 
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                if(data[0]==1){
+                  toastr.success("Acta subida con éxito");
+                  informacion(data[2]);
+                  $("#modal_subir_acta").modal("hide");
+                  $("#form_subiracta").trigger("reset");
+                  swal.closeModal();
+                }
+            },
+            error: function(error){
+                swal.closeModal();
+              $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+                swal.closeModal();
+              });
+            }
+        });
+      }else{
+        toastr.error('El archivo debe pesar menos de 10MB');
+      }
+});
 
     //ver planilla
     $(document).on("click","#crear_planilla", function(e){
@@ -129,4 +174,9 @@ $(document).ready(function(e){
 function cambiar(){
     var pdrs = document.getElementById('file-upload').files[0].name;
     document.getElementById('info3').innerHTML = pdrs;
+  }
+
+  function cambiar2(){
+    var pdrs = document.getElementById('file-upload2').files[0].name;
+    document.getElementById('info4').innerHTML = pdrs;
   }

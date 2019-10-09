@@ -36,20 +36,25 @@ class Proyecto extends Model
       $informacion="";
       try{
         $proyecto=Proyecto::find($id);
-        if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7):
-        $informacion.='<div class="col-sm-12">
-          <center><button class="btn btn-primary btn-sm" id="materiales_recibidos" title="Materiales recibidos"><i class="fa fa-check"></i></button></center>
-        </div></br><br>';
-        elseif($proyecto->estado==8):
-          $informacion.='<div class="col-sm-12">
-          <center><button class="btn btn-primary btn-sm" id="modal_pausar" title="Pausar el proyecto"><i class="fa fa-pause"></i></button></center>
-        </div></br><br>';
-        elseif($proyecto->estado==9):
-          $informacion.='<div class="col-sm-12">
-          <center><button class="btn btn-primary btn-sm" id="reanudar_proyecto" title="Reanudar el proyecto"><i class="fa fa-play"></i></button></center>
-        </div></br><br>';
+        $informacion.='<div class="col-sm-12"><center>';
+        if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7 && $proyecto->indicadores_completado->sum('porcentaje') < 100) :
+        $informacion.='
+          <button class="btn btn-primary btn-sm" id="materiales_recibidos" title="Materiales recibidos"><i class="fa fa-check"></i></button>
+        </br><br>';
+        elseif($proyecto->estado==8 && $proyecto->indicadores_completado->sum('porcentaje') < 100):
+          $informacion.='
+          <button class="btn btn-primary btn-sm" id="modal_pausar" title="Pausar el proyecto"><i class="fa fa-pause"></i></button>
+        </br><br>';
+        elseif($proyecto->estado==9 && $proyecto->indicadores_completado->sum('porcentaje') < 100):
+          $informacion.='
+          <button class="btn btn-primary btn-sm" id="reanudar_proyecto" title="Reanudar el proyecto"><i class="fa fa-play"></i></button>
+        </br><br>';
+        elseif($proyecto->indicadores_completado->sum('porcentaje') == 100 && $proyecto->estado < 12):
+          $informacion.='<button class="btn btn-primary btn-sm" id="finalizar_proyecto" title="Finalizar el proyecto"><i class="fa fa-check"></i></button>
+          </br><br>';
         endif;
-        $informacion.='<div class="col-sm-12">
+        $informacion.='</center></div>
+        <div class="col-sm-12">
         <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
         </div>
         <div class="clearfix"></div>
@@ -173,7 +178,7 @@ class Proyecto extends Model
           if($proyecto->solicitudcotizacion->count() > 0): 
               if(Proyecto::tiene_materiales($proyecto->presupuesto->id)):
               $lasoli.='<center>
-                <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
+                <button class="btn btn-primary pull-right" data-id="'.$proyecto->id.'" id="registrar_solicitud">Registrar</button>
               </center>';
               endif; 
               $lasoli.='<div class="row">
@@ -206,7 +211,7 @@ class Proyecto extends Model
               $lasoli.='<center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                   <span>Registre la solicitud</span><br>
-                  <button class="btn btn-primary" id="registrar_solicitud">Registrar</button>
+                  <button class="btn btn-primary" data-id="'.$proyecto->id.'" id="registrar_solicitud">Registrar</button>
                 </center>';
             endif;
           endif;

@@ -44,6 +44,12 @@ $cargos=App\Cargo::cargos();
                       ,null, ['class'=>'chosen-select-width'])!!}
                 </div>
             </div>
+            <div class="form-group">
+              <label for="" class="col-md-4 control-label">N° de acuerdo</label>
+              <div class="col-md-6">
+                {!! Form::text('numero_acuerdo',null,['class'=>'form-control']) !!}
+              </div>
+            </div>
             <div class="form-group{{ $errors->has('fecha_inicio') ? ' has-error' : '' }}">
               <label for="name" class="col-md-4 control-label">Fecha de inicio de labores</label>
               <div class="col-md-6">

@@ -115,8 +115,10 @@ Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
 Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
 Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::post('proyectos/subiracta','ProyectoController@subiracta');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
 Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
+Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
@@ -242,6 +244,7 @@ Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
+Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');

@@ -177,25 +177,7 @@
 	</div>
 	@if(isset($proyecto->presupuesto->presupuestodetalle))
 	<div class="row" id="elformulario" style="display: none;">
-            <div class="col-md-11">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Registro de solicitudes</div>
-                <div class="panel-body">
-                    {{ Form::open(['action' => 'SolicitudcotizacionController@store','class' => 'form-horizontal','id' => 'form_solicitudcotizacion']) }}
-                    @include('solicitudcotizaciones.formulario')
-
-                    <div class="form-group">
-                        <center>
-                            <button type="button" id="registrar_soli" class="btn btn-success">
-                                Registrar
-							</button>
-							<button id="cancelar_soli" class="btn btn-primary">Cancelar</button>
-                        </center>
-                    </div>
-                    {{Form::close()}}
-                </div>
-            </div>
-            </div>
+            
 		</div>
 	@endif
 </div>

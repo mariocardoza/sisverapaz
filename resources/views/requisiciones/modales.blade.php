@@ -81,31 +81,31 @@
   </div>
 </div>
 
-
-<!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_finalizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title" id="myModalLabel">Subir acta de cierre</h4>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Subir acta de cierre</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['action'=>'RequisicionController@subir', 'class' => '','id' => 'form_subiracta','enctype'=>'multipart/form-data']) }}
+            <input type="hidden" name="requisicion_id" value="{{$requisicion->id}}">
+            <label for="file-upload2" class="subir">
+              <i class="glyphicon glyphicon-cloud"></i> Subir archivo
+          </label>
+          <input id="file-upload2" onchange='cambiar2()' name="archivo" type="file" style='display: none;'/>
+          <div id="info4"></div>
+              <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit"  class="btn btn-success">Guardar</button></center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
     </div>
-    <div class="modal-body">
-      {{ Form::open(['action'=>'RequisicionController@subir', 'class' => 'form-horizontal','id' => 'subir','enctype'=>'multipart/form-data']) }}
-          <input type="hidden" name="requisicion_id" value="{{$requisicion->id}}">
-            <label for="archivo">
-              <input type="file" required name="archivo">
-            </label>
-            <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      <button type="submit" class="btn btn-success">Agregar</button></center>
-      {{Form::close()}}
     </div>
-    <!--div class="modal-footer">
-      <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
-    </div-->
-  </div>
-  </div>
 </div>
 
 <!-- Modal -->

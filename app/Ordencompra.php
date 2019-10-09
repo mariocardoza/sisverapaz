@@ -19,16 +19,17 @@ class Ordencompra extends Model
     public static function correlativo()
     {
       $numero=Ordencompra::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->count();
+      $numero=$numero+1;
       if($numero>0 && $numero<10){
-        return intval("00".($numero+1).date('Y'));
+        return "00".($numero).'-'.date('Y');
       }else{
         if($numero >=10 && $numero < 100){
-          return intval("0".($numero+1).date('Y'));
+          return "0".($numero).'-'.date('Y');
         }else{
           if($numero<=100){
-            return intval(($numero+1).date('Y'));
+            return ($numero).'-'.date('Y');
           }else {
-            return intval("1".date("Y"));
+            return "001-".date("Y");
           }
         }
       }
@@ -104,11 +105,11 @@ class Ordencompra extends Model
             <label for="nombre" class="col-md-4 control-label">Periodo de entrega</label>
         
             <div class="col-md-2">
-              <input name="fecha_inicio" class="form-control" id="fecha_inicio" placeholder="Fecha de inicio" autocomplete="off">
+              <input name="fecha_inicio" class="form-control fecha_inicio" id="fecha_inicio" placeholder="Fecha de inicio" autocomplete="off">
             </div>
             <div class="col-md-1"><label for="">al</label></div>
             <div class="col-md-2">
-              <input name="fecha_fin" class="form-control" id="fecha_fin" placeholder="Fecha final" autocomplete="off">
+              <input name="fecha_fin" class="form-control fecha_fin" id="fecha_fin" placeholder="Fecha final" autocomplete="off">
 
             </div>
         </div>

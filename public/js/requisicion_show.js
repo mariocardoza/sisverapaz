@@ -1,7 +1,9 @@
 $(document).ready(function(e){
+ 
       info(elid);
       listarformapagos();
       inicializar_tabla("tabla_requi");
+
       var token = $('meta[name="csrf-token"]').attr('content');
 
       $(document).on("click","#agregar_nueva",function(e){
@@ -359,8 +361,34 @@ $(document).ready(function(e){
       });
 
       $(document).on("click","#registrar_solicitud",function(e){
-      e.preventDefault();
-      $("#modal_registrar_soli").modal("show");
+        e.preventDefault();
+        var id=$(this).attr("data-id");
+        $.ajax({
+          url:'../requisiciones/formulariosoli/'+id,
+          type:'get',
+          dataType:'json',
+          success: function(json){
+            if(json[0]==1){
+              $("#elformulario").empty();
+              $("#elformulario").html(json[2]);
+              $("#elshow").hide();
+              $("#elformulario").show();
+              $(".chosen-select-width").chosen({'width':'100%'});
+              var inicio = new Date();
+              var fin = new Date(fecha_acti);
+              $('.unafecha').datepicker({
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd-mm-yy',
+                minDate: inicio,
+                maxDate: fin,
+                format: 'dd-mm-yyyy'
+                });
+            }
+          }
+        });
+        //$("#modal_registrar_soli").modal("show");
       });
 
       $(document).on("click","#subir_contrato", function(e){
@@ -415,6 +443,61 @@ $(document).ready(function(e){
         });
       });
 
+      $(document).on('submit','#form_subiracta', function(e) {
+        // evito que propague el submit
+        e.preventDefault();
+        var elarchivo=$("#file-upload2").val();
+        if(elarchivo!=''){
+          
+        //modal_cargando();
+        // agrego la data del form a formData
+        var tamanio=0;
+        var formData = new FormData(this);
+        formData.append('_token', $('input[name=_token]').val());
+        var fi= document.getElementById('file-upload2');
+         tamanio =fi.files[0].size/1024/1024;
+        console.log(tamanio +"MB");
+        if(tamanio <= 10){
+            $.ajax({
+              type:'POST',
+              url:'../requisiciones/subir', 
+              data:formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+              success:function(data){
+                  if(data[0]==1){
+                    toastr.success("Acta subida con éxito");
+                    info(data[2]);
+                    $("#modal_finalizar").modal("hide");
+                    $("#form_subiracta").trigger("reset");
+                    swal.closeModal();
+                  }
+              },
+              error: function(error){
+                  swal.closeModal();
+                $.each(error.responseJSON.errors, function( key, value ) {
+                  toastr.error(value);
+                  swal.closeModal();
+                });
+              }
+          });
+        }else{
+          toastr.error('El archivo debe pesar menos de 10MB');
+        }
+        }else{
+          toastr.error("Debe seleccionar un acta");
+        }
+        
+  });
+
+  $(document).on("click","#cancelar_soli",function(e){
+		e.preventDefault();
+		$("#elshow").show();
+		$("#elformulario").hide();
+		$("#form_solicitudcotizacion").trigger("reset");
+	});
+
       $(document).on("click","#agregar_soli", function(e){
       var formapago = $("#formapago").val();
       var encargado = $("#encargado").val();
@@ -448,7 +531,9 @@ $(document).ready(function(e){
             if(response.mensaje=='exito'){
               toastr.success('Solicitud registrada exitosamente');
               info(elid);
-              $("#modal_registrar_soli").modal("hide");
+              $("#elshow").show();
+		          $("#elformulario").hide();
+		          $("#form_solicitudcotizacion").trigger("reset");
             }else{
                 console.log(response);
                 toastr.error('Ocurrió un error, contacte al administrador');
@@ -475,9 +560,9 @@ $(document).ready(function(e){
               $("#modal_aqui").empty();
               $("#modal_aqui").html(json[2]);
               var start = new Date(),
-              end = new Date(),
+              end = new Date(fecha_acti),
               start2, end2;
-              end.setDate(end.getDate() + 365);
+              
   
               $("#fecha_inicio").datepicker({
                 selectOtherMonths: true,
@@ -499,7 +584,7 @@ $(document).ready(function(e){
                         changeYear: true,
                         dateFormat: 'dd-mm-yy',
                         minDate: start2,
-                        maxDate: end2,
+                        maxDate: end,
                 onSelect: function(){
                   var fecha1 = moment(start2);
                   var fecha2 = moment($(this).datepicker("getDate"));
@@ -826,6 +911,11 @@ $(document).ready(function(e){
   function cambiar(){
     var pdrs = document.getElementById('file-upload').files[0].name;
     document.getElementById('info3').innerHTML = pdrs;
+  }
+
+  function cambiar2(){
+    var pdrs = document.getElementById('file-upload2').files[0].name;
+    document.getElementById('info4').innerHTML = pdrs;
   }
 
   function info(id){

@@ -220,8 +220,31 @@ $(document).ready(function () {
 	//cargar formulario de solicitud
 	$(document).on("click","#registrar_solicitud",function(e){
 		e.preventDefault();
-		$("#elshow").hide();
-		$("#elformulario").show();
+		var id=$(this).attr("data-id");
+		$.ajax({
+			url:'../proyectos/formulariosoli/'+id,
+			type:'GET',
+			dataType:'json',
+			success: function(json){
+				if(json[0]==1){
+					$("#elformulario").empty();
+					$("#elformulario").html(json[2]);
+					$("#elshow").hide();
+					$("#elformulario").show();
+					$(".chosen-select-width").chosen({'width':'100%'});
+					var inicio=new Date();
+					$('.unafecha').datepicker({
+						selectOtherMonths: true,
+						changeMonth: true,
+						changeYear: true,
+						dateFormat: 'dd-mm-yy',
+						minDate: inicio,
+						format: 'dd-mm-yyyy'
+						});
+				}
+			}
+		});
+		
 	});
 	$(document).on("click","#cancelar_soli",function(e){
 		e.preventDefault();
