@@ -557,12 +557,14 @@ $(document).ready(function(e){
           data:{},
           success: function(json){
             if(json[0]==1){
-              $("#modal_aqui").empty();
-              $("#modal_aqui").html(json[2]);
+              $("#elformulario").empty();
+              $("#elformulario").html(json[2]);
+              $("#elshow").hide();
+              $("#elformulario").show();
               var start = new Date(),
               end = new Date(fecha_acti),
               start2, end2;
-              
+              console.log(start,end);
   
               $("#fecha_inicio").datepicker({
                 selectOtherMonths: true,
@@ -614,7 +616,9 @@ $(document).ready(function(e){
             toastr.success("Orden de compra registrada con éxito");
             mostrar_informacion(json[2]);
             info(elid);
-            $("#modal_registrar_orden").modal("hide");
+            $("#elshow").show();
+            $("#elformulario").hide();
+            $("#elformulario").empty();
             $("#laordencompra").trigger("reset");
             swal.closeModal();
             //window.location.reload();

@@ -12,6 +12,10 @@
 
 @endsection
 @section('content')
+@php
+   $proveedores= App\Proveedor::mas_utilizados();
+   
+@endphp
 <div class="row">
   <div class="col-lg-3 col-xs-6">
     <!-- small box -->
@@ -73,6 +77,58 @@
           </div>
         </div>
         <!-- ./col -->
-      </div>
-      <!-- /.row -->
+</div>
+<!-- /.row -->
+<div class="row">
+  <div class="col-lg-6">
+      <div id="container"></div>
+      <table id="datatable" class="hide">
+          <thead>
+              <tr>
+                  <th>Proveedor</th>
+                  <th>Veces</th>
+              </tr>
+          </thead>
+          <tbody>
+            @foreach ($proveedores as $p)
+                <tr>
+                <td>{{$p->nombre}}</td>
+                <td>{{$p->total}}</td>
+                </tr>
+            @endforeach
+          </tbody>
+      </table>
+  </div>
+  <div class="col-lg-6"></div>
+</div>
+@endsection
+@section('scripts')
+<script>
+$(document).ready(function(e){
+  Highcharts.chart('container', {
+    data: {
+        table: 'datatable'
+    },
+    chart: {
+        type: 'pie'
+    },
+    title: {
+        text: 'Proveedores más utilizados'
+    },
+   
+    yAxis: {
+        allowDecimals: false,
+        title: {
+            text: 'Units'
+        }
+    },
+    tooltip: {
+        formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+                this.point.y + ' ' + this.point.name.toLowerCase();
+        }
+    }
+});
+});
+</script>
 @endsection

@@ -112,14 +112,26 @@ class ProveedorController extends Controller
      */
     public function update(ProveedorRequest $request, $id)
     {
-        try{
+        if($request->ajax()){
+          try{
             $proveedor = Proveedor::find($id);
             $proveedor->fill($request->All());
             $proveedor->save();
             bitacora('Modificó un Proveedor');
             return array(1,"exito");
-        }catch(Exception $e){
-            return array(-1,"error",$e->getMessage());
+          }catch(Exception $e){
+              return array(-1,"error",$e->getMessage());
+          }
+        }else{
+            try{
+              $proveedor = Proveedor::find($id);
+              $proveedor->fill($request->All());
+              $proveedor->save();
+              bitacora('Modificó un Proveedor');
+              return redirect('/proveedores')->with('mensaje','Registro almacenado con éxito');
+            }catch(Exception $e){
+              return redirect('proveedores/create')->with('error','Ocurrió un error, contacte al administrador');
+            }
         }
     }
 

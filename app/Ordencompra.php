@@ -39,14 +39,10 @@ class Ordencompra extends Model
     {
       $modal='';
       $cotizacion=Cotizacion::find($id);
-      $modal.='<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_orden" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Registrar la orden de compra</h4>
-          </div>
-          <div class="modal-body">
+      $modal.='<div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Registro de orden de compra</div>
+        <div class="panel-body">
             <form class="form-horizontal" id="laordencompra">
                 
             <div class="form-group">
@@ -159,16 +155,15 @@ class Ordencompra extends Model
                 </tfoot>
             </table>
         </div>
-      
+        <div class="form-group">
+        <center><button id="cancelar_soli" class="btn btn-danger">Cancelar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Guardar</button></center>
+        </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
-          </div>
-        </div>
-        </div>
-      </div>';
+            </div>
+            </div>
+          </div>';
+      
 
       return array(1,"exito",$modal);
     }
