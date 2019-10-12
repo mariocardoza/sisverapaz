@@ -90,6 +90,10 @@ Route::post('contratos/guardartipo','ContratoController@guardarTipo');
 Route::post('contratos/guardarcargo','ContratoController@guardarCargo');
 Route::Resource('contratos','ContratoController');
 
+Route::post('catcargos/baja{id}','CatCargoController@alta')->name('catcargos.alta');
+Route::post('catcargos/alta{id}','CatCargoController@baja')->name('catcargos.baja');
+Route::Resource('catcargos','CatCargoController');
+
 Route::post('contratosuministros/baja{id}','ContratoSuministroController@baja')->name('contratosuministros.baja');
 Route::post('contratosuministros/alta/{id}','ContratoSuministroController@alta')->name('contratosuministros.alta');
 Route::Resource('contratosuministros','ContratoSuministroController');
