@@ -89,7 +89,8 @@
         },
         error:function(error){
           console.log();
-          $(error.responseJSON.errors).each(function(index,valor){
+          $(error.responseJSON.errors).each(function(
+            index,valor){
             toastr.error(valor.nombre);
           })
         }
