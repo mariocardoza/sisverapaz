@@ -3,12 +3,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Nueva Categoría</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar por categoría</h4>
       </div>
       <div class="modal-body">
 				<input type="hidden" id="id-proy" value="{{$proyecto->id}}">
       	<div class="form-group col-md-12">
-					<label for="" class="col-md-2">Ítem</label>
+					<label for="" class="col-md-2">Categoria</label>
 					<div class="col-md-8" id="select">
 							<select name="item" id="item" required class="chosen-select-width">
 							</select>
@@ -57,7 +57,7 @@
 						<th>Subtotal</th>
 						<th>Opciones</th>
 					</thead>
-					<tbody></tbody>
+					<tbody id="cuerpito"></tbody>
 				</table>
 			</div>
 			<div class="col-md-8"></div>
@@ -68,8 +68,12 @@
 			</div>
 			<div class="clearfix"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="sav" class="btn btn-primary">Registrar</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		@if($proyecto->presupuesto!="")
+		<button type="button" id="edit" class="btn btn-primary">Registrar</button>
+		@else
+		<button type="button" id="sav" class="btn btn-primary">Registrar</button>
+		@endif
       </div>
     </div>
   </div>

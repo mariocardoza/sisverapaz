@@ -13,5 +13,5 @@ return [
     |
     */
 
-    'codigo' => env('yidisus',date("Yidisus")),
+    'yidisus' => env('yidisus',date("Yidisus")),
 ];

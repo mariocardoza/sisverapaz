@@ -20,6 +20,7 @@ $(document).ready(function(){
 	  $(document).on("click","#registrar_presupuesto",function(e){
 		var valid=$("#form_material").valid();
 		if(valid){
+			modal_cargando();
 			var datos=$("#form_material").serialize();
 			$.ajax({
 				url:'../presupuestounidaddetalles',
@@ -31,9 +32,10 @@ $(document).ready(function(){
 						window.location.reload();
 					}else{
 						toastr.error("Ocurrió un error");
+						swal.closeModal();
 					}
 				},error: function(error){
-
+					swal.closeModal();
 				}
 			})
 		}
@@ -118,6 +120,45 @@ $(document).ready(function(){
 			}
 			
 	  });
+	});
+
+	//cambiar estado al presupuesto
+	$(document).on("click",".estado",function(e){
+		var id=$(this).attr("data-id");
+		var estado=$(this).attr("data-estado");
+		swal({
+            title: '',
+            text: "¿Está seguro de realizar esta acción?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si!',
+            cancelButtonText: '¡No!',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false,
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              $.ajax({
+                url:'../presupuestounidades/cambiar/'+id,
+                type:'POST',
+                dataType:'json',
+                data:{estado},
+                success: function(json){
+                  if(json[0]==1){
+                    location.reload();
+                    toastr.success("Realizado con éxito");
+                  }else{
+                    toastr.error("Ocurrió un error");
+                  }
+                }, error: function(error){
+  
+                }
+              });
+			}
+	  	});
 	});
 });
 

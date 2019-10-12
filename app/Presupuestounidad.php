@@ -23,6 +23,30 @@ class Presupuestounidad extends Model
         return $this->hasMany('App\Presupuestounidaddetalle');
     }
 
+    public static function estado_ver($id)
+    {
+      $presupuesto=Presupuestounidad::find($id);
+      $html="";
+      switch ($presupuesto->estado) {
+        case 1:
+          $html.='<span class="col-xs-12 label-primary text-center">En espera</span>';
+          break;
+        case 2:
+          $html.='<span class="col-xs-12 label-danger text-center">Rechazado</span>';
+          break;
+        case 3:
+          $html.='<span class="col-xs-12 label-success text-center">Aprobado</span>';
+          break;
+        case 4:
+          $html.='<span class="col-xs-12 label-success text-center">Completado</span>';
+          break;
+        default:
+          $html.='<span class="col-xs-12 label-success">Default</span>';
+          break;
+      }
+      return $html;
+    }
+
     public static function materiales($id){
         $materiales = DB::table('materiales as m')
                       ->select('m.*','c.nombre_categoria','u.id as elid','u.nombre_medida')

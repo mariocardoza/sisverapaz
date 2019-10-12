@@ -30,7 +30,7 @@
                   <th>DUI</th>
                   <th>Celular</th>
                   <th>Dirección</th>
-                  <th>Accion</th>
+                  <th>Acción</th>
                 </thead>
                 <tbody>
                   @foreach($empleados as $index => $empleado)
@@ -77,12 +77,5 @@
           </div>
           <!-- /.box -->
         </div>
-        @include('empleados.modales')
 </div>
-@endsection
-@section('scripts')
-<script type="text/javascript">
-  elempleado='<?php echo $empleado->id ?>';
-</script>
-{!! Html::script('js/empleados.js?cod='.date('Yidisus')) !!}
 @endsection

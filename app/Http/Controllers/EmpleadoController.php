@@ -28,6 +28,7 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
+        Auth()->user()->authorizeRoles(['admin','tesoreria']);
         $roles = Role::all();
         $losbancos=\App\Banco::where('estado',1)->get();
         $lasafps=\App\afp::where('estado',1)->get();
@@ -65,7 +66,7 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        Auth()->user()->authorizeRoles('admin');
+        Auth()->user()->authorizeRoles(['admin','tesoreria']);
         $tipocontratos = Tipocontrato::where('estado',1);
         return view('empleados.create',compact('tipocontratos'));
     }
@@ -252,6 +253,7 @@ class EmpleadoController extends Controller
             $usuario=$empleado->user;
             $usuario->username=$request->username;
             $usuario->email=$request->email;
+            $usuario->unidad_id=$request->unidad_id;
             $empleado->email=$request->email;
             $empleado->save();
             $usuario->save();

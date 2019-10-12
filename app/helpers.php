@@ -283,21 +283,30 @@ function proyecto_estado($estado)
         case '5':
             return 'En proceso de adjudicación';
             break;
-				case '6':
-						return 'En proceso de emisión de orden de compra';
-						break;
-				case '7':
-						return 'Pendiente de recibir materiales';
-						break;
+        case '6':
+            return 'En proceso de emisión de orden de compra';
+            break;
+        case '7':
+            return 'Pendiente de recibir materiales';
+            break;
         case '8':
             return 'En marcha';
             break;
         case '9':
-            return 'Inconcluso';
+            return 'En pausa';
             break;
-				case '10':
-						return 'Inactivo';
-						break;
+		case '10':
+			return 'Inactivo';
+            break;
+        case '11':
+			return 'Rechazado';
+            break;
+        case '12':
+			return 'Pendiente de liquidación';
+            break;
+        case '13':
+			return 'Finalizado';
+			break;
         default:
 						return 'Sin clasificar';
             break;
@@ -336,6 +345,15 @@ function estilo_proyecto($estado)
 					break;
 			case '10':
 					return 'danger';
+                    break;
+            case '11':
+					return 'danger';
+                    break;
+            case '12':
+					return 'info';
+                    break;
+            case '13':
+					return 'success';
 					break;
 			default:
 					return 'default';

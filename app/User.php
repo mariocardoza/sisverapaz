@@ -36,6 +36,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Bitacora');
     }
 
+    public function unidad()
+    {
+      return $this->belongsTo('App\Unidad');
+    }
+
     public function empleado()
     {
       return $this->belongsTo('App\Empleado');

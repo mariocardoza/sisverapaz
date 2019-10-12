@@ -1,9 +1,10 @@
 @extends('pdf.plantilla')
-@section('reporte')
+
 @include('pdf.uaci.cabecera')
 @include('pdf.uaci.pie')
+@section('reporte')
 <div id="content">
-	<br><br><br>
+	<br>
 	<table width="100%">
 		<tr>
 			<th><b>Unidad:</b></th>

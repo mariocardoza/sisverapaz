@@ -19,8 +19,8 @@
               <p></p>
               	<a href="{{ url('/proveedores/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 <a href="{{ url('/proveedores?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/proveedores?estado=2') }}" class="btn btn-primary">Papelera</a>
-                <a href="{{ url('proveedores/resportesuaci/proveedores')}}" class="btn btn-primary"  class="glyphicon glyphicon-list-alt">Imprimir</a>
+                <a href="{{ url('/proveedores?estado=2') }}" class="btn btn-primary">Eliminados</a>
+                <a target="_blank" href="{{ url('/reportesuaci/proveedores')}}" class="btn btn-primary"  class="glyphicon glyphicon-list-alt">Imprimir</a>
             </div>
             <!-- /.box-header -->
             <div class="panel-body table-responsive">

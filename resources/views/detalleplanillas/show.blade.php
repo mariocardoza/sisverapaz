@@ -28,6 +28,16 @@
                       <label for="nombree" class="col-md-4 control-label">{{$detalle->empleado->nombre}}</label>
                   </div><br>
                   <div class="form-group">
+                    <label for="nombree" class="col-md-4 control-label">Cargo:</label>
+                    <label for="nombree" class="col-md-4 control-label">
+                        @if($detalle->cargo)
+                        {{$detalle->cargo}}
+                        @else
+                        Cargo no asignado
+                        @endif
+                    </label>
+                  </div><br>                      
+                  <div class="form-group">
                       <label for="nombree" class="col-md-4 control-label">Salario: </label>
                       <label for="nombree" class="col-md-4 control-label">$ {{number_format($detalle->salario,2)}}</label>
                   </div><br>
@@ -38,6 +48,16 @@
                   <div class="form-group">
                       <label for="nombree" class="col-md-4 control-label">Tiempo de pago: </label>
                       <label for="nombree" class="col-md-4 control-label">{{$pago[$detalle->pago]}}</label>
+                  </div><br>
+                  <div class="form-group">
+                      <label for="nombree" class="col-md-4 control-label">Fecha de inicio de labores: </label>
+                      <label for="nombree" class="col-md-4 control-label">
+                          @if($detalle->fecha_inicio!="")
+                          {{$detalle->fecha_inicio->format("d/m/Y")}}
+                          @else
+                          Fecha no registrada
+                          @endif
+                      </label>
                   </div><br>
                   <form class="form-horizontal">
                     <a href="{{ url('/detalleplanillas/'.$detalle->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a>

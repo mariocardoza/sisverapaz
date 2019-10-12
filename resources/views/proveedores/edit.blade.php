@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<div class="container">
+
     <div class="row">
         <div class="col-md-11">
             <div class="panel panel-primary">
@@ -20,6 +20,7 @@
             <div class="panel-body">
                 {{ Form::model($proveedor, array('method' => 'put', 'class' => '' , 'route' => array('proveedores.update', $proveedor->id))) }}
                  @include('proveedores.formulario')
+                 @include('errors.validacion')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">
                             <button type="submit" class="btn btn-primary btn-lg">
@@ -32,5 +33,5 @@
         </div>
         </div>
     </div>
-</div>
+
 @endsection

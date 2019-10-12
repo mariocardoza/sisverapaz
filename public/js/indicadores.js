@@ -1,7 +1,7 @@
 var porcentaje=0.0;
 var token = $('meta[name="csrf-token"]').attr('content');
 $(document).ready(function(e){
-	cargar_indicadores();
+	//cargar_indicadorese();
 	$(document).on("click","#add_indicador",function(e){
 		$("#modal_indicador").modal("show");
 	});
@@ -10,32 +10,38 @@ $(document).ready(function(e){
 		var nombre=$("#nombre_indicador").val() || 0;
 		var descripcion=$("#descripcion_indicador").val() || 0;
 		var porcen=parseFloat($("#porcentaje_indicador").val());
-		var valid = $("#losdatos").valid();
+		var valid = $("#form_indicador").valid();
 		if(valid){
 			porcentaje=porcentaje+porcen;
 			if(porcentaje>100){
 				swal('Aviso','Sobrepasa el 100%','warning');
-				cargar_indicadores();
+				toastr.info("Sobrepasa el 100%");
+				cargar_indicadores(elid);
+				$("#form_indicador").trigger("updated");
 			}else{
+				modal_cargando();
 				$.ajax({
 					url:'../indicadores',
 					type:'POST',
-					headers: {'X-CSRF-TOKEN':token},
 					dataType:'json',
-					data:{nombre,descripcion,porcen,elproyecto},
+					data:{nombre,descripcion,porcen,elproyecto:elid},
 					success: function(json){
 						if(json[0]==1){
 							toastr.success("Agregado con éxito");
-							cargar_indicadores();
+							cargar_indicadores(elid);
+							$("#form_indicador").trigger("reset");
+							swal.closeModal();
+							$("#modal_indicador").modal("hide");
 						}else{
 							toastr.error("Ocurrió un error");
+							swal.closeModal();
 						}
 					},error:function(error){
-
+						swal.closeModal();
 					}
 				});
             //$("#los_indicadores").append(html);
-            $("#modal_indicador").modal("hide");
+            
 			}
 			
 		}
@@ -59,25 +65,28 @@ $(document).ready(function(e){
 				swal('Aviso','Sobrepasa el 100%','warning');
 				cargar_indicadores();
 			}else{
+				modal_cargando();
 				$.ajax({
 					url:'../indicadores/'+elcodigo,
 					type:'PUT',
-					headers: {'X-CSRF-TOKEN':token},
 					dataType:'json',
-					data:{nombre,descripcion,porcen,elproyecto},
+					data:{nombre,descripcion,porcen,elproyecto:elid},
 					success: function(json){
 						if(json[0]==1){
 							toastr.success("Agregado con éxito");
-							cargar_indicadores();
+							cargar_indicadores(elid);
+							$("#modal_indicador_e").modal("hide");
+							swal.closeModal();
 						}else{
 							toastr.error("Ocurrió un error");
+							swal.closeModal();
 						}
 					},error:function(error){
-
+						swal.closeModal();
 					}
 				});
             //$("#los_indicadores").append(html);
-            $("#modal_indicador").modal("hide");
+            
 			}
 			
 		}
@@ -93,7 +102,6 @@ $(document).ready(function(e){
 		$.ajax({
 			url:'../indicadores/'+codigo+'/edit',
 			type:'GET',
-			headers:{'X-CSRF-TOKEN':token},
 			dataType:'json',
 			data:{},
 			success: function(json){
@@ -102,7 +110,7 @@ $(document).ready(function(e){
 					$("#nombre_indicador_e").val(json[2].nombre);
 					$("#descripcion_indicador_e").val(json[2].descripcion);
 					$("#porcentaje_indicador_e").val(json[2].porcentaje);
-					$("#elcodigo_e").val(json[2].codigo);
+					$("#elcodigo_e").val(json[2].id);
 					$("#modal_aqui").html(json[2]);
 					$("#modal_indicador_e").modal("show");
 				}
@@ -122,7 +130,7 @@ $(document).ready(function(e){
 			data:codigo,
 			success: function(json){
 				if(json[0]==1){
-					cargar_indicadores();
+					cargar_indicadores(elid);
 					toastr.success("Eliminado exitosamente");
 				}else{
 					toastr.error("Ocurrió un error, contacte al administrador");
@@ -136,7 +144,7 @@ $(document).ready(function(e){
 
 	///completar un indicadir///
 	$(document).on("click","#indicador_completado",function(e){
-		codigo=$(this).attr("data-id");
+		id=$(this).attr("data-id");
 		swal({
 		  title: '¿El indicador se completó?',
 		  type: 'question',
@@ -151,13 +159,14 @@ $(document).ready(function(e){
 		    	url:'../indicadores/completado',
 		    	type:'POST',
 		    	dataType:'json',
-		    	data:{codigo:codigo},
+		    	data:{id:id},
 		    	headers: {'X-CSRF-TOKEN':token},
 		    	success: function(json){
 		    		console.log(json);
 		    		if(json[0]==1){
 		    			toastr.success("El indicador se completó exitosamente");
-		    			cargar_indicadores();
+		    			cargar_indicadores(elid);
+		    			informacion(elid);
 		    		}
 		    	}, error: function(error){
 		    		console.log(error);
@@ -170,15 +179,16 @@ $(document).ready(function(e){
 
 });
 
-function cargar_indicadores(){
+function cargar_indicadorese(elid){
+	modal_cargando();
 	porcentaje=0.0;
 	var html="";
 	$.ajax({
-		url:'../indicadores/segunproyecto/'+elproyecto,
+		url:'../indicadores/segunproyecto/'+elid,
 		type:'GET',
 		headers: {'X-CSRF-TOKEN':token},
 		dataType:'json',
-		data:{elproyecto},
+		data:{elid},
 		success: function(json){
 			if(json[0]==1){
 				$(json[2]).each(function(index,value){
@@ -202,9 +212,13 @@ function cargar_indicadores(){
 				});
 				$("#los_indicadores").empty();
 				$("#los_indicadores").append(html);
+				swal.closeModal();
+			}else{
+				swal.closeModal();
 			}
 		},error:function(error){
 			console.log(error);
+			swal.closeModal();
 		}	
 	});
 }

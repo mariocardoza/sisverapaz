@@ -44,7 +44,7 @@
                 <div class="form-group">
                   <label for="fecha_limite" class="col-md-4 control-label">Fecha limite para cotizar</label>
                   <div class="col-md-6">
-                    {!!Form::text('fecha_limite',null,['class' => 'form-control unafecha','id'=>'fecha_limite','autocomplete'=>'off'])!!}
+                    {!!Form::text('fecha_limite',null,['class' => 'form-control unafecha2','id'=>'fecha_limite','autocomplete'=>'off'])!!}
                   </div>
                 </div>
            

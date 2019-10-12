@@ -17,6 +17,18 @@
     </div>
 </div>
 
+<div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
+    <label for="descripcion" class="control-label">Descripción de la cuenta</label>
+    <div class="">
+        {{ Form::textarea('descripcion', null,['id'=>'descripcion','class' => 'form-control','rows'=>2,'autocomplete'=>'off']) }}
+        @if ($errors->has('descripcion'))
+        <span class="help-block">
+            <strong>{{ $errors->first('descripcion') }}</strong>
+        </span>
+        @endif
+    </div>
+</div>
+
 <div class="form-group{{ $errors->has('numero_cuenta') ? ' has-error' : '' }}">
     <label for="numero_cuenta" class="control-label">Número de Cuenta</label>
     <div class="">

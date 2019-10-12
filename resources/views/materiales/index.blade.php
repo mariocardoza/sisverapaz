@@ -40,8 +40,7 @@
 					<td>
 						@if($material->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-						<a href="{{ url('materiales/'.$material->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-						<a href="{{ url('materiales/'.$material->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+					<a href="javascript:void(0)" id="modal_edit" data-id="{{$material->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
 						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
@@ -58,6 +57,7 @@
 	</div>
 	</div>
 	@include('materiales.modales')
+	<div id="aqui_modal"></div>
 </div>
 @endsection
 @section('scripts')

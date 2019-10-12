@@ -10,6 +10,13 @@
       </ol>
 @endsection
 @section('content')
+@php
+    $unid=App\Unidad::where('estado',1)->get();
+    $unidades=[];
+    foreach ($unid as $u ) {
+        $unidades[$u->id]=$u->nombre_unidad;
+    }
+@endphp
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -25,12 +32,20 @@
                             <label for="name" class="col-md-4 control-label">Nombre</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ $usuario->name}}" autofocus>
+                                <input id="name" type="text" readonly class="form-control" value="{{ $usuario->empleado->nombre}}" autofocus>
+                                <input name="empleado_id" type="hidden" readonly class="form-control" value="{{ $usuario->empleado_id}}" autofocus>
                                 @if ($errors->has('name'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unidad_id" class="col-md-4 control-label">Unidad</label>
+                            <div class="col-md-6">
+                                {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa']) !!}
                             </div>
                         </div>
 
@@ -66,12 +81,15 @@
                             <label for="password" class="col-md-4 control-label">Cargo</label>
 
                             <div class="col-md-6">
-                                {!! Form::select('cargo', ['1' => 'Administrador', '2' => 'Jefe UACI','3' => 'Jefe Tesorería','4'=>'Jefe Registro y Control Tributario','5' => 'Colector'],null,['class' => 'form-control'])!!}
-                            @if ($errors->has('cargo'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('cargo') }}</strong>
-                                    </span>
-                                @endif
+                                <select class="chosen-select-width" name="roles">
+                                    @foreach($roles as $rol)
+                                        @if($usuario->roleuser->role_id==$rol->id)
+                                            <option selected value="{{$rol->id}}">{{$rol->description}}</option>
+                                        @else
+                                        <option value="{{$rol->id}}">{{$rol->description}}</option>
+                                        @endif
+                                    @endforeach
+                                  </select>
                             </div>
                         </div>
 

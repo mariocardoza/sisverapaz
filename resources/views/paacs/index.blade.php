@@ -37,8 +37,7 @@
                     <td>$ {{ number_format($paac->total,2) }}</td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{ url('paacs/'.$paac->id) }}" class="btn btn-primary">Ver detalle</a>
-                        <a href="{{ url('paacs/'.$paac->id.'/edit')}}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span></a>
+                        <a href="{{ url('paacs/'.$paac->id) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                         <a href="javascript:void(0)" id=btn_eliminar data-id="{{$paac->id}}" class="btn btn-danger"><span class="fa fa-remove"></span></a>
                       </div>
                     </td>

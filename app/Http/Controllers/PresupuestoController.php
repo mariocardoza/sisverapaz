@@ -11,6 +11,7 @@ use App\Presupuesto;
 use App\Presupuestodetalle;
 use App\Categoria;
 use App\Catalogo;
+use App\Materiales;
 use App\BitacoraProyecto;
 use Session;
 use DB;
@@ -101,9 +102,21 @@ class PresupuestoController extends Controller
                     })->get();
     }
 
-    public function getCatalogo($id)
+    public function getCatalogo($id,$idd)
     {
-        return Catalogo::where('categoria_id',$id)->orderby('nombre','asc')->get();
+        //return Materiales::where('categoria_id',$id)->orderby('nombre','asc')->get();
+        return DB::table('materiales')
+        ->select('materiales.id','materiales.nombre','unidad_medidas.id as idunidad','unidad_medidas.nombre_medida')
+        ->join('unidad_medidas','unidad_medidas.id','=','materiales.unidad_id','inner')
+        ->where('materiales.estado',1)
+        ->where('materiales.categoria_id',$id)
+        ->whereNotExists(function ($query) use ($idd)  {
+          $query->from('presupuestodetalles')
+          ->whereRaw('presupuestodetalles.material_id = materiales.id')
+          ->whereRaw('presupuestodetalles.presupuesto_id ='.$idd);
+        })
+        ->orderby('materiales.nombre')
+        ->get();
     }
 
     public function getUnidadesMedida()
@@ -143,7 +156,6 @@ class PresupuestoController extends Controller
                 $presupuesto = Presupuesto::create([
                     'proyecto_id' => $request->proyecto_id,
                     'total' => $request->total,
-                    'categoria_id' => $request->categoria_id,
                 ]);
 
                   foreach($presupuestos as $presu){
@@ -151,7 +163,7 @@ class PresupuestoController extends Controller
                       'presupuesto_id' => $presupuesto->id,
                       'cantidad' => $presu['cantidad'],
                       'preciou' => $presu['precio'],
-                      'catalogo_id' => $presu['catalogo'],
+                      'material_id' => $presu['material'],
                     ]);
                   }
                   $proyecto = Proyecto::findorFail($request->proyecto_id);
@@ -159,17 +171,12 @@ class PresupuestoController extends Controller
                   $proyecto->estado=2;
                   $proyecto->save();
 
-                  BitacoraProyecto::bitacora('Registro el presupuesto de '.$presupuesto->categoria->nombre_categoria.' ',$proyecto->id);
+                  BitacoraProyecto::bitacora('Registro el presupuesto de '.$presupuesto->proyecto->nombre,$proyecto->id);
                   DB::commit();
-                  return response()->json([
-                    'mensaje' => 'exito'
-                  ]);
+                  return array(1,"exito");
             }catch (\Exception $e){
                 DB::rollback();
-                return response()->json([
-                    'mensaje' => 'error',
-                    'tipo' =>$e->getMessage()
-                  ]);
+                return array(-1,"error",$e);
             }
         }
     }
@@ -206,7 +213,21 @@ class PresupuestoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+          $presupuestos = $request->presupuestos;
+          $presupuesto=Presupuesto::find($id);
+          foreach($presupuestos as $presu){
+            Presupuestodetalle::create([
+              'presupuesto_id' => $presupuesto->id,
+              'cantidad' => $presu['cantidad'],
+              'preciou' => $presu['precio'],
+              'material_id' => $presu['material'],
+            ]);
+          }
+          return array(1,"exito",$presupuesto);
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**

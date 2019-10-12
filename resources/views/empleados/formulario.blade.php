@@ -10,7 +10,7 @@
     <label for="dui" class="col-md-4 control-label">Número de DUI</label>
 
     <div class="col-md-6">
-        {{ Form::text('dui', null,['id' => 'dui_empleado','class' => 'form-control','data-inputmask' => '"mask": "99999999-9"','data-mask']) }}
+        {{ Form::text('dui', null,['id' => 'dui_empleado','class' => 'form-control dui']) }}
     </div>
 </div>
 
@@ -18,7 +18,7 @@
     <label for="nit" class="col-md-4 control-label">Número de NIT</label>
 
     <div class="col-md-6">
-        {{ Form::text('nit', null,['id'=>'nit_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-999999-999-9"','data-mask']) }}
+        {{ Form::text('nit', null,['id'=>'nit_empleado','class' => 'form-control nit']) }}
     </div>
 </div>
 
@@ -40,7 +40,7 @@
         {{ Form::text('email', null,['id'=>'email_empleado','class' => 'form-control','autocomplete'=>'off']) }}
     </div>
 </div>
-@if(Auth()->user()->hasRole('admin'))
+@if(Auth()->user()->authorizeRoles(['admin','tesoreria']))
 <div class="form-group{{ $errors->has('es_usuario') ? ' has-error' : '' }}">
     <label for="es_usuario" class="col-md-4 control-label">¿Será usuario del sistema?</label>
 
@@ -57,7 +57,7 @@
     <label for="telefono_fijo" class="col-md-4 control-label">Teléfono fijo</label>
 
     <div class="col-md-6">
-        {{ Form::text('telefono_fijo', null,['id' => 'fijo_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask']) }}
+        {{ Form::text('telefono_fijo', null,['id' => 'fijo_empleado','class' => 'form-control telefono','autocomplete'=>'off']) }}
 
     </div>
 </div>
@@ -66,7 +66,7 @@
     <label for="celular" class="col-md-4 control-label">Teléfono celular</label>
 
     <div class="col-md-6">
-        {{ Form::text('celular', null,['id'=>'cel_empleado','class' => 'form-control','data-inputmask' => '"mask": "9999-9999"','data-mask']) }}
+        {{ Form::text('celular', null,['id'=>'cel_empleado','class' => 'form-control telefono','autocomplete'=>'off']) }}
 
     </div>
 </div>

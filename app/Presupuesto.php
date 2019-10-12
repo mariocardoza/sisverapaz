@@ -16,7 +16,7 @@ class Presupuesto extends Model
 
     public function presupuestodetalle()
     {
-        return $this->hasMany('App\Presupuestodetalle')->orderBy('catalogo_id');
+        return $this->hasMany('App\Presupuestodetalle');
     }
 
     public function presupuestosolicitud()
@@ -27,6 +27,11 @@ class Presupuesto extends Model
     public function categoria()
     {
       return $this->belongsTo('App\Categoria')->orderBy('id');
+    }
+
+    public function material()
+    {
+        return $this->belongsTo('App\Material');
     }
 
 

@@ -88,4 +88,57 @@ $(document).ready(function(e){
 			}
 		});
 	});
+
+	//modal para editar
+	$(document).on("click","#modal_edit",function(e){
+		modal_cargando();
+		var id=$(this).attr("data-id");
+		$.ajax({
+			url:'materiales/modaleditar/'+id,
+			type:'get',
+			dataType:'json',
+			success: function(json){
+				swal.closeModal();
+				if(json[0]==1){
+					$("#aqui_modal").empty();
+					$("#aqui_modal").html(json[2]);
+					$("#md_material_edit").modal("show");
+					$(".chosen-select-width").chosen({
+						'width':'100%'
+					});
+				}else{
+
+				}
+			},error: function(error){
+				swal.closeModal();
+			}
+		})
+	});
+
+	$(document).on("click","#editar_material",function(e){
+		e.preventDefault();
+		var id=$(this).attr("data-id");
+		var datos=$("#form_ematerial").serialize();
+		modal_cargando();
+		$.ajax({
+			url:'materiales/'+id,
+			type:'PUT',
+			data:datos,
+			dataType:'json',
+			success: function(json){
+				if(json[0]==1){
+					location.reload();
+					toastr.success("Editado con éxito");
+				}else{
+					swal.closeModal();
+					toastr.error("Ocurrió un error");
+				}
+			}, error: function(error){
+				$.each(error.responseJSON.errors,function(index,value){
+					toastr.error(value);
+				});
+				swal.closeModal();
+			}
+		})
+	});
 });

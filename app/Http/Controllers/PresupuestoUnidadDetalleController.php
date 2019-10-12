@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Presupuestounidaddetalle;
+use App\MaterialUnidad;
+use DB;
 
 class PresupuestoUnidadDetalleController extends Controller
 {
@@ -36,7 +38,14 @@ class PresupuestoUnidadDetalleController extends Controller
     public function store(Request $request)
     {
         try{
-            Presupuestounidaddetalle::create($request->All());
+            $pre=Presupuestounidaddetalle::create($request->All());
+           for($i=0;$i<(int)$request->cantidad;$i++){
+               MaterialUnidad::create([
+                'id'=>MaterialUnidad::retornar_id(),
+                'presupuestounidad_id'=>$pre->id,
+                'material_id'=>$request->material_id,
+               ]);
+           }
             return array(1,"exito",$request->All());
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
@@ -75,10 +84,26 @@ class PresupuestoUnidadDetalleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $detalle=Presupuestounidaddetalle::find($id);
-        $detalle->fill($request->all());
-        $detalle->save();
-        return array(1,"exito");
+        try{
+            DB::beginTransaction();
+            $detalle=Presupuestounidaddetalle::find($id);
+            $material=MaterialUnidad::where('presupuestounidad_id',$detalle->id)->delete();
+            $detalle->fill($request->all());
+            $detalle->save();
+
+            for($i=0;$i<(int)$request->cantidad;$i++){
+                MaterialUnidad::create([
+                 'id'=>MaterialUnidad::retornar_id(),
+                 'presupuestounidad_id'=>$detalle->id,
+                 'material_id'=>$detalle->material_id,
+                ]);
+            }
+            DB::commit();
+            return array(1,"exito",$material);
+        }catch(Exception $e){
+            DB::rollback();
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -92,6 +117,7 @@ class PresupuestoUnidadDetalleController extends Controller
         try{
             $detalle=Presupuestounidaddetalle::find($id);
             $detalle->delete();
+            $material=MaterialUnidad::where('presupuestounidad_id',$detalle->id)->delete();
             return array(1,"exito");
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());

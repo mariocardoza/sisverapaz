@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Proyecto;
+use App\ContratoProyecto;
 use App\Organizacion;
 use App\Bitacora;
 use App\Presupuesto;
 use App\Presupuestodetalle;
-use App\Fondocat;
+use App\Cuenta;
 use App\Fondo;
 use App\Cuentaproy;
+use App\Categoria;
+use App\ProyectoActa;
+use App\Formapago;
+use App\Solicitudcotizacion;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
+use Validator;
 use Session;
 
 class ProyectoController extends Controller
@@ -31,19 +37,14 @@ class ProyectoController extends Controller
     public function index(Request $request)
     {
         $estado = $request->get('estado');
+        $anios=DB::table('proyectos')->distinct()->get(['anio']);
+        
         //if($estado == "" )$estado=1;
-        if($estado == ""){
-          $proyectos = Proyecto::orderBy('id','asc')->get();
-          return view('proyectos.index',compact('proyectos','estado'));
-        }
-        if ($estado == 1) {
-            $proyectos = Proyecto::where('estado',$estado)->orderBy('id','asc')->get();
-            return view('proyectos.index',compact('proyectos','estado'));
-        }
-        if ($estado == 2) {
-            $proyectos = Proyecto::where('estado',$estado)->orderBy('id','asc')->get();
-            return view('proyectos.index',compact('proyectos','estado'));
-        }
+       
+          $proyectos = Proyecto::whereYear('created_at',date("Y"))->orderBy('created_at','DESC')->get();
+          return view('proyectos.index',compact('proyectos','estado','anios'));
+        
+        
     }
 
     public function guardarCategoria(FondocatRequest $request)
@@ -68,15 +69,15 @@ class ProyectoController extends Controller
     {
       if($request->id){
         $id=$request->id;
-          $fondos = DB::table('fondocats')
+          $fondos = DB::table('cuentas')
                     ->whereNotExists(function ($query) use ($id)  {
                          $query->from('fondos')
-                            ->whereRaw('fondos.fondocat_id = fondocats.id')
+                            ->whereRaw('fondos.cuenta_id = cuentas.id')
                             ->whereRaw('fondos.proyecto_id ='.$id);
                         })->get();
           return response($fondos);
       }else{
-        return Fondocat::get();
+        return Cuenta::get();
       }
 
     }
@@ -162,6 +163,67 @@ class ProyectoController extends Controller
       Session::forget('fondosbase');
     }
 
+    public function informacion($id)
+    {
+      $retorno=Proyecto::informacion($id);
+      return $retorno;
+    }
+
+    public function solicitudes($id)
+    {
+      $retorno=Proyecto::solicitudes($id);
+      return $retorno;
+    }
+
+    public function contratos($id)
+    {
+      $retorno=ContratoProyecto::mostrar_contratos($id);
+      return $retorno;
+    }
+
+    public function subircontrato(Request $request)
+    {
+      $this->validar_contrato($request->all())->validate();
+      try{
+        $request->file('archivo')->storeAs('proyectos/contratos', $request->file('archivo')->getClientOriginalName());
+        $contrato=ContratoProyecto::create([
+          'id'=>date('Yidisus'),
+          'nombre'=>$request->nombre,
+          'descripcion'=>$request->descripcion,
+          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function subiracta(Request $request)
+    {
+      $this->validar_acta($request->all())->validate();
+      try{
+        DB::beginTransaction();
+        $request->file('archivo')->storeAs('proyectos/actas', $request->file('archivo')->getClientOriginalName());
+        $contrato=ProyectoActa::create([
+          'id'=>date('Yidisus'),
+          'descripcion'=>$request->descripcion,
+          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        $proyecto=Proyecto::find($request->proyecto_id);
+        $proyecto->estado=12;
+        $proyecto->save();
+          DB::commit();
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        DB::rollback();
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -199,29 +261,31 @@ class ProyectoController extends Controller
               'beneficiarios' => $request->beneficiarios,
               'monto_desarrollo' => $request->monto_desarrollo,
               'codigo_proyecto'=>Proyecto::codigo_proyecto($request->monto),
-              'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto)
+              'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto),
+              'anio'=>date("Y")
           ]);
 
           if(isset($montos))
           {
             foreach ($montos as $monto) {
               Fondo::create([
+                'id'=>Fondo::retonrar_id_insertar(),
                 'proyecto_id' => $proyecto->id,
-                'fondocat_id' => $monto['categoria'],
+                'cuenta_id' => $monto['categoria'],
                 'monto' => $monto['monto'],
+                'monto_disponible' => $monto['monto'],
               ]);
             }
           }
 
           Cuentaproy::create([
             'proyecto_id' => $proyecto->id,
-            'monto_inicial' => $request->monto,
+            'monto' => $request->monto,
+            'monto_inicial'=>0
           ]);
           bitacora('Registró un proyecto');
           DB::commit();
-          return response()->json([
-            'mensaje' => 'exitoo'
-          ]);
+          return array(1,"exito");
       }catch (\Exception $e){
         DB::rollback();
         return array(-1, $e->getMessage());
@@ -239,8 +303,10 @@ class ProyectoController extends Controller
     public function show($id)
     {
         $proyecto = Proyecto::findorFail($id);
+        $categorias=Categoria::where('estado',1)->get();
+        $formapagos=Formapago::where('estado',1)->get();
         //$presupuesto = Presupuesto::where('proyecto_id',$proyecto->id)->get()->first();
-        return view('proyectos.show', compact('proyecto'));
+        return view('proyectos.show', compact('proyecto','categorias','formapagos'));
     }
 
     /**
@@ -337,6 +403,72 @@ class ProyectoController extends Controller
         //
     }
 
+    public function versolicitud($id)
+    {
+      $retorno=Solicitudcotizacion::lasolicitud_proyecto($id);
+      return $retorno;
+    }
+
+    public function presupuesto_categoria($id,$idproy)
+    {
+      $proyecto=Proyecto::find($idproy);
+      if($id!=0){
+        $detalles=DB::table('presupuestodetalles as pre')
+        ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
+        ->join('materiales as ma','ma.id','=','pre.material_id','inner')
+        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
+        ->where('ma.categoria_id','=',$id)
+        ->orderby('ma.categoria_id')
+        ->get();
+      }else{
+        $detalles=DB::table('presupuestodetalles as pre')
+        ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
+        ->join('materiales as ma','ma.id','=','pre.material_id','inner')
+        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
+        ->orderby('ma.categoria_id')
+        ->get();
+      }
+      
+      
+        $eltbody="";
+        $n=0;
+        foreach($detalles as $key => $detalle):
+          if($detalle->estado==1):
+            $n++;
+          $eltbody.='<tr>
+          <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+              <td>'.($n).'</td>
+              <td>'.$detalle->nom_material.'</td>
+              <td>'.$detalle->nombre_medida.'</td>
+              <td>'.$detalle->cantidad.'</td>
+              <td></td>
+              <td></td>
+          </tr>';
+          endif;
+        endforeach;
+      return array(1,"exito",$proyecto,$eltbody);
+    }
+
+    public function elpresupuesto($id)
+    {
+      $retorno=Proyecto::elpresupuesto($id);
+      return $retorno;
+    }
+
+    public function empleados($id)
+    {
+      $retorno=Proyecto::empleados($id);
+      return $retorno;
+    }
+
+    public function planilla($id)
+    {
+      $retorno=\App\Planilla::planilla_proyecto($id);
+      return $retorno;
+    }
+
     public function baja($cadena)
     {
       try{
@@ -372,5 +504,73 @@ class ProyectoController extends Controller
         return redirect('/proyectos')->with('error','Ocurrió un error, contacte al administrador');
       }
 
+    }
+
+    public function portipo($tipo)
+    {
+      $retorno=Proyecto::portipo($tipo);
+      return $retorno;
+    }
+
+    public function poranio($anio)
+    {
+      $retorno=Proyecto::poranio($anio);
+      return $retorno;
+    }
+
+    public function formulariosoli($id)
+    {
+      $retorno=Solicitudcotizacion::formulario_solicitud($id);
+      return $retorno;
+    }
+
+    public function cambiarestado(Request $request,$id)
+    {
+      try{
+        $proyecto=Proyecto::find($id);
+        $proyecto->estado=$request->estado;
+        if(isset($request->fecha_acta)):
+          $proyecto->fecha_acta=date("Y-m-d H:i:s");
+        endif;
+        if(isset($request->motivo_pausa)):
+          $proyecto->motivo_pausa=$request->motivo_pausa;
+        endif;
+        $proyecto->save();
+        return array(1,"exito");
+      }catch(Excpetion $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    protected function validar_contrato(array $data)
+    {
+        $mensajes=array(
+            'nombre.required'=>'El nombre del contrato es obligatorio',
+            'descripcion.required'=>'La descripcion del contrato es obligatoria',
+            'archivo.required'=>'Debe adjuntar el contrato',
+            'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+            'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+        );
+        return Validator::make($data, [
+            'nombre' => 'required',
+            'descripcion'=>'required',
+            'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+        ],$mensajes);
+
+        
+    }
+
+    protected function validar_acta(array $data)
+    {
+        $mensajes=array(
+          'descripcion.required'=>'La descripcion del acta es obligatoria',
+          'archivo.required'=>'Debe adjuntar el contrato',
+          'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+          'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+      );
+      return Validator::make($data, [
+          'descripcion'=>'required',
+          'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+      ],$mensajes);
     }
 }

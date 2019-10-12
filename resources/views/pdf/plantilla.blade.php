@@ -6,10 +6,10 @@
   <title>SisVerapaz</title>
   <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
   <style>
-
-    @page { margin: 140px 50px; }
-    #content { top: -125px; bottom: auto;  }
-    #header { position: fixed; left: 0px; top: -100px; right: 0px; height: 100px; }
+    
+    @page { margin: 120px 50px; }
+    #content { top: -120px; bottom: auto;  }
+    #header { position: fixed; top: -100px; }
     #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 100px; text-align: center }
     #footer .page:after { content: counter(page); }
     #comparativo th{font-size: 80%;}

@@ -26,7 +26,6 @@
           <thead>
                   <th>Id</th>
                   <th>Tipo de pago</th>
-                  <th>Número de cuenta</th>
                   <th>Monto</th>
                   <th>Acción</th>
                 </thead>
@@ -35,7 +34,6 @@
                   <tr>
                     <td>{{ $pago->id }}</td>
                     <td>{{ $pago->tipopago->nombre }}</td>
-                    <td>{{ $pago->cuentaproy->numero_cuenta }}</td>
                     <td>{{ $pago->monto }}</td>
 
                     <td>

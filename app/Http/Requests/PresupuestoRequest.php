@@ -25,7 +25,6 @@ class PresupuestoRequest extends FormRequest
     {
         return [
             'proyecto_id' => 'required',
-            'categoria_id' => 'required',
             'presupuestos' => 'required',
             'total' => 'required|numeric|min:1'
         ];

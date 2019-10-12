@@ -12,15 +12,15 @@
 @endsection
 
 @section('content')
-<div class="container">
+
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-12">
             <div class="panel panel-primary">
             <div class="panel-heading">Registro de proveedor</div>
                 <div class="panel-body">
                     {{ Form::open(['action' => 'ProveedorController@store','class' => '']) }}
                         @include('proveedores.formulario')
-
+                        @include('errors.validacion')
                         <div class="form-group">
                             <div class="">
                                 <center><button type="submit" class="btn btn-success">
@@ -33,6 +33,4 @@
             </div>
         </div>
         </div>
-    </div>
-</div>
 @endsection

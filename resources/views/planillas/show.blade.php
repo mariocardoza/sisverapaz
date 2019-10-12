@@ -65,8 +65,8 @@
                         $p=0;
                     @endphp
                     <tr>
-                    <td>{{$planilla->empleado->nombre}}</td>
-                        <td>${{$planilla->empleado->detalleplanilla[0]->salario}}</td>
+                        <td>{{$planilla->empleado->nombre}}</td>
+                        <td>${{$planilla->empleado->detalleplanilla->salario}}</td>
                     <td>${{$planilla->issse}}</td>
                         <td>${{$planilla->isssp}}</td>
                         <td>${{$planilla->afpe}}</td>
@@ -90,12 +90,12 @@
                         @endphp
                         {{number_format($total,2)}}</td>
                         @php
-                            $resta=$planilla->empleado->detalleplanilla[0]->salario-$total;
+                            $resta=$planilla->empleado->detalleplanilla->salario-$total;
                         @endphp
                     <td>${{number_format($resta,2)}}</td>
                     </tr>
                     @php
-                        $columna[0]+=$planilla->empleado->detalleplanilla[0]->salario;
+                        $columna[0]+=$planilla->empleado->detalleplanilla->salario;
                         $columna[1]+=$planilla->issse;
                         $columna[2]+=$planilla->isssp;
                         $columna[3]+=$planilla->afpe;

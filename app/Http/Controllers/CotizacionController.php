@@ -63,26 +63,20 @@ class CotizacionController extends Controller
             $cotizacion->save();
 
             $solicitud=Solicitudcotizacion::findorFail($cotizacion->solicitudcotizacion->id);
-            $solicitud->estado=3;
+            $solicitud->estado=4;
             $solicitud->save();
 
-
-
-            $pre=Presupuesto::where('proyecto_id',$request->idproy)->get();
-            foreach ($pre as $presi) {
-              $soli=\App\PresupuestoSolicitud::where('estado',2)->where('presupuesto_id',$presi->id)->count();
-            }
-            if($soli==0){
-              $proyecto=Proyecto::findorFail($request->idproy);
+            $proyecto=Proyecto::findorFail($request->idproyecto);
+            if($proyecto->tiene_solicitudes->count() == 0):
               $proyecto->estado=6;
               $proyecto->save();
-            }
+            else:
+              $proyecto->estado=5;
+              $proyecto->save();
+            endif;
 
               DB::commit();
-            return response()->json([
-              'mensaje' => 'exito',
-              'id' => $cotizacion->solicitudcotizacion->presupuestosolicitud->presupuesto->proyecto->id
-            ]);
+            return array(1,"exito",$solicitud->id);
           }catch(\Exception $e){
               DB::rollback();
             return response()->json([
@@ -226,9 +220,10 @@ class CotizacionController extends Controller
                 ]);
             }
             $solicitud=Solicitudcotizacion::findorFail($request->id);
+            
             bitacora('Registró una cotización');
             DB::commit();
-            return array(1,"exito",$solicitud->id,$cotizacion);
+            return array(1,"exito",$solicitud->id,$cotizacion,$solicitud->tipo);
             /*if($solicitud->tipo == 1){
               return response()->json([
                 'mensaje' => 'exito',

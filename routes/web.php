@@ -10,15 +10,15 @@
 |
 */
 
-Route::get('/', function () {
-    $users=\App\User::all()->count();
-    $roles = \App\Role::all();
-        if($users==0){
-            return view('auth/register',compact('roles'));
 
-        }else{
-            return view('auth/login');
-        }
+Route::get('/', function () {
+    $users = \App\User::all()->count();
+    $roles = \App\Role::all();
+    if ($users == 0) {
+      return view('auth/register', compact('roles'));
+    } else {
+      return view('auth/login');
+    }
 });
 
 Route::get('pdf',function(){
@@ -90,19 +90,11 @@ Route::post('contratos/guardartipo','ContratoController@guardarTipo');
 Route::post('contratos/guardarcargo','ContratoController@guardarCargo');
 Route::Resource('contratos','ContratoController');
 
-Route::get('contratacionproyectos/listadeempleados/{id}','EPContratacionController@listadeempleados');
-Route::get('contratacionproyectos/todos','EPContratacionController@todosloscontratos');
-Route::get('contratacionproyectos/create/{id}','EPContratacionController@create');
-Route::get('contratacionproyectos/vercontratado/{id}','EPContratacionController@vercontratado');
-Route::Resource('contratacionproyectos','EPContratacionController');
-
-Route::post('contratoproyectos/baja/{id}','ContratoproyectoController@baja')->name('contratoproyectos.baja');
-Route::post('contratoproyectos/alta/{id}','ContratoproyectoController@alta')->name('contratoproyectos.alta');
-Route::Resource('contratoproyectos','ContratoproyectoController');
-
 Route::post('contratosuministros/baja{id}','ContratoSuministroController@baja')->name('contratosuministros.baja');
 Route::post('contratosuministros/alta/{id}','ContratoSuministroController@alta')->name('contratosuministros.alta');
 Route::Resource('contratosuministros','ContratoSuministroController');
+
+Route::get('contratoproyectos/bajar/{archivo}','ContratoproyectoController@bajar');
 
 Route::post('proyectos/baja/{id}','ProyectoController@baja')->name('proyectos.baja');
 Route::post('proyectos/alta/{id}','ProyectoController@alta')->name('proyectos.alta');
@@ -113,6 +105,21 @@ Route::delete('proyectos/deleteMonto/{id}','ProyectoController@deleteMonto');
 Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
+//nueva forma
+Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
+Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
+Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
+Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
+Route::get('proyectos/solicitudes/{id}','ProyectoController@solicitudes');
+Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
+Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
+Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
+Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::post('proyectos/subiracta','ProyectoController@subiracta');
+Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
+Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
+Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
+Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
 
@@ -143,7 +150,7 @@ Route::Resource('ordencompras','OrdencompraController');
 Route::get('presupuestos/crear','PresupuestoController@crear');
 Route::get('presupuestos/seleccionaritem/{id}','PresupuestoController@seleccionaritem');
 Route::get('presupuestos/getcategorias/{id}','PresupuestoController@getCategorias');
-Route::get('presupuestos/getcatalogo/{id}','PresupuestoController@getCatalogo');
+Route::get('presupuestos/getcatalogo/{id}/{idd}','PresupuestoController@getCatalogo');
 Route::get('presupuestos/getunidades','PresupuestoController@getUnidadesMedida');
 Route::post('presupuestos/cambiar','PresupuestoController@cambiar')->name('presupuestos.cambiar');
 Route::post('presupuestos/guardarsesion','PresupuestoController@guardarsesion');
@@ -171,6 +178,7 @@ Route::post('categorias/baja/{id}','CategoriaController@baja')->name('categorias
 Route::post('categorias/alta/{id}','CategoriaController@alta')->name('categorias.alta');
 
 Route::Resource('materiales','MaterialesController');
+Route::get('materiales/modaleditar/{id}','MaterialesController@modaleditar');
 Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
 Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
 
@@ -221,7 +229,7 @@ Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 
-Route::get('requisiciones/porusuario','RequisicionController@porusuario');
+Route::get('requisiciones/porusuario','RequisicionController@porusuario')->name('requisiciones.porusuario');
 Route::post('requisiciones/darbaja','RequisicionController@darbaja');
 Route::get('requisiciones/portipo/{tipo}','RequisicionController@portipo');
 Route::get('requisiciones/poranio/{anio}','RequisicionController@poranio');
@@ -233,8 +241,10 @@ Route::post('requisiciones/subircontrato','RequisicionController@subircontrato')
 Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
+Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
+Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
@@ -295,6 +305,7 @@ Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
+Route::Resource('descuentos','DescuentoController');
 
 Route::post('prestamotipos/baja/{id}','PrestamotiposController@baja')->name('prestamotipos.baja');
 Route::Resource('prestamotipos','PrestamotiposController');
@@ -305,10 +316,22 @@ Route::post('cargos/baja/{id}','CargoController@baja')->name('cargos.baja');
 Route::post('cargos/alta/{id}','CargoController@alta')->name('cargos.alta');
 
 Route::get('cuentas/get','CuentaController@get');
+Route::get('cuentas/proyectos','CuentaController@proyectos');
+Route::put('cuentas/editarproyectos/{id}','CuentaController@editarproyectos');
+Route::get('cuentas/movimientos/{id}','CuentaController@show2');
+Route::get('cuentas/modalasignar/{id}/{tipo}','CuentaController@modal_asignar');
+Route::get('cuentas/modalremesar/{id}/{tipo}','CuentaController@modal_remesar');
+Route::post('cuentas/abonarcuenta','CuentaController@abonarcuenta');
+Route::post('cuentas/abonarproyecto','CuentaController@abonarproyecto');
+Route::post('cuentas/remesarcuenta','CuentaController@remesarcuenta');
+Route::post('cuentas/remesarproyecto','CuentaController@remesarproyecto');
 Route::Resource('cuentas','CuentaController');
+
 //Route::Resource('cuentaprincipal','CuentaprincipalController');
 Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
+
+Route::Resource('desembolsos','DesembolsoController');
 
 Route::Resource('tipopagos','TipopagoController');
 
@@ -340,6 +363,7 @@ Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupu
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
+Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
 
 
 //Ruta para detalle de planillas
@@ -347,6 +371,8 @@ Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');
 Route::post('bancos/alta/{id}','BancoController@alta')->name('bancos.alta');
+Route::Resource('vacaciones','VacacionController');
+Route::post('vacaciones/fecha','VacacionController@fecha');
 
 //Rutas R
 Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->name('categoria.listar');
@@ -395,6 +421,10 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 Route::Resource('unidades','UnidadAdminController');
 Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
+Route::get('presupuestounidades/anio/{anio}','PresupuestoUnidadController@anio');
+Route::post('presupuestounidades/cambiar/{id}','PresupuestoUnidadController@cambiar');
+Route::get('presupuestounidades/clonar/{id}','PresupuestoUnidadController@clonar');
+Route::get('presupuestounidades/porunidad','PresupuestoUnidadController@porunidad')->name('presupuestounidades.porunidad');
 Route::Resource('presupuestounidades','PresupuestoUnidadController');
 Route::Resource('presupuestounidaddetalles','PresupuestoUnidadDetalleController');
 
@@ -408,3 +438,7 @@ Route::get('negocio/mapa/{id}', 'NegocioController@viewMapa');
 Route::post('negocio/mapa/create', 'NegocioController@mapas');
 Route::get('mapa', 'NegocioController@mapa');
 Route::post('mapa/all', 'NegocioController@mapasAll');
+Route::get('reporte', 'ReportesUaciController@reportePDF');
+
+// Routas para el cementerio
+Route::Resource("/cementerios", "CementerioController");

@@ -1,3 +1,15 @@
+@php
+    $unid=App\Unidad::where('estado',1)->get();
+    $unidades=[];
+    foreach ($unid as $u ) {
+        $unidades[$u->id]=$u->nombre_unidad;
+    }
+    $elrol=App\Role::all();
+    $roles=[];
+    foreach ($elrol as $r ) {
+      $roles[$r->id]=$r->description;
+    }
+@endphp
 <div class="modal fade" tabindex="-1" id="modal_bancarios" role="dialog" aria-labelledby="gridSystemModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -163,6 +175,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="unidad_id" class="col-md-4 control-label">Unidad</label>
+                            <div class="col-md-6">
+                                {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa']) !!}
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('roles') ? ' has-error' : '' }}">
                             <label for="password" class="control-label">Rol del usuario</label>
 
@@ -208,25 +227,44 @@
         <h4 class="modal-title" id="gridSystemModalLabel">Editar datos del usuario</h4>
       </div>
       <div class="modal-body">
-        {{ Form::model($empleado, array('class' => '','id'=>'e_usuarios')) }} 
+        {{ Form::model($empleado->user, array('class' => '','id'=>'e_usuarios')) }} 
+        <?php if ($empleado->es_usuario=='si' && $empleado->user): ?>
           <div class="row">
               <div class="col-md-12">
                  <div class="form-group">
                     <label for="username" class="control-label">Nombre de Usuario</label>
 
                     <div class="">
-                      <?php if ($empleado->es_usuario=='si' && $empleado->user): ?>
+                      
                         
                      
                         <input id="username" type="text" autocomplete="off" class="form-control" name="username" value="{{$empleado->user->username}}">
                         <input id="empleado_id" type="hidden" autocomplete="off" class="form-control" name="elempleado" value="{{$empleado->id}}">
-                         <?php endif ?>
+                        
+                         
                     </div>
                 </div>
+                <div class="form-group">
+                  <label for="" class="control-label">Email</label>
+                <input type="text" name="email" value="{{$empleado->user->email}}" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="" class="control-label">Rol de usuario</label>
+                  <div>
+                      {!! Form::select('unidad_id',$roles,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione un rol de usuario']) !!}
+                  </div>
+                </div>
 
+                <div class="form-group">
+                  <label for="" class="control-label">Unidad</label>
+                  <div>
+                      {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa']) !!}
+                  </div>
+                </div>
          
               </div>
           </div>
+          <?php endif ?>
         </form>
       </div>
       <div class="modal-footer">
@@ -258,6 +296,32 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="regi_prestamo" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="md_descuento" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar descuento</h4>
+      </div>
+      <div class="modal-body">
+        <form action="" id="form_descuento" class="form-horizontal"> 
+          <div class="row">
+              <div class="col-md-12">
+                 @include('descuentos.formulario')
+
+         
+              </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="regi_descuento" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
