@@ -10,7 +10,7 @@ class Detalleplanilla extends Model
   protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio','proyecto_id','numero_acuerdo','unidad_id'];
   protected $dates = ['fecha_inicio'];
   public static function empleados(){
-    $empleados=Empleado::orderBy('nombre')->get();
+    $empleados=Empleado::where('estado')->orderBy('nombre')->get();
     
     $a_empleados=[];
     foreach ($empleados as $e) {

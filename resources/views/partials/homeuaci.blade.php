@@ -86,7 +86,7 @@
           <thead>
               <tr>
                   <th>Proveedor</th>
-                  <th>Veces</th>
+                  <th>Compras</th>
               </tr>
           </thead>
           <tbody>
@@ -110,7 +110,7 @@ $(document).ready(function(e){
         table: 'datatable'
     },
     chart: {
-        type: 'pie'
+        type: 'bar'
     },
     title: {
         text: 'Proveedores más utilizados'
@@ -119,7 +119,7 @@ $(document).ready(function(e){
     yAxis: {
         allowDecimals: false,
         title: {
-            text: 'Units'
+            text: 'Compras'
         }
     },
     tooltip: {

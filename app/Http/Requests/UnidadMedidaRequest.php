@@ -24,7 +24,7 @@ class UnidadMedidaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre_medida' => 'required|unique:unidad_medidas',
+            'nombre_medida' => 'required',
         ];
     }
 }

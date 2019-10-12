@@ -15,7 +15,7 @@ class UnidadMedidaController extends Controller
      */
     public function index()
     {
-        $unidadmedidas = UnidadMedida::all();
+        $unidadmedidas = UnidadMedida::orderby('nombre_medida')->get();
         return view('unidadmedidas.index',compact('unidadmedidas'));
     }
 
@@ -39,10 +39,12 @@ class UnidadMedidaController extends Controller
     public function store(UnidadMedidaRequest $request)
     {
         if($request->ajax()){
-          UnidadMedida::create($request->All());
-          return response()->json([
-            'mensaje' => 'exito'
-          ]);
+          try{
+            UnidadMedida::create($request->All());
+            return array(1,"exito");
+          }catch(Exception $e){
+              return array(-1,"error",$e->getMessage());
+          }
         }else{
           UnidadMedida::create($request->All());
           return redirect('unidadmedidas')->with('mensaje','Unidad de medida creado exitosamente');
@@ -68,7 +70,13 @@ class UnidadMedidaController extends Controller
      */
     public function edit($id)
     {
-        //
+        try{
+            $unidad=UnidadMedida::find($id);
+            return array(1,"exito",$unidad);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+
     }
 
     /**
@@ -78,9 +86,17 @@ class UnidadMedidaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UnidadMedidaRequest $request, $id)
     {
-        //
+        try{
+            $unidad=UnidadMedida::find($id);
+            if(!$request->nombre_medida==$unidad->nombre_medida):
+            $unidad->fill($request->all());
+            endif;
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -91,6 +107,14 @@ class UnidadMedidaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $unidad=UnidadMedida::find($id);
+        $materiales=$unidad->material->count();
+        if($materiales==0){
+            $unidad->delete();
+            return array(1,1,"Unidad de medida eliminada con éxito");
+        }else{
+            return array(1,2,"La unidad de medida tiene materiales");
+        }
+
     }
 }
