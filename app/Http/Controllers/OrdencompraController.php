@@ -184,7 +184,7 @@ class OrdencompraController extends Controller
                 'id'=>date("Yidisus"),
                 'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
                 'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para proyecto: '.$cotizacion->solicitudcotizacion->proyecto->nombre,
-                'cuentaproy_id'=>$cotizacion->solicitudcotizacion->proyecto->cuenta->id
+                'cuentaproy_id'=>$cotizacion->solicitudcotizacion->proyecto->cuentaproy->id
               ]);
 
               DB::commit();

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Carbon\Carbon;
 
 class Requisicione extends Model
 {
@@ -15,14 +16,15 @@ class Requisicione extends Model
   public static function correlativo()
   {
     $numero=Requisicione::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->count();
+    $numero=$numero+1;
     if($numero>0 && $numero<10){
-      return "RQ-00".($numero+1)."-".date("Y");
+      return "RQ-00".($numero)."-".date("Y");
     }else{
       if($numero >= 10 && $numero <100){
-        return "RQ-0".($numero+1)."-".date("Y");
+        return "RQ-0".($numero)."-".date("Y");
       }else{
         if($numero>=100){
-          return "RQ-".($numero+1)."-".date("Y");
+          return "RQ-".($numero)."-".date("Y");
         }else{
           return "RQ-001-".date("Y");
         }
@@ -220,7 +222,7 @@ class Requisicione extends Model
     $tabla="";
     try{
       $requisicion=Requisicione::find($id);
-      $html.='<div class="pull-right">';
+      $html.='<div class="text-center">';
       if($requisicion->estado==1):
         $html.='<a title="Aprobar requisicion" href="javascript:void(0)" id="modal_aprobar" class="btn btn-primary" ><i class="fa fa-check"></i></a>';
       elseif($requisicion->estado==5):
@@ -233,7 +235,7 @@ class Requisicione extends Model
         $html.='<a title="Imprimir requisición" href="reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
       endif;
       $html.='</div>
-      <br><br>
+      <br>
       <div class="col-sm-12">
         <span><center>'.Requisicione::estado_ver($requisicion->id).'</center></span>
       </div>
@@ -252,6 +254,14 @@ class Requisicione extends Model
       </div>
       <div class="col-sm-12">
         <span><b>'.$requisicion->actividad.'</b></span>
+      </div>
+      <div class="clearfix"></div>
+      <hr style="margin-top: 3px; margin-bottom: 3px;">
+      <div class="col-sm-12">
+        <span style="font-weight: normal;">Fecha de la actividad:</span>
+      </div>
+      <div class="col-sm-12">
+        <span><b>'.$requisicion->fecha_actividad->format('d/m/Y').'</b></span>
       </div>
       <div class="clearfix"></div>
       <hr style="margin-top: 3px; margin-bottom: 3px;">
@@ -374,7 +384,7 @@ class Requisicione extends Model
           if($requisicion->solicitudcotizacion->count() > 0): 
               if(Requisicione::tiene_materiales($requisicion->id)):
               $lasoli.='<center>
-                <button class="btn btn-primary pull-right" id="registrar_solicitud">Registrar</button>
+                <button class="btn btn-primary pull-right" data-id="'.$requisicion->id.'" id="registrar_solicitud">Registrar</button>
               </center>';
               endif; 
               $lasoli.='<div class="row">
@@ -389,7 +399,7 @@ class Requisicione extends Model
                 endforeach;
               $lasoli.='</div>
               <div class="col-xs-9" id="aquilasoli">
-                
+                <h1 class="text-center">Seleccione una solicitud para mostrar la información</h1>
               </div>
             </div>';
           else: 
@@ -407,7 +417,7 @@ class Requisicione extends Model
               $lasoli.='<center>
                   <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                   <span>Registre la solicitud</span><br>
-                  <button class="btn btn-primary" id="registrar_solicitud">Registrar</button>
+                  <button class="btn btn-primary" data-id="'.$requisicion->id.'" id="registrar_solicitud">Registrar</button>
                 </center>';
             endif;
           endif;

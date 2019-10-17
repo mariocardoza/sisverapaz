@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Requisicione;
 use App\ContratoRequisicione;
 use App\Requisiciondetalle;
+use App\Solicitudcotizacion;
 use App\Unidad;
 use App\UnidadMedida;
 use App\Fondocat;
@@ -92,7 +93,7 @@ class RequisicionController extends Controller
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
               'user_id' => Auth()->user()->id,
-              'observaciones' => $request->observaciones,
+              'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones,
               'unidad_id'=>$request->unidad_id,
               'anio'=>date('Y'),
               'fecha_actividad'=>invertir_fecha($request->fecha_actividad)
@@ -206,6 +207,12 @@ class RequisicionController extends Controller
       return $retorno;
     }
 
+    public function formulariosoli($id)
+    {
+      $retorno=Solicitudcotizacion::formulario_solicitudr($id);
+      return $retorno;
+    }
+
     public function aprobar(Request $request){
       $this->validar_aprobar($request->all())->validate();
       try{
@@ -269,6 +276,20 @@ class RequisicionController extends Controller
         
     }
 
+    protected function validar_acta(array $data)
+    {
+        $mensajes=array(
+            'archivo.required'=>'Debe adjuntar el contrato',
+            'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+            'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+        );
+        return Validator::make($data, [
+            'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+        ],$mensajes);
+
+        
+    }
+
     public function mostrar_contrato($id)
     {
       $retorno=ContratoRequisicione::mostrar_contratos($id);
@@ -277,14 +298,19 @@ class RequisicionController extends Controller
 
     public function subir(Request $request)
     {
-      /*$file= $request->file('archivo')->store('requisiciones');*/
+      $this->validar_acta($request->all())->validate();
+      try{
+        /*$file= $request->file('archivo')->store('requisiciones');*/
       $request->file('archivo')->storeAs('requisiciones', $request->file('archivo')->getClientOriginalName());
       $requisicion=Requisicione::find($request->requisicion_id);
       $requisicion->nombre_archivo=$request->file('archivo')->getClientOriginalName();
       $requisicion->estado=7;
       $requisicion->save();
   
-      return redirect('requisiciones/'.$requisicion->id)->with("mensaje","archivo subido con exito");
+      return array(1,"exito",$requisicion->id);
+      }catch(Excpetion $e){
+        return array(-1,"error",$e);
+      }
     }
 
     public function bajar($file_name){

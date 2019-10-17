@@ -44,9 +44,9 @@
                     <td class="text-right">${{ number_format($desembolso->monto,2) }}</td>
                     <td class="">{!! \App\Desembolso::estado($desembolso->id) !!}</td>
                     <td>
-                        @if($desembolso->estado == 1)
+                        @if($desembolso->estado == 1) 
                             {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                            <a href="{{ url('/formapagos/'.$desembolso->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                            <a href="{{ url('formapagos/'.$desembolso->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                             <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$desembolso->id.",'formapagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
                             {{ Form::close()}}
                         @else

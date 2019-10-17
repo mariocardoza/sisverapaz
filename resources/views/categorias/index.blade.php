@@ -3,10 +3,9 @@
 @section('migasdepan')
 <h1>
         Categorías
-        <small>Control de categorías</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/categorias') }}"><i class="fa fa-dashboard"></i> Categorías</a></li>
+        <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
         <li class="active">Listado de categorías</li>
       </ol>
 @endsection
@@ -17,32 +16,33 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/categorias/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                <a href="{{ url('/categorias?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/categorias?estado=2') }}" class="btn btn-primary">Papelera</a>
+                <div class="btn-group pull-right">
+                  <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                  <a href="{{ url('/categorias?estado=1') }}" class="btn btn-primary">Activos</a>
+                  <a href="{{ url('/categorias?estado=0') }}" class="btn btn-primary">Papelera</a>
+                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
-                  <tr>
+              <th>Id</th>
 							<th>Item</th>
 							<th>Nombre categoría</th>
 							<th>Acción</th>
-						</tr>
 					</thead>
 					<tbody>
-						@foreach($categorias as $categoria)
+						@foreach($categorias as $key => $categoria)
 						<tr>
+              <td>{{ $key+1}}</td>
 							<td>{{ $categoria->item}}</td>
 							<td>{{ $categoria->nombre_categoria}}</td>
 							<td>
                     
                     <td>
-						@if($categoria->estado == 1)
+						            @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                          <a href="{{ url('categorias/'.$categoria->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('categorias/'.$categoria->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                          <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                           <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
@@ -65,4 +65,42 @@
           <!-- /.box -->
         </div>
 </div>
+
+@include("categorias.modales")
 @endsection
+
+@section("scripts")
+<script>
+  $(document).ready(function(e){
+    $(document).on("click", "#btnmodalagregar",
+      function(e){
+        $("#modal_registrar").modal("show");
+      });
+
+    $(document).on("click", "#btnguardar", function(e){
+      e.preventDefault();
+      var datos = $("#form_categoria").serialize();
+      $.ajax({
+        url:"categorias",
+        type:"post",
+        data:datos,
+        succes:function(retorno){
+          if(retorno[0] == 1){
+            toastr.succes("Registrado con éxito");
+            $("#modal_registrar").modal("hide");
+            window.location.reload();
+          }
+          else{
+            toastr.error("Falló");
+          }
+        },
+        error:function(error){
+          console.log();
+          $(error.responseJSON.errors).each(function(index,valor){
+            toastr.error(valor.nombre);
+          })
+        }
+      });
+    })
+  });
+</script>

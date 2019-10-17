@@ -56,7 +56,8 @@ class Cuenta extends Model
                                 endif;
                               endforeach;
                         $modal.='</select>
-                    </div>
+                    </div><br>
+                    <span><b id="imp_monto"></b></span>
                 </div>
 
                     <div class="form-group">
@@ -77,6 +78,45 @@ class Cuenta extends Model
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
               <button type="button" id="abonar_cuenta" data-id="'.$cuenta->id.'" class="btn btn-primary">Abonar</button>
+            </div>
+          </div>
+        </div>
+      </div>';
+
+      return array(1,"exito",$modal);
+    }
+
+    public static function modal_remesar($id)
+    {
+      $modal="";
+      $cuenta=Cuenta::find($id);
+      $modal.='<div class="modal fade" tabindex="-1" id="modal_remesar_cuenta" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="gridSystemModalLabel">Remesar cuenta '.$cuenta->nombre.'</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_remesar_cuenta" action="" class="">
+                    <div class="form-group">
+                        <label class="control-label">Monto a remesar</label>
+                        <div>
+                            <input type="number" class="form-control" min="1" name="monto">
+                            <input type="hidden" class="form-control" value="'.$cuenta->id.'"  name="cuenta_id" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Detalle</label>
+                      <div>
+                            <textarea class="form-control" rows="2" name="detalle"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <button type="button" id="remesar_cuenta" data-id="'.$cuenta->id.'" class="btn btn-primary">Remesar</button>
             </div>
           </div>
         </div>

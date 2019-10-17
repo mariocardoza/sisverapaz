@@ -15,5 +15,10 @@ class UnidadMedida extends Model
     		$medidas[$medida->id]=$medida->nombre_medida;
     	}
     	return $medidas;
-    }
+	}
+	
+	public function material()
+	{
+		return $this->hasMany("App\Materiales",'unidad_id');
+	}
 }

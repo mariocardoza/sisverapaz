@@ -1,3 +1,6 @@
+@php
+    $unids=App\Unidad::where('estado',1)->get();
+@endphp
 <div class="form-group">
   <label for="" class="col-md-4 control-label">Actividad</label>
   <div class="col-md-6">
@@ -8,7 +11,13 @@
 <div class="form-group">
   <label for="" class="col-md-4 control-label">Unidad Solicitante</label>
   <div class="col-md-6">
-    {{Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione la unidad','id'=>'unidad_id'])}}
+    <select name="unidad_id" id="unidad_id" class="chosen-select-width">
+      @foreach ($unids as $uni)
+          @if($uni->id==Auth()->user()->unidad_id)
+            <option selected value="{{$uni->id}}">{{$uni->nombre_unidad}}</option>
+          @endif
+      @endforeach
+    </select>
   </div>
 </div>
 

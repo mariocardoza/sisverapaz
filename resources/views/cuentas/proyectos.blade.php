@@ -112,6 +112,16 @@
         })
     });
 
+     /// imprimir el monto de la cuenta
+     $(document).on("change","#select_fondo",function(e){
+      var id=$(this).val();
+      if(id!=''){
+        var monto_cuenta=parseFloat($("#select_fondo option:selected").attr("data-montocuenta")) || 0;
+        $("#imp_monto").text("");
+        $("#imp_monto").text("$"+monto_cuenta);
+      }
+    });
+
     //abonar la cuenta
     $(document).on("click","#abonar_cuenta",function(e){
         e.preventDefault();

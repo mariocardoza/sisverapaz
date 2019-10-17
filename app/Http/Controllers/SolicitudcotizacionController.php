@@ -165,7 +165,7 @@ class SolicitudcotizacionController extends Controller
             return array(1,"exito",$proyecto->id);
           }catch(\Exception $e){
             DB::rollback();
-            return response($e->getMessage());
+            return array(-1,"error",$e->getMessage(),$e->getLine());
           }
         }
     }

@@ -11,7 +11,7 @@
 						<label for="">
 							Cargo
 						</label>
-						<input type="text" name="nombre" autocomplete="off" class="form-control">
+						<input type="text" name="cargo" autocomplete="off" class="form-control">
 					</div>
 				</form>
 			</div>
@@ -34,7 +34,7 @@
 				<form id="form_edit">
 					<div class="form_group">
 						<label for="">Cargo</label>
-						<input type="text" name="nombre" id="e_nombre" class="form-control">
+						<input type="text" name="cargo" id="e_cargo" class="form-control">
 						<input type="hidden" name="id" id="elid">
 					</div>
 				</form>

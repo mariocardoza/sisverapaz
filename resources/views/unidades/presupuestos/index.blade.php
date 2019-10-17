@@ -70,22 +70,40 @@
 
     $(document).on("click","#registrar_presupuesto", function(e){
       e.preventDefault();
-      var datos=$("#form_presupuesto").serialize();
+      var anio=0;
+      anio=$("#elaniopresu").val();
+      var uni=$("#uni_id").val();
       $.ajax({
-        url:'presupuestounidades',
-        type:'POST',
-        data:datos,
-        success: function(json){
-          if(json[0]==1){
-            toastr.success("Presupuesto guardado exitosamente");
-            window.location.href="presupuestounidades/"+json[2];
+        url:'presupuestounidades/anio/'+anio,
+        type:'get',
+        dataType:'json',
+        data:{unidad_id:uni},
+        success:function(json1){
+          if(json1.length > 0){
+            toastr.error("Ya existe presupuesto para el año "+anio);
           }else{
-            toastr.error("Ocurrió un error");
+            var datos=$("#form_presupuesto").serialize();
+            $.ajax({
+              url:'presupuestounidades',
+              type:'POST',
+              data:datos,
+              success: function(json){
+                if(json[0]==1){
+                  toastr.success("Presupuesto guardado exitosamente");
+                  window.location.href="presupuestounidades/"+json[2];
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              },error: function(error){
+                  
+                }
+            });
           }
         },error: function(error){
-            
-          }
+          toastr.error('Digite un año correcto');
+        }
       });
+      
     });
   });
 </script>

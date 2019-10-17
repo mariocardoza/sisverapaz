@@ -300,6 +300,12 @@ function proyecto_estado($estado)
             break;
         case '11':
 			return 'Rechazado';
+            break;
+        case '12':
+			return 'Pendiente de liquidación';
+            break;
+        case '13':
+			return 'Finalizado';
 			break;
         default:
 						return 'Sin clasificar';
@@ -342,6 +348,12 @@ function estilo_proyecto($estado)
                     break;
             case '11':
 					return 'danger';
+                    break;
+            case '12':
+					return 'info';
+                    break;
+            case '13':
+					return 'success';
 					break;
 			default:
 					return 'default';

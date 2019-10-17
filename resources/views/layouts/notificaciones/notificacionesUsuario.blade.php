@@ -1,5 +1,7 @@
 @if(Auth()->user()->hasRole('tesoreria') || Auth()->user()->hasRole('admin'))
     @include('layouts.notificaciones.administrador')
+@elseif(Auth()->user()->hasRole('uaci'))
+  @include('layouts.notificaciones.uaci')
 @else
 {{-- Código default de mensajes --}}
 <li class="dropdown notifications-menu">

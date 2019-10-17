@@ -173,15 +173,10 @@ class PresupuestoController extends Controller
 
                   BitacoraProyecto::bitacora('Registro el presupuesto de '.$presupuesto->proyecto->nombre,$proyecto->id);
                   DB::commit();
-                  return response()->json([
-                    'mensaje' => 'exito'
-                  ]);
+                  return array(1,"exito");
             }catch (\Exception $e){
                 DB::rollback();
-                return response()->json([
-                    'mensaje' => 'error',
-                    'tipo' =>$e->getMessage()
-                  ]);
+                return array(-1,"error",$e);
             }
         }
     }

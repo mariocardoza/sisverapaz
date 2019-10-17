@@ -13,6 +13,13 @@
 @endsection
 
 @section('content')
+@php
+    $unid=App\Unidad::where('estado',1)->get();
+    $unidades=[];
+    foreach ($unid as $u ) {
+        $unidades[$u->id]=$u->nombre_unidad;
+    }
+@endphp
 <div class="container">
     <div class="row">
         <div class="col-md-10">
@@ -36,6 +43,13 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="unidad_id" class="col-md-4 control-label">Unidad</label>
+                            <div class="col-md-6">
+                                {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa']) !!}
                             </div>
                         </div>
 

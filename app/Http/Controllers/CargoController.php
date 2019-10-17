@@ -117,13 +117,12 @@ class CargoController extends Controller
     public function update(Request $request, $id)
     {
         $cargo = Cargo::find($id);
-        if($cargo->cargo!=$request->cargo){
-            $this->validate($request,['cargo'=> 'required|unique:cargos|min:5']);
-        }
+        $cargo->cargo=$request->cargo;
+           // $this->validate($request,['cargo'=> 'required|unique:cargos|min:5']);
+        
 
         $cargo->save();
-
-        return array(1,"éxito");
+        return array(1,"éxito",$cargo);
     }
 
     /**
@@ -141,11 +140,9 @@ class CargoController extends Controller
     {
         $datos = explode("+", $cadena);
         $id = $datos[0];
-        $motivo = $datos[1];
 
         $cargo = Cargo::find($id);
         $cargo->estado = 2;
-        $cargo->motivo = $motivo;
         $cargo->save();
         bitacora('Dió de baja cargo');
         return redirect('/cargos')->with('mensaje','Cargo dado de baja');

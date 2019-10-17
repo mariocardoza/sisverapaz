@@ -90,6 +90,10 @@ Route::post('contratos/guardartipo','ContratoController@guardarTipo');
 Route::post('contratos/guardarcargo','ContratoController@guardarCargo');
 Route::Resource('contratos','ContratoController');
 
+Route::post('catcargos/baja{id}','CatCargoController@alta')->name('catcargos.alta');
+Route::post('catcargos/alta{id}','CatCargoController@baja')->name('catcargos.baja');
+Route::Resource('catcargos','CatCargoController');
+
 Route::post('contratosuministros/baja{id}','ContratoSuministroController@baja')->name('contratosuministros.baja');
 Route::post('contratosuministros/alta/{id}','ContratoSuministroController@alta')->name('contratosuministros.alta');
 Route::Resource('contratosuministros','ContratoSuministroController');
@@ -112,9 +116,13 @@ Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
 Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
 Route::get('proyectos/solicitudes/{id}','ProyectoController@solicitudes');
 Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
+Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
+Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::post('proyectos/subiracta','ProyectoController@subiracta');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
 Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
+Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
@@ -240,6 +248,7 @@ Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
+Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
@@ -300,6 +309,7 @@ Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
 Route::Resource('prestamos','PrestamoController');
+Route::Resource('descuentos','DescuentoController');
 
 Route::post('prestamotipos/baja/{id}','PrestamotiposController@baja')->name('prestamotipos.baja');
 Route::Resource('prestamotipos','PrestamotiposController');
@@ -314,8 +324,11 @@ Route::get('cuentas/proyectos','CuentaController@proyectos');
 Route::put('cuentas/editarproyectos/{id}','CuentaController@editarproyectos');
 Route::get('cuentas/movimientos/{id}','CuentaController@show2');
 Route::get('cuentas/modalasignar/{id}/{tipo}','CuentaController@modal_asignar');
+Route::get('cuentas/modalremesar/{id}/{tipo}','CuentaController@modal_remesar');
 Route::post('cuentas/abonarcuenta','CuentaController@abonarcuenta');
 Route::post('cuentas/abonarproyecto','CuentaController@abonarproyecto');
+Route::post('cuentas/remesarcuenta','CuentaController@remesarcuenta');
+Route::post('cuentas/remesarproyecto','CuentaController@remesarproyecto');
 Route::Resource('cuentas','CuentaController');
 
 //Route::Resource('cuentaprincipal','CuentaprincipalController');
@@ -354,6 +367,7 @@ Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupu
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
+Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
 
 
 //Ruta para detalle de planillas
@@ -411,6 +425,7 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 Route::Resource('unidades','UnidadAdminController');
 Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
+Route::get('presupuestounidades/anio/{anio}','PresupuestoUnidadController@anio');
 Route::post('presupuestounidades/cambiar/{id}','PresupuestoUnidadController@cambiar');
 Route::get('presupuestounidades/clonar/{id}','PresupuestoUnidadController@clonar');
 Route::get('presupuestounidades/porunidad','PresupuestoUnidadController@porunidad')->name('presupuestounidades.porunidad');

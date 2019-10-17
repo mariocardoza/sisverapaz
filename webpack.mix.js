@@ -36,6 +36,10 @@ const { mix } = require('laravel-mix');
   'resources/assets/js/fullcalendar.js',
   'resources/assets/js/es.js',
   'resources/assets/js/jquery.validate.min.js',
+  'resources/assets/js/highcharts.js',
+  'resources/assets/js/highchart.data.js',
+  'resources/assets/js/highchart.exporting.js',
+  'resources/assets/js/highchart.export-data.js',
   //con esta funcion agrego el js para cargar los municipios por departamento
   'resources/assets/js/municipios.js',
 
@@ -61,4 +65,5 @@ const { mix } = require('laravel-mix');
   'resources/assets/css/jquery.steps.css',
   'resources/assets/css/chosen.css',
   'resources/assets/css/fullcalendar.css',
+  'resources/assets/css/highcharts.css',
 ],'public/css/sisverapaz.css');

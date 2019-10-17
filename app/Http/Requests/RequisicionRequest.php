@@ -26,7 +26,6 @@ class RequisicionRequest extends FormRequest
         return [
             'actividad' => 'required',
             'user_id' => 'required',
-            'observaciones' => 'required',
             'unidad_id' => 'required',
             'fecha_actividad'=>'required'
         ];

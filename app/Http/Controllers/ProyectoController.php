@@ -13,6 +13,7 @@ use App\Cuenta;
 use App\Fondo;
 use App\Cuentaproy;
 use App\Categoria;
+use App\ProyectoActa;
 use App\Formapago;
 use App\Solicitudcotizacion;
 use App\Http\Requests\ProyectoRequest;
@@ -195,6 +196,30 @@ class ProyectoController extends Controller
 
         return array(1,"exito",$request->proyecto_id);
       }catch(Exception $e){
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function subiracta(Request $request)
+    {
+      $this->validar_acta($request->all())->validate();
+      try{
+        DB::beginTransaction();
+        $request->file('archivo')->storeAs('proyectos/actas', $request->file('archivo')->getClientOriginalName());
+        $contrato=ProyectoActa::create([
+          'id'=>date('Yidisus'),
+          'descripcion'=>$request->descripcion,
+          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        $proyecto=Proyecto::find($request->proyecto_id);
+        $proyecto->estado=12;
+        $proyecto->save();
+          DB::commit();
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        DB::rollback();
         return array(-1,"error",$e->getMessage);
       }
     }
@@ -432,6 +457,18 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function empleados($id)
+    {
+      $retorno=Proyecto::empleados($id);
+      return $retorno;
+    }
+
+    public function planilla($id)
+    {
+      $retorno=\App\Planilla::planilla_proyecto($id);
+      return $retorno;
+    }
+
     public function baja($cadena)
     {
       try{
@@ -481,6 +518,12 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function formulariosoli($id)
+    {
+      $retorno=Solicitudcotizacion::formulario_solicitud($id);
+      return $retorno;
+    }
+
     public function cambiarestado(Request $request,$id)
     {
       try{
@@ -515,5 +558,19 @@ class ProyectoController extends Controller
         ],$mensajes);
 
         
+    }
+
+    protected function validar_acta(array $data)
+    {
+        $mensajes=array(
+          'descripcion.required'=>'La descripcion del acta es obligatoria',
+          'archivo.required'=>'Debe adjuntar el contrato',
+          'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+          'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+      );
+      return Validator::make($data, [
+          'descripcion'=>'required',
+          'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+      ],$mensajes);
     }
 }

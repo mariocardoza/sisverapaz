@@ -7,10 +7,11 @@ use DB;
 
 class Detalleplanilla extends Model
 {
-  protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio'];
+  protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio','proyecto_id','numero_acuerdo','unidad_id'];
   protected $dates = ['fecha_inicio'];
   public static function empleados(){
-    $empleados=Empleado::orderBy('nombre')->get();
+    $empleados=Empleado::where('estado')->orderBy('nombre')->get();
+    
     $a_empleados=[];
     foreach ($empleados as $e) {
       if(!$e->detalleplanilla && $e->contrato->count()<1){
@@ -23,6 +24,15 @@ class Detalleplanilla extends Model
   public function Empleado()
   {
       return $this->belongsTo('App\Empleado');
+  }
+
+  public function unidad()
+  {
+    return $this->belongsTo('App\Unidad');
+  }
+
+  public function proyecto(){
+    return $this->belongsTo('App\Proyecto');
   }
 
   public function cargo(){
