@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cementerio;
+use App\CementeriosPosiciones;
 use Illuminate\Http\Request;
 use FarhanWazir\GoogleMaps\GMaps;
 
@@ -62,7 +63,24 @@ class CementerioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+
+        $cementerio = new Cementerio;
+        $cementerio->nombre = $params["form"]["nombre"];
+        $cementerio->maximo = $params["form"]["maximo"];
+        if($cementerio->save()) {
+            foreach ($params["pointers"] as $key => $value) {    
+                $posion = new CementeriosPosiciones;
+                $posion->latitud = $value[0];
+                $posion->longitud = $value[1];
+                $posion->cementerio_id = $cementerio->id;
+                $posion->save();
+            }
+            // por si todo sale bien
+            return $cementerio;
+        } else {
+            // por si hay error
+        }
     }
 
     /**

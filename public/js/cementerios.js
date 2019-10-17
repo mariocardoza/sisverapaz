@@ -2,6 +2,29 @@ window.onload = function () {
     var pointers;
     var selectedShape;
 
+    function deletePathMap () {
+        Swal.fire({
+            title: 'Esta seguro que desea borrar el area seleccionada?',
+            text: "Una vez borrada no podra recuperar la informacion",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, estoy de acuerdo!'
+          }).then((result) => {
+            if (result.value) {
+                Swal.fire('Exito!', 'El area fue borrada con exito', 'success' )
+                drawingManager.setOptions({
+                    drawingControl: true
+                });
+                selectedShape.setMap(null);
+                pointers = [];
+            }
+        })
+
+        
+    }
+
     function getToolsBarMap(polygon) {
         selectedShape = polygon.overlay;
         drawingManager.setDrawingMode(null);
@@ -9,13 +32,17 @@ window.onload = function () {
             drawingControl: false
         });
 
-        google.maps.event.addListener(selectedShape, 'dblclick', function(shape) {
-            drawingManager.setOptions({
-                drawingControl: true
-            });
-            selectedShape.setMap(null);
-            pointers = [];
-        });
+        google.maps.event.addListener(selectedShape, 'dblclick', deletePathMap);
+    }
+
+    function servidorAjax(pointers, formulario) {
+        $.post("cementerios", {
+            pointers: pointers, form: formulario
+        }).done(function(respuesta) {
+            
+        }).fail(function(err){
+            toastr.error(err);
+        })
     }
 
     google.maps.event.addListener(drawingManager, "overlaycomplete", function(polygon) { 
@@ -45,13 +72,16 @@ window.onload = function () {
         })
 
         if(!bandera) {
-            if(pointers.length > 0) {
+            if(pointers && pointers.length > 0) {
                 var arrayPointer = pointers.map(function(item) {
                     return [
                         item.lat(), item.lng()
                     ]
                 });
-                console.log(arrayPointer);                
+                servidorAjax(arrayPointer, {
+                    nombre: data[0]["value"],
+                    maximo: data[1]["value"],
+                })
             } else {
                 toastr.error("Debes de dibujar el area para el cementerio");
             }

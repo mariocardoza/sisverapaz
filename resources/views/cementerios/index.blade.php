@@ -44,6 +44,20 @@
   </div>
 </div>
 {!! $map['js'] !!} @endsection @section('scripts') 
-
+<style>
+.swal2-icon::before {
+  font-size: 1.75em !important;
+}
+.swal2-icon {
+    width: 100px !important;
+    height: 100px !important;
+}
+.swal2-popup {
+  width: 500px !important;
+  padding: 2.5em;
+  font-size: 1.1rem;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script src="{{ asset('js/cementerios.js') }}"></script>
 @endsection
