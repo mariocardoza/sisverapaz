@@ -27,160 +27,159 @@
 		background: #f7cb15;
 	}
 	</style>
-<div class="container">
-    <div class="row" id="elshow">
-        <div class="col-md-7">
-            <div class="panel panel-primary" id="div_pre">
-                <div class="panel-heading">Datos del Presupuesto </div>
-                <div class="panel-body">
-					@if($proyecto->presupuesto!="" )
-					@if($proyecto->estado==1 || $proyecto->estado==2)
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+<div class="row" id="elshow">
+	<div class="col-md-8">
+		<div class="panel panel-primary" id="div_pre">
+			<div class="panel-heading">Datos del Presupuesto </div>
+			<div class="panel-body">
+				@if($proyecto->presupuesto!="" )
+				@if($proyecto->estado==1 || $proyecto->estado==2)
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+				@endif
+					@if($proyecto->presupuesto!="")
+					<div id="elpresu_aqui"></div>
 					@endif
-						@if($proyecto->presupuesto!="")
-						<div id="elpresu_aqui"></div>
-						@endif
-						@include('proyectos.show.m_nueva_categoria')
-					@else
-						<center>
-							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-							<span>Agregue un nuevo presupuesto para visualizar la información</span>
-							<br><br>
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
-							@include('proyectos.show.m_nueva_categoria')
-						</center>
-                	@endif
-                      <a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
-                </div>
-						</div>
-						
-						<div class="panel panel-primary" id="div_ind" style="display: none">
-                <div class="panel-heading">Datos de indicadores </div>
-                <div class="panel-body" id="div_indicadores">
-					@if($proyecto->indicadores->count() > 0)
-					<ul class="todo-list" id="los_indicadores"></ul>
-					@if($proyecto->indicadores->sum('porcentaje') < 100)
-					<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
-					@endif
-					@else
+					@include('proyectos.show.m_nueva_categoria')
+				@else
 					<center>
 						<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-						<span>Agregue los nuevos indicadores para visualizar la información</span><br>
-						<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
+						<span>Agregue un nuevo presupuesto para visualizar la información</span>
+						<br><br>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva_categoria">Agregar Presupuesto</button>
+						@include('proyectos.show.m_nueva_categoria')
 					</center>
-					@endif
-                </div>
-						</div>
-						
-			<div class="panel panel-primary" id="div_cot" style="display:none">
-                <div class="panel-heading">Datos de las Solicitudes </div>
-                <div class="panel-body" id="solicitud_aqui">
-					
-                </div>
+				@endif
+					<a href="{{ url('proyectos/'.$proyecto->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
 			</div>
-			<div class="panel panel-primary" id="div_contra" style="display:none">
-					<div class="panel-heading">Datos de los contratos </div>
-					<div class="panel-body" id="contrato_aqui">
-						<center>
-							<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-							<span>Agregue un nuevo contrato para visualizar la información</span>
-						</center>
 					</div>
-				</div>
-				<div class="panel panel-primary" id="div_lic" style="display:none">
-						<div class="panel-heading">Licitaciones </div>
-						<div class="panel-body" id="licitaciones_aqui">
-							<center>
-								<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-								<span>Agregue una nueva licitación para visualizar la información</span>
-							</center>
-						</div>
+					
+					<div class="panel panel-primary" id="div_ind" style="display: none">
+			<div class="panel-heading">Datos de indicadores </div>
+			<div class="panel-body" id="div_indicadores">
+				@if($proyecto->indicadores->count() > 0)
+				<ul class="todo-list" id="los_indicadores"></ul>
+				@if($proyecto->indicadores->sum('porcentaje') < 100)
+				<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
+				@endif
+				@else
+				<center>
+					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+					<span>Agregue los nuevos indicadores para visualizar la información</span><br>
+					<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
+				</center>
+				@endif
+			</div>
 					</div>
-					<div class="panel panel-primary" id="div_emple" style="display:none">
-						<div class="panel-heading">Empleados temporales</div>
-						<div class="panel-body" id="empleados_aqui">
-							<button class="btn btn-primary" id="nuevo_emp">Nuevo</button>
-							<div id="tabla_empleados"></div>
-						</div>
-						<div class="panel-body" id="emple_form" style="display: none;">
-							@include('proyectos.show.empleados')
-						</div>
-					</div>
-					<div class="panel panel-primary" id="div_plani" style="display:none;">
-						<div class="panel-heading">Planillas mensuales</div>
-						<div class="panel-body">
-							<div id="laplanilla">
-								<button class="btn btn-primary" id="crear_planilla">Nueva</button>
-								<table class="table">
-									<thead>
-										<tr>
-											<th>N°</th>
-											<th>Fecha</th>
-											<th>Acción</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach ($proyecto->datoplanilla as $index => $item)
-											<tr>
-												<td>{{$index+1}}</td>
-												<td>{{$item->fecha}}</td>
-												<td></td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
-							<div id="plani_aqui" style="display: none;"></div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="panel panel-primary">
-							<div class="panel-heading">Opciones </div>
-							<div class="panel-body">
-								@if($proyecto->tipo_proyecto==1)
-								<button type="button" class="btn btn-primary col-sm-12" id="btn_pre" style="margin-bottom: 3px;">
-									Presupuesto
-								</button>
-								@else
-								<button type="button" class="btn btn-default col-sm-12" id="btn_lic" style="margin-bottom: 3px;">
-										Licitación
-									</button>
-								@endif
-								<button type="button" class="btn btn-default col-sm-12" id="btn_ind" style="margin-bottom: 3px;">
-									Indicadores
-								</button>
-								@if($proyecto->tipo_proyecto==1)
-								<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
-									Solicitudes
-								</button>
-								
-								@endif
-								<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
-									Contratos
-								</button>
-								<button type="button" class="btn btn-default col-sm-12" id="btn_emple" style="margin-bottom: 3px;">
-									Empleados
-								</button>
-								<button type="button" class="btn btn-default col-sm-12" id="btn_plani" style="margin-bottom: 3px;">
-									Planillas
-								</button>
-							</div>
-					</div>
-					<div class="panel panel-primary">
-							<div class="panel-heading">Datos del Proyecto </div>
-							<div class="panel-body" id="aqui_info">
-								
-							</div>
-					</div>
-				</div>
-	</div>
-	@if(isset($proyecto->presupuesto->presupuestodetalle))
-	<div class="row" id="elformulario" style="display: none;">
-            
+					
+		<div class="panel panel-primary" id="div_cot" style="display:none">
+			<div class="panel-heading">Datos de las Solicitudes </div>
+			<div class="panel-body" id="solicitud_aqui">
+				
+			</div>
 		</div>
-	@endif
+		<div class="panel panel-primary" id="div_contra" style="display:none">
+			<div class="panel-heading">Datos de los contratos </div>
+			<div class="panel-body" id="contrato_aqui">
+				<center>
+					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+					<span>Agregue un nuevo contrato para visualizar la información</span>
+				</center>
+			</div>
+		</div>
+		<div class="panel panel-primary" id="div_lic" style="display:none">
+			<div class="panel-heading">Licitaciones </div>
+			<div class="panel-body" id="licitaciones_aqui">
+				<center>
+					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+					<span>Agregue una nueva licitación para visualizar la información</span>
+				</center>
+			</div>
+		</div>
+		<div class="panel panel-primary" id="div_emple" style="display:none">
+			<div class="panel-heading">Jornadas del proyecto</div>
+			<div class="panel-body" id="jornadas_aqui">
+				<button class="btn btn-primary" id="nueva_jornada">Nuevo</button>
+				<div id="tabla_empleados"></div>
+			</div>
+			<div class="panel-body" id="jornada_form" style="display: none;">
+				@include('proyectos.show.jornada')
+			</div>
+		</div>
+		<div class="panel panel-primary" id="div_plani" style="display:none;">
+			<div class="panel-heading">Planillas mensuales</div>
+			<div class="panel-body">
+				<div id="laplanilla">
+					<button class="btn btn-primary" id="crear_planilla">Nueva</button>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>N°</th>
+								<th>Fecha</th>
+								<th>Acción</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach ($proyecto->datoplanilla as $index => $item)
+								<tr>
+									<td>{{$index+1}}</td>
+									<td>{{$item->fecha}}</td>
+									<td></td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+				<div id="plani_aqui" style="display: none;"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="panel panel-primary">
+				<div class="panel-heading">Opciones </div>
+				<div class="panel-body">
+					@if($proyecto->tipo_proyecto==1)
+					<button type="button" class="btn btn-primary col-sm-12" id="btn_pre" style="margin-bottom: 3px;">
+						Presupuesto
+					</button>
+					@else
+					<button type="button" class="btn btn-default col-sm-12" id="btn_lic" style="margin-bottom: 3px;">
+							Licitación
+						</button>
+					@endif
+					<button type="button" class="btn btn-default col-sm-12" id="btn_ind" style="margin-bottom: 3px;">
+						Indicadores
+					</button>
+					@if($proyecto->tipo_proyecto==1)
+					<button type="button" class="btn btn-default col-sm-12" id="btn_cot" style="margin-bottom: 3px;">
+						Solicitudes
+					</button>
+					
+					@endif
+					<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
+						Contratos
+					</button>
+					<button type="button" class="btn btn-default col-sm-12" id="btn_emple" style="margin-bottom: 3px;">
+						Pagos
+					</button>
+					<button type="button" class="btn btn-default col-sm-12" id="btn_plani" style="margin-bottom: 3px;">
+						Empleados
+					</button>
+				</div>
+		</div>
+		<div class="panel panel-primary">
+				<div class="panel-heading">Datos del Proyecto </div>
+				<div class="panel-body" id="aqui_info">
+					
+				</div>
+		</div>
+	</div>
 </div>
+@if(isset($proyecto->presupuesto->presupuestodetalle))
+<div class="row" id="elformulario" style="display: none;">
+		
+	</div>
+@endif
+
 <div id="modal_aqui"></div>
 @include('proyectos.modales')
 	@section('scripts')		
@@ -300,7 +299,7 @@
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
-				empleados(elid);
+				pagos(elid);
 
 			});
 
@@ -321,7 +320,7 @@
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-primary');
-				//empleados(elid);
+				empleados(elid);
 
 			});
 
@@ -409,6 +408,22 @@
 					if(json[0]==1){
 						$("#contrato_aqui").empty();
 						$("#contrato_aqui").html(json[2]);
+					}
+				}
+			});
+		}
+
+		function pagos(elid){
+			$.ajax({
+				url:'../proyectos/pagos/'+elid,
+				type:'get',
+				data:{},
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						$("#tabla_empleados").empty();
+						$("#tabla_empleados").html(json[2]);
+						inicializar_tabla("latabla");
 					}
 				}
 			});

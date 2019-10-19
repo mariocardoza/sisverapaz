@@ -49,8 +49,9 @@ $(document).ready(function(e){
 			dataType:'json',
 			data:datos,
 			success: function(json){
-				if(json.mensaje=='exito'){
+				if(json[0]==1){
 					location.reload();
+					toastr.success("Unidad de medida registrada con éxito");
 				}else{
 					swal.closeModal();
 				}

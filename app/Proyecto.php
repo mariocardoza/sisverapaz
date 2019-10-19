@@ -346,10 +346,10 @@ class Proyecto extends Model
         $proyectos=Proyecto::where('estado',11)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
         break;
         case 9:
-        $proyectos=Proyecto::where('estado',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+        $proyectos=Proyecto::where('estado',13)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
         break;
         default:
-        $proyectos=Proyecto::where('estado','<>',11)->where('estado','<>',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+        $proyectos=Proyecto::where('estado','<>',11)->where('estado','<>',13)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
       }
   
       $html="";
@@ -467,7 +467,8 @@ class Proyecto extends Model
           <tr>
             <th>N°</th>
             <th>Empleado</th>
-            <th>Salario</th>
+            <th>Cargo</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>';
@@ -475,7 +476,43 @@ class Proyecto extends Model
             $html.='<tr>
               <td>'.($index+1).'</td>
               <td>'.$item->empleado->nombre.'</td>
-              <td>$'.number_format($item->salario,2).'</td>
+              <td>'.$item->cargo->cargo.'</td>
+              <td> <button class="btn btn-primary btn-sm" type="button" data-id="'.$item->id.'"><i class="fa fa-eye"></i></button> </td>
+            </tr>';
+          endforeach;
+        $html.='</tbody>
+      </table>';
+      return array(1,"exito",$html);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public static function pagos($id)
+    {
+      try{
+        $proyecto=Proyecto::find($id);
+        $html="";
+        $html.='<table class="table" id="latabla">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Jornada</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha fin</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>';
+          foreach ($proyecto->periodoproyecto as $index => $item):
+            $html.='<tr>
+              <td>'.($index+1).'</td>
+              <td>Catorcena</td>
+              <td>'.$item->fecha_inicio->format("d/m/Y").'</td>
+              <td>'.$item->fecha_fin->format("d/m/Y").'</td>
+              <td>'.PeriodoProyecto::estado($item->id).'</td>
+              <td> <button class="btn btn-primary btn-sm" type="button" data-id="'.$item->id.'"><i class="fa fa-eye"></i></button> </td>
             </tr>';
           endforeach;
         $html.='</tbody>
@@ -554,5 +591,10 @@ class Proyecto extends Model
     public function datoplanilla()
     {
       return $this->hasMany('App\Datoplanilla');
+    }
+
+    public function periodoproyecto()
+    {
+      return $this->hasMany('App\PeriodoProyecto')->orderby('created_at','DESC');
     }
 }

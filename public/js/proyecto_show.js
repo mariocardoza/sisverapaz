@@ -38,27 +38,27 @@ $(document).ready(function(e){
             });
     });
 
-    ///boton nuevo empleado
-    $(document).on("click","#nuevo_emp", function(e){
+    ///boton nueva jornada empleado
+    $(document).on("click","#nueva_jornada", function(e){
       e.preventDefault();
-      $("#empleados_aqui").hide();
-      $("#emple_form").show();
+      $("#jornadas_aqui").hide();
+      $("#jornada_form").show();
     });
 
-    $(document).on("click","#btn_cancelarcontrato", function(e){
+    $(document).on("click","#btn_cancelarjornada", function(e){
       e.preventDefault();
-      $("#empleados_aqui").show();
-      $("#emple_form").hide();
-      $("#form_planilla").trigger("reset");
+      $("#jornadas_aqui").show();
+      $("#jornada_form").hide();
+      $("#form_jornada").trigger("reset");
       $(".chosen-select-width").trigger("chosen:updated");
     });
 
     //guardar empleado
-    $(document).on("click","#btn_guardarcontrato", function(e){
+    $(document).on("click","#btn_guardarjornada", function(e){
       modal_cargando();
-        var datos=$("#form_planilla").serialize();
+        var datos=$("#form_jornada").serialize();
         $.ajax({
-          url:'../detalleplanillas',
+          url:'../jornadas',
           type:'POST',
           dataType:'json',
           data:datos,
@@ -66,12 +66,17 @@ $(document).ready(function(e){
           if(json[0]==1){
             toastr.success("Contrato registrado con exito");
             //window.location.reload();
-            $("#btn_cancelarcontrato").trigger("click");
+            $("#btn_cancelarjornada").trigger("click");
             swal.closeModal();
-            empleados(elid);
+            pagos(elid);
           }else{
-            toastr.error("Ocurrió un error");
-            swal.closeModal();
+            if(json[0]==-2){
+              toastr.error(json[2]);
+              swal.closeModal();
+            }else{
+              toastr.error("Ocurrió un error");
+              swal.closeModal();
+            }
           }
           }, error: function(error){
             $.each(error.responseJSON.errors,function(index,value){

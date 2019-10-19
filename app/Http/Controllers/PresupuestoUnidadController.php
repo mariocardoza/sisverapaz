@@ -30,20 +30,20 @@ class PresupuestoUnidadController extends Controller
         } 
         $elestado=$request->get('estado');
         if($elestado=="" || $elestado > 4){
-            $presupuestos = Presupuestounidad::where('anio',$elanio)->whereIn('estado',[1,3])->get();
+            $presupuestos = Presupuestounidad::where('anio','>=',$elanio)->whereIn('estado',[1,3])->get();
             return view('unidades.presupuestos.index',compact('presupuestos','anios'));
         
         }
         if($elestado==1){
-            $presupuestos = Presupuestounidad::where('anio',$elanio)->whereIn('estado',[1,3])->get();
+            $presupuestos = Presupuestounidad::where('anio','>=',$elanio)->whereIn('estado',[1,3])->get();
             return view('unidades.presupuestos.index',compact('presupuestos','anios'));
         }
         if($elestado==2){
-            $presupuestos = Presupuestounidad::where('estado',2)->where('anio',$elanio)->get();
+            $presupuestos = Presupuestounidad::where('estado',2)->where('anio','>=',$elanio)->get();
             return view('unidades.presupuestos.index',compact('presupuestos','anios'));
         }
         if($elestado==4){
-            $presupuestos = Presupuestounidad::where('estado',4)->where('anio',$elanio)->get();
+            $presupuestos = Presupuestounidad::where('estado',4)->where('anio','>=',$elanio)->get();
             return view('unidades.presupuestos.index',compact('presupuestos','anios'));
         }
         

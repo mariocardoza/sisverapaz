@@ -31,20 +31,13 @@
         <h4 class="modal-title" id="gridSystemModalLabel">Registrar categoría</h4>
       </div>
       <div class="modal-body">
-      	<form id="form_material" class="form-horizontal">
+      	<form id="form_categoria" class="form-horizontal">
       		<div class="row">
 	          	<div class="col-md-12">
-		          	<div class="form-group">
-		                <label class="control-label col-md-4">Ítem</label>
-		                <div class="col-md-6">
-		                	
-		                    {{Form::text('item',null,['class'=>'form-control','placeholder'=>'Digite un ítem','required'])}}
-		                </div>       
-		            </div>
-
 		            <div class="form-group">
 		                <label class="control-label col-md-4">Nombre</label>
 		                <div class="col-md-6">
+                        {{Form::hidden('item',1,['class'=>'form-control','placeholder'=>'Digite un ítem','required'])}}
 		                    {{ Form::text('nombre_categoria', null,['placeholder'=>'Digite el nombre de la categoriría','class' => 'form-control','autocomplete'=>'off','required']) }}
 		                </div>       
 		            </div>

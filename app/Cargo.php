@@ -23,6 +23,11 @@ class Cargo extends Model
         return $cargos;
     }
 
+    public function catcargo()
+    {
+        return $this->belongsTo('App\Catcargo');
+    }
+
    /* public function contratoproyecto()
     {
     	$this->hasMany('App\Contratoproyecto');

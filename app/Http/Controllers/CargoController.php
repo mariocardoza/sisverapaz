@@ -72,7 +72,8 @@ class CargoController extends Controller
     {
         $this->validar($request->all())->validate();
         Cargo::create([
-            'cargo'=>$request->cargo
+            'cargo'=>$request->cargo,
+            'catcargo_id'=>$request->catcargo_id
         ]);
         return array(1,"éxito");
     }
@@ -81,6 +82,7 @@ class CargoController extends Controller
     {
         return Validator::make($data, [
             'cargo' => 'required|unique:cargos',
+            'catcargo_id' => 'required',
         ]);
     }
 
@@ -118,9 +120,8 @@ class CargoController extends Controller
     {
         $cargo = Cargo::find($id);
         $cargo->cargo=$request->cargo;
+        $cargo->catcargo_id=$request->catcargo_id;
            // $this->validate($request,['cargo'=> 'required|unique:cargos|min:5']);
-        
-
         $cargo->save();
         return array(1,"éxito",$cargo);
     }

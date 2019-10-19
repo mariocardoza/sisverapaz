@@ -73,12 +73,19 @@ class ConfiguracionController extends Controller
     {
       try{
         $configuracion = \App\Configuracion::find($id);
-        if($configuracion->escudo_alcaldia!=$request->file('logo')->getClientOriginalName()){
-          unlink('img/logos/'.$configuracion->escudo_alcaldia);
+        if($configuracion->escudo_alcaldia!=''){
+          if($configuracion->escudo_alcaldia!=$request->file('logo')->getClientOriginalName()){
+            unlink('img/logos/'.$configuracion->escudo_alcaldia);
+            $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
+            $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
+            $configuracion->save();
+          }
+        }else{
+          $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
+          $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
+          $configuracion->save();
         }
-        $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
-        $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
-        $configuracion->save();
+        
         return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
       }catch(Exception $e){
         return redirect('configuraciones')->with('error','Ocurrió un error al subir la imagen');
@@ -103,6 +110,7 @@ class ConfiguracionController extends Controller
         $configuracion->save();
       return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
     }
+
 
     protected function validar_alcaldia(array $data)
     {

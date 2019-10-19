@@ -2,11 +2,11 @@
 
 @section('migasdepan')
 <h1>
-	Cargos
+	Cargos para proyectos
 </h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i>Inicio</a></li>
-	<li class="active">Listado de cargos</li>
+	<li class="active">Listado de cargos para proyectos</li>
 </ol>
 @endsection
 
@@ -26,17 +26,17 @@
 		<div class="box-body table-responsive">
 			<table class="table table-striped table-bordered table-hover" id="example2">
 				<thead>
-					<th>Id</th>
+					<th>N°</th>
 					<th>Cargos</th>
-					<th>Categoría</th>
+					<th class="text-right">Salario por día</th>
 					<th>Acción</th>
 				</thead>
 			<tbody>
 				@foreach($cargos as $key => $cargo)
 				<tr>
 					<td>{{ $key+1}}</td>
-					<td>{{ $cargo->cargo }}</td>
-					<td>{{$cargo->catcargo->nombre}}</td>
+					<td>{{ $cargo->nombre }}</td>
+					<td class="text-right">${{number_format($cargo->salario_dia,2)}}</td>
 					<td>
 						@if($cargo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
@@ -58,7 +58,7 @@
 	</div>
 </div>
 
-@include("cargos.modales")
+@include("proyectos.cargos.modal")
 @endsection
 
 @section("scripts")
@@ -72,13 +72,14 @@
 			e.preventDefault();
 			var datos= $("#form_cargo").serialize();
 			$.ajax({
-				url:"cargos",
+				url:"cargoproyectos",
 				type:"post",
 				data:datos,
 				success:function(retorno){
 					if(retorno[0] == 1){
 						toastr.success("Registrado con éxito");
-						$("#modal_registrar").modal("hide");
+                        $("#modal_registrar").modal("hide");
+                        $("#form_cargo").trigger("reset");
 						window.location.reload();
 					}
 					else{
@@ -87,25 +88,25 @@
 				},
 				error:function(error){
 					console.log();
-					$(error.responseJSON.errors).each(function(index,valor){
-						toastr.error(valor.cargo);
-					})
+					$.each(error.responseJSON.errors, function( key, value ) {
+					    toastr.error(value);
+			        });
 				}
 			});
 		});
 		$(document).on("click", "#edit", function(){
 			var id = $(this).attr("data-id");
 			$.ajax({
-				url:"cargos/"+id+"/edit",
+				url:"cargoproyectos/"+id+"/edit",
 				type:"get",
 				data:{},
 				success:function(retorno){
 					if(retorno[0] == 1){
 						$("#modal_editar").modal("show");
-						$("#e_cargo").val(retorno[2].cargo);
+						$("#e_nombre").val(retorno[2].nombre);
+						$("#e_salario").val(retorno[2].salario_dia);
 						$("#elid").val(retorno[2].id);
-						$('#catcargo_edit').val(retorno[2].catcargo_id).attr('selected','selected');
-						$("#catcargo_edit").trigger("chosen:updated");
+						
 					}
 					else{
 						toastr.error("error");
@@ -116,22 +117,28 @@
 
 		$(document).on("click", "#btneditar", function(e){
 			var id = $("#elid").val();
-			var cargo = $("#e_cargo").val();
-			var catcargo_id=$("#catcargo_edit").val();
+			var nombre = $("#e_nombre").val();
+            var salario_dia=$("#e_salario").val();
+            modal_cargando();
 			$.ajax({
-				url:"cargos/"+id,
+				url:"cargoproyectos/"+id,
 				type: "put",
-				data: {cargo,catcargo_id},
+				data: {nombre,salario_dia},
 				success:function(retorno){
 					if(retorno[0] == 1){
 						toastr.success("Exitoso");
-						$("#modal_editar").modal("hide");
-						window.location.reload();
+                        $("#modal_editar").modal("hide");
+                        $("#form_edit").trigger("reset");
+                        window.location.reload();
+                        swal.closeModal();
 					}
 					else{
-						toastr.error("error");
+                        toastr.error("error");
+                        swal.closeModal();
 					}
-				}
+				},error: function(){
+                    swal.closeModal();
+                }
 			});
 		});  //Fin btneditar
 

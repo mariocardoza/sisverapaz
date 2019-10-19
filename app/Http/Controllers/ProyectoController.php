@@ -463,6 +463,12 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function pagos($id)
+    {
+      $retorno=Proyecto::pagos($id);
+      return $retorno;
+    }
+
     public function planilla($id)
     {
       $retorno=\App\Planilla::planilla_proyecto($id);

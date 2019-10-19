@@ -23,47 +23,41 @@
                 </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive">
-              <table class="table table-striped table-bordered table-hover" id="example2">
+      <div class="box-body table-responsive">
+        <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
-              <th>Id</th>
-							<th>Item</th>
+              <tr>
+                <th>N°</th>
 							<th>Nombre categoría</th>
 							<th>Acción</th>
+              </tr>
 					</thead>
 					<tbody>
 						@foreach($categorias as $key => $categoria)
 						<tr>
               <td>{{ $key+1}}</td>
-							<td>{{ $categoria->item}}</td>
 							<td>{{ $categoria->nombre_categoria}}</td>
-							<td>
-                    
-                    <td>
-						            @if($estado == 1 || $estado == "")
-                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                          <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                          <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                        {{ Form::close()}}
-                      @else
-                        {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                        {{ Form::close()}}
-                      @endif
-                    </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-                
-              <div class="pull-right">
-
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
+              <td>
+                  @if($categoria->estado == 1 )
+                  {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
+                    <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
+                    <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                  {{ Form::close()}}
+                @else
+                  {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
+                    <button class="btn btn-success btn-sm" type="button" onclick={{ "alta(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                  {{ Form::close()}}
+                @endif
+              </td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
 </div>
 
 @include("categorias.modales")

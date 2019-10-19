@@ -9,9 +9,12 @@
   <div class="form-group">
     <label for="" class="control-label col-md-2">Fecha de nacimiento</label>
     <div class="col-md-9">
-        @if($configuraciones->nacimiento_alcalde != '')
+        @if($configuraciones!='')
+          @if($configuraciones->nacimiento_alcalde != '')
         {{Form::text("nacimiento_alcalde",$configuraciones->nacimiento_alcalde->format('d-m-Y'),['class'=>'nacimiento form-control'])}}
-       
+        @else
+        {{Form::text("nacimiento_alcalde",null,['class'=>'nacimiento form-control'])}}
+        @endif
       @else
         {{Form::text("nacimiento_alcalde",null,['class'=>'nacimiento form-control'])}}
       @endif

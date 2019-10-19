@@ -2,6 +2,18 @@
         <li class="header">Menú Principal</li>
         <li class="{{Request::is('/home') ? 'activo' : null}}"><a href="{{url('/home')}}">Página de inicio</a></li>
     @if(Auth()->user()->hasRole('admin'))
+    <li class="treeview {{ Route::currentRouteName() == 'configuraciones.create' ? 'active':null}}">
+      <a href="#">
+        <i class="glyphicon glyphicon-cog"></i><span>Administración</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li class=""><a href="{{ url('configuraciones') }}"><i class="fa fa-circle-o"></i> Configuraciones generales</a></li>
+      </ul>
+    </li>
+
     <li class="treeview ">
       <a href="#">
         <i class="fa fa-dashboard"></i> <span>Bitacora</span>
@@ -25,17 +37,7 @@
         <li class="active"><a href="{{ url('/backups') }}"><i class="fa fa-circle-o"></i> Ver Respaldos</a></li>
       </ul>
     </li>
-    <li class="treeview {{ Route::currentRouteName() == 'configuraciones.create' ? 'active':null}}">
-      <a href="#">
-        <i class="glyphicon glyphicon-cog"></i><span>Configuraciones</span>
-        <span class="pull-right-container">
-          <i class="fa fa-angle-left pull-right"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li class=""><a href="{{ url('configuraciones') }}"><i class="fa fa-circle-o"></i> Configuraciones generales</a></li>
-      </ul>
-    </li>
+    
     @endif
     @if(Auth()->user()->hasRole('uaci'))
     @include('menu.uaci')

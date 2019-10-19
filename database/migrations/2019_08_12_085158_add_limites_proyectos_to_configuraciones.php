@@ -14,8 +14,8 @@ class AddLimitesProyectosToConfiguraciones extends Migration
     public function up()
     {
         Schema::table('configuracions', function (Blueprint $table) {
-            $table->double('libre_gestion',8,2)->nullable();
-            $table->double('licitacion',8,2)->nullable();
+            $table->double('libre_gestion',8,2)->default(0);
+            $table->double('licitacion',8,2)->default(0);
         });
     }
 

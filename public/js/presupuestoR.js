@@ -465,8 +465,10 @@ $(document).ready(function () {
           data:{},
           success: function(json){
             if(json[0]==1){
-              $("#modal_aqui").empty();
-              $("#modal_aqui").html(json[2]);
+              $("#elformulario").empty();
+			  $("#elformulario").html(json[2]);
+			  $("#elformulario").show();
+			  $("#elshow").hide();
               var start = new Date(),
               end = new Date(),
               start2, end2;

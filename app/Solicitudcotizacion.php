@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Traits\DatesTranslator;
-
+use DB;
 
 class Solicitudcotizacion extends Model
 {
@@ -482,6 +482,15 @@ class Solicitudcotizacion extends Model
       $formulario='';
       $formapagos=Formapago::where('estado',1)->get();
       $categorias=Categoria::where('estado',1)->get();
+      $cates = DB::table('presupuestos as p')
+        ->select(DB::raw('DISTINCT(c.id) as elid'),'c.nombre_categoria')
+        ->join('presupuestodetalles as pd','p.id','=','pd.presupuesto_id','inner')
+        ->join('materiales as m','m.id','=','pd.material_id','inner')
+        ->join('categorias as c','c.id','=','m.categoria_id','inner')
+        ->where('p.proyecto_id',$id)
+        ->where('pd.estado',1)
+        ->get();
+
       $proyecto=Proyecto::find($id);
       $formulario.='<div class="col-md-11">
         <div class="panel panel-primary">
@@ -557,8 +566,8 @@ class Solicitudcotizacion extends Model
           <div class="col-md-6">
               <select name="" id="filtrar_categoria" class="chosen-select-width"> 
                   <option value="0">Todos</option>';
-                  foreach ($categorias  as $item):
-                      $formulario.='<option value="'.$item->id.'">'.$item->nombre_categoria.'</option>';
+                  foreach ($cates  as $item):
+                      $formulario.='<option value="'.$item->elid.'">'.$item->nombre_categoria.'</option>';
                   endforeach;
               $formulario.='</select>
           </div>

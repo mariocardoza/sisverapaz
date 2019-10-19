@@ -117,6 +117,7 @@ Route::get('proyectos/informacion/{id}','ProyectoController@informacion');
 Route::get('proyectos/solicitudes/{id}','ProyectoController@solicitudes');
 Route::get('proyectos/contratos/{id}','ProyectoController@contratos');
 Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
+Route::get('proyectos/pagos/{id}','ProyectoController@pagos');
 Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
 Route::post('proyectos/subiracta','ProyectoController@subiracta');
@@ -126,6 +127,8 @@ Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
+Route::Resource('jornadas','JornadaController');
+Route::Resource('cargoproyectos','CargoproyectoController');
 
 Route::Resource('indicadores','IndicadoresController');
 Route::get('indicadores/segunproyecto/{id}','IndicadoresController@segunproyecto');

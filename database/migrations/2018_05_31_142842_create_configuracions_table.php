@@ -20,7 +20,7 @@ class CreateConfiguracionsTable extends Migration
             $table->string('fax_alcaldia')->nullable();
             $table->string('email_alcaldia')->nullable();
             $table->string('nit_alcaldia')->nullable();
-            $table->text('escudo_alcaldia')->nullable();
+            $table->text('escudo_alcaldia')->default('escudo.png');
             $table->timestamps();
         });
     }

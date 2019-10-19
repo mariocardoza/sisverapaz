@@ -14,7 +14,7 @@
               <div class="form-group">
     						<div class="col-md-6 col-md-offset-4">
     							<button type="submit" class="btn btn-success">
-    								<span class="glyphicon glyphicon-floppy-disk">Modificar</span>
+    								<span class="glyphicon glyphicon-floppy-disk">Registrar</span>
     							</button>
     						</div>
     					</div>
@@ -36,16 +36,27 @@
       <section>
         <div class="panel panel-default">
           <div class="panel-body">
-            <h1>Logo alcaldia</h1>
-    				<img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
-    				<form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>
-    					{{csrf_field()}}
-    					<div class='form-group'>
-    						<input type="file" class="hidden" name="logo" id="file_1" />
-    						<div class='text-danger'>{{$errors->first('avatar')}}</div>
-    					</div>
-    					<button type='sutmit'  class='btn btn-primary'>Cambiar</button>
+            <div class="row">
+              <div class="col-md-12" style="text-align: center;">
+                <h1>Logo alcaldia</h1>
+                @if($configuraciones!='')
+                <img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                <form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>
+                @else 
+                <img src="{{ asset('img/logos/escudo.png') }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                <form method='post' action="{{ url('configuraciones/logog') }}" enctype='multipart/form-data'>
+                @endif
+    					  {{csrf_field()}}
+    					
+                  <div class='form-group text-center'>
+                    <input type="file" class="hidden" name="logo" id="file_1" />
+                    <div class='text-danger'>{{$errors->first('avatar')}}</div>
+                  </div>
+                  <button type='submit' class='btn btn-primary elsub' style="display: none;">Cambiar</button>
+                
     				</form>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -63,7 +74,7 @@
               <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                   <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-floppy-disk">Modificar</span>
+                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
                   </button>
                 </div>
               </div>
@@ -87,14 +98,14 @@
             @if($configuraciones != null)
               {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ulimites', $configuraciones->id))) }}
             @else
-              {{ Form::open(['action'=> 'ConfiguracionController@limites', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+              {{ Form::open(['action'=> 'ConfiguracionController@limitesproyecto', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
             @endif
             @include('configuraciones.limites')
             @if($configuraciones != null)
               <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                   <button type="submit" class="btn btn-success">
-                    <span class="glyphicon glyphicon-floppy-disk">Guardar</span>
+                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
                   </button>
                 </div>
               </div>

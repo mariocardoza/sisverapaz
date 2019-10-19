@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-	Registro de cuentas
+	&nbsp;
 </h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/cuentas') }}"><i class="fa fa-dashboard"></i>Configuracion básica de la Alcaldía</a></li>
@@ -27,6 +27,10 @@
 @section('scripts')
 <script type="text/javascript">
   $(document).ready(function(e){
+
+    //Guardar o editar alcaldia
+
+
   	$(document).on("click", "#img_file", function (e) {
         $("#file_1").click();
     });
@@ -77,10 +81,12 @@
                   //$("#error_tamanio"+n).hide();
                   //$("#error_formato"+n).show();
                   console.log("error_tipo");
+                  
               }
               else{
                   $("#img_file").attr("src",origen.result);
                   $("#error_formato1").addClass('hidden');
+                  $(".elsub").show();
               }
 
 
