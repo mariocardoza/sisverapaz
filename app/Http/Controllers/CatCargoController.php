@@ -8,6 +8,10 @@ use Validator;
 
 class CatCargoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -70,7 +74,8 @@ class CatCargoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $catcargo = CatCargo::find($id);
+        return array(1,"exitoso",$catcargo);
     }
 
     /**
@@ -82,7 +87,11 @@ class CatCargoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $catcargo = CatCargo::find($id);
+        $catcargo->nombre = $request->nombre;
+
+        $catcargo->save();
+        return array(1,"exitoso",$catcargo);
     }
 
     /**
@@ -94,5 +103,27 @@ class CatCargoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+",$cadena);
+        $id = $datos[0];
+
+        $catcargo = CatCargo::find($id);
+        $catcargo->estado = 2;
+        $catcargo->save();
+        bitacora('Dió de baja una categoría');
+        return redirect('/catcargos')->with('mensaje','Categoría dada de baja');
+    }
+
+    public function alta($id)
+    {
+        $catcargo = CatCargo::find($id);
+        $catcargo->estado;
+        $catcargo->save();
+        Bitacora:bitacora("Dió de alta una categoría");
+
+        return redirect('/catcargos')->with('mensaje', 'Categoría dada de alta');
     }
 }
