@@ -39,7 +39,7 @@
 						@if($catcargo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
 						<a href="javascript:(0)" id="edit" data-id="{{$catcargo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$catcargo->id.",'catcargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja('$catcargo->id','catcargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
@@ -62,7 +62,6 @@
 @endsection
 
 @section('scripts')
-
 <script>
 	$(document).ready(function(e){
 		$(document).on('click','#btnmodalagregar',function(e){
@@ -76,9 +75,10 @@
 
 			console.log(cargo);
 
+			modal_cargando();
 			$.ajax({
-				url: 'catcargos',
-				type: 'post',
+				url: "catcargos",
+				type: "post",
 				data: cargo,
 				success:function(json){
 					if(json[0]==1)
@@ -88,21 +88,65 @@
 					}
 					else{
 						toastr.error('Ocurrió un error');
+						swal.closeModal();
 					}
 				},
 				error:function(error){
 					$.each(error.responseJSON.errors,function(i,v){
 						toastr.error(v);
 					});
+					swal.closeModal();
 				}
 			});
 		});
 
 		$(document).on('click','#edit',function(e){
 			e.preventDefault();
-			$('#modal_editar').modal('show');
-		});
+			var id = $(this).attr("data-id");
+			$.ajax({
+				url:"catcargos/"+id+"/edit",
+				type:"get",
+				data:{},
+				success:function(retorno){
+					if(retorno[0] == 1){
+						$("#modal_editar").modal("show");
+						$("#e_catcargo").val(retorno[2].nombre);
+						$("#elid").val(retorno[2].id);
+					}
+					else{
+						toastr.error("error");
+					}
+				}
+			});
+		});////Modal editar
+
+		$(document).on("click", "#btneditar", function(e){
+			var id = $("#elid").val();
+			var nombre = $("#e_catcargo").val();
+
+			modal_cargando();
+			$.ajax({
+				url:"catcargos/"+id,
+				type:"put",
+				data:{nombre},
+				success:function(retorno){
+					if(retorno[0] == 1){
+						toastr.success("Exitoso");
+						$("#modal_editar").modal("hide");
+						window.location.reload();
+					}
+					else{
+						toastr.error("error");
+						swal.closeModal();
+					}
+				},
+				error:function(){
+					swal.closeModal();
+				}
+			});
+		});///btn editar
+
+		$(document).on();
 	});
 </script>
-
 @endsection

@@ -35,7 +35,7 @@
 				<form id="form_edit">
 					<div class="form_group">
 						<label for="">Categoría</label>
-						<input type="text" name="categoria" id="e_categoria" class="form-control">
+						<input type="text" name="catcargo" id="e_catcargo" class="form-control">
 						<input type="hidden" name="id" id="elid">
 					</div>
 				</form>
