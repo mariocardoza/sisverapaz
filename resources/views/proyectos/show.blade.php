@@ -98,36 +98,19 @@
 		<div class="panel panel-primary" id="div_emple" style="display:none">
 			<div class="panel-heading">Jornadas del proyecto</div>
 			<div class="panel-body" id="jornadas_aqui">
-				<button class="btn btn-primary" id="nueva_jornada">Nuevo</button>
 				<div id="tabla_empleados"></div>
+				<div style="display: none;" id="tabla_planilla"></div>
 			</div>
 			<div class="panel-body" id="jornada_form" style="display: none;">
 				@include('proyectos.show.jornada')
 			</div>
 		</div>
 		<div class="panel panel-primary" id="div_plani" style="display:none;">
-			<div class="panel-heading">Planillas mensuales</div>
+			<div class="panel-heading">Empleados</div>
 			<div class="panel-body">
 				<div id="laplanilla">
-					<button class="btn btn-primary" id="crear_planilla">Nueva</button>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>N°</th>
-								<th>Fecha</th>
-								<th>Acción</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach ($proyecto->datoplanilla as $index => $item)
-								<tr>
-									<td>{{$index+1}}</td>
-									<td>{{$item->fecha}}</td>
-									<td></td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+					<button class="btn btn-primary" id="nuevo_empleado">Registrar empleado</button>
+					<div id="tabla_divempleados"></div>
 				</div>
 				<div id="plani_aqui" style="display: none;"></div>
 			</div>
@@ -437,9 +420,9 @@
 				dataType:'json',
 				success: function(json){
 					if(json[0]==1){
-						$("#tabla_empleados").empty();
-						$("#tabla_empleados").html(json[2]);
-						inicializar_tabla("latabla");
+						$("#tabla_divempleados").empty();
+						$("#tabla_divempleados").html(json[2]);
+						inicializar_tabla("latabla2");
 					}
 				}
 			});

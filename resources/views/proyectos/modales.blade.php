@@ -1,3 +1,13 @@
+@php
+    $lescargos=App\CargoProyecto::where('estado',1)->get();
+    $cargos=[];
+    foreach($lescargos as $i){
+      $cargos[$i->id]=$i->nombre;
+    }
+
+    $empleados=App\Detalleplanilla::empleados();
+@endphp
+
 <div class="modal fade" tabindex="-1" id="modal_indicador" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -39,9 +49,9 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
   
-  <div class="modal fade" tabindex="-1" id="modal_indicador_e" role="dialog" aria-labelledby="gridSystemModalLabel">
+<div class="modal fade" tabindex="-1" id="modal_indicador_e" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -83,7 +93,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_contrato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -122,7 +132,7 @@
           <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
         </div-->
       </div>
-      </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -146,7 +156,8 @@
         </div>
       </div>
       </div>
-    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_pausar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -171,10 +182,10 @@
         </div>
       </div>
       </div>
-    </div>
+</div>
 
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -201,9 +212,9 @@
           </div>
         </div>
         </div>
-      </div>
+</div>
 
-      <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_acta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_acta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -234,4 +245,51 @@
             </div-->
           </div>
           </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_empleado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Registrar empleado</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['class' => '','id' => 'form_guardar_empleado']) }}
+            <input type="hidden" name="proyecto_id" value="{{$proyecto->id}}">
+            <input type="hidden" name="salario" value="0">
+            <input type="hidden" name="numero_acuerdo" value="null">
+            <input type="hidden" name="tipo_pago" value="2">
+            <input type="hidden" name="fecha_inicio" value="{{ date("Y-m-01")}}">
+            <input type="hidden" name="pago" value="2">
+            <div class="form-group">
+              <label for="name" class="control-label">Empleado</label>
+              <div class="">
+                {!!Form::select('empleado_id',
+                    $empleados
+                    ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un empleado','id'=>'select_empleado'])!!}
+              </div>
+          </div>
+
+            <div class="form-group">
+              <label for="name" class="control-label">Cargo</label>
+              <div class="">
+                {!!Form::select('cargoproyecto_id',
+                    $cargos
+                    ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo','required'])!!}
+              </div>
+          </div>
+
+          <center>
+              <button class="btn btn-primary" id="guardar_empleado">Guardar</button>
+              <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
     </div>
+    </div>
+</div>

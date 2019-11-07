@@ -26,10 +26,12 @@
 		<div class="box-body table-responsive">
 			<table class="table table-striped table-bordered table-hover" id="example2">
 				<thead>
-					<th>N°</th>
-					<th>Cargos</th>
-					<th class="text-right">Salario por día</th>
-					<th>Acción</th>
+					<tr>
+                        <th>N°</th>
+                        <th>Cargos</th>
+                        <th class="text-right">Salario por día</th>
+                        <th>Acción</th>
+                    </tr>
 				</thead>
 			<tbody>
 				@foreach($cargos as $key => $cargo)
@@ -70,7 +72,8 @@
 
 		$(document).on("click", "#btnguardar", function(e){
 			e.preventDefault();
-			var datos= $("#form_cargo").serialize();
+            var datos= $("#form_cargo").serialize();
+            modal_cargando();
 			$.ajax({
 				url:"cargoproyectos",
 				type:"post",
@@ -80,17 +83,20 @@
 						toastr.success("Registrado con éxito");
                         $("#modal_registrar").modal("hide");
                         $("#form_cargo").trigger("reset");
-						window.location.reload();
+                        window.location.reload();
+                        swal.closeModal();
 					}
 					else{
-						toastr.error("Falló");
+                        toastr.error("Falló");
+                        swal.closeModal();
 					}
 				},
 				error:function(error){
 					console.log();
 					$.each(error.responseJSON.errors, function( key, value ) {
 					    toastr.error(value);
-			        });
+                    });
+                    swal.closeModal();
 				}
 			});
 		});

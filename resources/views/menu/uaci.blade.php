@@ -98,3 +98,16 @@
         </ul>
     </li>
 
+    <li class="treeview {{ Route::currentRouteName() == 'cargoproyectos.index' ? 'active':null}}">
+        <a href="#">
+            <i class="fa fa-user-circle-o"></i>
+            <span>Cargos</span>
+            <span class="pull-right-container">
+                  <span class="label label-primary pull-right"></span>
+                </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{{ url('cargoproyectos') }}"><i class="fa fa-circle-o"></i> Cargos para los proyectos</a></li>
+        </ul>
+    </li>
+

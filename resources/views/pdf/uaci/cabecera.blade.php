@@ -13,7 +13,7 @@
           
               <div class="text-center " style="color:#155CC2;"> - UACI - </div >
                 <br>
-              <div style="border: 1px solid;" class="text-center">{{$tipo}}</div>
+              <div style="border: 1px solid;" class="text-center">{!! $tipo !!}</div>
   
           </div>
 

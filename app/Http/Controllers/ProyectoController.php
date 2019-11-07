@@ -16,6 +16,7 @@ use App\Categoria;
 use App\ProyectoActa;
 use App\Formapago;
 use App\Solicitudcotizacion;
+use App\ProyectoPlanilla;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
@@ -473,6 +474,57 @@ class ProyectoController extends Controller
     {
       $retorno=\App\Planilla::planilla_proyecto($id);
       return $retorno;
+    }
+
+    public function generar_planilla($idproy,$id)
+    {
+      $retorno=Proyecto::generar_planilla($idproy,$id);
+      return $retorno;
+    }
+
+    public function quitarempleado(Request $request)
+    {
+      try{
+        $pendientes=\App\PeriodoProyecto::pendientes($request->proyecto_id);
+        if(count($pendientes)==0){
+          $d=\App\Detalleplanilla::find($id);
+          $d->delete();
+          return array(1,"exito");
+      }else{
+          return array(-2,"error","El empleado se encuentra registrado para una catorcena pendiente");
+      }
+      }catch(Excpetion $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function guardarplanilla(Request $request)
+    {
+      try{
+        DB::beginTransaction();
+        for($i=0;$i<count($request->dias);$i++){
+          ProyectoPlanilla::create([
+            'id'=>ProyectoPlanilla::retornar_id(),
+            'proyecto_id'=>$request->proyecto_id,
+            'catorcena_id'=>$request->catorcena_id,
+            'numero_dias'=>$request->dias[$i],
+            'salario_dia'=>$request->salario_dia[$i],
+            'empleado_id'=>$request->empleados[$i]
+          ]);
+        }
+        $catorcena=PeriodoProyecto::find($request->catorcena_id);
+        $catorcena->estado=2;
+        $catorcena->save();
+        DB::commit();
+        return array(1,"exito");
+      }catch(Exception $e){
+        DB::rollback();
+        return array(-1,"error",$e->getMessage());
+      }
+      
+
+
+      
     }
 
     public function baja($cadena)
