@@ -50,18 +50,6 @@
     </ul>
 </li>
 
-<li class="treeview {{ Route::currentRouteName() == 'pagocuentas.index' ? 'active':null}}">
-        <a href="#">
-            <i class="fa fa-edit"></i> <span>Pago a cuenta</span>
-            <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-        </a>
-        <ul class="treeview-menu">
-            <li><a href="{{ url('pagocuentas') }}"><i class="fa fa-circle-o"></i> pagos </a></li>
-            
-        </ul>
-    </li>
 
 <li class="treeview {{ Route::currentRouteName() == 'planillaproyectos.index' ? 'active':null}}">
     <a href="#">

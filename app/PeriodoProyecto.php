@@ -42,8 +42,18 @@ class PeriodoProyecto extends Model
         return $periodos;
     }
 
+    public static function calcular_total($id)
+    {
+        $neto=$liquido=$renta=0.0;
+        $catorcena=PeriodoProyecto::find($id);
+        foreach($catorcena->proyectoplanilla as $c){
+            $neto+=$c->numero_dias*$c->salario_dia;
+        }
+        return $neto;
+    }
+
     public function proyectoplanilla()
     {
-        return $this->hasMany('App\ProyectoPlanilla','catorcena_id');
+        return $this->hasMany('App\ProyectoPlanilla','catorcena_id')->orderby('cargo_id');
     }
 }

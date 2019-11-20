@@ -7,9 +7,10 @@ use App\PagoCuenta;
 
 class PagocuentaController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $pagos=PagoCuenta::where('estado',1)->orderby('created_at')->get();
-        return view('pagocuentas.index',compact('pagos'));
+        $catorcena=\App\PeriodoProyecto::find($id);
+        $pagos=PagoCuenta::where('estado',1)->where('catorcena_id',$id)->orderby('created_at')->get();
+        return view('pagocuentas.index',compact('pagos','catorcena'));
     }
 }

@@ -320,24 +320,10 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::find($id);
 
-        Session::forget('fondosbase');
 
-      if(count($proyecto->fondo) >0){
-      //  for($i=0;$i<count($proyecto->fondo);$i++){
-        foreach($proyecto->fondo as $fondo){
-          $fondo = [
-            'existe' => true,
-            'cat_id' => intval($fondo->fondocat->id),
-            'categoria' => str_replace ( " " , "_" , $fondo->fondocat->categoria ),
-            'monto' => floatval($fondo->monto),
-          ];
-          //guarda en una sesion llamada fondosbase
-          Session::push('fondosbase', $fondo);
-        }
-      }
+   
 
-        $organizaciones = Organizacion::all();
-        return view('proyectos.edit',compact('proyecto','organizaciones'));
+        return view('proyectos.edit',compact('proyecto'));
     }
 
     /**
@@ -350,8 +336,7 @@ class ProyectoController extends Controller
 
     public function update(ProyectoRequest $request, $id)
     {
-      $fondos= Session::get('fondos');
-      $fondosbase= Session::get('fondosbase');
+     
       //dd($fondosbase);
       try{
         $proyecto = Proyecto::findorFail($id);
@@ -364,27 +349,7 @@ class ProyectoController extends Controller
         $proyecto->beneficiarios=$request->beneficiarios;
         $proyecto->save();
 
-        //Insertar datos que estan en la sesion para la guardarlos en la base
-        for($i=0; $i< count($fondos);$i++) {
-          if($fondos[$i]['existe']==true){
-            $fondonuevo=new Fondo();
-            $fondonuevo->proyecto_id = $proyecto->id;
-            $fondonuevo->fondocat_id = $fondos[$i]['cat_id'];
-            $fondonuevo->monto = $fondos[$i]['monto'];
-            $fondonuevo->save();
-          }
-        }
-
-        for($i=0; $i<count($fondosbase); $i++){
-          if($fondosbase[$i]['existe']==true){
-            $fondo=Fondo::where('fondocat_id',$fondosbase[$i]['cat_id'])->first();
-            $fondo->monto=$fondosbase[$i]['monto'];
-            $fondo->save();
-          }
-        }
-        //elimina la sesion ya que ya se guardaron
-        Session::forget('fondos');
-        Session::forget('fondosbase');
+      
 
         bitacora('Modificó  Proyecto');
         return redirect('/proyectos')->with('mensaje','Infomacion del proyecto modificada con éxito');
@@ -487,7 +452,7 @@ class ProyectoController extends Controller
       try{
         $pendientes=\App\PeriodoProyecto::pendientes($request->proyecto_id);
         if(count($pendientes)==0){
-          $d=\App\Detalleplanilla::find($id);
+          $d=\App\Detalleplanilla::find($request->id);
           $d->delete();
           return array(1,"exito");
       }else{
@@ -509,10 +474,11 @@ class ProyectoController extends Controller
             'catorcena_id'=>$request->catorcena_id,
             'numero_dias'=>$request->dias[$i],
             'salario_dia'=>$request->salario_dia[$i],
-            'empleado_id'=>$request->empleados[$i]
+            'empleado_id'=>$request->empleados[$i],
+            'cargo_id'=>$request->cargo[$i]
           ]);
         }
-        $catorcena=PeriodoProyecto::find($request->catorcena_id);
+        $catorcena=\App\PeriodoProyecto::find($request->catorcena_id);
         $catorcena->estado=2;
         $catorcena->save();
         DB::commit();

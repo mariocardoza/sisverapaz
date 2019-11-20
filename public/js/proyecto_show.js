@@ -91,6 +91,7 @@ $(document).ready(function(e){
             toastr.success("Empleado eliminado con exito");
             //window.location.reload();
             swal.closeModal();
+            empleados(elid);
           }else{
             if(json[0]==-2){
               toastr.error(json[2]);
@@ -290,7 +291,7 @@ $(document).ready(function(e){
       var proyecto_id=$(this).attr("data-proyecto");
       var catorcena_id=$(this).attr("data-catorcena");
       var datos=$("#form_planilla").serialize();
-     
+      modal_cargando();
       $.ajax({
         url:'../proyectos/guardarplanilla',
         type:'post',
@@ -298,6 +299,12 @@ $(document).ready(function(e){
         success: function(json){
           if(json[0]==1){
             toastr.success("Planilla generada con exito");
+            pagos(elid);
+            swal.closeModal();
+            $("#cancelar_planilla").trigger("click");
+          }else{
+            swal.closeModal();
+            toastr.error("Ocurrió un error");
           }
         }
       });

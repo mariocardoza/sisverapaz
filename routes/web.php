@@ -318,7 +318,7 @@ Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cam
 Route::get('planillaproyectos/desembolso/{id}','PeriodoProyectoController@desembolso');
 Route::Resource('planillaproyectos','PeriodoProyectoController');
 
-Route::get('pagocuentas','PagocuentaController@index')->name("pagocuentas.index");
+Route::get('pagocuentas/{id}','PagocuentaController@index')->name("pagocuentas.index");
 
 Route::Resource('prestamos','PrestamoController');
 Route::Resource('descuentos','DescuentoController');
@@ -376,6 +376,7 @@ Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones
 
 Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupuestounidad');
 Route::get('reportesuaci/planillaproyecto/{id}','ReportesUaciController@planillaproyecto');
+Route::get('reportesuaci/asistenciaproyecto/{id}','ReportesUaciController@asistenciaproyecto');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
