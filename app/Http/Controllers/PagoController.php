@@ -25,8 +25,8 @@ class PagoController extends Controller
 
     public function index(Request $request)
     {
-        $pagos = Pago::all();
-        return view('pagos.index', compact('pagos'));
+        // $pagos = Pago::all();
+        // return view('pagos.index', compact('pagos'));
     }
 
     //public function guardarCuenta(Request $request)
@@ -54,7 +54,7 @@ class PagoController extends Controller
     {
         $tipopagos = Tipopago::where('estado',1);
         // $cuentas = Cuentaproy::all();
-        $contribuyentes = Contribuyente::where('estado',1);
+        $contribuyentes = Contribuyente::where('estado', 1)->get();
         $pagos = Pago::where('estado',1)->get();
         return view('pagos.create',compact('tipopagos','contribuyentes','pagos'));
     }
@@ -80,8 +80,7 @@ class PagoController extends Controller
      */
     public function show($id)
     {
-        $pago = Pago::findorFail($id);
-        return view('pagos.show', compact('pago'));
+        $conn = Contribuyente::find($id);
     }
 
     /**

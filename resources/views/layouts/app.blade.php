@@ -42,11 +42,12 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- Notifications: style can be found in dropdown.less -->
-          @include('layouts.notificaciones.notificacionesUsuario')
+          
           <!-- Tasks: style can be found in dropdown.less -->
           
           <!-- User Account: style can be found in dropdown.less -->
           @if(Auth()->guest())
+            @include('layouts.notificaciones.notificacionesUsuario')
           @else
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

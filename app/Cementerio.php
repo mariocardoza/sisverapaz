@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cementerio extends Model
 {
-    public function positiones()
+    public function posiciones()
     {
         return $this->hasMany("App\CementeriosPosiciones");
     }

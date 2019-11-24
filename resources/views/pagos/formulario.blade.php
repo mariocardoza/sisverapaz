@@ -4,7 +4,7 @@
 		<select name="contribuyente_id" id="contribuyente" class="form-control">
 			<option value="">Seleccione</option>
 			@foreach ($contribuyentes as $item)
-			<option value="{{$contribuyente->id}}">{{$contribuyente->nombre}}</option>
+			<option value="{{$item->id}}">{{$item->nombre}}</option>
 			@endforeach
 		</select>
 		@if ($errors->has('contribuyente_id'))

@@ -225,7 +225,7 @@ class ContribuyenteApiController extends Controller
           'pagoTotal'             => 0.00
         );
   
-        $contribuyentesAll = Contribuyente::select('id')->where('id', 1)->get();
+        $contribuyentesAll = Contribuyente::select('id')->get();
         foreach ($contribuyentesAll as $value) {
             $inmueblesContribuyente = Inmueble
                 ::where('estado', 1)
