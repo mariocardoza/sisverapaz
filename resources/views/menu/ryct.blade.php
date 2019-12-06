@@ -1,11 +1,16 @@
 <li>
   <a href="{{ url('contribuyentes') }}">
-    <i class="fa fa-edit"></i> <span>Contribuyentes</span>
+    <i class="fa fa-address-card"></i> <span>Contribuyentes</span>
   </a>
 </li>
 <li>
   <a href="{{ url('cementerios') }}">
-    <i class="fa fa-edit"></i><span>Cementerios</span>
+    <i class="glyphicon glyphicon-plus-sign"></i><span>Cementerios</span>
+  </a>
+</li>
+<li>
+  <a href="{{ url('pagos') }}">
+    <i class="glyphicon glyphicon-usd"></i><span>Pagos</span>
   </a>
 </li>
 {{-- <li class="treeview">

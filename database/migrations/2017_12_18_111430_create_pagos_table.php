@@ -20,7 +20,7 @@ class CreatePagosTable extends Migration
             $table->double('monto',8,2);
             $table->integer('num_factura');
             $table->foreign('tipopago_id')->references('id')->on('tipopagos');
-            $table->foreign('cuenta_id')->references('id')->on('cuentaproys');
+            $table->foreign('cuenta_id')->references('id')->on('cuentas');
             $table->timestamps();
         });
     }

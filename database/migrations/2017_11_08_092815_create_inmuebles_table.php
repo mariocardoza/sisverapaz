@@ -18,7 +18,8 @@ class CreateInmueblesTable extends Migration
             $table->string('numero_catastral');
             $table->bigInteger('contribuyente_id')->unsigned();
             $table->string('direccion_inmueble');
-            $table->string('medida_inmueble');
+            $table->string('ancho_inmueble');
+            $table->string('largo_inmueble');
             $table->string('numero_escritura');
             $table->integer('metros_acera');
             $table->foreign('contribuyente_id')->references('id')->on('contribuyentes');

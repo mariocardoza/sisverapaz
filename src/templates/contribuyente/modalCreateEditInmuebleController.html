@@ -11,26 +11,26 @@
             <div class="form-group col-xs-6">
               <label for="duitxt"># Catastral </label>
               <input type="text" class="form-control" ng-model="inmueble.numero_catastral" required
-                id="duitxt" placeholder="Digite el Numero Catastral" />
+                id="duitxt" placeholder="Digite el Número Catastral" />
             </div>
 
             <div class="form-group col-xs-3">
-              <label for="nittxt">Ancho Inmueble</label>
+              <label for="nittxt">Ancho Inmueble (mts)</label>
               <input type="number" class="form-control" ng-model="inmueble.ancho_inmueble" required
                 id="nittxt" placeholder="Digite la ancho del inmueble" step="any" />
             </div>
 
             <div class="form-group col-xs-3">
-              <label for="nittxt">Lago Inmueble</label>
+              <label for="nittxt">Largo Inmueble (mts)</label>
               <input type="number" class="form-control" ng-model="inmueble.largo_inmueble" required
                 id="nittxt" placeholder="Digite la largo del inmueble" step="any" />
             </div>
 
 
             <div class="form-group col-xs-6">
-                <label for="teltxt">Numero de escritura</label>
+                <label for="teltxt"># escritura</label>
                 <input type="text" class="form-control" ng-model="inmueble.numero_escritura" required
-                  id="teltxt" placeholder="Digite el numero de la escritura" />
+                  id="teltxt" placeholder="Digite el Número de la escritura" />
             </div>
             <div class="form-group col-xs-6">
                 <label for="teltxt">Metros de acera</label>
@@ -38,7 +38,7 @@
                   id="teltxt" placeholder="Digite la medida de la acera (mts)" />
             </div>
             <div class="col-xs-12" ng-if='inmueble.direccion_inmueble'>
-              <h4>Direccion: </h4>
+              <h4>Dirección: </h4>
               <h5>(( inmueble.direccion_inmueble ))</h5>
             </div>
         </div>
