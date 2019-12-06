@@ -20,6 +20,7 @@ class CreateProyectoPlanillasTable extends Migration
             $table->string('cargo_id');
             $table->bigInteger('empleado_id')->unsigned();
             $table->integer('numero_dias')->unsigned();
+            $table->integer('estado')->default(1);
             $table->double('salario_dia',8,2)->unsigned();
             $table->foreign('proyecto_id')->references('id')->on('proyectos');
             $table->foreign('catorcena_id')->references('id')->on('periodo_proyectos');

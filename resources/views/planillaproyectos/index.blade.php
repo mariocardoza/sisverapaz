@@ -37,7 +37,9 @@
                     <td>
                         @if($c->estado==3)
                             <button class="btn btn-primary btn-sm" id="desembolso" data-id="{{$c->id}}" title="Efectuar el desembolso"><i class="fa fa-money"></i></button>
+                            <a href="{{url('reportesuaci/planillaproyecto/'.$c->id)}}" target="_blank" class="btn btn-success btn-sm"><i class="fa fa-print"></i></a>
                         @else
+                            <a href="{{url('pagocuentas/'.$c->id)}}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
                         @endif
                     </td>
                   </tr>
@@ -58,18 +60,26 @@ $(document).ready(function(e){
     //desembolso
     $(document).on("click","#desembolso",function(e){
         var id=$(this).attr("data-id");
+        modal_cargando();
         $.ajax({
             url:'planillaproyectos/desembolso/'+id,
             type:'GET',
             success: function(json){
                 if(json[0]==1){
+                  swal.closeModal();
                     toastr.success("Desembolso realizado");
+                    location.reload();
+                }else if(json[0]==-2){
+                  toastr.info(json[2]);
+                  swal.closeModal();
+                  
                 }else{
-                    toastr.error("Ocurrió un error");
+                  toastr.error("Ocurrió un error");
+                  swal.closeModal();
                 }
             },
             error: function(error){
-                
+                swal.closeModal();
             }
         });
     });

@@ -31,6 +31,11 @@ class Proyecto extends Model
 
     }
 
+    public static function modal_editar($id)
+    {
+      
+    }
+
     public static function informacion($id)
     {
       $informacion="";
@@ -354,38 +359,38 @@ class Proyecto extends Model
   
       $html="";
   
-      $html.='<table class="table table-striped table-bordered" id="latabla">
-      <thead>
-        <th width="1%">N°</th>
-        <th width="15%">Código</th>
-        <th width="20%">Nombre Proyecto</th>
-        <th width="4%">Monto</th>
-        <th width="25%">Dirección</th>
-        <th width="10%">Inicio</th>
-        <th width="10%">Fin</th>
-        <th width="5%">Estado</th>
-        <th width="10%">Acción</th>
-      </thead>
-      <tbody>';
-  
-      foreach($proyectos as $key => $proyecto):
-        $html.='<tr>
-        <td>'. ($key+1).'</td>
-        <td>'. $proyecto->codigo_proyecto .'</td>
-        <td>'. $proyecto->nombre .'</td>
-        <td>$'. number_format($proyecto->monto,2) .'</td>
-        <td>'. $proyecto->direccion .'</td>
-        <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
-        <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
-        <td>
-          <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
-        </td>
-        <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-        </tr>';
-      endforeach;
-      $html.='</tbody></table>';
-  
-      return array(1,$html);
+        $html.='<table class="table table-striped table-bordered" id="latabla">
+        <thead>
+          <th width="1%">N°</th>
+          <th width="15%">Código</th>
+          <th width="20%">Nombre Proyecto</th>
+          <th width="4%">Monto</th>
+          <th width="25%">Dirección</th>
+          <th width="10%">Inicio</th>
+          <th width="10%">Fin</th>
+          <th width="5%">Estado</th>
+          <th width="10%">Acción</th>
+        </thead>
+        <tbody>';
+    
+        foreach($proyectos as $key => $proyecto):
+          $html.='<tr>
+          <td>'. ($key+1).'</td>
+          <td>'. $proyecto->codigo_proyecto .'</td>
+          <td>'. $proyecto->nombre .'</td>
+          <td>$'. number_format($proyecto->monto,2) .'</td>
+          <td>'. $proyecto->direccion .'</td>
+          <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
+          <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
+          <td>
+            <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+          </td>
+          <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+          </tr>';
+        endforeach;
+        $html.='</tbody></table>';
+    
+        return array(1,$html);
     }
 
     public static function poranio($anio)
@@ -460,8 +465,13 @@ class Proyecto extends Model
     public static function empleados($id)
     {
       try{
-        $proyecto=Proyecto::find($id);
         $html="";
+        $proyecto=Proyecto::find($id);
+        $html.='<button class="btn btn-primary" id="nuevo_empleado">Registrar empleado <i class="fa fa-save"></i></button> | ';
+        if($proyecto->periodoactivo->count()==1):
+          $html.='<a href="../reportesuaci/asistenciaproyecto/'.$proyecto->id.'" target="_blank" class="btn btn-success" title="Imprimir asistencia">Imprimir asistencia <i class="fa fa-print"></i></a>';
+        endif;
+        
         $html.='<table class="table" id="latabla2">
         <thead>
           <tr>
@@ -493,7 +503,7 @@ class Proyecto extends Model
       try{
         $proyecto=Proyecto::find($id);
         $html="";
-        $html.='<button class="btn btn-primary" id="nueva_jornada">Nuevo</button>
+        $html.='<button class="btn btn-primary" id="nueva_jornada">Nueva catorcena <i class="fa fa-save"></i></button>
         <table class="table" id="latabla">
         <thead>
           <tr>
@@ -567,6 +577,7 @@ class Proyecto extends Model
             <input type="number" data-saldia="'.$d->cargoproyecto->salario_dia.'" name="dias[]" class="form-control losdias" value="14">
             <input type="hidden" name="empleados[]" value="'.$d->empleado->id.'">
             <input type="hidden" name="salario_dia[]" value="'.$d->cargoproyecto->salario_dia.'">
+            <input type="hidden" name="cargo[]" value="'.$d->cargoproyecto_id.'">
             </td>
             <td>$'.number_format(($d->cargoproyecto->salario_dia * 14),2).'</td>
             <td>$'.number_format($renta,2).'</td>
@@ -661,5 +672,10 @@ class Proyecto extends Model
     public function periodoproyecto()
     {
       return $this->hasMany('App\PeriodoProyecto')->orderby('created_at','DESC');
+    }
+
+    public function periodoactivo()
+    {
+      return $this->hasMany('App\PeriodoProyecto')->where('estado',1);
     }
 }

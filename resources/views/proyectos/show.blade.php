@@ -109,7 +109,7 @@
 			<div class="panel-heading">Empleados</div>
 			<div class="panel-body">
 				<div id="laplanilla">
-					<button class="btn btn-primary" id="nuevo_empleado">Registrar empleado</button>
+					
 					<div id="tabla_divempleados"></div>
 				</div>
 				<div id="plani_aqui" style="display: none;"></div>

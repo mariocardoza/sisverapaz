@@ -15,17 +15,7 @@ $(document).ready(function(e){
   });
 
   $("#limpiar").on("click", function(e){
-    var ruta = '../limpiarsesion';
-    $.ajax({
-        url: ruta,
-        headers: {'X-CSRF-TOKEN':token},
-        type:'get',
-        dataType:'json',
-        data: {},
-       success : function(msj){
-            console.log(msj);
-        }
-      });
+    window.history.back();
   });
 
   $('#btnAgregar').on("click", function(e){

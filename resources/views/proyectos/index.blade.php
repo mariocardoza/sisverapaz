@@ -20,7 +20,7 @@
                 <div class="col-md-10">
                   <div class="btn-group">
                     <a href="{{ url('/proyectos/create') }}" class="btn btn-success">Registrar</a>
-                    <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="1">Todos</a>
+                    <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="1">Actuales</a>
                     <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="2">Rechazados</a>
                     <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="9">Finalizados</a>
                   </div>
