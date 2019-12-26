@@ -27,6 +27,7 @@
 					<th>Nombre de catálogo</th>
 					<th>Unidad de medida</th>
 					<th>Categoría</th>
+					<th>Tipo</th>
 					<th>Acción</th>
 					<?php $contador = 0 ?>
 				</thead>
@@ -37,6 +38,13 @@
 					<td>{{ $material->nombre }}</td>
 					<td>{{ $material->unidadmedida->nombre_medida }}</td>
 					<td>{{ $material->categoria->nombre_categoria }}</td>
+					<td>
+						@if($material->servicio==0)
+						No es servicio
+						@else
+						Es servicio
+						@endif
+					</td>
 					<td>
 						@if($material->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}

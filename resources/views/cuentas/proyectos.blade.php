@@ -129,11 +129,12 @@
         var elfondo=$("#select_fondo").val();
         var lacuenta=$("#select_fondo option:selected").text();
         var idcuenta=$("#select_fondo option:selected").attr("data-cuenta");
+        var acuerdo=$("#n_acuerdo").val();
         var eltope=parseFloat($("#select_fondo option:selected").attr("data-tope")) || 0;
         var eldisponible=parseFloat($("#select_fondo option:selected").attr("data-disponible")) || 0;
         var monto_cuenta=parseFloat($("#select_fondo option:selected").attr("data-montocuenta")) || 0;
         var abono=parseFloat($("#elmonto_abonar").val()) || 0;
-        if(elfondo!=''){
+        if(elfondo!='' && acuerdo != ''){
             if(abono!=0){
                 if(abono <= monto_cuenta){
                     if(abono <= eltope)
@@ -145,7 +146,7 @@
                                 url:'abonarproyecto',
                                 type:'POST',
                                 dataType:'json',
-                                data:{cuentaproy_id:id,accion:'Se abono de la cuenta '+lacuenta+'',tipo:1,monto:abono,elfondo,idcuenta},
+                                data:{cuentaproy_id:id,accion:'Se abono de la cuenta '+lacuenta+'',tipo:1,monto:abono,elfondo,idcuenta,acuerdo},
                                 success: function(json){
                                     if(json[0]==1){
                                         toastr.success("Abono realizado con éxito");
@@ -172,7 +173,7 @@
                 toastr.error("Digite el monto a abonar");
             }
         }else{
-            toastr.error("Seleccione una cuenta");
+            toastr.error("Seleccione una cuenta y digite el número de acuerdo");
         }
         
         

@@ -44,7 +44,8 @@ class MaterialesController extends Controller
                 'id'=>date('Yidisus'),
                 'nombre'=>$request->nombre,
                 'categoria_id'=>$request->categoria_id,
-                'unidad_id'=>$request->unidad_id
+                'unidad_id'=>$request->unidad_id,
+                'servicio'=>$request->servicio
             ]);
             return array(1,"exito");
         }catch(Exception $e){

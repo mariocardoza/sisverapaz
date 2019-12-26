@@ -212,7 +212,8 @@ class CuentaController extends Controller
                 'cuentaproy_id'=>$request->cuentaproy_id,
                 'accion'=>$request->accion,
                 'tipo'=>$request->tipo,
-                'monto'=>$request->monto
+                'monto'=>$request->monto,
+                'acuerdo'=>$request->acuerdo,
             ]);
             
             $fondo=Fondo::find($request->elfondo);

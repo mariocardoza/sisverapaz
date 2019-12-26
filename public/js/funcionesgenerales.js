@@ -151,7 +151,17 @@
                     dateFormat: 'dd-mm-yy',
                     minDate: start,
        				     format: 'dd-mm-yyyy'
-       		         });
+                    });
+                    
+                    $('.fechapago').datepicker({
+                      selectOtherMonths: true,
+                      changeMonth: true,
+                      changeYear: true,
+                      dateFormat: 'dd-mm-yy',
+                      maxDate: start,
+                      format: 'dd-mm-yyyy'
+                      });
+  
 
     /// establecer un periodo de tiempo
                  $("#fecha_inicio").datepicker({
