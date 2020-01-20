@@ -143,7 +143,7 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
               contribuyente: people.id
             }, $scope.inmueble.id).then(j => {
               if(j.response){
-                toastr.success('Hemos realizado con exito la peticion.', 'Exito');
+                toastr.success('Hemos realizado con éxito la peticion.', 'Éxito');
                 $uibModalInstance.close({
                   obj: j.inmueble,
                   response : j.response,

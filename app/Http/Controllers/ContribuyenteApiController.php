@@ -239,22 +239,22 @@ class ContribuyenteApiController extends Controller
                 $arrayFacturaItems = array();
                 if(@count($value->tipoServicio) > 0){
                   $facturaArray['mueble_id'] = $value['id'];
-                  $factura = Factura::create($facturaArray);
+                  
                   foreach ($value->tipoServicio as $item) {
                     $precio = ($item['isObligatorio'] == 1) ? 
                         $precio = floatval($item['costo']) : 
                         floatval($value['metros_acera']) * floatval($item['costo']);
   
-                    array_push($arrayFacturaItems, new \App\FacturasItems([
-                      "tipoinmueble_id" => $item['id'],
-                      "precio_servicio" => $precio
-                    ]));
+                      /* array_push($arrayFacturaItems, new \App\FacturasItems([
+                        "tipoinmueble_id" => $item['id'],
+                        "precio_servicio" => $precio
+                      ])); */
                     $total += $precio;
                   }
-                  $factura->update([
-                    'pagoTotal' => $total
-                  ]);
-                  $factura->items()->saveMany($arrayFacturaItems);
+                  $facturaArray["pagoTotal"]=$total;
+                  $factura = Factura::create($facturaArray);
+                  
+                  // $factura->items()->saveMany($arrayFacturaItems);
                 }
             }
         }
