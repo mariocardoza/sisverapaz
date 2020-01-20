@@ -310,6 +310,9 @@ Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
 Route::Resource('afps','AfpController');
 
+Route::get('servicios/pagos','ServiciosController@pagos');
+Route::post('servicios/pagar','ServiciosController@pagar_servicio');
+Route::Resource('servicios','ServiciosController');
 
 Route::Resource('retenciones','RetencionController');
 

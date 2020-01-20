@@ -68,7 +68,17 @@ class Materiales extends Model
                                         $modal.='<option value="'.$medida->id.'">'.$medida->nombre_medida.'</opcion>';
                                     endif;
                                 endforeach;
-                                $modal.='</select></div>       
+                                $modal.='</select>
+                                </div>       
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-4">¿Es un servicio?</label>
+                                <div class="col-md-6">
+                                    <select class="chosen-select-width" name="servicio">
+                                        <option value="0">No</option>
+                                        <option value="1">Si</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -36,7 +36,7 @@
                     <td>
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                                 <a href="{{ url('tipopagos/'.$tipopago->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('/tipopagos/'.$tipopago->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                                <a href="{{ url('tipopagos/'.$tipopago->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
                                 <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$tipopago->id.",'tipopagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
                                 {{ Form::close()}}
 
