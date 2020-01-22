@@ -252,6 +252,7 @@ Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
+Route::get('requisiciones/modalagregar','RequisicionController@modal_agregarproducto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
