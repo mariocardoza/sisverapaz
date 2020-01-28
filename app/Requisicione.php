@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class Requisicione extends Model
 {
-  protected $fillable = ['id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id','fecha_actividad','anio'];
+  protected $fillable = ['conpresupuesto','id','codigo_requisicion','actividad','user_id','observaciones','fondocat_id','unidad_id','fecha_actividad','anio'];
   protected $primaryKey = "id";
   protected $dates= ['fecha_actividad','fecha_baja','fecha_acta'];
   public $incrementing = false;
@@ -142,7 +142,7 @@ class Requisicione extends Model
                   <input type="hidden" name="materiales[]" value="'.$material->id.'"/>
                 </td>
                 <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
-                <td><button type="button" data-unidad="'.$material->elid.'" data-material="'.$material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
+                <td><button type="button" data-unidad="'.$material->elid.'" data-material="'.$material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
               </tr>';
     }
     $tabla.='      
@@ -190,7 +190,7 @@ class Requisicione extends Model
                 </td>
                 <td>'.$material->disponibles->count().'</td>
                 <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
-                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
+                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
               </tr>';
     }
   endif;
@@ -313,7 +313,7 @@ class Requisicione extends Model
         <span style="font-weight: normal;">Motivo por el que se rechazó:</span>
       </div>
       <div class="col-xs-12">
-        <span><b>'.$requisicion->motivo_baja.'</b></span>
+        <span><b>'.$requisicion->motivo_baja.' </b></span>
       </div>
       <div class="clearfix"></div>
       <hr style="margin-top: 3px; margin-bottom: 3px;">
@@ -334,7 +334,11 @@ class Requisicione extends Model
       if($requisicion->requisiciondetalle->count() > 0):
 
           if($requisicion->estado==1):
-          $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva">Agregar Necesidad</a></center><br>';
+            if($requisicion->conpresupuesto==1):
+              $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva">Agregar Necesidad</a></center><br>';
+            else:
+              $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva_sin">Agregar Necesidad</a></center><br>';
+            endif;
           else:
           $tabla.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
           endif;
@@ -370,11 +374,20 @@ class Requisicione extends Model
                     <span>La requisicion fue rechazada</span><br>
                   </center>';
                 else:
-                  $tabla.='<center>
+                  if($requisicion->conpresupuesto==1):
+                    $tabla.='<center>
                     <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                     <span>Agregue requerimientos de materiales</span><br>
                     <button class="btn btn-primary" id="agregar_nueva">Agregar</button>
                   </center>';
+                  else:
+                    $tabla.='<center>
+                    <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
+                    <span>Agregue requerimientos de materiales</span><br>
+                    <button class="btn btn-primary" id="agregar_nueva_sin">Agregar</button>
+                  </center>';
+                  endif;
+                  
                 endif;
             endif;
           $tabla.='</div>';
@@ -538,5 +551,52 @@ class Requisicione extends Model
     return array(-1,$html);
     }
   
+  }
+
+  public static function modal_agregarproducto($data)
+  {
+    $material=Materiales::find($data['material']);
+    $disponible=$data['disponible'];
+    $modal="";
+    $modal.='<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_material" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Registrar la material</h4>
+        </div>
+        <div class="modal-body">
+          <form id="form_material">
+            <div class="form-group">
+              <label for="" class="control-label">Material a agregar: '.$material->nombre.'</label>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Cantidad disponible</label>
+              <div>
+                <input class="form-control" type="text" value="'.$disponible.'" name="disponible" readonly>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="control-label">Digite la cantidad a agregar</label>
+              <div>
+                <input type="text" class="form-control" name="cantidad" >
+                <input type="hidden" class="form-control" name="requisicion_id" value="'.$data['elid'].'">
+                <input type="hidden" class="form-control" name="unidad_medida" value="'.$material->unidad_id.'">
+                <input type="hidden" class="form-control" name="materiale_id" value="'.$material->id.'">
+              </div>
+            </div>
+                      
+          </form>
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="registrar_mate" class="btn btn-success">Agregar</button></center>
+        </div>
+      </div>
+      </div>
+    </div>';
+    return array(1,"exito",$modal);
   }
 }

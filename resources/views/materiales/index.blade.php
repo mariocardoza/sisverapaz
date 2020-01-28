@@ -2,11 +2,11 @@
 
 @section('migasdepan')
 <h1>
-	Materiales
+	Materiales o Bienes
 </h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/catalogos') }}"><i class="fa fa-dashboard"></i>Materiales</a></li>
-	<li class="active">Listado de materiales</li>
+	<li><a href="{{ url('/home') }}"><i class="fa fa-home"></i>Inicio</a></li>
+	<li class="active">Listado de materiales o bienes</li>
 </ol>
 @endsection
 

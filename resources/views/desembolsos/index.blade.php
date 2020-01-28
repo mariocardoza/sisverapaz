@@ -26,7 +26,9 @@
                   <th>N°</th>
                   <th>Cuenta</th>
                   <th>Detalle</th>
-                  <th>Monto</th>
+                  <th>Monto a cancelar</th>
+                  <th>Impuesto/renta 10%</th>
+                  <th>Desembolso total</th>
                   <th>Estado</th>
                   <th>Accion</th>
                 </thead>
@@ -42,6 +44,8 @@
                     
                     <td>{{ $desembolso->detalle }}</td>
                     <td class="text-right">${{ number_format($desembolso->monto,2) }}</td>
+                    <td class="text-right">${{ number_format($desembolso->renta,2) }}</td>
+                    <td class="text-right">${{ number_format($desembolso->renta+$desembolso->monto,2) }}</td>
                     <td class="">{!! \App\Desembolso::estado($desembolso->id) !!}</td>
                     <td>
                         @if($desembolso->estado == 1) 

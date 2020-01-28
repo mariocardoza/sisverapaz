@@ -15,9 +15,26 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a id="crear" href="javascript:void(0)" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <h3 class="box-title"></h3>
+              <div class="row">
+                <div class="col-md-10">
+                  <a id="crear" href="javascript:void(0)" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 </div>
+                <div class="col-md-2">
+                  <select name="" id="select_anio" class="chosen-select-width pull-right">
+                    <option value="0">Seleccione el año</option>
+                    @foreach ($anios as $anio)
+                      @if($elanio==$anio->anio)
+                      <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @else 
+                      <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @endif
+                    @endforeach
+                  </select>
+                  <button class="btn btn-primary" id="btn_anio">Aceptar</button>
+                </div>    
+              </div>
+            </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
@@ -33,7 +50,7 @@
                   <tr>
                     <td>{{ $index+1 }}</td>
                     <td>{{ $paac->anio }}</td>
-                    <td>{{ $paac->descripcion }}</td>
+                    <td>{{ $paac->paaccategoria->nombre }}</td>
                     <td>$ {{ number_format($paac->total,2) }}</td>
                     <td>
                       <div class="btn-group">
@@ -85,6 +102,14 @@
 
         }
       })
+    });
+
+    //selecciones paacs segun el año
+    $(document).on("click","#btn_anio",function(e){
+      var anio=$("#select_anio").val();
+      if(anio > 0){
+        location.href="paacs?anio="+anio;
+      }
     });
 
     $(document).on("click","#btn_eliminar",function(e){

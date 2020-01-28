@@ -13,7 +13,7 @@ class DesembolsoController extends Controller
      */
     public function index()
     {
-        $desembolsos=Desembolso::all();
+        $desembolsos=Desembolso::orderBy('created_at','desc')->get();
         return view('desembolsos.index',compact('desembolsos'));
     }
 

@@ -183,6 +183,7 @@ class OrdencompraController extends Controller
               $desembolso=Desembolso::create([
                 'id'=>date("Yidisus"),
                 'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                'renta'=>\App\Detallecotizacion::renta_cotizacion($cotizacion->id),
                 'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para proyecto: '.$cotizacion->solicitudcotizacion->proyecto->nombre,
                 'cuentaproy_id'=>$cotizacion->solicitudcotizacion->proyecto->cuentaproy->id
               ]);
@@ -198,6 +199,7 @@ class OrdencompraController extends Controller
               $desembolso=Desembolso::create([
                 'id'=>date("Yidisus"),
                 'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                'renta'=>\App\Detallecotizacion::renta_cotizacion($cotizacion->id),
                 'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para actividad: '.$cotizacion->solicitudcotizacion->requisicion->actividad,
                 'cuenta_id'=>$cotizacion->solicitudcotizacion->requisicion->cuenta->id
               ]);

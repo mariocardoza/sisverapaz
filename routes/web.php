@@ -30,6 +30,9 @@ Route::get('pdf',function(){
 //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
   return $pdf->stream('reporte.pdf');
 });
+//rutas para autorizaciones del administrador
+Route::Post('autorizacion', 'Homecontroller@autorizacion');
+
 
 ///////////  RUTAS DE RESPALDO Y RESTAURAR BASE DE DATOS
 Route::get('backups','BackupController@index')->name('backups.index');
@@ -216,6 +219,10 @@ route::post('paacs/guardar','PaacController@guardar');
 Route::get('paacs/exportar/{id}','PaacController@exportar');
 Route::get('paacs/show2/{id}','PaacController@show2');
 Route::Resource('paacs','PaacController');
+Route::post('paaccategorias/baja/{id}','PaacCategoriaController@baja')->name('paaccategorias.baja');
+Route::post('paaccategorias/alta/{id}','PaacCategoriaController@alta')->name('paaccategorias.alta');
+
+Route::Resource('paaccategorias','PaacCategoriaController');
 Route::Resource('paacdetalles','PaacdetalleController');
 
 Route::Resource('detallecotizaciones','DetallecotizacionController');
@@ -252,7 +259,7 @@ Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
-Route::get('requisiciones/modalagregar','RequisicionController@modal_agregarproducto');
+Route::post('requisiciones/modalagregar','RequisicionController@modal_agregarproducto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');

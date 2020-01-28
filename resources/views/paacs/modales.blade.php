@@ -3,6 +3,11 @@
 use Carbon\Carbon;
 $date = Carbon::now();
 $date = $date->format('Y');
+$paacsitos=[];
+$lospaacs=App\PaacCategoria::where('estado',1)->get();
+foreach($lospaacs as $p){
+  $paacsitos[$p->id]=$p->nombre;
+}
 ?>
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_crear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-sm" role="document">
@@ -18,11 +23,7 @@ $date = $date->format('Y');
               <div class="form-group">
                 <label for="" class="control-label">Descripcion plan anual</label>
                   <div class="">
-                      <select name="descripcion" id="" class="chosen-select-width">
-                          <option value="Fodes 20% Gasto Corriente">Fodes 20% Gasto Corriente</option>
-                          <option value="Fodes 80% Gasto de Capital">Fodes 80% Gasto de Capital</option>
-                          <option value="Financiación propia">Financiación propia</option>
-                      </select>
+                    {!! Form::select('paaccategoria_id',$paacsitos,null,['class'=>'chosen-select-width']) !!}
                   </div>
               </div>
               <div class="form-group">

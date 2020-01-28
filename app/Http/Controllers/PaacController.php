@@ -21,10 +21,19 @@ class PaacController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      $paacs = Paac::all();
-      return view('paacs.index',compact('paacs'));
+      $anios=DB::table('paacs')->distinct()->get(['anio']);
+      $elanio=$request->get('anio');
+      if($elanio != ""){
+        $paacs = Paac::where('anio',$elanio)->get();
+        return view('paacs.index',compact('paacs','anios','elanio'));
+      }else{
+        $elanio=0;
+        $elanio=date('Y');
+        $paacs = Paac::where('anio',$elanio)->get();
+        return view('paacs.index',compact('paacs','anios','elanio'));
+      }
     }
 
     /**
@@ -44,7 +53,7 @@ class PaacController extends Controller
           $paac=Paac::create([
             'id'=> date('Yidisus'),
             'anio'=>$request->anio,
-            'descripcion'=>$request->descripcion,
+            'paaccategoria_id'=>$request->paaccategoria_id,
             'total'=>$request->total
           ]);
           return array(1,"exito",$paac);

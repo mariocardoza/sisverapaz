@@ -81,6 +81,7 @@
                                 @php
                                   $correlativo=0;
                                   $total=0.0;
+                                  $renta=0.0;
                                 @endphp
                               </tr>
                             </thead>
@@ -90,6 +91,9 @@
                                   @php
                                     $correlativo++;
                                     $total=$total+$detalle->precio_unitario*$detalle->cantidad;
+                                    if($detalle->material->servicio==1){
+                                      $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*0.1);
+                                    }
                                   @endphp
                                   <td><center>{{$correlativo}}</center></td>
   
@@ -112,8 +116,7 @@
                                 <td colspan="5"> <b>SUB TOTAL</b></td>
                                 <th align="left">${{number_format($total,2)}}</th>
                               </tr>
-                              <?php $renta=0.0;
-                              $renta=$total*0.1;
+                              <?php //$renta=0.0;
                                ?>
                               <tr>
                                 <td colspan="5"> <b>(-) RETENCIÓN RENTA 10% </b></td>

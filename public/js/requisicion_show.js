@@ -508,7 +508,7 @@ $(document).ready(function(e){
       var fecha_limite = $("#fecha_limite").val();
       var tiempo_entrega = $("#tiempo_entrega").val();
       var requi=new Array();
-      var chec=$(document).find(".lositems");
+      var chec=$(document).find(".lositemss");
       $.each(chec,function(i,v){
         if($(v).is(":checked")){
           requi.push({
@@ -655,18 +655,25 @@ $(document).ready(function(e){
       });
       });
 
-      $(document).on("click","#esteagrega", function(e){
-        
+      $(document).on("click",".esteagrega", function(e){
         var material=$(this).attr("data-material");
-        var unidad=$(this).attr("data-unidad");
         var disponible=$(this).attr("data-disponible");
-        $("#canti_dis").val(disponible);
-        var id=$(".elid").val();
-        $("#id_mat").val(material);
-        $("#requi_id").val(elid);
-        $("#id_uni").val(unidad);
-        $("#modal_detalle").modal("hide");
-        $("#modal_registrar_material").modal("show");
+        $.ajax({
+          url:'../requisiciones/modalagregar',
+          type:'POST',
+          dataType:'json',
+          data:{material,disponible,elid},
+          success: function(json){
+            if(json[0]==1){
+              $("#modal_aqui").empty();
+              $("#modal_aqui").html(json[2]);
+              $("#modal_detalle").modal("hide");
+              $("#modal_registrar_material").modal("show");
+            }
+          }
+        });
+
+       
 
         /*if(numero == 0 || isNaN(numero)){
           swal('Aviso','Digite una cantidad');
@@ -707,11 +714,7 @@ $(document).ready(function(e){
       $(document).on("click","#registrar_mate",function(e){
         var valid=$("#form_material").valid();
         if(valid){
-          var cantidad=parseInt($("#estecanti").val());
-          var disponible=parseInt($("#canti_dis").val());
-          if(cantidad>disponible){
-            swal('aviso','La cantidad supera a lo disponible presupuestado','warning');
-          }else{
+          
             var datos=$("#form_material").serialize();
             modal_cargando();
             $.ajax({
@@ -734,6 +737,9 @@ $(document).ready(function(e){
                   //$("#tabla_requi").load(" #tabla_requi");
                   inicializar_tabla("tabla_requi");
                   //window.location.reload();
+                }else if(json[0]==2){
+                  toastr.warning(json[2]);
+                  swal.closeModal();
                 }else{
                   swal.closeModal();
                   toastr.error("Ocurrió un error");
@@ -747,7 +753,6 @@ $(document).ready(function(e){
                 });
               }
             });
-          }
         }
       });
 

@@ -7,6 +7,81 @@
             }
         });
         var eltoken = $('meta[name="csrf-token"]').attr('content');
+
+        ////abrir el formulario de autoriacion
+        $(document).on("click","#form_autorizacion", function(e){
+          e.preventDefault();
+           $("#el_username").val("");
+           $("#el_password").val("");
+          $("#modal_autizacion").modal("show");
+        });
+
+        //autorizar para requisiciones 
+        $(document).on("click","#autorizacion_requi", function(e){
+          swal({
+            title: 'Buscando en la base de datos!',
+            text: 'Este diálogo se cerrará al completar la operación.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            onOpen: function () {
+              swal.showLoading()
+            }
+          });
+          e.preventDefault();
+          var username = $("#el_username").val();
+          var password = $("#el_password").val();
+          $.ajax({
+            url:'autorizacion',
+            type:'post',
+            dataType:'json',
+            data:{username, password},
+            success: function(json){
+              if(json[0]==1){
+                
+                if(json[2]){
+                  toastr.success("Usuario correcto");
+                  $("#modal_autizacion").modal("hide");
+                  $("#modal_requi").modal("show");
+                  $("#form_requi").trigger("reset");
+                  swal.closeModal();
+                }else{
+                  toastr.info("El Usuario no es administrador");
+                  swal.closeModal();
+                }
+                swal.closeModal();
+              }else{
+                toastr.error("El nombre de usuario o la contraseña son erróneos");
+                swal.closeModal();
+              }
+            },
+            error: function(error){
+              console.log(error);
+              $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+              });
+            }
+          });
+        });
+
+    //guardar requisicion sin presupuesto
+    $(document).on("click","#guardar_req",function(e){
+      e.preventDefault();
+      var datos=$("#form_requi").serialize();
+      $.ajax({
+        url:'requisiciones',
+        type:'post',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+
+        },
+        error: function(error){
+
+        }
+      })
+    });
+
   jQuery.extend(jQuery.validator.messages, {
       required: "Este campo es obligatorio.",
       remote: "Por favor, rellena este campo.",
@@ -161,6 +236,14 @@
                       maxDate: start,
                       format: 'dd-mm-yyyy'
                       });
+
+                      $('.fechita').datepicker({
+                        selectOtherMonths: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'dd-mm-yy',
+                        format: 'dd-mm-yyyy'
+                        });
   
 
     /// establecer un periodo de tiempo

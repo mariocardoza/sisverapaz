@@ -1,5 +1,5 @@
 @extends('layouts.app') @section('migasdepan')
-<h3>Plan Anual: {{$paac->descripcion}}</h3>
+<h3>Plan Anual: {{$paac->paaccategoria->nombre}}</h3>
 <ol class="breadcrumb">
   <li>
     <a href="{{ url('/home') }}"
@@ -52,7 +52,7 @@
 @endsection @section('scripts')
 <script>
   var idpaac = "<?php echo $paac->id ?>";
-  var eltitulo = "<?php echo $paac->descripcion ?>";
+  var eltitulo = "<?php echo $paac->paaccategoria->nombre ?>";
   var anioplan = "<?php echo $paac->anio ?>";
 </script>
 {!! Html::script('js/paac.js?cod='.date('Yidisus')) !!} @endsection

@@ -155,6 +155,109 @@
 
       <!-- /.row (main row) -->
 
+      <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_autizacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Formulario de autorización por el administrador</h4>
+            </div>
+            <div class="modal-body">
+              {{ Form::open(['class' => '','id' => 'form_autorizacion']) }}
+              
+              <div class="form-group">
+                <label for="" class="control-label">Digite el nombre de usuario</label>
+                  <div class="">
+                    <input type="text" id="el_username" name="username" class="form-control">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="" class="control-label">
+                      Contraseña
+                  </label>
+                  <div>
+                        <input type="password" id="el_password" name="password" class="form-control">
+                  </div>
+              </div>
+              {{Form::close()}}
+            </div>
+            <div class="modal-footer">
+              <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              <button type="button" id="autorizacion_requi" class="btn btn-success">Confirmar</button></center>
+            </div>
+          </div>
+          </div>
+        </div>
+
+
+        <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_requi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Registrar requisición</h4>
+              </div>
+              <div class="modal-body">
+                {{ Form::open(['class' => 'form-horizontal','id' => 'form_requi']) }}
+                
+                @php
+    $unids=App\Unidad::where('estado',1)->get();
+@endphp
+<div class="form-group">
+  <label for="" class="col-md-4 control-label">Actividad</label>
+  <div class="col-md-6">
+    {!! Form::textarea('actividad',null,['id'=>'actividad','class' => 'form-control','placeholder'=>'Digite la actividad a realizar','rows'=>3]) !!}
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="" class="col-md-4 control-label">Unidad Solicitante</label>
+  <div class="col-md-6">
+    <select name="unidad_id" id="unidad_id" class="chosen-select-width">
+      @foreach ($unids as $uni)
+          @if($uni->id==Auth()->user()->unidad_id)
+            <option selected value="{{$uni->id}}">{{$uni->nombre_unidad}}</option>
+          @endif
+      @endforeach
+    </select>
+  </div>
+</div>
+
+  <div class="form-group">
+    <label for="" class="col-md-4 control-label">Responsable</label>
+      <div class="col-md-6">
+        
+        {{Form::hidden('',Auth()->user()->id,['id'=>'user_id'])}}
+        {!!Form::text('',Auth()->user()->empleado->nombre,['class' => 'form-control','readonly'])!!}
+      </div>
+  </div>
+
+  <div class="form-group">
+    <label for="" class="col-md-4 control-label">Fecha actividad</label>
+    <div class="col-md-6">
+      {{Form::text('fecha_actividad',null,['class'=>'form-control fechita','autocomplete'=>'off','id'=>'fecha_actividad'])}}
+  
+
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="" class="col-md-4 control-label">Observaciones</label>
+      <div class="col-md-6">
+        {!!Form::textarea('observaciones',null,['id'=>'observaciones','class' => 'form-control','rows' => 3])!!}
+      </div>
+  </div>
+                {{Form::hidden('conpresupuesto',0,['id'=>'conpre'])}}
+                {{Form::close()}}
+              </div>
+              <div class="modal-footer">
+                <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="guardar_req" class="btn btn-success">Guardar</button></center>
+              </div>
+            </div>
+            </div>
+          </div>
+
     </section>
     <!-- /.content -->
   </div>
