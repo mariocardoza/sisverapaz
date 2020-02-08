@@ -63,6 +63,26 @@ class RequisiciondetalleController extends Controller
 
     }
 
+    public function guardar(RequisiciondetalleRequest $request)
+    {
+      try{
+        
+          Requisiciondetalle::create([
+            'requisicion_id'=>$request->requisicion_id,
+            'cantidad'=>$request->cantidad,
+            'unidad_medida'=>$request->unidad_medida,
+            'materiale_id'=>$request->materiale_id,
+            'id'=>Requisiciondetalle::retonrar_id_insertar()
+        ]);
+        return array(1,"exito",$request->requisicion_id);
+        
+        
+      }catch (\Exception $e){
+        return array(-1,'error',$e->getMessage());
+      }
+
+    }
+
     /**
      * Display the specified resource.
      *

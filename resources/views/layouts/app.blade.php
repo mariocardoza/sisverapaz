@@ -227,7 +227,7 @@
     <label for="" class="col-md-4 control-label">Responsable</label>
       <div class="col-md-6">
         
-        {{Form::hidden('',Auth()->user()->id,['id'=>'user_id'])}}
+        {{Form::hidden('user_id',Auth()->user()->id,['id'=>'user_id'])}}
         {!!Form::text('',Auth()->user()->empleado->nombre,['class' => 'form-control','readonly'])!!}
       </div>
   </div>

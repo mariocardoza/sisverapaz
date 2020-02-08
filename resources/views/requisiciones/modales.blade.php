@@ -29,6 +29,51 @@
 </div>
 
 
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_detalle_sin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Necesidad de la requisicion</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form_detalle_sin" class="">
+          <input type="hidden" name="requisicion_id" class="elid" value="{{$requisicion->id}}">
+          <div class="form-group">
+            <label for="" class="control-label">Bienes o servicios</label>
+            <div>
+              <select name="" id="sel_mate_sin" class="chosen-select-width">
+                <option value="">Seleccione un bien o servicio</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="control-label">Digite la cantidad</label>
+            <div>
+              <input type="number" id="cantiti" class="form-control">
+            </div>
+          </div>
+
+         
+
+          <div class="form-group">
+              <button class="btn btn-success" type="button" id="registrar_mate_sin">Agregar</button>
+          </div>
+          
+
+
+          
+        </form>
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_otro" class="btn btn-success">Agregar</button></center>
+      </div-->
+    </div>
+    </div>
+  </div>
+
 
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_soli" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

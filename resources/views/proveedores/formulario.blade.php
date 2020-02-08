@@ -1,9 +1,22 @@
-
+@php
+    $gis=\App\Giro::where('estado',1)->get();
+    $giros=[];
+    foreach($gis as $g){
+      $giros[$g->id]=$g->nombre;
+    }
+@endphp
 
        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
         <label for="nombre" class="control-label">Nombre de la Empresa o Proveedor</label>
         <div class="">
             {{ Form::text('nombre', null,['class' => 'form-control','autocomplete'=>'off']) }}
+        </div>
+    </div>
+
+    <div class="form-group{{ $errors->has('giro_id') ? ' has-error' : '' }}">
+        <label for="nombre" class="control-label">Giro</label>
+        <div class="">
+            {{ Form::select('giro_id',$giros, null,['class' => 'chosen-select-width','placeholder'=>'Seleccione un giro']) }}
         </div>
     </div>
 

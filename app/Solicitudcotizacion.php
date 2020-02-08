@@ -198,9 +198,12 @@ class Solicitudcotizacion extends Model
                   <br>
                   <fieldset>
                   <legend>Cotizaciones';
-                  
-                  if($solicitud->estado==1 && ($hoy <= $limite)):  
-                  $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                  if($solicitud->requisicion->conpresupuesto ==1):
+                    if($solicitud->estado==1 && ($hoy <= $limite)):  
+                    $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                    endif;
+                  else:
+                    $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
                   endif;
                   $html.='</legend>
                   <div id="">

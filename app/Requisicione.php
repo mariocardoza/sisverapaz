@@ -120,6 +120,9 @@ class Requisicione extends Model
                         })->get();
     //$materiales=Materiales::where('estado',1)->get();
     $tabla='';
+    $select="<option value=''>Seleccione un bien o servicio</option>";
+
+    
     
     $tabla.='<table class="table" id="latabla">
     <thead>
@@ -134,6 +137,7 @@ class Requisicione extends Model
     </thead>
     <tbody id="losmateriales">';
     foreach ($materiales as $key => $material) {
+      $select.='<option data-unidad="'.$material->elid.'" value="'.$material->id.'">'.$material->nombre.'</option>';
       $tabla.='<tr>
                 <td>'.($key+1).'</td>
                 <td>'.$material->nombre.'</td>
@@ -149,7 +153,7 @@ class Requisicione extends Model
     </tbody>
     </table>';
 
-    return array(1,"exito",$tabla,$materiales);
+    return array(1,"exito",$tabla,$materiales,$select);
   }
 
   public static function presupuesto($id)

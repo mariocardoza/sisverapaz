@@ -16,7 +16,7 @@
           $("#modal_autizacion").modal("show");
         });
 
-        //autorizar para requisiciones 
+        //autorización para requisiciones 
         $(document).on("click","#autorizacion_requi", function(e){
           swal({
             title: 'Buscando en la base de datos!',
@@ -37,6 +37,7 @@
             dataType:'json',
             data:{username, password},
             success: function(json){
+              swal.closeModal();
               if(json[0]==1){
                 
                 if(json[2]){
@@ -46,7 +47,7 @@
                   $("#form_requi").trigger("reset");
                   swal.closeModal();
                 }else{
-                  toastr.info("El Usuario no es administrador");
+                  toastr.info("El Usuario ingresado no es administrador");
                   swal.closeModal();
                 }
                 swal.closeModal();
@@ -60,6 +61,7 @@
               $.each(error.responseJSON.errors, function( key, value ) {
                 toastr.error(value);
               });
+              swal.closeModal();
             }
           });
         });
@@ -67,17 +69,28 @@
     //guardar requisicion sin presupuesto
     $(document).on("click","#guardar_req",function(e){
       e.preventDefault();
+      modal_cargando();
       var datos=$("#form_requi").serialize();
       $.ajax({
         url:'requisiciones',
         type:'post',
         dataType:'json',
         data:datos,
-        success: function(json){
-
+        success: function(msj){
+          if(msj.mensaje == 'exito'){
+            window.location.href = "requisiciones/"+msj.requisicion;
+            console.log(msj);
+            toastr.success('Requisiciones registrada éxitosamente');
+          }else{
+            toastr.error('Ocurrió un error, contacte al administrador');
+            swal.closeModal();
+          }
         },
         error: function(error){
-
+          $.each(error.responseJSON.errors, function( key, value ) {
+            toastr.error(value);
+          });
+          swal.closeModal();
         }
       })
     });
@@ -305,6 +318,8 @@ function carpeta(){
       var nombre = carpeta.split("/");
       return nombre[3];
     }
+
+
 
 //cambiarle idioma a datepicker
 $.datepicker.regional['es'] = {

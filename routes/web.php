@@ -78,6 +78,7 @@ Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
+Route::Resource('giros','GiroController');
 Route::post('proveedores/representante/{id}','ProveedorController@representante');
 
 Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
@@ -265,6 +266,7 @@ Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitu
 Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
+Route::post('requisiciondetalles/guardar','RequisiciondetalleController@guardar');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
 
 Route::Resource('organizaciones','OrganizacionController');

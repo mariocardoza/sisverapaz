@@ -86,6 +86,7 @@
         <ul class="treeview-menu">
             <li><a href="{{ url('cargoproyectos') }}"><i class="fa fa-circle-o"></i> Cargos para los proyectos</a></li>
             <li><a href="{{ url('paaccategorias') }}"><i class="fa fa-circle-o"></i> Categorias para el Plan Anual</a></li>
+            <li><a href="{{ url('giros') }}"><i class="fa fa-circle-o"></i> Giro de los proveedores</a></li>
         </ul>
     </li>
 
