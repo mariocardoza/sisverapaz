@@ -41,7 +41,7 @@ class Proyecto extends Model
       $informacion="";
       try{
         $proyecto=Proyecto::find($id);
-        $informacion.='<div class="col-sm-12"><center>';
+        $informacion.='<div class="col-sm-12 hidden-print"><center>';
         if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7 && $proyecto->indicadores_completado->sum('porcentaje') < 100) :
         $informacion.='
           <button class="btn btn-primary btn-sm" id="materiales_recibidos" title="Materiales recibidos"><i class="fa fa-check"></i></button>
@@ -74,7 +74,7 @@ class Proyecto extends Model
         <div class="clearfix"></div>
         <hr style="margin-top: 3px; margin-bottom: 3px; background-color:red;">';
         endif;
-        $informacion.='<div class="col-sm-12">
+        $informacion.='<div class="col-sm-12 hidden-print">
         <span>Nombre del proyecto:</span>
       </div>
       <div class="col-sm-12">
@@ -245,7 +245,7 @@ class Proyecto extends Model
           <tbody>';
             
               $categ=array();
-            
+            if(isset($proyecto->presupuesto->presupuestodetalle)):
             foreach($proyecto->presupuesto->presupuestodetalle as $detalle):
             
               if(!in_array($detalle->material->categoria->nombre_categoria,$categ)){
@@ -254,6 +254,7 @@ class Proyecto extends Model
               
             
             endforeach;
+          endif;
           foreach($categ as $c):
             $presu.='<tr><th colspan="6" class="text-center">'.$c.'</th></tr>';
             foreach($proyecto->presupuesto->presupuestodetalle as $detalle):
@@ -614,6 +615,11 @@ class Proyecto extends Model
       return $this->hasMany('App\PresupuestoInventario');
     }
 
+    public function licitacion()
+    {
+      return $this->hasMany('App\Licitacion')->orderBy('estado','asc')->orderBy('created_at','ASC');
+    }
+
     public function indicadores()
     {
       return $this->hasMany('App\IndicadoresProyecto');
@@ -677,5 +683,10 @@ class Proyecto extends Model
     public function periodoactivo()
     {
       return $this->hasMany('App\PeriodoProyecto')->where('estado',1);
+    }
+
+    public function calendario()
+    {
+      return $this->hasMany('App\Calendarizacion')->orderby('inicio','asc');
     }
 }

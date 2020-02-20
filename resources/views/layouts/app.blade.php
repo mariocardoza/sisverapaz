@@ -12,7 +12,10 @@
   $cod=date("Yisisus");
 @endphp
   {!! Html::style('css/sisverapaz.css')!!}
+  <link rel="stylesheet" type="text/css" media="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css">
+  
   {!! Html::script('js/sisverapaz.js?cod='.$cod) !!}
+  
   {!! Html::script('js/funcionesgenerales.js?cod='.$cod) !!}
 <style>
   .error{
@@ -262,11 +265,11 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  <footer class="main-footer hidden-print">
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0
     </div>
-    <strong> &copy; 2018 <a target="_blank" href="http://www.ues.edu.sv">Universidad de El Salvador. FMP</a>.</strong> Todos los derechos reservados
+    <strong> &copy; {{date("Y")}} <a target="_blank" href="http://www.ues.edu.sv">Universidad de El Salvador. FMP</a>.</strong> Todos los derechos reservados
   </footer>
 
 

@@ -78,6 +78,8 @@ Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
+Route::post('giros/baja/{id}','GiroController@baja')->name('giros.baja');
+Route::post('giros/alta/{id}','GiroController@alta')->name('giros.alta');
 Route::Resource('giros','GiroController');
 Route::post('proveedores/representante/{id}','ProveedorController@representante');
 
@@ -114,6 +116,10 @@ Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //nueva forma
+Route::get('proyectos/borrarlicitacion/{id}','ProyectoController@borrarlicitacion');
+Route::get('proyectos/bajarlicitacion/{archivo}','ProyectoController@bajarlicitacion');
+Route::get('proyectos/calendario/{id}','ProyectoController@calendario');
+Route::get('proyectos/licitaciones/{id}','ProyectoController@licitacion');
 Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
 Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
 Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
@@ -124,6 +130,7 @@ Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
 Route::get('proyectos/pagos/{id}','ProyectoController@pagos');
 Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::post('proyectos/subiroferta','ProyectoController@subiroferta');
 Route::post('proyectos/subiracta','ProyectoController@subiracta');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
 Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');

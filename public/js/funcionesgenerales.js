@@ -215,6 +215,14 @@
                 enablePagination: false
               });
 
+              $('.datetimepicker').datetimepicker({
+                  language:'es',
+                  format: "dd/mm/yyyy hh:ii",
+                  autoclose: true,
+                  todayBtn: true,
+                  pickerPosition: "bottom-left"
+                });
+
           //fechas
             var start = new Date(),
           	end = new Date(),

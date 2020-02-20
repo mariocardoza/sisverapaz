@@ -127,4 +127,27 @@ class MaterialesController extends Controller
 
         
     }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+        $especialista = Materiales::find($id);
+        $especialista->estado = 2;
+  
+        $especialista->save();
+        bitacora('Dió de baja un material');
+        return redirect('materiales')->with('mensaje','Registro dado de baja');
+    }
+
+    public function alta($id)
+    {
+        $especialista = Materiales::find($id);
+        $especialista->estado = 1;
+        
+        $especialista->save();
+        bitacora('Dió de alta un material');
+        return redirect('materiales')->with('mensaje','Registro dado de alta');
+    }
 }

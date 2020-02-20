@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Calendarizacion;
+use Carbon\Carbon;
 
 class CalendarizacionController extends Controller
 {
@@ -40,8 +41,21 @@ class CalendarizacionController extends Controller
      */
     public function store(Request $request)
     {
-        /*Calendarizacion::create($request->All());
-        return redirect('/calendarizaciones')->with('mensaje', 'Dato registrado');*/
+        try{
+        $i=Carbon::createFromFormat('d/m/Y H:i', $request->inicio)->toDateTimeString();
+        $f=Carbon::createFromFormat('d/m/Y H:i', $request->fin)->toDateTimeString();
+        Calendarizacion::create([
+          'evento'=>$request->evento,  
+          'descripcion'=>$request->descripcion,  
+          'inicio'=>$i,
+          'fin'=>$f,
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+        return array(1,"exito");
+        }
+        catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**

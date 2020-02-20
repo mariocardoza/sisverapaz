@@ -17,7 +17,7 @@
                 <div class="btn-group pull-right">
                     <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     <a href="{{ url('/giros?estado=1') }}" class="btn btn-primary">Activos</a>
-                    <a href="{{ url('/giros?estado=0') }}" class="btn btn-primary">Papelera</a>
+                    <a href="{{ url('/giros?estado=2') }}" class="btn btn-primary">Papelera</a>
                 </div>
             </div>
             <!-- /.box-header -->

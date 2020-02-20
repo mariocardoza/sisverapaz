@@ -49,11 +49,11 @@
 						@if($material->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
 					<a href="javascript:void(0)" id="modal_edit" data-id="{{$material->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button title="Dar de baja" class="btn btn-danger btn-xs" type="button" onclick={{ "baja('$material->id','materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button title="Restaurar" class="btn btn-success btn-xs" type="button" onclick={{ "alta('$material->id','materiales')" }}><span class="glyphicon glyphicon-refresh"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>

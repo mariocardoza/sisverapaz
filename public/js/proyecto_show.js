@@ -4,6 +4,11 @@ $(document).ready(function(e){
         $("#modal_subir_contrato").modal("show");
     });
 
+    $(document).on("click","#add_oferta", function(e){
+      e.preventDefault();
+      $("#modal_subir_oferta").modal("show");
+  });
+
     $(document).on('submit','#form_subircontrato', function(e) {
             // evito que propague el submit
             e.preventDefault();
@@ -37,6 +42,60 @@ $(document).ready(function(e){
                 }
             });
     });
+
+    $(document).on('submit','#form_subiroferta', function(e) {
+      // evito que propague el submit
+      e.preventDefault();
+      modal_cargando();
+      // agrego la data del form a formData
+      var formData = new FormData(this);
+      formData.append('_token', $('input[name=_token]').val());
+    
+      $.ajax({
+          type:'POST',
+          url:'../proyectos/subiroferta',
+          data:formData,
+          cache:false,
+          contentType: false,
+          processData: false,
+          success:function(data){
+              if(data[0]==1){
+                toastr.success("Oferta subida con exito");
+                licitacion(data[2]);
+                $("#modal_subir_oferta").modal("hide");
+                $("#form_subiroferta").trigger("reset");
+                $(".chosen-select-width").trigger("chosen:updated");
+                $("#info5").text("");
+                swal.closeModal();
+              }
+          },
+          error: function(error){
+              swal.closeModal();
+            $.each(error.responseJSON.errors, function( key, value ) {
+              toastr.error(value);
+              swal.closeModal();
+            });
+          }
+      });
+});
+
+  //funcion para quitar una oferta
+  $(document).on("click","#quitar_oferta",function(e){
+    var id=$(this).attr("data-id");
+    $.ajax({
+      url:'../proyectos/borrarlicitacion/'+id,
+      type:'get',
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          toastr.success("Oferta eliminada con éxito");
+          licitacion(elid);
+        }else{
+
+        }
+      }
+    });
+  });
 
     //registrarle empleado al proyecto
     $(document).on("click","#nuevo_empleado",function(e){
@@ -338,6 +397,11 @@ function cambiar(){
   function cambiar2(){
     var pdrs = document.getElementById('file-upload2').files[0].name;
     document.getElementById('info4').innerHTML = pdrs;
+  }
+
+  function cambiar3(){
+    var pdrs = document.getElementById('file-upload3').files[0].name;
+    document.getElementById('info5').innerHTML = pdrs;
   }
 
 function cargar_planilla(elid,id){

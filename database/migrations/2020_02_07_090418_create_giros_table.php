@@ -17,6 +17,8 @@ class CreateGirosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->integer('estado')->default(1);
+            $table->string('motivo')->nullable();
+            $table->date('fechabaja')->nullable();
             $table->timestamps();
         });
     }
