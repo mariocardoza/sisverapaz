@@ -2,11 +2,11 @@
 
 @section('migasdepan')
 <h1>
-	Materiales
+	Materiales o Bienes
 </h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/catalogos') }}"><i class="fa fa-dashboard"></i>Materiales</a></li>
-	<li class="active">Listado de materiales</li>
+	<li><a href="{{ url('/home') }}"><i class="fa fa-home"></i>Inicio</a></li>
+	<li class="active">Listado de materiales o bienes</li>
 </ol>
 @endsection
 
@@ -27,6 +27,7 @@
 					<th>Nombre de catálogo</th>
 					<th>Unidad de medida</th>
 					<th>Categoría</th>
+					<th>Tipo</th>
 					<th>Acción</th>
 					<?php $contador = 0 ?>
 				</thead>
@@ -38,14 +39,21 @@
 					<td>{{ $material->unidadmedida->nombre_medida }}</td>
 					<td>{{ $material->categoria->nombre_categoria }}</td>
 					<td>
+						@if($material->servicio==0)
+						No es servicio
+						@else
+						Es servicio
+						@endif
+					</td>
+					<td>
 						@if($material->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
 					<a href="javascript:void(0)" id="modal_edit" data-id="{{$material->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button title="Dar de baja" class="btn btn-danger btn-xs" type="button" onclick={{ "baja('$material->id','materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button title="Restaurar" class="btn btn-success btn-xs" type="button" onclick={{ "alta('$material->id','materiales')" }}><span class="glyphicon glyphicon-refresh"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>

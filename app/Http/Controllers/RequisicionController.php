@@ -40,10 +40,19 @@ class RequisicionController extends Controller
         return view('requisiciones.index',compact('requisiciones','anios'));
     }
 
-    public function porusuario()
+    public function porusuario(Request $request)
     {
-      $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('created_at','<=',date('Y'.'-12-31'))->orderBy('created_at','DESC')->get();
-      return view('requisiciones.porusuario',compact('requisiciones'));
+      $anios=DB::table('requisiciones')->distinct()->get(['anio']);
+      $elanio=$request->get('anio');
+      if($elanio != ""){
+        $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('anio','=',$elanio)->orderBy('created_at','DESC')->get();
+      return view('requisiciones.porusuario',compact('requisiciones','anios','elanio'));
+      }else{
+        $elanio=0;
+        $elanio=date('Y');
+        $requisiciones = Requisicione::where('user_id',Auth()->user()->id)->where('anio','=',$elanio)->orderBy('created_at','DESC')->get();
+        return view('requisiciones.porusuario',compact('requisiciones','anios','elanio'));
+      }
     }
 
     /**
@@ -92,6 +101,7 @@ class RequisicionController extends Controller
               'id'=>date('Yidisus'),
               'codigo_requisicion' => Requisicione::correlativo(),
               'actividad' => $request->actividad,
+              'conpresupuesto'=>$request->conpresupuesto,
               'user_id' => Auth()->user()->id,
               'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones,
               'unidad_id'=>$request->unidad_id,
@@ -199,6 +209,12 @@ class RequisicionController extends Controller
 
     public function poranio($anio){
       $retorno=Requisicione::requisiciones_por_anio($anio);
+      return $retorno;
+    }
+
+    public function modal_agregarproducto(Request $request)
+    {
+      $retorno=Requisicione::modal_agregarproducto($request->all());
       return $retorno;
     }
 

@@ -63,6 +63,26 @@ class ReportesUaciController extends Controller
     	return $pdf->stream('ordencompra.pdf');
     }
 
+    public function planillaproyecto($id)
+    {
+      $catorcena=\App\PeriodoProyecto::find($id);
+      $tipo="Planilla por proyecto:<b> ".$catorcena->proyecto->nombre."</b>";
+      
+      $pdf=\PDF::loadView('pdf.uaci.planilla',compact('catorcena','tipo'));
+      $pdf->setPaper('letter','landscape');
+      return $pdf->stream('planilla.pdf');
+    }
+
+    public function asistenciaproyecto($id)
+    {
+      $proyecto=\App\Proyecto::find($id);
+      $tipo="Control de asistencia del proyecto:<b> ".$proyecto->nombre."</b> del ".$proyecto->periodoactivo[0]->fecha_inicio->format("d/m/Y")." al ".$proyecto->periodoactivo[0]->fecha_fin->format("d/m/Y");
+      
+      $pdf=\PDF::loadView('pdf.uaci.asistenciaproyecto',compact('proyecto','tipo'));
+      $pdf->setPaper('letter','landscape');
+      return $pdf->stream('asistencia.pdf');
+    }
+
     public function acta($id)
     {
       $orden = \App\Ordencompra::findorFail($id);

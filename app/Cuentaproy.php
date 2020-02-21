@@ -39,7 +39,7 @@ class Cuentaproy extends Model
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="gridSystemModalLabel">Registrar cuenta</h4>
+              <h4 class="modal-title" id="gridSystemModalLabel">Asignar fondos a cuenta '.$cuenta->proyecto->nombre.'</h4>
             </div>
             <div class="modal-body">
                 <form id="form_add_cuentaproy" action="" class="">
@@ -55,6 +55,14 @@ class Cuentaproy extends Model
                         </div><br>
                         <span><b id="imp_monto"></b></span>
                     </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label">Digite el acuerdo de aprobación del abono</label>
+                        <div>
+                          <input type="text" class="form-control" name="n_acuerdo" id="n_acuerdo">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label">Monto a transferir</label>
                         <div>

@@ -80,61 +80,44 @@
 		<div class="panel panel-primary" id="div_contra" style="display:none">
 			<div class="panel-heading">Datos de los contratos </div>
 			<div class="panel-body" id="contrato_aqui">
-				<center>
-					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-					<span>Agregue un nuevo contrato para visualizar la información</span>
-				</center>
+				
+			</div>
+		</div>
+		<div class="panel panel-primary" id="div_calen" style="display:none">
+			<div class="panel-heading">Calendarización de las licitaciones </div>
+			<div class="panel-body" id="calendarizaciones_aqui">
+				
 			</div>
 		</div>
 		<div class="panel panel-primary" id="div_lic" style="display:none">
-			<div class="panel-heading">Licitaciones </div>
+			<div class="panel-heading">Listado de ofertas </div>
 			<div class="panel-body" id="licitaciones_aqui">
-				<center>
-					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-					<span>Agregue una nueva licitación para visualizar la información</span>
-				</center>
+				
 			</div>
 		</div>
 		<div class="panel panel-primary" id="div_emple" style="display:none">
 			<div class="panel-heading">Jornadas del proyecto</div>
 			<div class="panel-body" id="jornadas_aqui">
-				<button class="btn btn-primary" id="nueva_jornada">Nuevo</button>
 				<div id="tabla_empleados"></div>
+				<div style="display: none;" id="tabla_planilla"></div>
 			</div>
 			<div class="panel-body" id="jornada_form" style="display: none;">
 				@include('proyectos.show.jornada')
 			</div>
 		</div>
 		<div class="panel panel-primary" id="div_plani" style="display:none;">
-			<div class="panel-heading">Planillas mensuales</div>
+			<div class="panel-heading">Empleados</div>
 			<div class="panel-body">
 				<div id="laplanilla">
-					<button class="btn btn-primary" id="crear_planilla">Nueva</button>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>N°</th>
-								<th>Fecha</th>
-								<th>Acción</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach ($proyecto->datoplanilla as $index => $item)
-								<tr>
-									<td>{{$index+1}}</td>
-									<td>{{$item->fecha}}</td>
-									<td></td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+					
+					<div id="tabla_divempleados"></div>
 				</div>
 				<div id="plani_aqui" style="display: none;"></div>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-primary">
+		<div class="panel panel-primary hidden-print">
 				<div class="panel-heading">Opciones </div>
 				<div class="panel-body">
 					@if($proyecto->tipo_proyecto==1)
@@ -142,8 +125,11 @@
 						Presupuesto
 					</button>
 					@else
+					<button type="button" class="btn btn-default col-sm-12" id="btn_calen" style="margin-bottom: 3px;">
+						Calendarización
+					</button>
 					<button type="button" class="btn btn-default col-sm-12" id="btn_lic" style="margin-bottom: 3px;">
-							Licitación
+							Ofertas
 						</button>
 					@endif
 					<button type="button" class="btn btn-default col-sm-12" id="btn_ind" style="margin-bottom: 3px;">
@@ -154,19 +140,19 @@
 						Solicitudes
 					</button>
 					
-					@endif
-					<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
-						Contratos
-					</button>
 					<button type="button" class="btn btn-default col-sm-12" id="btn_emple" style="margin-bottom: 3px;">
 						Pagos
 					</button>
 					<button type="button" class="btn btn-default col-sm-12" id="btn_plani" style="margin-bottom: 3px;">
 						Empleados
 					</button>
+					@endif
+					<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
+						Contratos
+					</button>
 				</div>
 		</div>
-		<div class="panel panel-primary">
+		<div class="panel panel-primary hidden-print">
 				<div class="panel-heading">Datos del Proyecto </div>
 				<div class="panel-body" id="aqui_info">
 					
@@ -195,6 +181,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
 		
@@ -203,6 +190,7 @@
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 			});
@@ -213,6 +201,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
 		
@@ -221,6 +210,7 @@
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				cargar_indicadores(elid);
@@ -232,6 +222,7 @@
 				$("#div_cot").show();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
 		
@@ -240,6 +231,7 @@
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				solicitudes(elid);
@@ -251,6 +243,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").show();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
 		
@@ -259,6 +252,7 @@
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				contratos(elid);
@@ -270,6 +264,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").show();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
 		
@@ -277,10 +272,11 @@
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
-				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
-				//contratos(elid);
+				licitacion(elid);
 			});
 
 			$("#btn_emple").click(function(){
@@ -289,6 +285,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_plani").hide();
 				$("#div_emple").show();
 
@@ -297,6 +294,7 @@
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
 				pagos(elid);
@@ -309,6 +307,7 @@
 				$("#div_cot").hide();
 				$("#div_contra").hide();
 				$("#div_lic").hide();
+				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").show();
 				
@@ -318,11 +317,75 @@
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-primary');
 				empleados(elid);
 
 			});
+
+			$("#btn_calen").click(function(){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").hide();
+				$("#div_calen").show();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
+				
+
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				calendario(elid);
+			});
+			//abrir el modal para registrar el evento
+			$(document).on("click","#add_evento",function(e){
+				e.preventDefault();
+				$("#modal_evento").modal("show");
+			});
+
+			//registrar el calendario
+			
+
+			$(document).on("click","#registrar_evento",function(e){
+				e.preventDefault();
+				var datos=$("#form_evento").serialize();
+				datos=datos+'&proyecto_id='+elid;
+				modal_cargando();
+				$.ajax({
+					url:'../calendarizaciones',
+					type:'post',
+					dataType:'json',
+					data:datos,
+					success: function(json){
+						if(json[0]==1){
+							toastr.success("Evento registrado con éxito");
+							$("#form_evento").trigger("reset");
+							$("#modal_evento").modal("hide");
+							swal.closeModal();
+						}else{
+							toastr.error("Ocurrió un error");
+							swal.closeModal();
+						}
+					},
+					error: function(error){
+						swal.closeModal();
+					}
+				});
+			});
+
+		//imprimir calendadario
+		$(document).on("click","#printcal",function(e){
+			e.preventDefault();
+			window.print();  
+		});
 
 		});
 		function verificar_tipo(eltipito)
@@ -332,14 +395,16 @@
 				$("#div_ind").hide();
 				$("#div_cot").hide();
 				$("#div_contra").hide();
-				$("#div_lic").show();
+				$("#div_lic").hide();
+				$("#div_calen").show();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
-				$("#btn_lic").removeClass('btn-primary').addClass('btn-primary');
-				
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-primary');
+				calendario(elid);
 			}
 		}
 
@@ -413,6 +478,72 @@
 			});
 		}
 
+		function licitacion(id){
+			modal_cargando();
+			$.ajax({
+				url:'../proyectos/licitaciones/'+id,
+				type:'get',
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						swal.closeModal();
+						$("#licitaciones_aqui").empty();
+						$("#licitaciones_aqui").html(json[2]);
+						inicializar_tabla("estatabla");
+					}else{
+						toastr.error("Ocurrió un error al cargar la información");
+						swal.closeModal();
+					}
+				},
+				error: function(error){
+					toastr.error("Ocurrió un error al cargar la información");
+					swal.closeModal();
+				}
+			});
+		}
+
+		function calendario(id){
+			modal_cargando();
+			$.ajax({
+				url:'../proyectos/calendario/'+id,
+				type:'get',
+				dataType:'json',
+				success: function(json){
+					if(json[0]==1){
+						swal.closeModal();
+						console.log(json[3])
+						$("#calendarizaciones_aqui").empty();
+						$("#calendarizaciones_aqui").html(json[2]);
+						inicializar_tabla("calender");
+						$('#calendario').fullCalendar({
+							header: {
+								left:   'month,agendaWeek,agendaDay',
+								center: 'title',
+								right:  'today prev,next'
+							},
+							events:json[3],
+							eventColor: '#D51C38',
+							weekends: false,
+							//defaultView: 'agendaDay',
+							//defaultView: 'timeline', // the name of a generic view
+							editable: false,
+							lang:'es',
+							
+							eventClick: function(info) {
+								console.log(info);
+								alert(info.title);
+							}
+						});
+					}else{
+						swal.closeModal();
+					}
+				},
+				error: function(error){
+					swal.closeModal();
+				}
+			});
+		}
+
 		function pagos(elid){
 			$.ajax({
 				url:'../proyectos/pagos/'+elid,
@@ -437,9 +568,9 @@
 				dataType:'json',
 				success: function(json){
 					if(json[0]==1){
-						$("#tabla_empleados").empty();
-						$("#tabla_empleados").html(json[2]);
-						inicializar_tabla("latabla");
+						$("#tabla_divempleados").empty();
+						$("#tabla_divempleados").html(json[2]);
+						inicializar_tabla("latabla2");
 					}
 				}
 			});

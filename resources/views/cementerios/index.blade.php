@@ -13,29 +13,39 @@
             </div>
             <div class="form-group col-sm-7">
               <label for="nombre">Nombre del cementerio: </label>
-              <input
-                type="text"
-                class="form-control"
-                id="nombre" name="nombre"
-                placeholder="Nombre del cementerio"
-              />
+              @if ($isDrawing)
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nombre" name="nombre"
+                  placeholder="Nombre del cementerio"
+                />
+              @else
+                <h2>{{ $cementerio->nombre }}</h2> 
+              @endif
             </div>
             <div class="form-group col-sm-4">
               <label for="cantidad">Cantidad de puestos de perpetuidad</label>
-              <input
-                type="number"
-                class="form-control"
-                id="cantidad" min='100' name="cantidad"
-                placeholder="Cantidad Maxima de puestos de perpetuidad"
-              />
+              @if ($isDrawing)
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cantidad" min='100' name="cantidad"
+                  placeholder="Cantidad Maxima de puestos de perpetuidad"
+                />
+              @else
+                <h2>{{ $cementerio->maximo }}</h2>                  
+              @endif
             </div>
             <div class="form-group col-sm-1">
-              <button
-                type="submit"
-                style="position: absolute; top: 20px;"
-                class="btn btn-primary">
-                Guardar
-              </button>
+              @if ($isDrawing)
+                <button
+                  type="submit"
+                  style="position: absolute; top: 20px;"
+                  class="btn btn-primary">
+                  Guardar
+                </button>                  
+              @endif
             </div>
           </div>
         </form>
@@ -59,5 +69,7 @@
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-<script src="{{ asset('js/cementerios.js') }}"></script>
+@if ($isDrawing)
+  <script src="{{ asset('js/cementerios.js') }}"></script>    
+@endif
 @endsection

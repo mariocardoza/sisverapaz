@@ -15,12 +15,17 @@ class Paac extends Model
         return $this->hasMany('App\Paacdetalle');
     }
 
+    public function paaccategoria()
+    {
+      return $this->belongsTo('App\PaacCategoria','paaccategoria_id');
+    }
+
     public static function show($id){
         $paac=Paac::findorFail($id);
         $detalles = Paacdetalle::where('paac_id',$paac->id)->orderBy('id','ASC')->get();
         $html="";
         $html.='<div class="panel panel-primary">
-        <div class="panel-heading">'.$paac->descripcion.'</div>
+        <div class="panel-heading">'.$paac->paaccategoria->nombre.'</div>
         <div class="panel-body">';
         if($paac->estado==1):
           $html.='<a href="javascript:void(0)" id="registrar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar elementos</a>
@@ -33,7 +38,7 @@ class Paac extends Model
           </tr>
           <tr>
             <td>Plan</td>
-            <th>'.$paac->descripcion.'</th>
+            <th>'.$paac->paaccategoria->nombre.'</th>
           </tr>
           <tr>
             <td>Monto</td>

@@ -14,6 +14,14 @@ $(document).ready(function(e){
         $("#modal_detalle").modal("show");
       });
 
+      //agregar materiales sin presupuesto
+      $(document).on("click","#agregar_nueva_sin", function(e){
+        e.preventDefault();
+        selectmateriales(elid);
+        $("#cantiti").val("");
+        $("#modal_detalle_sin").modal("show");
+      });
+
       $(document).on("click","#terminar_proceso", function(e){
         e.preventDefault();
         $("#modal_finalizar").modal("show");
@@ -508,7 +516,7 @@ $(document).ready(function(e){
       var fecha_limite = $("#fecha_limite").val();
       var tiempo_entrega = $("#tiempo_entrega").val();
       var requi=new Array();
-      var chec=$(document).find(".lositems");
+      var chec=$(document).find(".lositemss");
       $.each(chec,function(i,v){
         if($(v).is(":checked")){
           requi.push({
@@ -655,18 +663,25 @@ $(document).ready(function(e){
       });
       });
 
-      $(document).on("click","#esteagrega", function(e){
-        
+      $(document).on("click",".esteagrega", function(e){
         var material=$(this).attr("data-material");
-        var unidad=$(this).attr("data-unidad");
         var disponible=$(this).attr("data-disponible");
-        $("#canti_dis").val(disponible);
-        var id=$(".elid").val();
-        $("#id_mat").val(material);
-        $("#requi_id").val(elid);
-        $("#id_uni").val(unidad);
-        $("#modal_detalle").modal("hide");
-        $("#modal_registrar_material").modal("show");
+        $.ajax({
+          url:'../requisiciones/modalagregar',
+          type:'POST',
+          dataType:'json',
+          data:{material,disponible,elid},
+          success: function(json){
+            if(json[0]==1){
+              $("#modal_aqui").empty();
+              $("#modal_aqui").html(json[2]);
+              $("#modal_detalle").modal("hide");
+              $("#modal_registrar_material").modal("show");
+            }
+          }
+        });
+
+       
 
         /*if(numero == 0 || isNaN(numero)){
           swal('Aviso','Digite una cantidad');
@@ -707,11 +722,7 @@ $(document).ready(function(e){
       $(document).on("click","#registrar_mate",function(e){
         var valid=$("#form_material").valid();
         if(valid){
-          var cantidad=parseInt($("#estecanti").val());
-          var disponible=parseInt($("#canti_dis").val());
-          if(cantidad>disponible){
-            swal('aviso','La cantidad supera a lo disponible presupuestado','warning');
-          }else{
+          
             var datos=$("#form_material").serialize();
             modal_cargando();
             $.ajax({
@@ -734,6 +745,9 @@ $(document).ready(function(e){
                   //$("#tabla_requi").load(" #tabla_requi");
                   inicializar_tabla("tabla_requi");
                   //window.location.reload();
+                }else if(json[0]==2){
+                  toastr.warning(json[2]);
+                  swal.closeModal();
                 }else{
                   swal.closeModal();
                   toastr.error("Ocurrió un error");
@@ -747,7 +761,45 @@ $(document).ready(function(e){
                 });
               }
             });
-          }
+        }
+      });
+
+      //registrar material sin presupuesto
+      $(document).on("click","#registrar_mate_sin", function(e){
+        e.preventDefault();
+        
+        var requisicion_id=elid;
+        var materiale_id=$("#sel_mate_sin").val();
+        var unidad_medida=$("#sel_mate_sin option:selected").attr("data-unidad");
+        var cantidad=$("#cantiti").val();
+        if(cantidad>0){
+          modal_cargando();
+          $.ajax({
+            url:'../requisiciondetalles/guardar',
+            type:'POST',
+            dataType:'json',
+            data:{requisicion_id,materiale_id,cantidad,unidad_medida},
+            success: function(json){
+              if(json[0]==1){
+                selectmateriales(elid);
+                info(elid);
+                toastr.success("Necesidad agregada exitosamente");
+                swal.closeModal();
+                $("#cantiti").val("");
+              }else{
+                swal.closeModal();
+                  toastr.error("Ocurrió un error");
+              }
+            },
+            error: function(error){
+              swal.closeModal();
+              $.each(error.responseJSON.errors, function( key, value ) {
+                  toastr.error(value);
+              });
+            }
+          });
+        }else{
+          toastr.info("Digite un cantidad mayor a cero");
         }
       });
 
@@ -878,6 +930,24 @@ $(document).ready(function(e){
           $("#dibujar_materiales").html(data[2]);
           inicializar_tabla("latabla");
         }
+      }
+    });
+  }
+
+  function selectmateriales(id)
+  {
+    $.ajax({
+      url:'../requisiciones/materiales/'+id,
+      type:'get',
+      data:{},
+      success:function(data){
+        if(data[0]==1){
+          $("#sel_mate_sin").empty();
+          $("#sel_mate_sin").html(data[4]);
+          $("#sel_mate_sin").chosen({'width':'100%'});
+          $("#sel_mate_sin").trigger("chosen:updated");
+        }
+        console.log(data);
       }
     });
   }

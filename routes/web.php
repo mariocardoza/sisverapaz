@@ -30,6 +30,9 @@ Route::get('pdf',function(){
 //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
   return $pdf->stream('reporte.pdf');
 });
+//rutas para autorizaciones del administrador
+Route::Post('autorizacion', 'Homecontroller@autorizacion');
+
 
 ///////////  RUTAS DE RESPALDO Y RESTAURAR BASE DE DATOS
 Route::get('backups','BackupController@index')->name('backups.index');
@@ -75,6 +78,9 @@ Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
 Route::Resource('proveedores','ProveedorController');
+Route::post('giros/baja/{id}','GiroController@baja')->name('giros.baja');
+Route::post('giros/alta/{id}','GiroController@alta')->name('giros.alta');
+Route::Resource('giros','GiroController');
 Route::post('proveedores/representante/{id}','ProveedorController@representante');
 
 Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
@@ -110,6 +116,10 @@ Route::post('proyectos/sesion','ProyectoController@sesion');
 Route::get('proyectos/getsesion','ProyectoController@getsesion');
 Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //nueva forma
+Route::get('proyectos/borrarlicitacion/{id}','ProyectoController@borrarlicitacion');
+Route::get('proyectos/bajarlicitacion/{archivo}','ProyectoController@bajarlicitacion');
+Route::get('proyectos/calendario/{id}','ProyectoController@calendario');
+Route::get('proyectos/licitaciones/{id}','ProyectoController@licitacion');
 Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
 Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
 Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
@@ -120,10 +130,14 @@ Route::get('proyectos/empleados/{id}','ProyectoController@empleados');
 Route::get('proyectos/pagos/{id}','ProyectoController@pagos');
 Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
+Route::post('proyectos/subiroferta','ProyectoController@subiroferta');
 Route::post('proyectos/subiracta','ProyectoController@subiracta');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
 Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
 Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
+Route::get('proyectos/generarplanilla/{id}/{idd}','ProyectoController@generar_planilla');
+Route::post('proyectos/guardarplanilla','ProyectoController@guardarplanilla');
+Route::post('proyectos/quitarempleado','ProyectoController@quitarempleado');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');
@@ -213,6 +227,10 @@ route::post('paacs/guardar','PaacController@guardar');
 Route::get('paacs/exportar/{id}','PaacController@exportar');
 Route::get('paacs/show2/{id}','PaacController@show2');
 Route::Resource('paacs','PaacController');
+Route::post('paaccategorias/baja/{id}','PaacCategoriaController@baja')->name('paaccategorias.baja');
+Route::post('paaccategorias/alta/{id}','PaacCategoriaController@alta')->name('paaccategorias.alta');
+
+Route::Resource('paaccategorias','PaacCategoriaController');
 Route::Resource('paacdetalles','PaacdetalleController');
 
 Route::Resource('detallecotizaciones','DetallecotizacionController');
@@ -249,11 +267,13 @@ Route::get('requisiciones/bajar/{archivo}','RequisicionController@bajar');
 Route::put('requisiciones/cambiarestado/{id}','RequisicionController@cambiarestado');
 Route::get('requisiciones/materiales/{id}','RequisicionController@materiales');
 Route::get('requisiciones/presupuesto/{id}','RequisicionController@presupuesto');
+Route::post('requisiciones/modalagregar','RequisicionController@modal_agregarproducto');
 Route::get('requisiciones/vercotizacion/{id}','RequisicionController@ver_cotizacion');
 Route::get('requisiciones/versolicitud/{id}','RequisicionController@ver_solicitud');
 Route::get('requisiciones/formulariosoli/{id}','RequisicionController@formulariosoli');
 Route::Resource('requisiciones','RequisicionController');
 Route::get('requisiciondetalles/create/{id}','RequisiciondetalleController@create');
+Route::post('requisiciondetalles/guardar','RequisiciondetalleController@guardar');
 Route::Resource('requisiciondetalles','RequisiciondetalleController');
 
 Route::Resource('organizaciones','OrganizacionController');
@@ -307,10 +327,19 @@ Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
 Route::Resource('afps','AfpController');
 
+Route::get('servicios/pagos','ServiciosController@pagos');
+Route::post('servicios/pagar','ServiciosController@pagar_servicio');
+Route::Resource('servicios','ServiciosController');
 
 Route::Resource('retenciones','RetencionController');
 
 Route::Resource('planillas','PlanillaController');
+Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cambiarestado');
+Route::get('planillaproyectos/desembolso/{id}','PeriodoProyectoController@desembolso');
+Route::Resource('planillaproyectos','PeriodoProyectoController');
+
+Route::get('pagocuentas/{id}','PagocuentaController@index')->name("pagocuentas.index");
+
 Route::Resource('prestamos','PrestamoController');
 Route::Resource('descuentos','DescuentoController');
 
@@ -366,6 +395,8 @@ Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
 
 Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupuestounidad');
+Route::get('reportesuaci/planillaproyecto/{id}','ReportesUaciController@planillaproyecto');
+Route::get('reportesuaci/asistenciaproyecto/{id}','ReportesUaciController@asistenciaproyecto');
 
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');

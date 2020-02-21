@@ -1,3 +1,75 @@
+@php
+    $lescargos=App\CargoProyecto::where('estado',1)->get();
+    $cargos=$proveedores=[];
+    foreach($lescargos as $i){
+      $cargos[$i->id]=$i->nombre;
+    }
+    $elpro=$proyecto->id;
+    $lesproveedores=DB::table('proveedors as p')
+                  ->select('p.*')
+                    ->whereNotExists(function ($query) use ($elpro)  {
+                         $query->from('licitacions')
+                            ->whereRaw('licitacions.proveedor_id = p.id')
+                            ->whereRaw('licitacions.proyecto_id ='.$elpro);
+                        })->get();
+    foreach($lesproveedores as $p){
+      $proveedores[$p->id]=$p->nombre;
+    }
+
+    $empleados=App\Detalleplanilla::empleados();
+@endphp
+
+<div class="modal fade" tabindex="-1" id="modal_evento" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar evento</h4>
+      </div>
+      <div class="modal-body">
+          <form id="form_evento" action="" class="form-horizontal">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="control-label col-md-4">Nombre del evento (*)</label>
+                        <div class="col-md-6">
+                            <input type="text" autocomplete="off" required name="evento" class="form-control" placeholder="Nombre del indicador">
+                        </div>       
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Observaciones (*)</label>
+                        <div class="col-md-6">
+                            <textarea type="text" required name="descripcion" class="form-control" placeholder="Digite las observaciones"></textarea>
+                        </div>       
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Fecha y hora de inicio (*)</label>
+                        <div class="col-md-6">
+                            <input type="datetime" required name="inicio" class="form-control datetimepicker" placeholder="Digite el porcentaje que aplica">
+                        </div>       
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-md-4">Fecha y hora de finalización (*)</label>
+                      <div class="col-md-6">
+                          <input type="datetime" required  name="fin" class="form-control datetimepicker" placeholder="Digite el porcentaje que aplica">
+                      </div>       
+                  </div>
+                  </div>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <center>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_evento" class="btn btn-primary">Registrar</button></center>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" tabindex="-1" id="modal_indicador" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -39,9 +111,9 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
   
-  <div class="modal fade" tabindex="-1" id="modal_indicador_e" role="dialog" aria-labelledby="gridSystemModalLabel">
+<div class="modal fade" tabindex="-1" id="modal_indicador_e" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -83,7 +155,44 @@
         </div>
       </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_oferta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Subir oferta</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['action'=>'ProyectoController@subiroferta', 'class' => '','id' => 'form_subiroferta','enctype'=>'multipart/form-data']) }}
+            <input type="hidden" name="proyecto_id" value="{{$proyecto->id}}">
+            <div class="form-group">
+              <label for="" class="control-label">Proveedor</label>
+              <div>
+                {!!Form::select('proveedor_id',
+                    $proveedores
+                    ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un proveedor'])!!}
+              </div>
+            </div>
+            
+            <label for="file-upload3" class="subir">
+              <i class="glyphicon glyphicon-cloud"></i> Subir archivo
+          </label>
+          <input id="file-upload3" onchange='cambiar3()' name="archivo" type="file" style='display: none;'/>
+          <div id="info5"></div>
+              <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit"  class="btn btn-success">Guardar</button></center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
+    </div>
   </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_contrato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -113,7 +222,7 @@
             </label>
             <input id="file-upload" onchange='cambiar()' name="archivo" type="file" style='display: none;'/>
             <div id="info3"></div>
-                <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
           <button type="submit"  class="btn btn-success">Guardar</button></center>
           {{Form::close()}}
         </div>
@@ -122,7 +231,7 @@
           <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
         </div-->
       </div>
-      </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -146,7 +255,8 @@
         </div>
       </div>
       </div>
-    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_pausar_proyecto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -171,10 +281,10 @@
         </div>
       </div>
       </div>
-    </div>
+</div>
 
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -201,9 +311,9 @@
           </div>
         </div>
         </div>
-      </div>
+</div>
 
-      <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_acta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_acta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -234,4 +344,51 @@
             </div-->
           </div>
           </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_registrar_empleado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Registrar empleado</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['class' => '','id' => 'form_guardar_empleado']) }}
+            <input type="hidden" name="proyecto_id" value="{{$proyecto->id}}">
+            <input type="hidden" name="salario" value="0">
+            <input type="hidden" name="numero_acuerdo" value="null">
+            <input type="hidden" name="tipo_pago" value="2">
+            <input type="hidden" name="fecha_inicio" value="{{ date("Y-m-01")}}">
+            <input type="hidden" name="pago" value="2">
+            <div class="form-group">
+              <label for="name" class="control-label">Empleado</label>
+              <div class="">
+                {!!Form::select('empleado_id',
+                    $empleados
+                    ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un empleado','id'=>'select_empleado'])!!}
+              </div>
+          </div>
+
+            <div class="form-group">
+              <label for="name" class="control-label">Cargo</label>
+              <div class="">
+                {!!Form::select('cargoproyecto_id',
+                    $cargos
+                    ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo','required'])!!}
+              </div>
+          </div>
+
+          <center>
+              <button class="btn btn-primary" id="guardar_empleado">Guardar</button>
+              <button class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          </center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
     </div>
+    </div>
+</div>

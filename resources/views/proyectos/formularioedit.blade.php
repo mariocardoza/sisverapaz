@@ -60,44 +60,4 @@
                             </div>
                         </div>
 
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="btnverfondos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Fondos
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="panel-body">
-                    @include('proyectos.fondos.formulario')
-                </div>
-                <div class="panel-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modalcategoria" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="row">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Ingreso de Fuente
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="" class="col-md-4">Digite fuente de financiamiento</label>
-                        <div class="col-md-6">
-                            <input type="text" id="cate" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="guardarcategoria" class="btn btn-success">Agregar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

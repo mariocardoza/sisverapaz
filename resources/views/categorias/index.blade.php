@@ -39,12 +39,12 @@
 							<td>{{ $categoria->nombre_categoria}}</td>
               <td>
                   @if($categoria->estado == 1 )
-                  {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                    <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
+                  {{ Form::open(['method' => 'POST', 'class' => 'form-horizontal baja'])}}
+                    <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
                     <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
                   {{ Form::close()}}
                 @else
-                  {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
+                  {{ Form::open(['method' => 'POST','class' => 'form-horizontal alta'])}}
                     <button class="btn btn-success btn-sm" type="button" onclick={{ "alta(".$categoria->id.",'categorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
                   {{ Form::close()}}
                 @endif
@@ -64,37 +64,41 @@
 @endsection
 
 @section("scripts")
-<script>
+<script type="text/javascript">
   $(document).ready(function(e){
-    $(document).on("click", "#btnmodalagregar",
-      function(e){
-        $("#modal_registrar").modal("show");
+    $(document).on("click", "#btnmodalagregar",function(e){
+        $("#md_categoria").modal("show");
       });
 
-    $(document).on("click", "#btnguardar", function(e){
+    $(document).on("click", "#registrar_categoria", function(e){
+      modal_cargando();
       e.preventDefault();
       var datos = $("#form_categoria").serialize();
       $.ajax({
         url:"categorias",
         type:"post",
         data:datos,
-        succes:function(retorno){
-          if(retorno[0] == 1){
-            toastr.succes("Registrado con éxito");
-            $("#modal_registrar").modal("hide");
+        success:function(json){
+          console.log(json);
+          if(json.mensaje=='exito'){
+            toastr.success("Registrado con éxito");
+            $("#md_categoria").modal("hide");
             window.location.reload();
+            swal.closeModal();
           }
           else{
             toastr.error("Falló");
+            swal.closeModal();
           }
         },
         error:function(error){
-          console.log();
+          swal.closeModal();
           $(error.responseJSON.errors).each(function(index,valor){
-            toastr.error(valor.nombre);
-          })
+            toastr.error(valor.nombre_categoria);
+          });
         }
       });
-    })
+    });
   });
 </script>
+@endsection

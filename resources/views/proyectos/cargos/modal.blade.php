@@ -23,8 +23,10 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<center>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 				<button id="btnguardar" type="button" class="btn btn-primary">Guardar</button>
+				</center>
 			</div>
 		</div>
 	</div>
@@ -45,7 +47,7 @@
 						<input type="hidden" name="id" id="elid">
 					</div>
 					<div class="form-group">
-						<label for="" class="control-label">Categoría</label>
+						<label for="" class="control-label">Salario por día</label>
 						<div>
 							<input type="number" name="salario_dia" id="e_salario" class="form-control">
 						</div>
@@ -53,8 +55,10 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<center>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 				<button id="btneditar" type="button" class="btn btn-primary">Editar</button>
+				</center>
 			</div>
 		</div>
 	</div>

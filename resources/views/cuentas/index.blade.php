@@ -5,7 +5,7 @@
   Cuentas
 </h1>
 <ol class="breadcrumb">
-  <li><a href="{{ url('/cuentas') }}"><i class="fa fa-dashboard"></i>Cuentas</a></li>
+  <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i>Cuentas</a></li>
   <li class="active">Listado de cuentas</li>
 </ol>
 @endsection
@@ -15,11 +15,11 @@
   <div class="col-xs-12">
     <div class="box">
       <div class="box-header">
-        <h3 class="box-tittle">Listado</h3>
+        <h3 class="box-tittle"></h3>
         <div class="btn-group">
             <a href="javascript:void(0)" id="modal_registrar" class="btn btn-success">Registrar</a>
             <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
-            <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
+            <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Liquidadas</a>
         </div>
         <div class="btn-group pull-right">
           <a href="{{ url('cuentas/proyectos')}}" class="btn btn-primary">Cuentas de proyectos</a>
@@ -34,6 +34,7 @@
           <th>Número de cuenta</th>
           <th>Monto</th>
           <th>Banco</th>
+          <th>Principal</th>
           <th>Acción</th>
         </thead>
         <tbody>
@@ -44,6 +45,11 @@
             <td>{{ $cuenta->numero_cuenta }}</td>
             <td>${{ number_format($cuenta->monto_inicial,2) }}</td>
             <td>{{ $cuenta->banco->nombre }}</td>
+            @if($cuenta->principal==1)
+            <td>Si</td>
+            @else
+            <td>No</td>
+            @endif
             
             <td>
               @if($cuenta->estado == 1)

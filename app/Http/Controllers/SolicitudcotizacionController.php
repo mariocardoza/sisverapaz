@@ -213,8 +213,10 @@ class SolicitudcotizacionController extends Controller
                 'cantidad'=>$req['cantidad'],
                 'solicitud_id'=>$solicitud->id
               ]);
-
-              Requisicione::descontar_presupuesto($requisicion->user_id,$req['cantidad'],$req['idmaterial']);
+              if($requisicion->conpresupuesto==1){
+                Requisicione::descontar_presupuesto($requisicion->user_id,$req['cantidad'],$req['idmaterial']);
+              }
+              
 
             }
 

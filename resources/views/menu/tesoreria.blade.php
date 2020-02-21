@@ -24,6 +24,20 @@
     </ul>
 </li>
 
+<li class="treeview {{ Route::currentRouteName() == 'servicios.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Pago de servicios</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('servicios/pagos') }}"><i class="fa fa-circle-o"></i> Pagos </a></li>
+        <li><a href="{{ url('servicios') }}"><i class="fa fa-circle-o"></i> Listado de servicios </a></li>
+        
+    </ul>
+</li>
+
 <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-edit"></i> <span>Empleados</span>
@@ -46,6 +60,20 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="{{ url('planillas') }}"><i class="fa fa-circle-o"></i> Planillas </a></li>
+        
+    </ul>
+</li>
+
+
+<li class="treeview {{ Route::currentRouteName() == 'planillaproyectos.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Pagos a proyectos</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('planillaproyectos') }}"><i class="fa fa-circle-o"></i> Planilla de proyectos </a></li>
         
     </ul>
 </li>

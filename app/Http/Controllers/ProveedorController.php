@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proveedor;
 use App\Bitacora;
+use App\Giro;
 use App\Http\Requests\ProveedorRequest;
 
 class ProveedorController extends Controller
@@ -20,15 +21,19 @@ class ProveedorController extends Controller
      */
     public function index(Request $request)
     {
+      $giros=Giro::where('estado',1)->get();
         $estado = $request->get('estado');
+        $elgiro = $request->get('giro');
+        
         if($estado == "" )$estado=1;
-        if ($estado == 1) {
+        if($elgiro == '' )$elgiro=0;
+        if ($elgiro == 0) {
             $proveedores = Proveedor::where('estado',$estado)->get();
-            return view('proveedores.index',compact('proveedores','estado'));
+            return view('proveedores.index',compact('proveedores','estado','giros','elgiro'));
         }
-        if ($estado == 2) {
-            $proveedores = Proveedor::where('estado',$estado)->get();
-            return view('proveedores.index',compact('proveedores','estado'));
+        else {
+            $proveedores = Proveedor::where('estado',$estado)->where('giro_id',$elgiro)->get();
+            return view('proveedores.index',compact('proveedores','estado','giros','elgiro'));
         }
     }
 
@@ -53,17 +58,12 @@ class ProveedorController extends Controller
       if($request->ajax())
       {
         try{
-          Proveedor::create($request->All());
+          $proveedor= Proveedor::create($request->All());
           bitacora('Registro un Proveedor');
-          return Response()->json([
-            'mensaje' => 'exito'
-          ]);
+          return array(1,"exito",$proveedor->id);
         }catch(\Exception $e)
         {
-          return Response()->json([
-            'mensaje' => 'error',
-            'codigo' => $e->getMessage()
-          ]);
+          return array(1,'error',$e->getMessage());
         }
       }else{
         try{
@@ -98,9 +98,9 @@ class ProveedorController extends Controller
      */
     public function edit($id)
     {
-        $proveedor = Proveedor::find($id);
+        $proveedor = Proveedor::modal_editar($id);
 
-        return view('proveedores.edit',compact('proveedor'));
+        return $proveedor;
     }
 
     /**

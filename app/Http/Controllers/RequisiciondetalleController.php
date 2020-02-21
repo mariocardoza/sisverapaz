@@ -44,14 +44,39 @@ class RequisiciondetalleController extends Controller
     public function store(RequisiciondetalleRequest $request)
     {
       try{
-        Requisiciondetalle::create([
+        if(intval($request->cantidad) > intval($request->disponible)){
+          return array(2,"mensaje","La cantidad ingresada sobrepasa a lo disponible");
+        }else{
+          Requisiciondetalle::create([
             'requisicion_id'=>$request->requisicion_id,
             'cantidad'=>$request->cantidad,
             'unidad_medida'=>$request->unidad_medida,
-            'materiale_id'=>$request->material_id,
+            'materiale_id'=>$request->materiale_id,
             'id'=>Requisiciondetalle::retonrar_id_insertar()
         ]);
         return array(1,"exito",$request->requisicion_id);
+        }
+        
+      }catch (\Exception $e){
+        return array(-1,'error',$e->getMessage());
+      }
+
+    }
+
+    public function guardar(RequisiciondetalleRequest $request)
+    {
+      try{
+        
+          Requisiciondetalle::create([
+            'requisicion_id'=>$request->requisicion_id,
+            'cantidad'=>$request->cantidad,
+            'unidad_medida'=>$request->unidad_medida,
+            'materiale_id'=>$request->materiale_id,
+            'id'=>Requisiciondetalle::retonrar_id_insertar()
+        ]);
+        return array(1,"exito",$request->requisicion_id);
+        
+        
       }catch (\Exception $e){
         return array(-1,'error',$e->getMessage());
       }

@@ -44,6 +44,7 @@ $(document).ready(function(){
 		var observaciones = $("#observaciones").val();
 		var fondo = $("#fondo").val();
 		var unidad_id = $("#unidad_id").val();
+		var conpresupuesto = $("#conpre").val();
 		var fecha_actividad=$("#fecha_actividad").val();
 		var requisiciones = new Array();
 		/*$(cuerpo).find("tr").each(function (index, element) {
@@ -62,7 +63,7 @@ $(document).ready(function(){
 					url: "../requisiciones",
 					headers: {'X-CSRF-TOKEN':token},
 					type:'POST',
-					data: {actividad,user_id,observaciones,fondo,unidad_id,fecha_actividad},
+					data: {actividad,user_id,observaciones,fondo,unidad_id,fecha_actividad,conpresupuesto},
 				 success : function(msj){
 					 console.log(msj);
 						if(msj.mensaje == 'exito'){

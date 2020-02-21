@@ -198,9 +198,12 @@ class Solicitudcotizacion extends Model
                   <br>
                   <fieldset>
                   <legend>Cotizaciones';
-                  
-                  if($solicitud->estado==1 && ($hoy <= $limite)):  
-                  $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                  if($solicitud->requisicion->conpresupuesto ==1):
+                    if($solicitud->estado==1 && ($hoy <= $limite)):  
+                    $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                    endif;
+                  else:
+                    $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
                   endif;
                   $html.='</legend>
                   <div id="">
@@ -708,7 +711,7 @@ class Solicitudcotizacion extends Model
               foreach($requisicion->requisiciondetalle as $key => $detalle):
                   if($detalle->estado==1):
                   $formulario.='<tr>
-                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->materiale_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
                       <td>'.($key+1).'</td>
                       <td>'.$detalle->material->nombre.'</td>
                       <td>'.$detalle->unidadmedida->nombre_medida.'</td>

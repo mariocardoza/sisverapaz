@@ -17,7 +17,6 @@ class Factura extends Migration
             $table->increments('id');
             $table->bigInteger('mueble_id')->unsigned();
             
-            $table->string('codigo');
             $table->string('mesYear', 10);
             $table->date('fechaVecimiento');
 

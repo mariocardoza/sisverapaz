@@ -4,8 +4,8 @@ window.onload = function () {
 
     function deletePathMap () {
         Swal.fire({
-            title: 'Esta seguro que desea borrar el area seleccionada?',
-            text: "Una vez borrada no podra recuperar la informacion",
+            title: 'Esta seguro que desea borrar el área seleccionada?',
+            text: "Una vez borrada no podrá recuperar la información",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -13,7 +13,7 @@ window.onload = function () {
             confirmButtonText: 'Si, estoy de acuerdo!'
           }).then((result) => {
             if (result.value) {
-                Swal.fire('Exito!', 'El area fue borrada con exito', 'success' )
+                Swal.fire('Exito!', 'El área fue borrada con éxito ', 'success' )
                 drawingManager.setOptions({
                     drawingControl: true
                 });
@@ -39,7 +39,13 @@ window.onload = function () {
         $.post("cementerios", {
             pointers: pointers, form: formulario
         }).done(function(respuesta) {
-            
+            Swal.fire({
+                title: 'Éxito!',
+                text: 'Hemos guardo con éxito los datos del cementerio',
+                type: 'success'
+            }).then(function() {
+                window.location.reload();
+            });
         }).fail(function(err){
             toastr.error(err);
         })
@@ -83,7 +89,7 @@ window.onload = function () {
                     maximo: data[1]["value"],
                 })
             } else {
-                toastr.error("Debes de dibujar el area para el cementerio");
+                toastr.error("Debes de dibujar el área para el cementerio");
             }
         }
     });

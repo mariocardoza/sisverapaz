@@ -7,10 +7,10 @@ use DB;
 
 class Detalleplanilla extends Model
 {
-  protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio','proyecto_id','numero_acuerdo','unidad_id'];
+  protected $fillable = ['empleado_id','salario','tipo_pago','pago','fecha_inicio','proyecto_id','numero_acuerdo','unidad_id','cargoproyecto_id'];
   protected $dates = ['fecha_inicio'];
   public static function empleados(){
-    $empleados=Empleado::where('estado')->orderBy('nombre')->get();
+    $empleados=Empleado::where('estado',1)->orderBy('nombre')->get();
     
     $a_empleados=[];
     foreach ($empleados as $e) {
@@ -37,6 +37,11 @@ class Detalleplanilla extends Model
 
   public function cargo(){
     return $this->belongsTo('App\Cargo');
+  }
+
+  public function cargoproyecto()
+  {
+    return $this->belongsTo('App\CargoProyecto','cargoproyecto_id');
   }
 
   // public static function vacacion($id){//Recibe el id de planilla

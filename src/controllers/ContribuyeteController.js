@@ -68,6 +68,9 @@ module.exports =  ["$scope", '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', 
       <a ui-sref="app.contribuyentepagos({ contribuyente: ${data.id} })" class="btn btn-success">
         <i class="fa fa-fw fa-dollar"></i>
       </a>
+      <a class="btn btn-info" href="/pagos/${data.id}">
+        <i class="fa fa-fw fa-dollar"></i>
+      </a>
      </div>
     `;
   }

@@ -16,33 +16,44 @@ class CementerioController extends Controller
      */
     public function index()
     {
+        $cementerio = Cementerio::first();
+        $isDrawing = true;
+        
         $gmap = new GMaps();
         $config = array();
         $config['center'] = '13.644985, -88.865193';
         $config['zoom'] = '19';
         $config['map_height'] = "100%";
-        $config['scrollwheel'] = true;
-        $config['drawing'] = true;
-        $config['drawingDefaultMode'] = 'polygon';
+        $config['scrollwheel'] = true;        
         $config['drawingModes'] = array('polygon');
+        
+        if ($cementerio) {
+            $isDrawing = false;
+            $polygon = array();
+            $polygon['points'] = self::generatePointsArray($cementerio->posiciones);
+            $polygon['strokeColor'] = '#000099';
+            $polygon['fillColor'] = '#000099';
+            $gmap->add_polygon($polygon);
+        } else { 
+            $config['drawing'] = true;
+            $config['drawingDefaultMode'] = 'polygon';            
+        }
+        
         $gmap->initialize($config);
-
-        // $marker = array();
-        // $marker['position'] = '13.645341, -88.865775';
-        // $marker['infowindow_content'] = 'clary dormite!';
-        // $marker['icon'] = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|9999FF|000000';
-        // $gmap->add_marker($marker);
-
-        // $marker = array();
-        // $marker['position'] = '13.645313, -88.865653';
-        // $marker['draggable'] = TRUE;
-        // $marker['animation'] = 'DROP';
-        // $gmap->add_marker($marker);
-
         $map = $gmap->create_map();
         return view("cementerios.index", [
-            "map"   => $map
+            "map"           => $map,
+            "isDrawing"     => $isDrawing,
+            "cementerio"    => $cementerio
         ]);
+    }
+
+    private function generatePointsArray($posiciones) {
+        $response = array();
+        foreach ($posiciones as $value) {
+            array_push($response, $value['latitud'].', '.$value['longitud']);
+        }       
+        return $response; 
     }
 
     /**

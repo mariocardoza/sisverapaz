@@ -24,6 +24,7 @@
                 <div class="panel-body">
                     {{ Form::open(['action' => 'RequisicionController@store','class' => 'form-horizontal','id' => 'requisicion']) }}
                     @include('requisiciones.formulario')
+                    {{Form::hidden('conpresupuesto',1,['id'=>'conpre'])}}
                     <br>
                     <!--button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                       Agregar requisiciones

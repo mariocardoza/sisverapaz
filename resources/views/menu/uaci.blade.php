@@ -60,41 +60,33 @@
         <li><a href="{{ url('proveedores') }}"><i class="fa fa-circle-o"></i> Listado de Proveedores</a></li>
     </ul>
 </li>
-<li class="treeview {{ Route::currentRouteName() == 'materiales.index' ? 'active':null}}">
-        <a href="#">
-            <i class="fa fa-user-circle-o"></i>
-            <span>Materiales</span>
-            <span class="pull-right-container">
-                  <span class="label label-primary pull-right"></span>
-                </span>
-        </a>
-        <ul class="treeview-menu">
-            <li><a href="{{ url('materiales') }}"><i class="fa fa-circle-o"></i> Listado de materiales</a></li>
-        </ul>
-    </li>
-    <li class="treeview {{ Route::currentRouteName() == 'categorias.index' ? 'active':null}}">
-        <a href="#">
-            <i class="fa fa-user-circle-o"></i>
-            <span>Categorías</span>
-            <span class="pull-right-container">
-                  <span class="label label-primary pull-right"></span>
-                </span>
-        </a>
-        <ul class="treeview-menu">
-            <li><a href="{{ url('categorias') }}"><i class="fa fa-circle-o"></i> Listado de categorías</a></li>
-        </ul>
-    </li>
 
-    <li class="treeview {{ Route::currentRouteName() == 'unidadmedidas.index' ? 'active':null}}">
+<li class="treeview {{ Route::currentRouteName() == 'materiales.index' ? 'active':null}}">
+    <a href="#">
+      <i class="fa fa-share"></i> <span>Opciones para materiales</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu active">
+      <li><a href="{{ url('materiales') }}"><i class="fa fa-circle-o"></i> Materiales</a></li>
+      <li><a href="{{ url('categorias') }}"><i class="fa fa-circle-o"></i> Categorias para materiales</a></li>
+      <li><a href="{{ url('unidadmedidas') }}"><i class="fa fa-circle-o"></i> Unidades de medida</a></li>
+    </ul>
+  </li>
+
+    <li class="treeview ">
         <a href="#">
             <i class="fa fa-user-circle-o"></i>
-            <span>Unidades de medida</span>
+            <span>Utilitarios</span>
             <span class="pull-right-container">
                   <span class="label label-primary pull-right"></span>
                 </span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="{{ url('unidadmedidas') }}"><i class="fa fa-circle-o"></i> Listado de unidades de medida</a></li>
+            <li><a href="{{ url('cargoproyectos') }}"><i class="fa fa-circle-o"></i> Cargos para los proyectos</a></li>
+            <li><a href="{{ url('paaccategorias') }}"><i class="fa fa-circle-o"></i> Categorias para el Plan Anual</a></li>
+            <li><a href="{{ url('giros') }}"><i class="fa fa-circle-o"></i> Giro de los proveedores</a></li>
         </ul>
     </li>
 

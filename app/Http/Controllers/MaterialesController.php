@@ -44,7 +44,8 @@ class MaterialesController extends Controller
                 'id'=>date('Yidisus'),
                 'nombre'=>$request->nombre,
                 'categoria_id'=>$request->categoria_id,
-                'unidad_id'=>$request->unidad_id
+                'unidad_id'=>$request->unidad_id,
+                'servicio'=>$request->servicio
             ]);
             return array(1,"exito");
         }catch(Exception $e){
@@ -125,5 +126,28 @@ class MaterialesController extends Controller
         ],$mensajes);
 
         
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+        $especialista = Materiales::find($id);
+        $especialista->estado = 2;
+  
+        $especialista->save();
+        bitacora('Dió de baja un material');
+        return redirect('materiales')->with('mensaje','Registro dado de baja');
+    }
+
+    public function alta($id)
+    {
+        $especialista = Materiales::find($id);
+        $especialista->estado = 1;
+        
+        $especialista->save();
+        bitacora('Dió de alta un material');
+        return redirect('materiales')->with('mensaje','Registro dado de alta');
     }
 }

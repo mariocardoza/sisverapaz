@@ -75,12 +75,15 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_representante" class="btn btn-primary">Registrar</button>
+        <center>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_representante" class="btn btn-primary">Registrar</button></center>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <div class="modal fade" tabindex="-1" id="modal_proveedor" role="dialog" aria-labelledby="gridSystemModalLabel">
   <div class="modal-dialog" role="document">
@@ -95,8 +98,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="editar_proveedor" class="btn btn-primary">Registrar</button>
+        <center>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="editar_proveedor" class="btn btn-primary">Registrar</button></center>
       </div>
     </div>
   </div>

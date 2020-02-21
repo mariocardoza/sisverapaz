@@ -16,9 +16,24 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-              <div class="btn-group pull-right">
-                <a href="{{ url('/requisiciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <h3 class="box-title"></h3>
+              <div class="row">
+                <div class="btn-group col-md-10">
+                  <a href="{{ url('/requisiciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                </div>
+                <div class="col-md-2">
+                  <select name="" id="select_anio" class="chosen-select-width pull-right">
+                    <option value="0">Seleccione el año</option>
+                    @foreach ($anios as $anio)
+                      @if($elanio==$anio->anio)
+                      <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @else 
+                      <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @endif
+                    @endforeach
+                  </select>
+                  <button class="btn btn-primary" id="btn_anio">Aceptar</button>
+                </div>
               </div>
           </div>
             <!-- /.box-header -->
@@ -66,4 +81,16 @@
           <!-- /.box -->
         </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+  $(document).ready(function(e){
+    $(document).on("click","#btn_anio",function(e){
+      var anio=$("#select_anio").val();
+      if(anio > 0){
+        location.href="../requisiciones/porusuario?anio="+anio;
+      }
+    });
+  });
+</script>
 @endsection

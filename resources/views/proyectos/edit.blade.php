@@ -12,27 +12,28 @@
 @endsection
 
 @section('content')
-<div class="container" id=app>
     <div class="row">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Editar proyecto</div>
             <div class="panel-body">
                 {{ Form::model($proyecto, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('proyectos.update', $proyecto->id))) }}
                 @include('proyectos.formularioedit')
                 @include('errors.validacion')
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-2">
-                            <button type="submit" class="btn btn-success">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>    Editar
-                            </button>
-                            <button type="button" class="btn btn-default" id="limpiar">Limpiar</button>
+                    <center>
+                        <div class="form-group">
+                            <div class="">
+                                <button type="submit" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>    Editar
+                                </button>
+                                <button type="button" class="btn btn-default" id="limpiar">Cancelar</button>
+                            </div>
                         </div>
-                    </div>
+                    </center>
                 {{ Form::close() }}
             </div>
         </div>
     </div>
-</div>
 @endsection
 @section('scripts')
-{!! Html::script('js/proyectoe.js') !!}
+{!! Html::script('js/proyectoe.js?cod='.date('yidisus')) !!}
 @endsection

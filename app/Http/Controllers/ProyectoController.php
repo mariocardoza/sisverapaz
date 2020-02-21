@@ -15,12 +15,16 @@ use App\Cuentaproy;
 use App\Categoria;
 use App\ProyectoActa;
 use App\Formapago;
+use App\Calendarizacion;
 use App\Solicitudcotizacion;
+use App\ProyectoPlanilla;
+use App\Licitacion;
 use App\Http\Requests\ProyectoRequest;
 use App\Http\Requests\FondocatRequest;
 use DB;
 use Validator;
 use Session;
+use Storage;
 
 class ProyectoController extends Controller
 {
@@ -184,19 +188,51 @@ class ProyectoController extends Controller
     public function subircontrato(Request $request)
     {
       $this->validar_contrato($request->all())->validate();
+      $archivo="Contrato_".$request->nombre."_".date("Ymdhis").".".$request->file('archivo')->getClientOriginalExtension();
       try{
-        $request->file('archivo')->storeAs('proyectos/contratos', $request->file('archivo')->getClientOriginalName());
+        $request->file('archivo')->storeAs('proyectos/contratos', $archivo);
         $contrato=ContratoProyecto::create([
           'id'=>date('Yidisus'),
           'nombre'=>$request->nombre,
           'descripcion'=>$request->descripcion,
-          'archivo'=>$request->file('archivo')->getClientOriginalName(),
+          'archivo'=>$archivo,
           'proyecto_id'=>$request->proyecto_id
         ]);
 
         return array(1,"exito",$request->proyecto_id);
       }catch(Exception $e){
         return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function subiroferta(Request $request)
+    {
+      $this->validar_oferta($request->all())->validate();
+      $proveedor=\App\Proveedor::find($request->proveedor_id);
+      $archivo="Oferta_".$proveedor->nombre."_".date("d-m-Y_h_i_s_a").".".$request->file('archivo')->getClientOriginalExtension();
+      try{
+        $request->file('archivo')->storeAs('proyectos/ofertas', $archivo);
+        $contrato=Licitacion::create([
+          'proveedor_id'=>$request->proveedor_id,
+          'archivo'=>$archivo,
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function borrarlicitacion($id)
+    {
+      try{
+        $licitacion=Licitacion::find($id);
+        Storage::disk('local')->delete('proyectos/ofertas/'.$licitacion->archivo);
+        $licitacion->delete();
+      return array(1,"exito",$licitacion);
+      }catch(Exception $e){
+
       }
     }
 
@@ -319,24 +355,10 @@ class ProyectoController extends Controller
     {
         $proyecto = Proyecto::find($id);
 
-        Session::forget('fondosbase');
 
-      if(count($proyecto->fondo) >0){
-      //  for($i=0;$i<count($proyecto->fondo);$i++){
-        foreach($proyecto->fondo as $fondo){
-          $fondo = [
-            'existe' => true,
-            'cat_id' => intval($fondo->fondocat->id),
-            'categoria' => str_replace ( " " , "_" , $fondo->fondocat->categoria ),
-            'monto' => floatval($fondo->monto),
-          ];
-          //guarda en una sesion llamada fondosbase
-          Session::push('fondosbase', $fondo);
-        }
-      }
+   
 
-        $organizaciones = Organizacion::all();
-        return view('proyectos.edit',compact('proyecto','organizaciones'));
+        return view('proyectos.edit',compact('proyecto'));
     }
 
     /**
@@ -349,8 +371,7 @@ class ProyectoController extends Controller
 
     public function update(ProyectoRequest $request, $id)
     {
-      $fondos= Session::get('fondos');
-      $fondosbase= Session::get('fondosbase');
+     
       //dd($fondosbase);
       try{
         $proyecto = Proyecto::findorFail($id);
@@ -363,27 +384,7 @@ class ProyectoController extends Controller
         $proyecto->beneficiarios=$request->beneficiarios;
         $proyecto->save();
 
-        //Insertar datos que estan en la sesion para la guardarlos en la base
-        for($i=0; $i< count($fondos);$i++) {
-          if($fondos[$i]['existe']==true){
-            $fondonuevo=new Fondo();
-            $fondonuevo->proyecto_id = $proyecto->id;
-            $fondonuevo->fondocat_id = $fondos[$i]['cat_id'];
-            $fondonuevo->monto = $fondos[$i]['monto'];
-            $fondonuevo->save();
-          }
-        }
-
-        for($i=0; $i<count($fondosbase); $i++){
-          if($fondosbase[$i]['existe']==true){
-            $fondo=Fondo::where('fondocat_id',$fondosbase[$i]['cat_id'])->first();
-            $fondo->monto=$fondosbase[$i]['monto'];
-            $fondo->save();
-          }
-        }
-        //elimina la sesion ya que ya se guardaron
-        Session::forget('fondos');
-        Session::forget('fondosbase');
+      
 
         bitacora('Modificó  Proyecto');
         return redirect('/proyectos')->with('mensaje','Infomacion del proyecto modificada con éxito');
@@ -475,6 +476,58 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function generar_planilla($idproy,$id)
+    {
+      $retorno=Proyecto::generar_planilla($idproy,$id);
+      return $retorno;
+    }
+
+    public function quitarempleado(Request $request)
+    {
+      try{
+        $pendientes=\App\PeriodoProyecto::pendientes($request->proyecto_id);
+        if(count($pendientes)==0){
+          $d=\App\Detalleplanilla::find($request->id);
+          $d->delete();
+          return array(1,"exito");
+      }else{
+          return array(-2,"error","El empleado se encuentra registrado para una catorcena pendiente");
+      }
+      }catch(Excpetion $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function guardarplanilla(Request $request)
+    {
+      try{
+        DB::beginTransaction();
+        for($i=0;$i<count($request->dias);$i++){
+          ProyectoPlanilla::create([
+            'id'=>ProyectoPlanilla::retornar_id(),
+            'proyecto_id'=>$request->proyecto_id,
+            'catorcena_id'=>$request->catorcena_id,
+            'numero_dias'=>$request->dias[$i],
+            'salario_dia'=>$request->salario_dia[$i],
+            'empleado_id'=>$request->empleados[$i],
+            'cargo_id'=>$request->cargo[$i]
+          ]);
+        }
+        $catorcena=\App\PeriodoProyecto::find($request->catorcena_id);
+        $catorcena->estado=2;
+        $catorcena->save();
+        DB::commit();
+        return array(1,"exito");
+      }catch(Exception $e){
+        DB::rollback();
+        return array(-1,"error",$e->getMessage());
+      }
+      
+
+
+      
+    }
+
     public function baja($cadena)
     {
       try{
@@ -524,6 +577,17 @@ class ProyectoController extends Controller
       return $retorno;
     }
 
+    public function calendario($id){
+      $retorno=Calendarizacion::calendario($id);
+      return $retorno;
+    }
+
+    public function licitacion($id)
+    {
+      $retorno=Licitacion::licitacion($id);
+      return $retorno;
+    }
+
     public function formulariosoli($id)
     {
       $retorno=Solicitudcotizacion::formulario_solicitud($id);
@@ -548,6 +612,27 @@ class ProyectoController extends Controller
       }
     }
 
+    public function bajarlicitacion($file_name)
+    {
+      $file = '/proyectos/ofertas/' . $file_name;
+      //dd($file);
+      $disk = Storage::disk('local');
+      if ($disk->exists($file)) {
+          $fs = Storage::disk('local')->getDriver();
+          $stream = $fs->readStream($file);
+          return \Response::stream(function () use ($stream) {
+              fpassthru($stream);
+          }, 200, [
+              "Content-Type" => $fs->getMimetype($file),
+              "Content-Length" => $fs->getSize($file),
+              "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
+          ]);
+      } else {
+        return Redirect::back()->with('error', 'Archivo no encontrado');
+          //abort(404, "The backup file doesn't exist.");
+      }
+    }
+
     protected function validar_contrato(array $data)
     {
         $mensajes=array(
@@ -561,6 +646,22 @@ class ProyectoController extends Controller
             'nombre' => 'required',
             'descripcion'=>'required',
             'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+        ],$mensajes);
+
+        
+    }
+
+    protected function validar_oferta(array $data)
+    {
+        $mensajes=array(
+            'proveedor_id.required'=>'El proveedor es obligatorio',
+            'archivo.required'=>'Debe adjuntar la oferta',
+            'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+            'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+        );
+        return Validator::make($data, [
+            'proveedor_id' => 'required',
+            'archivo'=>'required|mimes:pdf,doc,docx,xls,xlsx|between:1,10000'
         ],$mensajes);
 
         
