@@ -105,4 +105,28 @@ class UnidadAdminController extends Controller
     {
         //
     }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+        $unidad = Unidad::find($id);
+        $unidad->motivo = $motivo;
+        $unidad->fecha_baja = date('Y-m-d');
+        $unidad->estado = 2;
+        $unidad->save();
+        bitacora('Dió de baja la unidad administrativa');
+        return redirect('/unidades')->with('mensaje','Unidad dada de baja');
+    }
+    public function altar($id)
+    {
+        $unidad = Unidad::find($id);
+        $unidad->estado = 1;
+        $unidad->motivo = null;
+        $unidad->fecha_baja = null;
+        $unidad->save();
+        bitacora('Dió de alta a un registro');
+        return redirect('/unidades')->with('mensaje','Registro dado de alta');
+    }
 }

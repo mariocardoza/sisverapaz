@@ -41,11 +41,11 @@
 						@if($cargo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
 						<a href="javascript:(0)" id="edit" data-id="{{$cargo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cargo->id.",'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$cargo->id.",'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>
@@ -87,9 +87,10 @@
 				},
 				error:function(error){
 					console.log();
-					$(error.responseJSON.errors).each(function(index,valor){
-						toastr.error(valor.cargo);
+					$.each(error.responseJSON.errors, function(key, value){
+						toastr.error(value);
 					});
+					swal.closeModal();
 				}
 			});
 		});

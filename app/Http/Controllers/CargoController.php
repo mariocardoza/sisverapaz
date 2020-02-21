@@ -80,10 +80,14 @@ class CargoController extends Controller
 
     protected function validar(array $data)
     {
+        $mensaje = array(
+            'cargo.required'=>'El cargo es obligatorio',
+            'catcargo_id.required'=>'La categoría es obligatoria'
+        );
         return Validator::make($data, [
             'cargo' => 'required|unique:cargos',
             'catcargo_id' => 'required',
-        ]);
+        ], $mensaje);
     }
 
     /**

@@ -2,11 +2,11 @@
 
 @section('migasdepan')
     <h1>
-        <small>Tipo de servicios</small>
+        Unidades Administrativas
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{ url('/unidades') }}"><i class="fa fa-dashboard"></i> Unidad administrativas</a></li>
-        <li class="active">Listado de unidades</li>
+        <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+        <li class="active">Listado de Unidades</li>
     </ol>
 @endsection
 
@@ -16,7 +16,11 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Listado</h3>
-                    <a href="{{ url('/unidades/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                    <div class="btn-group pull-right">
+                        <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                        <a href="{{ url('/unidades?estado= 1') }}" class="btn btn-primary">Activos</a>
+                        <a href="{{ url('/unidades?estado= 0')}}" class="btn btn-primary">Papelera</a>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
@@ -27,24 +31,27 @@
                         <th>Accion</th>
                         </thead>
                         <tbody>
-                        @foreach($unidades as $unidad)
+                        @foreach($unidades as $key => $unidad)
                             <tr>
+                                <td>{{ $key+1 }}</td>
                                 <td>{{ $unidad->id }}</td>
                                 <td>{{ $unidad->nombre_unidad }}</td>
                                 <td>
+                                    @if($unidad->estado == 1)
                                     {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                        <a href="{{ url('unidades/'.$unidad->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                        <a href="{{ url('/unidades/'.$unidad->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                        <button type="button" class="btn btn-danger btn-xs" onclick={{ "baja(".$unidad->id.",'unidades')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a href="javascript:(0)" id="edit" data-id="{{$unidad->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                                    <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$unidad->id.",'unidades')" }}><span class="glyphicon glyphicon-trash"></span></button>
                                     {{ Form::close()}}
+                                    @else
+                                    {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
+                                    <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$unidad->id.",'unidades')"}}><span class="glyphicon glyphicon-trash"></span></button>
+                                    {{ Form::close() }}
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="pull-right">
-
-                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
