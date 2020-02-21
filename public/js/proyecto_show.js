@@ -77,24 +77,101 @@ $(document).ready(function(e){
             });
           }
       });
-});
+    });
+
+    $(document).on("click","#eli_acti", function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+        title: 'Actividad',
+        text: "¿Está seguro de eliminar la actividad?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Si!',
+        cancelButtonText: '¡No!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url:'../calendarizaciones/'+id,
+            type:'delete',
+            dataType:'json',
+            
+            success: function(json){
+              if(json[0]==1){
+                
+                toastr.success("Actividad eliminada con éxito");
+                calendario(elid);
+              }else{
+                toastr.error("Ocurrió un error");
+              }
+            }, error: function(error){
+
+            }
+          });
+          /*swal(
+            '¡Éxito!',
+            'Materiales ya en posesión del encargando',
+            'success'
+          );*/
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Operación cancelada',
+            
+          );
+        }
+      });
+    });
 
   //funcion para quitar una oferta
   $(document).on("click","#quitar_oferta",function(e){
     var id=$(this).attr("data-id");
-    $.ajax({
-      url:'../proyectos/borrarlicitacion/'+id,
-      type:'get',
-      dataType:'json',
-      success: function(json){
-        if(json[0]==1){
-          toastr.success("Oferta eliminada con éxito");
-          licitacion(elid);
-        }else{
-
-        }
+    swal({
+      title: 'Eliminar la oferta',
+      text: "¿Está seguro de eliminar esta oferta?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Si!',
+      cancelButtonText: '¡No!',
+      confirmButtonClass: 'btn btn-success',
+      cancelButtonClass: 'btn btn-danger',
+      buttonsStyling: false,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url:'../proyectos/borrarlicitacion/'+id,
+          type:'get',
+          dataType:'json',
+          success: function(json){
+            if(json[0]==1){
+              toastr.success("Oferta eliminada con éxito");
+              licitacion(elid);
+            }else{
+    
+            }
+          }
+        });
+        /*swal(
+          '¡Éxito!',
+          'Materiales ya en posesión del encargando',
+          'success'
+        );*/
+      } else if (result.dismiss === swal.DismissReason.cancel) {
+        swal(
+          'Operación cancelada',
+          
+        );
       }
     });
+    
   });
 
     //registrarle empleado al proyecto

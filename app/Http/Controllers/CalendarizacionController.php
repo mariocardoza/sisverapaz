@@ -102,6 +102,13 @@ class CalendarizacionController extends Controller
      */
     public function destroy($id)
     {
+        try{
+            $cal=Calendarizacion::find($id);
+            $cal->delete();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function agregar_calendarizacion(Request $request){

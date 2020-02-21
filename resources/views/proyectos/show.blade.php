@@ -28,6 +28,7 @@
 	}
 	</style>
 <div class="row" id="elshow">
+	
 	<div class="col-md-8">
 		<div class="panel panel-primary" id="div_pre">
 			<div class="panel-heading">Datos del Presupuesto </div>
@@ -370,6 +371,7 @@
 							$("#form_evento").trigger("reset");
 							$("#modal_evento").modal("hide");
 							swal.closeModal();
+							calendario(elid);
 						}else{
 							toastr.error("Ocurrió un error");
 							swal.closeModal();
@@ -489,7 +491,7 @@
 						swal.closeModal();
 						$("#licitaciones_aqui").empty();
 						$("#licitaciones_aqui").html(json[2]);
-						inicializar_tabla("estatabla");
+						//inicializar_tabla("estatabla");
 					}else{
 						toastr.error("Ocurrió un error al cargar la información");
 						swal.closeModal();
@@ -514,7 +516,7 @@
 						console.log(json[3])
 						$("#calendarizaciones_aqui").empty();
 						$("#calendarizaciones_aqui").html(json[2]);
-						inicializar_tabla("calender");
+						//inicializar_tabla("calender");
 						$('#calendario').fullCalendar({
 							header: {
 								left:   'month,agendaWeek,agendaDay',

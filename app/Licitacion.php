@@ -68,12 +68,13 @@ class Licitacion extends Model
                         </thead>
                         <tbody>';
                             foreach($proyecto->licitacion as $e):
-                                
-                                $html.='<tr>
+                                $html.='
+                                    <tr>
                                     <td>'.$e->proveedor->nombre.'</td>
                                     <td>'.$e->archivo.'</td>
                                     <td>'.$e->created_at->format("d/m/Y H:i:s a").'</td>';
                                     if($e->estado==0):
+                                    
                                     $html.='<td><label class="label-primary col-md-12">Sin aceptar</label></td>';
                                     else:
                                     $html.='<td><label class="label-success col-md-12">Aceptada</label></td>';
@@ -81,7 +82,7 @@ class Licitacion extends Model
                                     $html.='<td>
                                     <!--button class="btn btn-info btn-sm" title="Editar" type="button"><i class="fa fa-edit"></i></button-->
                                     <button class="btn btn-danger btn-sm" id="quitar_oferta" data-id="'.$e->id.'" title="Eliminar" type="button"><i class="fa fa-remove"></i></button>
-                                    <a class="btn btn-success btn-sm" title="Descargar" href="../proyectos/bajarlicitacion/'.$e->archivo.'"><i class="fa fa-download"></i></a>
+                                    <a target="_blank" class="btn btn-success btn-sm" title="Descargar" href="../proyectos/bajarlicitacion/'.$e->archivo.'"><i class="fa fa-download"></i></a>
                                     </td>
                                 </tr>';
                             endforeach;

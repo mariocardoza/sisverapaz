@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-	&nbsp;
+	Configuraciones
 </h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/cuentas') }}"><i class="fa fa-dashboard"></i>Configuracion básica de la Alcaldía</a></li>
@@ -10,17 +10,145 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">Configuraciones</div>
+		<div class="col-md-3">
+			<div class="panel">
 				<div class="panel-body">
-					@include('errors.validacion')
-          			@include('configuraciones.formulario')
+					
 				</div>
 			</div>
-		</div>
+        </div>
+        <div class="col-md-9">
+            @include('errors.validacion')
+            <div class="nav-tabs-custom" style=" ">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#alcaldia" data-toggle="tab">Datos de la alcaldía</a></li>
+                  <li><a href="#logo" data-toggle="tab">Logo</a></li>
+                  <li><a href="#alcalde" data-toggle="tab">Datos del alcalde</a></li>
+                  <li><a href="#limites" data-toggle="tab">Límites de los proyectos</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="active tab-pane" id="alcaldia" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
+                    <div class="panel-body">
+
+                        @if($configuraciones != null)
+                          {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('configuraciones.ualcaldia', $configuraciones->id))) }}
+                        @else
+                          {{ Form::open(['action'=> 'ConfiguracionController@alcaldia', 'class' => 'form-horizontal']) }}
+                        @endif
+                        @include('configuraciones.alcaldia')
+                        @if($configuraciones != null)
+                          <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-4">
+                                            <button type="submit" class="btn btn-success">
+                                                <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                        @else
+                                  <div class="form-group">
+                                      <div class="col-md-6 col-md-offset-4">
+                                          <button type="submit" class="btn btn-success">
+                                              <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                          </button>
+                                      </div>
+                                  </div>
+                      @endif
+            
+                      {{Form::close()}}
+                      </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="logo">
+                    
+                    <div class="panel-body">
+                        @if($configuraciones!='')
+                        <img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                        <form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>
+                        @else 
+                        <img src="{{ asset('img/logos/escudo.png') }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                        <form method='post' action="{{ url('configuraciones/logog') }}" enctype='multipart/form-data'>
+                        @endif
+                                  {{csrf_field()}}
+                                
+                          <div class='form-group text-center'>
+                            <input type="file" class="hidden" name="logo" id="file_1" />
+                            <div class='text-danger'>{{$errors->first('avatar')}}</div>
+                          </div>
+                          <button type='submit' class='btn btn-primary elsub' style="display: none;">Cambiar</button>
+                        
+                              </form>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="alcalde">
+                      <div class="panel">
+                        <div class="panel-body">
+                            @if($configuraciones != null)
+                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ualcalde', $configuraciones->id))) }}
+                            @else
+                              {{ Form::open(['action'=> 'ConfiguracionController@alcalde', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+                            @endif
+                            @include('configuraciones.alcalde')
+                            @if($configuraciones != null)
+                              <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                  <button type="submit" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                  </button>
+                                </div>
+                              </div>
+                            @else
+                            <div class="form-group">
+                              <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-success">
+                                  <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                </button>
+                              </div>
+                            </div>
+                          @endif
+                          {{Form::close()}}
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="tab-pane" id="limites">
+                    <div class="panel">
+                        <div class="panel-body">
+                            @if($configuraciones != null)
+                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ulimites', $configuraciones->id))) }}
+                            @else
+                              {{ Form::open(['action'=> 'ConfiguracionController@limitesproyecto', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+                            @endif
+                            @include('configuraciones.limites')
+                            @if($configuraciones != null)
+                              <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                  <button type="submit" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                  </button>
+                                </div>
+                              </div>
+                            @else
+                            <div class="form-group">
+                              <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-success">
+                                  <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                </button>
+                              </div>
+                            </div>
+                          @endif
+                          {{Form::close()}}
+                          </div>
+                    </div>
+                  </div>
+                  
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div>
+        </div>
 	</div>
 </div>
 @endsection

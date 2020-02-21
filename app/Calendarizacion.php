@@ -39,6 +39,7 @@ class Calendarizacion extends Model
 							<th>Inicio</th>
 							<th>Fin</th>
 							<th>Observaciones</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>';
@@ -51,6 +52,9 @@ class Calendarizacion extends Model
 								<td>'.$e->inicio->format("d/m/Y H:i").'</td>
 								<td>'.$e->fin->format("d/m/Y H:i").'</td>
 								<td>'.$e->descripcion.'</td>
+								<td>
+									<button type="button" class="btn btn-danger btn-sm" id="eli_acti" data-id="'.$e->id.'"><i class="fa fa-remove"></i></button>
+								</td>
 							</tr>';
 						endforeach;
 					$html.='</tbody>
