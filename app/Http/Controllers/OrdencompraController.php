@@ -200,6 +200,7 @@ class OrdencompraController extends Controller
                   'renta' => \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
                   'liquido' => \App\Detallecotizacion::total_cotizacion($cotizacion->id)- \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
                   'concepto' => 'Pago de renta de Orden de Compra',
+                  'desembolso_id'=>$desembolso->id
                 ]);
               endif;
 

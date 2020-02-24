@@ -68,7 +68,21 @@
         $(document).on('click','#botoncito',function(e){
             e.preventDefault();
             var id = $(this).attr('data-id');
-            //alert(id);
+            swal({
+          title: '¿Está seguro?',
+          text: "¿Desea realizar el pago de la impuesto/renta al cliente?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
             $.ajax({
                 url:"pagorentas",
                 type:"POST",
@@ -93,6 +107,18 @@
 
                 }
             });
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Cancelado',
+              'Revise la información',
+              'info'
+            )
+            $('input[name=seleccionarr]').attr('checked',false);
+          }
+        });
+            //alert(id);
+            
         });
     });
 </script>

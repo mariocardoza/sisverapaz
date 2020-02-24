@@ -16,7 +16,7 @@ class CreatePagoRentasTable extends Migration
         Schema::create('pago_rentas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('dui');
+            $table->string('dui')->nullable();
             $table->string('nit');
             $table->float('total',8,2);
             $table->float('renta',8,2);

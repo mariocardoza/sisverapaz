@@ -44,7 +44,7 @@ class PagoRentaController extends Controller
         try{
             $id = $request->id;
             $pagorenta = PagoRenta::find($id);
-            if($pagorenta->desembolso->estado == 2)
+            if($pagorenta->desembolso->estado == 3)
             {
                 $pagorenta->estado = 2;
                 $pagorenta->save();
