@@ -340,6 +340,8 @@ Route::Resource('planillaproyectos','PeriodoProyectoController');
 
 Route::get('pagocuentas/{id}','PagocuentaController@index')->name("pagocuentas.index");
 
+Route::Resource('pagorentas','PagoRentaController');
+
 Route::Resource('prestamos','PrestamoController');
 Route::Resource('descuentos','DescuentoController');
 

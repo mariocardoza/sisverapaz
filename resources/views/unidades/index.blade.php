@@ -34,7 +34,6 @@
                         @foreach($unidades as $key => $unidad)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $unidad->id }}</td>
                                 <td>{{ $unidad->nombre_unidad }}</td>
                                 <td>
                                     @if($unidad->estado == 1)

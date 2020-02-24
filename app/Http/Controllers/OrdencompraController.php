@@ -188,6 +188,21 @@ class OrdencompraController extends Controller
                 'cuentaproy_id'=>$cotizacion->solicitudcotizacion->proyecto->cuentaproy->id
               ]);
 
+              //REGISTRO DEL PAGO DE LA RENTA
+
+              $tienerenta = Detallecotizacion::renta_cotizacion($cotizacion->id);
+              if($tienerenta>0):
+                $pagorenta = \App\PagoRenta::create([
+                  'nombre'=> $orden->cotizacion->proveedor->nombre,
+                  'dui'=> $orden->cotizacion->proveedor->dui,
+                  'nit'=> $orden->cotizacion->proveedor->nit,
+                  'total' => \App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                  'renta' => \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'liquido' => \App\Detallecotizacion::total_cotizacion($cotizacion->id)- \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'concepto' => 'Pago de renta de Orden de Compra',
+                ]);
+              endif;
+
               DB::commit();
               
               return array(1,"exito",$cotizacion->solicitudcotizacion->id);
@@ -203,6 +218,19 @@ class OrdencompraController extends Controller
                 'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para actividad: '.$cotizacion->solicitudcotizacion->requisicion->actividad,
                 'cuenta_id'=>$cotizacion->solicitudcotizacion->requisicion->cuenta->id
               ]);
+
+              $tienerenta = Detallecotizacion::renta_cotizacion($cotizacion->id);
+              if($tienerenta>0):
+                $pagorenta = \App\PagoRenta::create([
+                  'nombre'=> $orden->cotizacion->proveedor->nombre,
+                  'dui'=> $orden->cotizacion->proveedor->dui,
+                  'nit'=> $orden->cotizacion->proveedor->nit,
+                  'total' => \App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                  'renta' => \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'liquido' => \App\Detallecotizacion::total_cotizacion($cotizacion->id)- \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'concepto' => 'Pago de renta de Orden de Compra',
+                ]);
+              endif;
 
               DB::commit();
               return array(1,"exito",$cotizacion->solicitudcotizacion->id);

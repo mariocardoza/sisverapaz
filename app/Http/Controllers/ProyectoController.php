@@ -324,7 +324,7 @@ class ProyectoController extends Controller
           return array(1,"exito");
       }catch (\Exception $e){
         DB::rollback();
-        return array(-1, $e->getMessage());
+        return array(-1, $e->getMessage(),$e->getLine(),$e);
         }
       }
 
