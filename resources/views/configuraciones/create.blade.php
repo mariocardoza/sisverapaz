@@ -19,7 +19,7 @@
 				</div>
 			</div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             @include('errors.validacion')
             <div class="nav-tabs-custom" style=" ">
                 <ul class="nav nav-tabs">
@@ -62,7 +62,8 @@
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="logo">
                     
-                    <div class="panel-body">
+                    <div class="panel-body text-center">
+                        <h3 class="text-center">Modificar logo de la alcaldía</h3>
                         @if($configuraciones!='')
                         <img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
                         <form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>

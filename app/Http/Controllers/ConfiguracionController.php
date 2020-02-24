@@ -73,18 +73,20 @@ class ConfiguracionController extends Controller
     {
       try{
         $configuracion = \App\Configuracion::find($id);
-        if($configuracion->escudo_alcaldia!=''){
+        /*if($configuracion->escudo_alcaldia!=''){
           if($configuracion->escudo_alcaldia!=$request->file('logo')->getClientOriginalName()){
             unlink('img/logos/'.$configuracion->escudo_alcaldia);
             $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
             $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
             $configuracion->save();
           }
-        }else{
-          $request->file('logo')->move('img/logos', $request->file('logo')->getClientOriginalName());
-          $configuracion->escudo_alcaldia=$request->file('logo')->getClientOriginalName();
+        }else{*/
+          $archivo="logo_alcaldia_".date("Y-m-d-h-i-s-a").".".$request->file('logo')->getClientOriginalExtension();
+          //$request->file('logo')->storeAs('logos/', $archivo);
+          $request->file('logo')->move('img/logos', $archivo);
+          $configuracion->escudo_alcaldia=$archivo;
           $configuracion->save();
-        }
+        //}
         
         return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
       }catch(Exception $e){

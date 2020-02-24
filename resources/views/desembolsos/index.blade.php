@@ -49,10 +49,8 @@
                     <td class="">{!! \App\Desembolso::estado($desembolso->id) !!}</td>
                     <td>
                         @if($desembolso->estado == 1) 
-                            {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                            <a href="{{ url('formapagos/'.$desembolso->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                            <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$desembolso->id.",'formapagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                            {{ Form::close()}}
+                            <a href="javascript:void(0)" id="realizar_pago" data-id="{{$desembolso->id}}" title="Ejecutar desembolso" class="btn btn-info"><span class="fa fa-money"></span></a>
+                            
                         @else
                             {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
                             <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$desembolso->id.",'formapagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
@@ -73,4 +71,56 @@
           <!-- /.box -->
         </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+  $(document).ready(function(e){
+    
+    //efectuar el desembolso
+    $(document).on("click","#realizar_pago",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+          title: '¿Está seguro?',
+          text: "¿Desea realizarle el desembolso al cliente?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              url:'desembolsos',
+              type:'post',
+              data:{id},
+              success: function(json){
+                if(json[0]==1){
+                  toastr.success("Desembolso realizado exitosamente");
+                  location.reload();
+                }else if(json[0]==2){
+                  toastr.info(json[2]);
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              }
+            });
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Cancelado',
+              'Revise la información',
+              'info'
+            )
+            $('input[name=seleccionarr]').attr('checked',false);
+          }
+        });
+    });
+  });
+</script>
 @endsection

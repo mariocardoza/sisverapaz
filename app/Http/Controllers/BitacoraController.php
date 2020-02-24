@@ -36,18 +36,21 @@ class BitacoraController extends Controller
         if($request->get('dia'))
         {
           $dia=invertir_fecha($request->get('dia'));
-          $bitacoras = Bitacora::where('registro',$dia)->with('user')->get();
+          $bitacoras = Bitacora::pordia($dia);
+          return $bitacoras;
           //dd($bitacoras);
         }else{
           if($request->get('usuario')){
             $usuario=$request->get('usuario');
-            $bitacoras = Bitacora::where('user_id',$usuario)->with('user')->get();
+            $bitacoras = Bitacora::porempleado($usuario);
+            return $bitacoras;
             //dd($bitacoras);
           }else{
             if($request->get('inicio') && $request->get('fin')){
               $inicio=invertir_fecha($request->get('inicio'));
               $fin=invertir_fecha($request->get('fin'));
-              $bitacoras = Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->with('user')->get();
+              $bitacoras = Bitacora::porperiodo($inicio,$fin);
+              return $bitacoras;
             }else{
               $bitacoras = Bitacora::all()->with('user');
             }

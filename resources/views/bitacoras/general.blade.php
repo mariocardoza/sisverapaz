@@ -3,17 +3,19 @@
 @section('migasdepan')
 <h1>
         Bitacora
-        <small>Control de bitacora</small>
+        <small></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/bitacoras') }}"><i class="fa fa-dashboard"></i> Bitacoras</a></li>
-        <li class="active">Listado de bitacoras</li>
+        <li><a href="{{ url('/bitacoras') }}"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active">Bitácora</li>
       </ol>
 @endsection
 
 @section('content')
   <div class="row">
-            <div class="panel-header">
+    <div class="col-md-12">
+    <div class="box">
+            <div class="box-header">
               <h3 class="panel-title"></h3>
             </div>
               <div class="row">
@@ -56,15 +58,14 @@
               {{Form::hidden('',$ultimo->registro->format('Y-m-d'),['id'=>'ultimo'])}}
               </div>
 
-              <div class="panel-body">
-                <table class="table table-hover" id="bitaco">
+              <div class="panel-body" id="aqui_bita">
+                <table class="table table-hover" id="esta">
                    <thead>
                     <th>N°</th>
                     <th>Fecha de actividad</th>
                     <th>Hora de la actividad</th>
                     <th>Acción</th>
                     <th>Usuario</th>
-                    <th>Opción</th>
                   </thead>
                   <tbody id="bita">
                     @foreach($bitacoras as $key => $bitacora)
@@ -74,19 +75,18 @@
                       <td>{{ $bitacora->hora }}</td>
                       <td>{{ $bitacora->accion }}</td>
                       <td>{{ $bitacora->user->empleado->nombre}}</td>
-                      <td>
-                      <a href="{{ url('bitacora/'.$bitacora->id) }}" class="btn btn-primary">Ver</a>
-                      </td>
+                      
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
 
               </div>
+            </div>
 
-</div>
-
+          </div>
+        </div>
 @endsection
 @section("scripts")
-{{Html::script('js/bitacora.js')}}
+{{Html::script('js/bitacora.js?cod='.date("Yidisus"))}}
 @endsection

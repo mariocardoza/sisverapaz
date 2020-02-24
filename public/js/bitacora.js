@@ -1,6 +1,6 @@
 var busca="";
 $(document).ready(function(e){
-
+inicializar_tabla("esta");
   $(".cmbusuario").hide();
   $(".txtdia").hide();
   $(".txtinicio").hide();
@@ -51,11 +51,10 @@ $(document).ready(function(e){
             dateFormat: 'dd-mm-yy',
             minDate: start2,
             maxDate: '+0m +0w'
-          });
+    });
     }
   });
 $("#consultar").on("click", function(e){
-  var token = $('meta[name="csrf-token"]').attr('content');
   var request,request2;
   if(busca=='e'){
     var usuario=$("#cmbusuario").val();
@@ -76,30 +75,18 @@ $("#consultar").on("click", function(e){
   }
 
   $.ajax({
-    url: '/'+carpeta()+'/public/bitacoras/general',
-    headers: {'X-CSRF-TOKEN':token},
+    url: '../bitacoras/general',
     type:'GET',
     dataType:'json',
     data:{usuario,dia,inicio,fin},
 
-    success: function(msj){
-      $(bita).empty();
-      var contador=0;
-  			$(msj.mensaje).each(function(key, value){
-          contador++;
-          $(bita).append(
-              "<tr>"+
-                  "<td>" + contador  + "</td>" +
-                  "<td>" + fecha_espaniol(value.registro) + "</td>" +
-                  "<td>" + value.hora + "</td>"+
-                  "<td>" + value.accion+ "</td>" +
-                  "<td>" + value.user.empleado_id + "</td>"+
-                  "<td><div class='btn-group'>"+
-                  "<a class='btn btn-primary btn-xs'><i class='glyphicon glyphicon-eye-open'></i></a>"+
-                  "</div></td>"+
-              "</tr>"
-          );
-  			});
+    success: function(json){
+      if(json[0]==1){
+        $("#aqui_bita").empty();
+        $("#aqui_bita").html(json[2]);
+        inicializar_tabla("bitaco");
+        console.log(json);
+      }
     },
     error: function(msj){
 
@@ -112,7 +99,6 @@ $("#consultar").on("click", function(e){
 
 
   function busqueda(valor){
-
     if(valor=='e'){
       busca=valor;
       $(".cmbusuario").show();
