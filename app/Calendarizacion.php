@@ -16,7 +16,7 @@ class Calendarizacion extends Model
 		$proyecto=Proyecto::find($id);
 		$loseventos=[];
 		$html='';
-		if($proyecto->calendario->count() == 0):
+		if($proyecto->calendario->count() == 0 && ($proyecto->estado == 1 || $proyecto->estado==2)):
 		$html.='<center>
 		<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
 		<span>Agregue evento para la candelarización del proyectopara visualizar la información en el calendario</span><br>
@@ -27,9 +27,11 @@ class Calendarizacion extends Model
 			<div class="nav-tabs-custom" style=" ">
         <ul class="nav nav-tabs hidden-print">
           <li class="active"><a href="#activity" data-toggle="tab">Actividades</a></li>
-          <li><a href="#timeline" data-toggle="tab">Calendario</a></li>
-          <li class="pull-right"><button class="btn btn-primary hidden-print" type="button" id="add_evento">Agregar</button></li>
-        </ul>
+		  <li><a href="#timeline" data-toggle="tab">Calendario</a></li>';
+		  if($proyecto->estado == 1 || $proyecto->estado==2):
+          	$html.='<li class="pull-right"><button class="btn btn-primary hidden-print" type="button" id="add_evento">Agregar</button></li>';
+		  endif;
+	  $html.='</ul>
         <div class="tab-content">
           <div class="active tab-pane" id="activity" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
 				<table class="table" id="calender">

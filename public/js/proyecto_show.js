@@ -62,10 +62,48 @@ $(document).ready(function(e){
               if(data[0]==1){
                 toastr.success("Oferta subida con exito");
                 licitacion(data[2]);
+                informacion(elid);
                 $("#modal_subir_oferta").modal("hide");
                 $("#form_subiroferta").trigger("reset");
                 $(".chosen-select-width").trigger("chosen:updated");
                 $("#info5").text("");
+                swal.closeModal();
+              }
+          },
+          error: function(error){
+              swal.closeModal();
+            $.each(error.responseJSON.errors, function( key, value ) {
+              toastr.error(value);
+              swal.closeModal();
+            });
+          }
+      });
+    });
+
+    $(document).on('submit','#form_subirbase', function(e) {
+      // evito que propague el submit
+      e.preventDefault();
+      modal_cargando();
+      // agrego la data del form a formData
+      var formData = new FormData(this);
+      formData.append('_token', $('input[name=_token]').val());
+    
+      $.ajax({
+          type:'POST',
+          url:'../proyectos/subirbase',
+          data:formData,
+          cache:false,
+          contentType: false,
+          processData: false,
+          success:function(data){
+              if(data[0]==1){
+                toastr.success("Base de licitación subida con éxito");
+                licitacion(data[2]);
+                informacion(elid);
+                $("#modal_subir_base").modal("hide");
+                $("#form_subirbase").trigger("reset");
+                
+                $("#info6").text("");
                 swal.closeModal();
               }
           },
@@ -479,6 +517,11 @@ function cambiar(){
   function cambiar3(){
     var pdrs = document.getElementById('file-upload3').files[0].name;
     document.getElementById('info5').innerHTML = pdrs;
+  }
+
+  function cambiar4(){
+    var pdrs = document.getElementById('file-upload4').files[0].name;
+    document.getElementById('info6').innerHTML = pdrs;
   }
 
 function cargar_planilla(elid,id){

@@ -28,10 +28,11 @@
                   <table class="table table-hover table-bordered table-striped" id="example2">
       				<thead>
                       <th>N°</th>
-                      <th>Nombre</th>
+                      <th>Nombre completo</th>
                       <th>Nombre de Usuario</th>
-                      <th>Correo</th>
-                      <th>Cargo</th>
+                      <th>Correo electrónico</th>
+                      <th>Rol</th>
+                      <th>Unidad administrativa</th>
                       <th>Acción</th>
                     </thead>
                     <tbody>
@@ -42,20 +43,18 @@
                     		<td>{{ $user->username }}</td>
                     		<td>{{ $user->email }}</td>
                         <td>{{ $user->roleuser->role->description }}</td>
+                        <td>{{ $user->unidad->nombre_unidad }}</td>
                     		<td>
-                                @if($user->estado == 1 )
-                                    {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                    <div class="btn-group">
-                                      <a href="{{ url('usuarios/'.$user->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                      <a href="{{ url('/usuarios/'.$user->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                      <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                                    </div>
-                                  {{ Form::close()}}
-                                @else
-                                    {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                    <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                                    {{ Form::close()}}
-                                @endif
+                          @if($user->estado == 1 )
+                              {{ Form::open(['method' => 'POST',  'class' => 'form-horizontal'])}}          
+                                <a href="{{ url('usuarios/'.$user->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                <button class="btn btn-danger" type="button" onclick={{ "baja(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                            {{ Form::close()}}
+                          @else
+                              {{ Form::open(['method' => 'POST', 'class' => 'form-horizontal'])}}
+                              <button class="btn btn-success" type="button" onclick={{ "alta(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                              {{ Form::close()}}
+                          @endif
                         </td>
                     	</tr>
                     	@endforeach

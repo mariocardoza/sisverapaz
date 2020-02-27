@@ -17,6 +17,7 @@ use App\ProyectoActa;
 use App\Formapago;
 use App\Calendarizacion;
 use App\Solicitudcotizacion;
+use Redirect;
 use App\ProyectoPlanilla;
 use App\Licitacion;
 use App\Http\Requests\ProyectoRequest;
@@ -208,12 +209,38 @@ class ProyectoController extends Controller
     public function subiroferta(Request $request)
     {
       $this->validar_oferta($request->all())->validate();
+      DB::beginTransaction();
       $proveedor=\App\Proveedor::find($request->proveedor_id);
+      $proyecto=\App\Proyecto::find($request->proyecto_id);
       $archivo="Oferta_".$proveedor->nombre."_".date("d-m-Y_h_i_s_a").".".$request->file('archivo')->getClientOriginalExtension();
       try{
         $request->file('archivo')->storeAs('proyectos/ofertas', $archivo);
         $contrato=Licitacion::create([
           'proveedor_id'=>$request->proveedor_id,
+          'archivo'=>$archivo,
+          'proyecto_id'=>$request->proyecto_id
+        ]);
+
+        $proyecto->estado=4;
+        $proyecto->save();
+          DB::commit();
+        return array(1,"exito",$request->proyecto_id);
+      }catch(Exception $e){
+        DB::rollback();
+        return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function subirbase(Request $request)
+    {
+      $this->validar_base($request->all())->validate();
+      $proyecto=\App\Proyecto::find($request->proyecto_id);
+      $proyecto->estado=3;
+      $proyecto->save();
+      $archivo="Base de licitacion proyecto_".$proyecto->nombre."_".date("d-m-Y_h_i_s_a").".".$request->file('archivo')->getClientOriginalExtension();
+      try{
+        $request->file('archivo')->storeAs('proyectos/bases_licitacion', $archivo);
+        $contrato=\App\LicitacionBase::create([
           'archivo'=>$archivo,
           'proyecto_id'=>$request->proyecto_id
         ]);
@@ -633,6 +660,27 @@ class ProyectoController extends Controller
       }
     }
 
+    public function bajarbase($file_name)
+    {
+      $file = '/proyectos/bases_licitacion/' . $file_name;
+      //dd($file);
+      $disk = Storage::disk('local');
+      if ($disk->exists($file)) {
+          $fs = Storage::disk('local')->getDriver();
+          $stream = $fs->readStream($file);
+          return \Response::stream(function () use ($stream) {
+              fpassthru($stream);
+          }, 200, [
+              "Content-Type" => $fs->getMimetype($file),
+              "Content-Length" => $fs->getSize($file),
+              "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
+          ]);
+      } else {
+        return Redirect::back()->with('error', 'Archivo no encontrado');
+          //abort(404, "The backup file doesn't exist.");
+      }
+    }
+
     protected function validar_contrato(array $data)
     {
         $mensajes=array(
@@ -678,6 +726,18 @@ class ProyectoController extends Controller
       return Validator::make($data, [
           'descripcion'=>'required',
           'archivo'=>'required|mimes:jpeg,png,pdf,jpg,doc,docx,xls,xlsx|between:1,10000'
+      ],$mensajes);
+    }
+
+    protected function validar_base(array $data)
+    {
+        $mensajes=array(
+          'archivo.required'=>'Debe adjuntar el contrato',
+          'archivo.mimes'=>'Debe adjuntar un archivo con extensión válida',
+          'archivo.between'=>'Debe seleccionar un archivo menor a 10MB'
+      );
+      return Validator::make($data, [
+          'archivo'=>'required|mimes:pdf,doc,docx,xls,xlsx|between:1,10000'
       ],$mensajes);
     }
 }

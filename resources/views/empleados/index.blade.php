@@ -6,7 +6,7 @@
         <small>Control de empleados</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/empleados') }}"><i class="fa fa-dashboard"></i> Empleados</a></li>
+        <li><a href="{{ url('/empleados') }}"><i class="fa fa-home"></i> Inicio</a></li>
         <li class="active">Listado de empleados</li>
       </ol>
 @endsection
@@ -16,10 +16,12 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/empleados/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                <a href="{{ url('/empleados?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/empleados?estado=2') }}" class="btn btn-primary">Papelera</a>
+              <h3 class="box-title"></h3>
+                <div class="btn-group pull-right">
+                  <a href="{{ url('/empleados/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                  <a href="{{ url('/empleados?estado=1') }}" class="btn btn-primary">Activos</a>
+                  <a href="{{ url('/empleados?estado=2') }}" class="btn btn-primary">Inactivos</a>
+                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">

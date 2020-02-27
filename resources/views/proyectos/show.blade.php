@@ -389,6 +389,11 @@
 			window.print();  
 		});
 
+		$(document).on("click","#subir_bases",function(e){
+			e.preventDefault();
+			$("#modal_subir_base").modal("show");
+		});
+
 		});
 		function verificar_tipo(eltipito)
 		{

@@ -47,7 +47,7 @@
                                     <button type="button" class="btn btn-info" id="botoncito" data-id="{{$p->id}}">Pagar</button>
                                     
                                     @else
-                                    <button>Imprimir</button>
+                                    <button type="button" class="btn btn-info">Imprimir</button>
                                     @endif
                                 </td>
                             </tr>

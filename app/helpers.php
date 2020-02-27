@@ -265,100 +265,178 @@ function vercargo($cargo)
 	}
 }
 
-function proyecto_estado($estado)
+function proyecto_estado($estado,$id)
 {
-    switch ($estado) {
-        case '1':
-            return 'Aprobado';
-            break;
-        case '2':
-            return 'Realizando el presupuesto';
-            break;
-        case '3':
-            return 'En proceso de cotización';
-            break;
-        case '4':
-            return 'Recibiendo cotizaciones';
-            break;
-        case '5':
-            return 'En proceso de adjudicación';
-            break;
-        case '6':
-            return 'En proceso de emisión de orden de compra';
-            break;
-        case '7':
-            return 'Pendiente de recibir materiales';
-            break;
-        case '8':
-            return 'En marcha';
-            break;
-        case '9':
-            return 'En pausa';
-            break;
-		case '10':
-			return 'Inactivo';
-            break;
-        case '11':
-			return 'Rechazado';
-            break;
-        case '12':
-			return 'Pendiente de liquidación';
-            break;
-        case '13':
-			return 'Finalizado';
-			break;
-        default:
-						return 'Sin clasificar';
-            break;
-    }
+    $proyecto=\App\Proyecto::find($id);
+    if($proyecto->tipo_proyecto==1):
+        switch ($estado) {
+            case '1':
+                return 'Aprobado';
+                break;
+            case '2':
+                return 'Realizando el presupuesto';
+                break;
+            case '3':
+                return 'En proceso de cotización';
+                break;
+            case '4':
+                return 'Recibiendo cotizaciones';
+                break;
+            case '5':
+                return 'En proceso de adjudicación';
+                break;
+            case '6':
+                return 'En proceso de emisión de orden de compra';
+                break;
+            case '7':
+                return 'Pendiente de recibir materiales';
+                break;
+            case '8':
+                return 'En marcha';
+                break;
+            case '9':
+                return 'En pausa';
+                break;
+            case '10':
+                return 'Inactivo';
+                break;
+            case '11':
+                return 'Rechazado';
+                break;
+            case '12':
+                return 'Pendiente de liquidación';
+                break;
+            case '13':
+                return 'Finalizado';
+                break;
+            default:
+                            return 'Sin clasificar';
+                break;
+        }
+    else:
+        switch ($estado) {
+            case '1':
+                return 'Licitación aprobada';
+                break;
+            case '2':
+                return 'Estableciendo las actividades';
+                break;
+            case '3':
+                return 'Bases listas para descarga';
+                break;
+            case '4':
+                return 'Recibiendo ofertas';
+                break;
+            case '5':
+                return 'Ofertante seleccionado';
+                break;
+            case '6':
+                return 'En ejecución';
+                break;
+            case '7':
+                return 'En pausa';
+                break;
+            case '8':
+                return 'Inactivo';
+                break;
+            case '9':
+                return 'Rechazado';
+                break;
+            case '10':
+                return 'Finalizado';
+                break;
+            default:
+                return 'Sin clasificar';
+                break;
+        }
+    endif;
 }
 
-function estilo_proyecto($estado)
+function estilo_proyecto($estado,$id)
 {
-	switch ($estado) {
-			case '1':
-					return 'primary';
-					break;
-			case '2':
-					return 'warning';
-					break;
-			case '3':
-					return 'warning';
-					break;
-			case '4':
-					return 'warning';
-					break;
-			case '5':
-					return 'warning';
-					break;
-			case '6':
-					return 'success';
-					break;
-			case '7':
-					return 'primary';
-					break;
-			case '8':
-					return 'success';
-					break;
-			case '9':
-					return 'danger';
-					break;
-			case '10':
-					return 'danger';
+    $proyecto=\App\Proyecto::find($id);
+    if($proyecto->tipo_proyecto==1):
+        switch ($estado) {
+                case '1':
+                        return 'primary';
+                        break;
+                case '2':
+                        return 'warning';
+                        break;
+                case '3':
+                        return 'warning';
+                        break;
+                case '4':
+                        return 'warning';
+                        break;
+                case '5':
+                        return 'warning';
+                        break;
+                case '6':
+                        return 'success';
+                        break;
+                case '7':
+                        return 'primary';
+                        break;
+                case '8':
+                        return 'success';
+                        break;
+                case '9':
+                        return 'danger';
+                        break;
+                case '10':
+                        return 'danger';
+                        break;
+                case '11':
+                        return 'danger';
+                        break;
+                case '12':
+                        return 'info';
+                        break;
+                case '13':
+                        return 'success';
+                        break;
+                default:
+                        return 'default';
+                        break;
+        }
+    else:
+        switch ($estado) {
+            case '1':
+                    return 'primary';
                     break;
-            case '11':
-					return 'danger';
+            case '2':
+                    return 'info';
                     break;
-            case '12':
-					return 'info';
+            case '3':
+                    return 'info';
                     break;
-            case '13':
-					return 'success';
-					break;
-			default:
-					return 'default';
-					break;
-	}
+            case '4':
+                    return 'info';
+                    break;
+            case '5':
+                    return 'success';
+                    break;
+            case '6':
+                    return 'success';
+                    break;
+            case '7':
+                    return 'warning';
+                    break;
+            case '8':
+                    return 'danger';
+                    break;
+            case '9':
+                    return 'danger';
+                    break;
+            case '10':
+                    return 'success';
+                    break;
+            default:
+                    return 'default';
+                    break;
+    }
+    endif;
 
 }
 

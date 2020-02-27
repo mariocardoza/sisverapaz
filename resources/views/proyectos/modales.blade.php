@@ -158,6 +158,35 @@
 </div>
 
 <!-- Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_base" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Subir bases de licitación</h4>
+      </div>
+      <div class="modal-body">
+        {{ Form::open(['action'=>'ProyectoController@subirbase', 'class' => '','id' => 'form_subirbase','enctype'=>'multipart/form-data']) }}
+            <input type="hidden" name="proyecto_id" value="{{$proyecto->id}}">
+            
+            <label for="file-upload4" class="subir">
+              <i class="glyphicon glyphicon-cloud"></i> Subir archivo
+          </label>
+          <input id="file-upload4" onchange='cambiar4()' name="archivo" type="file" style='display: none;'/>
+          <div id="info6"></div>
+              <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit"  class="btn btn-success">Guardar</button></center>
+        {{Form::close()}}
+      </div>
+      <!--div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
+      </div-->
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir_oferta" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

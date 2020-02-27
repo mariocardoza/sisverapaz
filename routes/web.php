@@ -118,6 +118,7 @@ Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 //nueva forma
 Route::get('proyectos/borrarlicitacion/{id}','ProyectoController@borrarlicitacion');
 Route::get('proyectos/bajarlicitacion/{archivo}','ProyectoController@bajarlicitacion');
+Route::get('proyectos/bajarbase/{archivo}','ProyectoController@bajarbase');
 Route::get('proyectos/calendario/{id}','ProyectoController@calendario');
 Route::get('proyectos/licitaciones/{id}','ProyectoController@licitacion');
 Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
@@ -131,6 +132,7 @@ Route::get('proyectos/pagos/{id}','ProyectoController@pagos');
 Route::get('proyectos/planilla/{id}','ProyectoController@planilla');
 Route::post('proyectos/subircontrato','ProyectoController@subircontrato');
 Route::post('proyectos/subiroferta','ProyectoController@subiroferta');
+Route::post('proyectos/subirbase','ProyectoController@subirbase');
 Route::post('proyectos/subiracta','ProyectoController@subiracta');
 Route::get('proyectos/elpresupuesto/{id}','ProyectoController@elpresupuesto');
 Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');

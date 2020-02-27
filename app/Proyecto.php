@@ -60,7 +60,7 @@ class Proyecto extends Model
         endif;
         $informacion.='</center></div>
         <div class="col-sm-12">
-        <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+        <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado,$proyecto->id).'">'.proyecto_estado($proyecto->estado,$proyecto->id).'</span>
         </div>
         <div class="clearfix"></div>
         <hr style="margin-top: 3px; margin-bottom: 3px;">';
@@ -384,7 +384,7 @@ class Proyecto extends Model
           <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
           <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
           <td>
-            <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+            <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado,$proyecto->id).'">'.proyecto_estado($proyecto->estado,$proyecto->id).'</span>
           </td>
           <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
           </tr>';
@@ -425,7 +425,7 @@ class Proyecto extends Model
         <td>'. $proyecto->fecha_inicio->format('d-m-Y') .'</td>
         <td>'. $proyecto->fecha_fin->format('d-m-Y') .'</td>
         <td>
-          <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado).'">'.proyecto_estado($proyecto->estado).'</span>
+          <span class="col-xs-12 label label-'.estilo_proyecto($proyecto->estado,$proyecto->id).'">'.proyecto_estado($proyecto->estado,$proyecto->id).'</span>
         </td>
         <td><a href="proyectos/'.$proyecto->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a></td>
         </tr>';
@@ -618,6 +618,11 @@ class Proyecto extends Model
     public function licitacion()
     {
       return $this->hasMany('App\Licitacion')->orderBy('estado','asc')->orderBy('created_at','ASC');
+    }
+
+    public function licitacionbase()
+    {
+      return $this->hasMany('App\LicitacionBase')->orderBy('estado','asc')->orderBy('created_at','ASC');
     }
 
     public function indicadores()

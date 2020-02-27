@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Calendarizacion;
+use DB;
 use Carbon\Carbon;
 
 class CalendarizacionController extends Controller
@@ -42,6 +43,7 @@ class CalendarizacionController extends Controller
     public function store(Request $request)
     {
         try{
+        DB::beginTransaction();
         $i=Carbon::createFromFormat('d/m/Y H:i', $request->inicio)->toDateTimeString();
         $f=Carbon::createFromFormat('d/m/Y H:i', $request->fin)->toDateTimeString();
         Calendarizacion::create([
@@ -51,9 +53,15 @@ class CalendarizacionController extends Controller
           'fin'=>$f,
           'proyecto_id'=>$request->proyecto_id
         ]);
+
+        $proyecto=\App\Proyecto::find($request->proyecto_id);
+        $proyecto->estado=2;
+        $proyecto->save();
+        DB::commit();
         return array(1,"exito");
         }
         catch(Exception $e){
+            DB::rollBack();
             return array(-1,"error",$e->getMessage());
         }
     }

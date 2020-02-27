@@ -52,9 +52,8 @@
                             <a href="javascript:void(0)" id="realizar_pago" data-id="{{$desembolso->id}}" title="Ejecutar desembolso" class="btn btn-info"><span class="fa fa-money"></span></a>
                             
                         @else
-                            {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                            <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$desembolso->id.",'formapagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                            {{ Form::close()}}
+                            <button class="btn btn-success" type="button" ><span class="fa fa-print"></span></button>
+                            
                         @endif
                     </td>
                   </tr>

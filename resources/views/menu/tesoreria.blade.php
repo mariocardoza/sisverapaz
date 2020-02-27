@@ -24,6 +24,19 @@
     </ul>
 </li>
 
+<li class="treeview {{ Route::currentRouteName() == 'pagorentas.index' ? 'active':null}}">
+    <a href="#">
+        <i class="fa fa-edit"></i> <span>Pago impuesto/renta</span>
+        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{ url('pagorentas') }}"><i class="fa fa-circle-o"></i> Pago impuesto/rentas </a></li>
+        
+    </ul>
+</li>
+
 <li class="treeview {{ Route::currentRouteName() == 'servicios.index' ? 'active':null}}">
     <a href="#">
         <i class="fa fa-edit"></i> <span>Pago de servicios</span>
