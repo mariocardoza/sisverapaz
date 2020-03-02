@@ -28,13 +28,13 @@ class EmpleadoRequest extends FormRequest
             'dui'=>'required|unique:empleados|min:10',
             'nit'=>'required|unique:empleados|min:17',
             'email'=>'required|email|unique:empleados',
-            'direccion'=>'required|max:255',
+            'direccion'=>'required|max:190',
             //'departamento' => 'required',
             //'municipio' => 'required',
             'fecha_nacimiento' => 'required|date',
             'sexo'=>'required',
             'celular' => 'required|min:9|unique:empleados',
-            'telefono_fijo' => 'required|min:9|unique:empleados'
+            'telefono_fijo' => 'min:9|unique:empleados'
         ];
     }
 }

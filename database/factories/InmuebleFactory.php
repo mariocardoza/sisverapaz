@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Inmueble::class, function (Faker $faker) {
     return [
-        'numero_catastral'          => $faker->numerify('IMUEBLE#####'),
+        'numero_catastral'          => $faker->numerify('INMUEBLE#####'),
         'contribuyente_id'          => $faker->numberBetween(1, 50),
         'direccion_inmueble'        => $faker->address(),
         'ancho_inmueble'            => $faker->randomFloat(2, 1),

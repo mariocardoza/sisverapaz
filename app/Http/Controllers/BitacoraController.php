@@ -76,6 +76,8 @@ class BitacoraController extends Controller
               $fin=invertir_fecha($request->get('fin'));
               $bitacoras = Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->get();
             }else{
+              $diahoy=date("Y-m-d");
+              
               $bitacoras = Bitacora::all();
             }
           }

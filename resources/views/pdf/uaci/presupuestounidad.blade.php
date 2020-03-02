@@ -34,16 +34,32 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($presupuesto->presupuestodetalle as $correlativo => $presupuestounidad)
-			<tr>
-				<td>{{$correlativo+1}}</td>
-				<td>{{ $presupuestounidad->material->nombre }}</td>
+			@php
+				$categ=array();
+				if(isset($presupuesto->presupuestodetalle)):
+					foreach($presupuesto->presupuestodetalle as $detalle):
+						if(!in_array($detalle->material->categoria->nombre_categoria,$categ)){
+							$categ[]=$detalle->material->categoria->nombre_categoria;
+						}
+					endforeach;
+				endif;
+			@endphp
+			@foreach($categ as $c)
+				<tr><th colspan="6" class="text-center">{{$c}}</th></tr>
+				@foreach($presupuesto->presupuestodetalle as $correlativo => $presupuestounidad)
 				
-				<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
-				<td>{{ $presupuestounidad->cantidad }}</td>
-				<td class="text-right">${{ number_format($presupuestounidad->precio,2) }}</td>
-				<td class="text-right">${{number_format($presupuestounidad->precio*$presupuestounidad->cantidad,2)}}</td>
-			</tr>
+				@if(($c==$presupuestounidad->material->categoria->nombre_categoria))
+				<tr>
+					<td>{{$correlativo+1}}</td>
+					<td>{{ $presupuestounidad->material->nombre }}</td>
+					
+					<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
+					<td>{{ $presupuestounidad->cantidad }}</td>
+					<td class="text-right">${{ number_format($presupuestounidad->precio,2) }}</td>
+					<td class="text-right">${{number_format($presupuestounidad->precio*$presupuestounidad->cantidad,2)}}</td>
+				</tr>
+				@endif
+				@endforeach
 			@endforeach
 		</tbody>
 		<tfoot>

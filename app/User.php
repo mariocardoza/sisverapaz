@@ -88,4 +88,129 @@ public function hasRole($role)
     return false;
 }
 
+  public static function modal_editar($id)
+  {
+    $html='';
+    $user=User::find($id);
+    $unidades=Unidad::where('estado',1)->get();
+   
+
+    
+      $roles = Role::all();
+      $empleados = \DB::table('empleados')->where('es_usuario','=','si')
+                    ->whereNotExists(function ($query)  {
+                         $query->from('users')
+                            ->whereRaw('empleados.id = users.empleado_id');
+                        })->get();
+    $html.='<div class="modal fade" tabindex="-1" id="modal_e_usuario" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title text-center" id="gridSystemModalLabel">Editar el usuario</h4>
+        </div>
+        <div class="modal-body">
+          <form id="fm_user">    	
+         <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="name" class="control-label">Nombre</label>
+  
+                <select class="chosen-select-width" name="name">
+                  <option value="'.$user->empleado->id.'">'.$user->empleado->nombre.'</option>';
+                 
+                $html.='</select>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="username" class="control-label">Nombre de Usuario</label>
+  
+              <div class="">
+                  <input type="text" class="form-control" name="username" value="'.$user->username.'" >
+                 
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="email" class="control-label">E-Mail</label>
+  
+              <div class="">
+                  <input type="text" class="form-control" name="email" value="'.$user->email.'">
+              </div>
+            </div>
+          </div>
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="unidad_id" class="control-label">Unidad</label>
+            <div class="">
+                <select class="chosen-select-width" name="unidad_id">
+                  <option value="">Seleccione una unidad administrativa</option>';
+                  foreach ($unidades as $u):
+                    if($u->id==$user->unidad_id):
+                    $html.='<option selected value="'.$u->id.'">'.$u->nombre_unidad.'</option>';
+                    else:
+                      $html.='<option value="'.$u->id.'">'.$u->nombre_unidad.'</option>';
+                    endif;
+                  endforeach;
+                $html.='</select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="control-label">Contraseña</label>
+
+            <div class="">
+                <input id="password" type="password" class="form-control" name="password">
+
+        
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="password" class="control-label">Rol del usuario</label>
+
+            <div class="">
+                <select class="chosen-select-width" name="roles">
+                  <option value="">Seleccione un rol</option>';
+                  foreach($roles as $rol):
+                    if($rol->id==$user->roleuser->role_id):
+                    $html.='<option selected value="'.$rol->id.'">'.$rol->description.'</option>';
+                    else:
+                      $html.='<option value="'.$rol->id.'">'.$rol->description.'</option>';
+                    endif;
+                  endforeach;
+                $html.='</select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password-confirm" class="control-label">Confirmar Contraseña</label>
+
+              <div class="">
+                  <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success">Registrar</button></center>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>';
+
+  return array(1,"exito",$html);
+  }
+
 }

@@ -4,7 +4,8 @@
 <h1>&nbsp;
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/empleados') }}"><i class="fa fa-dashboard"></i> Empleados</a></li>
+        <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Inicio</a></li>
+        <li><a href="{{ url('empleados')}}"><i class="fa fa-user"></i> Empleados</a></li>
         <li class="active">Perfil</li>
       </ol>
 @endsection

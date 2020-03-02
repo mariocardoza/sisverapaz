@@ -48,6 +48,7 @@ class Presupuestounidad extends Model
     }
 
     public static function materiales($id){
+      $presu=Presupuestounidad::find($id);
         $materiales = DB::table('materiales as m')
                       ->select('m.*','c.nombre_categoria','u.id as elid','u.nombre_medida')
                       ->join('categorias as c','m.categoria_id','=','c.id')
@@ -58,6 +59,7 @@ class Presupuestounidad extends Model
                                 ->whereRaw('presupuestounidaddetalles.presupuestounidad_id ='.$id);
                             })->get();
         //$materiales=Materiales::where('estado',1)->get();
+       
         $tabla='';
         foreach ($materiales as $key => $material) {
           $tabla.='<tr>
