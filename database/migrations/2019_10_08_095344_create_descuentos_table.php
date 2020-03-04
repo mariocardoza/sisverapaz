@@ -20,6 +20,7 @@ class CreateDescuentosTable extends Migration
             $table->double('cuota',8,2);
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
+            $table->integer('estado')->default(1);
             $table->foreign('categoriadescuento_id')->references('id')->on('categoria_descuentos');
             $table->foreign('empleado_id')->references('id')->on('empleados');
             $table->timestamps();

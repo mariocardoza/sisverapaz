@@ -4,6 +4,7 @@
         $t_salario=0;
         $t_renta=0;
         $t_prestamo=0;
+        $t_descuento=0;
         $t_deduccion=0;
         $t_disponible=0;
     @endphp
@@ -17,7 +18,8 @@
         @endphp
       @endforeach
       <th>Renta</th>
-      <th>Crédito</th>
+      <th>Créditos</th>
+      <th>Otros descuentos</th>
       <th>Total deducciones</th>
       <th>Salario líquido</th>
     </tr>
@@ -73,17 +75,37 @@
           </td>
         <td>
           @php
-          $prestamo=App\Prestamo::comprobarPrestamo($empleado->id);
-          $valor_p=($prestamo==null) ?0:$prestamo->cuota;
-          $sum_retenciones+=$valor_p;
-          $t_prestamo+=$valor_p;
+          $prestamos=App\Prestamo::comprobarPrestamo($empleado->id);
+          
+
+          /*foreach($prestamos as $pp){
+            $valor_p+=($prestamo==null) ?0:$prestamo->cuota;
+          }*/
+          
+          $sum_retenciones+=$prestamos;
+          $t_prestamo+=$prestamos;
           @endphp
-          @if ($prestamo==null)
+          @if ($prestamos==0)
           <input type="hidden" name='prestamos[]' value="0">
             ---
           @else
-          <input type="hidden" name='prestamos[]' value="{{$prestamo->id}}">
-          ${{number_format($valor_p,2)}}
+          <input type="hidden" name='prestamos[]' value="{{$prestamos}}">
+          ${{number_format($prestamos,2)}}
+          @endif
+        </td>
+        <td>
+          @php
+              $descuentos=App\Descuento::comprobardescuento($empleado->id);
+
+              $sum_retenciones+=$descuentos;
+              $t_descuento+=$descuentos;
+          @endphp
+          @if ($descuentos==0)
+          <input type="hidden" name='descuentos[]' value="0">
+            ---
+          @else
+          <input type="hidden" name='descuentos[]' value="{{$descuentos}}">
+          ${{number_format($descuentos,2)}}
           @endif
         </td>
         <td>${{number_format($sum_retenciones,2)}}</td>
@@ -107,6 +129,7 @@
       @endforeach
       <td>${{number_format($t_renta,2)}}</td>
       <td>${{number_format($t_prestamo,2)}}</td>
+      <td>${{number_format($t_descuento,2)}}</td>
       <td>${{number_format($t_deduccion,2)}}</td>
       <td>${{number_format($t_disponible,2)}}</td>
     </tr>

@@ -18,7 +18,8 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4.0",
         "maatwebsite/excel": "^3.1",
-        "nesbot/carbon": "^1.22",
+        "nesbot/carbon": "2.31.0 as 1.39.0",
+        "kylekatarnls/laravel-carbon-2": "^1.0.0",
         "farhanwazir/laravelgooglemaps": "^2.3"
     },
     "require-dev": {

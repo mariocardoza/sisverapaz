@@ -26,7 +26,7 @@ class PlanillaController extends Controller
 
     public function index()
     {
-        $planillas = Datoplanilla::all();
+        $planillas = Datoplanilla::orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
         return view('planillas.index',compact('planillas'));
     }
 
@@ -54,40 +54,100 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
-        $retenciones = Retencion::all();
-        $count = count($request->empleado_id);
-        try {
-            DB::beginTransaction();
-            $datoplanilla=Datoplanilla::create([
-                'fecha'=>\Carbon\Carbon::now(),
-                'tipo_pago'=>$request->tipo,
-            ]);
-            for($i=0;$i<$count;$i++){
-                if($request->prestamos[$i]=='0'){
-                    $p=null;
-                }else{
-                    $p=$request->prestamos[$i];
-                }
-                Planilla::create([
-                    'empleado_id'=>$request->empleado_id[$i],
-                    'issse'=>$request->ISSSE[$i],
-                    'afpe'=>$request->AFPE[$i],
-                    'isssp'=>$request->ISSSP[$i],
-                    'afpp'=>$request->AFPP[$i],
-                    'insaforpp'=>$request->INSAFORPP[$i],
-                    'estado'=>0,
-                    'datoplanilla_id'=>$datoplanilla->id,
-                    'prestamo_id'=>$p,
-                    'renta'=>$request->renta[$i],
+        $existe=Datoplanilla::where('mes',$request->mes)->where('anio',$request->anio)->whereIn('estado',[1,3,4])->count();
+        if($existe==0){
+            $retenciones = Retencion::all();
+            $count = count($request->empleado_id);
+            try {
+                DB::beginTransaction();
+                $datoplanilla=Datoplanilla::create([
+                    'fecha'=>\Carbon\Carbon::now(),
+                    'tipo_pago'=>$request->tipo,
+                    'mes'=>$request->mes,
+                    'anio'=>$request->anio
                 ]);
+                for($i=0;$i<$count;$i++){
+                    if($request->prestamos[$i]=='0'){
+                        $p=null;
+                    }else{
+                        $p=$request->prestamos[$i];
+                    }
+                    if($request->descuentos[$i]=='0'){
+                        $d=null;
+                    }else{
+                        $d=$request->descuentos[$i];
+                    }
+                    Planilla::create([
+                        'empleado_id'=>$request->empleado_id[$i],
+                        'issse'=>$request->ISSSE[$i],
+                        'afpe'=>$request->AFPE[$i],
+                        'isssp'=>$request->ISSSP[$i],
+                        'afpp'=>$request->AFPP[$i],
+                        'insaforpp'=>$request->INSAFORPP[$i],
+                        'estado'=>0,
+                        'datoplanilla_id'=>$datoplanilla->id,
+                        'prestamos'=>$p,
+                        'descuentos'=>$d,
+                        'renta'=>$request->renta[$i],
+                    ]);
+                }
+                //Prestamo::actualizar();
+                DB::commit();
+                return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
             }
-            Prestamo::actualizar();
-            DB::commit();
-            return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
-        } catch (\Exception $e) {
-            DB::rollback();
-          return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
+        }else{
+            if($existe == 1 && $request->tipo==2){
+                $retenciones = Retencion::all();
+                $count = count($request->empleado_id);
+                try {
+                    DB::beginTransaction();
+                    $datoplanilla=Datoplanilla::create([
+                        'fecha'=>\Carbon\Carbon::now(),
+                        'tipo_pago'=>$request->tipo,
+                        'mes'=>$request->mes,
+                        'anio'=>$request->anio
+                    ]);
+                    for($i=0;$i<$count;$i++){
+                        if($request->prestamos[$i]=='0'){
+                            $p=null;
+                        }else{
+                            $p=$request->prestamos[$i];
+                        }
+                        if($request->descuentos[$i]=='0'){
+                            $d=null;
+                        }else{
+                            $d=$request->descuentos[$i];
+                        }
+                        Planilla::create([
+                            'empleado_id'=>$request->empleado_id[$i],
+                            'issse'=>$request->ISSSE[$i],
+                            'afpe'=>$request->AFPE[$i],
+                            'isssp'=>$request->ISSSP[$i],
+                            'afpp'=>$request->AFPP[$i],
+                            'insaforpp'=>$request->INSAFORPP[$i],
+                            'estado'=>0,
+                            'datoplanilla_id'=>$datoplanilla->id,
+                            'prestamos'=>$p,
+                            'descuentos'=>$d,
+                            'renta'=>$request->renta[$i],
+                        ]);
+                    }
+                    //Prestamo::actualizar();
+                    DB::commit();
+                    return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
+                }catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
+                }
+            }else{
+                    return redirect('planillas')->with('error','Ya existe la planilla registrada para el mes de '.Datoplanilla::obtenerMes($request->mes).' del año '.$request->anio);
+            }
         }
+        
+        
     }
 
     /**
@@ -123,7 +183,14 @@ class PlanillaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $planilla=Datoplanilla::find($id);
+            $planilla->estado=3;
+            $planilla->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -132,8 +199,16 @@ class PlanillaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        try{
+            $planilla=Datoplanilla::find($id);
+            $planilla->estado=2;
+            $planilla->motivo=$request->motivo;
+            $planilla->save();
+            return array(1,"exito",$request->all());
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 }

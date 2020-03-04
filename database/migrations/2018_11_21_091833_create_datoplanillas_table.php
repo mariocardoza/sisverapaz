@@ -17,6 +17,10 @@ class CreateDatoplanillasTable extends Migration
             $table->bigIncrements('id');
             $table->date('fecha');
             $table->bigInteger('tipo_pago');
+            $table->integer('estado')->default(1);
+            $table->integer('mes')->nullable();
+            $table->integer('anio')->nullable();
+            $table->string('motivo')->nullable();
             $table->timestamps();
         });
     }
