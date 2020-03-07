@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prestamo extends Model
 {
     protected $fillable = ['empleado_id','banco_id','numero_de_cuenta','monto','numero_de_cuotas','cuota','tasa_interes','fecha_inicio','fecha_fin','prestamotipo_id','fecha_corte'];
-
+    protected $dates = ['fecha_inicio','fecha_fin'];
     public static function prestamos()
     {
       $prestamo = Prestamo::where('empleado_id',$id)->get();
@@ -29,8 +29,14 @@ class Prestamo extends Model
       return $this->belongsTo('App\Empleado');
     }
     public static function comprobarPrestamo($id){
-    return $prestamo=Prestamo::where('empleado_id',$id)->where('estado',1)->get()->last();
-
+      $tot=0.0;
+    $prestamos=Prestamo::where('empleado_id',$id)->where('estado',1)->whereMonth('fecha_fin','>=',date('m'))->get();
+      if(count($prestamos)>0){
+        foreach($prestamos as $p){
+          $tot+=$p->cuota;
+        }
+      }
+      return $tot;
     }
     public function banco()
     {

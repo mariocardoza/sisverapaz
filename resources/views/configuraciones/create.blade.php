@@ -5,8 +5,8 @@
 	Configuraciones
 </h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/cuentas') }}"><i class="fa fa-dashboard"></i>Configuracion básica de la Alcaldía</a></li>
-	<li class="active">Registro</li> </ol>
+	<li><a href="{{ url('/cuentas') }}"><i class="fa fa-home"></i>Inicio</a></li>
+	<li class="active">Configuraciones de la alcaldía</li> </ol>
 @endsection
 
 @section('content')
@@ -15,7 +15,9 @@
 		<div class="col-md-3">
 			<div class="panel">
 				<div class="panel-body">
-					
+					<p>
+            Esta sección es para modificar información básica de la alcaldía como pueden ser: nombre del alcalde, el logo de la alcaldía o los porcentajes de IVA y Renta.
+          </p>
 				</div>
 			</div>
         </div>
@@ -27,33 +29,34 @@
                   <li><a href="#logo" data-toggle="tab">Logo</a></li>
                   <li><a href="#alcalde" data-toggle="tab">Datos del alcalde</a></li>
                   <li><a href="#limites" data-toggle="tab">Límites de los proyectos</a></li>
+                  <li><a href="#porcentajes" data-toggle="tab">Porcentajes</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="alcaldia" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
                     <div class="panel-body">
 
                         @if($configuraciones != null)
-                          {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal' , 'route' => array('configuraciones.ualcaldia', $configuraciones->id))) }}
+                          {{ Form::model($configuraciones, array('method' => 'put', 'class' => '' , 'route' => array('configuraciones.ualcaldia', $configuraciones->id))) }}
                         @else
-                          {{ Form::open(['action'=> 'ConfiguracionController@alcaldia', 'class' => 'form-horizontal']) }}
+                          {{ Form::open(['action'=> 'ConfiguracionController@alcaldia', 'class' => '']) }}
                         @endif
                         @include('configuraciones.alcaldia')
                         @if($configuraciones != null)
                           <div class="form-group">
-                                        <div class="col-md-6 col-md-offset-4">
-                                            <button type="submit" class="btn btn-success">
-                                                <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
-                                            </button>
-                                        </div>
-                                    </div>
+                              <div class="col-md-6 col-md-offset-4">
+                                  <button type="submit" class="btn btn-success">
+                                      <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                  </button>
+                              </div>
+                          </div>
                         @else
-                                  <div class="form-group">
-                                      <div class="col-md-6 col-md-offset-4">
-                                          <button type="submit" class="btn btn-success">
-                                              <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
-                                          </button>
-                                      </div>
-                                  </div>
+                          <div class="form-group">
+                              <div class="col-md-6 col-md-offset-4">
+                                  <button type="submit" class="btn btn-success">
+                                      <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                  </button>
+                              </div>
+                          </div>
                       @endif
             
                       {{Form::close()}}
@@ -61,7 +64,7 @@
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="logo">
-                    
+                    <p class="text-center">Haga click sobre la imagen, seleccione el logo de su elección y le aparecerá la opción de guardar</p>
                     <div class="panel-body text-center">
                         <h3 class="text-center">Modificar logo de la alcaldía</h3>
                         @if($configuraciones!='')
@@ -87,16 +90,16 @@
                       <div class="panel">
                         <div class="panel-body">
                             @if($configuraciones != null)
-                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ualcalde', $configuraciones->id))) }}
+                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => '','autocomplete'=>'off' , 'route' => array('configuraciones.ualcalde', $configuraciones->id))) }}
                             @else
-                              {{ Form::open(['action'=> 'ConfiguracionController@alcalde', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+                              {{ Form::open(['action'=> 'ConfiguracionController@alcalde', 'class' => '','autocomplete'=>'off']) }}
                             @endif
                             @include('configuraciones.alcalde')
                             @if($configuraciones != null)
                               <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                   <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                    <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
                                   </button>
                                 </div>
                               </div>
@@ -104,7 +107,7 @@
                             <div class="form-group">
                               <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">
-                                  <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                  <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
                                 </button>
                               </div>
                             </div>
@@ -118,30 +121,50 @@
                     <div class="panel">
                         <div class="panel-body">
                             @if($configuraciones != null)
-                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => 'form-horizontal','autocomplete'=>'off' , 'route' => array('configuraciones.ulimites', $configuraciones->id))) }}
+                              {{ Form::model($configuraciones, array('method' => 'put', 'class' => '','autocomplete'=>'off' , 'route' => array('configuraciones.ulimites', $configuraciones->id))) }}
                             @else
-                              {{ Form::open(['action'=> 'ConfiguracionController@limitesproyecto', 'class' => 'form-horizontal','autocomplete'=>'off']) }}
+                              {{ Form::open(['action'=> 'ConfiguracionController@limitesproyecto', 'class' => '','autocomplete'=>'off']) }}
                             @endif
                             @include('configuraciones.limites')
                             @if($configuraciones != null)
                               <div class="form-group">
-                                <div class="col-md-6 col-md-offset-4">
+                                <div class="col-md-6 ">
                                   <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                    <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
                                   </button>
                                 </div>
                               </div>
                             @else
                             <div class="form-group">
-                              <div class="col-md-6 col-md-offset-4">
+                              <div class="col-md-6">
                                 <button type="submit" class="btn btn-success">
-                                  <span class="glyphicon glyphicon-floppy-disk">Registrar</span>
+                                  <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
                                 </button>
                               </div>
                             </div>
                           @endif
                           {{Form::close()}}
                           </div>
+                    </div>
+                  </div>
+
+                  <div class="tab-pane" id="porcentajes">
+                    <div class="panel">
+                      <div class="panel-body">
+                        <div class="row">
+                          @foreach($porcentajes as $p)
+                          <div class="col-md-3">
+                            <label for="" class="control-label">% {{$p->nombre}}</label>
+                            <div class="input-group">
+                              <input type="number" min="0" value="{{$p->porcentaje}}"  name="porcentaje" class="form-control {{$p->nombre_simple}}">
+                              <span class="input-group-btn">
+                                <button type="button" data-porcen="{{$p->nombre_simple}}" data-id="{{$p->id}}" class="btn btn-success porcen"><i class="fa fa-refresh"></i></button>
+                              </span>
+                            </div>
+                          </div>
+                          @endforeach 
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
@@ -171,6 +194,33 @@
     $(document).on("click","#subir_imagen",function(e){
     	var elid=$("#elid").val();
     	insertar_imagen($("#file_1"),elid);
+    });
+
+    ///cambiar el porcentaje
+    $(document).on("click",".porcen",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      var input=$(this).attr("data-porcen");
+      var elvalor=$("."+input).val();
+      modal_cargando();
+      $.ajax({
+        url:'configuraciones/porcentajes',
+        type:'POST',
+        dataType:'json',
+        data:{id,porcentaje:elvalor},
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Porcentaje actualizado con éxito");
+            location.reload();
+          }else{
+            swal.closeModal();
+            toastr.error("Ocurrió un error");
+          }
+        },
+        error: function(error){
+          swal.closeModal();
+        }
+      });
     });
   });
 

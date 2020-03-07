@@ -1,6 +1,6 @@
 <ul class="sidebar-menu">
         <li class="header">Menú Principal</li>
-        <li class="{{Request::is('/home') ? 'activo' : null}}"><a href="{{url('/home')}}">Página de inicio</a></li>
+        <li class="{{Route::currentRouteName() =='home' ? 'active' : null}}"><a href="{{url('/home')}}">Página de inicio</a></li>
     @if(Auth()->user()->hasRole('admin'))
     <li class="treeview {{ Route::currentRouteName() == 'configuraciones.create' ? 'active':null}}">
       <a href="{{ url('configuraciones') }}">
@@ -22,7 +22,7 @@
       
     </li>
 
-    <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':null}}">
+    <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':Route::currentRouteName() == 'empleados.show'?'active':null}}">
       <a href="{{ url('/empleados') }}">
         <i class="fa fa-user"></i> <span>Empleados</span>
       </a>

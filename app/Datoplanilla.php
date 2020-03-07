@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Datoplanilla extends Model
 {
-    protected $fillable = ['fecha', 'tipo_pago'];
+    protected $fillable = ['fecha', 'tipo_pago','mes','anio'];
 
     public static function obtenerMes($n){
         if($n==1){

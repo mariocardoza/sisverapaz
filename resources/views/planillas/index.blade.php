@@ -24,34 +24,160 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
         <div class="box-body table-responsive">
           <table class="table table-striped table-bordered table-hover" id="example2">
             <thead>
-              <th>Fecha </th>
-              <th>Tipo pago</th>
+              <th>N°</th>
+              <th>Fecha de generación</th>
+              <th>Detalle</th>
+              <th>Estado</th>
               <th>Acción</th>
               <?php $contador = 0 ?>
             </thead>
             <tbody>
-              @foreach($planillas as $planilla)
+              @foreach($planillas as $key => $planilla)
                 <tr>
+                  <td>{{$key+1}}</td>
                   @php
                       $dato= explode("-",$planilla->fecha);
                   @endphp
-                    <td>{{$dato[2]."-".$dato[1]."-".$dato[0]}}</td>
+                    <td>{{$dato[2]."/".$dato[1]."/".$dato[0]}}</td>
                     <td>{{$tipo_pago[$planilla->tipo_pago]}}</td>
-                  <td>
-                    <div class="btn-group">
-                      <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success btn-xs" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
-                    </div>
-                  </td>
+                    @if($planilla->estado==1)
+                    <td>
+                      <label for="" class="col-md-12 label-primary">Pendiente</label>
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a href="javascript:void(0)" id="anular_planilla" data-id="{{$planilla->id}}" title="Anular planilla" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+                        <a href="javascript:void(0)" id="emitir_boletas" data-id="{{$planilla->id}}" title="Emitir boletas de pago" class="btn btn-info"><span class="fa fa-check"></span></a>
+                        <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                      </div>
+                    </td>
+                      @elseif($planilla->estado==2) 
+                      <td>
+                      <label for="" class="col-md-12 label-danger">Anulada</label>
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                        </div>
+                      </td>
+                      @elseif($planilla->estado==3)
+                      <td>
+                      <label for="" class="col-md-12 label-info">Boletas emitidas</label>
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
+                        </div>
+                      </td>
+                      @else 
+                      <td>
+                      <label for="" class="col-md-12 label-success">Pago realizado</label>
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
+                        </div>
+                      </td>
+                      @endif
                 </tr>
               @endforeach
             </tbody>
           </table>
-          <div class="pull-right">
-
-          </div>
         </div>
       </div>
     </div>
   </div>
+@endsection
+
+@section('scripts')
+<script>
+  $(document).ready(function(e){
+    //boton para anular
+    $(document).on("click","#anular_planilla",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+        title: '¿Motivo por el que va anular la planilla?',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Anular',
+        showLoaderOnConfirm: true,
+        preConfirm: (text) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              if (text === '') {
+                swal.showValidationError(
+                  'El motivo es requerido.'
+                )
+              }
+              resolve()
+            }, 2000)
+          })
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url:'planillas/'+id,
+            type:'delete',
+            dataType:'json',
+            data:{motivo:result.value},
+            success: function(json){
+              if(json[0]==1){
+                toastr.success("Planilla anulada con éxito");
+              }else{
+                toastr.error("Ocurrioó un error");
+              }
+            }
+          });
+        }
+      });
+    });
+
+    //emitir boletas
+    $(document).on("click","#emitir_boletas",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+          title: '¿Emitir las boletas de pago?',
+          text: "¿Desea emitir las boletas de pago?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              url:'planillas/'+id,
+              type:'put',
+              dataType:'json',
+              data:{},
+              success: function(json){
+
+              }
+            });
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Cancelado',
+              'Seleccione un proveedor',
+              'info'
+            )
+            
+          }
+        });
+    });
+
+  });
+</script>
 @endsection

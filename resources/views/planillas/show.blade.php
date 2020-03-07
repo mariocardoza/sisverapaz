@@ -5,8 +5,9 @@
 	Planillas
 </h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/planillas') }}"><i class="fa fa-dashboard"></i>Control de planillas</a></li>
-	<li class="active">Planillas</li> </ol>
+	<li><a href="{{ url('/home') }}"><i class="fa fa-home"></i>Inicio</a></li>
+	<li><a href="{{ url('/planillas') }}"><i class="fa fa-dashboard"></i>Planillas</a></li>
+	<li class="active">Detalle </li> </ol>
 @endsection
 
 @section('content')
@@ -25,7 +26,7 @@
         @endphp
         <br>
         @php
-            for($i=0;$i<10;$i++){
+            for($i=0;$i<=10;$i++){
                 $columna[$i]=0;
             }
         @endphp
@@ -40,7 +41,7 @@
                 echo $diasdelmes;
             @endphp
             de 
-            {{App\Datoplanilla::obtenerMes($dato[1])}}
+            {{App\Datoplanilla::obtenerMes($datoplanilla->mes)}}
             </b>
             <br>
         @endif
@@ -56,13 +57,14 @@
                     <th>INSAFORP Patronal</th>
                     <th>Renta</th>
                     <th>Crédito</th>
+                    <th>Otros descuentos</th>
                     <th>Total deducciones</th>
                     <th>Salario líquido</th>
                 </thead>
                 <tbody>
                     @foreach($planillas as $planilla)
                     @php
-                        $p=0;
+                        $p=$d=0;
                     @endphp
                     <tr>
                         <td>{{$planilla->empleado->nombre}}</td>
@@ -74,9 +76,9 @@
                         <td>${{$planilla->insaforpp}}</td>
                         <td>${{$planilla->renta}}</td>
                         <td>
-                            @if($planilla->prestamo_id!="")
+                            @if($planilla->prestamos!="")
                             @php
-                                $p=$planilla->prestamo->cuota;
+                                $p=$planilla->prestamos;
                                 $columna[7]+=$p;
                             @endphp
                             ${{$p}}
@@ -84,9 +86,20 @@
                             --
                             @endif
                         </td>
+                        <td>
+                            @if($planilla->descuentos!='')
+                            @php
+                                $d=$planilla->descuentos;
+                                $columna[8]+=$d;
+                            @endphp
+                            ${{$d}}
+                            @else
+                            --
+                            @endif
+                        </td>
                     <td>$
                         @php
-                            $total=$planilla->issse+$planilla->afpe+$planilla->renta+$p;
+                            $total=$planilla->issse+$planilla->afpe+$planilla->renta+$p+$d;
                         @endphp
                         {{number_format($total,2)}}</td>
                         @php
@@ -102,13 +115,13 @@
                         $columna[4]+=$planilla->afpp;
                         $columna[5]+=$planilla->insaforpp;
                         $columna[6]+=$planilla->renta;
-                        $columna[8]+=$total;
-                        $columna[9]+=$resta;
+                        $columna[9]+=$total;
+                        $columna[10]+=$resta;
                     @endphp
                     @endforeach
                     <tr>
                         <td><b>Totales</b></td>
-                        @for($i=0;$i<10;$i++)
+                        @for($i=0;$i<=10;$i++)
                     <td>${{number_format($columna[$i],2)}}</td>
                         @endfor
                     </tr>

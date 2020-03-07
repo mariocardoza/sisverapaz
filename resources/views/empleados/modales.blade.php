@@ -121,22 +121,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar empleado Social</h4>
+        <h4 class="modal-title text-center" id="gridSystemModalLabel">Editar empleado</h4>
       </div>
       <div class="modal-body">
-      	{{ Form::model($empleado, array('class' => 'form-horizontal','id'=>'e_empleados')) }} 
-      		<div class="row">
-	          	<div class="col-md-12">
-		          	
-					@include('empleados.formulario')
-		           
-	          	</div>
-	        </div>
+      	{{ Form::model($empleado, array('class' => '','id'=>'e_empleados')) }}    	
+					@include('empleados.formulario') 
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="btn_editar" class="btn btn-primary">Registrar</button>
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="btn_editar" class="btn btn-success">Registrar</button></center>
       </div>
     </div>
   </div>

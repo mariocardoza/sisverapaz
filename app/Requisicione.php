@@ -227,17 +227,21 @@ class Requisicione extends Model
     try{
       $requisicion=Requisicione::find($id);
       $html.='<div class="text-center">';
-      if($requisicion->estado==1):
-        $html.='<a title="Aprobar requisicion" href="javascript:void(0)" id="modal_aprobar" class="btn btn-primary" ><i class="fa fa-check"></i></a>';
-      elseif($requisicion->estado==5):
-        $html.='<a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>';
-      elseif($requisicion->estado==6):
-        $html.='<a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>';
-      elseif($requisicion->estado==7):
-        $html.='<a title="Descargar" href="requisiciones/bajar/'.$requisicion->nombre_archivo.'" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>';
-      else:
-        $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+      if(Auth()->user()->hasRole('uaci')):
+        if($requisicion->estado==1):
+          $html.='<a title="Aprobar requisicion" href="javascript:void(0)" id="modal_aprobar" class="btn btn-primary" ><i class="fa fa-check"></i></a>';
+        elseif($requisicion->estado==5):
+          $html.='<a title="Materiales recibidos" href="javascript:void(0)" class="btn btn-primary" id="materiales_recibidos"><i class="glyphicon glyphicon-check"></i></a>';
+        elseif($requisicion->estado==6):
+          $html.='<a title="Finalizar" href="javascript:void(0)" class="btn btn-primary" id="terminar_proceso"><i class="glyphicon glyphicon-check"></i></a>';
+        elseif($requisicion->estado==7):
+          $html.='<a title="Descargar" href="requisiciones/bajar/'.$requisicion->nombre_archivo.'" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>';
+        else:
+          $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+        endif;
       endif;
+      $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+
       $html.='</div>
       <br>
       <div class="col-sm-12">

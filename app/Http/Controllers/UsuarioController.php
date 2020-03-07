@@ -76,6 +76,7 @@ class UsuarioController extends Controller
             'username' => $request['username'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
+            'unidad_id'=>$request->unidad_id,
         ]);
 
         $user
@@ -105,10 +106,12 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();
-        $usuario = User::find($id);
+        $retorno=User::modal_editar($id);
+        return $retorno;
+        //$roles = Role::all();
+       // $usuario = User::find($id);
         //dd($cargos);
-        return view('usuarios.edit',compact('usuario','roles'));
+        //return view('usuarios.edit',compact('usuario','roles'));
     }
 
     /**

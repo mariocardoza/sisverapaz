@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Planilla extends Model
 {
     protected $guarded = [];
-    protected $fillable = ['empleado_id','issse','afpe','isssp','afpp','insaforpp','renta','prestamos','estado','datoplanilla_id','prestamo_id'];
+    protected $fillable = ['empleado_id','issse','afpe','isssp','afpp','insaforpp','renta','prestamos','estado','datoplanilla_id','prestamos','descuentos'];
     public function empleado()
     {
       return $this->belongsTo('App\Empleado');

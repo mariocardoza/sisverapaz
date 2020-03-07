@@ -34,6 +34,7 @@ const { mix } = require('laravel-mix');
   'resources/assets/js/jquery.steps.js',
   'resources/assets/js/chosen.jquery.js',
   'resources/assets/js/fullcalendar2.js',
+ // 'resources/assets/js/icheck.js',
   //'resources/assets/js/fullcalendar-locales-all.js',
   //'resources/assets/js/fullcalendar-daygrid.js',
   //'resources/assets/js/fullcalendar-timegrid.js',
