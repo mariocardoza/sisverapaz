@@ -25,7 +25,7 @@
 			<table class="table table-striped table-bordered table-hover" id="example2">
 				<thead>
 					<th>Empleado</th>
-					<th>Categoría de empleado</th>
+					<th>Categoría</th>
 					<th>Cargo</th>
 					<th>Acción</th>
 					<?php $contador = 0 ?>

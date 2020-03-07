@@ -69,7 +69,7 @@ class CatalogoController extends Controller
           }
         }else{
           Catalogo::create($request->All());
-          return redirect('catalogos')->with('mensaje','Catalogo registrado');
+          return redirect('catalogos')->with('mensaje','Catálogo registrado');
         }
     }
 
@@ -150,7 +150,7 @@ class CatalogoController extends Controller
         $catalogo->motivo = null;
         $catalogo->fechabaja = null;
         $catalogo->save();
-        Bitacora::bitacora('Dió de alta un catalogo');
+        Bitacora::bitacora('Dió de alta un catálogo');
         return redirect('/catalogos')->with('mensaje','Catálogo dado de alta');
     }
 }

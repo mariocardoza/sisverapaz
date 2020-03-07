@@ -403,10 +403,10 @@ Route::get('reportesuaci/planillaproyecto/{id}','ReportesUaciController@planilla
 Route::get('reportesuaci/asistenciaproyecto/{id}','ReportesUaciController@asistenciaproyecto');
 
 //Reportes Tesoreria
-Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
+Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');///////////REVISAR
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
 Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
-
+Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
 
 //Ruta para detalle de planillas
 Route::Resource('detalleplanillas','DetalleplanillaController');

@@ -18,7 +18,7 @@
               <input type="text" class="form-control" required id="eventoId" placeholder="Ingrese el nombre del evento" />
             </div>
             <div class="form-group">
-              <label for="descripcion">Descripcion del Evento</label>
+              <label for="descripcion">Descripción del Evento</label>
               <textarea type="text" class="form-control" required id="descripcion" placeholder="Digite la descripcion"></textarea>
             </div>
           </form>
