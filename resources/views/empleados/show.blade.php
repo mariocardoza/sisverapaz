@@ -186,14 +186,16 @@
               <div class="panel panel-primary" id="edi_contrato" style="display:none;">
                 <div class="panel-heading">Editar contrato</div>
                 @if(isset($empleado->detalleplanilla))
-                <div class="panel" >
-                    {{ Form::model($empleado->detalleplanilla, array('method' => 'put', 'class' => 'form-horizontal','id'=>'form_editcontra' , 'route' => array('detalleplanillas.update', $empleado->detalleplanilla->id))) }}
+                <div class="panel">
+                    {{ Form::model($empleado->detalleplanilla, array('method' => 'put','id'=>'form_editcontra' , 'route' => array('detalleplanillas.update', $empleado->detalleplanilla->id))) }}
                     @include('detalleplanillas.formulario')
 
-                   <center>
-                     <button class="btn btn-primary" id="btn_editarcontrato" type="button">Guardar</button>
-                     <button class="btn btn-danger" id="btn_cancelarcontrato" type="button">Cancelar</button>
-                  </center>
+                   <div class="form-group">
+                    <center>
+                      <button class="btn btn-primary" id="btn_editarcontrato" type="button">Guardar</button>
+                      <button class="btn btn-danger" id="btn_cancelarcontrato" type="button">Cancelar</button>
+                   </center>
+                   </div>
                  </form>
                 </div>
                 @endif

@@ -24,10 +24,17 @@ class PlanillaController extends Controller
          $this->middleware('auth');
      }
 
-    public function index()
+    public function index(Request $request)
     {
-        $planillas = Datoplanilla::orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
-        return view('planillas.index',compact('planillas'));
+        $anios=DB::table('datoplanillas')->distinct()->get(['anio']);
+        $elanio="";
+        if($request->get('anio') == ""){
+            $elanio=date("Y");
+        }else{
+            $elanio=$request->get('anio');
+        } 
+        $planillas = Datoplanilla::where('anio',$elanio)->orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
+        return view('planillas.index',compact('planillas','anios','elanio'));
     }
 
     /**

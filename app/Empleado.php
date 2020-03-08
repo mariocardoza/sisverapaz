@@ -37,6 +37,11 @@ class Empleado extends Model
       return $this->hasMany('App\Descuento');
     }
 
+    public function detalle()
+    {
+      return $this->HasOne('App\Detalleplanilla');
+    }
+
     public function user(){
         return $this->hasOne('App\User');
     }

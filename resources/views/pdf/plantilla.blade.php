@@ -10,7 +10,7 @@
     @page { margin: 120px 50px; }
     #content { top: -120px; bottom: auto;  }
     #header { position: fixed; top: -100px; }
-    #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 100px; text-align: center }
+    #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 120px; text-align: center }
     #footer .page:after { content: counter(page); }
     #comparativo th{font-size: 80%;}
     #comparativo td{font-size: 70%;}

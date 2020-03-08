@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('migasdepan')
   <h1>
-    Planilla
-    <small>Control de planilla</small>
+    Planillas
+    <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li class="active">Control de planilla</li>
+    <li class="active">Control de planillas</li>
   </ol>
 @endsection
 @php
@@ -17,8 +17,28 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">Listado</h3>
-            <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+          <h3 class="box-title"></h3>
+          <div class="row">
+            <div class="col-md-10">
+              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Nueva</a>
+            </div>
+            <div class="col-md-2 pull-right">
+              <div class="form-group">
+                <label for="" class="control-label">Seleccione el año</label>
+                <select name="" id="select_anio" class="chosen-select pull-right">
+                  <option  value="0">Seleccione un año</option>
+                  @foreach ($anios as $anio)
+                      @if($anio->anio==$elanio)
+                      <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @else 
+                      <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                      @endif
+                  @endforeach
+                </select>
+                <button class="btn btn-primary" id="btn_anio">Aceptar</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="box-body table-responsive">
@@ -29,7 +49,6 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
               <th>Detalle</th>
               <th>Estado</th>
               <th>Acción</th>
-              <?php $contador = 0 ?>
             </thead>
             <tbody>
               @foreach($planillas as $key => $planilla)
@@ -58,8 +77,8 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
                       @elseif($planilla->estado==3)
@@ -68,8 +87,8 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillaaprobada/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                         </div>
                       </td>
                       @else 
@@ -78,8 +97,8 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                         </div>
                       </td>
                       @endif
@@ -96,6 +115,15 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
 @section('scripts')
 <script>
   $(document).ready(function(e){
+    //select para filtrar por año
+    $(document).on("click","#btn_anio",function(e){
+      var anio=$("#select_anio").val();
+      if(anio > 0){
+        location.href="planillas?anio="+anio;
+      }
+    });
+
+
     //boton para anular
     $(document).on("click","#anular_planilla",function(e){
       e.preventDefault();

@@ -49,6 +49,7 @@
             <table class="table table-striped table-bordered table-hover" >
                 <thead>
                     <th>Empleado</th>
+                    <th>Cargo</th>
                     <th>Salario base</th>
                     <th>ISSS Empleado</th>
                     <th>ISSS Patronal</th>
@@ -60,6 +61,9 @@
                     <th>Otros descuentos</th>
                     <th>Total deducciones</th>
                     <th>Salario líquido</th>
+                    @if($datoplanilla->estado>=3)
+                    <th></th>
+                    @endif
                 </thead>
                 <tbody>
                     @foreach($planillas as $planilla)
@@ -68,6 +72,7 @@
                     @endphp
                     <tr>
                         <td>{{$planilla->empleado->nombre}}</td>
+                        <td>{{$planilla->empleado->detalleplanilla->cargo->cargo}}</td>
                         <td>${{$planilla->empleado->detalleplanilla->salario}}</td>
                     <td>${{$planilla->issse}}</td>
                         <td>${{$planilla->isssp}}</td>
@@ -106,6 +111,12 @@
                             $resta=$planilla->empleado->detalleplanilla->salario-$total;
                         @endphp
                     <td>${{number_format($resta,2)}}</td>
+                    
+                    @if($datoplanilla->estado>=3)
+                    <td>
+                        <a target="_blank" href="{{ url('reportestesoreria/boleta/'.$planilla->id)}}" class="btn btn-success"><i class="fa fa-print"></i></a>
+                    </td>
+                    @endif
                     </tr>
                     @php
                         $columna[0]+=$planilla->empleado->detalleplanilla->salario;

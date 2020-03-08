@@ -407,6 +407,8 @@ Route::get('reportesuaci/asistenciaproyecto/{id}','ReportesUaciController@asiste
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
 Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
+Route::get('reportestesoreria/planillaaprobada/{id}','ReportesTesoreriaController@planillaaprobada');
+Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta');
 
 
 //Ruta para detalle de planillas
