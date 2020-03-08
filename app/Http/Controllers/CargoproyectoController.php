@@ -44,9 +44,9 @@ class CargoproyectoController extends Controller
                 'nombre'=>$request->nombre,
                 'salario_dia'=>$request->salario_dia
             ]);
-            return array(1,"exito",$cargo);
+            return array(1,"éxito",$cargo);
         }catch(Exception $e){
-            return array(-1,"exito",$e->getMessage());
+            return array(-1,"éxito",$e->getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ class CargoproyectoController extends Controller
     public function edit($id)
     {
         $cargo=CargoProyecto::find($id);
-        return array(1,"exito",$cargo);
+        return array(1,"éxito",$cargo);
     }
 
     /**
@@ -99,7 +99,7 @@ class CargoproyectoController extends Controller
             $cargo=CargoProyecto::find($id);
             $cargo->fill($request->all());
             $cargo->save();
-            return array(1,"exito");
+            return array(1,"éxito");
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }

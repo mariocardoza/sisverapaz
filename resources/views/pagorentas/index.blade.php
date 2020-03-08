@@ -47,7 +47,7 @@
                                     <button type="button" class="btn btn-info" id="botoncito" data-id="{{$p->id}}">Pagar</button>
                                     
                                     @else
-                                    <button type="button" class="btn btn-info">Imprimir</button>
+                                    <a href="{{url('reportestesoreria/pagorenta/'.$p->id)}}" class="btn btn-info">Imprimir</a>
                                     @endif
                                 </td>
                             </tr>

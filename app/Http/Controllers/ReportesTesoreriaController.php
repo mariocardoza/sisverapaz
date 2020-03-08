@@ -8,12 +8,22 @@ class ReportesTesoreriaController extends Controller
 {
     public function pagos($id)
     {
-    	$pagos = \App\Pago::findorFile($id);
+    	$pagos = \App\Pago::findorFail($id);
     	$tipo = "REPORTE DE PAGO DE IMPUESTOS";
     	$pdf = \PDF::loadView('pdf.tesoreria.pago',compact('pagos','tipo'));
     	$pdf->setPaper('letter','portrait');
     	return $pdf->stream('pagos.pdf');
 	}
+
+    public function pagorentas($id)
+    {
+        $pagorentas = \App\PagoRenta::findorFail($id);
+        $tipo = "REPORTE PAGO DE IMPUESTO/RENTA";
+        $pdf = \PDF::loadView('pdf.tesoreria.pagorenta',compact('pagorentas','tipo'));
+        $pdf->setPaper('letter','portrait');
+        return $pdf->stream('pagorentas.pdf');
+    }
+
 	public function planillas($id){
         $datoplanilla=\App\Datoplanilla::find($id);
         $planillas=\App\Planilla::where('datoplanilla_id',$id)->get();
