@@ -44,7 +44,7 @@ class ImpuestoController extends Controller
     public function store(ServicioRequest $request)
     {
         Impuesto::create($request->All());
-        return redirect('impuestos')->with('mensaje','Impuesto municipal aplicado con exito');
+        return redirect('impuestos')->with('mensaje','Impuesto municipal aplicado con éxito');
     }
 
     /**

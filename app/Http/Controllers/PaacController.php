@@ -155,7 +155,7 @@ class PaacController extends Controller
     {
         $paac=Paac::find($id);
         $paac->fill($request->All());
-        return redirect('paacs')->with('mensaje','Plan actualizado con exito');
+        return redirect('paacs')->with('mensaje','Plan actualizado con éxito');
     }
 
     /**

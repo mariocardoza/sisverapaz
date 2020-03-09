@@ -17,9 +17,10 @@ class ReportesTesoreriaController extends Controller
 
     public function pagorentas($id)
     {
+    	$configuracion = \App\Configuracion::first();
         $pagorentas = \App\PagoRenta::findorFail($id);
         $tipo = "REPORTE PAGO DE IMPUESTO/RENTA";
-        $pdf = \PDF::loadView('pdf.tesoreria.pagorenta',compact('pagorentas','tipo'));
+        $pdf = \PDF::loadView('pdf.tesoreria.pagorenta',compact('configuracion','pagorentas','tipo'));
         $pdf->setPaper('letter','portrait');
         return $pdf->stream('pagorentas.pdf');
     }

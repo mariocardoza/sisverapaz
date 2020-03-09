@@ -48,6 +48,8 @@ class DesembolsoController extends Controller
                     return array(2,"validacion",'El monto del desembolso es mayor a lo disponible en la cuenta');
                 }else{
                     $desembolso->estado=3;
+                    $desembolso->numero_cheque= $request->numero_cheque;
+                    $desembolso->fecha_desembolso = invertir_fecha($request->fecha_desembolso);
                     $desembolso->save();
 
                     $cuenta=$desembolso->cuenta;

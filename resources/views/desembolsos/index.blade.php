@@ -29,6 +29,7 @@
                   <th>Monto a cancelar</th>
                   <th>Impuesto/renta 10%</th>
                   <th>Desembolso total</th>
+                  <th>Fecha desembolso</th>
                   <th>Estado</th>
                   <th>Accion</th>
                 </thead>
@@ -46,6 +47,14 @@
                     <td class="text-right">${{ number_format($desembolso->monto,2) }}</td>
                     <td class="text-right">${{ number_format($desembolso->renta,2) }}</td>
                     <td class="text-right">${{ number_format($desembolso->renta+$desembolso->monto,2) }}</td>
+
+                    @if($desembolso->fecha_desembolso!= '')
+                    <td>{{ $desembolso->fecha_desembolso->format('d/m/Y') }}</td>
+
+                    @else
+                    <td>-</td>
+                    @endif
+
                     <td class="">{!! \App\Desembolso::estado($desembolso->id) !!}</td>
                     <td>
                         @if($desembolso->estado == 1) 
@@ -70,6 +79,38 @@
           <!-- /.box -->
         </div>
 </div>
+
+<div class="modal fade" tabindex="-1" id="modal_desembolso" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar desembolso</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form_desembolso" action="" class="">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label">Número de cheque</label>
+                <input type="text" name="numero_cheque" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="control-label">Fecha</label>
+                <input type="text" name="fecha_desembolso" class="form-control fechita">
+                <input type="hidden" name="id" id="fila">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" id="guarda_desembolso">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 @section('scripts')
 <script>
@@ -79,46 +120,42 @@
     $(document).on("click","#realizar_pago",function(e){
       e.preventDefault();
       var id=$(this).attr("data-id");
-      swal({
-          title: '¿Está seguro?',
-          text: "¿Desea realizarle el desembolso al cliente?",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: '¡Si!',
-          cancelButtonText: '¡No!',
-          confirmButtonClass: 'btn btn-success',
-          cancelButtonClass: 'btn btn-danger',
-          buttonsStyling: false,
-          reverseButtons: true
-        }).then((result) => {
-          if (result.value) {
-            $.ajax({
-              url:'desembolsos',
-              type:'post',
-              data:{id},
-              success: function(json){
-                if(json[0]==1){
-                  toastr.success("Desembolso realizado exitosamente");
-                  location.reload();
-                }else if(json[0]==2){
-                  toastr.info(json[2]);
-                }else{
-                  toastr.error("Ocurrió un error");
-                }
-              }
-            });
-            
-          } else if (result.dismiss === swal.DismissReason.cancel) {
-            swal(
-              'Cancelado',
-              'Revise la información',
-              'info'
-            )
-            $('input[name=seleccionarr]').attr('checked',false);
+      $('#modal_desembolso').modal('show');
+      $("#fila").val(id);
+    });
+
+    //////FUNCION CLICK PARA GUARDAR DESEMBOLSO
+    $(document).on("click",'#guarda_desembolso', function(e){
+      e.preventDefault();
+      var datos=$("#form_desembolso").serialize();
+      //console.log(datos);
+      $.ajax({
+        url: 'desembolsos',
+        type: 'POST',
+        dataType: 'json',
+        data: datos,
+        success: function(json)
+        {
+          if(json[0]==1)
+          {
+            toastr.success("Desembolso realizado");
+            location.reload();
           }
-        });
+          else {
+            if(json[0]==2)
+            {
+              toastr.info(json[2]);
+            }
+            else{
+              toastr.error("Falló");
+            }
+          }
+        },
+        error: function(error)
+        {
+          
+        }
+      });
     });
   });
 </script>

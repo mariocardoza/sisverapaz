@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Desembolso extends Model
 {
     protected $guarded=[];
+    protected $dates= ["fecha_desembolso"];
     public $incrementing = false;
 
     public function cuenta()

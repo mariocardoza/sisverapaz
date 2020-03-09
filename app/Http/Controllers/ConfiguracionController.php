@@ -4,15 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Configuracion;
-use App\Porcentaje;
 use Validator;
 class ConfiguracionController extends Controller
 {
     public function create()
     {
       $configuraciones = Configuracion::first();
-      $porcentajes=Porcentaje::where('estado',1)->get();
-      return view('configuraciones.create',compact('configuraciones','porcentajes'));
+
+      return view('configuraciones.create',compact('configuraciones'));
     }
 
     public function alcaldia(Request $request)
@@ -68,18 +67,6 @@ class ConfiguracionController extends Controller
         $configuracion->save();
       return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
 
-    }
-
-    public function porcentajes(Request $request)
-    {
-      try{
-        $p=Porcentaje::find($request->id);
-        $p->porcentaje=$request->porcentaje;
-        $p->save();
-        return array(1);
-      }catch(Exception $e){
-        return array(-1,"error",$e->getMessage());
-      }
     }
 
     public function logo(Request $request,$id)

@@ -82,7 +82,7 @@ class ContratoController extends Controller
       {
         Empleado::create($request->All());
         return response()->json([
-          'mensaje' => 'Empleado creado con éxito'
+          'mensaje' => 'Empleado agregado con éxito'
         ]);
       }
     }

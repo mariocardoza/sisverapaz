@@ -27,7 +27,7 @@
                             <th>Concepto</th>
                             <th>Monto</th>
                             <th>Renta</th>
-                            <th>Liquido</th>
+                            <th>Líquido</th>
                             <th> </th>
                         </tr>
                     </thead>
