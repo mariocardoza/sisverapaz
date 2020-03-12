@@ -8,10 +8,17 @@ class Planilla extends Model
 {
     protected $guarded = [];
     protected $fillable = ['empleado_id','issse','afpe','isssp','afpp','insaforpp','renta','prestamos','estado','datoplanilla_id','prestamos','descuentos'];
+    
     public function empleado()
     {
       return $this->belongsTo('App\Empleado');
     }
+
+    public function datoplanilla()
+    {
+      return $this->belongsTo('App\Datoplanilla');
+    }
+
     public function prestamo()
     {
       return $this->belongsTo('App\Prestamo');

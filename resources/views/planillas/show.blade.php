@@ -73,44 +73,45 @@
                     <tr>
                         <td>{{$planilla->empleado->nombre}}</td>
                         <td>{{$planilla->empleado->detalleplanilla->cargo->cargo}}</td>
-                        <td>${{$planilla->empleado->detalleplanilla->salario}}</td>
-                    <td>${{$planilla->issse}}</td>
-                        <td>${{$planilla->isssp}}</td>
-                        <td>${{$planilla->afpe}}</td>
-                        <td>${{$planilla->afpp}}</td>
-                        <td>${{$planilla->insaforpp}}</td>
-                        <td>${{$planilla->renta}}</td>
-                        <td>
-                            @if($planilla->prestamos!="")
+                        <td class="text-right">${{number_format($planilla->empleado->detalleplanilla->salario,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->issse,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->isssp,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->afpe,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->afpp,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->insaforpp,2)}}</td>
+                        <td class="text-right">${{number_format($planilla->renta,2)}}</td>
+                        <td class="text-right">
+                        @if($planilla->prestamos!="")
                             @php
                                 $p=$planilla->prestamos;
                                 $columna[7]+=$p;
                             @endphp
-                            ${{$p}}
-                            @else
+                            ${{number_format($p,2)}}
+                        @else
                             --
-                            @endif
+                        @endif
                         </td>
-                        <td>
+                        <td class="text-right">
                             @if($planilla->descuentos!='')
                             @php
                                 $d=$planilla->descuentos;
                                 $columna[8]+=$d;
                             @endphp
-                            ${{$d}}
+                            ${{number_format($d,2)}}
                             @else
                             --
                             @endif
                         </td>
-                    <td>$
-                        @php
-                            $total=$planilla->issse+$planilla->afpe+$planilla->renta+$p+$d;
-                        @endphp
-                        {{number_format($total,2)}}</td>
+                        <td class="text-right">$
+                            @php
+                                $total=$planilla->issse+$planilla->afpe+$planilla->renta+$p+$d;
+                            @endphp
+                            {{number_format($total,2)}}
+                        </td>
                         @php
                             $resta=$planilla->empleado->detalleplanilla->salario-$total;
                         @endphp
-                    <td>${{number_format($resta,2)}}</td>
+                        <td class="text-right">${{number_format($resta,2)}}</td>
                     
                     @if($datoplanilla->estado>=3)
                     <td>
@@ -131,10 +132,11 @@
                     @endphp
                     @endforeach
                     <tr>
-                        <td><b>Totales</b></td>
+                        <td colspan="2"><b>Totales</b></td>
                         @for($i=0;$i<=10;$i++)
-                    <td>${{number_format($columna[$i],2)}}</td>
+                    <td class="text-right">${{number_format($columna[$i],2)}}</td>
                         @endfor
+                        <td></td>
                     </tr>
                 </tbody>
             </table>

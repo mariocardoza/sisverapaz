@@ -47,6 +47,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
               <th>N°</th>
               <th>Fecha de generación</th>
               <th>Detalle</th>
+              <th>Mes/Año</th>
               <th>Estado</th>
               <th>Acción</th>
             </thead>
@@ -59,6 +60,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                   @endphp
                     <td>{{$dato[2]."/".$dato[1]."/".$dato[0]}}</td>
                     <td>{{$tipo_pago[$planilla->tipo_pago]}}</td>
+                    <td>{{App\Datoplanilla::obtenerMes($planilla->mes)}}/{{$planilla->anio}}</td>
                     @if($planilla->estado==1)
                     <td>
                       <label for="" class="col-md-12 label-primary">Pendiente</label>
@@ -88,6 +90,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       <td>
                         <div class="btn-group">
                           <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <button class="btn btn-info" id="pagar_planilla" data-id={{$planilla->id}}><i class="fa fa-check"></i></button>
                           <a href="{{ url('reportestesoreria/planillaaprobada/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                         </div>
                       </td>
@@ -110,6 +113,43 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
       </div>
     </div>
   </div>
+
+  @php
+      $cues=App\Cuenta::where('estado',1)->get();
+      $cuentas=[];
+      foreach($cues as $c){
+        $cuentas[$c->id]=$c->nombre;
+      }
+
+  @endphp
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_pagar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-sm">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Aprobar la planilla</h4>
+        </div>
+        <div class="modal-body">
+          {{ Form::open(['action'=>'PlanillaController@pagar', 'class' => '','id' => 'form_pagar','enctype'=>'multipart/form-data']) }}
+              <input type="hidden" name="id" id="eliid">
+              <label for="" class="control-label">Para realizar el pago de la planilla debe seleccionar una fuente de financiamiento</label>
+              <div class="form-group">
+                <label for="" class="control-label"></label>
+                <div>
+                  {!! Form::select('cuenta_id',$cuentas,null,['class'=>'chosen-select-width','placeholder'=>'seleccione la fuente e financiamiento','required'=>'']) !!}
+                </div>
+              </div>
+          
+          {{Form::close()}}
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="pagar_planillas" class="btn btn-success">Pagar</button></center>
+        </div>
+      </div>
+      </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -166,8 +206,36 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
       });
     });
 
-    //emitir boletas
-    $(document).on("click","#emitir_boletas",function(e){
+    //modal pagar planilla
+    $(document).on("click","#pagar_planilla",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      $("#modal_pagar").modal("show");
+      $("#eliid").val(id);
+    });
+
+    $(document).on("click","#pagar_planillas",function(e){
+      e.preventDefault();
+      var datos=$("#form_pagar").serialize();
+      $.ajax({
+        url:'planillas/pagar',
+        type:'POST',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+          if(json[0]==1){
+
+          }else{
+            if(json[0]==2){
+              toastr.info(json[2]);
+            }
+          }
+        }
+      })
+    });
+
+     //emitir boletas
+     $(document).on("click","#emitir_boletas",function(e){
       e.preventDefault();
       var id=$(this).attr("data-id");
       swal({

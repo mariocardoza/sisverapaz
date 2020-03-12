@@ -517,6 +517,25 @@ $(document).ready(function(e){
 		  }
 		});
 	});
+
+	//select de los categorias de los empleados
+	$(document).on("change","#select_catcargo",function(e){
+		e.preventDefault()
+		var id=$(this).val();
+		$.ajax({
+			url:'../empleados/selectcargos/'+id,
+			type:'get',
+			dataType:'json',
+			success: function(json){
+				if(json[0]==1){
+					$("#select_cargo").empty();
+					$("#select_cargo").html(json[2]);
+					$("#select_cargo").chosen({'width':'100%'});
+					$("#select_cargo").trigger("chosen:updated");
+				}
+			}
+		});
+	});
 });
 
 

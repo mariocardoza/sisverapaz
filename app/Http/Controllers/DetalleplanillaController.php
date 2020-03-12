@@ -42,7 +42,17 @@ class DetalleplanillaController extends Controller
     {
         if($request->ajax()){
             try{
-            $detalle=Detalleplanilla::create($request->All());
+            //$detalle=Detalleplanilla::create($request->All());
+            $detalle=new Detalleplanilla();
+            $detalle->empleado_id=$request->empleado_id;
+            $detalle->salario=$request->salario;
+            $detalle->tipo_pago=$request->tipo_pago;
+            $detalle->pago=$request->pago;
+            $detalle->unidad_id=$request->unidad_id;
+            $detalle->numero_acuerdo=$request->numero_acuerdo;
+            $detalle->cargo_id=$request->cargo_id;
+            $detalle->fecha_inicio=invertir_fecha($request->fecha_inicio);
+            $empleado->save();
             return array(1,"exito");
            }catch(Excection $e){
             return array(-1,"error",$e->getMessage());
@@ -93,9 +103,11 @@ class DetalleplanillaController extends Controller
       $detalle->pago=$request->pago;
       $detalle->unidad_id=$request->unidad_id;
       $detalle->numero_acuerdo=$request->numero_acuerdo;
+      $detalle->cargo_id=$request->cargo_id;
+      $detalle->fecha_inicio=invertir_fecha($request->fecha_inicio);
       $detalle->save();
       if($request->ajax()){
-          return array(1,"exito");
+          return array(1,"exito",$request->all());
       }else{
         return redirect('detalleplanillas')->with('mensaje','Registro modificado con éxito');
       }

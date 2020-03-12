@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="form-group{{ $errors->has('empleado_id') ? ' has-error' : '' }}">
+    <div class="form-group">
       <label for="name" class="control-label">Empleado</label>
   
       @php
@@ -20,28 +20,28 @@
         foreach ($unids as $u ) {
           $unidades[$u->id]=$u->nombre_unidad;
         }
-      @endphp
-      <div class="">
-        @if (isset($detalle))
-          {!!Form::select('empleado_id',
-            [$detalle->empleado->id=>$detalle->empleado->nombre]
-            ,null, ['class'=>'form-control','readonly'=>'readonly'])!!}
-        @else
-          {!!Form::select('empleado_id',
-            $empleados
-            ,null, ['class'=>'form-control'])!!}
-        @endif
-      </div>
-      </div>
+        @endphp
+        <div class="">
+          @if (isset($detalle))
+            {!!Form::select('empleado_id',
+              [$detalle->empleado->id=>$detalle->empleado->nombre]
+              ,null, ['class'=>'form-control','readonly'=>'readonly'])!!}
+          @else
+            {!!Form::select('empleado_id',
+              $empleados
+              ,null, ['class'=>'form-control'])!!}
+          @endif
+        </div>
+    </div>
   
-      <div class="form-group{{ $errors->has('salario') ? ' has-error' : '' }}">
+      <div class="form-group">
           <label for="name" class="control-label">Salario</label>
           <div class="">
-            {!!Form::number('salario',null,['class'=>'form-control','placeholder'=>'Ej. 300'])!!}
+            {!!Form::number('salario',null,['class'=>'form-control','placeholder'=>'Ej. 300','autocomplete'=>'off'])!!}
           </div>
       </div>
   
-      <div class="form-group{{ $errors->has('tipo_pago') ? ' has-error' : '' }}">
+      <div class="form-group">
           <label for="name" class="control-label">Forma de pago</label>
           <div class="">
             {!!Form::select('tipo_pago',
@@ -51,7 +51,7 @@
       </div>
   
       <div class="form-group">
-        <label for="" class="control-label">Categoría de los cargos</label>
+        <label for="" class="control-label">Categoría de empleados</label>
         <div class="">
           {!!Form::select('',
                 $catcargos
@@ -59,12 +59,13 @@
         </div>
       </div>
   
-      <div class="form-group{{ $errors->has('cargo_id') ? ' has-error' : '' }}">
+      <div class="form-group">
           <label for="name" class="control-label">Cargo</label>
           <div class="">
-            {!!Form::select('cargo_id',
-                $cargos
-                ,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un cargo','id'=>'select_cargo'])!!}
+            <select name="cargo_id" id="select_cargo" class="chosen-select-width">
+              <option value="">Seleccione un cargo</option>
+            </select>
+            
           </div>
       </div>
   
@@ -98,14 +99,21 @@
       <div class="form-group">
         <label for="numero_acuerdo" class="control-label">Número del acuerdo</label>
         <div class="">
-          {{Form::text('numero_acuerdo',null,['class'=>'form-control','placeholder'=>'Digite el número de acuerdo para el contrato'])}}
+          {{Form::text('numero_acuerdo',null,['class'=>'form-control','placeholder'=>'Digite el número de acuerdo para el contrato','autocomplete'=>'off'])}}
         </div>
       </div>
   
-      <div class="form-group{{ $errors->has('fecha_inicio') ? ' has-error' : '' }}">
+      <div class="form-group">
         <label for="name" class="control-label">Fecha de inicio de labores</label>
         <div class="">
-          {!!Form::text('fecha_inicio',null,['class'=>'form-control fecha'])!!}
+          @if(isset($empleado->detalleplanilla))
+            @if($empleado->detalleplanilla->fecha_inicio!='')
+            {!!Form::text('fecha_inicio',$empleado->detalleplanilla->fecha_inicio->format('d-m-Y'),['class'=>'form-control fechita','autocomplete'=>'off'])!!}
+            @endif
+          @else
+          {!!Form::text('fecha_inicio',null,['class'=>'form-control fechita','autocomplete'=>'off'])!!}
+
+          @endif
         </div>
       </div>
   </div>

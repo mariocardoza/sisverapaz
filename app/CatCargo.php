@@ -19,4 +19,10 @@ class CatCargo extends Model
 
         return $cargos;
     }
+
+    public function cargo()
+    {
+        return $this->hasMany('App\Cargo','catcargo_id');
+    }
+
 }

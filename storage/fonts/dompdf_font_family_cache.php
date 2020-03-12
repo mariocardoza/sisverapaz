@@ -78,12 +78,12 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'glyphicons halflings' => array(
-    'normal' => $fontDir . '/glyphicons-halflings-normal_feb99dd48eb038521032a31cab7ad9a0',
+    'normal' => $fontDir . '/glyphicons-halflings-normal_daf297a4d8b27f95de9b6bce511dfbd0',
   ),
   'fontawesome' => array(
-    'normal' => $fontDir . '/fontawesome-normal_c54ec665684eaaab1095de1eadaea9ee',
+    'normal' => $fontDir . '/fontawesome-normal_6c2c12d578669da80f2c89f8be930f3e',
   ),
   'ionicons' => array(
-    'normal' => $fontDir . '/ionicons-normal_d6a0a7fa74a9581b3e74d5b50b4013cc',
+    'normal' => $fontDir . '/ionicons-normal_abd07f3845460c1380157fed70e78751',
   ),
 ) ?>

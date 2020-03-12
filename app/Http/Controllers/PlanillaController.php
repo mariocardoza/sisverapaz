@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Empleado;
 use App\Retencion;
 use App\Contrato;
+use App\Cuenta;
 use App\Planilla;
 use App\Detalleplanilla;
 use App\Datoplanilla;
 use DB;
+use Carbon\Carbon;
 use App\Prestamo;
 
 class PlanillaController extends Controller
@@ -22,6 +24,18 @@ class PlanillaController extends Controller
      public function __construct()
      {
          $this->middleware('auth');
+     }
+
+     public function pagar(Request $request)
+     {
+         $total=Datoplanilla::totalplanilla($request->id);
+         $cuenta=Cuenta::find($request->cuenta_id);
+         if($total>$cuenta->monto_inicial){
+             return array(2,"exito","El total de la planilla supera a lo disponible en la cuenta");
+         }else{
+             
+         }
+         
      }
 
     public function index(Request $request)
@@ -50,6 +64,8 @@ class PlanillaController extends Controller
         // $retencion = Retencion::first();
         $retenciones = Retencion::all();
         $empleados= Detalleplanilla::empleadosPlanilla();
+   
+        
         return view('planillas.create',compact('mes','year','empleados','retenciones'));
     }
 

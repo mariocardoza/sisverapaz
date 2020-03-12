@@ -8,6 +8,26 @@ class Datoplanilla extends Model
 {
     protected $fillable = ['fecha', 'tipo_pago','mes','anio'];
 
+    public static function totalplanilla($id)
+    {
+        $total=0;
+        $dato=Datoplanilla::find($id);
+        foreach($dato->planilla as $p){
+            $total+=$p->empleado->detalleplanilla->salario+$p->isssp+$p->afpp+$p->insaforpp;
+        }
+        return $total;
+    }
+
+    public function planilla()
+    {
+        return $this->hasMany('App\Planilla');
+    }
+
+    public function detalleplanilla()
+    {
+        return $this->hasMany('App\Detalleplanilla');
+    }
+
     public static function obtenerMes($n){
         if($n==1){
             return "enero";

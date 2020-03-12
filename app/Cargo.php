@@ -28,6 +28,17 @@ class Cargo extends Model
         return $this->belongsTo('App\Catcargo');
     }
 
+    public static function selectcargo($id)
+    {
+        $html='';
+        $html.='Seleccione un cargo';
+        $cat=CatCargo::find($id);
+        foreach($cat->cargo as $c){
+            $html.='<option value="'.$c->id.'">'.$c->cargo.'</option>';
+        }
+        return array(1,"exito",$html);
+    }
+
    /* public function contratoproyecto()
     {
     	$this->hasMany('App\Contratoproyecto');

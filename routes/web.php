@@ -321,6 +321,7 @@ Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
 Route::Resource('empleados','EmpleadoController');
+Route::get('empleados/selectcargos/{id}','EmpleadoController@selectcargo');
 Route::post('empleados/bancarios','EmpleadoController@bancarios');
 Route::post('empleados/afps','EmpleadoController@afps');
 Route::post('empleados/isss','EmpleadoController@isss');
@@ -336,6 +337,7 @@ Route::Resource('servicios','ServiciosController');
 
 Route::Resource('retenciones','RetencionController');
 
+Route::post('planillas/pagar','PlanillaController@pagar');
 Route::Resource('planillas','PlanillaController');
 Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cambiarestado');
 Route::get('planillaproyectos/desembolso/{id}','PeriodoProyectoController@desembolso');

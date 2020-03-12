@@ -1,12 +1,14 @@
 <table class="table table-striped table-bordered table-hover" >
   <thead>
     @php
+      Use Carbon\Carbon;
         $t_salario=0;
         $t_renta=0;
         $t_prestamo=0;
         $t_descuento=0;
         $t_deduccion=0;
         $t_disponible=0;
+        
     @endphp
     <tr>
       <th>Empleado</th>
@@ -33,11 +35,25 @@
           {{$empleado->nombre}}
         </td>
         <td>
-            <input type="hidden" name='salario[]' value="{{$empleado->salario}}">
-            ${{number_format($empleado->salario,2)}}
+         @php
+            $salario=$salario_dia=0.0;
+            $hoy=Carbon::now();
+            $inicio=Carbon::createFromFormat('Y-m-d',$empleado->fecha_inicio);
+            $dias=$inicio->diffInDays($hoy);
+            if($dias>30){
+              $salario=$empleado->salario;
+            }else{
+              $salario_dia=$empleado->salario/30;
+              $salario=$salario_dia*$dias;
+            }
+            
+         @endphp
+            <input type="hidden" name='salario[]' value="{{$salario}}">
+            ${{number_format($salario,2)}}
             @php
-                $t_salario+=$empleado->salario;
+                $t_salario+=$salario;
             @endphp
+            
           </td>
           @php
               $sum_retenciones=0;
@@ -45,7 +61,7 @@
         @foreach ($retenciones as $key=>$r)
           <td>
             @php
-              $retencion=App\Retencion::valor($r->id,$empleado->salario);
+              $retencion=App\Retencion::valor($r->id,$salario);
               if($r->tipo==0){
               $sum_retenciones+=$retencion;
               }
@@ -59,7 +75,7 @@
         @endforeach
         <td>
           @php
-          $nogravado=$empleado->salario-$sum_retenciones;
+          $nogravado=$salario-$sum_retenciones;
           $renta=App\Renta::renta($empleado->pago,$nogravado);
             $sum_retenciones+=$renta;
           @endphp
@@ -109,10 +125,10 @@
           @endif
         </td>
         <td>${{number_format($sum_retenciones,2)}}</td>
-        <td>${{number_format($empleado->salario-$sum_retenciones,2)}}</td>
+        <td>${{number_format($salario-$sum_retenciones,2)}}</td>
         @php
             $t_deduccion+=$sum_retenciones;
-            $t_disponible+=$empleado->salario-$sum_retenciones;
+            $t_disponible+=$salario-$sum_retenciones;
         @endphp
       </tr>
     @endif

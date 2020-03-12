@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Configuracion;
+use App\Porcentaje;
 use Validator;
 class ConfiguracionController extends Controller
 {
     public function create()
     {
+      $porcentajes=Porcentaje::all();
       $configuraciones = Configuracion::first();
 
-      return view('configuraciones.create',compact('configuraciones'));
+      return view('configuraciones.create',compact('configuraciones','porcentajes'));
     }
 
     public function alcaldia(Request $request)

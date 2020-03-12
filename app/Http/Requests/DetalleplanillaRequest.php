@@ -26,7 +26,7 @@ class DetalleplanillaRequest extends FormRequest
          return [
              'empleado_id' => 'required',
              'salario' => 'required',
-            
+            'cargo_id'=>'required',
              'tipo_pago' => 'required',
              'pago' => 'required',
              'fecha_inicio' => 'required',
@@ -37,6 +37,7 @@ class DetalleplanillaRequest extends FormRequest
      public function messages()
      {
          return [
+         'cargo_id.required'=>'El campo cargo es obligatorio',
          'empleado_id.required'=>'El campo empleado es obligatorio',
          'salario.required'=>'El campo salario es obligatorio',
          'tipo_pago.required'=>'El campo forma de pago es obligatorio',

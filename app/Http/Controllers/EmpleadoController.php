@@ -14,6 +14,7 @@ use DB;
 use App\Http\Requests\UsuariosRequest;
 use App\User;
 use Auth;
+use App\Cargo;
 
 class EmpleadoController extends Controller
 {
@@ -26,6 +27,11 @@ class EmpleadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function selectcargo($id)
+    {
+        $retorno=Cargo::selectcargo($id);
+        return $retorno;
+    }
     public function index(Request $request)
     {
         Auth()->user()->authorizeRoles(['admin','tesoreria']);

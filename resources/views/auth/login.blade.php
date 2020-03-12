@@ -34,7 +34,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg-large">Digite sus datos para iniciar sesión</p>
+    <p class="login-box-msg-large"><h3 class="text-center">Digite sus datos para iniciar sesión</h3></p>
       @if(Session::has('error'))
           <div class="alert alert-danger alert-dismissable" role="alert">
               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -54,13 +54,15 @@
             <label for="username" class="col-md-4 control-label">Nombre de Usuario (*)</label>
 
             <div class="col-md-8">
-                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus/>
+                <div class="input-group">
+                    <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('username'))
                         <span class="help-block">
                             <strong>{{ $errors->first('username') }}</strong>
                         </span>
                     @endif
+                </div>
             </div>
         </div>
 
@@ -68,13 +70,15 @@
         <label for="password" class="col-md-4 control-label">Contraseña (*)</label>
 
         <div class="col-md-8">
-            <input id="password" type="password" class="form-control" name="password" required>
+            <div class="input-group">
+                <input id="password" type="password" class="form-control" name="password" required>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 @if ($errors->has('password'))
                     <span class="help-block">
                         <strong>{{ $errors->first('password') }}</strong>
                     </span>
                 @endif
+            </div>
             </div>
         </div>
 
@@ -94,7 +98,7 @@
           <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar</button>
         </div>
         <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    ¿Olvido su contraseña?
+                                    ¿Olvidó su contraseña?
         </a>
         <!-- /.col -->
       </div>

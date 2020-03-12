@@ -113,6 +113,14 @@
                       <th>${{number_format($empleado->detalleplanilla->salario,2)}}</th>
                     </tr>
                     <tr>
+                      <td>Área</td>
+                      @if($empleado->detalleplanilla->cargo)
+                      <th>{{$empleado->detalleplanilla->cargo->catcargo->nombre}}</th>
+                      @else
+                      <th>Área no asignado</th>
+                      @endif
+                    </tr>
+                    <tr>
                       <td>Cargo</td>
                       @if($empleado->detalleplanilla->cargo)
                       <th>{{$empleado->detalleplanilla->cargo->cargo}}</th>
@@ -174,7 +182,7 @@
                 <div class="panel panel-primary" id="reg_contrato">
                 <div class="panel-heading">Registrar contrato</div>
                 <div class="panel" >
-                 <form id="form_planilla" class="form-horizontal">
+                 <form id="form_planilla" class="">
                    @include('detalleplanillas.formulario')
 
                    <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
