@@ -30,6 +30,7 @@
                   <li><a href="#alcalde" data-toggle="tab">Datos del alcalde</a></li>
                   <li><a href="#limites" data-toggle="tab">Límites de los proyectos</a></li>
                   <li><a href="#porcentajes" data-toggle="tab">Porcentajes</a></li>
+                  <li><a href="#retenciones" data-toggle="tab">Retenciones</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="alcaldia" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
@@ -167,6 +168,26 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="tab-pane" id="retenciones">
+                    <div class="panel">
+                      <div class="panel body">
+                        <div class="row">
+                          @foreach($retenciones as $r)
+                          <div class="col-md-3">
+                            <label for="" class="control-label">% {{$r->nombreCompleto($r->nombre)}}</label>
+                            <div class="input-group">
+                              <input type="number" min="0" value="{{$r->porcentaje}}"  name="porcentaje" class="form-control {{$r->nombre}}">
+                              <span class="input-group-btn">
+                                <button type="button" data-reten="{{$r->nombre}}" data-id="{{$r->id}}" class="btn btn-success reten"><i class="fa fa-refresh"></i></button>
+                              </span>
+                            </div>
+                          </div>
+                          @endforeach 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   
                   <!-- /.tab-pane -->
                 </div>
@@ -211,6 +232,33 @@
         success: function(json){
           if(json[0]==1){
             toastr.success("Porcentaje actualizado con éxito");
+            location.reload();
+          }else{
+            swal.closeModal();
+            toastr.error("Ocurrió un error");
+          }
+        },
+        error: function(error){
+          swal.closeModal();
+        }
+      });
+    });
+
+    //cambiar el porcentaje a las retenciones /// ISSS, AFP...
+    $(document).on("click",".reten",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      var input=$(this).attr("data-reten");
+      var elvalor=$("."+input).val();
+      modal_cargando();
+      $.ajax({
+        url:'configuraciones/retenciones',
+        type:'POST',
+        dataType:'json',
+        data:{id,porcentaje:elvalor},
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Porcentaje de la retención actualizado con éxito");
             location.reload();
           }else{
             swal.closeModal();

@@ -77,7 +77,7 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
-        $existe=Datoplanilla::where('mes',$request->mes)->where('anio',$request->anio)->whereIn('estado',[1,3,4])->count();
+        $existe=Datoplanilla::whereMonth('fecha',date('m'))->whereIn('estado',[1,3,4])->count();
         if($existe==0){
             $retenciones = Retencion::all();
             $count = count($request->empleado_id);
@@ -122,7 +122,7 @@ class PlanillaController extends Controller
                 return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
             }
         }else{
-            if($existe == 1 && $request->tipo==2){
+            if($existe == 1 && $request->tipo==2 && (date("d")>=25)){
                 $retenciones = Retencion::all();
                 $count = count($request->empleado_id);
                 try {
@@ -166,7 +166,7 @@ class PlanillaController extends Controller
                     return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
                 }
             }else{
-                    return redirect('planillas')->with('error','Ya existe la planilla registrada para el mes de '.Datoplanilla::obtenerMes($request->mes).' del año '.$request->anio);
+                    return redirect('planillas')->with('error','Ya registró la planilla correspondiente a este mes de '.Datoplanilla::obtenerMes(date('m')).' del año '.date("Y"). ' Podrá registrar una nueva planilla el próximo mes a partir del dia 25');
             }
         }
         

@@ -29,7 +29,7 @@
 					<th>Id</th>
 					<th>Cargos</th>
 					<th>Categoría</th>
-					<th>Acción</th>
+					<th>Acciones</th>
 				</thead>
 			<tbody>
 				@foreach($cargos as $key => $cargo)
@@ -40,12 +40,12 @@
 					<td>
 						@if($cargo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-						<a href="javascript:(0)" id="edit" data-id="{{$cargo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<a href="javascript:(0)" id="edit" data-id="{{$cargo->id}}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span></a>
+						<button class="btn btn-danger" type="button" onclick={{ "baja($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-success" type="button" onclick={{ "alta($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>

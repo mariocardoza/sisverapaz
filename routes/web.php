@@ -42,8 +42,10 @@ Route::get('backups/eliminar/{file_name}', 'BackupController@eliminar');
 Route::get('backups/restaurar/{file_name}', 'BackupController@restaurar');
 
 //CONFIGURACIONES DE LA ALCALDIA
+Route::get('rentas','RentaController@index')->name('rentas.index');
 Route::get('configuraciones','ConfiguracionController@create')->name('configuraciones.create');
 Route::post('configuraciones/porcentajes','ConfiguracionController@porcentajes')->name('configuraciones.porcentajes');
+Route::post('configuraciones/retenciones','ConfiguracionController@retenciones')->name('configuraciones.retenciones');
 Route::post('configuraciones/limites','ConfiguracionController@limitesproyecto')->name('configuraciones.limites');
 Route::post('configuraciones/alcaldia','ConfiguracionController@alcaldia')->name('configuraciones.alcaldia');
 Route::put('configuraciones/ualcaldia/{configuracione}','ConfiguracionController@ualcaldia')->name('configuraciones.ualcaldia');

@@ -29,7 +29,7 @@ class UsuariosRequest extends FormRequest
             'password' => 'required|string|min:6|confirmed',
             'roles' => 'required',
             'unidad_id' => 'required',
-            'name' => 'required',
+            //'name' => 'required',
         ];
     }
 

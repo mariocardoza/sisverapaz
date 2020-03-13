@@ -283,5 +283,8 @@
 
 @yield('scripts')
 
+ 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
+{{-- {!! Html::script('js/main.js') !!} --}}
 </body>
 </html>

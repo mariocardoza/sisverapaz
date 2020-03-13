@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Configuracion;
 use App\Porcentaje;
+use App\Retencion;
 use Validator;
 class ConfiguracionController extends Controller
 {
     public function create()
     {
       $porcentajes=Porcentaje::all();
+      $retenciones=Retencion::all();
       $configuraciones = Configuracion::first();
 
-      return view('configuraciones.create',compact('configuraciones','porcentajes'));
+      return view('configuraciones.create',compact('configuraciones','porcentajes','retenciones'));
     }
 
     public function alcaldia(Request $request)
@@ -27,6 +29,30 @@ class ConfiguracionController extends Controller
         "email_alcaldia" => $request->email_alcaldia
       ]);
       return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
+    }
+
+    public function porcentajes(Request $request)
+    {
+      try{
+        $porcentaje=Porcentaje::find($request->id);
+        $porcentaje->porcentaje=$request->porcentaje;
+        $porcentaje->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function retenciones(Request $request)
+    {
+      try{
+        $retencione=Retencion::find($request->id);
+        $retencione->porcentaje=$request->porcentaje;
+        $retencione->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 
     public function ualcaldia(Request $request,$id)

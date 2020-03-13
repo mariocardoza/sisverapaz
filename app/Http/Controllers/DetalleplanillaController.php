@@ -52,7 +52,7 @@ class DetalleplanillaController extends Controller
             $detalle->numero_acuerdo=$request->numero_acuerdo;
             $detalle->cargo_id=$request->cargo_id;
             $detalle->fecha_inicio=invertir_fecha($request->fecha_inicio);
-            $empleado->save();
+            $detalle->save();
             return array(1,"exito");
            }catch(Excection $e){
             return array(-1,"error",$e->getMessage());

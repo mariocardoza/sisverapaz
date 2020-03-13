@@ -2,6 +2,7 @@
   <thead>
     @php
       Use Carbon\Carbon;
+        $ahorita=now();
         $t_salario=0;
         $t_renta=0;
         $t_prestamo=0;
@@ -12,6 +13,7 @@
     @endphp
     <tr>
       <th>Empleado</th>
+      <th>Cargo</th>
       <th>Salario base</th>
       @foreach ($retenciones as $key=>$r)
         <th>{{$r->nombreCompleto($r->nombre)}}</th>
@@ -29,11 +31,13 @@
   <tbody>
     @foreach ($empleados as $empleado)
     @if ($empleado->pago==$i+1)
+    @if($empleado->fecha_inicio<$ahorita)
       <tr>
         <td>
           <input value="{{$empleado->id}}" type="hidden" name='empleado_id[]' class="form-control"/>
           {{$empleado->nombre}}
         </td>
+        <td>-</td>
         <td>
          @php
             $salario=$salario_dia=0.0;
@@ -132,9 +136,10 @@
         @endphp
       </tr>
     @endif
+    @endif
     @endforeach
     <tr>
-      <td>
+      <td colspan="2">
         <b>
           Totales
         </b>

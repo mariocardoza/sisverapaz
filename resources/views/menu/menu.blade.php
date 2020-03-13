@@ -9,6 +9,13 @@
     </li>
 
     <li class="treeview ">
+      <a href="{{ url('/rentas') }}">
+        <i class="glyphicon glyphicon-tasks"></i> <span>Porcentajes Impuesto/renta</span>
+      </a>
+     
+    </li>
+
+    <li class="treeview ">
       <a href="{{ url('/bitacoras/general') }}">
         <i class="glyphicon glyphicon-tasks"></i> <span>Bitácora</span>
       </a>
@@ -33,6 +40,25 @@
       <a href="{{ url('/backups') }}">
         <i class="glyphicon glyphicon-hdd"></i><span>Respaldos</span>
       </a>
+    </li>
+
+    <li class="treeview {{ Route::currentRouteName() == 'unidades.index' ? 'active':null}}">
+      <a href="{{ url('/unidades') }}">
+        <i class="fa fa-list"></i><span>Unidades administrativas</span>
+      </a>
+    </li>
+
+    <li class="treeview {{ Route::currentRouteName() == 'cargos.index' ? 'active': Route::currentRouteName() == 'catcargos.index' ? 'active' : null }}">
+      <a href="#">
+        <i class="fa fa-list"></i><span>Cargos</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{ url('catcargos') }}"><i class="fa fa-circle-o"></i> Categorías para los cargos </a></li>
+        <li><a href="{{ url('cargos') }}"><i class="fa fa-circle-o"></i> Cargos </a></li>  
+    </ul>
     </li>
     
     @endif
