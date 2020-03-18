@@ -568,7 +568,7 @@ class Proyecto extends Model
         <tbody>';
         foreach($proyecto->detalleplanilla as $index => $d):
           $renta=$subto=0.0;
-          $renta=($d->cargoproyecto->salario_dia * 14)*0.1;
+          $renta=($d->cargoproyecto->salario_dia * 14)*session('renta');
           $subto=($d->cargoproyecto->salario_dia*14)-$renta;
           $html.='<tr data-empleado="'.$d->empleado->id.'">
             <td>'.($index+1).'</td>

@@ -10,6 +10,13 @@ use Carbon\Carbon;
 
 class BackupController extends Controller
 {
+
+  public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    
   public function index()
   {
     $disco = Storage::disk('local');
@@ -46,10 +53,10 @@ class BackupController extends Controller
         Log::info("Se inició un respaldo desde la aplicación \r\n" . $output);
         Log::info("Respaldo completado con exito");
         // return the results as a response to the ajax call
-        return redirect()->back()->with('mensaje', '¡Respaldo creado!');
+        return array(1,"exito");
     } catch (Exception $e) {
-        Flash::error($e->getMessage());
-        return redirect()->back();
+        //Flash::error($e->getMessage());
+        return array(-1,"error",$e->getMessage());
     }
   }
 
@@ -89,10 +96,9 @@ class BackupController extends Controller
         Log::info("Se inició una restauración desde la aplicación \r\n" . $output);
         Log::info("Restauración completado con exito");
         // return the results as a response to the ajax call
-        return redirect()->back()->with('mensaje', '¡Restauración completada!');
+        return array(1,"exito");
     } catch (Exception $e) {
-        Flash::error($e->getMessage());
-        return redirect()->back();
+      return array(-1,"error",$e->getMessage());
     }
   }
 
@@ -100,11 +106,11 @@ class BackupController extends Controller
   {
     //dd($file_name);
     $disk = Storage::disk('local');
-    if ($disk->exists('/backups/' . $file_name)) {
-        $disk->delete('/backups/' . $file_name);
-        return redirect()->back()->with('mensaje', '¡Respaldo eliminado!');
+    if ($disk->exists('backups/' . $file_name)) {
+        $disk->delete('backups/' . $file_name);
+        return array(1,"exito");
     } else {
-        abort(404, "El Respaldo no existe!");
+        return array(-1,"error");
     }
   }
 }

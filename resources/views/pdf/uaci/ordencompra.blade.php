@@ -92,7 +92,7 @@
                                     $correlativo++;
                                     $total=$total+$detalle->precio_unitario*$detalle->cantidad;
                                     if($detalle->material->servicio==1){
-                                      $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*0.1);
+                                      $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*session('renta'));
                                     }
                                   @endphp
                                   <td><center>{{$correlativo}}</center></td>

@@ -109,18 +109,37 @@
         //modificar tramo
         $(document).on("click",".cambiar",function(e){
             e.preventDefault();
+            modal_cargando();
             var id=$(this).attr("data-id");
             var fila=$(this).attr("data-fila");
             var desde=$("."+fila+'desde').val();
             var hasta=$("."+fila+'hasta').val();
             var exceso=$("."+fila+'exceso').val();
             var porcentaje=$("."+fila+'porcentaje').val();
-            var cuota=$("."+fila+'cuota').val();
+            var cuota_fija=$("."+fila+'cuota').val();
             console.log("Desde: "+desde);
             console.log("hasta: "+hasta);
             console.log("exceso: "+exceso);
             console.log("porcentaje: "+porcentaje);
-            console.log("cuota: "+cuota);
+            console.log("cuota: "+cuota_fija);
+            $.ajax({
+                url:'rentas/'+id,
+                type:'PUT',
+                dataType:'json',
+                data:{desde,hasta,exceso,porcentaje,cuota_fija},
+                success: function(json){
+                    if(json[0]==1){
+                        toastr.success("Porcentajes modificados con éxito");
+                        location.reload();
+                    }else{
+                        toastr.error("Ocurrió un error");
+                        swal.closeModal();
+                    }
+                },error: function(error){
+                    toastr.error("Ocurrió un error");
+                        swal.closeModal();
+                }
+            });
         });
     });
 </script>

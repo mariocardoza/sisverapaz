@@ -37,6 +37,11 @@ class ConfiguracionController extends Controller
         $porcentaje=Porcentaje::find($request->id);
         $porcentaje->porcentaje=$request->porcentaje;
         $porcentaje->save();
+
+        $porcentajes=Porcentaje::all();
+        foreach($porcentajes as $p){
+            session([$p->nombre_simple => $p->porcentaje/100]);
+        }
         return array(1,"exito");
       }catch(Exception $e){
         return array(-1,"error",$e->getMessage());

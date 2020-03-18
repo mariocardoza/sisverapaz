@@ -17,4 +17,16 @@ class RentaController extends Controller
         $rentas=Renta::all();
         return view('rentas.index',compact('rentas'));
     }
+
+    public function update($id, Request $request)
+    {
+        try{
+            $renta=Renta::find($id);
+            $renta->fill($request->all());
+            $renta->save();
+            return array(1,$renta);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
 }

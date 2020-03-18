@@ -152,9 +152,9 @@ class RequisicionController extends Controller
                           $query->from('cotizacions')
                           ->whereRaw('cotizacions.proveedor_id = proveedors.id');
                         })->get();
-      Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
+        Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
         $requisicion = Requisicione::findorFail($id);
-      $elestado=Requisicione::estado_ver($id);
+        $elestado=Requisicione::estado_ver($id);
         return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado'));
     }
 
@@ -330,7 +330,7 @@ class RequisicionController extends Controller
     }
 
     public function bajar($file_name){
-      $file = '/requisiciones/' . $file_name;
+      $file = 'requisiciones/' . $file_name;
       //dd($file);
       $disk = Storage::disk('local');
       if ($disk->exists($file)) {

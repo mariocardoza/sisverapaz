@@ -52,6 +52,8 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+            'dump' => env('DUMP_PATH', 'C:\Program Files\MySQL\MySQL Server 5.7\bin'),
+            
         ],
 
         'pgsql' => [

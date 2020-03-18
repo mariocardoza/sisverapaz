@@ -28,7 +28,7 @@ class Detallecotizacion extends Model
         $cotizacion=Cotizacion::find($id);
         foreach($cotizacion->detallecotizacion as $detalle){
             if($detalle->material->servicio==1){
-                $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*0.1);
+                $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*session('renta'));
             }
         }
         return $renta;
@@ -40,7 +40,7 @@ class Detallecotizacion extends Model
         foreach($cotizacion->detallecotizacion as $detalle){
             $total=$total+$detalle->precio_unitario*$detalle->cantidad;
             if($detalle->material->servicio==1){
-                $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*0.1);
+                $renta=$renta+(($detalle->precio_unitario*$detalle->cantidad)*session('renta'));
             }
         }
         

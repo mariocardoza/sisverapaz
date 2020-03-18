@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 //use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use App\Bitacora;
+use App\Porcentaje;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -41,7 +42,10 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        //dd($request->all());
+        $porcentajes=Porcentaje::all();
+        foreach($porcentajes as $p){
+            session([$p->nombre_simple => $p->porcentaje/100]);
+        }
         if (Auth::attempt(['username' => $request->username, 
             'password' => $request->password,'estado' => 1])
             ) {
@@ -56,6 +60,7 @@ class LoginController extends Controller
     public function logout()
     {
         Bitacora::bitacora('Cerró Sesión del sistema');
+        session()->flush();
         Auth::logout();
         return redirect('/')->with('mensaje','Cerró Sesión del sistema exitósamente');
     }

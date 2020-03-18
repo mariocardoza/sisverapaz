@@ -43,6 +43,7 @@ Route::get('backups/restaurar/{file_name}', 'BackupController@restaurar');
 
 //CONFIGURACIONES DE LA ALCALDIA
 Route::get('rentas','RentaController@index')->name('rentas.index');
+Route::put('rentas/{id}','RentaController@update')->name('rentas.update');
 Route::get('configuraciones','ConfiguracionController@create')->name('configuraciones.create');
 Route::post('configuraciones/porcentajes','ConfiguracionController@porcentajes')->name('configuraciones.porcentajes');
 Route::post('configuraciones/retenciones','ConfiguracionController@retenciones')->name('configuraciones.retenciones');

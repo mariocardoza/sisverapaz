@@ -60,6 +60,20 @@
         <li><a href="{{ url('cargos') }}"><i class="fa fa-circle-o"></i> Cargos </a></li>  
     </ul>
     </li>
+    <li class="treeview">
+      <a href="#">
+        <i class="fa fa-share"></i> <span>Misceláneos</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="{{url('afps')}}"><i class="fa fa-circle-o"></i> AFPS</a></li>
+        <li><a href="{{url('bancos')}}"><i class="fa fa-circle-o"></i> Bancos</a></li>
+        <li><a href="{{url('giros')}}"><i class="fa fa-circle-o"></i> Giro de proveedores</a></li>
+        <li><a href="{{url('servicios')}}"><i class="fa fa-circle-o"></i> Listado de servicios</a></li>
+      </ul>
+    </li>
     
     @endif
     @if(Auth()->user()->hasRole('uaci'))
