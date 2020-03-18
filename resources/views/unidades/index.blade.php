@@ -57,10 +57,93 @@
             <!-- /.box -->
         </div>
     </div>
+@include("unidades.modal")
 @endsection
 
-@section('scripts')
-<script>
-    
+@section("scripts")
+<script type="">
+    $(document).ready(function(e){
+        $(document).on('click','#btnmodalagregar',function(e){
+            e.preventDefault();
+            $("#modal_registrar").modal("show");
+        });
+        /////FUNCION SUBMIT para guardar unidades administrativas
+        $(document).on('submit','#form_unidades',function(e){
+            e.preventDefault();
+            modal_cargando();
+            var uni = $("#form_unidades").serialize();
+            $.ajax({
+                url:"unidades",
+                type:"POST",
+                dataType:"json",
+                data:uni,
+
+                success: function(retorno)
+                {
+                    if(retorno[0] == 1)
+                    {
+                        toastr.success('Registro exitoso');
+                        window.location.reload();
+                    }
+
+                    else{
+                        toastr.error('No se pudo registrar');
+                        swal.closeModal();
+                    }
+                },
+
+                error: function(error)
+                {
+                    console.log(error.responseJSON.errors);
+                    $.each(error.responseJSON.errors, function(index,value){
+                        toastr.error(value);
+                    });
+                    swal.closeModal();
+                }
+            });
+        });
+        ///////FUNCIÓN EDITAR
+        $(document).on("click", "#edit", function(){
+            var id = $(this).attr("data-id");
+            $.ajax({
+                url:"unidades/"+id+"/edit",
+                type:"get",
+                data:{},
+                success:function(retorno){
+                    if(retorno[0] == 1){
+                        $("#modal_editar").modal("show");
+                        $("#e_unidad").val(retorno[2].unidad);
+                        $("#elid").val(retorno[2].id);
+                    }
+                    else{
+                        toastr.error("error");
+                    }
+                }
+            });
+        });//Fin modal editar
+
+        $(document).on("click", "#btneditar", function(e){
+            var id = $("#elid").val();
+            var unidad = $("#e_unidad").val();
+            $.ajax({
+                url:"unidades/"+id,
+                type:"put",
+                data:{unidad},
+                success:function(retorno){
+                    if(retorno[0] == 1)
+                    {
+                        toastr.success("Exitoso");
+                        $("#modal_editar").modal("hide");
+                        window.location.reload();
+                    }
+                    else{
+                        toastr.error("error");
+                    }
+                }
+            });
+        });///// Fin btneditar
+
+        $(document).on();
+    });
 </script>
 @endsection

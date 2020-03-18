@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('migasdepan')
 <h1>
-        Bancos
+        AFPs
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
@@ -61,8 +61,9 @@
       @include('afps.modales')
 </div>
 @endsection
+
 @section('scripts')
-<script>
+<script type="">
   $(document).ready(function(e){
     var eltoken = $('meta[name="csrf-token"]').attr('content');
     $(document).on("click","#modal_nuevo",function(e){
@@ -89,6 +90,48 @@
         });
       }
     });
+
+    //////EDITAR
+    $(document).on("click", "#edit", function(){
+      var id = $(this).attr("data-id");
+      $.ajax({
+        url:"afps/"+id+"/edit",
+        type:"get",
+        data:{},
+        success:function(retorno){
+          if(retorno[0] == 1){
+            $("#modal_editar").modal("show");
+            $("#e_afp").val(retorno[2].afp);
+            $("#elid").val(retorno[2].id);
+          }
+          else{
+            toastr.error("error");
+          }
+        }
+      });
+    });
+    //fin modal
+    $(document).on("click", "#btneditar", function(e){
+      var id = $("#elid").val();
+      var afp = $("#e_afp").val();
+      $.ajax({
+        url:"afps/"+id,
+        type:"put",
+        data:{afp},
+        success:function(retorno){
+          if(retorno[0] == 1)
+          {
+            toastr.success("Exitoso");
+            $("#modal_editar").modal("hide");
+            window.location.reload();
+          }
+          else{
+            toastr.error("error");
+          }
+        }
+      });
+    }); //FIN BOTON
+
   });
 </script>
 @endsection
