@@ -45,9 +45,9 @@ class UnidadAdminController extends Controller
         if($request->ajax()){
           try{
             Unidad::create($request->All());
-            return response('exito');
+            return array(1,'éxito');
           }catch(\Exception $e){
-            return response($e->getMessage());
+            return array(-1, $e->getMessage());
           }
         }else{
           try
@@ -119,7 +119,7 @@ class UnidadAdminController extends Controller
         bitacora('Dió de baja la unidad administrativa');
         return redirect('/unidades')->with('mensaje','Unidad dada de baja');
     }
-    public function altar($id)
+    public function alta($id)
     {
         $unidad = Unidad::find($id);
         $unidad->estado = 1;

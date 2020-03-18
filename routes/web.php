@@ -331,7 +331,10 @@ Route::post('empleados/usuarios','EmpleadoController@usuarios');
 Route::post('empleados/eusuarios','EmpleadoController@eusuarios');
 Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
+Route::get('afps/get','AfpController@get');
 Route::Resource('afps','AfpController');
+Route::post('afp/baja/{id}','AfpController@baja')->name('afps.baja');
+Route::post('afp/alta/{id}','AfpController@alta')->name('afps.alta');
 
 Route::get('servicios/pagos','ServiciosController@pagos');
 Route::post('servicios/pagar','ServiciosController@pagar_servicio');
