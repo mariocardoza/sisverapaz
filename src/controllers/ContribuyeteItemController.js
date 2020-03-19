@@ -13,7 +13,7 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
   }
 
   let cerrarModal = ($uibModalInstance) => {
-    $uibModalInstance.close({ response: false, message: 'Has cerrado el modal' })
+    $uibModalInstance.close({ response: false, message: 'Has cerrado la ventana' })
   }
 
   $scope.onModalBajaContribuyente = (people) => {
@@ -33,7 +33,7 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
                   people : json.data,
                   response: true
                 });
-                toastr.info('baja al contribuyente', 'baja')
+                toastr.info('Contribuyente desactivado', 'Desactivado')
               }
             });
           }
@@ -47,7 +47,7 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
     }else{
       darBajaFunction(people.id, '', people.estado).then(json => {
         $scope.people.estado = 1
-        toastr.info('activo al contribuyente', 'activo contribuyente')
+        toastr.info('activado al contribuyente', 'Activar')
       })
     }
   }
@@ -239,8 +239,8 @@ module.exports =  ["$scope", 'people', 'Restangular', '$uibModal', 'toastr', fun
         if(json.response){
         $scope.inmueble.tipo_servicio.push(json.data);
         toastr.info(
-          'se agrego correctamente el servicio', 
-          'servico agregado inmueble',
+          'se registro correctamente el servicio', 
+          'servico agregado a inmueble',
           { "timeOut": "0", }
         );
         }else{
