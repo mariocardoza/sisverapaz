@@ -75,7 +75,7 @@ $("#consultar").on("click", function(e){
   }
 
   $.ajax({
-    url: '../bitacoras/general',
+    url: 'bitacoras',
     type:'GET',
     dataType:'json',
     data:{usuario,dia,inicio,fin},

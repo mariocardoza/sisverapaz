@@ -20,6 +20,11 @@ class Solicitudcotizacion extends Model
         return $this->hasMany('App\Cotizacion');
     }
 
+    public function cotizacion_activa()
+    {
+      return $this->hasMany('App\Cotizacion')->whereIn('estado',[1,3]);
+    }
+
     public function cotizacion_seleccionada()
     {
         return $this->hasOne('App\Cotizacion')->where('seleccionado',1);
@@ -212,7 +217,7 @@ class Solicitudcotizacion extends Model
                         <tr>
                           <th>Ítem</th>
                           <th>Cantidad</th>';
-                          foreach($solicitud->cotizacion as $coti):
+                          foreach($solicitud->cotizacion_activa as $coti):
                             $html.='<th>';
                             if($coti->seleccionado==1):
                             $html.='<span title="Click para ver información" style="cursor:pointer; color:green" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
@@ -231,7 +236,7 @@ class Solicitudcotizacion extends Model
                             $html.='<tr>
                             <td>'.$detalle->material->nombre.'</td>
                             <td>'.$detalle->cantidad.'</td>';
-                            foreach($solicitud->cotizacion as $lacoti):
+                            foreach($solicitud->cotizacion_activa as $lacoti):
                               foreach($lacoti->detallecotizacion as $key => $eldeta):
                                 if(($eldeta->material_id==$detalle->material_id) ):
                                   if($lacoti->seleccionado==1):
@@ -248,7 +253,7 @@ class Solicitudcotizacion extends Model
                       <tfoot>
                         <tr>
                           <th colspan="2">Total</th>';
-                          foreach($solicitud->cotizacion as $coti):
+                          foreach($solicitud->cotizacion_activa as $coti):
                             if($coti->seleccionado==1):
                               $html.='<th style="color:green;">$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
                             else:
@@ -258,7 +263,7 @@ class Solicitudcotizacion extends Model
                         $html.='</tr>
                         <tr>
                           <th colspan="2">Forma de pago</th>';
-                          foreach($solicitud->cotizacion as $coti):
+                          foreach($solicitud->cotizacion_activa as $coti):
                             if($coti->seleccionado==1):
                             $html.='<th style="color:green;">'.$coti->formapago->nombre.'</th>';
                             else:

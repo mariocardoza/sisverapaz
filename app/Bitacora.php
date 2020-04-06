@@ -33,7 +33,7 @@ class Bitacora extends Model
     public static function pordia($dia)
     {
         $html="";
-        $bitacoras=Bitacora::where('registro',$dia)->get();
+        $bitacoras=Bitacora::where('registro',$dia)->orderby('registro','DESC')->orderby('hora','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>
@@ -62,7 +62,7 @@ class Bitacora extends Model
     public static function porempleado($usuario)
     {
         $html="";
-        $bitacoras=Bitacora::where('user_id',$usuario)->get();
+        $bitacoras=Bitacora::where('user_id',$usuario)->orderby('registro','DESC')->orderby('hora','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>
@@ -91,7 +91,8 @@ class Bitacora extends Model
     public static function porperiodo($inicio,$fin)
     {
         $html="";
-        $bitacoras=Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->get();
+        $bitacoras=Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->orderby('registro','DESC')
+        ->orderby('hora','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>

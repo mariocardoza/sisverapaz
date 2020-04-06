@@ -1,56 +1,92 @@
-<?php
-use App\Bitacora;
-use Carbon\Carbon; ?>
 @extends('layouts.app')
 
 @section('migasdepan')
 <h1>
-        Bitácora
-        <small>Control de bitácora</small>
+        Bitacora
+        <small></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Listado de bitácoras</li>
+        <li><a href="{{ url('/bitacoras') }}"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active">Bitácora</li>
       </ol>
 @endsection
 
 @section('content')
-  <div id="app-6">
-    <p>@{{ message }}</p>
-    <input v-model="message">
-  </div>
-
-<div class="col-xs-12">
-          <div class="box">
+  <div class="row">
+    <div class="col-md-12">
+    <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <h3 class="panel-title"></h3>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding" >
-              <h1>¿Qué bitácora desea ver?</h1>
-              <div class="form-group">
-                <label>Bitácora general</label>
-                <a href="{{ url('bitacoras/general') }}" class="btn btn-primary">Ver</a>
+              <div class="row">
+                <div class="col-md-8">
+                  {{ Form::open(['action' => 'BitacoraController@general', 'method' => 'GET'])}}
+                  <label for="" class="cmbusuario control-label col-md-3">Empleado</label>
+                  <label for="" class="txtdia control-label col-md-4">Fecha</label>
+                  <div class="col-md-5">
+                    <select class="cmbusuario form-control" id="cmbusuario"  name="usuario">
+                      <option value="">Seleccione un usuario</option>
+                      @foreach($usuarios as $usuario)
+                        <option value="{{$usuario->id}}">{{$usuario->empleado->nombre}}</option>
+                      @endforeach
+                    </select>
+                    <input type="text" id="txtdia" name="dia" class="txtdia form-control">
+                  </div>
+
+
+                  <div class="col-md-3">
+                      <label for="fecha_inicio" class="txtinicio control-label">Fecha de inicio</label>
+                      {!!Form::text('inicio',null,['class'=>'txtinicio form-control','id'=>'txtinicio'])!!}
+                  </div>
+                  <div class="col-md-3">
+                    <label for="fecha_fin" class="txtfin control-label">Fecha de finalización</label>
+                      {!!Form::text('fin',null,['class'=>'txtfin form-control','id'=>'txtfin'])!!}
+                  </div>
+                </div>
+
+
+              <div class="col-md-1">
+                <button class="btn btn-primary" id="consultar" type="button">Consultar</button>
               </div>
-               <div class="form-group">
-              {{ Form::open(['action' => 'BitacoraController@usuario','method' => 'get','class' => 'form-horizontal']) }}
-                <label>Bitácora por usuario</label>
-                <select name="usuario" class="form-control">
-                  @foreach($usuarios as $usuario)
-                  <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
-                  @endforeach
-                </select>
-                <button type="submit" class="btn btn-primary">Ver</button>
-            {{ Form::close() }}
-             </div>
-              <div class="form-group">
-                <label>Bitácora por fecha</label>
-                <input type="text" id="datepicker">
-                <a href="{{ url('bitacoras/fecha') }}" class="btn btn-primary">Ver</a>
+
+              <div class="btn-group col-md-3 pull-right">
+                <button onclick="busqueda('e');" class="btn" type="button">Empleado</button>
+                <button onclick="busqueda('d');" class="btn" type="button">Día</button>
+                <button onclick="busqueda('p');" class="btn" type="button">Periodo</button>
+              </div>
+              {{Form::close()}}
+              {{Form::hidden('',$ultimo->registro->format('Y-m-d'),['id'=>'ultimo'])}}
+              </div>
+
+              <div class="panel-body" id="aqui_bita">
+                <table class="table table-hover" id="esta">
+                   <thead>
+                    <th>N°</th>
+                    <th>Fecha de actividad</th>
+                    <th>Hora de la actividad</th>
+                    <th>Acción</th>
+                    <th>Usuario</th>
+                  </thead>
+                  <tbody id="bita">
+                    @foreach($bitacoras as $key => $bitacora)
+                    <tr>
+                      <td>{{ $key+1 }}</td>
+                      <td>{{ fechaCastellano($bitacora->registro) }}</td>
+                      <td>{{ $bitacora->hora }}</td>
+                      <td>{{ $bitacora->accion }}</td>
+                      <td>{{ $bitacora->user->empleado->nombre}}</td>
+                      
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+
               </div>
             </div>
-            <!-- /.box-body -->
+
           </div>
-          <!-- /.box -->
         </div>
+@endsection
+@section("scripts")
+{{Html::script('js/bitacora.js?cod='.date("Yidisus"))}}
 @endsection

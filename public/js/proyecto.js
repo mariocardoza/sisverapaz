@@ -1,9 +1,12 @@
 var contador_monto=0;
 var monto_total = 0.0;
 var monto = 0.0;
+var marker;          //variable del marcador
+var coords = {};    //coordenadas obtenidas con la geolocalización
 $(document).ready(function(){
 
   cargarFondos();
+  initMap();
 
 //Agrega los montos a la tabla de fondos y actualiza el monto total
   $('#btnAgregarfondo').on("click", function(e){
@@ -84,6 +87,8 @@ $(document).ready(function(){
     var fecha_fin = $("#fecha_fin").val();
     var beneficiarios = $("#beneficiarios").val();
     var monto_desarrollo = $("#monto_desarrollo").val();
+    var lng=$("#lng").val();
+    var lat=$("#lat").val();
     $(cuerpo_fondos).find("tr").each(function (index, element) {
       if(element){
         montos.push({
@@ -98,7 +103,7 @@ $(document).ready(function(){
       headers: {'X-CSRF-TOKEN':token},
       type:'POST',
       dataType:'json',
-      data:{nombre,monto,motivo,direccion,monto_desarrollo,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg},
+      data:{nombre,monto,motivo,direccion,monto_desarrollo,fecha_inicio,fecha_fin,beneficiarios,montos,montosorg,lng,lat},
 
       success: function(msj){
         console.log(msj);
@@ -177,3 +182,83 @@ function quitar_mostrar (ID) {
     });
     $("#cat_id").trigger('chosen:updated');
   }
+
+
+/*function initMap() {
+var map;
+   
+    map = new google.maps.Map(document.getElementById('mapita'), {
+      center: {lat: 13.6445855, lng: -88.8731913},
+      zoom: 15,   
+    });
+
+    var marker = new google.maps.Marker({
+        position: {lat: 13.6445855, lng: -88.8731913},
+        map: map,
+        title: 'Verapaz',
+    });
+
+}*/
+
+//Funcion principal
+initMap = function () 
+{
+
+    //usamos la API para geolocalizar el usuario
+        navigator.geolocation.getCurrentPosition(
+          function (position){
+            coords =  {
+              lng: -88.87197894152527,
+              lat: 13.643449058476703
+            };
+            setMapa(coords);  //pasamos las coordenadas al metodo para crear el mapa
+            
+           
+          },function(error){console.log(error);});
+    
+}
+
+
+
+function setMapa (coords)
+{   
+      //Se crea una nueva instancia del objeto mapa
+      var map = new google.maps.Map(document.getElementById('mapita'),
+      {
+        zoom: 15,
+        center:new google.maps.LatLng(13.643449058476703,-88.87197894152527),
+
+      });
+      document.getElementById("lat").value = 13.643449058476703;
+      document.getElementById("lng").value = -88.87197894152527;
+
+      //Creamos el marcador en el mapa con sus propiedades
+      //para nuestro obetivo tenemos que poner el atributo draggable en true
+      //position pondremos las mismas coordenas que obtuvimos en la geolocalización
+      marker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(coords.lat,coords.lng),
+
+      });
+      //agregamos un evento al marcador junto con la funcion callback al igual que el evento dragend que indica 
+      //cuando el usuario a soltado el marcador
+      marker.addListener('click', toggleBounce);
+      
+      marker.addListener( 'dragend', function (event)
+      {
+        //escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
+        document.getElementById("lat").value = this.getPosition().lat();
+        document.getElementById("lng").value = this.getPosition().lng();
+      });
+}
+
+//callback al hacer clic en el marcador lo que hace es quitar y poner la animacion BOUNCE
+function toggleBounce() {
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}

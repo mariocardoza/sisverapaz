@@ -17,7 +17,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Registro de proyectos</div>
                 <div class="panel-body">
-                    {{ Form::open(['action'=> 'ProyectoController@store', 'class' => 'form-horizontal']) }}
+                    {{ Form::open(['action'=> 'ProyectoController@store', 'class' => '']) }}
                     @include('errors.validacion')
                     <input type="hidden" name="contador_fondos" id="contador_fondos">
                     <input type="hidden" name="contador_org" id="contador_org">
@@ -41,4 +41,7 @@
     $cod=date("Yidisus");
   @endphp
 <script type="text/javascript" src="{{ asset('js/proyecto.js?cod='.$cod) }}"></script>
+<script>
+    
+</script>
 @endsection

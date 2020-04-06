@@ -28,6 +28,7 @@ $(document).ready(function(e){
                     if(data[0]==1){
                       toastr.success("Contrato subido con exito");
                       contratos(data[2]);
+                      informacion(elid);
                       $("#modal_subir_contrato").modal("hide");
                       $("#form_subircontrato").trigger("reset");
                       swal.closeModal();

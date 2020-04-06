@@ -173,9 +173,11 @@
                       <th>{{$empleado->detalleplanilla->numero_acuerdo}}</th>
                     </tr>
                   </table>
+                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                   <center>
                     <button class="btn btn-warning btn-sm" data-tipo="{{$empleado->detalleplanilla->tipo_pago}}" data-id="{{$empleado->detalleplanilla->id}}" id="formedit_contrato">Editar</button>
                   </center>
+                  @endif
                 </div>
               </div>
               @else
@@ -184,9 +186,10 @@
                 <div class="panel" >
                  <form id="form_planilla" class="">
                    @include('detalleplanillas.formulario')
-
+                   @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                    <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
-                 </form>
+                    @endif
+                  </form>
                 </div>
                 
               </div>
@@ -235,7 +238,9 @@
                           </tr>
                           @endif
                         </table>
+                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                         <center><button class="btn btn-primary btn-sm" id="editar_usuario" type="button">Editar información</button></center>
+                        @endif
                       <?php else: ?>
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>

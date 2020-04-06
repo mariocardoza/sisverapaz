@@ -230,8 +230,13 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
               toastr.info(json[2]);
             }
           }
+        },
+        error: function(error){
+          $.each(error.responseJSON.errors, function(i,v){
+            toastr.error(v);
+          });
         }
-      })
+      });
     });
 
      //emitir boletas

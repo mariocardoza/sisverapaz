@@ -305,7 +305,14 @@ class CotizacionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+          $coti=Cotizacion::find($id);
+          $coti->estado=2;
+          $coti->save();
+          return array(1,"exito",$coti);
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function baja($cadena)

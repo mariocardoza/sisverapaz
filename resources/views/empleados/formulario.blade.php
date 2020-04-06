@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
 
-  @if(Auth()->user()->authorizeRoles(['admin','tesoreria']))
+  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
   <center><div class="form-group{{ $errors->has('es_usuario') ? ' has-error' : '' }}">
       <label for="es_usuario" class="control-label">¿Este empleado será usuario del sistema?</label>
 

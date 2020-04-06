@@ -139,7 +139,7 @@ class EmpleadoController extends Controller
      */
     public function show($id)
     {
-        Auth()->user()->authorizeRoles(['admin','tesoreria']);
+       //Auth()->user()->authorizeRoles(['admin','tesoreria']);
         //$roles = Role::all();
         $losroles=Role::all();
         $empleados = DB::table('empleados')->where('es_usuario','=','si')

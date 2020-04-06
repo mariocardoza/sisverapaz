@@ -98,35 +98,6 @@
   </div>
 </div>
 
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <h4 class="modal-title" id="titulo_ver_coti"></h4>
-    </div>
-    <div class="modal-body">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Marca</th>
-            <th>Unidad de medida</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-        <tbody id="aqui_poner_coti">
-          
-        </tbody>
-      </table>
-    </div>
-    <div class="modal-footer">
-      <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button></center>
-    </div>
-  </div>
-  </div>
-</div>
 
 <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_finalizar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">

@@ -42,20 +42,23 @@ class Proyecto extends Model
       try{
         $proyecto=Proyecto::find($id);
         $informacion.='<div class="col-sm-12 hidden-print"><center>';
-        if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7 && $proyecto->indicadores_completado->sum('porcentaje') < 100) :
+        if($proyecto->tiene_solicitudes->count() == 0 && $proyecto->estado==7 && $proyecto->indicadores_completado->sum('porcentaje') < 100 && $proyecto->tipo_proyecto ==1) :
         $informacion.='
           <button class="btn btn-primary btn-sm" id="materiales_recibidos" title="Materiales recibidos"><i class="fa fa-check"></i></button>
         </br><br>';
-        elseif($proyecto->estado==8 && $proyecto->indicadores_completado->sum('porcentaje') < 100):
+        elseif($proyecto->estado==8 && $proyecto->indicadores_completado->sum('porcentaje') < 100 && $proyecto->tipo_proyecto ==1):
           $informacion.='
           <button class="btn btn-primary btn-sm" id="modal_pausar" title="Pausar el proyecto"><i class="fa fa-pause"></i></button>
         </br><br>';
-        elseif($proyecto->estado==9 && $proyecto->indicadores_completado->sum('porcentaje') < 100):
+        elseif($proyecto->estado==9 && $proyecto->indicadores_completado->sum('porcentaje') < 100 && $proyecto->tipo_proyecto ==1):
           $informacion.='
           <button class="btn btn-primary btn-sm" id="reanudar_proyecto" title="Reanudar el proyecto"><i class="fa fa-play"></i></button>
         </br><br>';
-        elseif($proyecto->indicadores_completado->sum('porcentaje') == 100 && $proyecto->estado < 12):
+        elseif($proyecto->indicadores_completado->sum('porcentaje') == 100 && $proyecto->estado < 12 && $proyecto->tipo_proyecto ==1):
           $informacion.='<button class="btn btn-primary btn-sm" id="finalizar_proyecto" title="Finalizar el proyecto"><i class="fa fa-check"></i></button>
+          </br><br>';
+        elseif($proyecto->tipo_proyecto ==2 && $proyecto->estado==6):
+          $informacion.='<button class="btn btn-primary btn-sm" id="iniciar_licitacion" title="Iniciar el proyecto"><i class="fa fa-play"></i></button>
           </br><br>';
         endif;
         $informacion.='</center></div>

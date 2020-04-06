@@ -19,10 +19,11 @@
               <div class="row">
                 <div class="col-md-10">
                   <div class="btn-group">
-                    <a href="{{ url('/proyectos/create') }}" class="btn btn-success">Registrar</a>
+                    <a id="btn_nuevo" href="{{ url('/proyectos/create') }}" class="btn btn-success">Registrar</a>
                     <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="1">Actuales</a>
                     <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="2">Rechazados</a>
                     <a href="javascript:void(0)" class="btn btn-primary elver" data-tipo="9">Finalizados</a>
+                    <a href="{{url('proyectos/mapas')}}" class="btn btn-info">Ver mapa</a>
                   </div>
                 </div>
                 <div class="col-md-2">
@@ -43,6 +44,7 @@
           </div>
         </div>
 </div>
+
 @endsection
 @section("scripts")
 <script> 
@@ -61,6 +63,12 @@
         cargar_poranio(anio);
       }
       
+    });
+
+    //cargar el registrar proyecto en un modal
+    $(document).on("click","#btn_nuevo",function(e){
+      //e.preventDefault();
+     // $("#modal_proyecto").modal("show");
     });
   });
 

@@ -170,8 +170,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="unidad_id" class="col-md-4 control-label">Unidad</label>
-                            <div class="col-md-6">
+                            <label for="unidad_id" class="control-label">Unidad</label>
+                            <div class="">
                                 {!! Form::select('unidad_id',$unidades,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione una unidad administrativa']) !!}
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                             <label for="password" class="control-label">Rol del usuario</label>
 
                             <div class="">
-                                 {{Form::select('roles',$roles,null, ['class'=>'form-control','placeholder'=>'Seleccione un rol'])}}
+                                 {{Form::select('roles',$roles,null, ['class'=>'chosen-select-width','placeholder'=>'Seleccione un rol'])}}
                             </div>
                         </div>
 

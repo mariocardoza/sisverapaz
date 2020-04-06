@@ -15,8 +15,9 @@
   <link rel="stylesheet" type="text/css" media="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css">
   
   {!! Html::script('js/sisverapaz.js?cod='.$cod) !!}
-  
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
   {!! Html::script('js/funcionesgenerales.js?cod='.$cod) !!}
+  <script src="{{asset('js/gmaps.min.js')}}"></script>
 <style>
   .error{
     color:red;
@@ -141,7 +142,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="min-height: 545px;">
       <!-- Small boxes (Stat box) -->
     @if(Session::has('mensaje'))
         <?php
@@ -284,7 +285,7 @@
 @yield('scripts')
 
  
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
+
 {{-- {!! Html::script('js/main.js') !!} --}}
 </body>
 </html>

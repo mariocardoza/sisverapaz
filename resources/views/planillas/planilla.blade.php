@@ -44,13 +44,14 @@
             $hoy=Carbon::now();
             $inicio=Carbon::createFromFormat('Y-m-d',$empleado->fecha_inicio);
             $dias=$inicio->diffInDays($hoy);
+            
             if($dias>30){
               $salario=$empleado->salario;
             }else{
               $salario_dia=$empleado->salario/30;
               $salario=$salario_dia*$dias;
             }
-            
+           
          @endphp
             <input type="hidden" name='salario[]' value="{{$salario}}">
             ${{number_format($salario,2)}}
@@ -66,6 +67,7 @@
           <td>
             @php
               $retencion=App\Retencion::valor($r->id,$salario);
+              
               if($r->tipo==0){
               $sum_retenciones+=$retencion;
               }
@@ -81,6 +83,7 @@
           @php
           $nogravado=$salario-$sum_retenciones;
           $renta=App\Renta::renta($empleado->pago,$nogravado);
+          
             $sum_retenciones+=$renta;
           @endphp
             <input type="hidden" name='renta[]' value="{{number_format($renta,2)}}">
@@ -96,7 +99,7 @@
         <td>
           @php
           $prestamos=App\Prestamo::comprobarPrestamo($empleado->id);
-          
+         
 
           /*foreach($prestamos as $pp){
             $valor_p+=($prestamo==null) ?0:$prestamo->cuota;
@@ -116,7 +119,7 @@
         <td>
           @php
               $descuentos=App\Descuento::comprobardescuento($empleado->id);
-
+              
               $sum_retenciones+=$descuentos;
               $t_descuento+=$descuentos;
           @endphp
@@ -133,6 +136,7 @@
         @php
             $t_deduccion+=$sum_retenciones;
             $t_disponible+=$salario-$sum_retenciones;
+            
         @endphp
       </tr>
     @endif

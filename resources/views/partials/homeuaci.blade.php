@@ -99,36 +99,98 @@
           </tbody>
       </table>
   </div>
-  <div class="col-lg-6"></div>
+  <div class="col-lg-6">
+    <div class="panel">
+      <h3 class="text-center">Ubicación de proyectos activos</h3>
+      <div style="height: 300px;" id="mapita">
+
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
 @section('scripts')
 <script>
-$(document).ready(function(e){
-  Highcharts.chart('container', {
-    data: {
-        table: 'datatable'
-    },
-    chart: {
-        type: 'bar'
-    },
-    title: {
-        text: 'Proveedores más utilizados'
-    },
-   
-    yAxis: {
-        allowDecimals: false,
-        title: {
-            text: 'Compras'
-        }
-    },
-    tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.name + '</b><br/>' +
-                this.point.y + ' ' + this.point.name.toLowerCase();
-        }
-    }
+  $(document).ready(function(e){
+    initMap();
+    Highcharts.chart('container', {
+      data: {
+          table: 'datatable'
+      },
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: 'Proveedores más utilizados'
+      },
+    
+      yAxis: {
+          allowDecimals: false,
+          title: {
+              text: 'Compras'
+          }
+      },
+      tooltip: {
+          formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                  this.point.y + ' ' + this.point.name.toLowerCase();
+          }
+      }
+  });
 });
-});
+
+function initMap() {
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var customMapType = new google.maps.StyledMapType([
+         {
+           elementType: 'labels',
+           stylers: [{visibility: 'off'}]
+         }
+       ], {
+         name: 'Custom Style'
+     });
+     var customMapTypeId = 'custom_style';
+        var markers = [
+            ['Proyecto 1', 13.6465858, -88.8731913],
+            ['Proyecto 2', 13.6495865, -88.8731953],
+            ['Proyecto 3', 13.6415845, -88.8731943]
+        ];
+        map = new google.maps.Map(document.getElementById('mapita'), {
+		  center: {lat: 13.6445855, lng: -88.8731913},
+          zoom: 15,
+          mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
+            }    
+        });
+
+        map.mapTypes.set(customMapTypeId, customMapType);
+        map.setMapTypeId(customMapTypeId);
+        /*var marker = new google.maps.Marker({
+            position: {lat: 13.6445855, lng: -88.8731913},
+            map: map,
+            title: 'Verapaz',
+            icon: '../img/obrero.png' // Path al nuevo icono
+        });*/
+        for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            bounds.extend(position);
+            console.log(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0],
+                icon: '../img/obrero.png', // Path al nuevo icono,
+                style:'feature:all|element:labels|visibility:off'
+            });
+            // Center the map to fit all markers on the screen
+            map.fitBounds(bounds);
+        }
+
+        marker.addListener('click', function() {
+          map.setZoom(18);
+          map.setCenter(marker.getPosition());
+        });
+  }
 </script>
 @endsection

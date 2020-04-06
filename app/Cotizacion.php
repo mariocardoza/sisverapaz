@@ -65,15 +65,48 @@ class Cotizacion extends Model
     public static function ver_cotizacion($id){
         $cotizacion=Cotizacion::find($id);
         $html="";
-        foreach ($cotizacion->Detallecotizacion as $detalle) {
-            $html.='<tr>
-                <td>'.mb_strtoupper($detalle->material->nombre).'</td>
-                <td>'.$detalle->marca.'</td>
-                <td>'.strtoupper($detalle->unidadmedida->nombre_medida).'</td>
-                <td>'.$detalle->cantidad.'</td>
-                <td>$'.number_format($detalle->precio_unitario,2).'</td>
-                </tr>';
-        }
+        $html.='<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_ver_coti" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" >'.$cotizacion->proveedor->nombre.'</h4>
+            </div>
+            <div class="modal-body">';
+            if($cotizacion->solicitudcotizacion->estado==1):
+            $html.='<button type="button" id="anular_coti" data-id="'.$cotizacion->id.'" class="btn btn-danger"><i class="fa fa-remove"></i> Anular</button>';
+            endif;
+            $html.='<br>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Unidad de medida</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                  </tr>
+                </thead>
+                <tbody id="">';
+                foreach ($cotizacion->Detallecotizacion as $detalle) {
+                    $html.='<tr>
+                        <td>'.mb_strtoupper($detalle->material->nombre).'</td>
+                        <td>'.$detalle->marca.'</td>
+                        <td>'.strtoupper($detalle->unidadmedida->nombre_medida).'</td>
+                        <td>'.$detalle->cantidad.'</td>
+                        <td>$'.number_format($detalle->precio_unitario,2).'</td>
+                        </tr>';
+                }
+                $html.='</tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button></center>
+            </div>
+          </div>
+          </div>
+        </div>';
+        
         return array(1,"exito",$html,$cotizacion->proveedor->nombre);
     }
 }

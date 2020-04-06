@@ -66,6 +66,7 @@
 		<div class="form-group">
 			<input type="hidden" name="tipo" value="{{$i+1}}">
 			<div class="col-md-6 col-md-offset-4">
+				
 				@if(App\Datoplanilla::comprobar($cuadro[$i]))
 					<button type="submit" class="btn btn-success">
 				@else

@@ -9,6 +9,7 @@ use App\Contrato;
 use App\Cuenta;
 use App\Planilla;
 use App\Detalleplanilla;
+use App\PagoRenta;
 use App\Datoplanilla;
 use DB;
 use Carbon\Carbon;
@@ -28,12 +29,28 @@ class PlanillaController extends Controller
 
      public function pagar(Request $request)
      {
+        $this->validar_pago($request->all())->validate();
          $total=Datoplanilla::totalplanilla($request->id);
          $cuenta=Cuenta::find($request->cuenta_id);
          if($total>$cuenta->monto_inicial){
              return array(2,"exito","El total de la planilla supera a lo disponible en la cuenta");
          }else{
-             
+             $planilla=Datoplanilla::find($request->id);
+             foreach ($planilla->planilla as $p) {
+                if($p->renta>0){
+                    $renta[]=$p->empleado->nombre;
+                    /*$pr=PagoRenta::create([
+                        'nombre'=>$p->empleado->nombre,
+                        'dui'=>$p->empleado->dui,
+                        'nit'=>$p->empleado->nit,
+                        'total'=>$p->
+                        'renta'=>$p->renta,
+                        'liquido'=>
+                        'concepto'=>'Pago de salario'
+                    ]);*/
+                }
+             }
+             return array(1,"exito",$renta);
          }
          
      }
@@ -233,5 +250,17 @@ class PlanillaController extends Controller
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }
+    }
+
+    protected function validar_pago(array $data)
+    {
+        $mensajes=array(
+            'cuenta_id.required'=>'Debe seleccionar una cuenta',
+        );
+        return \Validator::make($data, [
+            'cuenta_id'=>'required'
+        ],$mensajes);
+
+        
     }
 }

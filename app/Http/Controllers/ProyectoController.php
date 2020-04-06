@@ -52,6 +52,18 @@ class ProyectoController extends Controller
         
     }
 
+    public function mapas()
+    {
+      $proyectos=Proyecto::where('anio',date('Y'))->get();
+      foreach($proyectos as $pr){
+        $p[] = 
+          [$pr->nombre, 13.6465858, -88.8731913];
+      }
+   
+  
+      return view('proyectos.mapa',\compact('p','proyectos'));
+    }
+
     public function guardarCategoria(FondocatRequest $request)
     {
       if($request->ajax())
@@ -200,6 +212,12 @@ class ProyectoController extends Controller
           'proyecto_id'=>$request->proyecto_id
         ]);
 
+        $proy=Proyecto::find($request->proyecto_id);
+        if($proy->tipo_proyecto==2):
+          $proy->estado=6;
+          $proy->save();
+        endif;
+
         return array(1,"exito",$request->proyecto_id);
       }catch(Exception $e){
         return array(-1,"error",$e->getMessage);
@@ -229,6 +247,25 @@ class ProyectoController extends Controller
         DB::rollback();
         return array(-1,"error",$e->getMessage);
       }
+    }
+
+    public function seleccionar_oferta(Request $r)
+    {
+        try{
+          DB::beginTransaction();
+          Licitacion::where('proyecto_id',$r->proyecto_id)->update(['estado'=>2]);
+          $licitacion=Licitacion::find($r->licitacion_id);
+          $licitacion->estado=1;
+          $licitacion->save();
+
+          $proy=Proyecto::find($r->proyecto_id);
+          $proy->estado=5;
+          $proy->save();
+          DB::commit();
+          return array(1,"exito");
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function subirbase(Request $request)
@@ -325,6 +362,8 @@ class ProyectoController extends Controller
               'monto_desarrollo' => $request->monto_desarrollo,
               'codigo_proyecto'=>Proyecto::codigo_proyecto($request->monto),
               'tipo_proyecto'=>Proyecto::tipo_proyecto($request->monto),
+              'lng'=>$request->lng,
+              'lat'=>$request->lat,
               'anio'=>date("Y")
           ]);
 

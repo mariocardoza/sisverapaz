@@ -16,8 +16,9 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				<button id="btnguardar" type="button" class="btn btn-primary">Guardar</button>
+				<center>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button id="btnguardar" type="button" class="btn btn-success">Guardar</button></center>
 			</div>
 		</div>
 	</div>
@@ -41,8 +42,9 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				<button id="btneditar" type="button" class="btn btn-primary">Editar</button>
+				<center>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button id="btneditar" type="button" class="btn btn-success">Editar</button></center>
 			</div>
 		</div>
 	</div>

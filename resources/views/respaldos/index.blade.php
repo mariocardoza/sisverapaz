@@ -20,7 +20,6 @@
                     <thead>
                     <tr>
                        <th>N°</th>
-                        <th>Archivo</th>
                         <th>Nombre</th>
                         <th>Tamaño</th>
                         <th>Fecha de creación</th>
@@ -31,15 +30,14 @@
                       @foreach ($respaldos as $key => $respaldo)
                         <tr>
                           <td>{{$key+1}}</td>
-                          <td>{{$respaldo['directorio']}}</td>
                           <td>{{$respaldo['nombre']}}</td>
                           <td>{{tamaniohumano($respaldo['tamanio'])}}</td>
                           <td>{{fechaCastellano(date ("Y-m-d", $respaldo['fecha']))}}, {{date ("H:i:s.", $respaldo['fecha'])}}</td>
                           <td>
                             <div class="btn-group">
-                              <a id="restaurar" title="Restaurar" data-archivo="{{$respaldo['nombre']}}" href="{{ url('backups/restaurar/'.$respaldo['nombre']) }}" class="btn btn-primary btn-xs"><i class="fa fa-refresh"></i></a>
-                              <a href="{{ url('backups/descargar/'.$respaldo['nombre']) }}" class="btn btn-success btn-xs"><i class="fa fa-download"></i></a>
-                              <a id="eliminar" data-archivo="{{$respaldo['nombre']}}" title="Eliminar" href="{{ url('backups/eliminar/'.$respaldo['nombre']) }}" class="btn btn-danger btn-xs"><i class="fa fa-remove"></i></a>
+                              <a id="restaurar" title="Restaurar" data-archivo="{{$respaldo['nombre']}}" href="{{ url('backups/restaurar/'.$respaldo['nombre']) }}" class="btn btn-primary"><i class="fa fa-refresh"></i></a>
+                              <a href="{{ url('backups/descargar/'.$respaldo['nombre']) }}" class="btn btn-success"><i class="fa fa-download"></i></a>
+                              <a id="eliminar" data-archivo="{{$respaldo['nombre']}}" title="Eliminar" href="{{ url('backups/eliminar/'.$respaldo['nombre']) }}" class="btn btn-danger"><i class="fa fa-remove"></i></a>
                             </div>
                           </td>
                         </tr>

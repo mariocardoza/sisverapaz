@@ -44,6 +44,7 @@ Route::get('backups/restaurar/{file_name}', 'BackupController@restaurar');
 //CONFIGURACIONES DE LA ALCALDIA
 Route::get('rentas','RentaController@index')->name('rentas.index');
 Route::put('rentas/{id}','RentaController@update')->name('rentas.update');
+
 Route::get('configuraciones','ConfiguracionController@create')->name('configuraciones.create');
 Route::post('configuraciones/porcentajes','ConfiguracionController@porcentajes')->name('configuraciones.porcentajes');
 Route::post('configuraciones/retenciones','ConfiguracionController@retenciones')->name('configuraciones.retenciones');
@@ -125,6 +126,7 @@ Route::get('proyectos/bajarlicitacion/{archivo}','ProyectoController@bajarlicita
 Route::get('proyectos/bajarbase/{archivo}','ProyectoController@bajarbase');
 Route::get('proyectos/calendario/{id}','ProyectoController@calendario');
 Route::get('proyectos/licitaciones/{id}','ProyectoController@licitacion');
+Route::post('proyectos/seleccionaroferta','ProyectoController@seleccionar_oferta');
 Route::get('proyectos/portipo/{tipo}','ProyectoController@portipo');
 Route::get('proyectos/poranio/{anio}','ProyectoController@poranio');
 Route::put('proyectos/cambiarestado/{anio}','ProyectoController@cambiarestado');
@@ -144,6 +146,7 @@ Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
 Route::get('proyectos/generarplanilla/{id}/{idd}','ProyectoController@generar_planilla');
 Route::post('proyectos/guardarplanilla','ProyectoController@guardarplanilla');
 Route::post('proyectos/quitarempleado','ProyectoController@quitarempleado');
+Route::get('proyectos/mapas','ProyectoController@mapas');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
 //rutas resource para proyectos
 Route::Resource('proyectos','ProyectoController');

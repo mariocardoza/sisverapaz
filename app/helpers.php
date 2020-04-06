@@ -331,18 +331,21 @@ function proyecto_estado($estado,$id)
                 return 'Ofertante seleccionado';
                 break;
             case '6':
-                return 'En ejecución';
+                return 'Contrato subido';
                 break;
             case '7':
-                return 'En pausa';
+                return 'En ejecución';
                 break;
             case '8':
-                return 'Inactivo';
+                return 'En pausa';
                 break;
             case '9':
-                return 'Rechazado';
+                return 'Inactivo';
                 break;
             case '10':
+                return 'Rechazado';
+                break;
+            case '11':
                 return 'Finalizado';
                 break;
             default:
@@ -421,15 +424,18 @@ function estilo_proyecto($estado,$id)
                     return 'success';
                     break;
             case '7':
-                    return 'warning';
+                    return 'success';
                     break;
             case '8':
-                    return 'danger';
+                    return 'warning';
                     break;
             case '9':
                     return 'danger';
                     break;
             case '10':
+                    return 'danger';
+                    break;
+            case '11':
                     return 'success';
                     break;
             default:

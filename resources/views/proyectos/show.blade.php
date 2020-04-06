@@ -84,6 +84,7 @@
 				
 			</div>
 		</div>
+
 		<div class="panel panel-primary" id="div_calen" style="display:none">
 			<div class="panel-heading">Calendarización de las licitaciones </div>
 			<div class="panel-body" id="calendarizaciones_aqui">
@@ -114,6 +115,12 @@
 					<div id="tabla_divempleados"></div>
 				</div>
 				<div id="plani_aqui" style="display: none;"></div>
+			</div>
+		</div>
+		<div class="panel panel-primary" id="div_mapa" style="display:none;">
+			<div class="panel-heading">Ubicación</div>
+			<div class="panel-body">
+				<div style="height: 500px;" id="elmapita"></div>
 			</div>
 		</div>
 	</div>
@@ -151,6 +158,9 @@
 					<button type="button" class="btn btn-default col-sm-12" id="btn_contra" style="margin-bottom: 3px;">
 						Contratos
 					</button>
+					<button type="button" class="btn btn-default col-sm-12" id="btn_mapa" style="margin-bottom: 3px;">
+						Ubicación
+					</button>
 				</div>
 		</div>
 		<div class="panel panel-primary hidden-print">
@@ -173,6 +183,9 @@
 	<script>
 		var elid='<?php echo $proyecto->id ?>';
 		var eltipo='<?php echo $proyecto->tipo_proyecto ?>';
+		var nombreproy='<?php echo $proyecto->nombre ?>';
+		var lalat=parseFloat('<?php echo $proyecto->lat ?>');
+		var lalng=parseFloat('<?php echo $proyecto->lng ?>');
 		$(document).ready(function (){
 			informacion(elid);
 			verificar_tipo(eltipo);
@@ -185,6 +198,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 		
 				$("#btn_pre").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
@@ -194,6 +208,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 			});
 		
 			$("#btn_ind").click(function (){
@@ -205,6 +220,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 		
 				$("#btn_ind").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
@@ -214,6 +230,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				cargar_indicadores(elid);
 			});
 		
@@ -226,6 +243,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 		
 				$("#btn_cot").removeClass('btn-default').addClass('btn-primary');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
@@ -235,6 +253,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				solicitudes(elid);
 			});
 
@@ -247,6 +266,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
@@ -256,6 +276,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				contratos(elid);
 			});
 
@@ -268,6 +289,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 		
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
@@ -277,6 +299,7 @@
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				licitacion(elid);
 			});
 
@@ -289,6 +312,7 @@
 				$("#div_calen").hide();
 				$("#div_plani").hide();
 				$("#div_emple").show();
+				$("#div_mapa").hide();
 
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
@@ -298,6 +322,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				pagos(elid);
 
 			});
@@ -311,6 +336,7 @@
 				$("#div_calen").hide();
 				$("#div_emple").hide();
 				$("#div_plani").show();
+				$("#div_mapa").hide();
 				
 
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
@@ -321,6 +347,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				empleados(elid);
 
 			});
@@ -334,6 +361,7 @@
 				$("#div_calen").show();
 				$("#div_emple").hide();
 				$("#div_plani").hide();
+				$("#div_mapa").hide();
 				
 
 				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
@@ -344,8 +372,35 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-primary');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-default');
 				calendario(elid);
 			});
+
+			$("#btn_mapa").click(function(){
+				$("#div_pre").hide();
+				$("#div_ind").hide();
+				$("#div_cot").hide();
+				$("#div_contra").hide();
+				$("#div_lic").hide();
+				$("#div_calen").hide();
+				$("#div_emple").hide();
+				$("#div_plani").hide();
+				$("#div_mapa").show();
+				
+
+				$("#btn_cot").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_ind").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_pre").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_contra").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_lic").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_mapa").removeClass('btn-primary').addClass('btn-primary');
+				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
+				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
+				initMap();
+			});
+
+
 			//abrir el modal para registrar el evento
 			$(document).on("click","#add_evento",function(e){
 				e.preventDefault();
@@ -582,6 +637,23 @@
 				}
 			});
 		}
+
+		function initMap() {
+			console.log(lalat,lalng);
+			var map;
+			map = new google.maps.Map(document.getElementById('elmapita'), {
+			center: {lat: lalat, lng: lalng},
+			zoom: 15,   
+			});
+
+			var marker = new google.maps.Marker({
+				position: {lat: lalat, lng: lalng},
+				map: map,
+				title: nombreproy,
+				icon: '../img/obrero.png', // Path al nuevo icono,
+			});
+			}
+
 	</script>
 	@if($proyecto->presupuesto!="")
 		<?php $unavariable=$proyecto->presupuesto->id; ?>

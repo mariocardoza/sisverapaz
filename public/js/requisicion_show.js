@@ -654,9 +654,8 @@ $(document).ready(function(e){
         data:{},
         success:function(json){
           if(json[0]==1){
-            $("#aqui_poner_coti").empty();
-            $("#aqui_poner_coti").html(json[2]);
-            $("#titulo_ver_coti").text(json[3]);
+            $("#modal_aqui").empty();
+            $("#modal_aqui").html(json[2]);
             $("#modal_ver_coti").modal("show");
           }
         }
@@ -820,6 +819,49 @@ $(document).ready(function(e){
       //eliminar la requisicion
       $(document).on("click","#quita_requi",function(e){
         $("#modal_darbaja").modal("show");
+        
+      });
+
+      //anular una cotizacion
+      $(document).on("click","#anular_coti",function(e){
+        e.preventDefault();
+        var id=$(this).attr("data-id");
+        swal({
+          title: 'Cotización',
+          text: "¿Está seguro de anular esta cotización?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              url:'../cotizaciones/'+id,
+              type:'delete',
+              dataType:'json',
+              success: function(json){
+                if(json[0]==1){
+                  info(elid);
+                  toastr.success("Cotizacion anulada");
+                  $("#modal_ver_coti").modal("hide");
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              }, error: function(error){
+
+              }
+            });
+           
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+           
+          }
+        });
         
       });
 

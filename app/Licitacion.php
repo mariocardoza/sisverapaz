@@ -43,9 +43,11 @@ class Licitacion extends Model
         if($proyecto->licitacionbase->count() == 0 && $proyecto->estado>=2):
             $html.='<center>
             <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-            <span>Agregue las bases de licitación para el proyecto</span><br>
-            <button class="btn btn-primary" type="button" id="subir_bases">Subir</button>
-            </center>';
+            <span>Agregue las bases de licitación para el proyecto</span><br>';
+            if($proyecto->estado<=4):
+            $html.='<button class="btn btn-primary" type="button" id="subir_bases">Subir</button>';
+            endif;
+            $html.='</center>';
             else:
                 $html.='
                 <div class="nav-tabs-custom" style=" ">
@@ -57,12 +59,15 @@ class Licitacion extends Model
               
               $html.='</ul>
             <div class="tab-content">
-              <div class=" tab-pane" id="ofertas">
-                <button class="btn btn-primary hidden-print pull-right" type="button" id="add_oferta">Agregar</button><br>  
-                <div class="col-md-12" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
+              <div class=" tab-pane" id="ofertas">';
+              if($proyecto->estado<=4):
+                $html.='<button class="btn btn-primary hidden-print pull-right" type="button" id="add_oferta">Agregar</button><br>';  
+              endif;
+                $html.='<div class="col-md-12" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
                 <table class="table" id="estatabla">
                 <thead>
                     <tr>
+                        <th>N°</th>
                         <th>Proveedor</th>
                         <th>Documento</th>
                         <th>Fecha guardado</th>
@@ -71,17 +76,19 @@ class Licitacion extends Model
                     </tr>
                 </thead>
                 <tbody>';
-                    foreach($proyecto->licitacion as $e):
+                    foreach($proyecto->licitacion as $i =>$e):
                         $html.='
                             <tr>
-                            <td>'.$e->proveedor->nombre.'</td>
+                            <td>'.($i+1).'</td>
+                            <td><input data-id="'.$e->id.'" name="liciti" id="ofertita" data-proyecto="'.$e->proyecto->id.'" type="radio"> '.$e->proveedor->nombre.'</td>
                             <td>'.$e->archivo.'</td>
                             <td>'.$e->created_at->format("d/m/Y H:i:s a").'</td>';
                             if($e->estado==0):
-                            
                             $html.='<td><label class="label-primary col-md-12">Sin aceptar</label></td>';
-                            else:
+                            elseif($e->estado==1):
                             $html.='<td><label class="label-success col-md-12">Aceptada</label></td>';
+                            else:
+                            $html.='<td><label class="label-danger col-md-12">Rechazada</label></td>';    
                             endif;
                             $html.='<td>
                             <!--button class="btn btn-info btn-sm" title="Editar" type="button"><i class="fa fa-edit"></i></button-->
@@ -97,7 +104,7 @@ class Licitacion extends Model
               </div>
               <!-- /.tab-pane -->
               <div class="active tab-pane" id="bases">';
-              if($proyecto->estado>=2):
+              if($proyecto->estado>=2 && $proyecto->estado <=4):
                 $html.='<button class="btn btn-primary pull-right" id="subir_bases" type="button">Subir</button>';
                 endif;
                     $html.='<table class="table">

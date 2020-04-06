@@ -455,6 +455,51 @@ $(document).ready(function () {
           }
         });
 	  });
+
+	  ////*** Seleccionar la oferta */
+      $(document).on("click","#ofertita",function(e){
+        idoferta = $(this).attr("data-id");
+        idproyecto = $(this).attr('data-proyecto');
+        swal({
+          title: '¿Está seguro?',
+          text: "¿Desea seleccionar esta oferta?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            $.ajax({
+				url:'../proyectos/seleccionaroferta',
+				type:'POST',
+				dataType:'json',
+				data:{licitacion_id:idoferta,proyecto_id:idproyecto},
+				success: function(json){
+					if(json[0]==1){
+						toastr.success("Oferta seleccionada con éxito");
+						licitacion(elid);
+						informacion(elid);
+					}else{
+						toastr.error('Ocurrió un error');
+					}
+				}
+			});          
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Cancelado',
+              'Seleccione un proveedor',
+              'info'
+            )
+            $('input[name=liciti]').attr('checked',false);
+          }
+        });
+	  });
 	  
 	//modla para registrar la orden de compra
 	$(document).on("click","#registrar_orden", function(e){
