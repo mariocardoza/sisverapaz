@@ -29,9 +29,10 @@ class HomeController extends Controller
     public function index()
     {
         $configuracion=Configuracion::first();
+        $proyectos=\App\Proyecto::where('anio',date('Y'))->with('indicadores_completado')->get();
         if($configuracion!='')
         {
-            return view('home');
+            return view('home',compact('proyectos'));
         }else{
             return redirect('configuraciones');
         }

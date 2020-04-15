@@ -501,6 +501,51 @@ $(document).ready(function(e){
         }
       })
     });
+
+    //echar en marca la licitación
+    $(document).on("click",".cambiar_licitacion",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      var estado=$(this).attr("data-estado");
+      swal({
+        title: '¿Está seguro de realizar esta operación?',
+        text: "",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Si!',
+        cancelButtonText: '¡No!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url:'../proyectos/cambiarlicitacion',
+            type:'post',
+            dataType:'json',
+            data:{id:id,estado:estado},
+            success: function(json){
+              if(json[0]==1){
+                toastr.success(json[3]);
+                informacion(elid);
+              }else{
+                toastr.error("Ocurrió un error");
+              }
+            }, error: function(error){
+
+            }
+          });
+        } else if (result.dismiss === swal.DismissReason.cancel) {
+          swal(
+            'Operación cancelada',
+            
+          );
+        }
+      });
+    });
 });
 
 

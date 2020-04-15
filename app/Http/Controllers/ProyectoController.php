@@ -54,14 +54,45 @@ class ProyectoController extends Controller
 
     public function mapas()
     {
-      $proyectos=Proyecto::where('anio',date('Y'))->get();
+      $proyectos=Proyecto::where('anio',date('Y'))->with('indicadores_completado')->get();
       foreach($proyectos as $pr){
-        $p[] = 
-          [$pr->nombre, 13.6465858, -88.8731913];
+        $p[] = collect(
+          ['nombre'=>$pr->nombre,
+          'lat'=> 13.6465858,
+          'lng'=> -88.8731913,
+          'direccion'=> $pr->direccion,
+          'motivo'=> $pr->motivo,
+        ]);
       }
    
-  
-      return view('proyectos.mapa',\compact('p','proyectos'));
+      //dd($proyectos);
+      return view('proyectos.mapa',compact('p','proyectos'));
+    }
+
+    public function cambiarlicitacion(Request $request)
+    {
+      try{
+        $proyecto=Proyecto::find($request->id);
+        $proyecto->estado=$request->estado;
+        $proyecto->save();
+        $texto=proyecto_estado($request->estado,$request->id);
+        return array(1,"exito",$proyecto,$texto);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
+    public function cambiarubicacion(Request $request)
+    {
+      try{
+        $proyecto=Proyecto::findorFail($request->proyecto_id);
+        $proyecto->lat=$request->lat;
+        $proyecto->lng=$request->lng;
+        $proyecto->save();
+        return array(1,"exito");
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 
     public function guardarCategoria(FondocatRequest $request)
@@ -314,13 +345,39 @@ class ProyectoController extends Controller
         ]);
 
         $proyecto=Proyecto::find($request->proyecto_id);
-        $proyecto->estado=12;
+        if($proyecto->tipo_proyecto==1){
+          $proyecto->estado=12;
+        }else{
+          $proyecto->estado=11;
+        }
+        $proyecto->fecha_acta=date("Y-m-d");
         $proyecto->save();
           DB::commit();
         return array(1,"exito",$request->proyecto_id);
       }catch(Exception $e){
         DB::rollback();
         return array(-1,"error",$e->getMessage);
+      }
+    }
+
+    public function bajar_acta($file_name)
+    {
+      $file = '/proyectos/actas/' . $file_name;
+      //dd($file);
+      $disk = Storage::disk('local');
+      if ($disk->exists($file)) {
+          $fs = Storage::disk('local')->getDriver();
+          $stream = $fs->readStream($file);
+          return \Response::stream(function () use ($stream) {
+              fpassthru($stream);
+          }, 200, [
+              "Content-Type" => $fs->getMimetype($file),
+              "Content-Length" => $fs->getSize($file),
+              "Content-disposition" => "attachment; filename=\"" . basename($file) . "\"",
+          ]);
+      } else {
+        return Redirect::back()->with('error', 'Archivo no encontrado');
+          //abort(404, "The backup file doesn't exist.");
       }
     }
 

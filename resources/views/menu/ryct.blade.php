@@ -13,6 +13,11 @@
     <i class="glyphicon glyphicon-usd"></i><span>Pagos</span>
   </a>
 </li>
+<li>
+  <a href="{{ url('construcciones') }}">
+    <i class="glyphicon glyphicon-usd"></i><span>Construcciones</span>
+  </a>
+</li>
 {{-- <li class="treeview">
   <a href="#">
     <i class="fa fa-edit"></i> <span>Servicios Municipales</span>

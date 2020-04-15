@@ -13,8 +13,8 @@ class Construccion extends Model
     	return $this->belongsTo('App\Contribuyente');
     }
 
-    public function impuesto()
+    public function inmueble()
     {
-    	return $this->belongsTo('App\Impuesto');
+    	return $this->belongsTo('App\Inmueble');
     }
 }

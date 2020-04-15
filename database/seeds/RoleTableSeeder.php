@@ -44,6 +44,12 @@ class RoleTableSeeder extends Seeder
       $por->porcentaje=0.00;
       $por->save();
 
+      $por= new Porcentaje();
+      $por->nombre='Construcciones';
+      $por->nombre_simple='construccion';
+      $por->porcentaje=0.00;
+      $por->save();
+
       $role = new Role();
       $role->name = 'admin';
       $role->description = 'Administrador';

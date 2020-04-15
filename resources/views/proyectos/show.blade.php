@@ -186,6 +186,7 @@
 		var nombreproy='<?php echo $proyecto->nombre ?>';
 		var lalat=parseFloat('<?php echo $proyecto->lat ?>');
 		var lalng=parseFloat('<?php echo $proyecto->lng ?>');
+		var marker;
 		$(document).ready(function (){
 			informacion(elid);
 			verificar_tipo(eltipo);
@@ -397,7 +398,7 @@
 				$("#btn_calen").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_emple").removeClass('btn-primary').addClass('btn-default');
 				$("#btn_plani").removeClass('btn-primary').addClass('btn-default');
-				initMap();
+				initMap(lalat,lalng);
 			});
 
 
@@ -638,20 +639,58 @@
 			});
 		}
 
-		function initMap() {
+		function initMap(lalat,lalng) {
 			console.log(lalat,lalng);
 			var map;
+			
 			map = new google.maps.Map(document.getElementById('elmapita'), {
 			center: {lat: lalat, lng: lalng},
 			zoom: 15,   
 			});
 
-			var marker = new google.maps.Marker({
+			marker = new google.maps.Marker({
 				position: {lat: lalat, lng: lalng},
 				map: map,
 				title: nombreproy,
 				icon: '../img/obrero.png', // Path al nuevo icono,
+				draggable: true,
 			});
+
+			marker.addListener('click', toggleBounce);
+			
+
+			marker.addListener( 'dragend', function (event)
+			{
+				//escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
+				var lat = this.getPosition().lat();
+				var lng = this.getPosition().lng();
+				$.ajax({
+					url:'../proyectos/cambiarubicacion',
+					type:'post',
+					dataType:'json',
+					data:{proyecto_id:elid,lat,lng},
+					success: function(json){
+						if(json[0]==1){
+							marker.setAnimation(null);
+							initMap(lat,lng);
+							toastr.success("Ubicación actualizada");
+						}else{
+							toastr.error("Ocurrió un error");
+						}
+					},
+					error: function(error){
+						toastr.error("Ocurrió un error");
+					}
+				});
+			});
+		}
+
+			function toggleBounce() {
+				if (marker.getAnimation() !== null) {
+					marker.setAnimation(null);
+				} else {
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+				}
 			}
 
 	</script>

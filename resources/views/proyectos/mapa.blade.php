@@ -30,6 +30,7 @@
 
 <script>
   var proyectos=JSON.parse('<?php echo $proyectos; ?>');
+  
 $(document).ready(function(e){
     initMap();
 });
@@ -48,29 +49,34 @@ function initMap() {
      var customMapTypeId = 'custom_style';
      var contentString = new Array();
      for(i = 0; i < proyectos.length; i++ ){
+       var contador=0;
+       for(var j=0;j<proyectos[i].indicadores_completado.length;j++){
+        contador=proyectos[i].indicadores_completado[j].porcentaje;
+       }
+       
        contentString[i] = '<div id="content">'+
             '<h1 id="firstHeading" class="firstHeading">'+proyectos[i].nombre+'</h1>'+
             '<div id="bodyContent">'+
-            '<p><b>Dirección:</b>'+proyectos[i].direccion+'<br>'+
-            '<p><b>Justificación:</b>'+proyectos[i].motivo+'<br>'+
-            '<p><b>Monto:</b>$'+proyectos[i].monto.toFixed(2)+'<br>'+
+            '<p><b>Código: </b>'+proyectos[i].codigo_proyecto+'<br>'+
+            '<p><b>Dirección: </b>'+proyectos[i].direccion+'<br>'+
+            '<p><b>Justificación: </b>'+proyectos[i].motivo+'<br>'+
+            '<p><b>Monto: </b>$'+proyectos[i].monto.toFixed(2)+'<br>'+
+            '<p><b>Avance: </b>'+contador+'%<br>'+
+            '<p><b>Beneficiarios: </b>'+proyectos[i].beneficiarios+' habitantes<br>'+
             '</p>'+
             '</div>'+
             '</div>';
         }
 
-        console.log(contentString)
+        //console.log(contentString)
         
         map = new google.maps.Map(document.getElementById('mapita'), {
 		  center: {lat: 13.6445855, lng: -88.8731913},
           zoom: 15,
-          mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
-            }    
+             
         });
 
-        map.mapTypes.set(customMapTypeId, customMapType);
-        map.setMapTypeId(customMapTypeId);
+        
         /*var marker = new google.maps.Marker({
             position: {lat: 13.6445855, lng: -88.8731913},
             map: map,
@@ -78,7 +84,6 @@ function initMap() {
             icon: '../img/obrero.png' // Path al nuevo icono
         });*/
         for( i = 0; i < proyectos.length; i++ ) {
-          console.log(proyectos[i].id);
             var position = new google.maps.LatLng(proyectos[i].lat, proyectos[i].lng);
             bounds.extend(position);
             marker = new google.maps.Marker({

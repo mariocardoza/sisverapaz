@@ -240,7 +240,7 @@ function setMapa (coords)
         draggable: true,
         animation: google.maps.Animation.DROP,
         position: new google.maps.LatLng(coords.lat,coords.lng),
-
+        icon: '../img/obrero.png', // Path al nuevo icono,
       });
       //agregamos un evento al marcador junto con la funcion callback al igual que el evento dragend que indica 
       //cuando el usuario a soltado el marcador

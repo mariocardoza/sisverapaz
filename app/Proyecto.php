@@ -57,8 +57,28 @@ class Proyecto extends Model
         elseif($proyecto->indicadores_completado->sum('porcentaje') == 100 && $proyecto->estado < 12 && $proyecto->tipo_proyecto ==1):
           $informacion.='<button class="btn btn-primary btn-sm" id="finalizar_proyecto" title="Finalizar el proyecto"><i class="fa fa-check"></i></button>
           </br><br>';
-        elseif($proyecto->tipo_proyecto ==2 && $proyecto->estado==6):
-          $informacion.='<button class="btn btn-primary btn-sm" id="iniciar_licitacion" title="Iniciar el proyecto"><i class="fa fa-play"></i></button>
+        elseif($proyecto->tipo_proyecto ==2 && ($proyecto->estado==6 || $proyecto->estado==8)):
+          $informacion.='<button class="btn btn-primary btn-sm cambiar_licitacion" data-id="'.$proyecto->id.'" data-estado="7"  title="Iniciar el proyecto"><i class="fa fa-play"></i></button>
+          </br><br>';
+        elseif($proyecto->tipo_proyecto ==2 && $proyecto->estado==7 && $proyecto->indicadores_completado->sum('porcentaje') < 100):
+          $informacion.='<button class="btn btn-primary btn-sm cambiar_licitacion" data-id="'.$proyecto->id.'" data-estado="8"  title="pausar el proyecto"><i class="fa fa-pause"></i></button>
+          </br><br>';
+        elseif($proyecto->tipo_proyecto ==2 && $proyecto->estado==9):
+          $informacion.='<button class="btn btn-primary btn-sm cambiar_licitacion" data-id="'.$proyecto->id.'" data-estado="7"  title="Reactivar el proyecto"><i class="fa fa-forward"></i></button>
+          </br><br>';
+        elseif($proyecto->tipo_proyecto ==2 && ($proyecto->estado==11 || $proyecto->estado==12) && isset($proyecto->proyectoacta->archivo)):
+          $informacion.='<a href="../proyectos/bajaracta/'.$proyecto->proyectoacta->archivo.'" class="btn btn-primary btn-sm" data-id="'.$proyecto->id.'" title="Descargar acta del proyecto"><i class="fa fa-download"></i></a>
+          </br><br>';
+         elseif($proyecto->tipo_proyecto ==1 && ($proyecto->estado==12 || $proyecto->estado==13) && isset($proyecto->proyectoacta->archivo)):
+            $informacion.='<a href="../proyectos/bajaracta/'.$proyecto->proyectoacta->archivo.'" class="btn btn-primary btn-sm" data-id="'.$proyecto->id.'" title="Descargar acta del proyecto"><i class="fa fa-download"></i></a>
+            </br><br>';
+        endif;
+        if($proyecto->tipo_proyecto==2 && $proyecto->estado==8):
+          $informacion.='<button class="btn btn-primary btn-sm cambiar_licitacion" data-id="'.$proyecto->id.'" data-estado="9"  title="Inactivar el proyecto"><i class="fa fa-stop"></i></button>
+          </br><br>';
+        endif;
+        if($proyecto->indicadores_completado->sum('porcentaje') == 100 && $proyecto->estado ==7 && $proyecto->tipo_proyecto ==2):
+          $informacion.='<button class="btn btn-primary btn-sm" id="finalizar_proyecto" title="Finalizar el proyecto"><i class="fa fa-check"></i></button>
           </br><br>';
         endif;
         $informacion.='</center></div>
@@ -358,7 +378,7 @@ class Proyecto extends Model
         $proyectos=Proyecto::where('estado',13)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
         break;
         default:
-        $proyectos=Proyecto::where('estado','<>',11)->where('estado','<>',13)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+        $proyectos=Proyecto::where('estado','<>',12)->where('estado','<>',13)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
       }
   
       $html="";
@@ -696,5 +716,10 @@ class Proyecto extends Model
     public function calendario()
     {
       return $this->hasMany('App\Calendarizacion')->orderby('inicio','asc');
+    }
+
+    public function proyectoacta()
+    {
+      return $this->hasOne('App\ProyectoActa');
     }
 }

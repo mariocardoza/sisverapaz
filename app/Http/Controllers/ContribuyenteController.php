@@ -47,15 +47,19 @@ class ContribuyenteController extends Controller
     {
         if($request->ajax()){
             try{
-                Contribuyente::create($request->All());
+               $contribuyente= Contribuyente::create([
+                    'nombre'=>$request->nombre,
+                    'dui'=>$request->dui,
+                    'nit'=>$request->nit,
+                    'sexo'=>$request->sexo,
+                    'telefono'=>$request->telefono,
+                    'nacimiento'=>\invertir_fecha($request->nacimiento),
+                    'direccion'=>$request->direccion,
+                ]);
                 bitacora('Registro un contribuyente');
-              return response()->json([
-                'mensaje' => 'exito',
-              ]);
+              return array(1,"exito",$contribuyente);
             }catch(\Exception $e){
-              return response()->json([
-                'mensaje' => 'error'
-              ]);
+              return response(-1,"error",$e->getMessage());
             }
         }else{
            Contribuyente::create($request->All());

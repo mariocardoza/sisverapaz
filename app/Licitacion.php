@@ -80,7 +80,13 @@ class Licitacion extends Model
                         $html.='
                             <tr>
                             <td>'.($i+1).'</td>
-                            <td><input data-id="'.$e->id.'" name="liciti" id="ofertita" data-proyecto="'.$e->proyecto->id.'" type="radio"> '.$e->proveedor->nombre.'</td>
+                            <td>';
+                            if($proyecto->estado<7):
+                            $html.='<input data-id="'.$e->id.'" name="liciti" id="ofertita" data-proyecto="'.$e->proyecto->id.'" type="radio"> '.$e->proveedor->nombre.'';
+                            else:
+                            $html.=$e->proveedor->nombre;
+                            endif;
+                            $html.='</td>
                             <td>'.$e->archivo.'</td>
                             <td>'.$e->created_at->format("d/m/Y H:i:s a").'</td>';
                             if($e->estado==0):

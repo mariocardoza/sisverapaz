@@ -1,60 +1,53 @@
+@php
+	$contribuyentes=\App\Contribuyente::where('estado',1)->with('inmueble')->get();
+	
+@endphp
 <div class="form-group{{ $errors->has('contribuyente_id') ? ' has-error' : '' }}">
-	<label for="" class="col-md-4 control-label">Seleccione contribuyente</label>
-	<div class="col-md-6">
-		<select name="contribuyente_id" id="contribuyente" class="form-control">
-			<option value="">Seleccione contribuyente</option>
-			@foreach($contribuyentes as $contribuyente)
-			<option value="{{$contribuyente->id}}">{{$contribuyente->nombre}}</option>
-			@endforeach
-		</select>
-		@if ($errors->has('contribuyente_id'))
-		<span class="help-block">
-			<strong>{{ $errors->first('contribuyente_id') }}</strong>
-		</span>
-		@endif
+	<label for="" class="control-label">Contribuyente</label>
+	<div class="row">
+		<div class="col-md-10">
+			<select name="contribuyente_id" id="elcontribuyente" class="chosen-select-width">
+				<option value="">Seleccione contribuyente</option>
+				@foreach($contribuyentes as $contribuyente)
+				<option value="{{$contribuyente->id}}">{{$contribuyente->nombre}}</option>
+				@endforeach
+			</select>
+		</div>
+		<div class="col-md-2">
+			<button class="btn btn-primary" id="nuevo_contri" type="button"><i class="fa fa-plus"></i></button>
+		</div>
+	</div>
+</div>
+
+<div class="form-group{{ $errors->has('contribuyente_id') ? ' has-error' : '' }}">
+	<label for="" class="control-label">Inmueble</label>
+	<div class="row">
+		<div class="col-md-10">
+			<select name="inmueble_id" id="elinmueble" class="chosen-select-width">
+				<option value="">Seleccione el inmueble</option>
+				
+			</select>
+		</div>
+		<div class="col-md-2">
+			<button class="btn btn-primary" id="nuevo_inmueble" type="button"><i class="fa fa-plus"></i></button>
+		</div>
 	</div>
 </div>
 
 <div class="form-group{{$errors->has('direccion_construccion') ? 'has-error' : '' }}">
-	<label for="direccion_construccion" class="col-md-4 control-label">Dirección dónde se construirá</label>
+	<label for="direccion_construccion" class="control-label">Dirección </label>
 
-	<div class="col-md-6">
-		{{ Form::textarea('direccion_construccion', null, ['class' => 'form-control']) }}
-		@if ($errors->has('direccion_construccion'))
-		<span class="help-block">
-			<strong>{{ $errors->first('direccion_construccion') }}</strong>
-		</span>
-		@endif
+	<div class="">
+		{{ Form::textarea('direccion_construccion', null, ['class' => 'form-control','rows'=>2]) }}
 	</div>
 </div>
 
 <div class="form-group{{$errors->has('presupuesto') ? 'has-error' : '' }}">
-	<label for="presupuesto" class="col-md-4 control-label">Presupuesto de construcción</label>
+	<label for="presupuesto" class="control-label">Presupuesto </label>
 
-	<div class="col-md-6">
-		{{ Form::text('presupuesto', null, ['class' => 'form-control']) }}
-		@if ($errors->has('presupuesto'))
-		<span class="help-block">
-			<strong>{{ $errors->first('presupuesto') }}</strong>
-		</span>
-		@endif
+	<div class="">
+		{{ Form:: number('presupuesto', null, ['value'=>0,'class' => 'form-control','min'=>0,'steps'=>0.01]) }}
 	</div>
 </div>
 
 
-<div class="form-group{{ $errors->has('impuesto_id') ? ' has-error' : '' }}">
-	<label for="" class="col-md-4 control-label">Seleccione impuesto</label>
-	<div class="col-md-6">
-		<select name="impuesto_id" id="impuesto" class="form-control">
-			<option value="">Seleccione impuesto por aplicar</option>
-			@foreach($impuestos as $impuesto)
-			<option value="{{$impuesto->id}}">{{$impuesto->impuesto}}</option>
-			@endforeach
-		</select>
-		@if ($errors->has('impuesto_id'))
-		<span class="help-block">
-			<strong>{{ $errors->first('impuesto_id') }}</strong>
-		</span>
-		@endif
-	</div>
-</div>

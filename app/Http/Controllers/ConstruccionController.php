@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contribuyente;
-use App\Impuesto;
+use App\Inmueble;
 use App\Construccion;
 use App\Http\Requests\ConstruccionRequest;
+use Validator;
 
 class ConstruccionController extends Controller
 {
@@ -47,9 +48,47 @@ class ConstruccionController extends Controller
      */
     public function store(Request $request)
     {
-        Construccion::create($request->All());
-        bitacora('Registro una construción');
-        return redirect('construcciones')->with('mensaje', 'Pago registrado');
+        $this->validar($request->all())->validate();
+        try{
+            if($request->presupuesto>0){
+                //Construccion::create($request->All());
+                bitacora('Registro una construción');
+                $sinfiestas=$request->presupuesto*session('construccion');
+                $fiestas=$sinfiestas*session('fiestas');
+                $total=$sinfiestas+$fiestas;
+                
+                $construccion=Construccion::create([
+                    'contribuyente_id'=>$request->contribuyente_id,
+                    'inmueble_id'=>$request->inmueble_id,
+                    'direccion_construccion'=>$request->direccion_construccion,
+                    'presupuesto'=>$request->presupuesto,
+                    'total'=>$total,
+                    'fiestas'=>$fiestas,
+                    'impuesto'=>$sinfiestas,
+                ]);
+                return array(1,"exito",$construccion);
+            }else{
+                return array(2,"mensaje","El Presupuesto debe ser mayor a cero");
+            }
+            
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function inmueble($id){
+        $select="";
+        $select.='<option value="">Seleccione un inmueble</option>';
+        try{
+            $contri=Contribuyente::find($id);
+            foreach($contri->inmueble as $i){
+                $select.='<option value="'.$i->id.'">'.$i->numero_escritura.'</option>';
+            }
+            return array(1,"exito",$select);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+        
     }
 
     /**
@@ -97,5 +136,15 @@ class ConstruccionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    protected function validar(array $data)
+    {
+        return Validator::make($data, [
+            'contribuyente_id' => 'required',
+            'inmueble_id' => 'required',
+            'presupuesto' => 'required',
+            'direccion_construccion'=>'required',
+        ]);
     }
 }

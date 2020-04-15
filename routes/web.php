@@ -124,6 +124,7 @@ Route::get('proyectos/limpiarsesion','ProyectoController@limpiarsesion');
 Route::get('proyectos/borrarlicitacion/{id}','ProyectoController@borrarlicitacion');
 Route::get('proyectos/bajarlicitacion/{archivo}','ProyectoController@bajarlicitacion');
 Route::get('proyectos/bajarbase/{archivo}','ProyectoController@bajarbase');
+Route::get('proyectos/bajaracta/{archivo}','ProyectoController@bajar_acta');
 Route::get('proyectos/calendario/{id}','ProyectoController@calendario');
 Route::get('proyectos/licitaciones/{id}','ProyectoController@licitacion');
 Route::post('proyectos/seleccionaroferta','ProyectoController@seleccionar_oferta');
@@ -145,6 +146,8 @@ Route::get('proyectos/versolicitud/{id}','ProyectoController@versolicitud');
 Route::get('proyectos/formulariosoli/{id}','ProyectoController@formulariosoli');
 Route::get('proyectos/generarplanilla/{id}/{idd}','ProyectoController@generar_planilla');
 Route::post('proyectos/guardarplanilla','ProyectoController@guardarplanilla');
+Route::post('proyectos/cambiarubicacion','ProyectoController@cambiarubicacion');
+Route::post('proyectos/cambiarlicitacion','ProyectoController@cambiarlicitacion');
 Route::post('proyectos/quitarempleado','ProyectoController@quitarempleado');
 Route::get('proyectos/mapas','ProyectoController@mapas');
 Route::get('proyectos/presupuesto_categoria/{id}/{idproy}','ProyectoController@presupuesto_categoria');
@@ -322,7 +325,7 @@ Route::Resource('negocios','NegocioController');
 /*Route::post('inmuebles/baja/{id}','InmuebleController@baja')->name('inmuebles.baja');
 Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
 Route::Resource('inmuebles','InmuebleController');*/
-
+Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////

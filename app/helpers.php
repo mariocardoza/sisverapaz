@@ -5,15 +5,13 @@ use App\Cargo;
 
 function invertir_fecha($fecha)
 {
-	$inicio = $fecha; //dd-mm-yy
+	$inicio = $fecha; //dd-mm-yyyy
 	if($inicio==null){
 		return "";
-	}
-  else
-	{
+	}else{
 		$invert = explode("-",$inicio);
-    $nueva = $invert[2]."-".$invert[1]."-".$invert[0];
-    return $nueva;
+        $nueva = $invert[2]."-".$invert[1]."-".$invert[0];
+        return $nueva;
   }
 }
 
@@ -346,7 +344,7 @@ function proyecto_estado($estado,$id)
                 return 'Rechazado';
                 break;
             case '11':
-                return 'Finalizado';
+                return 'Pendiente de liquidación';
                 break;
             default:
                 return 'Sin clasificar';
