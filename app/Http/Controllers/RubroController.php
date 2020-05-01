@@ -23,7 +23,45 @@ class RubroController extends Controller
 
     public function index(Request $request)
     {
-        return Rubro::All();
+      $rubros=Rubro::all();
+      $html='';
+      foreach($rubros as $i => $r){
+        $html.='<tr>
+          <td>'.($i+1).'</td>
+          <td><span class="visible'.$i.'">'.$r->nombre.'</span><input class="form-control invisible'.$i.' nonr'.$i.'" type="text" value="'.$r->nombre.'" style="display:none";></td>
+          <td><span class="visible'.$i.'">'.number_format($r->porcentaje*100,2).'%</span><input class="form-control invisible'.$i.' porcen'.$i.'" type="text" value="'.($r->porcentaje*100).'" style="display:none";></td>
+          <td>';
+          if($r->estado==1):
+            $html.='<span class="label label-success">Activo</span>';
+          else:
+            $html.='<span class="label label-danger">Inactivo</span>';
+          endif;
+          $html.='</td>
+          <td>
+            <div class="btn-group">';
+            if($r->estado==1):
+              $html.='<button type="button" data-id="'.$r->id.'" data-fila="'.$i.'" id="editar_r" class="btn btn-warning ocu visible'.$i.'">
+              <i class="fa fa-pencil"></i>
+            </button><button type="button" data-id="'.$r->id.'" id="quitar_r" class="btn btn-danger ocu visible'.$i.'">
+                <i class="fa fa-minus-circle"></i>
+              </button>
+              <button style="display:none;" type="button" data-id="'.$r->id.'" data-fila="'.$i.'" id="eleditar_r" class="btn btn-success invisible'.$i.'">
+                <i class="fa fa-check"></i>
+              </button>
+              <button style="display:none;" type="button" data-id="'.$r->id.'" data-fila="'.$i.'" id="can_edit_r" class="btn btn-danger invisible'.$i.'">
+                <i class="fa fa-minus-circle"></i>
+              </button>';
+            else:
+              $html.='<button data-id="'.$r->id.'" type="button" id="restaurar_r" class="btn btn-success ocu visible'.$i.'">
+                <i class="fa fa-plus-circle"></i>
+              </button>';
+            endif;
+            $html.='</div>
+          </td>
+        </tr>';
+      }
+
+      return array(1,"exito",$html);
     }
 
     /**
@@ -42,14 +80,14 @@ class RubroController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RubroRequest $request)
     {
       $rubro  = new Rubro();
       $params = $request->all();
 
       $rubro->estado = 1;
-      $rubro->nombre = $params['data']['nombre'];
-      $rubro->porcentaje = $params['data']['porcentaje'];
+      $rubro->nombre = $params['nombre'];
+      $rubro->porcentaje = $params['porcentaje']/100;
 
       if($rubro->save()){
         return array(
@@ -89,8 +127,8 @@ class RubroController extends Controller
     {
       $params = $request->all();
       $rubro = Rubro::find($id);
-      $rubro->nombre      = $params['data']['nombre'];
-      $rubro->porcentaje  = $params['data']['porcentaje'];
+      $rubro->nombre      = $params['nombre'];
+      $rubro->porcentaje  = $params['porcentaje']/100;
       
       if($rubro->save()) {
         return array(
@@ -125,7 +163,7 @@ class RubroController extends Controller
         );
       }else{
         return array(
-          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "message"   => 'Tenemos problema con el servidor por el momento. intenta mas tarde',
           "ok"  => false
         );
       }

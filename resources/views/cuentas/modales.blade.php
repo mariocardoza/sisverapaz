@@ -11,8 +11,8 @@
           </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_cuenta" class="btn btn-primary">Registrar</button>
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_cuenta" class="btn btn-success">Registrar</button></center>
       </div>
     </div>
   </div>

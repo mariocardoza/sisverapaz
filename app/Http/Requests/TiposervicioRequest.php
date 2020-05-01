@@ -25,6 +25,7 @@ class TiposervicioRequest extends FormRequest
     {
         return [
             'nombre' => 'required',
+            'costo'=>'required',
         ];
     }
 }

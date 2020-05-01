@@ -17,6 +17,6 @@ class Inmueble extends Model
     
     public function tipoServicio()
     {
-        return $this->belongsToMany('App\TipoServicio')->withTimestamps();
+        return $this->belongsToMany('App\TipoServicio')->withPivot('id')->withTimestamps();
     }
 }

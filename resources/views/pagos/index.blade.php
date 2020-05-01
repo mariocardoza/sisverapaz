@@ -2,12 +2,12 @@
 
 @section('migasdepan')
 <h1>
-        Pagos
-        <small>Control de pagos</small>
+        Recibos de inmuebles
+        <small>Control de recibos</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/pagos') }}"><i class="fa fa-dashboard"></i> Pagos</a></li>
-        <li class="active">Listado de pagos</li>
+        <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active">Recibos</li>
       </ol>
 @endsection
 
@@ -16,34 +16,43 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/pagos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <h3 class="box-title"></h3>
 
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
           <thead>
-                  <th>Id</th>
-                  <th>Tipo de pago</th>
-                  <th>Monto</th>
-                  <th>Acción</th>
+                  <th>N°</th>
+                  <th>Propietario</th>
+                  <th>N° Catastral/Inmueble</th>
+                  <th>Periodo</th>
+                  <th>Fecha de vencimiento</th>
+                  <th>Pago</th>
+                  <th>Estado</th>
                 </thead>
                 <tbody>
-                  @foreach($pagos as $pago)
+                  @foreach($facturas as $i => $f)
                   <tr>
-                    <td>{{ $pago->id }}</td>
-                    <td>{{ $pago->tipopago->nombre }}</td>
-                    <td>{{ $pago->monto }}</td>
-
+                    <td>{{ $i+1}}</td>
+                    <td>{{$f->inmueble->contribuyente->nombre}}</td>
+                    <td>{{ $f->inmueble->numero_catastral }}</td>
+                    <td>{{ $f->mesYear }}</td>
+                    <td>{{$f->fechaVecimiento->format("d/m/Y")}}</td>
+                    <td class="text-right">${{number_format($f->pagoTotal,2)}}</td>
                     <td>
-                                {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                <a href="{{ url('pagos/'.$pago->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('/pagos/'.$pago->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$pago->id.",'pagos')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                                {{ Form::close()}}
-
-                        </td>
+                      @if($f->fechaVecimiento < date("Y-m-d") && $f->estado==1)
+                      <label for="" class="label-danger col-xs-12">Vencida</label>
+                      @elseif($f->fechaVecimiento < date("Y-m-d") && $f->estado==3) 
+                      <label for="" class="label-success col-xs-12">Pagado</label>
+                      @elseif($f->fechaVecimiento >= date("Y-m-d") && $f->estado==1)
+                      <label for="" class="label-primary col-xs-12">Pendiente</label>
+                      @elseif($f->estado==3)
+                      <label for="" class="label-success col-xs-12">Pagada</label>
+                      @elseif($f->estado==3)
+                      <label for="" class="label-danger col-xs-12">Anulada</label>
+                      @endif
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

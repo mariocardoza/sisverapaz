@@ -36,7 +36,7 @@ class UsuarioController extends Controller
             $estado = $request->get('estado');
             if($estado == "" )$estado=1;
             if ($estado == 1) {
-                $usuarios = User::where('estado',$estado)->get();
+                $usuarios = User::get();
                 return view('usuarios.index',compact('usuarios','estado'));
             }
             if ($estado == 2) {
@@ -149,25 +149,23 @@ class UsuarioController extends Controller
         //
     }
 
-    public function baja($cadena)
+    public function baja($id,Request $r)
     {
-        //dd($id);
-        //dd(Auth()->user()->cargo);
-        $datos = explode("+", $cadena);
-        $id=$datos[0];
-        $motivo=$datos[1];
-        $usuarios = User::find($id);
-        $idusuario=$usuarios->cargo;
-        //dd($idusuario);
-        if(Auth()->user()->cargo == $idusuario){
-            return redirect('usuarios')->with('error','No se puede eliminar al administrador');
-        }else{
-            $usuarios->estado=2;
-            $usuarios->motivo=$motivo;
-            $usuarios->fechabaja=date('Y-m-d');
-            $usuarios->save();
-            bitacora('Dió de baja a un usuario');
-            return redirect('/usuarios')->with('mensaje','Usuario dado de baja');
+        try{
+            $usuarios = User::find($id);
+            $role=$usuarios->roleuser->role->description;
+            if(Auth()->user()->roleuser->role->description == $role){
+                return array(2,"No se puede dar de baja al usuario administrador");
+            }else{
+                $usuarios->estado=2;
+                $usuarios->motivo=$r->motivo;
+                $usuarios->fechabaja=date('Y-m-d');
+                $usuarios->save();
+                bitacora('Dió de baja a un usuario');
+                return array(1,"exito");
+            }
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
         }
 
     }
@@ -179,13 +177,17 @@ class UsuarioController extends Controller
         ////$id=$datos[0];
         //$motivo=$datos[1];
         //dd($id);
-        $usuarios = User::find($id);
-        $usuarios->estado=1;
-        $usuarios->motivo=null;
-        $usuarios->fechabaja=null;
-        $usuarios->save();
-        Bitacora::bitacora('Dió de alta a un usuario');
-        return redirect('/usuarios')->with('mensaje','Usuario dado de alta');
+        try{
+            $usuarios = User::find($id);
+            $usuarios->estado=1;
+            $usuarios->motivo=null;
+            $usuarios->fechabaja=null;
+            $usuarios->save();
+            Bitacora::bitacora('Dió de alta a un usuario');
+            return array(1);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function perfil()

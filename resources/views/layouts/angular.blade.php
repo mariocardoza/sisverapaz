@@ -152,7 +152,7 @@
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="{{ asset('avatars/'.Auth::user()->avatar) }}" class="user-image" alt="User Image">
+                  <img src="{{ asset('avatars/avatar.jpg') }}" class="user-image" alt="User Image">
 
                   <p>
                     {{ vercargo(Auth::user()->cargo) }}
@@ -235,7 +235,8 @@
   {!! Html::script('js/vendors/datatables.min.js') !!}  
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
   {{-- {!! Html::script('js/main.js') !!} --}}
-  {!! Html::script('js/sisverapaz.js') !!}
   <script src="http://localhost:9000/main.js" type="text/javascript"></script>
+   
+
 </body>
 </html>

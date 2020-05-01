@@ -17,10 +17,13 @@ class ServiciosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $r)
     {
-        $servicios=Servicio::whereEstado(1)->get();
-        return view('servicios.index', compact('servicios'));
+        $estado="";
+        $estado=$r->estado;
+        if($estado=="") $estado=1;
+        $servicios=Servicio::whereEstado($estado)->get();
+        return view('servicios.index', compact('servicios','estado'));
     }
 
     public function pagos()
@@ -124,7 +127,8 @@ class ServiciosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $s=Servicio::findorFail($id);
+        return array(1,$s,$s->fecha_contrato->format("d-m-Y"));
     }
 
     /**
@@ -136,7 +140,16 @@ class ServiciosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validar($request->all())->validate();
+        try{
+            $s=Servicio::findorFail($id);
+            $s->nombre=$request->nombre;
+            $s->fecha_contrato=\invertir_fecha($request->fecha_contrato);
+            $s->save();
+            return array(1,"exito");
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -147,7 +160,26 @@ class ServiciosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $s=Servicio::findorFail($id);
+            $s->estado=2;
+            $s->save();
+            return array(1);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function restaurar($id)
+    {
+        try{
+            $s=Servicio::findorFail($id);
+            $s->estado=1;
+            $s->save();
+            return array(1);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     protected function validar_pago(array $data)

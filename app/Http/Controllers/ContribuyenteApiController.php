@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Contribuyente;
 use App\Inmueble;
 use App\Factura;
+use App\FacturasItems;
 use App\Negocio;
 
 class ContribuyenteApiController extends Controller
@@ -218,14 +219,18 @@ class ContribuyenteApiController extends Controller
         }
 
         $factura= null;
+        $elmes=intVal(date("m"));
+        $elmes++;
+        $venci=date("Y")."-".$elmes."-28";
         $facturaArray = array(
           'mueble_id'             => 0,
           'mesYear'               => date('m/Y'),
-          'fechaVecimiento'       => '2018-10-30',
+          'fechaVecimiento'       => $venci,
           'pagoTotal'             => 0.00
         );
-  
+        $este=0;
         $contribuyentesAll = Contribuyente::select('id')->get();
+        $arra=[];
         foreach ($contribuyentesAll as $value) {
             $inmueblesContribuyente = Inmueble
                 ::where('estado', 1)
@@ -233,8 +238,10 @@ class ContribuyenteApiController extends Controller
                 ->with('tipoServicio')
                 ->select('id','metros_acera')
             ->get();
-  
+            
+            $este++;
             foreach ($inmueblesContribuyente as $value) {
+              
                 $total = 0;
                 $arrayFacturaItems = array();
                 if(@count($value->tipoServicio) > 0){
@@ -245,22 +252,25 @@ class ContribuyenteApiController extends Controller
                         $precio = floatval($item['costo']) : 
                         floatval($value['metros_acera']) * floatval($item['costo']);
   
-                      /* array_push($arrayFacturaItems, new \App\FacturasItems([
-                        "tipoinmueble_id" => $item['id'],
+                       array_push($arrayFacturaItems, new \App\FacturasItems([
+                        "tipoinmueble_id" => $item->pivot['id'],
                         "precio_servicio" => $precio
-                      ])); */
+                      ])); 
+                      //$arra[]=$item->pivot;
                     $total += $precio;
                   }
                   $facturaArray["pagoTotal"]=$total;
+                  $facturaArray["codigo"]=date("Yidisus");
                   $factura = Factura::create($facturaArray);
                   
-                  // $factura->items()->saveMany($arrayFacturaItems);
+                   $factura->items()->saveMany($arrayFacturaItems);
                 }
             }
         }
         return json_encode([
             "message" => 'Peticion realizada con exito',
-            "error"   => false
+            "error"   => false,
+            
           ]);
       }else{
         return json_encode([
@@ -287,7 +297,9 @@ class ContribuyenteApiController extends Controller
 
     public function getFacturaItems(Request $request) {
       $parameters = $request->all();
-      return Factura::find($parameters['id'])->with('items')->get();
+      //$factura=Factura::where('mueble_id',$parameters['inmueble_id'])->where('id',$parameters['id'])->with('items')->first();
+      return FacturasItems::where('factura_id',$parameters['id'])->with('tiposervicio')->with('factura')->get();
+  //return array($factura,$items);
     }
 
     public function onDesactivarNegocio (Request $request) {

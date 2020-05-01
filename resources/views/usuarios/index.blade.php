@@ -32,9 +32,7 @@
                 <div class="box-header">
                   <h3 class="box-title"></h3>
                   <div class="btn-group pull-right">
-                    <a href="javascript:void(0)" id="md_user" class="btn btn-success">Agregar <span class="glyphicon glyphicon-plus-sign"></span></a>
-                    <a href="{{ url('/usuarios?estado=1') }}" class="btn btn-primary">Activos</a>
-                    <a href="{{ url('/usuarios?estado=2') }}" class="btn btn-primary">Papelera</a>
+                    <a href="javascript:void(0)" id="md_user" class="btn btn-success">Nuevo <span class="glyphicon glyphicon-plus-sign"></span></a>
                   </div>
                 </div>
                 <!-- /.box-header -->
@@ -42,34 +40,38 @@
                   <table class="table table-hover table-bordered table-striped" id="example2">
       				<thead>
                       <th>N°</th>
-                      <th>Nombre completo</th>
-                      <th>Nombre de Usuario</th>
-                      <th>Correo electrónico</th>
+                      <th width="15%">Usuario</th>
+                      <th width="20%">Nombre completo</th>
                       <th>Rol</th>
                       <th>Unidad administrativa</th>
-                      <th>Acción</th>
+                      <th>Última actividad</th>
+                      <th width="15%">Estado</th>
+                      <th width="6%">Acción</th>
                     </thead>
                     <tbody>
                     	@foreach($usuarios as $key => $user)
                     	<tr>
-                    		<td>{{ $key+1 }}</td>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $user->username }}</td>
                     		<td>{{ $user->empleado->nombre }}</td>
-                    		<td>{{ $user->username }}</td>
-                    		<td>{{ $user->email }}</td>
                         <td>{{ $user->roleuser->role->description }}</td>
                         <td>{{ $user->unidad->nombre_unidad }}</td>
-                    		<td>
-                          @if($user->estado == 1 )
+                        <td>{{ $user->bitacora->last()->created_at->format("d/m/Y h:i:s A")}}</td>
+                        @if($user->estado == 1 )
+                          <td><label for="" class="col-xs-12 label-success"> <i class="fa fa-thumbs-o-up" ></i> Activo</label></td>
+                          <td>
                               {{ Form::open(['method' => 'POST',  'class' => 'form-horizontal'])}}          
-                                <a href="javascript:void(0)" id="eledit" data-id="{{$user->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
-                                <button class="btn btn-danger" type="button" onclick={{ "baja(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <a title="Editar" href="javascript:void(0)" id="eledit" data-id="{{$user->id}}" class="btn btn-warning btn-sm"><span class="fa fa-edit"></span></a>
+                                <button title="Eliminar" class="btn btn-danger btn-sm baja" type="button" data-id="{{$user->id}}" ><span class="fa fa-remove"></span></button>
                             {{ Form::close()}}
+                          </td>
                           @else
-                              {{ Form::open(['method' => 'POST', 'class' => 'form-horizontal'])}}
-                              <button class="btn btn-success" type="button" onclick={{ "alta(".$user->id.",'usuarios')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                              {{ Form::close()}}
-                          @endif
-                        </td>
+                          <td><label for="" class="col-xs-12 label-danger"><i class="fa fa-thumbs-o-down"></i> Inactivo </label></td>
+                          <td>  
+                            <button title="Restaurar" class="btn btn-success btn-sm restaura" data-id="{{$user->id}}" type="button"><span class="fa fa-refresh"></span></button> 
+                          </td>
+                        @endif
+                        
                     	</tr>
                     	@endforeach
                     </tbody>
@@ -242,7 +244,110 @@
           toastr.error("Ocurrió un error al cargar la información");
         }
       });
-    })
+    });
+
+    //baja un usuario
+    $(document).on("click",".baja",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+        title: 'Motivo por el que da de baja',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Dar de baja',
+        showLoaderOnConfirm: true,
+        preConfirm: (text) => {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              if (text === '') {
+                swal.showValidationError(
+                  'El motivo es requerido.'
+                )
+              }
+              resolve()
+            }, 2000)
+          })
+        },
+        allowOutsideClick: () => !swal.isLoading()
+      }).then((result) => {
+        if (result.value) {
+          var motivo=result.value;
+          $.ajax({
+            url:'usuarios/baja/'+id,
+            type:'post',
+            dataType:'json',
+            data:{motivo},
+            success: function(json){
+              if(json[0]==1){
+                toastr.success("Usuario dado de baja");
+                location.reload();
+              }else{
+                if(json[0]==2){
+                  toastr.info(json[1]);
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              }
+            }, error: function(error){
+              toastr.error("Ocurrió un error");
+            }
+          });
+        }
+      });
+    });
+
+    //restaurar un usuario
+    $(document).on("click",".restaura",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      swal({
+          title: 'Usuario',
+          text: "¿Desea restaurar este usuario?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            modal_cargando();
+            $.ajax({
+              url:'usuarios/alta/'+id,
+              type:'post',
+              dataType:'json',
+              success: function(json){
+                if(json[0]==1){
+                  
+                  toastr.success("Usuario restaurado");
+                  location.reload();
+                }else{
+                  toastr.error("Ocurrió un error");
+                  swal.closeModal();
+                }
+              }, error: function(error){
+                toastr.error("Ocurrió un error");
+                swal.closeModal();
+              }
+            });
+            swal(
+              '¡Éxito!',
+              'Materiales ya en posesión del encargando',
+              'success'
+            );
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Nueva revisión',
+              'Se pide verificar bien los materiales',
+              'info'
+            );
+          }
+        });
+    });
   });
 </script>
 @endsection

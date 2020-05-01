@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Inmueble;
 use Illuminate\Http\Request;
+use Validator;
 
 class InmuebleController extends Controller
 {
@@ -102,6 +103,28 @@ class InmuebleController extends Controller
         }
     }
 
+    public function guardar(Request $request)
+    {
+        $this->validar($request->all())->validate();
+        try{
+            $inmueble    = new Inmueble();
+            $inmueble->estado = 1;
+            $inmueble->latitude            = $request['lat'];
+            $inmueble->longitude           = $request['lng'];
+            $inmueble->metros_acera        = $request['metros_acera'];
+            $inmueble->ancho_inmueble      = $request['ancho_inmueble'];
+            $inmueble->largo_inmueble      = $request['largo_inmueble'];
+            $inmueble->numero_escritura    = $request['numero_escritura'];
+            $inmueble->numero_catastral    = $request['numero_catastral'];
+            $inmueble->direccion_inmueble  = $request['direccion_inmueble'];
+            $inmueble->contribuyente_id    = $request['contribuyente_id'];
+            $inmueble->save();
+            return array(1,"exito",$inmueble);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMEssage());
+        }
+    }
+
     /**
      * Display the specified resource.
      *
@@ -166,5 +189,24 @@ class InmuebleController extends Controller
             'estado' => intval($request->get('estado'))
         ]);
         return "{ 'message' : 'Todo esta correcto' }";
+    }
+
+    protected function validar(array $data)
+    {
+        $mensajes=array(
+            'ancho_inmueble.required'=>'El ancho del inmueble obligatorio',
+            'largo_inmueble.required'=>'El largo del inmueble obligatorio',
+            'numero_escritura.required'=>'El número de la escritura del inmueble obligatorio',
+            'unidad_id.required'=>'La unidad de medida es obligatoria',
+            'categoria_id.required'=>'La categoría es obligatoria',
+        );
+        return Validator::make($data, [
+            'contribuyente_id' => 'required',
+            'numero_catastral' => 'required',
+            'ancho_inmueble'=>'required|numeric',
+            'largo_inmueble'=>'required|numeric',
+            'numero_escritura'=>'required',
+            'metros_acera'=>'required|numeric',
+        ],$mensajes);
     }
 }

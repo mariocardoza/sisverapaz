@@ -16,14 +16,28 @@
     <div class="box">
       <div class="box-header">
         <h3 class="box-tittle"></h3>
-        <div class="btn-group">
+        <div class="btn-group col-md-6">
             <a href="javascript:void(0)" id="modal_registrar" class="btn btn-success">Registrar</a>
             <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
             <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Liquidadas</a>
         </div>
-        <div class="btn-group pull-right">
+        <div class="btn-group col-md-4">
           <a href="{{ url('cuentas/proyectos')}}" class="btn btn-primary">Cuentas de proyectos</a>
-          </div>
+        </div>
+        <div class="col-md-2">
+          <select name="" id="select_anio" class="chosen-select-width pull-right">
+              <option value="0">Seleccione el año</option>
+              @foreach ($anios as $anio)
+                @if($elanio==$anio->anio)
+                <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
+                @else 
+                <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                @endif
+              @endforeach
+            </select>
+            <button class="btn btn-primary" id="btn_anio">Aceptar</button>
+      </div>
+      
       </div>
 
     <div class="box-body table-responsive">

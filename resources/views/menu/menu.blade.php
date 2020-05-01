@@ -15,8 +15,8 @@
      
     </li>
 
-    <li class="treeview ">
-      <a href="{{ url('/bitacoras/general') }}">
+    <li class="treeview {{ Route::currentRouteName() == 'bitacoras.index' ? 'active':null}}">
+      <a href="{{ url('/bitacoras') }}">
         <i class="glyphicon glyphicon-tasks"></i> <span>Bitácora</span>
       </a>
      

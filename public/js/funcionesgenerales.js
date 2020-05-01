@@ -123,7 +123,7 @@
           var tabla = $('#example2').DataTable({
               language: {
                   processing: "Búsqueda en curso...",
-                  search: "Búscar:",
+                  search: "Buscar:",
                   lengthMenu: "Mostrar _MENU_ Elementos",
                   info: "Mostrando _START_ de _END_ de un total de _TOTAL_ elementos",
                   infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
@@ -390,6 +390,36 @@ function baja(id,ruta)
 
   function inicializar_tabla(tabla){
     $('#'+tabla).DataTable({
+              language: {
+                  processing: "Búsqueda en curso...",
+                  search: "Buscar:",
+                  lengthMenu: "Mostrar _MENU_ Elementos",
+                  info: "Mostrando _START_ de _END_ de un total de _TOTAL_ elementos",
+                  infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
+                  infoFiltered: "(Filtrado de _MAX_ elementos en total)",
+                  infoPostFix: "",
+                  loadingRecords: "Carga de datos en proceso..",
+                  zeroRecords: "Elementos no encontrados",
+                  emptyTable: "La tabla no contiene datos",
+                  paginate: {
+                      first: "Primero",
+                      previous: "Anterior",
+                      next: "siguiente",
+                      last: "Último"
+                  },
+              },
+              "paging": true,
+              "lengthChange": true,
+              "searching": true,
+              "ordering": false,
+              "info": true,
+              "autoWidth": false,
+              "destroy":true
+          });
+  }
+
+  function inicializar_tablac(tabla){
+    $('.'+tabla).DataTable({
               language: {
                   processing: "Búsqueda en curso...",
                   search: "Buscar:",

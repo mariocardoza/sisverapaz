@@ -1,17 +1,9 @@
-<section class="content-header">
-  <h1>Contribuyente</h1>
-  <ol class="breadcrumb">
-    <li><a ui-sref="app.contribuyente" ><i class="fa fa-dashboard"></i> Contribuyentes</a></li>
-    <li class="active">Contribuyente</li>
-  </ol>
-</section>
-
-<section class="invoice">
-  <div class="">
-    <div class="col-xs-12">
+<section class="box">
+  <div class="row">
+    <div class="col-md-12">
       <div class="page-header" style="overflow: hidden;">
         <div class="pull-left">
-          <i class="fa fa-globe"></i> (( people.nombre ))<br />
+          <i class="fa fa-user"></i> (( people.nombre ))<br />
           <small style="margin-top: 0px; margin-left: 28px">DUI: (( people.dui ))</small>
         </div>
         <div class="btn-group pull-right">          
@@ -33,7 +25,7 @@
       <b>NIT:</b> (( people.nit ))<br>
       <b>Teléfono:</b> (( people.telefono ))<br>
       <b>Género:</b> (( people.sexo ))<br>
-      <b>Nacimiento:</b> (( people.nacimiento ))<br>
+      <b>Nacimiento:</b> (( people.nacimiento | date: 'dd-MM-yyyy' ))<br>
      </div>
     <!-- /.col -->
     <div class="col-sm-4 invoice-col">

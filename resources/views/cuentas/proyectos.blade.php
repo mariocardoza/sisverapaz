@@ -17,9 +17,8 @@
     <div class="box-header">
       <h3 class="box-tittle">Listado</h3>
       <div class="btn-group">
-          <a href="javascript:void(0)" id="modal_registrar" class="btn btn-success">Registrar</a>
-          <a href="{{ url('/cuentas?estado=1') }}" class="btn btn-primary">Activos</a>
-          <a href="{{ url('cuentas?estado=2') }}" class="btn btn-primary">Papelera</a>
+          <a href="{{ url('/cuentas/proyectos?estado=1') }}" class="btn btn-primary">Activos</a>
+          <a href="{{ url('cuentas/proyectos?estado=2') }}" class="btn btn-primary">Papelera</a>
       </div>
       <div class="btn-group pull-right">
       <a href="{{ url('cuentas')}}" class="btn btn-primary">Cuentas </a>

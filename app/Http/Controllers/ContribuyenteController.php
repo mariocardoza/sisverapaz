@@ -22,9 +22,8 @@ class ContribuyenteController extends Controller
 
     public function index(Request $request)
     {
-        return view('contribuyentes.index', [
-
-        ]);        
+        $contribuyentes=Contribuyente::all();
+        return view('contribuyentes.index',compact('contribuyentes'));        
     }
 
     /**
@@ -77,9 +76,9 @@ class ContribuyenteController extends Controller
      */
     public function show($id)
     {
-        $contribuyente = Contribuyente::findorFail($id);
+        $c = Contribuyente::findorFail($id);
 
-        return view('contribuyentes.show',compact('contribuyente'));
+        return view('contribuyentes.show',compact('c'));
     }
 
     /**

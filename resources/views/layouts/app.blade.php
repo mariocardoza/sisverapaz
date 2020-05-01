@@ -285,7 +285,6 @@
 @yield('scripts')
 
  
-
 {{-- {!! Html::script('js/main.js') !!} --}}
 </body>
 </html>

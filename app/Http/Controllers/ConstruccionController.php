@@ -65,6 +65,7 @@ class ConstruccionController extends Controller
                     'total'=>$total,
                     'fiestas'=>$fiestas,
                     'impuesto'=>$sinfiestas,
+                    'detalle'=>$request->detalle,
                 ]);
                 return array(1,"exito",$construccion);
             }else{

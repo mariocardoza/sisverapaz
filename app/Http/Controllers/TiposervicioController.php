@@ -11,7 +11,49 @@ class TipoServicioController extends Controller
 {
     public function index()
     {
-        return TipoServicio::select('id', 'nombre', 'costo', 'estado', 'isObligatorio')->get();
+        $servicios=TipoServicio::select('id', 'nombre', 'costo', 'estado', 'isObligatorio')->get();
+        $html='';
+      foreach($servicios as $i => $r){
+        $html.='<tr>
+          <td>'.($i+1).'</td>
+          <td><span class="spanver'.$i.'">'.$r->nombre.'</span><input style="display:none;" class="form-control nombre_ser'.$i.' spannover'.$i.'" type="text" value="'.$r->nombre.'"></td>
+          <td><span class="spanver'.$i.'">$'.number_format($r->costo,2).'</span><input style="display:none;" class="form-control costo_ser'.$i.' spannover'.$i.'" type="text" value="'.$r->costo.'"></td>
+          <td>';
+          if($r->isObligatorio==1):
+            $html.='<span class="spanver'.$i.' label label-primary">Fijo</span>';
+          else:
+            $html.='<span class="spanver'.$i.' label label-primary">Variable</span>';
+          endif;
+          $html.='</td>
+          <td>';
+          if($r->estado==1):
+            $html.='<span class="spanver'.$i.' label label-success">Activo</span>';
+          else:
+            $html.='<span class="spanver'.$i.' label label-danger">Inactivo</span>';
+          endif;
+          $html.='</td>
+          <td>
+            <div class="btn-group">';
+            if($r->estado==1):
+              $html.='<button type="button" data-fila="'.$i.'" data-id="'.$r->id.'" id="editar_s" class="ocu btn btn-warning spanver'.$i.'">
+              <i class="fa fa-pencil"></i>
+            </button><button type="button" data-id="'.$r->id.'" id="quitar_s" class="ocu btn btn-danger spanver'.$i.'">
+                <i class="fa fa-minus-circle"></i>
+              </button><button type="button" data-fila="'.$i.'" data-id="'.$r->id.'" id="editar_ser" style="display:none" class="btn btn-success spannover'.$i.'">
+              <i class="fa fa-check"></i>
+            </button><button type="button" data-fila="'.$i.'" data-id="'.$r->id.'" id="can_edit" style="display:none" class="btn btn-danger spannover'.$i.'">
+            <i class="fa fa-minus-circle"></i>
+          </button>';
+            else:
+              $html.='<button data-id="'.$r->id.'" type="button" id="restaurar_s" class="btn btn-success">
+                <i class="fa fa-plus-circle"></i>
+              </button>';
+            endif;
+            $html.='</div>
+          </td>
+        </tr>';
+      }
+      return array(1,"exito",$html);
     }
 
     public function show(TipoServicio $tipoServicio)
@@ -20,15 +62,15 @@ class TipoServicioController extends Controller
     }
 
     /* Nuevo Servicio */
-    public function store(Request $request)
+    public function store(TiposervicioRequest $request)
     {
       $tipo  = new Tiposervicio();
       $params = $request->all();
 
       $tipo->estado = 1;
-      $tipo->nombre = $params['data']['nombre'];
-      $tipo->costo  = $params['data']['costo'];
-      $tipo->isObligatorio = 0;
+      $tipo->nombre = $params['nombre'];
+      $tipo->costo  = $params['costo'];
+      $tipo->isObligatorio = $params['isObligatorio'];
 
       if($tipo->save()){
         return array(
@@ -45,13 +87,13 @@ class TipoServicioController extends Controller
     }
 
     /* Editar Servicio */
-    public function update(Request $request, $id)
+    public function update(TiposervicioRequest $request, $id)
     {
       $params = $request->all();
       $tipo = Tiposervicio::find($id);
 
-      $tipo->nombre   = $params['data']['nombre'];
-      $tipo->costo    = $params['data']['costo'];
+      $tipo->nombre   = $params['nombre'];
+      $tipo->costo    = $params['costo'];
       
       if($tipo->save()) {
         return array(

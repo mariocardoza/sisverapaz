@@ -1,6 +1,7 @@
 <section class="content-header">
   <h1>Contribuyente</h1>
   <ol class="breadcrumb">
+    <li><a href="home" ><i class="fa fa-home"></i> Inicio</a></li>
     <li><a ui-sref="app.contribuyente" ><i class="fa fa-dashboard"></i> Contribuyentes</a></li>
     <li class="active">Contribuyente</li>
   </ol>
@@ -54,7 +55,7 @@
           <tr>
             <th class="text-center"># Catastral</th>
             <th class="text-center"># Escritura</th>
-            <th class="text-left">Medida</th>
+            <th class="text-left">Medida (Ancho x Largo)</th>
             <th class="text-left">Metro Acera</th>
             <th class="text-center">Estado</th>
             <th class="text-center"></th>
@@ -64,7 +65,7 @@
           <tr ng-repeat="item in inmuebles">
             <td class="text-center">(( item.numero_catastral ))</td>
             <td class="text-center"><span class="label label-success">(( item.numero_escritura ))</span></td>
-            <td class="text-left">(( item.medida_inmueble ))</td>
+            <td class="text-left">(( item.ancho_inmueble ))mts x ((item.largo_inmueble))mts</td>
             <td class="text-left">(( item.metros_acera ))</td>
             <td class="text-center">
               <span class="label" ng-class="{ 'label-success' : item.estado == 1 ,  'label-danger' : item.estado == 0 }">
@@ -73,7 +74,7 @@
             </td>
             <td class="text-center">
               <div class="btn-group text-align">
-                <button class="btn btn-success" ng-click="onViewPagosPendiente(item.factura_id);">
+                <button class="btn btn-success" ng-click="onVerFactura(item.factura_id,item.id);">
                   <i class="fa fa-fw fa-dollar"></i>
                 </button>
               </div>

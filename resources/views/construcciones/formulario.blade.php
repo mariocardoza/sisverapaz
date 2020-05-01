@@ -50,4 +50,12 @@
 	</div>
 </div>
 
+<div class="form-group{{$errors->has('detalle') ? 'has-error' : '' }}">
+	<label for="detalle" class="control-label">Detalle de la construccion (opcional) </label>
+
+	<div class="">
+		{{ Form::textarea('detalle', null, ['class' => 'form-control','rows'=>2]) }}
+	</div>
+</div>
+
 

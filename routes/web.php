@@ -66,7 +66,7 @@ Route::post('usuarios/alta/{id}','UsuarioController@alta')->name('usuarios.alta'
 Route::Resource('usuarios','UsuarioController');
 
 //Route::Resource('bitacoras' , 'BitacoraController');
-Route::get('bitacoras','BitacoraController@index');
+Route::get('bitacoras','BitacoraController@index')->name("bitacoras.index");
 Route::get('bitacoras/general','BitacoraController@general');
 Route::get('bitacoras/usuario','BitacoraController@usuario');
 Route::get('bitacoras/fecha','BitacoraController@fecha');
@@ -321,9 +321,10 @@ Route::post('rubros/alta/{id}','RubroController@alta')->name('rubros.alta');
 Route::Resource('rubros','RubroController');
 
 Route::Resource('negocios','NegocioController');
+Route::Resource('alumbrado','AlumbradoController');
 
-/*Route::post('inmuebles/baja/{id}','InmuebleController@baja')->name('inmuebles.baja');
-Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
+Route::post('inmuebles/guardar','InmuebleController@guardar')->name('inmuebles.guardar');
+/*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
 Route::Resource('inmuebles','InmuebleController');*/
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::Resource('construcciones','ConstruccionController');
@@ -343,7 +344,8 @@ Route::Resource('afps','AfpController');
 Route::post('afp/baja/{id}','AfpController@baja')->name('afps.baja');
 Route::post('afp/alta/{id}','AfpController@alta')->name('afps.alta');
 
-Route::get('servicios/pagos','ServiciosController@pagos');
+Route::get('servicios/pagos','ServiciosController@pagos')->name("servicios.pagos");
+Route::delete('servicios/restaurar/{id}','ServiciosController@restaurar');
 Route::post('servicios/pagar','ServiciosController@pagar_servicio');
 Route::Resource('servicios','ServiciosController');
 
@@ -387,6 +389,8 @@ Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('desembolsos','DesembolsoController');
+
+Route::Resource('ingresos','IngresoController');
 
 Route::Resource('tipopagos','TipopagoController');
 

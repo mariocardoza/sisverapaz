@@ -26,10 +26,31 @@ class CuentaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cuentas = Cuenta::all();
-        return view('cuentas.index',compact('cuentas'));
+        Auth()->user()->authorizeRoles(['admin','tesoreria']);
+        $anios=DB::table('cuentas')->distinct()->get(['anio']);
+        $elanio="";
+        if($request->get('anio') == ""){
+            $elanio=date("Y");
+        }else{
+            $elanio=$request->get('anio');
+        } 
+        $elestado=$request->get('estado');
+        if($elestado=="" || $elestado > 2){
+            $cuentas = Cuenta::where('anio','>=',$elanio)->get();
+            return view('cuentas.index',compact('cuentas','anios','elanio'));
+        
+        }
+        if($elestado==1){
+            $cuentas = Cuenta::where('anio','>=',$elanio)->where('estado',1)->get();
+            return view('cuentas.index',compact('cuentas','anios','elanio'));
+        }
+        if($elestado==2){
+            $cuentas = Cuenta::where('anio','>=',$elanio)->where('estado',2)->get();
+            return view('cuentas.index',compact('cuentas','anios','elanio'));
+        }
+        
     }
 
     public function proyectos()

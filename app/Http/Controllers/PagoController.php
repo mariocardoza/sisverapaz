@@ -7,7 +7,7 @@ use App\Tipopago;
 use App\Cuenta;
 //use App\Cuentaproy;
 use App\Contribuyente;
-use App\Pago;
+use App\Factura;
 use App\Bitacora;
 //use App\Http\Requests\ContratoRequest;
 
@@ -25,8 +25,8 @@ class PagoController extends Controller
 
     public function index(Request $request)
     {
-         $pagos = Pago::all();
-         return view('pagos.index', compact('pagos'));
+         $facturas = Factura::orderBy('created_at','desc')->get();
+         return view('pagos.index', compact('facturas'));
     }
 
     //public function guardarCuenta(Request $request)

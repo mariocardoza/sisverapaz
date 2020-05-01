@@ -21,7 +21,6 @@ class BackupController extends Controller
   {
     $disco = Storage::disk('local');
     $archivos = $disco->files('\backups');
-  //  dd($archivos);
     $respaldos = [];
     foreach ($archivos as $k => $f) {
     if ($disco->exists($f)) {
@@ -52,6 +51,7 @@ class BackupController extends Controller
         // log the results
         Log::info("Se inició un respaldo desde la aplicación \r\n" . $output);
         Log::info("Respaldo completado con exito");
+        bitacora("Se creó un nuevo respaldo de la base de datos");
         // return the results as a response to the ajax call
         return array(1,"exito");
     } catch (Exception $e) {
@@ -95,6 +95,7 @@ class BackupController extends Controller
         // log the results
         Log::info("Se inició una restauración desde la aplicación \r\n" . $output);
         Log::info("Restauración completado con exito");
+        bitacora("Se restuaró el respaldo '".$respaldo."' con éxito");
         // return the results as a response to the ajax call
         return array(1,"exito");
     } catch (Exception $e) {
@@ -108,6 +109,7 @@ class BackupController extends Controller
     $disk = Storage::disk('local');
     if ($disk->exists('backups/' . $file_name)) {
         $disk->delete('backups/' . $file_name);
+        bitacora("El respaldo '".$file_name."' se eliminó con éxito de la base de datos");
         return array(1,"exito");
     } else {
         return array(-1,"error");

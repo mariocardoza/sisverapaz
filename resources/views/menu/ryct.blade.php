@@ -18,6 +18,11 @@
     <i class="glyphicon glyphicon-usd"></i><span>Construcciones</span>
   </a>
 </li>
+<li>
+  <a href="{{ url('alumbrado') }}">
+    <i class="glyphicon glyphicon-usd"></i><span>Alumbrado público</span>
+  </a>
+</li>
 {{-- <li class="treeview">
   <a href="#">
     <i class="fa fa-edit"></i> <span>Servicios Municipales</span>
