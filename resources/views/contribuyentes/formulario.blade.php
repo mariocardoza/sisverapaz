@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="nombre" class="control-label">Nombre completo</label>
         
             <div class="">
@@ -10,7 +10,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="form-group{{ $errors->has('dui') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="dui" class="control-label">Número de DUI</label>
         
             <div class="">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="nit" class="control-label">Número de NIT</label>
         
             <div class="">
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="telefono" class="control-label">Teléfono</label>
         
             <div class="">
@@ -39,7 +39,7 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group{{ $errors->has('nacimiento') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="nacimiento" class="control-label">Fecha de Nacimiento</label>
         
             <div class="">
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="form-group{{ $errors->has('sexo') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="sexo" class="control-label">Sexo</label>
         
             <div class="">
@@ -64,7 +64,7 @@
     </div>
 
     <div class="col-md-12">
-        <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+        <div class="form-group">
             <label for="direccion" class="control-label">Dirección</label>
         
             <div class="">

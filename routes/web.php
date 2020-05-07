@@ -306,9 +306,9 @@ Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoControlle
 Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoController@listarEmpleados');
 
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
-/*Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
+Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
 Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('contribuyentes.alta');
-Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
+/*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::Resource('contribuyentes','ContribuyenteController');
 
 Route::Resource('tiposervicios','TiposervicioController');
