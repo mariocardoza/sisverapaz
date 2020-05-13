@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RentaTableSeeder::class);
         $this->call(EmpleadoSeeder::class);
 
-        //$this->call(ContribuyentesTableSeeder::class);
+        $this->call(ContribuyentesTableSeeder::class);
         //$this->call(InmuebleTableSeeder::class); 
         //factory(App\Contribuyente::class,50)->create();
         //factory(App\Inmueble::class,50)->create();
