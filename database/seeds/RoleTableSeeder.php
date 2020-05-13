@@ -18,10 +18,10 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
       $this->truncateTables([
-            //'role_user',
-            //'roles',
-            //'users',
-            //'porcentajes',
+            'role_user',
+            'roles',
+            'users',
+            'porcentajes',
             //'empleados',
             //'unidads'
         ]);
