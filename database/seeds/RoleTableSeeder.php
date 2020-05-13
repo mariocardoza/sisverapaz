@@ -85,7 +85,7 @@ class RoleTableSeeder extends Seeder
       $role->description = 'Usuario';
       $role->save();
 
-      /*$emple=new Empleado();
+      $emple=new Empleado();
       $emple->nombre="Administrador";
       $emple->dui='00000000-0';
       $emple->nit='0000-000000-000-0';
@@ -111,7 +111,7 @@ class RoleTableSeeder extends Seeder
       $ru=new RoleUser();
       $ru->role_id=1;
       $ru->user_id=$user->id;
-      $ru->save();*/
+      $ru->save();
     }
 
     public function truncateTables(array $tables)

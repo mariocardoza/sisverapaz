@@ -14,8 +14,8 @@ class CreateCementeriosPosicionesTable extends Migration
     public function up()
     {
         Schema::create('cementerios_posiciones', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger("cementerio_id");
+            $table->bigIncrements('id');
+            $table->bigInteger("cementerio_id")->unsigned();
             $table->decimal("latitud", 20, 13);
             $table->decimal("longitud", 20, 13);
             $table->timestamps();

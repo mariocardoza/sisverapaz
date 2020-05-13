@@ -13,8 +13,8 @@ class CreateTableCementerios extends Migration
      */
     public function up()
     {
-        Schema::create('Cementerios', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('cementerios', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string("nombre", 100);
             $table->unsignedInteger("maximo");
             $table->timestamps();
@@ -28,6 +28,6 @@ class CreateTableCementerios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Cementerios');
+        Schema::dropIfExists('cementerios');
     }
 }
