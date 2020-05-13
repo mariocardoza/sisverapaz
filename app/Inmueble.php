@@ -14,6 +14,7 @@ class Inmueble extends Model
     {
     	return $this->belongsTo('App\Contribuyente');
     }
+
     
     public function tipoServicio()
     {

@@ -324,6 +324,9 @@ Route::Resource('negocios','NegocioController');
 Route::Resource('alumbrado','AlumbradoController');
 
 Route::post('inmuebles/guardar','InmuebleController@guardar')->name('inmuebles.guardar');
+Route::post('inmuebles/quitarimpuesto', 'InmuebleController@quitarservicioinmueble'); //funcion para quitar impuesto
+Route::post('inmuebles/agregarimpuesto', 'InmuebleController@addTipoServicioInmueble'); //funcion para agregar impuesto
+Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
 Route::Resource('inmuebles','InmuebleController');*/
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');

@@ -46,6 +46,19 @@ class InmuebleController extends Controller
             );
         }
     }
+
+    public function quitarservicioinmueble(Request $request)
+    {
+        try{
+            $inmueble = Inmueble::find($request['id']);
+            //$inmueble->tipoServicio()->detach();
+            \DB::table('inmueble_tipo_servicio')->where('id' , $request->idTipoServicio)->delete();
+            return array(1,"exito",$inmueble);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -208,5 +221,38 @@ class InmuebleController extends Controller
             'numero_escritura'=>'required',
             'metros_acera'=>'required|numeric',
         ],$mensajes);
+    }
+
+    public function impuestos_inmueble($id)
+    {
+        $inmueble=Inmueble::find($id);
+        $servicios= \DB::table('tiposervicios as ts')
+        ->whereNotExists(function ($query) use ($id)  {
+             $query->from('inmueble_tipo_servicio as its')
+                ->whereRaw('its.tiposervicio_id = ts.id')
+                ->whereRaw('its.inmueble_id ='.$id);
+            })->get();
+
+        $html="";
+        $select="<option value=''>Seleccione..</option>";
+        foreach($inmueble->tipoServicio as $i => $t){
+            $html.='<tr>
+              <td>'.($i+1).'</td>
+              <td><span>'.$t->nombre.'</span></td>
+              <td><span>$'.number_format($t->costo,2).'</span></td>
+              <td>
+                <div class="btn-group">';
+                  $html.='<button type="button" data-servicio="'.$t->pivot->id.'" data-inmueble="'.$id.'" id="quitar_r" class="btn btn-danger quitaimpuesto">
+                    <i class="fa fa-minus-circle"></i>
+                  </button>';
+                $html.='</div>
+              </td>
+            </tr>';
+        }
+        foreach($servicios as $s){
+            $select.='<option value="'.$s->id.'">'.$s->nombre.'</option>';
+        }
+        
+        return array(1,$inmueble,$html,$select);
     }
 }

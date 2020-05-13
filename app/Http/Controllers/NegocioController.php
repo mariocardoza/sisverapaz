@@ -56,23 +56,23 @@ class NegocioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NegocioRequest $request)
     {
         $parameters = $request->all();
         $negocios = Negocio::create([
-            'contribuyente_id'  => $parameters['contribuyente'],
-            'nombre'            => $parameters['object']['nombre'],
-            'capital'           => $parameters['object']['capital'],
-            'direccion'         => $parameters['object']['direccion'],
-            'rubro_id'          => $parameters['object']['rubro_id'],
-            'lat'               => $parameters['object']['lat'],
-            'lng'               => $parameters['object']['lng']
+            'contribuyente_id'  => $parameters['contribuyente_id'],
+            'nombre'            => $parameters['nombre'],
+            'capital'           => $parameters['capital'],
+            'direccion'         => $parameters['direccion'],
+            'rubro_id'          => $parameters['rubro_id'],
+            'lat'               => $parameters['lat'],
+            'lng'               => $parameters['lng']
         ]);
 
         if($negocios) {
             return array(
                 "response"  => true,
-                "message"   => 'Hemos agregado con exito al nuevo contribuyente',
+                "message"   => 'Hemos agregado con exito al nuevo negocio',
                 "data"      => Negocio::where('id', $negocios['id'])->with('rubro')->first()
             );
         }else {
@@ -167,6 +167,8 @@ class NegocioController extends Controller
             ->where('lng', '!=', 0)
             ->with('contribuyente', 'rubro')->get();
     }
+
+    
 
     // public function negocioPostControllerAdd (Request $request) {
     //     $parameters = $request->all();
