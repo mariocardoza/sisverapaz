@@ -308,8 +308,12 @@ Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoControlle
 ////////////////triburario /////////////////////////////////////////////////////////////////////////
 Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
 Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('contribuyentes.alta');
+Route::get('contribuyentes/pagos/{id}','ContribuyenteController@pagos');
+Route::post('contribuyentes/generarpagos','ContribuyenteController@generarPagosContribuyente');
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::Resource('contribuyentes','ContribuyenteController');
+
+Route::Resource('perpetuidad','PerpetuidadController');
 
 Route::Resource('tiposervicios','TiposervicioController');
 /*Route::post('impuestos/baja/{id}','impuestoController@baja')->name('impuestos.baja');
@@ -321,14 +325,16 @@ Route::post('rubros/alta/{id}','RubroController@alta')->name('rubros.alta');
 Route::Resource('rubros','RubroController');
 
 Route::Resource('negocios','NegocioController');
+Route::post('alumbrado/reparar','AlumbradoController@reparar');
+Route::get('alumbrado/reparadas','AlumbradoController@reparadas');
 Route::Resource('alumbrado','AlumbradoController');
 
 Route::post('inmuebles/guardar','InmuebleController@guardar')->name('inmuebles.guardar');
 Route::post('inmuebles/quitarimpuesto', 'InmuebleController@quitarservicioinmueble'); //funcion para quitar impuesto
 Route::post('inmuebles/agregarimpuesto', 'InmuebleController@addTipoServicioInmueble'); //funcion para agregar impuesto
 Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
-/*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');
-Route::Resource('inmuebles','InmuebleController');*/
+/*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
+Route::Resource('inmueble','InmuebleController');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::Resource('construcciones','ConstruccionController');
 

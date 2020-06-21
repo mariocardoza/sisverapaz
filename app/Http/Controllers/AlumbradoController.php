@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Alumbrado;
+use App\Bitacora_alumbrado;
 use Validator;
 class AlumbradoController extends Controller
 {
@@ -17,6 +18,13 @@ class AlumbradoController extends Controller
         $alumbrados=Alumbrado::where('estado',1)->get();
 
         return view('alumbrado.index',compact('alumbrados'));
+    }
+
+    public function reparadas()
+    {
+        $alumbrados=Alumbrado::where('estado',3)->get();
+
+        return view('alumbrado.reparadas',compact('alumbrados'));
     }
 
     /**
@@ -39,6 +47,7 @@ class AlumbradoController extends Controller
     {
         $this->validar($request->all())->validate();
         try{
+            \DB::beginTransaction();
             $alumbrado=Alumbrado::create([
                 'reporto'=>$request->reporto,
                 'detalle'=>$request->detalle,
@@ -48,8 +57,49 @@ class AlumbradoController extends Controller
                 'lat'=>$request->lat,
                 'lng'=>$request->lng,
             ]);
+
+            $bitacora=Bitacora_alumbrado::create([
+                'alumbrado_id'=>$alumbrado->id,
+                'fecha'=>date('Y-m-d'),
+                'accion'=>'la persona: '.$request->reporto.' reportó lámpara con desperfectos',
+                'empleado'=>''
+            ]);
+            \DB::commit();
             return array(1,"exito",$alumbrado);
         }catch(Exception $e){
+            \BD::rollback();
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function reparar(Request $request)
+    {
+        $this->validar_reparar($request->all())->validate();
+        try{
+
+            $acta="";
+            if($request->archivo):
+            $request->file('archivo')->storeAs('alumbrados/actas', $request->file('archivo')->getClientOriginalName());
+            $acta=$request->file('archivo')->getClientOriginalName();
+            endif;
+            \DB::beginTransaction();
+            $a=Alumbrado::find($request->id);
+            $a->fecha_reparacion=invertir_fecha($request->fecha_reparacion);
+            $a->detalle_reparacion=$request->detalle_reparacion;
+            $a->acta=$acta;
+            $a->estado=3;
+            $a->save();
+
+            $bitacora=Bitacora_alumbrado::create([
+                'alumbrado_id'=>$a->id,
+                'fecha'=>date('Y-m-d'),
+                'accion'=>'la persona: '.$request->empleado.' reparó la lámpara',
+                'empleado'=>$request->empleado
+            ]);
+            \DB::commit();
+            return array(1);
+        }catch(Exception $e){
+            \DB::rollback();
             return array(-1,"error",$e->getMessage());
         }
     }
@@ -115,6 +165,23 @@ class AlumbradoController extends Controller
             'direccion'=>'required',
             'tipo_lampara'=>'required',
             'fecha'=>'required',
+        ],$mensajes);
+    }
+
+    protected function validar_reparar(array $data)
+    {
+        $mensajes=array(
+            'empleado.required'=>'El nombre de la persona que reparó es obligatorio',
+            //'archivo.required'=>'El nombre de la persona que reparó es obligatorio',
+            'detalle.required'=>'El detalle de la falla es obligatorio',
+            //'detalle_deparacion.required'=>'El tipo de la lámpara es obligatoria',
+            'fecha_reparacion.required'=>'La fecha de reparación es obligatoria',
+        );
+        return Validator::make($data, [
+            'empleado' => 'required',
+            //'detalle_deparacion' => 'required',
+            'fecha_reparacion'=>'required',
+            //'archivo'=>'required',
         ],$mensajes);
     }
 }

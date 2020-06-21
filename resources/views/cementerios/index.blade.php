@@ -1,75 +1,81 @@
-@extends('layouts.app') @section('content')
-<div style="width: 100%;">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Cementerio</h3>
-        </div>
-        <form action="#" id="formulario" name="formulario">
-          <div class="box-body">
-            <div style="height: 400px;" class="form-group">
-              {!! $map['html'] !!}
-            </div>
-            <div class="form-group col-sm-7">
-              <label for="nombre">Nombre del cementerio: </label>
-              @if ($isDrawing)
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombre" name="nombre"
-                  placeholder="Nombre del cementerio"
-                />
-              @else
-                <h2>{{ $cementerio->nombre }}</h2> 
-              @endif
-            </div>
-            <div class="form-group col-sm-4">
-              <label for="cantidad">Cantidad de puestos de perpetuidad</label>
-              @if ($isDrawing)
-                <input
-                  type="number"
-                  class="form-control"
-                  id="cantidad" min='100' name="cantidad"
-                  placeholder="Cantidad Maxima de puestos de perpetuidad"
-                />
-              @else
-                <h2>{{ $cementerio->maximo }}</h2>                  
-              @endif
-            </div>
-            <div class="form-group col-sm-1">
-              @if ($isDrawing)
-                <button
-                  type="submit"
-                  style="position: absolute; top: 20px;"
-                  class="btn btn-primary">
-                  Guardar
-                </button>                  
-              @endif
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-{!! $map['js'] !!} @endsection @section('scripts') 
+@extends('layouts.app')
+
+@section('migasdepan')
+<h1>
+        Cementerios
+        
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Inicio</a></li>
+        <li class="active">Listado de cementerios</li>
+      </ol>
+@endsection
+
+@section('content')
 <style>
-.swal2-icon::before {
-  font-size: 1.75em !important;
-}
-.swal2-icon {
-    width: 100px !important;
-    height: 100px !important;
-}
-.swal2-popup {
-  width: 500px !important;
-  padding: 2.5em;
-  font-size: 1.1rem;
+  .modal {
+    position:absolute;
+    overflow:scroll;
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-@if ($isDrawing)
-  <script src="{{ asset('js/cementerios.js') }}"></script>    
-@endif
+<div class="row">
+<div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Listado</h3><br>
+                <a href="{{ url('cementerios/create') }}" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-striped table-bordered table-hover" id="example2">
+          <thead>
+                  <th>N°</th>
+                  <th>Nombre</th>
+                  <th>Cantidad puestos a perpetuidad</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </thead>
+                <tbody>
+                  @foreach($cementerios as $index=> $c)
+                  <tr>
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ $c->nombre }}</td>
+                    <td>{{ $c->maximo }}</td>
+                      @if($c->estado==1)
+                      <td>
+                      <label for="" class="col-md-12 label-primary">Libre</label>
+                      </td>
+                      @elseif($c->estado==2)
+                      <td>
+                      <label for="" class="col-md-12 label-danger">LLeno</label>
+                      </td>
+                      @elseif($c->estado==3)
+                      <td>
+                      <label for="" class="col-md-12 label-success">Pagada y pendiente de recibo</label>
+                      </td>
+                      @else
+                      <td>
+                      <label for="" class="col-md-12 label-success">Disponible</label>
+                    </td>
+                      @endif
+                    
+                    <td>
+                      <a href="{{ url('cementerios/'.$c->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
+                    </td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+</div>
+
+@endsection
+@section('scripts')
+<script>
+
 @endsection

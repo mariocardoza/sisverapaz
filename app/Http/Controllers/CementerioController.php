@@ -14,9 +14,33 @@ class CementerioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $r)
     {
-        $cementerio = Cementerio::first();
+        if($r->ajax()){
+            $cementerio=Cementerio::findorFail($r->id);
+            return array(1,$cementerio,$cementerio->posiciones);
+        }else{
+            $cementerios=Cementerio::all();
+            return view('cementerios.index',\compact('cementerios'));
+        }
+    }
+
+    private function generatePointsArray($posiciones) {
+        $response = array();
+        foreach ($posiciones as $value) {
+            array_push($response, $value['latitud'].', '.$value['longitud']);
+        }       
+        return $response; 
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $cementerio = [];
         $isDrawing = true;
         
         $gmap = new GMaps();
@@ -41,29 +65,11 @@ class CementerioController extends Controller
         
         $gmap->initialize($config);
         $map = $gmap->create_map();
-        return view("cementerios.index", [
+        return view("cementerios.create", [
             "map"           => $map,
             "isDrawing"     => $isDrawing,
             "cementerio"    => $cementerio
         ]);
-    }
-
-    private function generatePointsArray($posiciones) {
-        $response = array();
-        foreach ($posiciones as $value) {
-            array_push($response, $value['latitud'].', '.$value['longitud']);
-        }       
-        return $response; 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -102,7 +108,35 @@ class CementerioController extends Controller
      */
     public function show(Cementerio $cementerio)
     {
-        //
+        $cementerio = Cementerio::findorFail($cementerio->id);
+        $isDrawing = true;
+        
+        $gmap = new GMaps();
+        $config = array();
+        $config['center'] = $cementerio->posiciones[0]['latitud'].','.$cementerio->posiciones[0]['longitud'];
+        $config['zoom'] = '19';
+        $config['map_height'] = "100%";
+        $config['scrollwheel'] = true;     
+        $config['drawingModes'] = array('polygon');
+        if ($cementerio) {
+            $isDrawing = false;
+            $polygon = array();
+            $polygon['points'] = self::generatePointsArray($cementerio->posiciones);
+            $polygon['strokeColor'] = '#000099';
+            $polygon['fillColor'] = '#000099';
+            $gmap->add_polygon($polygon);
+        } else { 
+            $config['drawing'] = true;
+            $config['drawingDefaultMode'] = 'polygon';            
+        }
+        
+        $gmap->initialize($config);
+        $map = $gmap->create_map();
+        return view("cementerios.show", [
+            "map"           => $map,
+            "isDrawing"     => $isDrawing,
+            "cementerio"    => $cementerio
+        ]);
     }
 
     /**

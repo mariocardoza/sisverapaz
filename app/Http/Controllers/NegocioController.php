@@ -104,12 +104,71 @@ class NegocioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit(Negocio $negocio)
-    // {
-    //     $rubros = Rubro::pluck('nombre', 'id');
-    //     $contribuyentes = Contribuyente::pluck('nombre', 'id');
-    //     return view('negocios.edit', compact('negocio', 'rubros', 'contribuyentes'));
-    // }
+     public function edit(Negocio $negocio)
+    {
+        try{
+            $rubros=Rubro::where('estado',1)->get();
+            $modal="";
+            $modal.='<div class="modal fade" tabindex="-1" id="modal_enegocio" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="gridSystemModalLabel">Editar un negocio</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form_enegocio" class="">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label">Nombre</label>
+                              <input type="text" value="'.$negocio->nombre.'" name="nombre" autocomplete="off" placeholder="Digite el nombre del negocio" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label">Capital</label>
+                              <input type="number" value="'.$negocio->capital.'" name="capital" placeholder="Digite el capital inicial" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label">Rubro</label>
+                              <select name="rubro_id" id="" class="chosen-select-width esee">
+                                <option value="">Seleccione un rubro</option>';
+                                foreach($rubros as $r):
+                                    if($negocio->rubro_id==$r->id):
+                                        $modal.='<option selected value="'.$r->id.'">'.$r->nombre.'</option>';
+                                    else:
+                                        $modal.='<option value="'.$r->id.'">'.$r->nombre.'</option>';
+                                    endif;
+                                endforeach;
+                              $modal.='</select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label">Dirección</label>
+                              <textarea name="direccion" id="direcc_enegocio" rows="2" class="form-control">'.$negocio->direccion.'</textarea>
+                            </div>
+                          </div>
+                      </div>
+                    
+                </div>
+                <div class="modal-footer">
+                  <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="button" data-id="'.$negocio->id.'" class="btn btn-success submit_editarnegocio">Registrar</button></center>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>';
+          return array(1,"exito",$modal);
+
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -123,9 +182,10 @@ class NegocioController extends Controller
     {
       $parameters = $request->All();
       $negocio = Negocio::find($id);
-      $negocio->nombre = $parameters['object']['nombre'];
-      $negocio->capital = $parameters['object']['capital'];
-      $negocio->rubro_id = $parameters['object']['rubro_id'];
+      $negocio->nombre = $parameters['nombre'];
+      $negocio->capital = $parameters['capital'];
+      $negocio->rubro_id = $parameters['rubro_id'];
+      $negocio->direccion = $parameters['direccion'];
 
       if($negocio->save()){
         return array(

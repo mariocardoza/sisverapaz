@@ -21,7 +21,7 @@
                     <button id="rubros" class="btn btn-primary">Rubros</button>
                     <button id="servicios" class="btn btn-primary">Servicios</button>
                     <button id="contribu" class="btn btn-primary">Contribuyente nuevo</button>
-                    <button class="btn btn-primary">Generar pagos</button>
+                    <button id="generar_pagos" class="btn btn-primary">Generar pagos</button>
                 </div>
                 <br><br>
             </div>
@@ -46,7 +46,7 @@
                             <td>
                                 <div class="btn-group">
                                     <a href="{{url('contribuyentes/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                                    <button class="btn btn-success"><i class="fa fa-money"></i></button>
+                                    <a href="{{ url('contribuyentes/pagos/'.$c->id) }}" class="btn btn-success"><i class="fa fa-money"></i></a>
                                     <button class="btn btn-info"><i class="fa fa-money"></i></button>
                                 </div>
                             </td>
@@ -78,6 +78,29 @@
             $("#modal_servicios").modal("show");
             $("#nuevo_servicio").show();
             servicios();
+        });
+
+        //generar los pagos del mes
+        $(document).on("click","#generar_pagos",function(e){
+            e.preventDefault();
+            modal_cargando();
+            $.ajax({
+                url:'contribuyentes/generarpagos',
+                type:'post',
+                dataType:'json',
+                success: function(json){
+                    if(json.error==false){
+                        toastr.success("Facturas generadas con éxito");
+                        swal.closeModal();
+                    }else{
+                        toastr.error(json.message);
+                        swal.closeModal();
+                    }
+                },error : function(error){
+                    toastr.success("Error en el servidor, intente otra vez");
+                    swal.closeModal();
+                }
+            });
         });
 
         //registrar un nuevo rubro

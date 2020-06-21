@@ -17,6 +17,7 @@
         <div class="box">
             <div class="box-header">
                 <div class="box-title"><h4>Gestión de alumbrado público</h4></div>
+                <a href="{{url('alumbrado/reparadas')}}" class="btn btn-primary"><span class="fa fa-eye"></span> Reparados</a>
                 <button class="btn btn-primary pull-right" type="button" id="reportar">Reportar</button>
             </div>
             <div class="box-body">

@@ -24,7 +24,7 @@
   }
 </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="skin-blue fixed sidebar-mini sidebar-mini-expand-feature">
 
 <div class="wrapper">
 
@@ -114,7 +114,7 @@
     </section>
   </aside>
   @else
-  <aside class="main-sidebar">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
@@ -218,11 +218,13 @@
   <label for="" class="col-md-4 control-label">Unidad Solicitante</label>
   <div class="col-md-6">
     <select name="unidad_id" id="unidad_id" class="chosen-select-width">
+      @if(isset(Auth()->user()->id))
       @foreach ($unids as $uni)
           @if($uni->id==Auth()->user()->unidad_id)
             <option selected value="{{$uni->id}}">{{$uni->nombre_unidad}}</option>
           @endif
       @endforeach
+      @endif
     </select>
   </div>
 </div>

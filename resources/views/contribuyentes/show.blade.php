@@ -112,7 +112,7 @@
                                 </td>
                                 <td class="text-center">
                                   <div class="btn-group text-align">
-                                    <button class="btn btn-warning" ng-click='onViewCreateEditInmuebleController(true, item, $index)'>
+                                    <button data-id="{{$i->id}}" class="btn btn-warning edit_inmueble">
                                       <i class="fa fa-edit"></i>
                                     </button>
                                     <button class="btn btn-success verservicios" data-id="{{$i->id}}">
@@ -178,7 +178,7 @@
                             </td>
                             <td class="text-center">
                               <div class="btn-group text-align">
-                                <button class="btn btn-warning">
+                                <button data-id="{{$n->id}}" class="btn btn-warning edit_negocio">
                                   <i class="fa fa-edit"></i>
                                 </button>
                                 @if($n->estado==1)

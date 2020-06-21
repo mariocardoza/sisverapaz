@@ -158,6 +158,7 @@ $(document).ready(function(e){
     //modal nuevo inmueble
     $(document).on("click","#nuevo_inmueble",function(e){
       e.preventDefault();
+      $("#form_inmueble").trigger("reset");
       $("#modal_inmueble").modal("show");
       initMap();
     });
@@ -165,6 +166,7 @@ $(document).ready(function(e){
     //modal nuevo negocio
     $(document).on("click","#nuevo_negocio",function(e){
       e.preventDefault();
+      $("#form_negocio").trigger("reset");
       $("#modal_negocio").modal("show");
       initMap2();
     });
@@ -200,7 +202,7 @@ $(document).ready(function(e){
       });
     });
 
-    //submit a inmueble
+    //submit a negocio
     $(document).on("submit","#form_negocio",function(e){
       e.preventDefault();
       var datos=$("#form_negocio").serialize();
@@ -219,6 +221,111 @@ $(document).ready(function(e){
           
           else{
             toastr.error('Ocurrió un error');
+          }
+          
+        },
+        error: function(error){
+          $.each(error.responseJSON.errors,function(i,v){
+            toastr.error(v);
+          });
+          swal.closeModal();
+        }
+      });
+    });
+
+    //editar inmueble (abrir modal)
+    $(document).on("click",".edit_inmueble",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      $.ajax({
+        url:'../inmueble/'+id+'/edit',
+        type:'get',
+        dataType:'json',
+        success: function(json){
+          if(json[0]==1){
+            $("#modal_aqui").empty();
+            $("#modal_aqui").html(json[2]);
+            $("#modal_einmueble").modal("show");
+          }
+        }
+      });
+    });
+
+      //submit editar a inmueble
+      $(document).on("click",".submit_editinmueble",function(e){
+        e.preventDefault();
+        var datos=$("#form_einmueble").serialize();
+        var id=$(this).attr("data-id");
+        modal_cargando();
+        $.ajax({
+          url:'../inmueble/'+id,
+          type:'put',
+          dataType:'json',
+          data:datos,
+          success: function(json){
+            if(json[0]==1){
+              toastr.success("Inmueble editar con éxito");
+              $("#form_einmueble").trigger("reset");
+              $("#modal_einmueble").modal("hide");
+              location.reload();
+            }
+            
+            else{
+              toastr.error('Ocurrió un error');
+              swal.closeModal();
+            }
+            
+          },
+          error: function(error){
+            $.each(error.responseJSON.errors,function(i,v){
+              toastr.error(v);
+            });
+            swal.closeModal();
+          }
+        });
+      });
+
+      //editar negocio (abrir modal)
+    $(document).on("click",".edit_negocio",function(e){
+      e.preventDefault();
+      var id=$(this).attr("data-id");
+      $.ajax({
+        url:'../negocios/'+id+'/edit',
+        type:'get',
+        dataType:'json',
+        success: function(json){
+          if(json[0]==1){
+            $("#modal_aqui").empty();
+            $("#modal_aqui").html(json[2]);
+            $(".esee").chosen({"width":'100%'});
+            $("#modal_enegocio").modal("show");
+          }
+        }
+      });
+    });
+
+     //submit a inmueble
+     $(document).on("click",".submit_editarnegocio",function(e){
+      e.preventDefault();
+      var datos=$("#form_enegocio").serialize();
+      var id=$(this).attr("data-id");
+      modal_cargando();
+      $.ajax({
+        url:'../negocios/'+id,
+        type:'put',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+          if(json.response==true){
+            toastr.success("Negocio editado con éxito");
+            $("#form_enegocio").trigger("reset");
+            $("#modal_enegocio").modal("hide");
+            location.reload();
+          }
+          
+          else{
+            toastr.error('Ocurrió un error');
+            swal.closeModal();
           }
           
         },
@@ -286,7 +393,11 @@ $(document).ready(function(e){
                 if(json[0]==1){
                     toastr.success("Impuesto quitado con éxito");
                     cargar_impuesto_inmueble(inmueble_id);
+                }else{
+                  toastr.error("Ocurrió un error, o no se puede eliminar el impuesto");
                 }
+            },error: function(e){
+              toastr.error("Ocurrió un error, o no se puede eliminar el impuesto");
             }
         });
     });

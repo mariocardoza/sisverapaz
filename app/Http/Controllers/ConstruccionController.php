@@ -100,8 +100,8 @@ class ConstruccionController extends Controller
      */
     public function show($id)
     {
-        $construcciones = Construccion::findorFail($id);
-        return view('construcciones.show',compact('construcciones'));
+        $c = Construccion::findorFail($id);
+        return view('construcciones.show',compact('c'));
     }
 
     /**

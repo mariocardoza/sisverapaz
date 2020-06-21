@@ -171,12 +171,11 @@
                 <div class="col-md-12">
                   <input type="hidden" name="lat" id="lat">
                   <input type="hidden" name="lng" id="lng">
-                  <input type="hidden" name="direccion_inmueble" id="direcc">
                   <input type="hidden" name="contribuyente_id" value="{{$c->id}}">
 
                   <div class="form-group">
                     <label for="" class="control-label">Dirección</label>
-                    <h5 id="ladireccion"></h5>
+                    <textarea class="form-control" name="direccion_inmueble" id="direcc" rows="2"></textarea>
                   </div>
                 </div>
                 <div class="col-md-12">

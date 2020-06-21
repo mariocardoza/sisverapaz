@@ -3,7 +3,7 @@ window.onload = function () {
     var selectedShape;
 
     function deletePathMap () {
-        Swal.fire({
+        swal({
             title: 'Esta seguro que desea borrar el área seleccionada?',
             text: "Una vez borrada no podrá recuperar la información",
             type: 'warning',
@@ -36,15 +36,19 @@ window.onload = function () {
     }
 
     function servidorAjax(pointers, formulario) {
-        $.post("cementerios", {
-            pointers: pointers, form: formulario
-        }).done(function(respuesta) {
-            Swal.fire({
+        $.ajax({
+            url:'../cementerios',
+            type:'post',
+            dataType:'json',
+            data:{pointers,form:formulario}
+        }).
+        done(function(respuesta) {
+            swal({
                 title: 'Éxito!',
                 text: 'Hemos guardo con éxito los datos del cementerio',
                 type: 'success'
             }).then(function() {
-                window.location.reload();
+                window.href="../cementerios/"+respuesta.id;
             });
         }).fail(function(err){
             toastr.error(err);

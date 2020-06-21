@@ -7,6 +7,7 @@ use App\Http\Requests\ContribuyenteRequest;
 use App\Contribuyente;
 use Carbon\Carbon;
 use App\Bitacora;
+use Response;
 
 class ContribuyenteController extends Controller
 {
@@ -126,6 +127,89 @@ class ContribuyenteController extends Controller
     {
         //
     }
+
+    public function pagos($id)
+    {
+        $c=Contribuyente::findorFail($id);
+        return view('contribuyentes.pagos',\compact('c'));
+    }
+
+    /* Generar pagos del contribuyente por sus inmuebles */
+    public function generarPagosContribuyente(Request $request, Response $response) {
+        // Verificando las fechas del sistema
+        $fechaActual = date('d');
+        $mesYear = date('m/Y');
+  
+        if(($fechaActual >= 25 && $fechaActual <= 31)){
+  
+          if(Factura::where('mesYear', $mesYear)->first()){
+            return json_encode([
+              "message"   => 'No puedes ingresar 2 veces las factura de este mes',
+              "error"     => true
+            ], 500);
+          }
+  
+          $factura= null;
+          $elmes=intVal(date("m"));
+          $elmes++;
+          $venci=date("Y")."-".$elmes."-28";
+          $facturaArray = array(
+            'mueble_id'             => 0,
+            'mesYear'               => date('m/Y'),
+            'fechaVecimiento'       => $venci,
+            'pagoTotal'             => 0.00
+          );
+          $este=0;
+          $contribuyentesAll = Contribuyente::select('id')->get();
+          $arra=[];
+          foreach ($contribuyentesAll as $value) {
+              $inmueblesContribuyente = Inmueble
+                  ::where('estado', 1)
+                  ->where('contribuyente_id', $value['id'])
+                  ->with('tipoServicio')
+                  ->select('id','metros_acera')
+              ->get();
+              
+              $este++;
+              foreach ($inmueblesContribuyente as $value) {
+                
+                  $total = 0;
+                  $arrayFacturaItems = array();
+                  if(@count($value->tipoServicio) > 0){
+                    $facturaArray['mueble_id'] = $value['id'];
+                    
+                    foreach ($value->tipoServicio as $item) {
+                      $precio = ($item['isObligatorio'] == 1) ? 
+                          $precio = floatval($item['costo']) : 
+                          floatval($value['metros_acera']) * floatval($item['costo']);
+    
+                         array_push($arrayFacturaItems, new \App\FacturasItems([
+                          "tipoinmueble_id" => $item->pivot['id'],
+                          "precio_servicio" => $precio
+                        ])); 
+                        //$arra[]=$item->pivot;
+                      $total += $precio;
+                    }
+                    $facturaArray["pagoTotal"]=$total;
+                    $facturaArray["codigo"]=date("Yidisus");
+                    $factura = Factura::create($facturaArray);
+                    
+                     $factura->items()->saveMany($arrayFacturaItems);
+                  }
+              }
+          }
+          return json_encode([
+              "message" => 'Peticion realizada con exito',
+              "error"   => false,
+              
+            ]);
+        }else{
+          return json_encode([
+            "message" => 'La fechas aceptadas para la creacion de factura es cada 25 y/o 30-31 de mes',
+            "error"   => true
+          ]);
+        }
+      }
 
     public function baja($id,Request $r)
     {

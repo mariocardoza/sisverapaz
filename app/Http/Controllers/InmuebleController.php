@@ -157,7 +157,75 @@ class InmuebleController extends Controller
      */
     public function edit(Inmueble $inmueble)
     {
-        //
+        $modal="";
+        try{
+            $modal.='<div class="modal fade" tabindex="-1" id="modal_einmueble" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="gridSystemModalLabel">Editar un inmueble</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form_einmueble" class="">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label"># Catastral</label>
+                              <input type="text" name="numero_catastral" value="'.$inmueble->numero_catastral.'" autocomplete="off" placeholder="Digite el número catastral" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="" class="control-label">Ancho inmueble (mts)</label>
+                                  <input type="number" value="'.$inmueble->ancho_inmueble.'" name="ancho_inmueble" placeholder="Digite el ancho" class="form-control">
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="" class="control-label">Largo inmueble (mts)</label>
+                                  <input type="number" name="largo_inmueble" value="'.$inmueble->largo_inmueble.'" placeholder="Digite el largo" class="form-control">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label"># Escritura</label>
+                              <input type="text" name="numero_escritura" value="'.$inmueble->numero_escritura.'" autocomplete="off" placeholder="Digite el número de escritura" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="" class="control-label">Metros de acera</label>
+                              <input type="text" name="metros_acera" value="'.$inmueble->metros_acera.'" autocomplete="off" placeholder="Digite la longitud de la acera (mts)" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+          
+                            <div class="form-group">
+                              <label for="" class="control-label">Dirección</label>
+                              <textarea class="form-control" name="direccion_inmueble" id="" rows="2">'.$inmueble->direccion_inmueble.'</textarea>
+                            </div>
+                          </div>
+            
+                      </div>
+                    
+                </div>
+                <div class="modal-footer">
+                  <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="button" data-id="'.$inmueble->id.'" class="btn btn-success submit_editinmueble">Registrar</button></center>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>';
+          return array(1,"exito",$modal);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -171,17 +239,15 @@ class InmuebleController extends Controller
     {
       $all = $request->all();
 
-      $inmueble->metros_acera = $all['object']['metros_acera'];
-      $inmueble->medida_inmueble = $all['object']['medida_inmueble'];
-      $inmueble->numero_catastral = $all['object']['numero_catastral'];
-      $inmueble->numero_escritura = $all['object']['numero_escritura'];
-      $inmueble->direccion_inmueble = $all['object']['direccion_inmueble'];
+      $inmueble->metros_acera = $all['metros_acera'];
+      $inmueble->ancho_inmueble = $all['ancho_inmueble'];
+      $inmueble->largo_inmueble = $all['largo_inmueble'];
+      $inmueble->numero_catastral = $all['numero_catastral'];
+      $inmueble->numero_escritura = $all['numero_escritura'];
+      $inmueble->direccion_inmueble = $all['direccion_inmueble'];
       
       if($inmueble->save()) {
-          return array(
-            'response' => true,
-            "inmueble" => $inmueble
-          );
+          return array(1,"exito");
         }else{
           return array(
             'response' => false,
