@@ -32,8 +32,9 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        $categorias = Categoria::all();
-        return view('categorias.create',compact('categorias'));
+        /*$categorias = Categoria::all();
+        return view('categorias.create',compact('categorias'));*/
+        return view('categorias.create');
     }
 
     /**
@@ -71,8 +72,7 @@ class CategoriaController extends Controller
      */
     public function show($id)
     {
-        $categoria = Categoria::findorFail($id);
-        return view('categorias.show',compact('categoria'));
+        //
     }
 
     /**
@@ -83,8 +83,9 @@ class CategoriaController extends Controller
      */
     public function edit($id)
     {
-        $categoria = Categoria::findorFail($id);
-        return view('categorias.edit',compact('categoria'));
+        $categoria = Categoria::find($id);
+
+        return array(1,"exitoso",$categoria);
     }
 
     /**
@@ -97,9 +98,14 @@ class CategoriaController extends Controller
     public function update(Request $request, $id)
     {
         $categoria = Categoria::find($id);
-        $categoria->fill($request->All());
+        if($categoria->nombre_categoria != $request->nombre_categoria){
+            $this->validate($request,['nombre_categoria'=> 'required|unique:categorias|min:5']);
+        }
+
+        $categoria->nombre_categoria = $request->nombre_categoria;
         $categoria->save();
-        return redirect('/categorias')->with('mensaje','Categoría actualizada');
+
+        return array(1,"éxito");
     }
 
     /**
@@ -113,19 +119,15 @@ class CategoriaController extends Controller
         //
     }
 
-    public function baja($cadena)
+    public function baja(request $request, $id)
     {
-        $datos = explode("+",$cadena);
-        $id = $datos[0];
-        $motivo = $datos[1];
-
         $categoria = Categoria::find($id);
         $categoria->estado = 2;
-        $categoria->motivo = $motivo;
+        $categoria->motivo = $request->motivo;
         $categoria->fechabaja = date('Y-m-d');
         $categoria->save();
         bitacora('Dió de baja categoría');
-        return redirect('/categorias')->with('mensaje','Categoría dada de baja');
+        return array(1);
     }
 
     public function alta($id)
@@ -136,6 +138,6 @@ class CategoriaController extends Controller
         $categoria->fechabaja = null;
         $categoria->save();
         Bitacora::bitacora('Dió de alta una categoría');
-        return redirect('/categorias')->with('mensaje','Categoría dada de alta');
+        return array(1);
     }
 }

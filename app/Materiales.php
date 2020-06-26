@@ -42,6 +42,13 @@ class Materiales extends Model
                                     <input type="text" class="form-control" name="nombre" value="'.$material->nombre.'">
                                 </div>       
                             </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Precio estimado</label>
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" name="precio_estimado" value="'.$material->precio_estimado.'">
+                                </div>       
+                            </div>
                             
                             <div class="form-group">
                                 <label class="control-label col-md-4">Categoría</label>
@@ -54,7 +61,7 @@ class Materiales extends Model
                                             $modal.='<option value="'.$categoria->id.'">'.$categoria->nombre_categoria.'</opcion>';
                                         endif;
                                     endforeach;
-                                $modal.='</select></div>       
+                                $modal.='</select></div>   
                             </div>
                             
                             <div class="form-group">

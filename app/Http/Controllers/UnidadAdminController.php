@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UnidadRequest;
 use App\Unidad;
+use Validator;
 
 class UnidadAdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +25,7 @@ class UnidadAdminController extends Controller
           return response(Unidad::where('estado',1)->get());
         }else{
           $unidades = Unidad::where('estado',1)->get();
+          //dd($unidades);
           return view('unidades.index',compact('unidades'));
         }
     }
@@ -80,7 +86,8 @@ class UnidadAdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $unidad = Unidad::find($id);
+        return array(1,"exitoso",$unidad);
     }
 
     /**
@@ -92,7 +99,15 @@ class UnidadAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $unidad = Unidad::find($id);
+        if($unidad->nombre_unidad!=$request->nombre_unidad){
+            $this->validate($request,['nombre_unidad'=>'required|unique:unidades|min:4']);
+        }
+        console($nombre_unidad);
+        $unidad->nombre_unidad = $request->nombre_unidad;
+        $unidad->save();
+
+        return array(1,"éxito");
     }
 
     /**

@@ -11,6 +11,14 @@
 </div>
 
 <div class="form-group">
+    <label class="control-label col-md-4">Precio estimado</label>
+    <div class="col-md-6">
+      
+        {{Form::number('precio_estimado',null,['class'=>'form-control','placeholder'=>'Digite el precio','required'])}}
+    </div>       
+</div>
+
+<div class="form-group">
     <label class="control-label col-md-4">Categoría</label>
     <div class="col-md-6">
         {{ Form::select('categoria_id',$categorias, null,['placeholder'=>'Seleccione la categoría','class' => 'chosen-select-width']) }}

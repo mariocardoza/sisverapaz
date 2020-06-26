@@ -36,7 +36,7 @@
                     <td>
                       @if($afp->estado == 1 )
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="{{ url('afps/'.$afp->id.'/edit') }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
+                        <a href="{{ url('afps/'.$afp->id.'/edit') }}" id="edit" data-id="{{$afp->codigo}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
                         <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$afp->id.",'afps')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
@@ -92,17 +92,20 @@
     });
 
     //////EDITAR
-    $(document).on("click", "#edit", function(){
+    $(document).on("click", "#edit", function(e){
+      e.preventDefault();
       var id = $(this).attr("data-id");
+      console.log(id);
       $.ajax({
         url:"afps/"+id+"/edit",
         type:"get",
         data:{},
         success:function(retorno){
           if(retorno[0] == 1){
+            //console.log(retorno[2]);
             $("#modal_editar").modal("show");
-            $("#e_afp").val(retorno[2].afp);
-            $("#elid").val(retorno[2].id);
+            $("#e_afp").val(retorno[2].nombre);
+            $("#elid").val(retorno[2].codigo);
           }
           else{
             toastr.error("error");
@@ -112,18 +115,21 @@
     });
     //fin modal
     $(document).on("click", "#btneditar", function(e){
+      e.preventDefault();
+      //alert("llego");
       var id = $("#elid").val();
-      var afp = $("#e_afp").val();
+      var afp = $("#e_nombre").val();
+
       $.ajax({
         url:"afps/"+id,
         type:"put",
-        data:{afp},
+        data:{nombre},
         success:function(retorno){
           if(retorno[0] == 1)
           {
             toastr.success("Exitoso");
             $("#modal_editar").modal("hide");
-            window.location.reload();
+            //window.location.reload();
           }
           else{
             toastr.error("error");
@@ -132,6 +138,7 @@
       });
     }); //FIN BOTON
 
+    $(document).on()
   });
 </script>
 @endsection

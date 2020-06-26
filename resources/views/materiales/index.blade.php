@@ -24,7 +24,9 @@
 		<div class="box-body table-responsive">
 			<table class="table table-striped table-hover" id="example2">
 				<thead>
+					<th>N°</th>
 					<th>Nombre de catálogo</th>
+					<th>Precio estimado</th>
 					<th>Unidad de medida</th>
 					<th>Categoría</th>
 					<th>Tipo</th>
@@ -35,7 +37,9 @@
 				@foreach($materiales as $material)
 				<tr>
 					<?php $contador++ ?>
+					<td>{{ $contador }}</td>
 					<td>{{ $material->nombre }}</td>
+					<td>{{ $material->precio_estimado }}</td>
 					<td>{{ $material->unidadmedida->nombre_medida }}</td>
 					<td>{{ $material->categoria->nombre_categoria }}</td>
 					<td>

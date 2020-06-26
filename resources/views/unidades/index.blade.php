@@ -103,8 +103,10 @@
             });
         });
         ///////FUNCIÓN EDITAR
-        $(document).on("click", "#edit", function(){
+        $(document).on("click", "#edit", function(e){
+            e.preventDefault();
             var id = $(this).attr("data-id");
+            console.log(id);
             $.ajax({
                 url:"unidades/"+id+"/edit",
                 type:"get",
@@ -123,12 +125,14 @@
         });//Fin modal editar
 
         $(document).on("click", "#btneditar", function(e){
+            e.preventDefault();
+            alert("llegó");
             var id = $("#elid").val();
-            var unidad = $("#e_unidad").val();
+            var nombre_unidad = $("#e_unidad").val();
             $.ajax({
                 url:"unidades/"+id,
                 type:"put",
-                data:{unidad},
+                data:{nombre_unidad},
                 success:function(retorno){
                     if(retorno[0] == 1)
                     {

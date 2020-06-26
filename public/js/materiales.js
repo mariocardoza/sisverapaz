@@ -101,12 +101,12 @@ $(document).ready(function(e){
 			success: function(json){
 				swal.closeModal();
 				if(json[0]==1){
-					$("#aqui_modal").empty();
-					$("#aqui_modal").html(json[2]);
+					$("#aqui_modal").empty(); //es un div que tiene qui modal en el index
+					$("#aqui_modal").html(json[2]); //Trae todo para el dom
 					$("#md_material_edit").modal("show");
 					$(".chosen-select-width").chosen({
 						'width':'100%'
-					});
+					});//para convertir el selct y darle estilo
 				}else{
 
 				}

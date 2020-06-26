@@ -35,7 +35,7 @@
         <h4 class="modal-title" id="myModalLabel">Editar</h4>
       </div>
       <div class="modal-body">
-        <form id="form-edit">
+        <form id="form_edit">
           <div class="form_group">
             <label for="">AFP</label>
             <input type="text" name="afp" id="e_afp" class="form-control">
@@ -45,8 +45,8 @@
       </div>
       <div class="modal-footer">
         <center>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-          <button id="btneditar" type="button" class="btn btn-success">Editar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button id="btneditar" type="button" class="btn btn-primary">Editar</button>
         </center>
       </div>
     </div>

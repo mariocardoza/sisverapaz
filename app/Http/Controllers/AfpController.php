@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\afp;
+use Validator;
+
 class AfpController extends Controller
 {
     /**
@@ -14,6 +16,7 @@ class AfpController extends Controller
     public function index()
     {
         $afps=afp::where('estado',1)->get();
+        //dd($afps);
         return view("afps.index",compact('afps'));
     }
 
@@ -58,7 +61,8 @@ class AfpController extends Controller
      */
     public function edit($id)
     {
-        //
+        $afp = Afp::find($id);
+        return array(1,"exitoso",$afp);
     }
 
     /**
@@ -70,7 +74,18 @@ class AfpController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try{
+            $afp = Afp::find($id);
+        if($afp->nombre!= $request->nombre)
+        {
+            $this->validate($request,['nombre'=> 'required|unique:afps|min:5']);
+        }
+        $afp->nombre = $request->nombre;
+        $afp->save();
+        return array(1,"éxito");
+        } catch(exception $e){
+            return array(-1);
+        }
     }
 
     /**
