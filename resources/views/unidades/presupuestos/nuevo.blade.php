@@ -1,3 +1,8 @@
+@php
+    $medidas=[];
+    $medidas=App\UnidadMedida::get();
+@endphp
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -5,6 +10,15 @@
             <div class="" id="aqui_select">
             </div>
           </div>
+    </div>
+    <div class="col-md-6">
+      <label for="" class="control-label">Unidad de medida</label>
+      <select name="unidad_medida" id="" class="chosen-select-width">
+        <option value="">Seleccione..</option>
+        @foreach ($medidas as $m)
+            <option value="{{$m->id}}">{{$m->nombre_medida}}</option>
+        @endforeach
+      </select>
     </div>
 </div>
   <br />

@@ -50,9 +50,8 @@ class Presupuestounidad extends Model
     public static function materiales($id){
       $presu=Presupuestounidad::find($id);
         $materiales = DB::table('materiales as m')
-                      ->select('m.*','c.nombre_categoria','u.id as elid','u.nombre_medida')
+                      ->select('m.*','c.nombre_categoria')
                       ->join('categorias as c','m.categoria_id','=','c.id')
-                      ->join('unidad_medidas as u','m.unidad_id','=','u.id')
                         ->whereNotExists(function ($query) use ($id)  {
                              $query->from('presupuestounidaddetalles')
                                 ->whereRaw('presupuestounidaddetalles.material_id = m.id')
@@ -68,8 +67,7 @@ class Presupuestounidad extends Model
                     <td>'.($key+1).'</td>
                     <td>'.$material->nombre.'</td>
                     <td>'.$material->nombre_categoria.'</td>
-                    <td>'.$material->nombre_medida.'</td>
-                    <td><button type="button" data-unidad="'.$material->elid.'" data-nombre="'.$material->nombre.'" data-material="'.$material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
+                    <td><button type="button" data-nombre="'.$material->nombre.'" data-material="'.$material->id.'" class="btn btn-primary btn-sm" id="esteagrega"><i class="fa fa-check"></i></button></td>
                   </tr>';
         }
         $select.='</select>';
@@ -156,7 +154,7 @@ class Presupuestounidad extends Model
                 $html.='<tr>
                   <td>'.($i+1).'</td>
                   <td>'.$detalle->material->nombre.'</td>
-                  <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
+                  <td>'.$detalle->unidadmedida->nombre_medida.'</td>
                   <td>'.number_format($detalle->enero).'</td>
                   <td>'.number_format($detalle->febrero).'</td>
                   <td>'.number_format($detalle->marzo).'</td>

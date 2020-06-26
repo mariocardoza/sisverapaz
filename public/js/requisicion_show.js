@@ -665,11 +665,12 @@ $(document).ready(function(e){
       $(document).on("click",".esteagrega", function(e){
         var material=$(this).attr("data-material");
         var disponible=$(this).attr("data-disponible");
+        var unidad_medida=$(this).attr("data-unidad");
         $.ajax({
           url:'../requisiciones/modalagregar',
           type:'POST',
           dataType:'json',
-          data:{material,disponible,elid},
+          data:{material,disponible,elid,unidad_medida},
           success: function(json){
             if(json[0]==1){
               $("#modal_aqui").empty();

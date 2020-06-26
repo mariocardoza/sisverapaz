@@ -189,12 +189,12 @@ class Requisicione extends Model
                 <td>'.($key+1).'</td>
                 <td>'.$material->material->nombre.'</td>
                 <td>'.$material->material->categoria->nombre_categoria.'</td>
-                <td>'.$material->material->unidadmedida->nombre_medida.'
+                <td>'.$material->unidadmedida->nombre_medida.'
                   <input type="hidden" name="materiales[]" value="'.$material->material->id.'"/>
                 </td>
                 <td>'.$material->disponibles->count().'</td>
                 <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
-                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
+                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
               </tr>';
     }
   endif;
@@ -591,7 +591,7 @@ class Requisicione extends Model
               <div>
                 <input type="text" class="form-control" name="cantidad" >
                 <input type="hidden" class="form-control" name="requisicion_id" value="'.$data['elid'].'">
-                <input type="hidden" class="form-control" name="unidad_medida" value="'.$material->unidad_id.'">
+                <input type="hidden" class="form-control" name="unidad_medida" value="'.$data['unidad_medida'].'">
                 <input type="hidden" class="form-control" name="materiale_id" value="'.$material->id.'">
               </div>
             </div>
