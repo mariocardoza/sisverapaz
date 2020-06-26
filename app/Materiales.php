@@ -11,7 +11,7 @@ class Materiales extends Model
     protected $guarded=[];
 
     public function unidadmedida(){
-    	return $this->belongsTo('App\UnidadMedida','unidad_id');
+    	return $this->belongsTo('App\UnidadMedida','unidad_id')->withDefault();
     }
 
     public function categoria(){
