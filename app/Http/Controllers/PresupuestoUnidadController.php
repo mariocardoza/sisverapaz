@@ -172,6 +172,12 @@ class PresupuestoUnidadController extends Controller
         return view('unidades.presupuestos.show',compact('presupuesto'));
     }
 
+    public function show2($id)
+    {
+        $retorno=Presupuestounidad::show($id);
+        return $retorno;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

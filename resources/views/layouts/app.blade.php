@@ -14,9 +14,9 @@
   {!! Html::style('css/sisverapaz.css')!!}
   <link rel="stylesheet" type="text/css" media="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css">
   
-  {!! Html::script('js/sisverapaz.js?cod='.$cod) !!}
+  {!! Html::script('js/sisverapaz.js') !!}
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
-  {!! Html::script('js/funcionesgenerales.js?cod='.$cod) !!}
+  {!! Html::script('js/funcionesgenerales.js') !!}
   <script src="{{asset('js/gmaps.min.js')}}"></script>
 <style>
   .error{

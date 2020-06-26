@@ -25,6 +25,13 @@
     </a>
 </li>
 
+<li class="treeview {{Route::currentRouteName() == 'solicitudes.index' ? 'active':Route::currentRouteName()== 'solicitudes.show' ? 'active':null}}">
+    <a href="{{url('solicitudes')}}">
+        <i class="fa fa-bar-chart"></i>
+        <span>Solicitudes</span>
+    </a>
+</li>
+
 <li class="treeview {{ Route::currentRouteName() == 'proveedores.index' ? 'active':Route::currentRouteName()== 'proveedores.show' ? 'active':null}}">
     <a href="{{ url('proveedores') }}">
         <i class="fa fa-user-circle-o"></i>

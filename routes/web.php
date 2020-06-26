@@ -263,6 +263,9 @@ Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@c
 Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
+/// estas son para solicitudes de bienes
+Route::Resource('solicitudes','SolicitudController');
+
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 

@@ -13,9 +13,13 @@ class AddCodigoToMateriales extends Migration
      */
     public function up()
     {
-        Schema::table('materialtable', function (Blueprint $table) {
+        Schema::table('materiales', function (Blueprint $table) {
             $table->string('codigo')->nullable();
             $table->dropColumn('unidad_id');
+        });
+
+        Schema::table('requisiciondetalles', function (Blueprint $table) {
+            $table->integer('combinada')->unsigned()->default(0);
         });
     }
 
@@ -26,10 +30,14 @@ class AddCodigoToMateriales extends Migration
      */
     public function down()
     {
-        Schema::table('materialtable', function (Blueprint $table) {
+        Schema::table('materiales', function (Blueprint $table) {
             $table->dropColumn('codigo');
-            $string('unidad_id');
+            $table->string('unidad_id');
             $table->foreign('unidad_id')->references('id')->on('unidads');
+        });
+
+        Schema::table('requisiciondetalles', function (Blueprint $table) {
+            $table->dropColumn('combinada');
         });
     }
 }

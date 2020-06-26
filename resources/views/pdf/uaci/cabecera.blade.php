@@ -2,7 +2,7 @@
 
     <div class="row">
       <div class="col-xs-1">
-          <img  src="{{asset('img/escudo.png')}}" width="80px" height="100px" alt="">
+          <img  src="{{asset('img/escudoes.gif')}}" width="80px" height="100px" alt="">
       </div>
       <div class="col-xs-9">
         
@@ -19,7 +19,7 @@
 
       </div>
       <div class="col-xs-1">
-          <img src="{{asset('img/escudoes.gif')}}" class="" width="80px" height="90px" alt="escudo El Salvador">
+          <img src="{{asset('img/escudo.png')}}" class="" width="80px" height="90px" alt="escudo El Salvador">
       </div>
     </div>
   </div>

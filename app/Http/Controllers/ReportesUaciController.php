@@ -158,9 +158,9 @@ class ReportesUaciController extends Controller
     public function presupuestounidad($id)
     {
       $presupuesto = \App\Presupuestounidad::find($id);
-      $tipo = "PRESUPUESTO DE UNIDADES";
+      $tipo = "PRESUPUESTO ANUAL DE OPERACIONES ".$presupuesto->anio;
       $pdf = \PDF::loadView('pdf.uaci.presupuestounidad',compact('presupuesto','tipo'));
-      $pdf->setPaper('letter', 'portrait');
+      $pdf->setPaper('letter', 'landscape');
       return $pdf->stream('presupuestounidad.pdf');
     }
 }

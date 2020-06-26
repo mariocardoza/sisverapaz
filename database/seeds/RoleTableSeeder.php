@@ -22,8 +22,8 @@ class RoleTableSeeder extends Seeder
             'roles',
             'users',
             'porcentajes',
-            //'empleados',
-            //'unidads'
+            'empleados',
+            'unidads'
         ]);
 
       $por= new Porcentaje();

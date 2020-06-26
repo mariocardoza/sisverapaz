@@ -71,7 +71,7 @@ class PresupuestoUnidadDetalleController extends Controller
      */
     public function edit($id)
     {
-        $retorno=Presupuestounidaddetalle::modal_editar($id);
+        $retorno=\App\Presupuestounidad::editar($id);
         return $retorno;
     }
 

@@ -1,8 +1,16 @@
 @extends('pdf.plantilla')
 
 @include('pdf.uaci.cabecera')
-@include('pdf.uaci.pie')
 @section('reporte')
+<script type="text/php">
+    if ( isset($pdf) ) {
+        $pdf->page_script('
+            $font = $fontMetrics->get_font("Arial, Helvetica, sans-serif", "normal");
+            $pdf->text(652, 580, "Página $PAGE_NUM de $PAGE_COUNT", $font, 10);
+        ');
+    }
+
+</script>
 <div id="content">
 	<br>
 	<table width="100%">
@@ -26,48 +34,51 @@
 			<tr>
 				<th>N°</th>
 				<th>Nombre</th>
-				<th>Unidad de medida</th>
 				<th>Cantidad</th>
+				<th>Unidad/m</th>
 				<th>Precio</th>
-				<th>Subtotal</th>
+				<th>Ene</th>
+				<th>Feb</th>
+				<th>Mar</th>
+				<th>Abr</th>
+				<th>May</th>
+				<th>Jun</th>
+				<th>Jul</th>
+				<th>Ago</th>
+				<th>Sep</th>
+				<th>Oct</th>
+				<th>Nov</th>
+				<th>Div</th>
 				<?php $correlativo=0?>
 			</tr>
 		</thead>
 		<tbody>
-			@php
-				$categ=array();
-				if(isset($presupuesto->presupuestodetalle)):
-					foreach($presupuesto->presupuestodetalle as $detalle):
-						if(!in_array($detalle->material->categoria->nombre_categoria,$categ)){
-							$categ[]=$detalle->material->categoria->nombre_categoria;
-						}
-					endforeach;
-				endif;
-			@endphp
-			@foreach($categ as $c)
-				<tr><th colspan="6" class="text-center">{{$c}}</th></tr>
+			
 				@foreach($presupuesto->presupuestodetalle as $correlativo => $presupuestounidad)
 				
-				@if(($c==$presupuestounidad->material->categoria->nombre_categoria))
 				<tr>
 					<td>{{$correlativo+1}}</td>
 					<td>{{ $presupuestounidad->material->nombre }}</td>
-					
-					<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
 					<td>{{ $presupuestounidad->cantidad }}</td>
-					<td class="text-right">${{ number_format($presupuestounidad->precio,2) }}</td>
-					<td class="text-right">${{number_format($presupuestounidad->precio*$presupuestounidad->cantidad,2)}}</td>
+					<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
+					<td class="text-right">${{ number_format($presupuestounidad->material->precio_estimado,2) }}</td>
+					<td>{{$presupuestounidad->enero}}</td>
+					<td>{{$presupuestounidad->febrero}}</td>
+					<td>{{$presupuestounidad->marzo}}</td>
+					<td>{{$presupuestounidad->abril}}</td>
+					<td>{{$presupuestounidad->mayo}}</td>
+					<td>{{$presupuestounidad->junio}}</td>
+					<td>{{$presupuestounidad->julio}}</td>
+					<td>{{$presupuestounidad->agosto}}</td>
+					<td>{{$presupuestounidad->septiembre}}</td>
+					<td>{{$presupuestounidad->octubre}}</td>
+					<td>{{$presupuestounidad->noviembre}}</td>
+					<td>{{$presupuestounidad->diciembre}}</td>
 				</tr>
-				@endif
-				@endforeach
+			
 			@endforeach
 		</tbody>
-		<tfoot>
-			<tr>
-				<th colspan="5"></th>
-				<th class="text-right">${{number_format(App\Presupuestounidad::total_presupuesto($presupuesto->id),2)}}</th>
-			</tr>
-		</tfoot>
+
 	</table>
 </div>
 @endsection
