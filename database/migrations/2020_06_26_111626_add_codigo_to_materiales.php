@@ -32,8 +32,7 @@ class AddCodigoToMateriales extends Migration
     {
         Schema::table('materiales', function (Blueprint $table) {
             $table->dropColumn('codigo');
-            $table->string('unidad_id');
-            $table->foreign('unidad_id')->references('id')->on('unidads');
+            $table->string('unidad_id')->nullable();
         });
 
         Schema::table('requisiciondetalles', function (Blueprint $table) {
