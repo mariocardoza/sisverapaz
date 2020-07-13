@@ -40,14 +40,22 @@
 <div>
   <div class="row">
       <br>
-      <p style="font-size:14">Reunidos en: la <em> Alcaldía municipal de Verapaz, departamento de San Vicente;</em><b> a las: @if($orden->cotizacion->solicitudcotizacion->tipo==1) {{$orden->cotizacion->solicitudcotizacion->proyecto->fecha_acta->format('H:i a')}}
+      <p style="font-size:14">Reunidos en: la <em> Alcaldía municipal de Verapaz, departamento de San Vicente;</em><b> a las: 
+        @if($orden->cotizacion->solicitudcotizacion->tipo==1) 
+        {{$orden->cotizacion->solicitudcotizacion->proyecto->fecha_acta->format('H:i a')}}
       del día: {{fechaCastellano($orden->cotizacion->solicitudcotizacion->proyecto->fecha_acta)}}</b></p>
       <p style="font-size:14"> Los señores: <b>{{$orden->cotizacion->proveedor->nombre}}</b> Ofertante y <b>{{Auth()->user()->empleado->nombre}}</b> Jefe de la unidad de adquisiciones y contrataciones institucionales.</p>
-      @else {{$orden->cotizacion->solicitudcotizacion->requisicion->fecha_acta->format('H:i a')}}
-        del día: {{fechaCastellano($orden->cotizacion->solicitudcotizacion->requisicion->fecha_acta)}}  .<p>
+      @elseif($orden->cotizacion->solicitudcotizacion->tipo==2) 
+      {{$orden->cotizacion->solicitudcotizacion->requisicion->fecha_acta->format('H:i a')}}
+        del día: {{fechaCastellano($orden->cotizacion->solicitudcotizacion->requisicion->fecha_acta)}} .<p>
             <p style="font-size:14"> Los señores: <b>{{$orden->cotizacion->proveedor->nombre}}</b> Ofertante y <b>{{$orden->cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre}}</b> Jefe de la {{$orden->cotizacion->solicitudcotizacion->requisicion->unidad->nombre_unidad}}.</p>
-            @endif
-          <p style="font-size:14">A efecto de constatar que lo que acontinuación de detalla, se entreta y recibe de acuerdoa lo establecido en la Orden de compra correspondiente:</p>
+      @else
+      {{$orden->cotizacion->solicitudcotizacion->solirequi->fecha_acta->format('H:i a')}}
+        del día: {{fechaCastellano($orden->cotizacion->solicitudcotizacion->solirequi->fecha_acta)}} .<p>
+            <p style="font-size:14"> Los señores: <b>{{$orden->cotizacion->proveedor->nombre}}</b> Ofertante y <b>{{$orden->adminorden}}</b> Jefe de la Unidad de Adquisiciones y Contrataciones Institucional .</p>
+            
+      @endif
+          <p style="font-size:14">A efecto de constatar que lo que acontinuación de detalla, se entrega y recibe de acuerdo a lo establecido en la Orden de compra correspondiente:</p>
           <p style="font-size:14">
             <table class="table table-bordered"><thead>
               <tr>
@@ -59,7 +67,7 @@
               {{-- <b>{{$detalle->material->nombre}}@if(!$loop->last),@else. @endif</b> --}}
               <tr>
               <th>{{$detalle->material->nombre}}</th>
-              <th>{{$detalle->material->unidadmedida->nombre_medida}}</th>
+              <th>{{$detalle->unidadmedida->nombre_medida}}</th>
               <th>{{$detalle->cantidad}}</th>
               </tr>
               
@@ -76,8 +84,10 @@
           <p class="text-right">Firma  ___________________</p>
           @if($orden->cotizacion->solicitudcotizacion->tipo==1)
           <p class="text-right">{{Auth()->user()->empleado->nombre}}</p>
-          @else
+          @elseif($orden->cotizacion->solicitudcotizacion->tipo==2)
         <p class="text-right">{{$orden->cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre}}</p>
+        @else
+        <p class="text-right">{{$orden->cotizacion->solicitudcotizacion->encargado}}</p>
           @endif
   </div>
 </div>

@@ -12,6 +12,7 @@ use App\Presupuesto;
 use App\Presupuestodetalle;
 use App\Solicitudcotizacion;
 use App\Requisicione;
+use App\SolicitudRequisicion;
 use DB;
 use App\Http\Requests\CotizacionRequest;
 
@@ -103,6 +104,37 @@ class CotizacionController extends Controller
             $solicitud->save();
 
             $requisicion=Requisicione::findorFail($request->idrequisicion);
+            $requisicion->estado=4;
+            $requisicion->save();
+
+              DB::commit();
+            return array(1,"exito",$solicitud->id);
+          }catch(\Exception $e){
+              DB::rollback();
+            return response()->json([
+              'mensaje' => $e->getMessage()
+            ]);
+          }
+
+        }
+    }
+
+    public function seleccionarrr(Request $request)
+    {
+        if($request->Ajax())
+        {
+          DB::beginTransaction();
+          try{
+            $cotizacion=Cotizacion::findorFail($request->idcot);
+            $cotizacion->seleccionado=true;
+            $cotizacion->estado=1;
+            $cotizacion->save();
+
+            $solicitud=Solicitudcotizacion::findorFail($cotizacion->solicitudcotizacion->id);
+            $solicitud->estado=4;
+            $solicitud->save();
+
+            $requisicion=SolicitudRequisicion::findorFail($request->idsolirequi);
             $requisicion->estado=4;
             $requisicion->save();
 

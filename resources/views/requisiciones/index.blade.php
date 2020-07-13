@@ -22,6 +22,7 @@
                   <div class="btn-group">
                     <a href="{{ url('/requisiciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                     <a href="javascript:void(0)" data-tipo="1" class="btn btn-primary elver">Activos</a>
+                    <a href="javascript:void(0)" data-tipo="9" class="btn btn-primary elver">Combinados</a>
                     <a href="javascript:void(0)" data-tipo="2" class="btn btn-primary elver">Rechazados</a>
                     <a href="javascript:void(0)" data-tipo="7" class="btn btn-primary elver">Finalizados</a>
                   </div>
@@ -35,9 +36,14 @@
                   </select>
                 </div>
               </div>
-              
+              <br>
 
-              
+              <div class="col-md-3">
+                <input type="checkbox" name="muchos" class="muchos"> Consolidar 2 o más requisiciones
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-primary combinar" style="display: none;" id="combinar">Consolidar</button>
+              </div>
           </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive" id="aqui_tabla">
@@ -80,6 +86,49 @@
         cargar_poranio(anio);
       }
       
+    });
+
+    $(document).on("change",".muchos",function(e){
+      e.preventDefault();
+      if( $(this).prop('checked') ) {
+        $(".combinar").show();
+      }else{
+        $(".combinar").hide();
+      }
+    });
+
+    //combinar
+    $(document).on("click","#combinar",function(e){
+      e.preventDefault();
+      var requisiciones=new Array();
+      $(".combinar:checked").each(function(){
+        //cada elemento seleccionado
+        requisiciones.push({
+          requisicion_id : $(this).attr("data-id")
+        });
+      });
+      console.log(requisiciones.length);
+        if(requisiciones.length>=2){
+            $.ajax({
+              url:'requisiciones/combinar',
+              dataType:'json',
+              type:'POST',
+              data:{requisiciones},
+              success:function(json){
+                if(json[0]==1){
+                  toastr.success("Proceso realizado con éxito");
+                  location.reload();
+                }else{
+                  toastr.error("Ocurrió un error");
+                }
+              },
+              error: function(e){
+                toastr.error("Ocurrio un error en el servidor");
+              }
+            });
+        }else{
+          toastr.error("Debe seleccionar al menos dos requisiciones");
+        }
     });
   });
 

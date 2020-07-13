@@ -58,6 +58,9 @@ class Requisicione extends Model
       case 7:
         $html.='<span class="col-xs-12 label-success"><strong>Proceso finalizado</strong></span>';
         break;
+      case 9:
+          $html.='<span class="col-xs-12 label-info"><strong>Combinada con otras req.</strong></span>';
+          break;
       default:
         $html.='<span class="col-xs-12 label-success">Default</span>';
         break;
@@ -458,8 +461,11 @@ class Requisicione extends Model
       case 7:
       $requisiciones=Requisicione::where('estado',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
       break;
+      case 9:
+      $requisiciones=Requisicione::where('estado',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      break;
       default:
-      $requisiciones=Requisicione::where('estado','<>',2)->where('estado','<>',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      $requisiciones=Requisicione::where('estado','<>',2)->where('estado','<>',7)->where('estado','<>',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
     }
 
     $html="";
@@ -480,7 +486,7 @@ class Requisicione extends Model
 
     foreach($requisiciones as $key => $requisicion):
       $html.='<tr>
-      <td>'.($key+1).'</td>
+      <td>'.($key+1).'';if($requisicion->estado==1):$html.=' <input type="checkbox" data-id="'.$requisicion->id.'" class="combinar" style="display: none;">';endif;$html.='</td>
       <td>'.$requisicion->codigo_requisicion.'</td>
       <td>'.$requisicion->actividad.'</td>
       <td>'. $requisicion->unidad->nombre_unidad.'</td>';

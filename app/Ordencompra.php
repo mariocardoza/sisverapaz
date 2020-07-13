@@ -53,8 +53,11 @@ class Ordencompra extends Model
               if($cotizacion->solicitudcotizacion->tipo==1):
                 $modal.='<textarea name="actividad" rows="3" class="form-control" readonly>'.$cotizacion->solicitudcotizacion->proyecto->nombre.'
                 </textarea>';
-              else:
+              elseif($cotizacion->solicitudcotizacion->tipo==2):
                 $modal.='<textarea name="actividad" rows="3" class="form-control" readonly>'.$cotizacion->solicitudcotizacion->requisicion->actividad.'
+                </textarea>';
+              else:
+                $modal.='<textarea name="actividad" rows="3" class="form-control" readonly>Compra de bienes o servicios
                 </textarea>';
               endif;
             $modal.='</div>
@@ -83,9 +86,12 @@ class Ordencompra extends Model
             <div class="col-md-6">';
             if($cotizacion->solicitudcotizacion->tipo==1):
               $modal.='<input type="text" name="adminorden" value="'.Auth()->user()->empleado->nombre.'" class="form-control" readonly>';
-            else:
+            elseif($cotizacion->solicitudcotizacion->tipo==2):
             $modal.='<input type="text" name="adminorden" value="'.$cotizacion->solicitudcotizacion->requisicion->user->empleado->nombre.'" class="form-control" readonly>';
-            endif;
+            else:
+              $modal.='<input type="text" name="adminorden" value="'.$cotizacion->solicitudcotizacion->encargado.'" class="form-control" readonly>';
+
+          endif;
             $modal.='</div>
         </div>
         

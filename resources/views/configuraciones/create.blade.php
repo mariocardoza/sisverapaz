@@ -31,6 +31,7 @@
                   <li><a href="#limites" data-toggle="tab">Límites de los proyectos</a></li>
                   <li><a href="#porcentajes" data-toggle="tab">Porcentajes</a></li>
                   <li><a href="#retenciones" data-toggle="tab">Retenciones</a></li>
+                  <li><a href="#emergencia" data-toggle="tab">Emergencia</a></li>
                 </ul>
                 <div class="tab-content">
                   <div class="active tab-pane" id="alcaldia" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
@@ -188,6 +189,38 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="tab-pane" id="emergencia">
+                    <div class="panel-body">
+                        <h3 class="text-center text-center">Hacer declaratoria de emergencia</h3>
+                        <button class="btn btn-primary pull-right nueva_declaratoria" type="button">Nueva declaratoria</button>
+                        <br>
+                        <br>
+                        <table class="table table-stripped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>N°</th>
+                              <th>Acuerdo</th>
+                              <th>Inicio</th>
+                              <th>Fin</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($emergencias as $i=> $e)
+                                <tr>
+                                  <td>{{$i+1}}</td>
+                                  <td>{{$e->numero_acuerdo}}</td>
+                                  <td>{{$e->fecha_inicio->format("d/m/Y")}}</td>
+                                  <td>{{$e->fecha_fin}}</td>
+                                  <td>{{$e->estado}}</td>
+                                </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      
+                    </div>
+                  </div>
                   
                   <!-- /.tab-pane -->
                 </div>
@@ -196,6 +229,40 @@
         </div>
 	</div>
 </div>
+
+<div class="modal fade" tabindex="-1" id="modal_emergencia" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Declaratoria de emergencia</h4>
+      </div>
+      <div class="modal-body">
+          <form id="form_emergencia" class="">
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="" class="control-label">Número de acuerdo</label>
+                      <input type="text" name="numero_acuerdo" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label">Fecha de inicio</label>
+                      <input type="text" name="fecha_inicio" class="form-control fechita" autocomplete="off">
+                    </div>
+                  </div>
+            </div>
+          
+      </div>
+      <div class="modal-footer">
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-success">Registrar</button></center>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
 @endsection
 @section('scripts')
 <script type="text/javascript">
@@ -207,6 +274,29 @@
   	$(document).on("click", "#img_file", function (e) {
         $("#file_1").click();
     });
+
+    ///declaratoria de emergencia
+    $(document).on("click",".nueva_declaratoria",function(e){
+      e.preventDefault();
+      $("#modal_emergencia").modal("show");
+    });
+
+    $(document).on("submit","#form_emergencia",function(e){
+      e.preventDefault();
+      var datos=$("#form_emergencia").serialize();
+      $.ajax({
+        url:'api/emergencia',
+        type:'post',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Emergencia declarada con éxito");
+            location.reload();
+          }
+        }
+      })
+    })
 
     $(document).on("change", "#file_1", function(event) {
         validar_archivo($(this));

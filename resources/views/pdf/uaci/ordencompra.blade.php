@@ -159,6 +159,8 @@
                                 {{$ordencompra->cotizacion->solicitudcotizacion->proyecto->nombre}}
                               @elseif($ordencompra->cotizacion->solicitudcotizacion->tipo==2)
                                 {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->cuenta->nombre}}
+                                @else 
+                                {{$ordencompra->cotizacion->solicitudcotizacion->solirequi->cuenta->nombre}}
                               @endif
                               </td>
                             </tr>

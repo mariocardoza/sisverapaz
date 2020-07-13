@@ -43,3 +43,5 @@ Route::resource('rubros', 'RubroController');
 // Route::post('addPostNegocioApiController', 'NegocioController@negocioPostControllerAdd');
 
 Route::get('presupuestounidades/show2/{id}','PresupuestoUnidadController@show2');
+
+Route::post('emergencia','ConfiguracionController@emergencia');

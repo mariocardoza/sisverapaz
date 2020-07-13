@@ -228,6 +228,7 @@ Route::get('cotizaciones/ver/{id}', 'CotizacionController@cotizar');
 Route::get('cotizaciones/cotizarr/{id}', 'CotizacionController@cotizarr');
 Route::post('cotizaciones/seleccionar','CotizacionController@seleccionar');
 Route::post('cotizaciones/seleccionarr','CotizacionController@seleccionarr');
+Route::post('cotizaciones/seleccionarrr','CotizacionController@seleccionarrr');
 Route::post('cotizaciones/baja/{id}','CotizacionController@baja')->name('cotizaciones.baja');
 Route::post('cotizaciones/alta/{id}','CotizacionController@alta')->name('cotizaciones.alta');
 Route::get('cotizaciones/realizarcotizacion/{id}','CotizacionController@realizarCotizacion');
@@ -261,14 +262,21 @@ Route::post('solicitudcotizaciones/cambiar','SolicitudcotizacionController@cambi
 Route::get('solicitudcotizaciones/create/{id}','SolicitudcotizacionController@create');
 Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@creater');
 Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
+Route::post('solicitudcotizaciones/storer2','SolicitudcotizacionController@storer2');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 /// estas son para solicitudes de bienes
+Route::put('solicitudes/cambiarestado/{id}','SolicitudController@cambiarestado');
+Route::get('solicitudes/solicitud/{id}','SolicitudController@solicitud');
+Route::get('solicitudes/informacion/{id}','SolicitudController@informacion');
+Route::get('solicitudes/formulariosoli/{id}','SolicitudController@formulariosoli');
+Route::post('solicitudes/aprobar','SolicitudController@aprobar');
 Route::Resource('solicitudes','SolicitudController');
 
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 
+Route::post('requisiciones/combinar','RequisicionController@combinar');
 Route::get('requisiciones/porusuario','RequisicionController@porusuario')->name('requisiciones.porusuario');
 Route::post('requisiciones/darbaja','RequisicionController@darbaja');
 Route::get('requisiciones/portipo/{tipo}','RequisicionController@portipo');
