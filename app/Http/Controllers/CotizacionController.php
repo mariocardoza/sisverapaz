@@ -96,7 +96,7 @@ class CotizacionController extends Controller
           try{
             $cotizacion=Cotizacion::findorFail($request->idcot);
             $cotizacion->seleccionado=true;
-            $cotizacion->estado=2;
+            $cotizacion->estado=1;
             $cotizacion->save();
 
             $solicitud=Solicitudcotizacion::findorFail($cotizacion->solicitudcotizacion->id);

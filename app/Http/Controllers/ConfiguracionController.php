@@ -153,8 +153,10 @@ class ConfiguracionController extends Controller
       try{
         $cuantas=Emergencia::whereEstado(1)->count();
         if($cuantas==0){
+          $this->validar_emergencia($request->all())->validate();
           $e=Emergencia::create([
             'numero_acuerdo'=>$request->numero_acuerdo,
+            'detalle'=>$request->detalle,
             'fecha_inicio'=>\invertir_fecha($request->fecha_inicio),
           ]);
           $retormo=array(1);
@@ -177,6 +179,15 @@ class ConfiguracionController extends Controller
             'fax_alcaldia' => 'required',
             'email_alcaldia' => 'required|email',
             'nit_alcaldia' => 'required',
+        ]);
+    }
+
+    protected function validar_emergencia(array $data)
+    {
+        return Validator::make($data, [
+            'numero_acuerdo' => 'required',
+            'detalle' => 'required',
+            'fecha_inicio' => 'required',
         ]);
     }
 

@@ -196,13 +196,15 @@
                         <button class="btn btn-primary pull-right nueva_declaratoria" type="button">Nueva declaratoria</button>
                         <br>
                         <br>
-                        <table class="table table-stripped table-bordered">
+                        <table class="table table-stripped table-bordered" id="example2">
                           <thead>
                             <tr>
                               <th>N°</th>
                               <th>Acuerdo</th>
+                              <th>Motivo</th>
                               <th>Inicio</th>
                               <th>Fin</th>
+                              <th>Estado</th>
                               <th></th>
                             </tr>
                           </thead>
@@ -211,9 +213,17 @@
                                 <tr>
                                   <td>{{$i+1}}</td>
                                   <td>{{$e->numero_acuerdo}}</td>
+                                  <td>{{$e->detalle}}</td>
                                   <td>{{$e->fecha_inicio->format("d/m/Y")}}</td>
                                   <td>{{$e->fecha_fin}}</td>
-                                  <td>{{$e->estado}}</td>
+                                  <td>
+                                    @if($e->estado==1)
+                                    <label for="" class="label label-primary col-sx-12">Activa</label>
+                                    @endif
+                                  </td>
+                                  <td>
+
+                                  </td>
                                 </tr>
                             @endforeach
                           </tbody>
@@ -244,6 +254,10 @@
                     <div class="form-group">
                       <label for="" class="control-label">Número de acuerdo</label>
                       <input type="text" name="numero_acuerdo" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="" class="control-label">Detalle de la emergencia</label>
+                      <input type="text" name="detalle" class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -293,9 +307,18 @@
           if(json[0]==1){
             toastr.success("Emergencia declarada con éxito");
             location.reload();
+          }else{
+            if(json[0]==2){
+              swal('aviso',json[1],'warning');
+            }else{
+              toastr.error("Ocurrió un error en el servidor");
+            }
           }
+        },
+        error: function(error){
+          toastr.error("Ocurrió un error en el servidor");
         }
-      })
+      });
     })
 
     $(document).on("change", "#file_1", function(event) {

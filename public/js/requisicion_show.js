@@ -522,7 +522,8 @@ $(document).ready(function(e){
           requi.push({
             idcambiar:$(this).attr("data-idcambiar"),
             idmaterial:$(this).attr("data-material"),
-            cantidad:$(this).attr("data-cantidad")
+            cantidad:$(this).attr("data-cantidad"),
+            medida:$(this).attr("data-medida")
           });
         }
       });

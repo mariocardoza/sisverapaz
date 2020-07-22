@@ -273,6 +273,12 @@ Route::get('solicitudes/formulariosoli/{id}','SolicitudController@formulariosoli
 Route::post('solicitudes/aprobar','SolicitudController@aprobar');
 Route::Resource('solicitudes','SolicitudController');
 
+Route::get('directa/modaledit/{id}','DirectaController@modal_edit');
+Route::post('directa/subir','DirectaController@subir');
+Route::delete('directa/eliminar','DirectaController@eliminar');
+Route::get('directa/bajar/{archivo}','DirectaController@bajar');
+Route::Resource('directa','DirectaController');
+
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 

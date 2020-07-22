@@ -238,7 +238,17 @@
                  minDate: "-60Y",
                  maxDate: "-18Y",
     				     format: 'dd-mm-yyyy'
-    		         });
+                 });
+                 
+                $(document).on("click",".vista_previa",function(e){
+                  e.preventDefault();
+                  $(".modal").modal("hide");
+            
+                  var url = $(this).attr('href');
+                  $('#verpdf').attr('src', url);
+                  //$('#verpdf').reload();
+                  $("#modal_pdf").modal("show");
+                });
 
                  $('.unafecha').datepicker({
              	     selectOtherMonths: true,

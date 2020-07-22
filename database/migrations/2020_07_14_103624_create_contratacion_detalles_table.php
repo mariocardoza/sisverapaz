@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmergenciasTable extends Migration
+class CreateContratacionDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateEmergenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('emergencias', function (Blueprint $table) {
+        Schema::create('contratacion_detalles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('numero_acuerdo');
-            $table->string('detalle');
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin')->nullable();
+            $table->bigInteger('contratacion_id');
+            $table->string('nombre');
+            $table->text('archivo');
             $table->integer('estado')->default(1);
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateEmergenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('emergencias');
+        Schema::dropIfExists('contratacion_detalles');
     }
 }
