@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ContratacionDirecta;
 use App\ContratacionDetalle;
+use App\CompraDirecta;
 use Validator;
 use Storage;
 use App\Emergencia;
@@ -21,16 +22,33 @@ class DirectaController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if(Auth()->user()->hasAnyRole(['uaci','admin']))
-        {
-            $compras=ContratacionDirecta::get();
+        if($request->ajax()){
+            $html='';
+            $compras=ContratacionDirecta::find($request->contratacion_id);
+            foreach($compras->materiales  as $i=>$m){
+                $html.='<tr>
+                <td>'.($i+1).'</td>
+                <td>'.$m->material->nombre.'</td>
+                <td>'.$m->medida->nombre_medida.'</td>
+                <td>'.$m->cantidad.'</td>
+                <td>
+                    <button data-id="'.$m->id.'" class="btn btn-warning" type="button"><i class="fa fa-edit"></i></button>
+                </td>
+                </tr>';
+            }
+            return array(1,"exito",$html);
         }else{
-            $compras=ContratacionDirecta::where('user_id',Auth()->user()->id)->get();
+            if(Auth()->user()->hasAnyRole(['uaci','admin']))
+            {
+                $compras=ContratacionDirecta::get();
+            }else{
+                $compras=ContratacionDirecta::where('user_id',Auth()->user()->id)->get();
+            }
+            
+            return view('directa.index',\compact('compras'));
         }
-        
-        return view('directa.index',\compact('compras'));
     }
 
     /**
@@ -61,7 +79,10 @@ class DirectaController extends Controller
                 'monto'=>$request->monto,
                 'user_id'=>Auth()->user()->id,
                 'anio'=>date("Y"),
-                'emergencia_id'=>$e->id
+                'emergencia_id'=>$e->id,
+                'cuenta_id'=>$request->cuenta_id,
+                'renta'=>$request->renta,
+                'total'=>$request->total,
             ]);
             return array(1);
         }catch(Exception $e){
@@ -141,13 +162,44 @@ class DirectaController extends Controller
         }
     }
 
+    public function proveedor(Request $request)
+    {
+        $this->validar_proveedor($request->all())->validate();
+        try{
+            $compra=ContratacionDirecta::findorFail($request->id);
+            $compra->proveedor_id=$request->proveedor_id;
+            $proveedor->estado=3;
+            $compra->save();
+            return array(1,"exito",$compra);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function eldetalle(Request $request)
+    {
+        $this->validar_detalle($request->all())->validate();
+        try{
+            $c=CompraDirecta::create([
+                'contratacion_id'=>$request->contratacion_id,
+                'material_id'=>$request->material_id,
+                'unidadmedida_id'=>$request->unidadmedida_id,
+                'cantidad'=>$request->cantidad
+            ]);
+            return array(1,"exito",$c);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
     public function modal_edit($id)
     {
         $html='';
         try{
+            $cuentas=\App\Cuenta::whereEstado(1)->get();
             $directa=ContratacionDirecta::find($id);
             $html.='<div class="modal fade" tabindex="-1" id="modal_edit" role="dialog" aria-labelledby="gridSystemModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -155,22 +207,50 @@ class DirectaController extends Controller
                 </div>
                 <div class="modal-body">
                     <form id="form_ecompra" class="">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="" class="control-label">Número de la compra</label>
-                              <input type="text" class="form-control" value="'.$directa->numero_proceso.'" name="numero_proceso">
-                            </div>
-                            <div class="form-group">
-                              <label for="" class="control-label">Nombre del proceso</label>
-                              <input type="text" name="nombre" value="'.$directa->nombre.'" class="form-control">
-                            </div>
-                            <div class="form-group">
-                              <label for="" class="control-label">Monto</label>
-                              <input type="number" name="monto" value="'.$directa->monto.'" class="form-control">
-                            </div>
-                          </div>
+                    <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="" class="control-label">Número de la compra</label>
+                        <input type="text" class="form-control" value="'.$directa->numero_proceso.'" name="numero_proceso">
                       </div>
+                
+                      <div class="form-group">
+                        <label for="" class="control-label">Monto</label>
+                        <input type="number" name="monto" step="any" value="'.$directa->monto.'" class="form-control elmonto">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="" class="control-label">Nombre del proceso</label>
+                        <input type="text" name="nombre" value="'.$directa->nombre.'" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="" class="control-label">Cuenta</label>
+                        <select name="cuenta_id" id="" class="chosen-select-width">
+                          <option value="">Seleccione</option>';
+                          foreach ($cuentas as $c):
+                            if($c->id==$directa->cuenta_id):
+                            $html.='<option selected value="'.$c->id.'">'.$c->nombre.'<option>';
+                            else:
+                            $html.='<option value="'.$c->id.'">'.$c->nombre.'<option>';
+                            endif;
+                        endforeach;
+                        $html.='</select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <label for="">¿El proceso lleva impuesto sobre la renta?</label>
+                      <input type="checkbox" class="renta">
+                    </div>
+                    <div class="col-md-6 sirenta" style="display: none;">
+                      <label for="" class="control-label">Renta</label>
+                      <input type="number" step="any" name="renta" value="'.$directa->renta.'" class="form-control larenta">
+                    </div>
+                    <div class="col-md-6 sirenta" style="display: none;">
+                      <label for="" class="control-label">Total</label>
+                      <input type="number" name="total" readonly value="'.$directa->total.'" class="form-control total">
+                    </div>
+                </div>
                     
                 </div>
                 <div class="modal-footer">
@@ -247,13 +327,42 @@ class DirectaController extends Controller
     {
         $mensajes=array(
             'monto.min'=>'El monto debe ser mayor a cero',
+            'cuenta_id.required'=>'Seleccione un cuenta',
+            'total.min'=>'El total debe ser mayor a cero',
+            'renta.min'=>'La renta debe ser mayor o igual a cero',
         );
         return Validator::make($data, [
             'nombre' => 'required',
-            'monto'=>'required|numeric|min:1'
-
+            'monto'=>'required|numeric|min:1',
+            'cuenta_id'=>'required',
+            'renta'=>'required|numeric|min:0',
+            'total'=>'required|numeric|min:1',
         ],$mensajes);
 
         
+    }
+
+    protected function validar_proveedor(array $data)
+    {
+        $mensajes=array(
+            'proveedor_id.required'=>'Debe seleccionar un proveedor',
+        );
+        return Validator::make($data, [
+            'proveedor_id' => 'required',
+        ],$mensajes);  
+    }
+
+    protected function validar_detalle(array $data)
+    {
+        $mensajes=array(
+            'cantidad.required'=>'Debe ingresar la cantidad',
+            'material_id.required'=>'Debe seleccionar un material',
+            'unidadmedida_id.required'=>'Debe seleccionar la unidad de medida',
+        );
+        return Validator::make($data, [
+            'cantidad' => 'required|numeric|min:1',
+            'material_id' => 'required',
+            'unidadmedida_id' => 'required',
+        ],$mensajes);  
     }
 }

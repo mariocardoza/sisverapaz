@@ -30,10 +30,45 @@
       background: #f7cb15;
   }
   </style>
+  @php
+  $proveedores=[];
+  $medidas=[];
+  $materiales=[];
+  $proveedores=App\Proveedor::whereEstado(1)->get();
+  $medidas=App\UnidadMedida::get();
+  $materiales=App\Materiales::whereEstado(1)->get();
+@endphp
 <div class="row">
     <div class="col-sm-8">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Detalle</div>
+      <div class="btn-group">
+        <button class="btn btn-primary que_ver" data-tipo="1" >Solicitud</button>
+        @if(Auth()->user()->hasRole('uaci'))
+        <button class="btn btn-primary que_ver" data-tipo="3">Documentos</button>
+        @endif
+        <br><br>
+      </div>
+        <div class="panel panel-primary solicitud">
+          <div class="panel-heading">Solicitud</div>
+            <div class="panel-body">
+              <button class="btn btn-primary agregar_sol" type="button">Agregar</button>
+              <table class="table tabla_solicitud">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Descripción</th>
+                    <th>Unidad de medida</th>
+                    <th>Cantidad</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div class="panel panel-primary documentos" style="display: none;">
+            <div class="panel-heading">Documentos</div>
             <div class="panel-body">
               <button class="btn btn-primary agregar" type="button">Agregar</button>
               <table class="table">
@@ -66,6 +101,15 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Compra</div>
             <div class="panel-body">
+              @if($compra->estado==1)
+              <label for="" class="label-primary col-xs-12">Pendiente asignar proveedor</label>
+              <button data-id="{{$compra->id}}" class="btn btn-primary proveedor" type="button">Seleccionar proveedor</button>
+              @elseif($compra->estado==2) 
+              @elseif($compra->estado==3) 
+              <label for="" class="label-primary col-xs-12">Aprobada</label>
+              @elseif($compra->estado==4) 
+              <label for="" class="label-success col-xs-12">Pagada</label>
+              @endif
                 <div class="col-sm-12">
                     <span style="font-weight: normal;">Código:</span>
                   </div>
@@ -97,7 +141,16 @@
                     <span style="font-weight: normal;">Monto:</span>
                   </div>
                   <div class="col-sm-12">
-                    <span><b>${{ number_format($compra->monto,2)}}</b></span>
+                    <span><b>${{ number_format($compra->total,2)}}</b></span>
+                  </div>
+                  <div class="clearfix"></div>
+                  <hr style="margin-top: 3px; margin-bottom: 3px;">
+
+                  <div class="col-sm-12">
+                    <span style="font-weight: normal;">Renta:</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span><b>${{ number_format($compra->renta,2)}}</b></span>
                   </div>
                   <div class="clearfix"></div>
                   <hr style="margin-top: 3px; margin-bottom: 3px;">
@@ -119,58 +172,150 @@
                   </div>
                   <div class="clearfix"></div>
                   <hr style="margin-top: 3px; margin-bottom: 3px;">
+                  <div class="col-sm-12">
+                    <span style="font-weight: normal;">Cuenta:</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span><b>{{ $compra->cuenta->nombre}}</b></span>
+                  </div>
+                  <div class="clearfix"></div>
+                  <hr style="margin-top: 3px; margin-bottom: 3px;">
+                  <div class="col-sm-12">
+                    <span style="font-weight: normal;">Proveedor aceptado:</span>
+                  </div>
+                  <div class="col-sm-12">
+                    <span><b>{{ $compra->proveedor->nombre}}</b></span>
+                  </div>
+                  <div class="clearfix"></div>
+                  <hr style="margin-top: 3px; margin-bottom: 3px;">
                   <br>
+                  @if($compra->estado==1)
                   <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$compra->id}}"><i class="fa fa-edit"></i></a>
-
+                  @endif
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_subir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Subir documento</h4>
-      </div>
-      <div class="modal-body">
-          <form id='form_subir' enctype="multipart/form-data">
-            <input type="hidden" name="contratacion_id" value="{{$compra->id}}">
-            <div class="form-group">
-              <label for="" class="control-label">Nombre</label>
-              <div>
-                <input type="text" class="form-control" name="nombre" autocomplete="off" placeholder="Nombre del contrato">
-              </div>
-            </div>
+@include('directa.modales')
 
-            <label for="file-upload" class="subir">
-              <i class="glyphicon glyphicon-cloud"></i> Subir archivo
-          </label>
-          <input id="file-upload" onchange='cambiar()' name="archivo" type="file" style='display: none;'/>
-          <div id="info"></div>
-              <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="submit"  class="btn btn-success">Guardar</button></center>
-          </form>
-      </div>
-      <!--div class="modal-footer">
-        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="agregar_orden" class="btn btn-success">Agregar</button></center>
-      </div-->
-    </div>
-    </div>
-</div>
 <div id="modal_aqui"></div>
 
 @endsection
 @section('scripts')
 <script>
+  const medidas=JSON.parse('<?php echo $medidas; ?>');
+  const materiales=JSON.parse('<?php echo $materiales; ?>');
+  const contratacion_id='<?php echo $compra->id; ?>';
 $(document).ready(function(e){
   const MAXIMO_TAMANIO_BYTES = 10000000; // 1MB = 1 millón de bytes
+  losmateriales();
   $(document).on("click",".agregar",function(e){
     e.preventDefault();
     $("#modal_subir").modal("show");
+  });
+
+  //agregar elemento a la solicitud
+  $(document).on("click",".agregar_sol",function(e){
+    e.preventDefault();
+    $(this).prop("disabled",true);
+    let sel_medidas=sel_materiales='';
+    for(let i=0;i<medidas.length;i++){
+      sel_medidas+='<option value="'+medidas[i].id+'">'+medidas[i].nombre_medida+'</option>';
+    }
+
+    for(let j=0;j<materiales.length;j++){
+      sel_materiales+='<option value="'+materiales[j].id+'">'+materiales[j].nombre+'</option>';
+    }
+    //console.log(sel_materiales);
+    let html='<tr class="lafilita">'+
+    '<td></td>'+
+    '<td><select class="form-control mate"><option value="">Seleccione </option>'+sel_materiales+'</select></td>'+
+    '<td><select class="form-control um"><option value="">Seleccione </option>'+sel_medidas+'</select></td>'+
+    '<td><input type="number" class="form-control canti"></td>'+
+    '<td>'+
+    '<button type="button" class="btn btn-success n_soli"><i class="fa fa-check"></i></button>'+
+    '<button type="button" class="btn btn-danger cancel_n"><i class="fa fa-minus"></i></button>'+
+    '</td>'+
+    '</tr>';
+    $(".tabla_solicitud").append(html);
+  });
+
+  //cancelar nuevo material
+  $(document).on("click",".cancel_n",function(e){
+    e.preventDefault();
+    $(".lafilita").remove();
+    $(".agregar_sol").prop("disabled",false);
+  });
+
+  //registrar solicitud
+  $(document).on("click",".n_soli",function(e){
+    e.preventDefault();
+    let material_id='';
+    let unidadmedida_id=0;
+    let cantidad=0;
+    material_id=$(".mate").val();
+    unidadmedida_id=$(".um").val();
+    cantidad=$(".canti").val();
+    $.ajax({
+      url:'../directa/eldetalle',
+      type:'post',
+      dataType:'json',
+      data:{contratacion_id,material_id,unidadmedida_id,cantidad},
+      success: function(json){
+        if(json[0]==1){
+
+        }else{
+
+        }
+      },
+      error: function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    })
+  });
+
+  //menu opciones
+  $(document).on("click",".que_ver",function(e){
+    e.preventDefault();
+    let ver=$(this).attr("data-tipo");
+    if(ver==1){
+      $(".solicitud").show();
+      $(".documentos").hide();
+    }else{
+      $(".solicitud").hide();
+      $(".documentos").show();
+    }
+  });
+
+  //lleva renta?
+  $(document).on("change",".renta",function(e){
+    e.preventDefault();
+    if( $(this).prop('checked') ) {
+      $(".sirenta").show();
+      $(".larenta").val("");
+    }else{
+      $(".sirenta").hide();
+      $(".larenta").val(0);
+      let monto=0;
+      monto=parseFloat($(".elmonto").val());
+      $(".total").val(monto);
+    }
+  });
+
+  $(document).on("input",".elmonto,.larenta",function(e){
+    e.preventDefault();
+    let valor=0;
+    let renta=0;
+    let total=0;
+    renta=parseFloat($(".larenta").val());
+    valor=parseFloat($(".elmonto").val());
+    total=valor-renta;
+    $(".total").val(total.toFixed(2));
   });
 
   
@@ -185,7 +330,9 @@ $(document).ready(function(e){
               if(json[0]==1){
                 $("#modal_aqui").empty();
                 $("#modal_aqui").html(json[1]);
+                $(".chosen-select-width").chosen({width: "100%"});
                 $("#modal_edit").modal("show");
+              
               }else{
                 toastr.error("Ocurrió un error en el servidor");
               }
@@ -196,6 +343,114 @@ $(document).ready(function(e){
             }
           });
         });
+
+  //seleccionar proveedor
+
+  $(document).on("click",".proveedor",function(e){
+    e.preventDefault();
+    var id=$(this).attr("data-id");
+    $("#modal_proveedor").modal("show");
+  });
+
+  $(document).on("click",".nuevo_prov",function(e){
+    e.preventDefault();
+    $("#modal_proveedor").modal("hide");
+    $("#nuevo_proveedor").modal("show");
+  });
+
+  $(document).on("click","#cierra_modal",function(e){
+    e.preventDefault();
+    $("#modal_proveedor").modal("show");
+    $("#nuevo_proveedor").modal("hide");
+    $("#form_nproveedor").trigger("reset");
+  });
+
+    //editar
+    $(document).on("click",".puteditar", function(e){
+          e.preventDefault();
+          var id=$(this).attr("data-id");
+          var datos=$("#form_ecompra").serialize();
+          modal_cargando();
+          $.ajax({
+            url:'../directa/'+id,
+            type:'put',
+            dataType:'json',
+            data:datos,
+            success:function(json){
+              if(json[0]==1){
+                toastr.success("Editado con éxito");
+                swal.closeModal();
+                location.reload();
+              }else{
+                toastr.error("Ocurrió un error en el servidor");
+                swal.closeModal();
+              }
+            }, error: function(error){
+              $.each(error.responseJSON.errors,function(i,v){
+                toastr.error(v);
+              });
+              swal.closeModal();
+            }
+          })
+        });
+
+  //guardar proveedor
+  $(document).on("submit","#form_nproveedor",function(e){
+    e.preventDefault();
+    var datos=$("#form_nproveedor").serialize();
+    $.ajax({
+      url:'../proveedores',
+      type:'post',
+      dataType:'json',
+      data:datos,
+      success:function(data){
+          if(data[0]==1){
+            toastr.success("proveedor registrado con exito");
+            swal.closeModal();
+            $("#modal_proveedor").modal("show");
+            $("#nuevo_proveedor").modal("hide");
+            $("#elprove").append("<option selected value='"+data[3].id+"'>"+data[3].nombre+"</option>");
+            $("#elprove").trigger("chosen:updated");
+          }else{
+            swal.closeModal();
+          }
+      },
+      error: function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    })
+  });
+
+  $(document).on("submit","#form_proveedor",function(e){
+    e.preventDefault();
+    var datos=$("#form_proveedor").serialize();
+    $.ajax({
+      url:'../directa/proveedor',
+      type:'post',
+      dataType:'json',
+      data:datos,
+      success:function(data){
+          if(data[0]==1){
+            toastr.success("proveedor seleccionado con exito");
+            swal.closeModal();
+            location.reload();
+          }else{
+            swal.closeModal();
+          }
+      },
+      error: function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    })
+  });
 
   //quitar archivo
   $(document).on("click",".quitar",function(e){
@@ -327,6 +582,19 @@ function cambiar(){
     document.getElementById('info').innerHTML = pdrs;
   }
 
- 
+ function losmateriales(){
+   $.ajax({
+     url:'../directa',
+     type:'get',
+     dataType:'json',
+     data:{contratacion_id},
+     success: function(json){
+      if(json[0]==1){
+        $('.tabla_solicitud>body').empty();
+        $('.tabla_solicitud').append(json[2]);
+      }
+     }
+   });
+ }
 </script>
 @endsection

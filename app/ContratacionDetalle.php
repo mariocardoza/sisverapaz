@@ -8,4 +8,6 @@ class ContratacionDetalle extends Model
 {
     protected $guarded = [];
     
+
+    
 }

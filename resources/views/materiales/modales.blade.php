@@ -16,8 +16,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_material" class="btn btn-primary">Registrar</button></center>
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_material" class="btn btn-success">Registrar</button></center>
       </div>
     </div>
   </div>
@@ -46,8 +46,8 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_categoria" class="btn btn-primary">Registrar</button></center>
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_categoria" class="btn btn-success">Registrar</button></center>
       </div>
     </div>
   </div>
@@ -76,8 +76,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_medida" class="btn btn-primary">Registrar</button></center>
+        <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_medida" class="btn btn-success">Registrar</button></center>
       </div>
     </div>
   </div>

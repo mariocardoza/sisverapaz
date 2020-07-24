@@ -14,7 +14,7 @@ class AddCamposToOrdencompras extends Migration
     public function up()
     {
         Schema::table('ordencompras', function (Blueprint $table) {
-            $table->bigInteger('cotizacion_id')->unsigned();
+            $table->bigInteger('cotizacion_id')->unsigned()->nullable();
             $table->string('numero_orden');
             $table->string('observaciones');
             $table->date('fecha_inicio');

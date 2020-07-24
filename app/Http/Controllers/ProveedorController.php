@@ -60,7 +60,7 @@ class ProveedorController extends Controller
         try{
           $proveedor= Proveedor::create($request->All());
           bitacora('Registro un Proveedor');
-          return array(1,"exito",$proveedor->id);
+          return array(1,"exito",$proveedor->id,$proveedor);
         }catch(\Exception $e)
         {
           return array(1,'error',$e->getMessage());

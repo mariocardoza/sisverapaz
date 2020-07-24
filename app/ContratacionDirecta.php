@@ -10,17 +10,32 @@ class ContratacionDirecta extends Model
 
     public function emergencia()
     {
-        return $this->belongsTo('App\Emergencia','emergencia_id');
+        return $this->belongsTo('App\Emergencia','emergencia_id')->withDefault();
+    }
+
+    public function proveedor()
+    {
+        return $this->belongsTo('App\Proveedor')->withDefault();
+    }
+
+    public function cuenta()
+    {
+        return $this->belongsTo('App\Cuenta')->withDefault();
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withDefault();
     }
 
     public function detalle()
     {
         return $this->hasMany('App\ContratacionDetalle','contratacion_id');
+    }
+
+    public function materiales()
+    {
+        return $this->hasMany('App\CompraDirecta','contratacion_id');
     }
 
     public static function codigo_proyecto()

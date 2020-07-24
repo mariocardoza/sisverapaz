@@ -275,7 +275,9 @@ Route::Resource('solicitudes','SolicitudController');
 
 Route::get('directa/modaledit/{id}','DirectaController@modal_edit');
 Route::post('directa/subir','DirectaController@subir');
+Route::post('directa/proveedor','DirectaController@proveedor');
 Route::delete('directa/eliminar','DirectaController@eliminar');
+Route::post('directa/eldetalle','DirectaController@eldetalle');
 Route::get('directa/bajar/{archivo}','DirectaController@bajar');
 Route::Resource('directa','DirectaController');
 
