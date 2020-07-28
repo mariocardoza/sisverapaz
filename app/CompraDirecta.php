@@ -17,4 +17,9 @@ class CompraDirecta extends Model
     {
         return $this->belongsTo('App\UnidadMedida','unidadmedida_id')->withDefault();
     }
+
+    public function contratacion()
+    {
+        return $this->belongsTo('App\ContratacionDirecta','contratacion_id')->withDefault();
+    }
 }

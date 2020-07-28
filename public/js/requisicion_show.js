@@ -604,7 +604,7 @@ $(document).ready(function(e){
                 });
 
               }
-            });
+              });
               $("#modal_registrar_orden").modal("show");
             }
           }

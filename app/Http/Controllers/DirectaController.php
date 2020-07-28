@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\OrdencompraRequest2;
 use App\ContratacionDirecta;
 use App\ContratacionDetalle;
 use App\CompraDirecta;
 use Validator;
 use Storage;
+use DB;
+use App\Ordencompra;
+use App\Desembolso;
 use App\Emergencia;
 
 class DirectaController extends Controller
@@ -25,20 +29,8 @@ class DirectaController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $html='';
-            $compras=ContratacionDirecta::find($request->contratacion_id);
-            foreach($compras->materiales  as $i=>$m){
-                $html.='<tr>
-                <td>'.($i+1).'</td>
-                <td>'.$m->material->nombre.'</td>
-                <td>'.$m->medida->nombre_medida.'</td>
-                <td>'.$m->cantidad.'</td>
-                <td>
-                    <button data-id="'.$m->id.'" class="btn btn-warning" type="button"><i class="fa fa-edit"></i></button>
-                </td>
-                </tr>';
-            }
-            return array(1,"exito",$html);
+            $retorno=ContratacionDirecta::show($request->contratacion_id);
+            return $retorno;
         }else{
             if(Auth()->user()->hasAnyRole(['uaci','admin']))
             {
@@ -76,13 +68,10 @@ class DirectaController extends Controller
                 'codigo'=>ContratacionDirecta::codigo_proyecto(),
                 'numero_proceso'=>$request->numero_proceso,
                 'nombre'=>$request->nombre,
-                'monto'=>$request->monto,
                 'user_id'=>Auth()->user()->id,
                 'anio'=>date("Y"),
                 'emergencia_id'=>$e->id,
                 'cuenta_id'=>$request->cuenta_id,
-                'renta'=>$request->renta,
-                'total'=>$request->total,
             ]);
             return array(1);
         }catch(Exception $e){
@@ -168,11 +157,82 @@ class DirectaController extends Controller
         try{
             $compra=ContratacionDirecta::findorFail($request->id);
             $compra->proveedor_id=$request->proveedor_id;
-            $proveedor->estado=3;
+            $compra->monto=ContratacionDirecta::total($compra->id);
+            $compra->renta=ContratacionDirecta::renta($compra->id);
+            $compra->total=ContratacionDirecta::total($compra->id)-ContratacionDirecta::renta($compra->id);
+            $compra->estado=3;
             $compra->save();
             return array(1,"exito",$compra);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function ordencompra($id)
+    {
+        $retorno=\App\Ordencompra::registrar($id);
+        return $retorno;
+    }
+
+    public function guardarorden(OrdencompraRequest2 $request)
+    {
+        if($request->ajax())
+        {
+          DB::beginTransaction();
+          try{
+            $compra=ContratacionDirecta::find($request->contratacion_id);
+            $orden = Ordencompra::create([
+                'numero_orden' => Ordencompra::correlativo(),
+                'fecha_inicio' => invertir_fecha($request->fecha_inicio),
+                'fecha_fin' => invertir_fecha($request->fecha_fin),
+                'contratacion_id' => $request->contratacion_id,
+                'tipo'=>2,
+                'observaciones' => $request->observaciones == "" ? 'ninguna' : $request->observaciones,
+                'direccion_entrega' => $request->direccion_entrega,
+                'adminorden' => $request->adminorden,
+            ]);
+
+            $compra->estado=4;
+            $compra->save();
+
+            $desembolso=Desembolso::create([
+                'id'=>date("Yidisus"),
+                'monto'=>ContratacionDirecta::total($compra->id),
+                'renta'=>ContratacionDirecta::renta($compra->id),
+                'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para proyecto: '.$compra->nombre,
+                'cuenta_id'=>$compra->cuenta_id,
+              ]);
+
+              //REGISTRO DEL PAGO DE LA RENTA
+
+              $tienerenta = ContratacionDirecta::renta($compra->id);
+              if($tienerenta>0):
+                $pagorenta = \App\PagoRenta::create([
+                  'nombre'=> $compra->nombre,
+                  'dui'=> $orden->compra->proveedor->dui,
+                  'nit'=> $orden->compra->proveedor->nit,
+                  'total' => ContratacionDirecta::total($compra->id),
+                  'renta' => ContratacionDirecta::renta($compra->id),
+                  'liquido' => ContratacionDirecta::total($compra->id)- ContratacionDirecta::renta($compra->id),
+                  'concepto' => 'Pago de renta de Orden de Compra',
+                  'desembolso_id'=>$desembolso->id
+                ]);
+              endif;
+
+              DB::commit();
+              
+              return array(1,"exito",$compra->id);
+           
+
+            //return redirect('solicitudcotizaciones/versolicitudes/'.$cotizacion->presupuestosolicitud->presupuesto->proyecto->id)->with('mensaje','Orden de compra registrada con éxito');
+          }catch(\Excention $e){
+            DB::rollback();
+            return response()->json([
+              'mensaje' => 'error',
+              'error' => $e->getMessage()
+            ]);
+          //  return redirect('ordencompras/create')->with('error','ocurrió un error al guardar la orden de compras');
+          }
         }
     }
 
@@ -184,8 +244,24 @@ class DirectaController extends Controller
                 'contratacion_id'=>$request->contratacion_id,
                 'material_id'=>$request->material_id,
                 'unidadmedida_id'=>$request->unidadmedida_id,
-                'cantidad'=>$request->cantidad
+                'cantidad'=>$request->cantidad,
+                'precio'=>$request->precio,
+                'marca'=>$request->marca,
             ]);
+            return array(1,"exito",$c);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function editardetalle(Request $request,$id)
+    {
+        $this->validar_editdetalle($request->all())->validate();
+        try{
+            $c=CompraDirecta::find($id);
+            $c->precio=$request->precio;
+            $c->cantidad=$request->cantidad;
+            $c->save();
             return array(1,"exito",$c);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
@@ -326,17 +402,11 @@ class DirectaController extends Controller
     protected function validar(array $data)
     {
         $mensajes=array(
-            'monto.min'=>'El monto debe ser mayor a cero',
             'cuenta_id.required'=>'Seleccione un cuenta',
-            'total.min'=>'El total debe ser mayor a cero',
-            'renta.min'=>'La renta debe ser mayor o igual a cero',
         );
         return Validator::make($data, [
             'nombre' => 'required',
-            'monto'=>'required|numeric|min:1',
             'cuenta_id'=>'required',
-            'renta'=>'required|numeric|min:0',
-            'total'=>'required|numeric|min:1',
         ],$mensajes);
 
         
@@ -356,13 +426,27 @@ class DirectaController extends Controller
     {
         $mensajes=array(
             'cantidad.required'=>'Debe ingresar la cantidad',
+            'precio.required'=>'Debe ingresar un precio',
             'material_id.required'=>'Debe seleccionar un material',
             'unidadmedida_id.required'=>'Debe seleccionar la unidad de medida',
         );
         return Validator::make($data, [
             'cantidad' => 'required|numeric|min:1',
+            'precio' => 'required|numeric|min:1',
             'material_id' => 'required',
             'unidadmedida_id' => 'required',
+        ],$mensajes);  
+    }
+
+    protected function validar_editdetalle(array $data)
+    {
+        $mensajes=array(
+            'cantidad.required'=>'Debe ingresar la cantidad',
+            'precio.required'=>'Debe ingresar un precio',
+        );
+        return Validator::make($data, [
+            'cantidad' => 'required|numeric|min:1',
+            'precio' => 'required|numeric|min:1',
         ],$mensajes);  
     }
 }

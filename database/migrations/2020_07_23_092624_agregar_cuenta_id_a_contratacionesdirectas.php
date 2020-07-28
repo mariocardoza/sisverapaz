@@ -16,8 +16,8 @@ class AgregarCuentaIdAContratacionesdirectas extends Migration
         Schema::table('contratacion_directas', function (Blueprint $table) {
             $table->bigInteger('cuenta_id')->unsigned();
             $table->bigInteger('proveedor_id')->unsigned()->nullable();
-            $table->double('renta',8,2);
-            $table->double('total',8,2);
+            $table->double('renta',8,2)->nullable();
+            $table->double('total',8,2)->nullable();
         });
     }
 

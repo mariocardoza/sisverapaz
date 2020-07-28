@@ -274,10 +274,13 @@ Route::post('solicitudes/aprobar','SolicitudController@aprobar');
 Route::Resource('solicitudes','SolicitudController');
 
 Route::get('directa/modaledit/{id}','DirectaController@modal_edit');
+Route::get('directa/ordencompra/{id}','DirectaController@ordencompra');
+Route::post('directa/ordencompra','DirectaController@guardarorden');
 Route::post('directa/subir','DirectaController@subir');
 Route::post('directa/proveedor','DirectaController@proveedor');
 Route::delete('directa/eliminar','DirectaController@eliminar');
 Route::post('directa/eldetalle','DirectaController@eldetalle');
+Route::put('directa/editardetalle/{id}','DirectaController@editardetalle');
 Route::get('directa/bajar/{archivo}','DirectaController@bajar');
 Route::Resource('directa','DirectaController');
 
@@ -442,6 +445,7 @@ Route::get('reportesuaci/cuadrocomparativo/{id}','ReportesUaciController@cuadroc
 Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contratoproyecto');
 
 Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisicionobra');
+Route::get('reportesuaci/ordencompra2/{id}','ReportesUaciController@ordencompra2');
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
 

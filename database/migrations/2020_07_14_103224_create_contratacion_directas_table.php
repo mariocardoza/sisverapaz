@@ -20,7 +20,7 @@ class CreateContratacionDirectasTable extends Migration
             $table->bigInteger('emergencia_id');
             $table->string('nombre');
             $table->integer('anio');
-            $table->double('monto',8,2);
+            $table->double('monto',8,2)->nullable();;
             $table->integer('estado')->default(1);
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();

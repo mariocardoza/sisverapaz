@@ -76,22 +76,20 @@
       <div class="modal-body">
           <form id="form_compra" class="">
               <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="" class="control-label">Nombre del proceso</label>
+                    <input type="text" name="nombre" class="form-control">
+                  </div>
+                 
+                </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="" class="control-label">Número de la compra</label>
                     <input type="text" class="form-control" name="numero_proceso">
                   </div>
-            
-                  <div class="form-group">
-                    <label for="" class="control-label">Monto</label>
-                    <input type="number" name="monto" step="any" class="form-control elmonto">
-                  </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="" class="control-label">Nombre del proceso</label>
-                    <input type="text" name="nombre" class="form-control">
-                  </div>
                   <div class="form-group">
                     <label for="" class="control-label">Cuenta</label>
                     <select name="cuenta_id" id="" class="chosen-select-width">
@@ -102,7 +100,8 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-12">
+                
+                <!--div class="col-md-12">
                   <label for="">¿El proceso lleva impuesto sobre la renta?</label>
                   <input type="checkbox" class="renta">
                 </div>
@@ -113,7 +112,7 @@
                 <div class="col-md-6 sirenta" style="display: none;">
                   <label for="" class="control-label">Total</label>
                   <input type="number" name="total" readonly class="form-control total">
-                </div>
+                </div-->
             </div>
           
       </div>

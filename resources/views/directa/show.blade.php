@@ -39,7 +39,7 @@
   $materiales=App\Materiales::whereEstado(1)->get();
 @endphp
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-9">
       <div class="btn-group">
         <button class="btn btn-primary que_ver" data-tipo="1" >Solicitud</button>
         @if(Auth()->user()->hasRole('uaci'))
@@ -49,22 +49,8 @@
       </div>
         <div class="panel panel-primary solicitud">
           <div class="panel-heading">Solicitud</div>
-            <div class="panel-body">
-              <button class="btn btn-primary agregar_sol" type="button">Agregar</button>
-              <table class="table tabla_solicitud">
-                <thead>
-                  <tr>
-                    <th>N°</th>
-                    <th>Descripción</th>
-                    <th>Unidad de medida</th>
-                    <th>Cantidad</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-              </table>
+            <div class="panel-body panel_tabla">
+              
             </div>
         </div>
         <div class="panel panel-primary documentos" style="display: none;">
@@ -96,11 +82,12 @@
               </table>
             </div>
         </div>
+        <div class="panelorden" style="display: none;"></div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="panel panel-primary">
             <div class="panel-heading">Compra</div>
-            <div class="panel-body">
+            <div class="panel-body panelsito">
               @if($compra->estado==1)
               <label for="" class="label-primary col-xs-12">Pendiente asignar proveedor</label>
               <button data-id="{{$compra->id}}" class="btn btn-primary proveedor" type="button">Seleccionar proveedor</button>
@@ -233,6 +220,8 @@ $(document).ready(function(e){
     '<td><select class="form-control mate"><option value="">Seleccione </option>'+sel_materiales+'</select></td>'+
     '<td><select class="form-control um"><option value="">Seleccione </option>'+sel_medidas+'</select></td>'+
     '<td><input type="number" class="form-control canti"></td>'+
+    '<td><input type="number" class="form-control preci"></td>'+
+    '<td></td>'+
     '<td>'+
     '<button type="button" class="btn btn-success n_soli"><i class="fa fa-check"></i></button>'+
     '<button type="button" class="btn btn-danger cancel_n"><i class="fa fa-minus"></i></button>'+
@@ -257,11 +246,12 @@ $(document).ready(function(e){
     material_id=$(".mate").val();
     unidadmedida_id=$(".um").val();
     cantidad=$(".canti").val();
+    precio=$(".preci").val();
     $.ajax({
       url:'../directa/eldetalle',
       type:'post',
       dataType:'json',
-      data:{contratacion_id,material_id,unidadmedida_id,cantidad},
+      data:{contratacion_id,material_id,unidadmedida_id,cantidad,precio},
       success: function(json){
         if(json[0]==1){
 
@@ -277,6 +267,48 @@ $(document).ready(function(e){
         swal.closeModal();
       }
     })
+  });
+
+  //editar un item
+  $(document).on("click",".edit_orden",function(e){
+    e.preventDefault();
+    var fila=$(this).attr("data-fila");
+    $(".visible"+fila).hide();
+    $(".invisible"+fila).show();
+  });
+
+  //put para editar un item
+  $(document).on("click","#put_edit",function(e){
+    e.preventDefault();
+    let cantidad=precio=0;
+    let id=$(this).attr("data-id");
+    let fila=$(this).attr("data-fila");
+    cantidad=$(".e_canti"+fila).val();
+    precio=$(".e_precio"+fila).val();
+    $.ajax({
+      url:'../directa/editardetalle/'+id,
+      type:'put',
+      dataType:'json',
+      data:{cantidad,precio},
+      success: function(json){
+        if(json[0]==1){
+          toastr.success("Editado con éxito");
+          swal.closeModal();
+          losmateriales();
+          $(".agregar_sol").prop("disabled",false);
+        }else{
+          toastr.error("Ocurrió un error");
+          swal.closeModal();
+        }
+      },
+      error: function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    });
   });
 
   //menu opciones
@@ -499,6 +531,110 @@ $(document).ready(function(e){
         });
   });
 
+  //cargar la orden de compra
+  $(document).on("click",".orden",function(e){
+    e.preventDefault();
+    let id=$(this).attr("data-id");
+    modal_cargando();
+    $.ajax({
+      url:'../directa/ordencompra/'+id,
+      type:'get',
+      dataType:'json',
+      success: function(json){
+        if(json[0]==1){
+          $(".panelorden").empty();
+          $(".panelorden").html(json[2]);
+          $(".documentos").hide();
+          $(".solicitud").hide();
+          $(".panelorden").show();
+          var start = new Date(),
+          	end = new Date(),
+          	start2, end2;
+            end.setDate(end.getDate() + 365);
+          $("#fecha_inicio").datepicker({
+                selectOtherMonths: true,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd-mm-yy',
+                minDate: start,
+                maxDate: end,
+              onSelect: function(){
+                start2 = $(this).datepicker("getDate");
+                end2 = $(this).datepicker("getDate");
+
+                start2.setDate(start2.getDate() + 1);
+                end2.setDate(end2.getDate() + 365);
+
+                $("#fecha_fin").datepicker({
+                        selectOtherMonths: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'dd-mm-yy',
+                        minDate: start2,
+                        maxDate: end,
+                onSelect: function(){
+                  var fecha1 = moment(start2);
+                  var fecha2 = moment($(this).datepicker("getDate"));
+                  //$("#plazo").val(fecha2.diff(fecha1, 'days');
+                }
+                });
+
+              }
+              });
+          swal.closeModal();
+        }else{
+          toastr.error("Ocurrió un error en el servidor");
+          swal.closeModal();
+        }
+      },
+      error: function(e){
+        toastr.error("Ocurrió un error en el servidor");
+        swal.closeModal();
+      }
+    });
+  });
+
+  //registrar orden de compra
+  $(document).on("click","#agregar_orden", function(e){
+      var datos= $("#laordencompra").serialize();
+      modal_cargando();
+      $.ajax({
+        url:'../directa/ordencompra',
+        type:'POST',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Orden de compra registrada con éxito");
+            $(".documentos").hide();
+            $(".solicitud").show();
+            $(".panelorden").hide();
+            
+            $("#laordencompra").trigger("reset");
+            swal.closeModal();
+            losmateriales();
+            //window.location.reload();
+          }else{
+            swal.closeModal();
+            toastr.error("Ocurrió un error");
+          }
+        },error: function(error){
+          swal.closeModal();
+            $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+            });
+        }
+      });
+      });
+
+  //cancelar orden
+  $(document).on("click","#cancelar_soli",function(e){
+    e.preventDefault();
+    $(".documentos").hide();
+    $(".solicitud").show();
+    $(".panelorden").hide();
+  });
+
   $(document).on('submit','#form_subir', function(e) {
         // evito que propague el submit
         e.preventDefault();
@@ -590,8 +726,10 @@ function cambiar(){
      data:{contratacion_id},
      success: function(json){
       if(json[0]==1){
-        $('.tabla_solicitud>body').empty();
-        $('.tabla_solicitud').append(json[2]);
+        $('.panel_tabla').empty();
+        $('.panel_tabla').html(json[2]);
+        $(".panelsito").empty();
+        $(".panelsito").html(json[3]);
       }
      }
    });

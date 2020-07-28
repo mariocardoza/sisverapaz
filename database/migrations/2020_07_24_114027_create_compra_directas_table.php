@@ -16,6 +16,7 @@ class CreateCompraDirectasTable extends Migration
         Schema::create('compra_directas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('material_id');
+            $table->string('marca')->nullable();
             $table->bigInteger('unidadmedida_id')->unsigned();
             $table->bigInteger('contratacion_id')->unsigned();
             $table->integer('cantidad')->unsigned();
