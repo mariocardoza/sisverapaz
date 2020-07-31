@@ -48,7 +48,7 @@
 				<th>Sep</th>
 				<th>Oct</th>
 				<th>Nov</th>
-				<th>Div</th>
+				<th>Dic</th>
 				<?php $correlativo=0?>
 			</tr>
 		</thead>

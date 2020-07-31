@@ -47,7 +47,7 @@ class MaterialesController extends Controller
                 'servicio'=>$request->servicio,
                 'precio_estimado'=>$request->precio_estimado
             ]);
-            return array(1,"exito");
+            return array(1,"exito",$material);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }

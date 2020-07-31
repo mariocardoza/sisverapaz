@@ -215,7 +215,7 @@ class Ordencompra extends Model
             <label for="nombre" class="col-md-4 control-label">Condiciones de pago</label>
         
             <div class="col-md-6">
-            <input type="text" name="" value="" class="form-control" readonly>
+            <input type="text" name="" value="'.$cotizacion->formapagos->nombre.'" class="form-control" readonly>
 
             </div>
         </div>

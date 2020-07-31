@@ -6,7 +6,7 @@
     <label class="control-label col-md-4">Nombre</label>
     <div class="col-md-6">
       
-        {{Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Digite un nombre','required','autocomplete'=>'off'])}}
+        {{Form::text('nombre',null,['class'=>'form-control','placeholder'=>'Digite un nombre','autocomplete'=>'off'])}}
     </div>       
 </div>
 
@@ -14,7 +14,7 @@
     <label class="control-label col-md-4">Precio estimado</label>
     <div class="col-md-6">
       
-        {{Form::number('precio_estimado',null,['class'=>'form-control','placeholder'=>'Digite el precio','required'])}}
+        {{Form::number('precio_estimado',null,['class'=>'form-control','placeholder'=>'Digite el precio'])}}
     </div>       
 </div>
 

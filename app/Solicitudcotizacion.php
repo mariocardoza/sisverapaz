@@ -194,7 +194,7 @@ class Solicitudcotizacion extends Model
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
                     <div class="col-sm-2">
-                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
                     </div>
                     </br></br>
                     </br>
@@ -308,7 +308,7 @@ class Solicitudcotizacion extends Model
                       <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
                       </div-->
                       <div class="col-sm-2">
-                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
                     </fieldset>
@@ -316,7 +316,7 @@ class Solicitudcotizacion extends Model
                     if($solicitud->requisicion->estado>=6):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
-                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     </fieldset>';
                     endif;
                     $html.='</div>';
@@ -357,7 +357,7 @@ class Solicitudcotizacion extends Model
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
                     <div class="col-sm-2">
-                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
                     </div>
                     </br></br>
                     </br>
@@ -467,7 +467,7 @@ class Solicitudcotizacion extends Model
                       <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
                       </div-->
                       <div class="col-sm-2">
-                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
                     </fieldset>
@@ -475,7 +475,7 @@ class Solicitudcotizacion extends Model
                     if($solicitud->proyecto->estado>=8):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
-                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     </fieldset>';
                     endif;
                     $html.='</div>';
@@ -776,7 +776,7 @@ class Solicitudcotizacion extends Model
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
                     <div class="col-sm-2">
-                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
                     </div>
                     </br></br>
                     </br>
@@ -871,7 +871,7 @@ class Solicitudcotizacion extends Model
                       <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
                       </div-->
                       <div class="col-sm-2">
-                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
                     </fieldset>
@@ -879,7 +879,7 @@ class Solicitudcotizacion extends Model
                     if($solicitud->solirequi->estado>=6):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
-                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     </fieldset>';
                     endif;
                     $html.='</div>';

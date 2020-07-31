@@ -43,6 +43,7 @@
               <td>{{$contador}}</td>
               <td>{{$orden->numero_orden}}</td>
               <td>{{$orden->adminorden}}</td>
+              @if($orden->tipo==1)
               <td>{{$orden->cotizacion->proveedor->nombre}}</td>
               <td>
                 @if($orden->cotizacion->solicitudcotizacion->tipo==1)
@@ -51,13 +52,20 @@
                   {{$orden->cotizacion->solicitudcotizacion->requisicion->actividad}}
                 @endif
               </td>
+              @else 
+              <td>{{$orden->compradirecta->proveedor->nombre}}</td>
+              <td>{{$orden->compradirecta->nombre}}</td>
+              @endif
               @if($estado == "")
                 @if($orden->estado==1)
                   <td>Pendiente de acta de recibido</td>
                   <td>
                     <div class="btn-group">
-                      <a class="btn btn-primary btn-xs" href="{{url('ordencompras/'.$orden->id)}}"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('reportesuaci/ordencompra/'.$orden->id) }}" class="btn btn-success btn-xs" target="_blank" title="Imprimir orden de compra"><i class="fa fa-file-pdf-o"></i></a>
+                      @if($orden->tipo==1)
+                      <a href="{{ url('reportesuaci/ordencompra/'.$orden->id) }}" class="btn btn-success vista_previa" target="_blank" title="Imprimir orden de compra"><i class="fa fa-file-pdf-o"></i></a>
+                      @else
+                      <a href="{{ url('reportesuaci/ordencompra2/'.$orden->id) }}" class="btn btn-success vista_previa" target="_blank" title="Imprimir orden de compra"><i class="fa fa-file-pdf-o"></i></a>
+                      @endif
                     </div>
                   </td>
                 @elseif ($orden->estado==2)

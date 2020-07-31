@@ -32,10 +32,12 @@
   </style>
   @php
   $proveedores=[];
+  $formas=[];
   $medidas=[];
   $materiales=[];
   $proveedores=App\Proveedor::whereEstado(1)->get();
   $medidas=App\UnidadMedida::get();
+  $formas=App\FOrmapago::whereEstado(1)->get();;
   $materiales=App\Materiales::whereEstado(1)->get();
 @endphp
 <div class="row">
@@ -116,7 +118,7 @@
                   <hr style="margin-top: 3px; margin-bottom: 3px;">
 
                   <div class="col-sm-12">
-                    <span style="font-weight: normal;">Nombre:</span>
+                    <span style="font-weight: normal;">Nombre del proceso:</span>
                   </div>
                   <div class="col-sm-12">
                     <span><b>{{$compra->nombre}}</b></span>
@@ -191,8 +193,8 @@
 @endsection
 @section('scripts')
 <script>
-  const medidas=JSON.parse('<?php echo $medidas; ?>');
-  const materiales=JSON.parse('<?php echo $materiales; ?>');
+  let medidas=JSON.parse('<?php echo $medidas; ?>');
+  let materiales=JSON.parse('<?php echo $materiales; ?>');
   const contratacion_id='<?php echo $compra->id; ?>';
 $(document).ready(function(e){
   const MAXIMO_TAMANIO_BYTES = 10000000; // 1MB = 1 millón de bytes
@@ -206,6 +208,8 @@ $(document).ready(function(e){
   $(document).on("click",".agregar_sol",function(e){
     e.preventDefault();
     $(this).prop("disabled",true);
+    $(".add_material").show();
+    $(".add_unidad").show();
     let sel_medidas=sel_materiales='';
     for(let i=0;i<medidas.length;i++){
       sel_medidas+='<option value="'+medidas[i].id+'">'+medidas[i].nombre_medida+'</option>';
@@ -217,8 +221,8 @@ $(document).ready(function(e){
     //console.log(sel_materiales);
     let html='<tr class="lafilita">'+
     '<td></td>'+
-    '<td><select class="form-control mate"><option value="">Seleccione </option>'+sel_materiales+'</select></td>'+
-    '<td><select class="form-control um"><option value="">Seleccione </option>'+sel_medidas+'</select></td>'+
+    '<td><select class="form-control chosen mate"><option value="">Seleccione </option>'+sel_materiales+'</select></td>'+
+    '<td><select class="form-control chosen um"><option value="">Seleccione </option>'+sel_medidas+'</select></td>'+
     '<td><input type="number" class="form-control canti"></td>'+
     '<td><input type="number" class="form-control preci"></td>'+
     '<td></td>'+
@@ -228,6 +232,7 @@ $(document).ready(function(e){
     '</td>'+
     '</tr>';
     $(".tabla_solicitud").append(html);
+    $(".chosen").chosen({'width':'100%'});
   });
 
   //cancelar nuevo material
@@ -235,6 +240,83 @@ $(document).ready(function(e){
     e.preventDefault();
     $(".lafilita").remove();
     $(".agregar_sol").prop("disabled",false);
+    $(".add_material").hide();
+    $(".add_unidad").hide();
+  });
+
+  //registrar un nuevo material
+  $(document).on("click",".add_material",function(e){
+    e.preventDefault();
+  });
+
+  //modal nuevo material
+  $(document).on("click",".add_material",function(e){
+    e.preventDefault()
+    $("#modal_material").modal("show");
+  });
+
+  //modal un nuevo material
+  $(document).on("click",".add_unidad",function(e){
+    e.preventDefault();
+    $("#modal_unidad").modal("show");
+  });
+
+   //submit material
+   $(document).on("submit","#form_material",function(e){
+    e.preventDefault();
+    var datos=$("#form_material").serialize();
+    $.ajax({
+      url:'../materiales',
+      type:'post',
+      dataType:'json',
+      data:datos,
+      success:function(json){
+        if(json[0]==1){
+          $("#modal_material").modal("hide");
+          $(".mate").append("<option selected value='"+json[2].id+"'>"+json[2].nombre+"</option>");
+          $(".mate").trigger("chosen:updated");
+        }else{
+          toastr.error("Ocurrió un error");
+          swal.closeModal();
+        }
+      },
+      error:function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    });
+  });
+
+  //submit unidad de medida
+  $(document).on("submit","#form_unidadmedida",function(e){
+    e.preventDefault();
+    var datos=$("#form_unidadmedida").serialize();
+    $.ajax({
+      url:'../unidadmedidas',
+      type:'post',
+      dataType:'json',
+      data:datos,
+      success:function(json){
+        if(json[0]==1){
+          $("#modal_unidad").modal("hide");
+          $(".um").append("<option selected value='"+json[2].id+"'>"+json[2].nombre_medida+"</option>");
+          $(".um").trigger("chosen:updated");
+        }else{
+          toastr.error("Ocurrió un error");
+          swal.closeModal();
+        }
+      },
+      error:function(error){
+        $.each(error.responseJSON.errors, function( key, value ) {
+          toastr.error(value);
+          
+        });
+        swal.closeModal();
+      }
+    });
   });
 
   //registrar solicitud
@@ -254,9 +336,11 @@ $(document).ready(function(e){
       data:{contratacion_id,material_id,unidadmedida_id,cantidad,precio},
       success: function(json){
         if(json[0]==1){
-
+          toastr.success("Ítem registrado con éxito");
+          swal.closeModal();
         }else{
-
+          swal.closeModal();
+          toastr.error("Ocurrió un error");
         }
       },
       error: function(error){
@@ -460,6 +544,7 @@ $(document).ready(function(e){
   $(document).on("submit","#form_proveedor",function(e){
     e.preventDefault();
     var datos=$("#form_proveedor").serialize();
+    modal_cargando();
     $.ajax({
       url:'../directa/proveedor',
       type:'post',
@@ -472,6 +557,7 @@ $(document).ready(function(e){
             location.reload();
           }else{
             swal.closeModal();
+            toastr.error("Ocurrió un error");
           }
       },
       error: function(error){

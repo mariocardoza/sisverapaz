@@ -66,6 +66,9 @@ class DirectaController extends Controller
             $e=Emergencia::whereEstado(1)->first();
             ContratacionDirecta::create([
                 'codigo'=>ContratacionDirecta::codigo_proyecto(),
+                'monto'=>0,
+                //'renta'=>0,
+                //'total'=>0,
                 'numero_proceso'=>$request->numero_proceso,
                 'nombre'=>$request->nombre,
                 'user_id'=>Auth()->user()->id,
@@ -157,6 +160,7 @@ class DirectaController extends Controller
         try{
             $compra=ContratacionDirecta::findorFail($request->id);
             $compra->proveedor_id=$request->proveedor_id;
+            $compra->formapago=$request->formapago;
             $compra->monto=ContratacionDirecta::total($compra->id);
             $compra->renta=ContratacionDirecta::renta($compra->id);
             $compra->total=ContratacionDirecta::total($compra->id)-ContratacionDirecta::renta($compra->id);
@@ -292,7 +296,7 @@ class DirectaController extends Controller
                 
                       <div class="form-group">
                         <label for="" class="control-label">Monto</label>
-                        <input type="number" name="monto" step="any" value="'.$directa->monto.'" class="form-control elmonto">
+                        <input type="number" readonly name="monto" step="any" value="'.$directa->monto.'" class="form-control elmonto">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -314,18 +318,7 @@ class DirectaController extends Controller
                         $html.='</select>
                       </div>
                     </div>
-                    <div class="col-md-12">
-                      <label for="">¿El proceso lleva impuesto sobre la renta?</label>
-                      <input type="checkbox" class="renta">
-                    </div>
-                    <div class="col-md-6 sirenta" style="display: none;">
-                      <label for="" class="control-label">Renta</label>
-                      <input type="number" step="any" name="renta" value="'.$directa->renta.'" class="form-control larenta">
-                    </div>
-                    <div class="col-md-6 sirenta" style="display: none;">
-                      <label for="" class="control-label">Total</label>
-                      <input type="number" name="total" readonly value="'.$directa->total.'" class="form-control total">
-                    </div>
+                    
                 </div>
                     
                 </div>
@@ -416,9 +409,11 @@ class DirectaController extends Controller
     {
         $mensajes=array(
             'proveedor_id.required'=>'Debe seleccionar un proveedor',
+            'formapago.required'=>'Debe seleccionar una forma de pago',
         );
         return Validator::make($data, [
             'proveedor_id' => 'required',
+            'formapago' => 'required',
         ],$mensajes);  
     }
 

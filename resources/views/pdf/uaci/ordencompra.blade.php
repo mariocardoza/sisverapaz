@@ -4,10 +4,14 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SisVerapaz - Orden de compra</title>
-  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
+  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
   <style>
     
-   
+    @page { margin: 120px 50px; }
+    #content { top: -120px; bottom: auto;  }
+    #header { position: fixed; top: -100px; }
+    #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 120px; text-align: center }
+    #footer .page:after { content: counter(page); }
   </style>
 </head>
 <header>
@@ -67,7 +71,7 @@
                         </table>
                         <p></p>
                         Solicito a ustedes por favor entregar a la mayor brevedad posible y en días hábiles, después de haber recibido la Orden de Compra.
-                        <br><br>
+                        <br>
                         <!--div class="table-responsive"-->
                           <table width="100%" cellspacing="10px" class="table table-striped table-bordered" >
                             <thead>
@@ -134,7 +138,6 @@
                         <p></p>
                         NOTA: FAVOR EMITIR FACTURA DE CONSUMIDOR FINAL O RECIBO A NOMBRE DE LA TESORERÍA MUNICIPAL DE VERAPAZ
                         <br>
-                        <br>
   
                         <table width="100%" border="" class="table table-striped table-bordered" >
                           <tbody>
@@ -176,7 +179,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <br>
+                     
                         <table width="100%" class="table table-bordered">
                           <tbody>
                             <tr>
@@ -219,10 +222,3 @@
 </footer>
 </html>
 
-@extends('pdf.plantilla')
-@section('reporte')
-@include('pdf.uaci.cabecera')
-@include('pdf.uaci.pie')
-<br>
-  
-@endsection

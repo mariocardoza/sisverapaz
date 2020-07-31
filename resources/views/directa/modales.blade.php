@@ -53,6 +53,15 @@
                 </select>
                 <button class="btn btn-primary nuevo_prov"><i class="fa fa-plus"></i></button>
               </div>
+              <div class="form-group">
+                <label for="" class="control-label">Forma de pago</label>
+                <select name="formapago" id="" class="chosen-select-width">
+                  <option value="">Seleccione </option>
+                  @foreach ($formas as $f)
+                      <option value="{{$f->id}}">{{$f->nombre}}</option>
+                  @endforeach
+                </select>
+              </div>
         </div>
         <div class="modal-footer">
           <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -83,4 +92,51 @@
       </form>
       </div>
       </div>
+  </div>
+
+  <div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_unidad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Nuevo unidad de medida</h4>
+        </div>
+        <div class="modal-body">
+            <form id='form_unidadmedida'>
+              <div class="row">
+                @include('unidadmedidas.formulario')
+              </div>
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            <button type="submit"  class="btn btn-success">Guardar</button></center>
+        </div>
+      </form>
+      </div>
+      </div>
+  </div>
+
+  <div class="modal fade" tabindex="-1" id="modal_material" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">Registrar materiales</h4>
+        </div>
+        <div class="modal-body">
+          <form id="form_material" class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                  @include('materiales.formulario')
+                </div>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success">Registrar</button></center>
+        </div>
+      </form>
+      </div>
+    </div>
   </div>

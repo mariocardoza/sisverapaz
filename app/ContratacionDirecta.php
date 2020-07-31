@@ -23,6 +23,11 @@ class ContratacionDirecta extends Model
         return $this->belongsTo('App\Cuenta')->withDefault();
     }
 
+    public function formapagos()
+    {
+        return $this->belongsTo('App\Formapago','formapago')->withDefault();
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User')->withDefault();
@@ -47,7 +52,7 @@ class ContratacionDirecta extends Model
     {
       
         $numero=ContratacionDirecta::where('created_at','>=',date('Y'.'-1-1'))->where('created_at','<=',date('Y'.'-12-31'))->count();
-        $numero=$numero++;
+        $numero=$numero+1;
         if($numero>0 && $numero<10){
             return "CD-00".($numero)."-".date("Y");
         }else{
@@ -91,7 +96,10 @@ class ContratacionDirecta extends Model
         $compra=ContratacionDirecta::find($id);
         $tabla.='';
         if($compra->estado==1):
-        $tabla.='<button class="btn btn-primary agregar_sol" type="button">Agregar</button><br><br>';
+        $tabla.='<button class="btn btn-primary agregar_sol" type="button">Agregar</button>
+        <button style="display:none" class="btn btn-primary add_material" type="button">Material</button>
+        <button style="display:none" class="btn btn-primary add_unidad" type="button">Unidad medida</button>
+        <br><br>';
         endif;
         $tabla.='<table class="table tabla_solicitud">
           <thead>
@@ -148,7 +156,7 @@ class ContratacionDirecta extends Model
         <label for="" class="label-info col-xs-12">Emitir orden de compra</label>';
         elseif($compra->estado==4):
         $html.='<label for="" class="label-success col-xs-12">Orden de compra emitida</label><br><br>
-        <a href="../reportesuaci/ordencompra2/'.$compra->orden->id.'" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i></a>';
+        <a href="../reportesuaci/ordencompra2/'.$compra->orden->id.'" target="_blank" class="btn btn-primary vista_previa"><i class="fa fa-print"></i></a>';
         endif;
           $html.='<div class="col-sm-12">
               <span style="font-weight: normal;">Código:</span>
@@ -169,7 +177,7 @@ class ContratacionDirecta extends Model
             <hr style="margin-top: 3px; margin-bottom: 3px;">
 
             <div class="col-sm-12">
-              <span style="font-weight: normal;">Nombre:</span>
+              <span style="font-weight: normal;">Nombre del proceso:</span>
             </div>
             <div class="col-sm-12">
               <span><b>'.$compra->nombre.'</b></span>

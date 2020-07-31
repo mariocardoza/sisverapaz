@@ -4,9 +4,13 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SisVerapaz - Acta de recepción de bienes</title>
-  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
+  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
   <style>
-    
+    @page { margin: 120px 50px; }
+    #content { top: -120px; bottom: auto;  }
+    #header { position: fixed; top: -100px; }
+    #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 120px; text-align: center }
+    #footer .page:after { content: counter(page); }
    
   </style>
 </head>
@@ -94,10 +98,3 @@
 </body>
 </html>
 
-@extends('pdf.plantilla')
-@section('reporte')
-@include('pdf.uaci.cabecera')
-@include('pdf.uaci.pie')
-<br>
-  
-@endsection

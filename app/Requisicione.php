@@ -240,10 +240,9 @@ class Requisicione extends Model
         elseif($requisicion->estado==7):
           $html.='<a title="Descargar" href="requisiciones/bajar/'.$requisicion->nombre_archivo.'" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>';
         else:
-          $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
         endif;
       endif;
-      $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+      $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
 
       $html.='</div>
       <br>
@@ -351,7 +350,7 @@ class Requisicione extends Model
               $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva_sin">Agregar Necesidad</a></center><br>';
             endif;
           else:
-          $tabla.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+          $tabla.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
           endif;
                 $tabla.='<table class="table estee" id="tabla_requi2">
                   <thead>

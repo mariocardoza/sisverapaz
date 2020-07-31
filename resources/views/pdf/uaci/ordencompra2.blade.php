@@ -150,7 +150,7 @@
                             </tr>
                             <tr>
                               <th>CONDICIONES DE PAGO</th>
-                              <td></td>
+                              <td>{{$ordencompra->compradirecta->formapagos->nombre}}</td>
                             </tr>
                             <tr>
                               <th width="40%">FUENTE DE FINANCIAMIENTO</th>
