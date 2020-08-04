@@ -60,6 +60,16 @@ class SolicitudRequisicion extends Model
       $tabla="";
       try{
         $requisicion=SolicitudRequisicion::find($id);
+        $combinadas=DB::table('requisiciondetalles as rd')
+        ->select('m.nombre','c.nombre_categoria as cnombre','m.codigo','rd.materiale_id as elid','m.categoria_id','um.nombre_medida',DB::raw('SUM(rd.cantidad) AS suma'))
+        ->join('materiales as m','m.id','=','rd.materiale_id','inner')
+        ->join('unidad_medidas as um','um.id','=','rd.unidad_medida','inner')
+        ->join('requisiciones as r','r.id','=','rd.requisicion_id')
+        ->join('categorias as c','c.id','=','m.categoria_id')
+        ->where('r.estado','=',9)
+        ->where('r.solirequi_id','=',$id)
+        ->groupBy('m.id','rd.unidad_medida')
+        ->get();
         $html.='<div class="text-center">';
         if(Auth()->user()->hasRole('uaci')):
           if($requisicion->estado==1):
@@ -146,6 +156,31 @@ class SolicitudRequisicion extends Model
               endif;
             endif;
             $lasoli.='</div>';
+
+            $tabla.='<table class="table">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>U/M</th>
+                    <th>Categoría</th>
+                </tr>
+            </thead>
+            <tbody>';
+            foreach ($combinadas as $i=>$c):
+                $tabla.='<tr>
+                    <td>'.($i+1).'</td>
+                    <td>'.$c->codigo.'</td>
+                    <td>'.$c->nombre.'</td>
+                    <td>'.$c->suma.'</td>
+                    <td>'.$c->nombre_medida.'</td>
+                    <td>'.$c->cnombre.'</td>
+                </tr>';
+          endforeach;
+          $tabla.='</tbody>
+          </table>';
         return array(1,$html,$tabla,$lasoli);
       }catch(Exception $e){
   

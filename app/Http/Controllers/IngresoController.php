@@ -15,7 +15,8 @@ class IngresoController extends Controller
     public function index()
     {
         $ingresos=Ingreso::where('estado',1)->get();
-        return view('ingresos.index',\compact('ingresos'));
+        $construcciones=\App\Construccion::where('estado','3')->count();
+        return view('ingresos.index',\compact('ingresos','construcciones'));
     }
 
     /**

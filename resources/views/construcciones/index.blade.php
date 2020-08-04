@@ -58,7 +58,7 @@
                       </td>
                       @elseif($construccion->estado==3)
                       <td>
-                      <label for="" class="col-md-12 label-success">Pagada y pendiente de recibo</label>
+                      <label for="" class="col-md-12 label-success">Emisión de recibo</label>
                       </td>
                       @else
                       <td>

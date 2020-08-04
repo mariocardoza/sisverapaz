@@ -139,6 +139,18 @@ class ConstruccionController extends Controller
         //
     }
 
+    public function cambiarestado(Request $request, $id)
+    {
+        try{
+            $construccion=Construccion::findorFail($id);
+            $construccion->estado=$request->estado;
+            $construccion->save();
+            return array(1,"exito",$construccion);
+        }catch(Exception$e){
+
+        }
+    }
+
     protected function validar(array $data)
     {
         return Validator::make($data, [

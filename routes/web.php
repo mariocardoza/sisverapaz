@@ -12,11 +12,11 @@
 Route::get('/', function () {
     $users = \App\User::all()->count();
     $roles = \App\Role::all();
-    if ($users == 0) {
-      return view('auth/register', compact('roles'));
-    } else {
+    //if ($users == 0) {
+      //return view('auth/register', compact('roles'));
+    //} else {
       return view('auth/login');
-    }
+    //}
 });
 
 Route::get('pdf',function(){
@@ -350,6 +350,7 @@ Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
 Route::Resource('inmueble','InmuebleController');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
+Route::put('construcciones/cambiarestado/{id}','ConstruccionController@cambiarestado');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
@@ -438,6 +439,7 @@ Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@plan
 Route::get('reportestesoreria/planillaaprobada/{id}','ReportesTesoreriaController@planillaaprobada');
 Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta');
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
+Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
 //Ruta para detalle de planillas
 Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');

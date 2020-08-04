@@ -15,6 +15,15 @@ class ReportesTesoreriaController extends Controller
     	return $pdf->stream('pagos.pdf');
 	}
 
+	public function reciboc($id)
+	{
+		$construccion = \App\Construccion::findorFail($id);
+    	$tipo = "REPORTE DE PAGO DE IMPUESTOS";
+    	$pdf = \PDF::loadView('pdf.tesoreria.reciboc',compact('construccion','tipo'));
+    	$pdf->setPaper('letter','landscape');
+    	return $pdf->stream('Recibo.pdf');	
+	}
+
     public function pagorentas($id)
     {
     	$configuracion = \App\Configuracion::first();
