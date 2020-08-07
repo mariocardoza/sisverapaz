@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Control de asistencia </title>
-    <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
+    <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <style>
     
         @page { margin: 120px 50px; }

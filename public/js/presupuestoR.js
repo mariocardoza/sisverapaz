@@ -24,7 +24,7 @@ $(document).ready(function () {
 					$(json).each(function (k, v) { 
 						catalogo_original.push(v);
 						catalogo_original_index.push(v.id);
-						var html = '<option data-nombre="'+v.nombre+'" data-uninom="'+v.nombre_medida+'" data-unidad="' + v.idunidad + '" value="' + v.id + '">' + v.nombre + ' - '+ v.nombre_medida + '</option>';
+						var html = '<option data-nombre="'+v.nombre+'" value="' + v.id + '">' + v.nombre + '</option>';
 						select.append(html);
 					});
 					select.trigger('chosen:updated');
@@ -58,13 +58,13 @@ $(document).ready(function () {
 		var id_desc = $("#descripcion_item").val();
 		var cantidad = $("#cantidad").val();
 		var precio = $("#precio").val();
-		var unidad = $("#descripcion_item option:selected").data('uninom');
-
+		var unidad = $("#unidad_medida option:selected").text();
+		var idunidad=$("#unidad_medida").val() || 0;
 		var select = $("#descripcion_item");
 
 		var tabla = $("#tabla_detalle");
 
-		var html = '<tr data-medida="' + id_desc + '" data-cantidad="' + cantidad + '" data-precio="' + precio + '">' +
+		var html = '<tr data-medida="' + id_desc + '" data-unidad="'+idunidad+'" data-cantidad="' + cantidad + '" data-precio="' + precio + '">' +
 			'<td>' + descripcion + '</td>' +
 			'<td>' + unidad + '</td>' +
 			'<td>' + cantidad + '</td>' +
@@ -83,7 +83,7 @@ $(document).ready(function () {
 		select.append('<option value="">Seleccione una descripción</option>');
 		$(catalogo_original).each(function (k, v) { 
 			if (catalogo_en_uso.indexOf(catalogo_original_index[k]) == -1) {
-				var html = '<option data-nombre="'+v.nombre+'" data-uninom="'+v.nombre_medida+'" data-unidad="' + v.idunidad + '" value="' + v.id + '">' + v.nombre + ' - ' +v.nombre_medida+'</option>';
+				var html = '<option data-nombre="'+v.nombre+'" value="' + v.id + '">' + v.nombre +'</option>';
 				select.append(html);
 			}
 			select.trigger('chosen:updated');
@@ -114,6 +114,7 @@ $(document).ready(function () {
 				presupuestos.push({
 					material: $(element).attr("data-medida"),
 					cantidad: $(element).attr("data-cantidad"),
+					medida: $(element).attr("data-unidad"),
 					precio: $(element).attr("data-precio")
 				});
 			}
@@ -162,7 +163,8 @@ $(document).ready(function () {
 				presupuestos.push({
 					material: $(element).attr("data-medida"),
 					cantidad: $(element).attr("data-cantidad"),
-					precio: $(element).attr("data-precio")
+					precio: $(element).attr("data-precio"),
+					medida: $(element).attr("data-unidad")
 				});
 			}
 		});
@@ -298,7 +300,8 @@ $(document).ready(function () {
 			presu.push({
 			  idcambiar:$(this).attr("data-idcambiar"),
 			  idmaterial:$(this).attr("data-material"),
-			  cantidad:$(this).attr("data-cantidad")
+			  cantidad:$(this).attr("data-cantidad"),
+			  unidad:$(this).attr("data-unidad"),
 			});
 		  }
 		});
@@ -411,9 +414,9 @@ $(document).ready(function () {
 		  data:{},
 		  success:function(json){
 			if(json[0]==1){
-			  $("#aqui_poner_coti").empty();
-			  $("#aqui_poner_coti").html(json[2]);
-			  $("#titulo_ver_coti").text(json[3]);
+			  $("#modal_aqui").empty();
+			  $("#modal_aqui").html(json[2]);
+			  //$("#titulo_ver_coti").text(json[3]);
 			  $("#modal_ver_coti").modal("show");
 			}
 		  }
@@ -570,9 +573,12 @@ $(document).ready(function () {
 			  toastr.success("Orden de compra registrada con éxito");
 			  mostrar_solicitud(json[2]);
 			  informacion(elid);
-			  $("#modal_registrar_orden").modal("hide");
-			  $("#laordencompra").trigger("reset");
+			  //$("#modal_registrar_orden").modal("hide");
+			  //$("#laordencompra").trigger("reset");
 			  swal.closeModal();
+			  $("#elshow").show();
+			  $("#elformulario").hide();
+			  $("#form_solicitudcotizacion").trigger("reset");
 			  //window.location.reload();
 			}else{
 			  swal.closeModal();

@@ -441,6 +441,7 @@ Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta')
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
 Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
 //Ruta para detalle de planillas
+Route::post('detalleplanillas/store2','DetallePlanillaController@store2');
 Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');

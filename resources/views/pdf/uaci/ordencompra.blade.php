@@ -157,9 +157,9 @@
                               <td width="60%">
                                 @if($ordencompra->cotizacion->solicitudcotizacion->tipo==1)
                                 @foreach($ordencompra->cotizacion->solicitudcotizacion->proyecto->fondo as $fondos)
-                                  {{$fondos->fondocat->categoria}} / Contrapartida Municipal para
+                                  {{$fondos->cuenta->nombre}},
                                 @endforeach
-                                {{$ordencompra->cotizacion->solicitudcotizacion->proyecto->nombre}}
+                                / {{$ordencompra->cotizacion->solicitudcotizacion->proyecto->nombre}}
                               @elseif($ordencompra->cotizacion->solicitudcotizacion->tipo==2)
                                 {{$ordencompra->cotizacion->solicitudcotizacion->requisicion->cuenta->nombre}}
                                 @else 

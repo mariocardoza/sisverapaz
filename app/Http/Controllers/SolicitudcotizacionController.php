@@ -150,6 +150,7 @@ class SolicitudcotizacionController extends Controller
               $solideta=\App\Solicitudcotizaciondetalle::create([
                 'material_id'=>$req['idmaterial'],
                 'cantidad'=>$req['cantidad'],
+                'unidad_medida'=>$req['unidad'],
                 'solicitud_id'=>$solicitud->id
               ]);
 

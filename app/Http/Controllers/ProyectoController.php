@@ -540,7 +540,7 @@ class ProyectoController extends Controller
         $detalles=DB::table('presupuestodetalles as pre')
         ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
         ->join('materiales as ma','ma.id','=','pre.material_id','inner')
-        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->join('unidad_medidas as u','u.id','=','pre.unidad_medida','inner')
         ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
         ->where('ma.categoria_id','=',$id)
         ->orderby('ma.categoria_id')
@@ -549,7 +549,7 @@ class ProyectoController extends Controller
         $detalles=DB::table('presupuestodetalles as pre')
         ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
         ->join('materiales as ma','ma.id','=','pre.material_id','inner')
-        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->join('unidad_medidas as u','u.id','=','pre.unidad_medida','inner')
         ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
         ->orderby('ma.categoria_id')
         ->get();

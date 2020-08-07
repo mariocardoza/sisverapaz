@@ -605,7 +605,7 @@ class Solicitudcotizacion extends Model
               foreach($proyecto->presupuesto->presupuestodetalle as $key => $detalle):
                   if($detalle->estado==1):
                   $formulario.='<tr>
-                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-unidad="'.$detalle->unidad_medida.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
                       <td>'.($key+1).'</td>
                       <td>'.$detalle->material->nombre.'</td>
                       <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>

@@ -287,7 +287,7 @@ class Proyecto extends Model
                 $contador++;
                   $total=$total+$detalle->cantidad*$detalle->preciou;
                 $presu.='<td>'.$detalle->material->nombre.'</td>
-                <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
+                <td>'.$detalle->unidadmedida->nombre_medida.'</td>
                 <td>'.$detalle->cantidad.'</td>
                 <td class="text-right">$'.number_format($detalle->preciou,2).'</td>
                 <td class="text-right">$'.number_format($detalle->cantidad*$detalle->preciou,2).'</td>
@@ -493,7 +493,7 @@ class Proyecto extends Model
         $proyecto=Proyecto::find($id);
         $html.='<button class="btn btn-primary" id="nuevo_empleado">Registrar empleado <i class="fa fa-save"></i></button> | ';
         if($proyecto->periodoactivo->count()==1):
-          $html.='<a href="../reportesuaci/asistenciaproyecto/'.$proyecto->id.'" target="_blank" class="btn btn-success" title="Imprimir asistencia">Imprimir asistencia <i class="fa fa-print"></i></a>';
+          $html.='<a href="../reportesuaci/asistenciaproyecto/'.$proyecto->id.'" target="_blank" class="btn btn-success vista_previa" title="Imprimir asistencia">Imprimir asistencia <i class="fa fa-print"></i></a>';
         endif;
         
         $html.='<table class="table" id="latabla2">

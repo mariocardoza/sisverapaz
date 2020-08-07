@@ -226,7 +226,7 @@ $(document).ready(function(e){
       modal_cargando();
       if(valid){
         $.ajax({
-          url:'../detalleplanillas',
+          url:'../detalleplanillas/store2',
           type:'post',
           dataType:'json',
           data:datos,

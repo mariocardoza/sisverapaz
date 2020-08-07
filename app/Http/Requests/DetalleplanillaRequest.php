@@ -26,7 +26,7 @@ class DetalleplanillaRequest extends FormRequest
          return [
              'empleado_id' => 'required',
              'salario' => 'required',
-            'cargo_id'=>'required',
+             'cargo_id'=>'required',
              'tipo_pago' => 'required',
              'pago' => 'required',
              'fecha_inicio' => 'required',
