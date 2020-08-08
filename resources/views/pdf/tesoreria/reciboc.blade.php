@@ -17,9 +17,19 @@ $cons=$construccion;
         .titulo{
             text-align:left;direction:ltr; font-family: "Arial"; font-size: 14pt; border: 0px none; padding: 0px; margin: 0px;font-weight: normal;color:#000000;background-color:transparent;overflow:hidden; position: absolute;
         }  
+        .pagado {
+            background-image:url("{{ url('img/pagado.png')}}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
     </style>
 </head>
+@if($construccion->estado==4)
+<body class="pagado">
+@else 
 <body>
+@endif
     <script type="text/php">
         if ( isset($pdf) ) {
             $pdf->page_script('
@@ -52,11 +62,12 @@ top:1.86667in;width:1.78542in;height:1.17708in;">{{num_letras(number_format($con
 <div class="FRX1_11" style="z-Index:7;left:3in;
 top:1.86667in;width:1.58542in;height:1.57708in;">Pago por derecho de construcción</div>
 
+
 <div class="FRX1_11" style="z-Index:7;left:5in;
 top:1.86667in;width:1.58542in;height:1.57708in;">${{number_format($construccion->impuesto,2)}}</div>
 
 <div class="FRX1_11" style="z-Index:7;left:3in;
-top:2.96667in;width:1.58542in;height:1.57708in;">{{session("fiestas")*100}}% Fiestas</div>
+top:2.96667in;width:1.58542in;height:1.57708in;">{{retornar_porcentaje("fiestas")*100}}% Fiestas</div>
 
 <div class="FRX1_11" style="z-Index:7;left:5in;
 top:2.96667in;width:1.58542in;height:1.57708in;">${{number_format($construccion->fiestas,2)}}</div>

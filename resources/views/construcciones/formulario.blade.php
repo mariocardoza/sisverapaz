@@ -38,7 +38,7 @@
 	<label for="direccion_construccion" class="control-label">Dirección </label>
 
 	<div class="">
-		{{ Form::textarea('direccion_construccion', null, ['class' => 'form-control','rows'=>2]) }}
+		{{ Form::textarea('direccion_construccion', null, ['class' => 'form-control dir_cons','rows'=>2]) }}
 	</div>
 </div>
 

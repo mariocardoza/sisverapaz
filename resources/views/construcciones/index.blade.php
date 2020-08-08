@@ -22,8 +22,8 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3><br>
-                <a href="{{ url('/construcciones/create') }}" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <h3 class="box-title"></h3><br>
+                <a href="javascript:void(0)" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
 
             </div>
             <!-- /.box-header -->
@@ -58,7 +58,7 @@
                       </td>
                       @elseif($construccion->estado==3)
                       <td>
-                      <label for="" class="col-md-12 label-success">Emisión de recibo</label>
+                      <label for="" class="col-md-12 label-success">Recibo emitido</label>
                       </td>
                       @else
                       <td>
@@ -67,11 +67,16 @@
                       @endif
                     
                     <td>
-                      {{ Form::open(['method' => 'POST', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('construcciones/'.$construccion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                      <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$construccion->id.",'construcciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
-                      {{ Form::close()}}
+                      @if($construccion->estado==1)
+                      <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$construccion->id}}"><span class="fa fa-edit"></span></a>
+                      <a class="btn btn-danger" type="button" onclick={{ "baja(".$construccion->id.",'construcciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                      @elseif($construccion->estado==2)
+                      @elseif($construccion->estado==3)
+                      <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a class="btn btn-success vista_previa" href="{{url ('reportestesoreria/reciboc/'.$construccion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
+                      @else
+                      @endif
                     </td>
                   </tr>
                   @endforeach
@@ -202,6 +207,8 @@
     </div>
   </div>
 </div>
+
+<div id="modal_aqui"></div>
 @endsection
 @section('scripts')
 <script>
@@ -212,6 +219,61 @@
     $(document).on("click","#nuevo",function(e){
       e.preventDefault();
       $("#modal_construccion").modal("show");
+    });
+
+    //editar construccion
+    $(document).on("click",".editar",function(e){
+      e.preventDefault();
+      let id=$(this).attr("data-id");
+      $.ajax({
+        url:'construcciones/'+id+'/edit',
+        type:'get',
+        dataType:'json',
+        success:function(json){
+          if(json[0]==1){
+            $("#modal_aqui").empty();
+            $("#modal_aqui").html(json[2]);
+            $(".chosen-select-width").chosen({'width':'100%'});
+            $("#modal_econstruccion").modal("show");
+          }
+        }
+      });
+    });
+
+    //el editar
+    $(document).on("click",".eledit",function(e){
+      e.preventDefault();
+      var datos=$("#form_econstruccion").serialize();
+      var id=$(this).attr("data-id");
+      modal_cargando();
+      $.ajax({
+        url:'construcciones/'+id,
+        type:'put',
+        dataType:'json',
+        data:datos,
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("Registrado con éxito");
+            location.reload();
+          }
+          else{
+            if(json[0]==2){
+            console.log(json);
+            toastr.info(json[2]);
+            swal.closeModal();
+            }else{
+              toastr.error("Ocurrió un error");
+              swal.closeModal();
+            }
+          }
+        },
+        error: function(error){
+          $.each(error.responseJSON.errors,function(i,v){
+            toastr.error(v);
+          });
+          swal.closeModal();
+        }
+      });
     });
 
     //change a contribuyente
@@ -235,10 +297,24 @@
       })
     });
 
+    //change a el inmueble
+    $(document).on("change","#elinmueble",function(e){
+      e.preventDefault();
+      let id=$(this).val();
+      if(id>0){
+        let direccion="";
+        direccion=$("#elinmueble option:selected").attr("data-direccion");
+        $(".dir_cons").val(direccion);
+      }else{
+        $(".dir_cons").val("");
+      }
+    });
+
     //submit de form_construccion
     $(document).on("submit","#form_construccion",function(e){
       e.preventDefault();
       var datos=$("#form_construccion").serialize();
+      modal_cargando();
       $.ajax({
         url:'construcciones',
         type:'POST',
@@ -253,8 +329,10 @@
             if(json[0]==2){
             console.log(json);
             toastr.info(json[2]);
+            swal.closeModal();
             }else{
               toastr.error("Ocurrió un error");
+              swal.closeModal();
             }
           }
         },
@@ -340,9 +418,10 @@
         data:datos,
         success: function(json){
           if(json[0]==1){
-            toastr.success("Inmueble registros con éxito");
-            $("#elinmueble").append('<option selected value="'+json[2].id+'">'+json[2].numero_escritura+'</option>');
+            toastr.success("Inmueble registrado con éxito");
+            $("#elinmueble").append('<option selected data-direccion="'+json[2].direccion+'" value="'+json[2].id+'">'+json[2].numero_escritura+'</option>');
             $("#elinmueble").trigger("chosen:updated");
+            $("#elinmueble").trigger("change");
             $("#form_inmueble").trigger("reset");
             $("#modal_inmueble").modal("hide");
             $("#modal_construccion").modal("show");

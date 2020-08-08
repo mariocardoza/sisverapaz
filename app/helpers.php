@@ -2,6 +2,7 @@
 use App\Bitacora;
 use App\Presupuesto;
 use App\Cargo;
+use App\Porcentaje;
 
 function invertir_fecha($fecha)
 {
@@ -14,6 +15,14 @@ function invertir_fecha($fecha)
         return $nueva;
   }
 }
+
+function retornar_porcentaje($dato)
+    {
+    	$porcentajes=Porcentaje::where('nombre_simple',$dato)->first();
+    	$valor=0;
+    	$valor=$porcentajes->porcentaje/100;
+    	return $valor;
+    }
 
 function tamaniohumano($size, $precision = 2)
     {

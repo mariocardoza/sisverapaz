@@ -11,11 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // La creación de datos de roles debe ejecutarse primero
-        $this->call(RoleTableSeeder::class);
+        //La creación de datos de roles debe ejecutarse primero
+        //$this->call(RoleTableSeeder::class);
         //factory(App\Proveedor::class,50)->create();
         $this->call(RentaTableSeeder::class);
-        $this->call(EmpleadoSeeder::class);
+        //$this->call(EmpleadoSeeder::class);
+        $this->call(ConfiguracionSeed::class);
 
         $this->call(ContribuyentesTableSeeder::class);
         //$this->call(InmuebleTableSeeder::class); 
