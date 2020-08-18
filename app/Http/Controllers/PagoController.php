@@ -79,7 +79,8 @@ class PagoController extends Controller
             'contribuyente_id'  => $data['contribuyente_id'],
         ]);
         bitacora('Registró un pago de factura');
-        return redirect('pagos')->with('mensaje', 'Pago registrado');
+        $retorno = factura::guardar($request->All());
+        return $retorno;
     }
 
     /**
@@ -90,8 +91,7 @@ class PagoController extends Controller
      */
     public function show($id)
     {
-        $conn = Contribuyente::find($id);
-        $coc = Tipopago::find($id);
+        //
     }
 
     /**
@@ -102,8 +102,8 @@ class PagoController extends Controller
      */
     public function edit($id)
     {
-        $pago = Pago::find($id);
-        return view('pagos.edit', compact('pago'));
+        $factura = Factura::find($id);
+        return array(1,"exitoso",$factura);
     }
 
     /**
@@ -115,11 +115,18 @@ class PagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pago = Pago::find($id);
-        $pago->fill($request->All());
-        $pago->save();
-        bitacora('Modificó registro');
-        return redirect('/pagos')->with('mensaje','Registro modificado con éxito');
+        try{
+            $factura = Factura::find($id);
+            if($factura->nombre!= $request->nombre)
+            {
+                $this->validate($request,['nombre' => 'required|unique:factura|min:5']);
+            }
+            $pago->nombre = $request->nombre;
+            $pago->save();
+            return array(1,"éxito");
+        } catch(exception $e){
+            return array(-1);
+        }
     }
 
     /**

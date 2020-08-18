@@ -3,11 +3,10 @@
 @section('migasdepan')
 <h1>
         Recibos de inmuebles
-        <small>Control de recibos</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Inicio</a></li>
-        <li class="active">Recibos</li>
+        <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
+        <li class="active">Listado</li>
       </ol>
 @endsection
 
@@ -17,12 +16,16 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title"></h3>
-
+              <div class="btn-group pull-right">
+                <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                <a href="{{ url('/pagos?estado=1') }}" class="btn btn-primary">Activos</a>
+                <a href="{{ url('/pagos?estado=0') }}" class="btn btn-primary">Papelera</a>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table class="table table-striped table-bordered table-hover" id="example2">
-          <thead>
+                <thead>
                   <th>N°</th>
                   <th>Propietario</th>
                   <th>N° Catastral/Inmueble</th>
@@ -67,4 +70,86 @@
           <!-- /.box -->
         </div>
 </div>
+@endsection
+
+@include("pagos.modales")
+@endsection
+
+@section("scripts")
+<script>
+  $(document).ready(function(e){
+    $(document).on("click", "#btnmodalagregar",
+    function(e){
+      $("#modal_registrar").modal("show");
+    });
+
+    $(document).on("click", "#btnguardar", function(e){
+      e.preventDefault();
+      var datos = $("#form_pago").serialize();
+      $.ajax({
+        url:"pagos",
+        type:"post",
+        data:datos,
+        success:function(retorno){
+          if(retorno[0] == 1){
+            toastr.success("Registrado con éxito ");
+            $("#modal_registrar").modal("hide");
+            window.location.reload();
+          }
+          else{
+          toastr.error("Falló");
+          }
+        },
+        error:function(error){
+          console.log();
+          $(error.responseJSON.errors).each(function(index,valor){
+            toastr.error(valor.nombre);
+          })
+        }
+      });
+    });
+
+    $(document).on("click", "#edit", function(){
+      var id = $(this).attr("data-id");
+      $.ajax({
+        url:"pagos/"+id+"/edit",
+        type:"get",
+        data:{},
+        success:function(retorno){
+          if(retorno[0] == 1){
+            $("#modal_editar").modal("show");
+            $("#e_nombre").val(retorno[2].nombre);
+            $("#elid").val(retorno[2].id);
+          }
+          else{
+            toastr.error("error");
+          }
+        }
+      });
+    });
+
+    $(document).on("click", "#btneditar", function(e){
+      var id = $("#elid").val();
+      var nombre = $("#e_nombre").val();
+
+      $.ajax({
+        url:"pagos/"+id,
+        type:"put",
+        data:{nombre},
+        success:function(retorno){
+          if(retorno[0] == 1){
+            toastr.success("Exitoso");
+            $("#modal_editar").modal("hide");
+            window.location.reload();
+          }
+          else{
+            toastr.error("error");
+          }
+        }
+      });
+    });
+
+    $(document).on()
+  });
+</script>
 @endsection

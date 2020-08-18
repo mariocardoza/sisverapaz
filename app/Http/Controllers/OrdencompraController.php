@@ -135,6 +135,31 @@ class OrdencompraController extends Controller
 
     }
 
+    public function index2(Request $request)
+    {
+      $estado = $request->get('estado');
+      if( $estado == "" )
+      {
+        $ordenes = Ordencompra::orderBy('numero_orden')->get();
+        return view('ordencompras.index2',compact('ordenes','estado'));
+      }
+      if( $estado == 1 )
+      {
+        $ordenes = Ordencompra::where('estado',$estado)->orderBy('numero_orden')->get();
+        return view('ordencompras.index2',compact('ordenes','estado'));
+      }
+      if( $estado == 2 )
+      {
+        $ordenes = Ordencompra::where('estado',$estado)->orderBy('numero_orden')->get();
+        return view('ordencompras.index2',compact('ordenes','estado'));
+      }
+      if( $estado == 3 )
+      {
+        $ordenes = Ordencompra::where('estado',$estado)->orderBy('numero_orden')->get();
+        return view('ordencompras.index2',compact('ordenes','estado'));
+      }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
