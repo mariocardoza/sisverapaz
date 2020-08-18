@@ -48,7 +48,7 @@
 				<th>Sep</th>
 				<th>Oct</th>
 				<th>Nov</th>
-				<th>Div</th>
+				<th>Dic</th>
 				<?php $correlativo=0?>
 			</tr>
 		</thead>
@@ -60,7 +60,7 @@
 					<td>{{$correlativo+1}}</td>
 					<td>{{ $presupuestounidad->material->nombre }}</td>
 					<td>{{ $presupuestounidad->cantidad }}</td>
-					<td>{{$presupuestounidad->material->unidadmedida->nombre_medida}}</td>
+					<td>{{$presupuestounidad->unidadmedida->nombre_medida}}</td>
 					<td class="text-right">${{ number_format($presupuestounidad->material->precio_estimado,2) }}</td>
 					<td>{{$presupuestounidad->enero}}</td>
 					<td>{{$presupuestounidad->febrero}}</td>

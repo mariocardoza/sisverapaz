@@ -95,7 +95,9 @@
       </div>
       <div class="modal-body">
         <form id="form_nproveedor">
-          @include('proveedores.formulario')
+          <div class="row">
+            @include('proveedores.formulario')
+          </div>
         </form>
       </div>
       <div class="modal-footer">

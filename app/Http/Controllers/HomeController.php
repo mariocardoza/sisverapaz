@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Validator;
 use Auth;
+use DB;
 class HomeController extends Controller
 {
     use AuthenticatesUsers;
@@ -29,7 +30,20 @@ class HomeController extends Controller
     public function index()
     {
         $configuracion=Configuracion::first();
-        $proyectos=\App\Proyecto::where('anio',date('Y'))->with('indicadores_completado')->get();
+        $indicadores=[];
+        $proyectos=DB::table('proyectos as p')
+        ->select('p.id','p.nombre','p.beneficiarios','p.codigo_proyecto','p.direccion',
+        'p.estado','p.fecha_inicio','p.fecha_fin','p.lat','p.lng','p.motivo','p.monto',
+        DB::RAW('(select
+            sum(ip.porcentaje)
+        FROM
+            indicadores_proyectos AS ip
+        WHERE
+            ip.proyecto_id = p.id
+        AND ip.estado = 2) as avance'))
+        ->where('p.anio','=',date('Y'))
+        ->get();
+
         if($configuracion!='')
         {
             return view('home',compact('proyectos'));

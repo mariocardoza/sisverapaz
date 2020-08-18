@@ -1,3 +1,7 @@
+@php
+	$unidades=[];
+	$unidades=\App\UnidadMedida::get();
+@endphp
 <div class="modal fade" tabindex="-1" id="nueva_categoria" role="dialog" aria-labelledby="gridSystemModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -22,6 +26,17 @@
 					<div class="col-md-8" id="select">
 							<select name="descripcion_item" id="descripcion_item" required class="chosen-select-width">
 								<option value="">Seleccione un item primero</option>
+							</select>
+					</div>
+				</div>
+				<div class="form-group col-md-12">
+					<label for="" class="col-md-2">Unidad de medida</label>
+					<div class="col-md-8" id="select">
+							<select name="unidad_medida" id="unidad_medida" required class="chosen-select-width">
+								<option value="">Seleccione una unidad</option>
+								@foreach ($unidades as $u)
+									<option value="{{$u->id}}">{{$u->nombre_medida}}</option>
+								@endforeach
 							</select>
 					</div>
 				</div>

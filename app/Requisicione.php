@@ -58,6 +58,9 @@ class Requisicione extends Model
       case 7:
         $html.='<span class="col-xs-12 label-success"><strong>Proceso finalizado</strong></span>';
         break;
+      case 9:
+          $html.='<span class="col-xs-12 label-info"><strong>Combinada con otras req.</strong></span>';
+          break;
       default:
         $html.='<span class="col-xs-12 label-success">Default</span>';
         break;
@@ -189,12 +192,12 @@ class Requisicione extends Model
                 <td>'.($key+1).'</td>
                 <td>'.$material->material->nombre.'</td>
                 <td>'.$material->material->categoria->nombre_categoria.'</td>
-                <td>'.$material->material->unidadmedida->nombre_medida.'
+                <td>'.$material->unidadmedida->nombre_medida.'
                   <input type="hidden" name="materiales[]" value="'.$material->material->id.'"/>
                 </td>
                 <td>'.$material->disponibles->count().'</td>
                 <!--td><input type="number" class="form-control canti" name="lacantidad[]"></td-->
-                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
+                <td><button type="button" data-disponible="'.$material->disponibles->count().'" data-unidad="'.$material->unidadmedida->id.'" data-material="'.$material->material->id.'" class="btn btn-primary btn-sm esteagrega" ><i class="fa fa-check"></i></button></td>
               </tr>';
     }
   endif;
@@ -237,10 +240,9 @@ class Requisicione extends Model
         elseif($requisicion->estado==7):
           $html.='<a title="Descargar" href="requisiciones/bajar/'.$requisicion->nombre_archivo.'" class="btn btn-primary" id=""><i class="glyphicon glyphicon-download"></i></a>';
         else:
-          $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
         endif;
       endif;
-      $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+      $html.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
 
       $html.='</div>
       <br>
@@ -348,7 +350,7 @@ class Requisicione extends Model
               $tabla.='<center><a class="btn btn-success pull-right" id="agregar_nueva_sin">Agregar Necesidad</a></center><br>';
             endif;
           else:
-          $tabla.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
+          $tabla.='<a title="Imprimir requisición" href="../reportesuaci/requisicionobra/'.$requisicion->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>';
           endif;
                 $tabla.='<table class="table estee" id="tabla_requi2">
                   <thead>
@@ -458,8 +460,11 @@ class Requisicione extends Model
       case 7:
       $requisiciones=Requisicione::where('estado',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
       break;
+      case 9:
+      $requisiciones=Requisicione::where('estado',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      break;
       default:
-      $requisiciones=Requisicione::where('estado','<>',2)->where('estado','<>',7)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
+      $requisiciones=Requisicione::where('estado','<>',2)->where('estado','<>',7)->where('estado','<>',9)->whereYear('created_at',date('Y'))->orderBy('created_at','DESC')->get();
     }
 
     $html="";
@@ -480,7 +485,7 @@ class Requisicione extends Model
 
     foreach($requisiciones as $key => $requisicion):
       $html.='<tr>
-      <td>'.($key+1).'</td>
+      <td>'.($key+1).'';if($requisicion->estado==1):$html.=' <input type="checkbox" data-id="'.$requisicion->id.'" class="combinar" style="display: none;">';endif;$html.='</td>
       <td>'.$requisicion->codigo_requisicion.'</td>
       <td>'.$requisicion->actividad.'</td>
       <td>'. $requisicion->unidad->nombre_unidad.'</td>';
@@ -591,7 +596,7 @@ class Requisicione extends Model
               <div>
                 <input type="text" class="form-control" name="cantidad" >
                 <input type="hidden" class="form-control" name="requisicion_id" value="'.$data['elid'].'">
-                <input type="hidden" class="form-control" name="unidad_medida" value="'.$material->unidad_id.'">
+                <input type="hidden" class="form-control" name="unidad_medida" value="'.$data['unidad_medida'].'">
                 <input type="hidden" class="form-control" name="materiale_id" value="'.$material->id.'">
               </div>
             </div>

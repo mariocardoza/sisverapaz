@@ -10,7 +10,13 @@
     <table width="100%" border="1px">
       <td>
 
-      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas {{$solicitud->tipo==1 ? 'el proyecto: '. $solicitud->proyecto->nombre : 'la actividad: '. $solicitud->requisicion->actividad}}
+      La Alcaldía Municipal de Verapaz, a través de la Unidad de Adquisiciones y Contrataciones Institucional UACI, somete a competencia de personas naturales y jurídicas 
+      @if($solicitud->tipo==1)
+      el proyecto: {{$solicitud->proyecto->nombre}}
+      @elseif($solicitud->tipo == 2 )
+      la actividad: {{$solicitud->requisicion->actividad }}
+      @else Solicitud de bienes y servicios
+      @endif
       <p>Según detalle:</p>
 
       </td>
@@ -33,18 +39,29 @@
         <tr>
           <td>{{$indice+1}}</td>
           <td>{{$detalle->material->nombre}}</td>
-          <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
+          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>
         </tr>
         @endforeach
-      @else
+      @elseif($tipo==2)
         @foreach($solicitud->detalle as $indice => $detalle)
         <tr>
           <td>{{$indice+1}}</td>
           <td>{{$detalle->material->nombre}}</td>
-          <td>{{$detalle->material->unidadmedida->nombre_medida}}</td>
+          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
+          <td>{{$detalle->cantidad}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        @endforeach
+        @else
+        @foreach($solicitud->detalle as $indice => $detalle)
+        <tr>
+          <td>{{$indice+1}}</td>
+          <td>{{$detalle->material->nombre}}</td>
+          <td>{{$detalle->unidadmedida->nombre_medida}}</td>
           <td>{{$detalle->cantidad}}</td>
           <td></td>
           <td></td>

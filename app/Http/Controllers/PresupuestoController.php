@@ -106,8 +106,7 @@ class PresupuestoController extends Controller
     {
         //return Materiales::where('categoria_id',$id)->orderby('nombre','asc')->get();
         return DB::table('materiales')
-        ->select('materiales.id','materiales.nombre','unidad_medidas.id as idunidad','unidad_medidas.nombre_medida')
-        ->join('unidad_medidas','unidad_medidas.id','=','materiales.unidad_id','inner')
+        ->select('materiales.id','materiales.nombre')
         ->where('materiales.estado',1)
         ->where('materiales.categoria_id',$id)
         ->whereNotExists(function ($query) use ($idd)  {
@@ -164,6 +163,7 @@ class PresupuestoController extends Controller
                       'cantidad' => $presu['cantidad'],
                       'preciou' => $presu['precio'],
                       'material_id' => $presu['material'],
+                      'unidad_medida'=>$presu['medida'],
                     ]);
                   }
                   $proyecto = Proyecto::findorFail($request->proyecto_id);
@@ -222,6 +222,7 @@ class PresupuestoController extends Controller
               'cantidad' => $presu['cantidad'],
               'preciou' => $presu['precio'],
               'material_id' => $presu['material'],
+              'unidad_medida'=>$presu['medida'],
             ]);
           }
           return array(1,"exito",$presupuesto);

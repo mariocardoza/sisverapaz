@@ -11,6 +11,7 @@ use App\Unidad;
 use App\UnidadMedida;
 use App\Fondocat;
 use App\Cotizacion;
+use App\SolicitudRequisicion;
 use DB;
 use Redirect;
 use Storage;
@@ -385,6 +386,30 @@ class RequisicionController extends Controller
     {
       $retorno=Requisicione::materiales($id);
       return $retorno;
+    }
+
+    public function combinar(Request $request)
+    {
+      try{
+        DB::begintransaction();
+        $solirequi=SolicitudRequisicion::create([
+          'id'=>date("Yidisus")
+        ]);
+        $estos=[];
+        $estos=$request->requisiciones;
+        foreach($estos as $e){
+          $requ=Requisicione::find($e['requisicion_id']);
+          $requ->estado=9;
+          $requ->solirequi_id=$solirequi->id;
+          $requ->save();
+        }
+        
+        DB::commit();
+        return array(1);
+      }catch(Exception $e){
+        DB::rollback();
+        return array(-1,"error",$e->getMessage());
+      }
     }
 
     public function presupuesto($id)

@@ -11,6 +11,7 @@ use Validator;
 
 class ConstruccionController extends Controller
 {
+    private $modal_edit;
     /**
      * Display a listing of the resource.
      *
@@ -83,7 +84,7 @@ class ConstruccionController extends Controller
         try{
             $contri=Contribuyente::find($id);
             foreach($contri->inmueble as $i){
-                $select.='<option value="'.$i->id.'">'.$i->numero_escritura.'</option>';
+                $select.='<option data-direccion="'.$i->direccion_inmueble.'" value="'.$i->id.'">'.$i->numero_escritura.'</option>';
             }
             return array(1,"exito",$select);
         }catch(Exception $e){
@@ -112,8 +113,8 @@ class ConstruccionController extends Controller
      */
     public function edit($id)
     {
-        $construcciones = Construccion::find($id);
-        return view('construcciones.edit',compact('construcciones'));
+        $construcciones = Construccion::modal_edit($id);
+        return $construcciones;
     }
 
     /**
@@ -125,7 +126,32 @@ class ConstruccionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validar($request->all())->validate();
+        try{
+            if($request->presupuesto>0){
+                //Construccion::create($request->All());
+                bitacora('Registro una construción');
+                $sinfiestas=$request->presupuesto*retornar_porcentaje('construccion');
+                $fiestas=$sinfiestas*retornar_porcentaje('fiestas');
+                $total=$sinfiestas+$fiestas;
+                
+                $construccion=Construccion::find($id);
+                $construccion->inmueble_id=$request->inmueble_id;
+                $construccion->direccion_construccion=$request->direccion_construccion;
+                $construccion->presupuesto=$request->presupuesto;
+                $construccion->total=$total;
+                $construccion->fiestas=$fiestas;
+                $construccion->impuesto=$sinfiestas;
+                $construccion->detalle=$request->detalle;
+                $construccion->save();
+                
+                return array(1,"exito",$construccion);
+            }else{
+                return array(2,"mensaje","El Presupuesto debe ser mayor a cero");
+            }
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**
@@ -137,6 +163,18 @@ class ConstruccionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cambiarestado(Request $request, $id)
+    {
+        try{
+            $construccion=Construccion::findorFail($id);
+            $construccion->estado=$request->estado;
+            $construccion->save();
+            return array(1,"exito",$construccion);
+        }catch(Exception$e){
+
+        }
     }
 
     protected function validar(array $data)

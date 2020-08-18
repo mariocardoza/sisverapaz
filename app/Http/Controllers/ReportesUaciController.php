@@ -63,6 +63,16 @@ class ReportesUaciController extends Controller
     	return $pdf->stream('ordencompra.pdf');
     }
 
+    public function ordencompra2($id)
+    {
+    	$ordencompra = \App\Ordencompra::findorFail($id);
+    	//dd($ordencompra);
+    	$tipo = "ORDEN DE COMPRA";
+    	$pdf = \PDF::loadView('pdf.uaci.ordencompra2',compact('ordencompra','tipo'));
+    	$pdf->setPaper('letter','portrait');
+    	return $pdf->stream('ordencompra.pdf');
+    }
+
     public function planillaproyecto($id)
     {
       $catorcena=\App\PeriodoProyecto::find($id);

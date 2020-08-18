@@ -1,5 +1,13 @@
 <ul class="sidebar-menu">
         <li class="header">Menú Principal</li>
+        @if($emergencia>0)
+        <li class="treeview active">
+          <a href="{{ url('/directa') }}">
+            <i class="fa fa-money"></i> <span style="color: red;">Contratación directa</span>
+          </a>
+          
+        </li>
+        @endif
         <li class="{{Route::currentRouteName() =='home' ? 'active' : null}}"><a href="{{url('/home')}}">Página de inicio</a></li>
     @if(Auth()->user()->hasRole('admin'))
     <li class="treeview {{ Route::currentRouteName() == 'configuraciones.create' ? 'active':null}}">
@@ -35,6 +43,8 @@
       </a>
       
     </li>
+
+
 
     <li class="treeview {{ Route::currentRouteName() == 'backups.index' ? 'active':null}}">
       <a href="{{ url('/backups') }}">

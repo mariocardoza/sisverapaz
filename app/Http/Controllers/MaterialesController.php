@@ -44,11 +44,10 @@ class MaterialesController extends Controller
                 'id'=>date('Yidisus'),
                 'nombre'=>$request->nombre,
                 'categoria_id'=>$request->categoria_id,
-                'unidad_id'=>$request->unidad_id,
                 'servicio'=>$request->servicio,
                 'precio_estimado'=>$request->precio_estimado
             ]);
-            return array(1,"exito");
+            return array(1,"exito",$material);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }
@@ -117,14 +116,12 @@ class MaterialesController extends Controller
     {
         $mensajes=array(
             'nombre.required'=>'El nombre del material es obligatorio',
-            'unidad_id.required'=>'La unidad de medida es obligatoria',
             'categoria_id.required'=>'La categoría es obligatoria',
             'precio_estimado.required' => 'El precio estimado es obligatorio'
         );
         return Validator::make($data, [
             'nombre' => 'required',
             'categoria_id' => 'required',
-            'unidad_id' => 'required',
             'precio_estimado' => 'required',
         ],$mensajes);
 

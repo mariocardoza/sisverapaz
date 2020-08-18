@@ -49,10 +49,11 @@ function initMap() {
      var customMapTypeId = 'custom_style';
      var contentString = new Array();
      for(i = 0; i < proyectos.length; i++ ){
-       var contador=0;
-       for(var j=0;j<proyectos[i].indicadores_completado.length;j++){
-        contador=proyectos[i].indicadores_completado[j].porcentaje;
-       }
+       let contador=0;
+       if(proyectos[i].avance==null)
+      contador=0;
+      else
+      contador=proyectos[i].avance;
        
        contentString[i] = '<div id="content">'+
             '<h1 id="firstHeading" class="firstHeading">'+proyectos[i].nombre+'</h1>'+

@@ -35,6 +35,8 @@ class Solicitudcotizacion extends Model
       return $this->hasMany('App\Solicitudcotizaciondetalle','solicitud_id');
     }
 
+    
+
     public function formapago()
     {
     	return $this->belongsTo('App\Formapago');
@@ -53,6 +55,11 @@ class Solicitudcotizacion extends Model
     public function requisicion()
     {
       return $this->belongsTo('App\Requisicione');
+    }
+
+    public function solirequi()
+    {
+      return $this->belongsTo('App\SolicitudRequisicion','solirequi_id');
     }
 
     public static function correlativo()
@@ -134,9 +141,9 @@ class Solicitudcotizacion extends Model
                           foreach($solicitud->detalle as $detalle):
                             $modal.='<tr>
                               <td>'.$detalle->material->nombre.'</td>
-                              <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
+                              <td>'.$detalle->unidadmedida->nombre_medida.'</td>
                               <td>'.$detalle->cantidad.'
-                                <input type="hidden" name="unidades[]" value="'.$detalle->material->unidadmedida->id.'"/>
+                                <input type="hidden" name="unidades[]" value="'.$detalle->unidadmedida->id.'"/>
                                 <input type="hidden" name="descripciones[]" value="'.$detalle->material->id.'"/>
                                 <input type="hidden" name="cantidades[]" value="'.$detalle->cantidad.'"/>
                               </td>
@@ -187,7 +194,7 @@ class Solicitudcotizacion extends Model
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
                     <div class="col-sm-2">
-                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
                     </div>
                     </br></br>
                     </br>
@@ -301,7 +308,7 @@ class Solicitudcotizacion extends Model
                       <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
                       </div-->
                       <div class="col-sm-2">
-                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
                     </fieldset>
@@ -309,7 +316,7 @@ class Solicitudcotizacion extends Model
                     if($solicitud->requisicion->estado>=6):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
-                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     </fieldset>';
                     endif;
                     $html.='</div>';
@@ -350,7 +357,7 @@ class Solicitudcotizacion extends Model
                       <span><b>'. $solicitud->encargado.'</b></span>
                     </div>
                     <div class="col-sm-2">
-                      <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
                     </div>
                     </br></br>
                     </br>
@@ -460,7 +467,7 @@ class Solicitudcotizacion extends Model
                       <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
                       </div-->
                       <div class="col-sm-2">
-                        <a class="btn btn-primary btn-sm" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
                       </div>
                     </div>
                     </fieldset>
@@ -468,7 +475,7 @@ class Solicitudcotizacion extends Model
                     if($solicitud->proyecto->estado>=8):
                     $html.='<fieldset>
                     <legend>Acta de recepcion de bienes</legend>
-                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
                     </fieldset>';
                     endif;
                     $html.='</div>';
@@ -598,7 +605,7 @@ class Solicitudcotizacion extends Model
               foreach($proyecto->presupuesto->presupuestodetalle as $key => $detalle):
                   if($detalle->estado==1):
                   $formulario.='<tr>
-                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-unidad="'.$detalle->unidad_medida.'" data-material="'.$detalle->material_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
                       <td>'.($key+1).'</td>
                       <td>'.$detalle->material->nombre.'</td>
                       <td>'.$detalle->material->unidadmedida->nombre_medida.'</td>
@@ -716,7 +723,7 @@ class Solicitudcotizacion extends Model
               foreach($requisicion->requisiciondetalle as $key => $detalle):
                   if($detalle->estado==1):
                   $formulario.='<tr>
-                  <td><input type="checkbox" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->materiale_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
+                  <td><input type="checkbox" data-medida="'.$detalle->unidad_medida.'" checked data-idcambiar="'.$detalle->id.'" data-material="'.$detalle->materiale_id.'" data-cantidad="'.$detalle->cantidad.'" class="lositemss"></td>
                       <td>'.($key+1).'</td>
                       <td>'.$detalle->material->nombre.'</td>
                       <td>'.$detalle->unidadmedida->nombre_medida.'</td>
@@ -743,5 +750,148 @@ class Solicitudcotizacion extends Model
       </div>';
 
     return array(1,"exito",$formulario);
+    }
+
+    public static function solicitud($id)
+    {
+      $html='';
+      try{
+        $solicitud=Solicitudcotizacion::find($id);
+        $hoy=Carbon::now();
+        $limite= Carbon::createFromDate($solicitud->fecha_limite->format("Y"),$solicitud->fecha_limite->format("m"),$solicitud->fecha_limite->format("d"));
+        $html.='<div class="panel">
+                  <div class="row">
+                  <fieldset>
+                  <legend>Solicitud de cotización</legend>
+                    <div class="col-sm-3">
+                    <span style="font-weight: normal;">Solicitud N°:</span>
+                    </div>
+                    <div class="col-sm-3">
+                      <span><b>'. $solicitud->numero_solicitud.'</b></span>
+                    </div>
+                    <div class="col-sm-2">
+                    <span style="font-weight: normal;">Encargado:</span>
+                    </div>
+                    <div class="col-sm-2">
+                      <span><b>'. $solicitud->encargado.'</b></span>
+                    </div>
+                    <div class="col-sm-2">
+                      <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/solicitud/'.$solicitud->id.'"><i class="fa fa-print"></i></a>
+                    </div>
+                    </br></br>
+                    </br>
+                    <div class="col-sm-12">
+                      <div class="row">
+                        <div class="col-sm-6">Fecha límite para recibir cotizaciones</div>
+                        <div class="col-sm-6"><b>'.$limite->format('d/m/Y').'</b></div>
+                      </div>
+                    </div>
+                    </fieldset>
+                  </div>
+                  <br>
+                  <br>
+                  <fieldset>
+                  <legend>Cotizaciones';
+                    if($solicitud->estado==1):  
+                    $html.='<button class="btn btn-primary btn-sm" type="button" id="registrar_cotizacion" data-id="'.$solicitud->id.'"><i class="fa fa-plus"></i></button>';
+                    endif;
+                  
+                  $html.='</legend>
+                  <div id="">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th></th>';
+                          foreach($solicitud->cotizacion_activa as $coti):
+                            $html.='<th>';
+                            if($coti->seleccionado==1):
+                            $html.='<span title="Click para ver información" style="cursor:pointer; color:green" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            else:
+                              $html.='<span title="Click para ver información" style="cursor:pointer;" id="ver_coti" data-id="'.$coti->id.'">'.$coti->proveedor->nombre.'</span> <br>';
+                            endif;
+                            if($solicitud->estado==1):
+                            $html.='<button id="seleccionar" title="Seleccionar esta cotización" type="button" data-id="'.$coti->id.'" data-solirequi="'.$solicitud->solirequi_id.'" class="btn btn-primary btn-sm"><i class="fa fa-check"></i></button>';
+                            endif;
+                            $html.='</th>';
+                          endforeach;
+                        $html.='</tr>
+                      </thead>
+                      <tbody>';
+                       
+                      $html.='</tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="2">Total</th>';
+                          foreach($solicitud->cotizacion_activa as $coti):
+                            if($coti->seleccionado==1):
+                              $html.='<th style="color:green;">$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                            else:
+                              $html.='<th>$'.number_format(Cotizacion::total_cotizacion($coti->id),2).'</th>';
+                            endif;
+                          endforeach;
+                        $html.='</tr>
+                        <tr>
+                          <th colspan="2">Forma de pago</th>';
+                          foreach($solicitud->cotizacion_activa as $coti):
+                            if($coti->seleccionado==1):
+                            $html.='<th style="color:green;">'.$coti->formapago->nombre.'</th>';
+                            else:
+                            $html.='<th>'.$coti->formapago->nombre.'</th>';
+                            endif;
+                          endforeach;
+                        $html.='</tr>
+                      </tfoot>
+                    </table>
+                      </fieldset>
+                    </div>
+                  <br><br>';
+                  if(isset($solicitud->cotizacion_seleccionada)):
+                    if(isset($solicitud->cotizacion_seleccionada->ordencompra)):
+                    $html.='<div>
+                    <fieldset>
+                    <legend>Orden de compra</legend>
+                    <div class="row">
+                      <div class="col-md-2">
+                      <span style="font-weight: normal;">Orden N°:</span>
+                      </div>
+                      <div class="col-md-2">
+                      <span><b>'.$solicitud->cotizacion_seleccionada->ordencompra->numero_orden.'</b></span>
+                      </div>
+                      <div class="col-md-3">
+                      <span style="font-weight: normal;">Fuente de financiamiento:</span>
+                      </div>
+                      <div class="col-md-3">
+                      <span><b>'.$solicitud->solirequi->cuenta->nombre.'</b></span>
+                      </div>
+                      <!--div class="col-md-3">
+                      <span style="font-weight: normal;">Entrega de bienes:</span>
+                      </div>
+                      <div class="col-md-3">
+                      <span><b>Desde el'.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('l d').' de '.$solicitud->cotizacion_seleccionada->ordencompra->fecha_inicio->format('F').'</b></span>
+                      </div-->
+                      <div class="col-sm-2">
+                        <a class="btn btn-primary btn-sm vista_previa" target="_blank" href="../reportesuaci/ordencompra/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'"><i class="fa fa-print"></i></a>
+                      </div>
+                    </div>
+                    </fieldset>
+                    <br><br>';
+                    if($solicitud->solirequi->estado>=6):
+                    $html.='<fieldset>
+                    <legend>Acta de recepcion de bienes</legend>
+                    <a title="Imprimir acta" href="../reportesuaci/acta/'.$solicitud->cotizacion_seleccionada->ordencompra->id.'" class="btn btn-primary vista_previa" target="_blank"><i class="glyphicon glyphicon-print"></i></a>
+                    </fieldset>';
+                    endif;
+                    $html.='</div>';
+                    else:
+                      $html.='<button type="button" id="registrar_orden" class="btn btn-primary" data-id="'.$solicitud->cotizacion_seleccionada->id.'">Registrar</button>';
+                    endif; 
+                  endif;
+                      $html.'</div>
+                    </div>';
+                return array(1,"exito",$html);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 }

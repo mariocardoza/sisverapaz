@@ -12,4 +12,9 @@ class Solicitudcotizaciondetalle extends Model
     {
         return $this->belongsTo('App\Materiales');
     }
+
+    public function unidadmedida()
+    {
+      return $this->belongsTo('App\UnidadMedida','unidad_medida')->withDefault();
+    }
 }

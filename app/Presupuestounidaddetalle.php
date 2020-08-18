@@ -14,6 +14,11 @@ class Presupuestounidaddetalle extends Model
         return $this->belongsTo('App\Materiales');
     }
 
+    public function unidadmedida()
+    {
+      return $this->belongsTo('App\UnidadMedida','unidad_medida')->withDefault();
+    }
+
     public function materialunidad()
     {
       return $this->hasMany('App\MaterialUnidad','presupuestounidad_id');

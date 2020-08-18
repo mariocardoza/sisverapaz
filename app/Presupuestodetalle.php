@@ -20,4 +20,10 @@ class Presupuestodetalle extends Model
     {
       return $this->belongsTo('App\Materiales','material_id')->orderBy('categoria_id','ASC');
     }
+
+    public function unidadmedida()
+      {
+        return $this->belongsTo('App\UnidadMedida','unidad_medida')->withDefault();
+      }
+    
 }

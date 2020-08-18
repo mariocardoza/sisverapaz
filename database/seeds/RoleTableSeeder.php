@@ -8,6 +8,7 @@ use App\Empleado;
 use App\Porcentaje;
 use App\Unidad;
 
+
 class RoleTableSeeder extends Seeder
 {
     /**
@@ -21,34 +22,10 @@ class RoleTableSeeder extends Seeder
             'role_user',
             'roles',
             'users',
-            'porcentajes',
             'empleados',
-            'unidads'
+            'unidads',
         ]);
 
-      $por= new Porcentaje();
-      $por->nombre='Renta';
-      $por->nombre_simple='renta';
-      $por->porcentaje=0.00;
-      $por->save();
-
-      $por= new Porcentaje();
-      $por->nombre='IVA';
-      $por->nombre_simple='iva';
-      $por->porcentaje=0.00;
-      $por->save();
-
-      $por= new Porcentaje();
-      $por->nombre='Fiestas Patronales';
-      $por->nombre_simple='fiestas';
-      $por->porcentaje=0.00;
-      $por->save();
-
-      $por= new Porcentaje();
-      $por->nombre='Construcciones';
-      $por->nombre_simple='construccion';
-      $por->porcentaje=0.00;
-      $por->save();
 
       $role = new Role();
       $role->name = 'admin';

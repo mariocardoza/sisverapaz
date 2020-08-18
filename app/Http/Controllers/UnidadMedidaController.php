@@ -40,8 +40,8 @@ class UnidadMedidaController extends Controller
     {
         if($request->ajax()){
           try{
-            UnidadMedida::create($request->All());
-            return array(1,"exito");
+            $unidad=UnidadMedida::create($request->All());
+            return array(1,"exito",$unidad);
           }catch(Exception $e){
               return array(-1,"error",$e->getMessage());
           }

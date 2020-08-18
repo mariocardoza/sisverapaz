@@ -18,14 +18,27 @@
                 <div class="box-title"><h4>Solicitudes</h4></div>
             </div>
             <div class="box-body table-responsive">
-                <table class="table">
+                <table class="table" id="example2">
                     <thead>
                         <tr>
                             <th>N°</th>
-                            <th>Código</th>
-                            <th>Descripción</th>
+                            <th>Cuenta</th>
+                            <th>Estado</th>
+                            <th></th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($solicitudes as $i=> $c)
+                            <tr>
+                                <td>{{$i+1}}</td>
+                                <td>{{$c->cuenta->nombre}}</td>
+                                <td>{{$c->estado}}</td>
+                                <td>
+                                    <a href="{{url('solicitudes/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

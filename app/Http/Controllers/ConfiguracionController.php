@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Configuracion;
 use App\Porcentaje;
 use App\Retencion;
+use App\Emergencia;
 use Validator;
 class ConfiguracionController extends Controller
 {
@@ -14,8 +15,9 @@ class ConfiguracionController extends Controller
       $porcentajes=Porcentaje::all();
       $retenciones=Retencion::all();
       $configuraciones = Configuracion::first();
+      $emergencias=Emergencia::where('estado',1)->get();
 
-      return view('configuraciones.create',compact('configuraciones','porcentajes','retenciones'));
+      return view('configuraciones.create',compact('configuraciones','porcentajes','retenciones','emergencias'));
     }
 
     public function alcaldia(Request $request)
@@ -146,6 +148,28 @@ class ConfiguracionController extends Controller
       return redirect('configuraciones')->with('mensaje','Datos registrados con éxito');
     }
 
+    public function emergencia(Request $request)
+    {
+      try{
+        $cuantas=Emergencia::whereEstado(1)->count();
+        if($cuantas==0){
+          $this->validar_emergencia($request->all())->validate();
+          $e=Emergencia::create([
+            'numero_acuerdo'=>$request->numero_acuerdo,
+            'detalle'=>$request->detalle,
+            'fecha_inicio'=>\invertir_fecha($request->fecha_inicio),
+          ]);
+          $retormo=array(1);
+        }else{
+          $retorno=array(2,"Ya existe una declaratoria activa");
+        }
+        
+        return $retorno;
+        }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
 
     protected function validar_alcaldia(array $data)
     {
@@ -155,6 +179,15 @@ class ConfiguracionController extends Controller
             'fax_alcaldia' => 'required',
             'email_alcaldia' => 'required|email',
             'nit_alcaldia' => 'required',
+        ]);
+    }
+
+    protected function validar_emergencia(array $data)
+    {
+        return Validator::make($data, [
+            'numero_acuerdo' => 'required',
+            'detalle' => 'required',
+            'fecha_inicio' => 'required',
         ]);
     }
 

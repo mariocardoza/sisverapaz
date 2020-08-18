@@ -25,4 +25,9 @@ trait DatesTranslator
   {
     return new Date($fecha_limite);
   }
+
+  public function getFechaPagoAttribute($fecha_pago)
+  {
+    return new Date($fecha_pago);
+  }
 }

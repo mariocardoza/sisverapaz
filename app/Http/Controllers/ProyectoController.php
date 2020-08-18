@@ -54,19 +54,19 @@ class ProyectoController extends Controller
 
     public function mapas()
     {
-      $proyectos=Proyecto::where('anio',date('Y'))->with('indicadores_completado')->get();
-      foreach($proyectos as $pr){
-        $p[] = collect(
-          ['nombre'=>$pr->nombre,
-          'lat'=> 13.6465858,
-          'lng'=> -88.8731913,
-          'direccion'=> $pr->direccion,
-          'motivo'=> $pr->motivo,
-        ]);
-      }
-   
-      //dd($proyectos);
-      return view('proyectos.mapa',compact('p','proyectos'));
+      $proyectos=DB::table('proyectos as p')
+        ->select('p.id','p.nombre','p.beneficiarios','p.codigo_proyecto','p.direccion',
+        'p.estado','p.fecha_inicio','p.fecha_fin','p.lat','p.lng','p.motivo','p.monto',
+        DB::RAW('(select
+            sum(ip.porcentaje)
+        FROM
+            indicadores_proyectos AS ip
+        WHERE
+            ip.proyecto_id = p.id
+        AND ip.estado = 2) as avance'))
+        ->where('p.anio','=',date('Y'))
+        ->get();
+      return view('proyectos.mapa',compact('proyectos'));
     }
 
     public function cambiarlicitacion(Request $request)
@@ -540,7 +540,7 @@ class ProyectoController extends Controller
         $detalles=DB::table('presupuestodetalles as pre')
         ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
         ->join('materiales as ma','ma.id','=','pre.material_id','inner')
-        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->join('unidad_medidas as u','u.id','=','pre.unidad_medida','inner')
         ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
         ->where('ma.categoria_id','=',$id)
         ->orderby('ma.categoria_id')
@@ -549,7 +549,7 @@ class ProyectoController extends Controller
         $detalles=DB::table('presupuestodetalles as pre')
         ->select('pre.*','ma.nombre as nom_material','u.nombre_medida')
         ->join('materiales as ma','ma.id','=','pre.material_id','inner')
-        ->join('unidad_medidas as u','u.id','=','ma.unidad_id','inner')
+        ->join('unidad_medidas as u','u.id','=','pre.unidad_medida','inner')
         ->where('pre.presupuesto_id','=',$proyecto->presupuesto->id)
         ->orderby('ma.categoria_id')
         ->get();

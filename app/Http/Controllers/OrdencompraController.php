@@ -14,6 +14,7 @@ use App\ProyectoInventario;
 use App\Proveedor;
 use App\Requisicione;
 use App\Requisiciondetalle;
+use App\SolicitudRequisicion;
 use App\Desembolso;
 use Illuminate\Http\Request;
 use App\Http\Requests\OrdenCompraRequest;
@@ -232,7 +233,7 @@ class OrdencompraController extends Controller
               DB::commit();
               
               return array(1,"exito",$cotizacion->solicitudcotizacion->id);
-            }else{
+            }elseif($cotizacion->solicitudcotizacion->tipo==2){
               $requisicion=Requisicione::findorFail($cotizacion->solicitudcotizacion->requisicion->id);
               $requisicion->estado=5;
               $requisicion->save();
@@ -243,6 +244,34 @@ class OrdencompraController extends Controller
                 'renta'=>\App\Detallecotizacion::renta_cotizacion($cotizacion->id),
                 'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para actividad: '.$cotizacion->solicitudcotizacion->requisicion->actividad,
                 'cuenta_id'=>$cotizacion->solicitudcotizacion->requisicion->cuenta->id
+              ]);
+
+              $tienerenta = Detallecotizacion::renta_cotizacion($cotizacion->id);
+              if($tienerenta>0):
+                $pagorenta = \App\PagoRenta::create([
+                  'nombre'=> $orden->cotizacion->proveedor->nombre,
+                  'dui'=> $orden->cotizacion->proveedor->dui,
+                  'nit'=> $orden->cotizacion->proveedor->nit,
+                  'total' => \App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                  'renta' => \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'liquido' => \App\Detallecotizacion::total_cotizacion($cotizacion->id)- \App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                  'concepto' => 'Pago de renta de Orden de Compra',
+                ]);
+              endif;
+
+              DB::commit();
+              return array(1,"exito",$cotizacion->solicitudcotizacion->id);
+            }else{
+              $requisicion=SolicitudRequisicion::findorFail($cotizacion->solicitudcotizacion->solirequi_id);
+              $requisicion->estado=5;
+              $requisicion->save();
+
+              $desembolso=Desembolso::create([
+                'id'=>date("Yidisus"),
+                'monto'=>\App\Detallecotizacion::total_cotizacion($cotizacion->id),
+                'renta'=>\App\Detallecotizacion::renta_cotizacion($cotizacion->id),
+                'detalle'=>'Orden de compra n°:'.$orden->numero_orden.' para actividad: Compra de bienen y servicios',
+                'cuenta_id'=>$cotizacion->solicitudcotizacion->solirequi->cuenta->id
               ]);
 
               $tienerenta = Detallecotizacion::renta_cotizacion($cotizacion->id);

@@ -9,16 +9,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 Route::get('/', function () {
     $users = \App\User::all()->count();
     $roles = \App\Role::all();
-    if ($users == 0) {
-      return view('auth/register', compact('roles'));
-    } else {
+    //if ($users == 0) {
+      //return view('auth/register', compact('roles'));
+    //} else {
       return view('auth/login');
-    }
+    //}
 });
 
 Route::get('pdf',function(){
@@ -33,7 +31,6 @@ Route::get('pdf',function(){
 //rutas para autorizaciones del administrador
 Route::Post('autorizacion', 'Homecontroller@autorizacion');
 
-
 ///////////  RUTAS DE RESPALDO Y RESTAURAR BASE DE DATOS
 Route::get('backups','BackupController@index')->name('backups.index');
 Route::get('backups/create','BackupController@create')->name('backup.create');
@@ -44,7 +41,6 @@ Route::get('backups/restaurar/{file_name}', 'BackupController@restaurar');
 //CONFIGURACIONES DE LA ALCALDIA
 Route::get('rentas','RentaController@index')->name('rentas.index');
 Route::put('rentas/{id}','RentaController@update')->name('rentas.update');
-
 Route::get('configuraciones','ConfiguracionController@create')->name('configuraciones.create');
 Route::post('configuraciones/porcentajes','ConfiguracionController@porcentajes')->name('configuraciones.porcentajes');
 Route::post('configuraciones/retenciones','ConfiguracionController@retenciones')->name('configuraciones.retenciones');
@@ -78,7 +74,6 @@ Route::put('updateperfil','UsuarioController@updateperfil');
 Route::get('avatar','UsuarioController@avatar');
 Route::post('usuarios/updateprofile', 'UsuarioController@actualizaravatar');
 
-
 //////////////////////////////////// UACI /////////////////////////////////////////////////////
 Route::post('proveedores/baja/{id}','ProveedorController@baja')->name('proveedores.baja');
 Route::post('proveedores/alta/{id}','ProveedorController@alta')->name('proveedores.alta');
@@ -87,7 +82,6 @@ Route::post('giros/baja/{id}','GiroController@baja')->name('giros.baja');
 Route::post('giros/alta/{id}','GiroController@alta')->name('giros.alta');
 Route::Resource('giros','GiroController');
 Route::post('proveedores/representante/{id}','ProveedorController@representante');
-
 Route::post('especialistas/baja/{id}','EspecialistaController@baja')->name('especialistas.baja');
 Route::post('especialistas/alta/{id}','EspecialistaController@alta')->name('especialistas.alta');
 Route::Resource('especialistas','EspecialistaController');
@@ -215,8 +209,6 @@ Route::get('materiales/modaleditar/{id}','MaterialesController@modaleditar');
 Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
 Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
 
-
-
 Route::get('unidadmedidas/create','UnidadMedidaController@create');
 route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');
 Route::Resource('unidadmedidas','UnidadMedidaController');
@@ -228,6 +220,7 @@ Route::get('cotizaciones/ver/{id}', 'CotizacionController@cotizar');
 Route::get('cotizaciones/cotizarr/{id}', 'CotizacionController@cotizarr');
 Route::post('cotizaciones/seleccionar','CotizacionController@seleccionar');
 Route::post('cotizaciones/seleccionarr','CotizacionController@seleccionarr');
+Route::post('cotizaciones/seleccionarrr','CotizacionController@seleccionarrr');
 Route::post('cotizaciones/baja/{id}','CotizacionController@baja')->name('cotizaciones.baja');
 Route::post('cotizaciones/alta/{id}','CotizacionController@alta')->name('cotizaciones.alta');
 Route::get('cotizaciones/realizarcotizacion/{id}','CotizacionController@realizarCotizacion');
@@ -261,14 +254,32 @@ Route::post('solicitudcotizaciones/cambiar','SolicitudcotizacionController@cambi
 Route::get('solicitudcotizaciones/create/{id}','SolicitudcotizacionController@create');
 Route::get('solicitudcotizaciones/creater/{id}','SolicitudcotizacionController@creater');
 Route::post('solicitudcotizaciones/storer','SolicitudcotizacionController@storer');
+Route::post('solicitudcotizaciones/storer2','SolicitudcotizacionController@storer2');
 Route::Resource('solicitudcotizaciones','SolicitudcotizacionController');
 
 /// estas son para solicitudes de bienes
+Route::put('solicitudes/cambiarestado/{id}','SolicitudController@cambiarestado');
+Route::get('solicitudes/solicitud/{id}','SolicitudController@solicitud');
+Route::get('solicitudes/informacion/{id}','SolicitudController@informacion');
+Route::get('solicitudes/formulariosoli/{id}','SolicitudController@formulariosoli');
+Route::post('solicitudes/aprobar','SolicitudController@aprobar');
 Route::Resource('solicitudes','SolicitudController');
+
+Route::get('directa/modaledit/{id}','DirectaController@modal_edit');
+Route::get('directa/ordencompra/{id}','DirectaController@ordencompra');
+Route::post('directa/ordencompra','DirectaController@guardarorden');
+Route::post('directa/subir','DirectaController@subir');
+Route::post('directa/proveedor','DirectaController@proveedor');
+Route::delete('directa/eliminar','DirectaController@eliminar');
+Route::post('directa/eldetalle','DirectaController@eldetalle');
+Route::put('directa/editardetalle/{id}','DirectaController@editardetalle');
+Route::get('directa/bajar/{archivo}','DirectaController@bajar');
+Route::Resource('directa','DirectaController');
 
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
 Route::get('contratorequisiciones/bajar/{archivo}','ContratoRequisicionController@bajar');
 
+Route::post('requisiciones/combinar','RequisicionController@combinar');
 Route::get('requisiciones/porusuario','RequisicionController@porusuario')->name('requisiciones.porusuario');
 Route::post('requisiciones/darbaja','RequisicionController@darbaja');
 Route::get('requisiciones/portipo/{tipo}','RequisicionController@portipo');
@@ -339,6 +350,7 @@ Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
 Route::Resource('inmueble','InmuebleController');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
+Route::put('construcciones/cambiarestado/{id}','ConstruccionController@cambiarestado');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
@@ -401,56 +413,41 @@ Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('desembolsos','DesembolsoController');
-
 Route::Resource('ingresos','IngresoController');
-
 Route::Resource('tipopagos','TipopagoController');
-
 Route::Resource('pagos','PagoController');
-
 Route::Resource('tipopagos', 'TipopagoController');
-
-
 
 //Rutas de Reportes UACI
 Route::get('reportesuaci/proyectos','ReportesUaciController@proyectos');
-
 Route::get('reportesuaci/proveedores','ReportesUaciController@proveedor');
-
 Route::get('reportesuaci/solicitud/{id}','ReportesUaciController@solicitud');
-
 Route::get('reportesuaci/ordencompra/{id}','ReportesUaciController@ordencompra');
-
 Route::get('reportesuaci/cuadrocomparativo/{id}','ReportesUaciController@cuadrocomparativo');
-
 Route::get('reportesuaci/contratoproyecto/{id}','ReportesUaciController@contratoproyecto');
-
 Route::get('reportesuaci/requisicionobra/{id}','ReportesUaciController@requisicionobra');
+Route::get('reportesuaci/ordencompra2/{id}','ReportesUaciController@ordencompra2');
 Route::get('reportesuaci/acta/{id}','ReportesUaciController@acta');
 Route::get('reportesuaci/cotizaciones/{id}','ReportesUaciController@cotizaciones');
-
 Route::get('reportesuaci/presupuestounidad/{id}','ReportesUaciController@presupuestounidad');
 Route::get('reportesuaci/planillaproyecto/{id}','ReportesUaciController@planillaproyecto');
 Route::get('reportesuaci/asistenciaproyecto/{id}','ReportesUaciController@asistenciaproyecto');
-
 //Reportes Tesoreria
 Route::get('reportestesoreria/pagos/{id}','ReportesTesoreriaController@pagos');///////////REVISAR
 Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@planillas');
 Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
-
 Route::get('reportestesoreria/planillaaprobada/{id}','ReportesTesoreriaController@planillaaprobada');
 Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta');
-
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
-
+Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
 //Ruta para detalle de planillas
+Route::post('detalleplanillas/store2','DetallePlanillaController@store2');
 Route::Resource('detalleplanillas','DetalleplanillaController');
 Route::Resource('bancos','BancoController');
 Route::post('bancos/baja/{id}','BancoController@baja')->name('bancos.baja');
 Route::post('bancos/alta/{id}','BancoController@alta')->name('bancos.alta');
 Route::Resource('vacaciones','VacacionController');
 Route::post('vacaciones/fecha','VacacionController@fecha');
-
 //Rutas R
 Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->name('categoria.listar');
 
@@ -505,12 +502,9 @@ Route::get('presupuestounidades/porunidad','PresupuestoUnidadController@porunida
 Route::Resource('presupuestounidades','PresupuestoUnidadController');
 Route::Resource('presupuestounidaddetalles','PresupuestoUnidadDetalleController');
 
-
-
 /**
  * Rutas para el mapa
 */
-
 Route::get('negocio/mapa/{id}', 'NegocioController@viewMapa');
 Route::post('negocio/mapa/create', 'NegocioController@mapas');
 Route::get('mapa', 'NegocioController@mapa');

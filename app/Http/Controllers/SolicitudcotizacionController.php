@@ -15,6 +15,7 @@ use App\Presupuestodetalle;
 use App\PresupuestoSolicitud;
 use App\Requisicione;
 use DB;
+use App\SolicitudRequisicion;
 use Validator;
 
 class SolicitudcotizacionController extends Controller
@@ -149,6 +150,7 @@ class SolicitudcotizacionController extends Controller
               $solideta=\App\Solicitudcotizaciondetalle::create([
                 'material_id'=>$req['idmaterial'],
                 'cantidad'=>$req['cantidad'],
+                'unidad_medida'=>$req['unidad'],
                 'solicitud_id'=>$solicitud->id
               ]);
 
@@ -211,6 +213,7 @@ class SolicitudcotizacionController extends Controller
               $solideta=\App\Solicitudcotizaciondetalle::create([
                 'material_id'=>$req['idmaterial'],
                 'cantidad'=>$req['cantidad'],
+                'unidad_medida'=>$req['medida'],
                 'solicitud_id'=>$solicitud->id
               ]);
               if($requisicion->conpresupuesto==1){
@@ -218,6 +221,58 @@ class SolicitudcotizacionController extends Controller
               }
               
 
+            }
+
+            DB::commit();
+            return response()->json([
+            'requisicion' => $solicitud->id,
+            'mensaje' => 'exito'
+          ]);
+          }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+              'messaje' => 'error',
+              'error' => $e->getMessage()
+            ]);
+          }
+      }
+    }
+
+    public function storer2(Request $request)
+    {
+      $this->valid_creater($request->all())->validate();
+      if($request->ajax())
+      {
+        $requisiciones=$request->requi;
+        
+        
+        DB::beginTransaction();
+          try{
+            $solicitud=Solicitudcotizacion::create([
+                "formapago_id" => $request->formapago,
+                "unidad" => $request->unidad,
+                "encargado" => $request->encargado,
+                "cargo_encargado" => $request->cargo,
+                "lugar_entrega" => $request->lugar_entrega,
+                "numero_solicitud" => Solicitudcotizacion::correlativo(),
+                'fecha_limite' => invertir_fecha($request->fecha_limite),
+                'tiempo_entrega' => $request->tiempo_entrega,
+                'tipo' => 3,
+                'solirequi_id' => $request->solicitud,
+            ]);
+
+            $requisicion=SolicitudRequisicion::findorFail($request->solicitud);
+            $requisicion->estado=3;
+            $requisicion->save();
+
+            foreach($requisiciones as $req){
+
+              $solideta=\App\Solicitudcotizaciondetalle::create([
+                'material_id'=>$req['idmaterial'],
+                'cantidad'=>$req['cantidad'],
+                'unidad_medida'=>$req['unidad'],
+                'solicitud_id'=>$solicitud->id
+              ]);
             }
 
             DB::commit();
