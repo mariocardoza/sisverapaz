@@ -58,6 +58,9 @@
         </div>
     </div>
 </div>
+{{ Form::open(['url' => url('verpagosgenerados'),'class' => 'form-horizontal','id'=>'verPagos','target'=>'_blank']) }}
+    <input type="hidden" name="token" value="{{csrf_token()}}">
+</form>
 @include('contribuyentes.modales')
 @endsection
 
@@ -97,10 +100,12 @@
                         swal.closeModal();
                     }
                 },error : function(error){
-                    toastr.success("Error en el servidor, intente otra vez");
+                    toastr.error("Error en el servidor, intente otra vez");
                     swal.closeModal();
                 }
             });
+
+            $('#verPagos').submit();
         });
 
         //registrar un nuevo rubro

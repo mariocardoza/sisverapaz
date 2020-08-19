@@ -2,6 +2,7 @@
 
 namespace App;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class FacturasItems extends Model
 {
@@ -16,5 +17,11 @@ class FacturasItems extends Model
     public function factura()
     {
         return $this->belongsTo('App\Factura');
+    }
+
+    public static function servicio($tipoinmueble_id){
+        $servicio_id=DB::table('inmueble_tipo_servicio')->where('id',$tipoinmueble_id)->get()->first()->tiposervicio_id;
+        
+        return tiposervicio::find($servicio_id)->nombre;
     }
 }

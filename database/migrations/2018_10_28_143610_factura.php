@@ -19,7 +19,7 @@ class Factura extends Migration
             
             $table->string('mesYear', 10);
             $table->date('fechaVecimiento');
-
+            $table->string('codigo');
             $table->double('pagoTotal',8,2);
             $table->integer('estado')->unsigned()->default(1);
             $table->foreign('mueble_id')->references('id')->on('inmuebles');

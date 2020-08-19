@@ -8,6 +8,9 @@ use App\Contribuyente;
 use Carbon\Carbon;
 use App\Bitacora;
 use Response;
+use App\Factura;
+use App\Inmueble;
+use DB;
 
 class ContribuyenteController extends Controller
 {
@@ -157,7 +160,8 @@ class ContribuyenteController extends Controller
             'mueble_id'             => 0,
             'mesYear'               => date('m/Y'),
             'fechaVecimiento'       => $venci,
-            'pagoTotal'             => 0.00
+            'pagoTotal'             => 0.00,
+            'porcentajeFiestas'     => DB::table('porcentajes')->where('nombre_simple','fiestas')->get()->first()->porcentaje
           );
           $este=0;
           $contribuyentesAll = Contribuyente::select('id')->get();
@@ -239,5 +243,20 @@ class ContribuyenteController extends Controller
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
         }
+    }
+
+    public function verPagosGenerados(){
+      $mesYear = date('m/Y');
+
+      $facturas= Factura::where('mesYear',$mesYear)->get();
+      // echo $facturas;
+      $unidad = "Unidad de Adquicisiones Institucionales";
+
+      $pdf = \PDF::loadView('pdf.catastro.pdfpagos',compact('facturas','unidad'));
+      $pdf->setPaper('letter', 'portrait');
+      //$canvas = $pdf ->get_canvas();
+    //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
+      return $pdf->stream('reporte.pdf');
+
     }
 }
