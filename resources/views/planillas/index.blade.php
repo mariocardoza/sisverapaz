@@ -18,6 +18,12 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
       <div class="box">
         <div class="box-header">
           <h3 class="box-title"></h3>
+          <div class="btn-group pull-left">
+            <a href="javascript:void(0)" class="btn btn-primary">Pagos</a>
+            <a href="{{ url('pagos/ordencompras?estado=3') }}" class="btn btn-primary">Ordenes de compra</a>
+            <a href="{{ url('planillas') }}" class="btn btn-primary active">Planilla</a>
+          </div>
+          <br><br><br>
           <div class="row">
             <div class="col-md-10">
               <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Nueva</a>
@@ -101,7 +107,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       <td>
                         <div class="btn-group">
                           <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
+                          <a href="{{ url('reportestesoreria/boletageneral/'.$planilla->id) }}" title="Imprimir detalle" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
                       @endif
@@ -224,7 +230,8 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
         data:datos,
         success: function(json){
           if(json[0]==1){
-
+            toastr.success("Planilla pagada con éxito");
+            location.reload();
           }else{
             if(json[0]==2){
               toastr.info(json[2]);

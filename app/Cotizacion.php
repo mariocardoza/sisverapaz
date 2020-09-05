@@ -47,7 +47,7 @@ class Cotizacion extends Model
 
     public function ordencompra()
     {
-        return $this->hasOne('App\Ordencompra');
+        return $this->hasOne('App\Ordencompra')->where('estado','<>',2);
     }
 
     public static function total_cotizacion($id)

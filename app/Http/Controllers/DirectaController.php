@@ -154,6 +154,25 @@ class DirectaController extends Controller
         }
     }
 
+    public function finalizar($id)
+    {
+        try{
+            DB::beginTransaction();
+            $compra=ContratacionDirecta::find($id);
+            $compra->estado=5;
+            $compra->save();
+
+            $orden=\App\Ordencompra::find($compra->orden->id);
+            $orden->estado=3;
+            $orden->save();
+            DB::commit();
+            return array(1,"exito",$compra);
+        }catch(Exception $e){
+            DB::rollback();
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
     public function proveedor(Request $request)
     {
         $this->validar_proveedor($request->all())->validate();

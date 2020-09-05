@@ -156,8 +156,12 @@ class ContratacionDirecta extends Model
         <label for="" class="label-info col-xs-12">Emitir orden de compra</label>';
         elseif($compra->estado==4):
         $html.='<label for="" class="label-success col-xs-12">Orden de compra emitida</label><br><br>
-        <a href="../reportesuaci/ordencompra2/'.$compra->orden->id.'" target="_blank" class="btn btn-primary vista_previa"><i class="fa fa-print"></i></a>';
-        endif;
+        <a href="../reportesuaci/ordencompra2/'.$compra->orden->id.'" target="_blank" class="btn btn-primary vista_previa"><i class="fa fa-print"></i></a>
+        <button class="btn btn-primary fin_compra" type="button" data-id="'.$compra->id.'" title="Finalizar proceso de compra"><i class="fa fa-check"></i></button>';
+        elseif($compra->estado==5):
+          $html.='<label for="" class="label-success col-xs-12">Espera de desembolso</label><br><br>
+          <a href="../reportesuaci/ordencompra2/'.$compra->orden->id.'" target="_blank" class="btn btn-primary vista_previa"><i class="fa fa-print"></i></a>';         
+      endif;
           $html.='<div class="col-sm-12">
               <span style="font-weight: normal;">Código:</span>
             </div>

@@ -150,6 +150,9 @@
           }
         });
 
+        
+
+
         $(document).on("input",".elmonto,.larenta",function(e){
           e.preventDefault();
           let valor=0;

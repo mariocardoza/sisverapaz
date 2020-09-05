@@ -344,9 +344,21 @@ class OrdencompraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        try{
+          $orden=Ordencompra::find($id);
+          if($request->tipo==1):
+            $coti=Cotizacion::find($request->coti);
+          elseif($request->tipo==2):
+            $coti=Cotizacion::find($request->coti);
+          else:
+            $coti=Cotizacion::find($request->coti);
+          endif;
+          return array($coti);
+        }catch(Exception $e){
+          return array(-1,"error",$e->getMessage());
+        }
     }
 
     public function modal_registrar($id)

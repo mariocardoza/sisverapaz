@@ -32,6 +32,11 @@ class Empleado extends Model
       return $this->hasMany('App\Prestamo');
     }
 
+    public function prestamo_vigente()
+    {
+      return $this->hasMany('App\Prestamo')->where('fecha_fin','>=',date("Y-m"));
+    }
+
     public function descuento()
     {
       return $this->hasMany('App\Descuento');
@@ -71,7 +76,7 @@ class Empleado extends Model
 
     }
      public function banco(){
-        return $this->belongsTo('App\Banco');
+        return $this->belongsTo('App\Banco')->withDefault();
     }
 
     public function afp(){

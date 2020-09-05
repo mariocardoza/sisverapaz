@@ -16,6 +16,34 @@ function invertir_fecha($fecha)
   }
 }
 
+function obtenerMes($n){
+    if($n==1){
+        return "enero";
+    }elseif($n==2){
+        return "febrero";
+    }elseif($n==3){
+        return "marzo";
+    }elseif($n==4){
+        return "abril";
+    }elseif($n==5){
+        return "mayo";
+    }elseif($n==6){
+        return "junio";
+    }elseif($n==7){
+        return "julio";
+    }elseif($n==8){
+        return "agosto";
+    }elseif($n==9){
+        return "septiembre";
+    }elseif($n==10){
+        return "octubre";
+    }elseif($n==11){
+        return "noviembre";
+    }elseif($n==12){
+        return "diciembre";
+    }
+}
+
 function retornar_porcentaje($dato)
     {
     	$porcentajes=Porcentaje::where('nombre_simple',$dato)->first();

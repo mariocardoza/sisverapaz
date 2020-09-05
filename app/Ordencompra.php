@@ -13,7 +13,7 @@ class Ordencompra extends Model
 
     public function cotizacion()
     {
-    	return $this->belongsTo('App\Cotizacion');
+    	return $this->belongsTo('App\Cotizacion')->withDefault();
     }
 
     public function compradirecta()

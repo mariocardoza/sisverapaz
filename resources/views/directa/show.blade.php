@@ -235,6 +235,56 @@ $(document).ready(function(e){
     $(".chosen").chosen({'width':'100%'});
   });
 
+  //finalizar proceso y pasar a tesorería
+  $(document).on("click",".fin_compra",function(e){
+    e.preventDefault();
+    let id=$(this).attr("data-id");
+    swal({
+          title: 'Compra directa',
+          text: "¿Desea finalizar este proceso y pasar a tesorería?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Si!',
+          cancelButtonText: '¡No!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            modal_cargando();
+            $.ajax({
+              url:'../directa/finalizar/'+id,
+              type:'get',
+              dataType:'json',
+              success: function(json){
+                if(json[0]==1){
+                  toastr.success("Pendiente de desembolso");
+                  location.reload();
+                }else{
+                  toastr.error("Ocurrió un error");
+                  swal.closeModal();
+                }
+              },
+              error: function(error){
+                toastr.error("Ocurrió un error");
+                swal.closeModal();
+              }
+            });
+            
+          } else if (result.dismiss === swal.DismissReason.cancel) {
+            swal(
+              'Nueva revisión',
+              'Se pide verificar bien los materiales',
+              'info'
+            );
+          }
+        });
+    
+  });
+
   //cancelar nuevo material
   $(document).on("click",".cancel_n",function(e){
     e.preventDefault();

@@ -25,8 +25,8 @@ class PagoController extends Controller
 
     public function index(Request $request)
     {
-         $facturas = Factura::orderBy('created_at','desc')->get();
-         return view('pagos.index', compact('facturas'));
+         //$facturas = Factura::orderBy('created_at','desc')->get();
+         return view('pagos.index');
     }
 
     //public function guardarCuenta(Request $request)

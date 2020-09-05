@@ -162,6 +162,11 @@ Route::post('tipocontratos/baja/{id}','TipocontratoController@baja')->name('tipo
 Route::post('tipocontratos/alta/{id}','TipocontratoController@alta')->name('tipocontratos.alta');
 Route::Resource('tipocontratos','TipocontratoController');
 
+
+//rutas de tesoreria
+Route::get('ordencompras/pagar/{id}','OrdencompraController@pagar');
+
+//rutas de uaci
 Route::post('ordencompras/baja/{id}','OrdencompraController@baja')->name('ordencompras.baja');
 Route::post('ordencompras/alta/{id}','OrdencompraController@alta')->name('ordencompras.alta');
 Route::get('ordencompras/cotizaciones/{id}','OrdencompraController@getCotizacion');
@@ -242,6 +247,7 @@ Route::Resource('detallecotizaciones','DetallecotizacionController');
 
 Route::post('formapagos/baja/{id}','FormapagoController@baja')->name('formapagos.baja');
 Route::post('formapagos/alta/{id}','FormapagoController@alta')->name('formapagos.alta');
+
 Route::Resource('formapagos','FormapagoController');
 
 Route::post('solicitudcotizaciones/baja/{id}','SolicitudcotizacionController@baja')->name('solicitudcotizaciones.baja');
@@ -274,6 +280,7 @@ Route::delete('directa/eliminar','DirectaController@eliminar');
 Route::post('directa/eldetalle','DirectaController@eldetalle');
 Route::put('directa/editardetalle/{id}','DirectaController@editardetalle');
 Route::get('directa/bajar/{archivo}','DirectaController@bajar');
+Route::get('directa/finalizar/{id}','DirectaController@finalizar');
 Route::Resource('directa','DirectaController');
 
 Route::Resource('contratorequisiciones','ContratoRequisicionController');
@@ -417,7 +424,9 @@ Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 Route::Resource('desembolsos','DesembolsoController');
 Route::Resource('ingresos','IngresoController');
 Route::Resource('tipopagos','TipopagoController');
+Route::get('pagos/ordencompras','OrdencompraController@index2');
 Route::Resource('pagos','PagoController');
+Route::Resource('cobros','CobroController');
 Route::Resource('tipopagos', 'TipopagoController');
 
 //Rutas de Reportes UACI
@@ -440,6 +449,7 @@ Route::get('reportestesoreria/planillas/{id}','ReportesTesoreriaController@plani
 Route::get('reportestesoreria/planillas2/{id}','ReportesTesoreriaController@planillas2');
 Route::get('reportestesoreria/planillaaprobada/{id}','ReportesTesoreriaController@planillaaprobada');
 Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta');
+Route::get('reportestesoreria/boletageneral/{id}','ReportesTesoreriaController@boletageneral');
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
 Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
 //Ruta para detalle de planillas

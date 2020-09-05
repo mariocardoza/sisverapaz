@@ -24,6 +24,14 @@ class Planilla extends Model
       return $this->belongsTo('App\Prestamo');
     }
 
+    public static function total_fila($id)
+    {
+      $total=0;
+      $planilla=Planilla::find($id);
+      $total=$planilla->empleado->detalleplanilla->salario-$planilla->issse-$planilla->afpe-$planilla->prestamos-$planilla->descuentos;
+      return $total;
+    }
+
     public static function planilla_proyecto($id)
     {
       $proyecto=Proyecto::find($id);

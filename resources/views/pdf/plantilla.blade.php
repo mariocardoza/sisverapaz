@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SisVerapaz</title>
-  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+  <link type="text/css" media="all" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+  <!-- Latest compiled and minified CSS -->
   <style>
     
     @page { margin: 120px 50px; }

@@ -7,6 +7,7 @@ use App\Empleado;
 use App\Retencion;
 use App\Contrato;
 use App\Cuenta;
+use App\CuentaDetalle;
 use App\Planilla;
 use App\Detalleplanilla;
 use App\PagoRenta;
@@ -33,24 +34,28 @@ class PlanillaController extends Controller
          $total=Datoplanilla::totalplanilla($request->id);
          $cuenta=Cuenta::find($request->cuenta_id);
          if($total>$cuenta->monto_inicial){
-             return array(2,"exito","El total de la planilla supera a lo disponible en la cuenta");
+            return array(2,"exito","El total de la planilla supera a lo disponible en la cuenta");
          }else{
-             $planilla=Datoplanilla::find($request->id);
-             foreach ($planilla->planilla as $p) {
-                if($p->renta>0){
-                    $renta[]=$p->empleado->nombre;
-                    /*$pr=PagoRenta::create([
-                        'nombre'=>$p->empleado->nombre,
-                        'dui'=>$p->empleado->dui,
-                        'nit'=>$p->empleado->nit,
-                        'total'=>$p->
-                        'renta'=>$p->renta,
-                        'liquido'=>
-                        'concepto'=>'Pago de salario'
-                    ]);*/
-                }
-             }
-             return array(1,"exito",$renta);
+            try{
+                DB::beginTransaction();
+                $planilla=Datoplanilla::find($request->id);
+                $cuenta->monto_inicial=$cuenta->monto_inicial-$total;
+                $cuenta->save();
+                CuentaDetalle::create([
+                    'id'=>CuentaDetalle::retonrar_id_insertar(),
+                    'cuenta_id'=>$cuenta->id,
+                    'accion'=>'Pago de salarios al mes de '.obtenerMes($planilla->mes).' de '.$planilla->anio,
+                    'tipo'=>1,
+                    'monto'=>$total,
+                ]);
+                $planilla->estado=4;
+                $planilla->save();
+                DB::commit();
+                return array(1,"exito",$total);
+            }catch(Exception $e){
+                DB::rollback();
+                return array(-1,"error",$e->getMessage());
+            }
          }
          
      }
