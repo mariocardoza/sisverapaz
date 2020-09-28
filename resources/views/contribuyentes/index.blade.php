@@ -95,6 +95,7 @@
                     if(json.error==false){
                         toastr.success("Facturas generadas con éxito");
                         swal.closeModal();
+                        $('#verPagos').submit();
                     }else{
                         toastr.error(json.message);
                         swal.closeModal();
@@ -105,7 +106,6 @@
                 }
             });
 
-            $('#verPagos').submit();
         });
 
         //registrar un nuevo rubro

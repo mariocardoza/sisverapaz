@@ -253,7 +253,9 @@ class ContribuyenteController extends Controller
       $unidad = "Unidad de Adquicisiones Institucionales";
 
       $pdf = \PDF::loadView('pdf.catastro.pdfpagos',compact('facturas','unidad'));
-      $pdf->setPaper('letter', 'portrait');
+      // $pdf->setPaper('letter', 'portrait');
+      $pdf->setPaper( [0, 0, 488.165,  323.56]);
+      // $pdf->render();
       //$canvas = $pdf ->get_canvas();
     //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
       return $pdf->stream('reporte.pdf');
