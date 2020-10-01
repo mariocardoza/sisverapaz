@@ -203,10 +203,11 @@ var map;
 //Funcion principal
 initMap = function () 
 {
-
+  var lng= -88.87197894152527;
+  var lat= 13.643449058476703;
     //usamos la API para geolocalizar el usuario
-        navigator.geolocation.getCurrentPosition(
-          function (position){
+        /*navigator.geolocation.getCurrentPosition(
+          function (position){*/
             coords =  {
               lng: -88.87197894152527,
               lat: 13.643449058476703
@@ -214,7 +215,9 @@ initMap = function ()
             setMapa(coords);  //pasamos las coordenadas al metodo para crear el mapa
             
            
-          },function(error){console.log(error);});
+          /*},function(error){console.log(error);});
+          */
+         
     
 }
 

@@ -19,6 +19,11 @@
   </a>
 </li>
 <li>
+  <a href="{{ url('perpetuidad') }}">
+    <i class="glyphicon glyphicon-usd"></i><span>Puestos a perpetuidad</span>
+  </a>
+</li>
+<li>
   <a href="{{ url('alumbrado') }}">
     <i class="glyphicon glyphicon-usd"></i><span>Alumbrado público</span>
   </a>

@@ -110,7 +110,7 @@
             </div>
         </div>
 
-        <input type="text" id="lat" />
-        <input type="text" id="lng" />
+        <input type="text" readonly id="lat" />
+        <input type="text" readonly id="lng" />
     </div>
 </div>

@@ -336,6 +336,7 @@ Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->na
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::Resource('contribuyentes','ContribuyenteController');
 
+Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');
 Route::Resource('perpetuidad','PerpetuidadController');
 
 Route::Resource('tiposervicios','TiposervicioController');

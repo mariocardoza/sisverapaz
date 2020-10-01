@@ -264,6 +264,15 @@
                     minDate: start,
        				     format: 'dd-mm-yyyy'
                     });
+
+                    $('.fechanomayor').datepicker({
+                      selectOtherMonths: true,
+                      changeMonth: true,
+                      changeYear: true,
+                      dateFormat: 'dd-mm-yy',
+                      maxDate: "+1m",
+                      format: 'dd-mm-yyyy'
+                      });
                     
                     $('.fechapago').datepicker({
                       selectOtherMonths: true,
