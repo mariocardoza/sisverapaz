@@ -11,6 +11,11 @@ trait DatesTranslator
     return new Date($created_at);
   }
 
+  public function getFechaAdquisicionAttribute($fecha_adquisicion)
+  {
+    return new Date($fecha_adquisicion);
+  }
+
   public function getFechaInicioAttribute($fecha_inicio)
   {
     return new Date($fecha_inicio);

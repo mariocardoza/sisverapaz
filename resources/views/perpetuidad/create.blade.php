@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Fecha</label>
-                                            <input type="text"  autocomplete="off" value="{{date("d-m-Y")}}" class="form-control fechanomayor">
+                                            <input type="text" name="fecha_adquisicion" autocomplete="off" value="{{date("d-m-Y")}}" class="form-control fechanomayor">
                                         </div>
                                         <div class="hide col-sm-12">
                                             <input type="text" name="lat" id="lat">
@@ -127,6 +127,7 @@
         $(document).on("submit","#form_perpetuidad",function(e){
             e.preventDefault();
             var datos=$("#form_perpetuidad").serialize();
+            modal_cargando();
             $.ajax({
                 url:'../perpetuidad',
                 type:'post',
@@ -136,7 +137,16 @@
                     if(json[0]==1){
                         toastr.success("Título guardado con éxito");
                         location.href="../perpetuidad";
+                    }else{
+                        swal.closeModal();
+                        toastr.error("Ocurrió un error, contacte al administrador");
                     }
+                },
+                error:function(error){
+                    swal.closeModal();
+                    $.each(error.responseJSON.errors,function(i,v){
+                        toastr.error(v);
+                    });
                 }
             });
         });

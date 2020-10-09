@@ -337,6 +337,7 @@ Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->na
 Route::Resource('contribuyentes','ContribuyenteController');
 
 Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');
+Route::get('perpetuidad/recibos','PerpetuidadController@recibos');
 Route::Resource('perpetuidad','PerpetuidadController');
 
 Route::Resource('tiposervicios','TiposervicioController');
@@ -361,6 +362,7 @@ Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 Route::Resource('inmueble','InmuebleController');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::put('construcciones/cambiarestado/{id}','ConstruccionController@cambiarestado');
+Route::get('construcciones/recibos','ConstruccionController@recibo');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
@@ -453,6 +455,7 @@ Route::get('reportestesoreria/boleta/{id}','ReportesTesoreriaController@boleta')
 Route::get('reportestesoreria/boletageneral/{id}','ReportesTesoreriaController@boletageneral');
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
 Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
+Route::get('reportestesoreria/recibop/{id}','ReportesTesoreriaController@recibop');
 //Ruta para detalle de planillas
 Route::post('detalleplanillas/store2','DetallePlanillaController@store2');
 Route::Resource('detalleplanillas','DetalleplanillaController');

@@ -27,6 +27,7 @@
                             <th>N°</th>
                             <th>Contribuyente</th>
                             <th>Cementerio</th>
+                            <th>Fecha </th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{$t->Contribuyente->nombre}}</td>
                                 <td>{{$t->cementerio->nombre}}</td>
+                                <td>{{$t->created_at->diffforhumans(null, false, false, 3)}}</td>
                                 <td><a href="{{url('perpetuidad/'.$t->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
                             </tr>
                         @endforeach

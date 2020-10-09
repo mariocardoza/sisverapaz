@@ -24,6 +24,15 @@ class ReportesTesoreriaController extends Controller
     	return $pdf->stream('Recibo.pdf');	
 	}
 
+	public function recibop($id)
+	{
+		$perpetuidad = \App\Perpetuidad::findorFail($id);
+    	$tipo = "REPORTE DE PAGO DE IMPUESTOS";
+    	$pdf = \PDF::loadView('pdf.tesoreria.recibop',compact('perpetuidad','tipo'));
+    	$pdf->setPaper('letter','landscape');
+    	return $pdf->stream('Recibo.pdf');	
+	}
+
     public function pagorentas($id)
     {
     	$configuracion = \App\Configuracion::first();

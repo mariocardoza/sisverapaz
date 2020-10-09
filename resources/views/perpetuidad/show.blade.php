@@ -15,7 +15,7 @@
 <div class="box">
     <div class="box-header">
         <div class="box-title">
-            <h3>Puesto a perpetuidad</h3>
+            <h3>Título a perpetuidad</h3>
         </div>
     </div>
     <div class="box-body">
@@ -49,7 +49,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <button style="display: block; margin: 0 auto;" data-id="{{$perpetuidad->id}}" class="btn btn-warning"><div class="fa fa-edit"></div></button>
+                <div style="display: block; margin: 0 auto;">
+                  <button id="edit_perpetuidad" data-id="{{$perpetuidad->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                  <a href="{{url('reportestesoreria/recibop/'.$perpetuidad->id)}}" target="_blank" class="btn btn-info"><i class="fa fa-print"></i></a>
+                </div>
                 <br>
                 <h3>Beneficiarios <button type="button" class="btn btn-primary pull-right agregar_beneficiario"><i class="fa fa-plus"></i></button></h3>
                 <table class="table">
@@ -112,6 +115,7 @@
 		</div>
 	</div>
 </div>
+<div id="modal_aqui">|</div>
 @endsection
 @section('scripts')
 <script>
@@ -125,6 +129,33 @@
         $(document).on("click",".agregar_beneficiario",function(e){
           e.preventDefault();
           $("#modal_beneficiario").modal("show");
+        });
+
+        //editar un puesto a perpetuidad
+        $(document).on("click","#edit_perpetuidad",function(e){
+          e.preventDefault();
+          let id=$(this).attr("data-id");
+          $.ajax({
+            url:'../perpetuidad/'+id+'/edit',
+            type:'get',
+            dataType:'json',
+            success:function(json){
+              if(json[0]==1){
+                $("#modal_aqui").empty();
+                $("#modal_aqui").html(json[2]);
+                $('.fechanomayor').datepicker({
+                      selectOtherMonths: true,
+                      changeMonth: true,
+                      changeYear: true,
+                      dateFormat: 'dd-mm-yy',
+                      maxDate: "+1m",
+                      format: 'dd-mm-yyyy'
+                      });
+                      $(".chosen-select-width").chosen({width:'100%'});
+                $("#modal_edit_perpetuidad").modal("show");
+              }
+            }
+          });
         });
 
         //registrar el beneficiario
@@ -149,6 +180,33 @@
             },
             error: function(error){
 
+            }
+          })
+        });
+
+        //edityar perpetuidad
+        $(document).on("click","#btn_editp",function(e){
+          e.preventDefault();
+          let datos = $("#form_edit_perpetuidad").serialize();
+          let id =$(this).attr("data-id");
+          modal_cargando();
+          $.ajax({
+            url:'../perpetuidad/'+id,
+            type:'put',
+            dataType:'json',
+            data:datos,
+            success:function(json){
+              if(json[0]==1){
+                toastr.success("Beneficiario editado con exito");
+                location.reload();
+              }
+              else{
+                swal.closeModal();
+                toastr.error('Ocurrio un error, contacte al administrador');
+              }
+            },
+            error: function(error){
+              swal.closeModal();
             }
           })
         });

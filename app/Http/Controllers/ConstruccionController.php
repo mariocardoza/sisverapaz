@@ -154,6 +154,12 @@ class ConstruccionController extends Controller
         }
     }
 
+    public function recibo()
+    {
+        $construcciones = Construccion::whereEstado(3)->get();
+        return view('construcciones.recibo',compact('construcciones'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

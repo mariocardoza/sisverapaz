@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Perpetuidad extends Model
 {
     protected $guarded = [];
+    protected $dates = ['fecha_adquisicion'];
 
     public function cementerio()
     {

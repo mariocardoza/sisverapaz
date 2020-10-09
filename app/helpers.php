@@ -45,12 +45,20 @@ function obtenerMes($n){
 }
 
 function retornar_porcentaje($dato)
-    {
-    	$porcentajes=Porcentaje::where('nombre_simple',$dato)->first();
-    	$valor=0;
-    	$valor=$porcentajes->porcentaje/100;
-    	return $valor;
-    }
+{
+    $porcentajes=Porcentaje::where('nombre_simple',$dato)->first();
+    $valor=0;
+    $valor=$porcentajes->porcentaje/100;
+    return $valor;
+}
+
+function el_porcentaje($dato)
+{
+    $porcentajes=Porcentaje::where('nombre_simple',$dato)->first();
+    $valor=0;
+    $valor=$porcentajes->porcentaje;
+    return $valor;
+}
 
 function tamaniohumano($size, $precision = 2)
     {
