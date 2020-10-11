@@ -19,8 +19,6 @@ class EditarForaneasDeLosPresupuestos extends Migration
         });
 
         Schema::table('presupuestodetalles', function (Blueprint $table) {
-            $table->dropForeign('presupuestodetalles_catalogo_id_foreign');
-            $table->dropColumn('catalogo_id');
             $table->string('material_id');
             $table->foreign('material_id')->references('id')->on('materiales');
             $table->integer('estado')->unsigned()->default(1);
@@ -52,8 +50,6 @@ class EditarForaneasDeLosPresupuestos extends Migration
         Schema::table('presupuestodetalles', function (Blueprint $table) {
             $table->dropForeign('presupuestodetalles_material_id_foreign');
             $table->dropColumn('material_id');
-            $table->bigInteger('catalogo_id')->unsigned();
-            $table->foreign('catalogo_id')->references('id')->on('catalogos');
             $table->dropColumn('estado');
         });
 
