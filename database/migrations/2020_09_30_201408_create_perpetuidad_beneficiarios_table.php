@@ -20,7 +20,6 @@ class CreatePerpetuidadBeneficiariosTable extends Migration
             $table->date('fecha_entierro');
             $table->integer('estado')->default(1);
             $table->date('fecha_exhumacion')->nullable();
-            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }
