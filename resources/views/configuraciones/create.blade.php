@@ -12,16 +12,7 @@
 @section('content')
 <div class="">
 	<div class="row">
-		<div class="col-md-3">
-			<div class="panel">
-				<div class="panel-body">
-					<p>
-            Esta sección es para modificar información básica de la alcaldía como pueden ser: nombre del alcalde, el logo de la alcaldía o los porcentajes de IVA y Renta.
-          </p>
-				</div>
-			</div>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             @include('errors.validacion')
             <div class="nav-tabs-custom" style=" ">
                 <ul class="nav nav-tabs">
@@ -219,10 +210,12 @@
                                   <td>
                                     @if($e->estado==1)
                                     <label for="" class="label label-primary col-sx-12">Activa</label>
+                                    @else
+                                    <label for="" class="label label-success col-sx-12">Finalizada</label>
                                     @endif
                                   </td>
                                   <td>
-
+                                    <button class="btn btn-success" id="finalizar_emergencia" data-id="{{$e->id}}"><i class="fa fa-check"></i></button>
                                   </td>
                                 </tr>
                             @endforeach
@@ -237,7 +230,8 @@
                 <!-- /.tab-content -->
               </div>
         </div>
-	</div>
+  </div>
+ 
 </div>
 
 <div class="modal fade" tabindex="-1" id="modal_emergencia" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -273,6 +267,25 @@
         <button type="submit" class="btn btn-success">Registrar</button></center>
       </div>
     </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modal_ayuda" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="gridSystemModalLabel">Ayuda</h4>
+      </div>
+      <div class="modal-body">
+      <p>
+        Esta sección es para modificar información básica de la alcaldía como pueden ser: nombre del alcalde, el logo de la alcaldía o los porcentajes de IVA y Renta.
+      </p>
+      </div>
+      <div class="modal-footer">
+        <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button></center>
+      </div>
     </div>
   </div>
 </div>

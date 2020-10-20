@@ -16,6 +16,12 @@
           $("#modal_autizacion").modal("show");
         });
 
+        /* abrir el modal de ayuda */
+        $(document).on("click","#btn_help", function(e){
+          e.preventDefault();
+          $("#modal_ayuda").modal("show");
+        });
+
         //autorización para requisiciones 
         $(document).on("click","#autorizacion_requi", function(e){
           swal({
