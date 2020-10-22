@@ -321,4 +321,8 @@ class InmuebleController extends Controller
         
         return array(1,$inmueble,$html,$select);
     }
+
+    public function buscarInmueble(Request $request){
+      return Inmueble::where('contribuyente_id',$request['id'])->where('estado',1)->get(['id','direccion_inmueble']);
+    }
 }

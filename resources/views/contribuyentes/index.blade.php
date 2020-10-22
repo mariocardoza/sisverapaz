@@ -47,7 +47,7 @@
                                 <div class="btn-group">
                                     <a href="{{url('contribuyentes/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                                     <a href="{{ url('contribuyentes/pagos/'.$c->id) }}" class="btn btn-success"><i class="fa fa-money"></i></a>
-                                    <button class="btn btn-info"><i class="fa fa-money"></i></button>
+                                    <button class="btn btn-info ver_mis_inmuebles" data-id="{{$c->id}}"><i class="fa fa-money"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -65,6 +65,7 @@
 @endsection
 
 @section('scripts')
+<script src="{{asset('js/generar_factura.js?cod='.date("Yidisus"))}}"></script>
 <script>
     $(document).ready(function(e){
         //modal de los rubros
@@ -95,7 +96,7 @@
                     if(json.error==false){
                         toastr.success("Facturas generadas con éxito");
                         swal.closeModal();
-                        $('#verPagos').submit();
+                        
                     }else{
                         toastr.error(json.message);
                         swal.closeModal();
@@ -105,7 +106,7 @@
                     swal.closeModal();
                 }
             });
-
+            $('#verPagos').submit();
         });
 
         //registrar un nuevo rubro
@@ -453,4 +454,5 @@
         });
     }
 </script>
+@include('contribuyentes.modales_factura')
 @endsection

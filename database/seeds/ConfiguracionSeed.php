@@ -47,6 +47,12 @@ class ConfiguracionSeed extends Seeder
         $por->save();
 
         $por= new Porcentaje();
+        $por->nombre='Mora contribuyentes';
+        $por->nombre_simple='mora';
+        $por->porcentaje=0.00;
+        $por->save();
+
+        $por= new Porcentaje();
         $por->nombre='Construcciones';
         $por->nombre_simple='construccion';
         $por->porcentaje=0.00;
