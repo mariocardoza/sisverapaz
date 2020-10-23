@@ -24,7 +24,11 @@ class UnidadAdminController extends Controller
         {
           return response(Unidad::where('estado',1)->get());
         }else{
-          $unidades = Unidad::where('estado',1)->get();
+          if($request->estado=='')
+          $estado=1;
+          else
+          $estado=$request->estado;
+          $unidades = Unidad::where('estado',$estado)->get();
           //dd($unidades);
           return view('unidades.index',compact('unidades'));
         }

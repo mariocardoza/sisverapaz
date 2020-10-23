@@ -388,8 +388,7 @@ class ProyectoController extends Controller
      */
     public function create()
     {
-        $organizaciones = Organizacion::all();
-        return view('proyectos.create',compact('organizaciones'));
+        return view('proyectos.create');
 
         //return view('proyectos.create');
     }

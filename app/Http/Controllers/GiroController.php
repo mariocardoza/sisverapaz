@@ -114,8 +114,8 @@ class GiroController extends Controller
         $motivo = $datos[1];
         $especialista = Giro::find($id);
         $especialista->estado = 2;
-        $especialista->motivo = $motivo;
-        $especialista->fecha_baja = date('Y-m-d');
+        //$especialista->motivo = $motivo;
+        //$especialista->fecha_baja = date('Y-m-d');
         $especialista->save();
         bitacora('Dió de baja un giro de proveedores');
         return redirect('giros')->with('mensaje','Registro dado de baja');
@@ -125,8 +125,8 @@ class GiroController extends Controller
     {
         $especialista = Giro::find($id);
         $especialista->estado = 1;
-        $especialista->motivo = null;
-        $especialista->fecha_baja = null;
+        //$especialista->motivo = null;
+        //$especialista->fecha_baja = null;
         $especialista->save();
         bitacora('Dió de alta un giro de proveedores');
         return redirect('giros')->with('mensaje','Registro dado de alta');

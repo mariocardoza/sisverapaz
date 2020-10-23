@@ -379,4 +379,28 @@ class EmpleadoController extends Controller
 
         
     }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id = $datos[0];
+        $motivo = $datos[1];
+        $unidad = Empleado::find($id);
+        //$unidad->motivo = $motivo;
+        //$unidad->fecha_baja = date('Y-m-d');
+        $unidad->estado = 2;
+        $unidad->save();
+        bitacora('Dió de baja la unidad administrativa');
+        return redirect('/empleados')->with('mensaje','Registro dada de baja');
+    }
+    public function alta($id)
+    {
+        $unidad = Empleado::find($id);
+        $unidad->estado = 1;
+        //$unidad->motivo = null;
+        //$unidad->fecha_baja = null;
+        $unidad->save();
+        bitacora('Dió de alta a un registro');
+        return redirect('/empleados')->with('mensaje','Registro dado de alta');
+    }
 }

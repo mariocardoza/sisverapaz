@@ -368,6 +368,8 @@ Route::get('construcciones/recibos','ConstruccionController@recibo');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
+Route::post('empleados/baja/{id}','EmpleadoController@baja')->name('bancos.baja');
+Route::post('empleados/alta/{id}','EmpleadoController@alta')->name('bancos.alta');
 Route::Resource('empleados','EmpleadoController');
 Route::get('empleados/selectcargos/{id}','EmpleadoController@selectcargo');
 Route::post('empleados/bancarios','EmpleadoController@bancarios');
@@ -379,8 +381,8 @@ Route::post('empleados/foto/{id}','EmpleadoController@foto');
 
 Route::get('afps/get','AfpController@get');
 Route::Resource('afps','AfpController');
-Route::post('afp/baja/{id}','AfpController@baja')->name('afps.baja');
-Route::post('afp/alta/{id}','AfpController@alta')->name('afps.alta');
+Route::post('afps/baja/{id}','AfpController@baja')->name('afps.baja');
+Route::post('afps/alta/{id}','AfpController@alta')->name('afps.alta');
 
 Route::get('servicios/pagos','ServiciosController@pagos')->name("servicios.pagos");
 Route::delete('servicios/restaurar/{id}','ServiciosController@restaurar');
@@ -510,7 +512,8 @@ Route::get('categoria/listar','SolicitudcotizacionController@categorias_ne')->na
 
 
 
-
+Route::post('unidades/baja/{id}','UnidadAdminController@baja')->name('bancos.baja');
+Route::post('unidades/alta/{id}','UnidadAdminController@alta')->name('bancos.alta');
 Route::Resource('unidades','UnidadAdminController');
 Route::get('presupuestounidades/materiales/{id}','PresupuestoUnidadController@materiales');
 Route::get('presupuestounidades/anio/{anio}','PresupuestoUnidadController@anio');

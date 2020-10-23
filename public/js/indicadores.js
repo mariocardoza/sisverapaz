@@ -55,7 +55,7 @@ $(document).ready(function(e){
 	$(document).on("click","#agregar_indicador_e", function(e){
 		var nombre=$("#nombre_indicador_e").val() || 0;
 		var elcodigo=$("#elcodigo_e").val() || 0;
-		alert(elcodigo);
+		//alert(elcodigo);
 		var descripcion=$("#descripcion_indicador_e").val() || 0;
 		var porcen=parseFloat($("#porcentaje_indicador_e").val());
 		var valid = $("#losdatos_e").valid();

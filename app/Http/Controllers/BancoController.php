@@ -110,11 +110,11 @@ class BancoController extends Controller
     {
         $datos = explode("+", $cadena);
         $id=$datos[0];
-        //$motivo=$datos[1];
+        $motivo=$datos[1];
         $banco = Banco::find($id);
         $banco->estado= 2;
-        //$banco->motivo=$motivo;
-        //$banco->fechabaja=date('Y-m-d');
+        $banco->motivo=$motivo;
+        $banco->fechabaja=date('Y-m-d');
         $banco->save();
         bitacora('Dió de baja a un banco');
         return redirect('/bancos')->with('mensaje','Banco dado de baja');

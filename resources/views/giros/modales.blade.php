@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal_registrar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+		<div class="modal-content modal-sm">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
@@ -25,7 +25,7 @@
 
 <div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labeledby="myModalLabel">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
+		<div class="modal-content modal-sm">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="myModalLabel">Editar</h4>
@@ -35,7 +35,7 @@
 					<div class="form_group">
 						<label for="">Nombre giro
 						</label>
-						<input type="text" name="nombre" id="e_nombre" class="form-control">
+						<input type="text" autocomplete="off" name="nombre" id="e_nombre" class="form-control">
 						<input type="hidden" name="id" id="elid">
 					</div>
 				</form>

@@ -17,7 +17,7 @@
                 <div class="btn-group pull-right">
                     <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     <a href="{{ url('/bancos?estado=1') }}" class="btn btn-primary">Activos</a>
-                    <a href="{{ url('/bancos?estado=0') }}" class="btn btn-primary">Papelera</a>
+                    <a href="{{ url('/bancos?estado=2') }}" class="btn btn-primary">Papelera</a>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -41,7 +41,7 @@
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="fa fa-refresh"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>
@@ -73,6 +73,7 @@
     $(document).on("click", "#btnguardar", function(e){
       e.preventDefault();
       var datos=$("#form_banco").serialize();
+      modal_cargando();
       $.ajax({
         url:"bancos",
         type:"post",
@@ -85,6 +86,7 @@
           }
           else{
             toastr.error("Falló");
+            swal.closeModal();
           }
         },
         error:function(error){
@@ -92,7 +94,8 @@
           $(error.responseJSON.errors).each(function(
             index,valor){
             toastr.error(valor.nombre);
-          })
+          });
+          swal.closeModal();
         }
       });
     });
@@ -119,7 +122,7 @@
     $(document).on("click", "#btneditar", function(e){
       var id = $("#elid").val();
       var nombre = $("#e_nombre").val();
-
+      modal_cargando();
       $.ajax({
         url: "bancos/"+id,
         type: "put",
@@ -132,7 +135,16 @@
           }
           else{
             toastr.error("error");
+            swal.closeModal();
           }
+        },
+        error:function(error){
+          console.log();
+          $(error.responseJSON.errors).each(function(
+            index,valor){
+            toastr.error(valor.nombre);
+          });
+          swal.closeModal();
         }
       });
     });       //Fin btneditar

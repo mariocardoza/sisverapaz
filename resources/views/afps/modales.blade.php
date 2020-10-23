@@ -29,7 +29,7 @@
 
 <div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labeledby="myModalLabel">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content modal-sm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Editar</h4>
@@ -38,7 +38,7 @@
         <form id="form_edit">
           <div class="form_group">
             <label for="">AFP</label>
-            <input type="text" name="afp" id="e_afp" class="form-control">
+            <input type="text" autocomplete="off" name="afp" id="e_afp" class="form-control">
             <input type="hidden" name="id" id="elid">
           </div>
         </form>

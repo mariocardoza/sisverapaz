@@ -13,9 +13,14 @@ class AfpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $afps=afp::where('estado',1)->get();
+        if($request->estado=='')
+        $estado=1;
+        else
+        $estado=$request->estado;
+
+        $afps=afp::where('estado',$estado)->get();
         //dd($afps);
         return view("afps.index",compact('afps'));
     }
@@ -97,5 +102,30 @@ class AfpController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function baja($cadena)
+    {
+        $datos = explode("+", $cadena);
+        $id=$datos[0];
+        //$motivo=$datos[1];
+        $afp = Afp::find($id);
+        $afp->estado= 2;
+        //$banco->motivo=$motivo;
+        //$banco->fechabaja=date('Y-m-d');
+        $afp->save();
+        bitacora('Dió de baja a una afp');
+        return redirect('/afps')->with('mensaje','Banco dado de baja');
+
+    }
+    public function alta($id)
+    {
+        $banco = Afp::find($id);
+        $banco->estado=1;
+        //$banco->motivo=null;
+       // $banco->fechabaja=null;
+        $banco->save();
+        bitacora('Dió de alta a un registro');
+        return redirect('/afps')->with('mensaje','Registro dado de alta');
     }
 }

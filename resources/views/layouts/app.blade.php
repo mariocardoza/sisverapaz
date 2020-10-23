@@ -26,6 +26,52 @@
   .error{
     color:red;
   }
+  .action-btn-wrapper {
+    position: relative;
+}
+
+.fixed-action-btn.my-custom-btn {
+    position: absolute;
+    right: 0px;
+    top: 23px;
+    padding-top: 15px;
+    margin-bottom: 0;
+    z-index: 2;
+}
+a.btn-floating.btn-large.red {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: #F44336;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: .3s;
+    opacity: 0.5;
+    cursor: pointer;
+}
+a.btn-floating.btn-large.red:hover {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background: #F44336;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    border: none;
+    outline: none;
+    color: #FFF;
+    font-size: 36px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: .3s;
+    opacity: 1;
+    cursor: pointer;
+}
 </style>
 </head>
 <body class="skin-blue fixed sidebar-mini sidebar-mini-expand-feature">
@@ -158,7 +204,13 @@
         echo ("<script type='text/javascript'>toastr.error('". Session::get('error') ."');</script>");
        ?>
     @endif
-
+    <div class="action-btn-wrapper" style="z-index: 2;">
+      <div class="fixed-action-btn my-custom-btn horizontal">
+        <a title="Ayuda" id="btn_help" class="btn-floating btn-large red">
+            <i class="fa fa-question"></i>
+        </a>
+    </div>
+    </div>
       @yield('content')
 
       <!-- /.row (main row) -->

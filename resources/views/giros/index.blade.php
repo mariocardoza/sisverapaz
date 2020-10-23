@@ -36,12 +36,12 @@
                     <td>
                       @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="javascript:(0)" id="edit" data-id="{{$giro->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                        <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$giro->id.",'giros')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <a href="javascript:(0)" id="edit" data-id="{{$giro->id}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
+                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$giro->id.",'giros')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$giro->id.",'giros')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                          <button class="btn btn-success btn-sm" type="button" onclick={{ "alta(".$giro->id.",'giros')" }}><span class="fa fa-refresh"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>
@@ -73,6 +73,7 @@
     $(document).on("click", "#btnguardar", function(e){
       e.preventDefault();
       var datos=$("#form_giro").serialize();
+      modal_cargando();
       $.ajax({
         url:"giros",
         type:"post",
@@ -84,7 +85,8 @@
             window.location.reload();
           }
           else{
-            toastr.error("Falló");
+            toastr.error("Falló, contacte al administrador");
+            swal.closeModal();
           }
         },
         error:function(error){
@@ -93,6 +95,7 @@
             index,valor){
             toastr.error(valor.nombre);
           });
+          swal.closeModal();
         }
       });
     });
@@ -119,7 +122,7 @@
     $(document).on("click", "#btneditar", function(e){
       var id = $("#elid").val();
       var nombre = $("#e_nombre").val();
-
+      modal_cargando();
       $.ajax({
         url: "giros/"+id,
         type: "put",
@@ -132,7 +135,16 @@
           }
           else{
             toastr.error("error");
+            swal.closeModal();
           }
+        },
+        error:function(error){
+          console.log();
+          $(error.responseJSON.errors).each(function(
+            index,valor){
+            toastr.error(valor.nombre);
+          });
+          swal.closeModal();
         }
       });
     });       //Fin btneditar

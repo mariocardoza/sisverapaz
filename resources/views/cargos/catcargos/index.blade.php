@@ -19,7 +19,7 @@
 			<div class="btn-group pull-right">
 				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
 				<a href="{{ url('/catcargos?estado=1') }}" class="btn btn-primary">Activos</a>
-				<a href="{{ url('/catcargos?estado=0') }}" class="btn btn-primary">Papelera</a>
+				<a href="{{ url('/catcargos?estado=2') }}" class="btn btn-primary">Papelera</a>
 			</div>
 		</div>
 
@@ -43,7 +43,7 @@
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success" type="button" onclick={{ "alta(".$catcargo->id.",'catcargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-success" type="button" onclick={{ "alta('".$catcargo->id."','catcargos')" }}><span class="fa fa-refresh"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>

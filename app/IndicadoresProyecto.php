@@ -15,7 +15,7 @@ class IndicadoresProyecto extends Model
         $porcentaje=0;
     	try{
             $proyecto=Proyecto::find($proyecto);
-            $indicadores=IndicadoresProyecto::where('proyecto_id',$proyecto)->orderBy('created_at')->get();
+            $indicadores=IndicadoresProyecto::where('proyectos_id',$proyecto)->orderBy('created_at')->get();
             if($proyecto->indicadores->count() > 0):
                 $html.='<ul class="todo-list" id="los_indicadores">';
                 foreach($proyecto->indicadores as $indicador):
@@ -64,7 +64,7 @@ class IndicadoresProyecto extends Model
     			'nombre'=>$data['nombre'],
     			'porcentaje'=>$data['porcen'],
     			'descripcion'=>$data['descripcion'],
-    			'proyecto_id'=>$data['elproyecto']
+    			'proyectos_id'=>$data['elproyecto']
     		]);
     		return array(1,"exito",$indicador);
     	}catch(Exception $e){
