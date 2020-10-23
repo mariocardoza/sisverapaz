@@ -7,6 +7,7 @@ use App\RoleUser;
 use App\Empleado;
 use App\Porcentaje;
 use App\Unidad;
+use App\Bitacora;
 
 
 class RoleTableSeeder extends Seeder
@@ -24,6 +25,7 @@ class RoleTableSeeder extends Seeder
             'users',
             'empleados',
             'unidads',
+            'bitacoras'
         ]);
 
 
@@ -84,6 +86,13 @@ class RoleTableSeeder extends Seeder
       $user->unidad_id=$unidad->id;
       $user->password=bcrypt('sisadmin');
       $user->save();
+
+      $bitacora=new Bitacora();
+      $bitacora->accion='Se creó por primera vez el usuario administrador';
+      $bitacora->hora=date("H:i:s");
+      $bitacora->registro=date('Y-m-d');
+      $bitacora->user_id=$user->id;
+      $bitacora->save();
 
       $ru=new RoleUser();
       $ru->role_id=1;

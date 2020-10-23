@@ -650,12 +650,12 @@ class Proyecto extends Model
 
     public function indicadores()
     {
-      return $this->hasMany('App\IndicadoresProyecto');
+      return $this->hasMany('App\IndicadoresProyecto','proyectos_id');
     }
 
     public function indicadores_completado()
     {
-      return $this->hasMany('App\IndicadoresProyecto')->where('estado',2);
+      return $this->hasMany('App\IndicadoresProyecto','proyectos_id')->where('estado',2);
     }
 
     public function solicitudcotizacion()

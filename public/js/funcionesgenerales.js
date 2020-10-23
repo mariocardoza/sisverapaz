@@ -407,7 +407,7 @@ function baja(id,ruta)
         if (result.value) {
           var dominio = window.location.host;
           var form = $(this).parents('form');
-          $('#baja').attr('action','http://'+dominio+'/'+carpeta()+'/public/'+ruta+'/baja/'+id+'+'+result.value);
+          $('#baja').attr('action',ruta+'/baja/'+id+'+'+result.value);
           //document.getElmentById('baja').submit();
           $('#baja').submit();
           swal({
@@ -493,7 +493,7 @@ function baja(id,ruta)
       }).then(function () {
           var dominio = window.location.host;
           var form = $(this).parents('form');
-          $('#alta').attr('action','http://'+dominio+'/'+carpeta()+'/public/'+ruta+'/alta/'+id);
+          $('#alta').attr('action',ruta+'/alta/'+id);
           //document.getElmentById('baja').submit();
           $('#alta').submit();
           swal({

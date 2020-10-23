@@ -43,7 +43,7 @@
                                     {{ Form::close()}}
                                     @else
                                     {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                    <button class="btn btn-success" type="button" onclick={{ "alta(".$unidad->id.",'unidades')"}}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button class="btn btn-success" type="button" onclick={{ "alta(".$unidad->id.",'unidades')"}}><span class="fa fa-refresh"></span></button>
                                     {{ Form::close() }}
                                     @endif
                                 </td>

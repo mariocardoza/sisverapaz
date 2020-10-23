@@ -17,9 +17,13 @@ class CatCargoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $catcargos = CatCargo::where('estado',1)->get();
+        if($request->estado=='')
+        $estado=1;
+        else
+        $estado=$request->estado;
+        $catcargos = CatCargo::where('estado',$estado)->get();
         return view('cargos.catcargos.index',compact('catcargos'));
     }
 
@@ -120,7 +124,7 @@ class CatCargoController extends Controller
     public function alta($id)
     {
         $catcargo = CatCargo::find($id);
-        $catcargo->estado;
+        $catcargo->estado=1;
         $catcargo->save();
         Bitacora:bitacora("Dió de alta una categoría");
 

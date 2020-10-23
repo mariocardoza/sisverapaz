@@ -45,7 +45,7 @@
                     
                     <td>
                       @if($estado == 1 || $estado == "")
-                        {{ Form::open(['method' => 'POST', 'class' => 'form-horizontal'])}}
+                        {{ Form::open(['method' => 'POST','id'=>"baja", 'class' => 'form-horizontal'])}}
                           <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
                           <button class="btn btn-danger" type="button" onclick={{ "baja(".$empleado->id.",'empleados')" }}><span class="glyphicon glyphicon-trash"></span></button>
 
@@ -53,8 +53,8 @@
 
                         {{ Form::close()}}
                       @else
-                        {{ Form::open(['method' => 'POST',  'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success" type="button" onclick={{ "alta(".$empleado->id.",'empleados')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::open(['method' => 'POST','id'=>'alta',  'class' => 'form-horizontal'])}}
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$empleado->id.",'empleados')" }}><span class="fa fa-refresh"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>

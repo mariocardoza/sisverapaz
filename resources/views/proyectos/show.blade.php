@@ -58,10 +58,10 @@
 			<div class="panel-heading">Datos de indicadores </div>
 			<div class="panel-body" id="div_indicadores">
 				@if($proyecto->indicadores->count() > 0)
-				<ul class="todo-list" id="los_indicadores"></ul>
-				@if($proyecto->indicadores->sum('porcentaje') < 100)
-				<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
-				@endif
+					<ul class="todo-list" id="los_indicadores"></ul>
+					@if($proyecto->indicadores->sum('porcentaje') < 100)
+						<button type="button" id="add_indicador" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Agregar indicador</button>
+					@endif
 				@else
 				<center>
 					<h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>

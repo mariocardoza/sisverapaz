@@ -30,7 +30,8 @@ class HomeController extends Controller
     public function index()
     {
         $configuracion=Configuracion::first();
-        $indicadores=[];
+        //$proyectos=null;
+        
         $proyectos=DB::table('proyectos as p')
         ->select('p.id','p.nombre','p.beneficiarios','p.codigo_proyecto','p.direccion',
         'p.estado','p.fecha_inicio','p.fecha_fin','p.lat','p.lng','p.motivo','p.monto',
@@ -39,10 +40,11 @@ class HomeController extends Controller
         FROM
             indicadores_proyectos AS ip
         WHERE
-            ip.proyecto_id = p.id
+            ip.proyectos_id = p.id
         AND ip.estado = 2) as avance'))
         ->where('p.anio','=',date('Y'))
         ->get();
+        
 
         if($configuracion!='')
         {

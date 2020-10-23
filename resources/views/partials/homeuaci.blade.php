@@ -112,7 +112,8 @@
 @section('scripts')
 <script>
   let vista;let elcontador;
-   var proyectos=JSON.parse('<?php echo $proyectos; ?>');
+   var proyectos=[];
+   proyectos=JSON.parse('<?php echo $proyectos; ?>');
   $(document).ready(function(e){
     initMap();
     Highcharts.chart('container', {

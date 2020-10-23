@@ -16,8 +16,8 @@
               <h3 class="box-title">Listado</h3>
                 <div class="btn-group pull-right">
                     <a id="modal_nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    <a href="{{ url('/bancos?estado=1') }}" class="btn btn-primary">Activos</a>
-                    <a href="{{ url('/bancos?estado=0') }}" class="btn btn-primary">Papelera</a>
+                    <a href="{{ url('/afps?estado=1') }}" class="btn btn-primary">Activos</a>
+                    <a href="{{ url('/afps?estado=2') }}" class="btn btn-primary">Papelera</a>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -37,11 +37,11 @@
                       @if($afp->estado == 1 )
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                         <a href="{{ url('afps/'.$afp->id.'/edit') }}" id="edit" data-id="{{$afp->codigo}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-text-size"></span></a>
-                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$afp->id.",'afps')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja('".$afp->codigo."','afps')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$afp->id.",'afps')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta('".$afp->codigo."','afps')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>
@@ -74,6 +74,7 @@
       var valid=$("#afp").valid();
       if(valid){
         var datos=$("#afp").serialize();
+        modal_cargando();
         $.ajax({
           url:'afps',
           headers: {'X-CSRF-TOKEN':eltoken},
@@ -83,9 +84,17 @@
           success:function(json){
             if(json[0]==1){
               toastr.success("Registrado exitosamente");
+              location.reload();
             }else{
               toastr.error("Ocurrió un error, contacte al administrador");
+              swal.closeModal();
             }
+          },
+          error:function(error){
+            swal.closeModal();
+            $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+            });
           }
         });
       }
@@ -106,6 +115,7 @@
             $("#modal_editar").modal("show");
             $("#e_afp").val(retorno[2].nombre);
             $("#elid").val(retorno[2].codigo);
+            
           }
           else{
             toastr.error("error");
@@ -118,8 +128,8 @@
       e.preventDefault();
       //alert("llego");
       var id = $("#elid").val();
-      var afp = $("#e_nombre").val();
-
+      var nombre = $("#e_afp").val();
+      modal_cargando();
       $.ajax({
         url:"afps/"+id,
         type:"put",
@@ -130,11 +140,19 @@
             toastr.success("Exitoso");
             $("#modal_editar").modal("hide");
             //window.location.reload();
+            location.reload();
           }
           else{
             toastr.error("error");
+            swal.closeModal();
           }
-        }
+        },
+        error:function(error){
+            swal.closeModal();
+            $.each(error.responseJSON.errors, function( key, value ) {
+                toastr.error(value);
+            });
+          }
       });
     }); //FIN BOTON
 
