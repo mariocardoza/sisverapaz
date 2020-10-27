@@ -20,7 +20,7 @@
             <div class="panel-body">
               <div class="box-body box-profile">
                 @if($empleado->avatar!="")
-                <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/'.$empleado->avatar) }}" id="img_file" alt="User profile picture">
+                <img class="profile-user-img img-responsive img-circle" src="{{ $empleado->img_path }}" id="img_file" alt="User profile picture">
                 @else
               <img class="profile-user-img img-responsive img-circle" src="{{ asset('avatars/avatar.jpg') }}" id="img_file" alt="User profile picture">
               @endif

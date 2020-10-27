@@ -200,6 +200,7 @@
     $(document).on("submit","#fm_user",function(e){
       e.preventDefault();
       var datos=$("#fm_user").serialize();
+      modal_cargando();
       $.ajax({
         url:'usuarios',
         type:'POST',
@@ -210,7 +211,8 @@
             toastr.success("usuario registrado con éxito");
             location.reload();
           }else{
-
+            toastr.error("Ocurrió un error, contacte al administrador");
+            swal.closeModal();
           }
         },
         error: function(error){
@@ -244,6 +246,35 @@
           toastr.error("Ocurrió un error al cargar la información");
         }
       });
+    });
+
+    /* editar el usuario */
+    $(document).on("click","#edit_user",function(e){
+      e.preventDefault();
+      let formulario=$("#fm_euser").serialize();
+      let id=$(this).attr("data-id");
+      modal_cargando();
+      $.ajax({
+        url:'usuarios/'+id,
+        type:'put',
+        dataType:'json',
+        data:formulario,
+        success: function(json){
+          if(json[0]==1){
+            toastr.success("usuario modificado con éxito");
+            location.reload();
+          }else{
+            toastr.error("Ocurrió un error, contacte al administrador");
+            swal.closeModal();
+          }
+        },
+        error: function(error){
+          $.each(error.responseJSON.errors,function(index,value){
+	          		toastr.error(value);
+	          	});
+	          	swal.closeModal();
+        }
+      })
     });
 
     //baja un usuario
@@ -294,6 +325,20 @@
           });
         }
       });
+    });
+
+    //ocultar o mostrar campos para cambiar la contraseña
+    $(document).on("change","#laclave",function(e){
+      e.preventDefault();
+      if ($(this).is(':checked')) {
+        $(".lacontra").show();
+        $("#epassword").removeAttr('disabled');
+        $("#epassword-confirm").removeAttr('disabled');
+      }else{
+        $(".lacontra").hide();
+        $("#epassword").prop("disabled", true);
+        $("#epassword-confirm").prop("disabled", true);
+      }
     });
 
     //restaurar un usuario

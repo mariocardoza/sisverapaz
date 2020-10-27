@@ -117,8 +117,8 @@ class ConfiguracionController extends Controller
           }
         }else{*/
           $archivo="logo_alcaldia_".date("Y-m-d-h-i-s-a").".".$request->file('logo')->getClientOriginalExtension();
-          //$request->file('logo')->storeAs('logos/', $archivo);
-          $request->file('logo')->move('img/logos', $archivo);
+          $request->file('logo')->storeAs('public/logos', $archivo);
+          //$request->file('logo')->move('img/logos', $archivo);
           $configuracion->escudo_alcaldia=$archivo;
           $configuracion->save();
         //}

@@ -47,19 +47,19 @@ class EmpleadoController extends Controller
         }
         if($request->ajax())
         {
-            return Empleado::where('estado',1)->orderBy('nombre','ASC')->get();
+            return Empleado::where('nombre','<>','Administrador')->where('estado',1)->orderBy('nombre','ASC')->get();
         }
         else{
             $estado = $request->get('estado');
         if($estado == "" )$estado = 1;
         if($estado == 1)
         {
-            $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
+            $empleados = Empleado::where('nombre','<>','Administrador')->where('estado',$estado)->orderBy('nombre','ASC')->get();
             return view('empleados.index',compact('empleados','estado','bancos','afps','roles'));
         }
         if($estado == 2)
         {
-            $empleados = Empleado::where('estado',$estado)->orderBy('nombre','ASC')->get();
+            $empleados = Empleado::where('nombre','<>','Administrador')->where('estado',$estado)->orderBy('nombre','ASC')->get();
             return view('empleados.index',compact('empleados','estado','bancos','afps'));
         }
         }
@@ -317,8 +317,10 @@ class EmpleadoController extends Controller
             unlink('avatars/'.$empleado->user->avatar);
           }
         }*/
-        $request->file('foto')->move('avatars', $request->file('foto')->getClientOriginalName());
-        $empleado->avatar=$request->file('foto')->getClientOriginalName();
+        $archivo="avatar_user_".date("Y-m-d-h-i-s-a").".".$request->file('foto')->getClientOriginalExtension();
+        $request->file('foto')->storeAs('public/avatars', $archivo);
+        //$request->file('foto')->move('avatars', $request->file('foto')->getClientOriginalName());
+        $empleado->avatar=$archivo;
         $empleado->save();
          Auth()->user()->empleado->avatar=$empleado->avatar;
         return redirect('empleados/'.$id)->with('mensaje','Imagen cambiada con exito');

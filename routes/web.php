@@ -51,7 +51,13 @@ Route::put('configuraciones/ulimites/{configuracione}','ConfiguracionController@
 Route::post('configuraciones/alcalde','ConfiguracionController@alcalde')->name('configuraciones.alcalde');
 Route::put('configuraciones/ualcalde/{configuracione}','ConfiguracionController@ualcalde')->name('configuraciones.ualcalde');
 Route::post('configuraciones/logo/{id}','ConfiguracionController@logo')->name('configuraciones.logo');
-Auth::routes();
+
+Auth::routes([
+  'login' => true,
+  'register' => false, 
+  'reset' => true, 
+  'verify' => true, 
+]);
 
 Route::post('authenticate','Auth\loginController@authenticate')->name('authenticate');
 
@@ -368,8 +374,8 @@ Route::get('construcciones/recibos','ConstruccionController@recibo');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////
-Route::post('empleados/baja/{id}','EmpleadoController@baja')->name('bancos.baja');
-Route::post('empleados/alta/{id}','EmpleadoController@alta')->name('bancos.alta');
+Route::post('empleados/baja/{id}','EmpleadoController@baja')->name('empleados.baja');
+Route::post('empleados/alta/{id}','EmpleadoController@alta')->name('empleados.alta');
 Route::Resource('empleados','EmpleadoController');
 Route::get('empleados/selectcargos/{id}','EmpleadoController@selectcargo');
 Route::post('empleados/bancarios','EmpleadoController@bancarios');

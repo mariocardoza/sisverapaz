@@ -36,11 +36,11 @@ class UsuarioController extends Controller
             $estado = $request->get('estado');
             if($estado == "" )$estado=1;
             if ($estado == 1) {
-                $usuarios = User::get();
+                $usuarios = User::where('username','<>','administrador')->get();
                 return view('usuarios.index',compact('usuarios','estado'));
             }
             if ($estado == 2) {
-                $usuarios = User::where('estado',$estado)->get();
+                $usuarios = User::where('username','<>','administrador')->where('estado',$estado)->get();
                 return view('usuarios.index',compact('usuarios','estado'));
             }
     }
@@ -123,19 +123,30 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $usuario = User::find($id);
-        $usuario->empleado_id=$request->empleado_id;
-        $usuario->username=$request->username;
-        $usuario->email=$request->email;
-        $usuario->unidad_id=$request->unidad_id;
-        bitacora('Usuario '.$request['name'].' modificado');
-        $usuario->save();   
+        
+        if(isset($request->password) || $request->password != null):
+            $this->validar_contraseñas($request->all())->validate();
+            $usuario = User::find($id);
+            $usuario->username=$request->username;
+            $usuario->email=$request->email;
+            $usuario->unidad_id=$request->unidad_id;
+            $usuario->password = bcrypt($request['password']);
+            bitacora('Usuario '.$request['name'].' modificado');
+            $usuario->save();
+        else:
+            $usuario = User::find($id);
+            $usuario->username=$request->username;
+            $usuario->email=$request->email;
+            $usuario->unidad_id=$request->unidad_id;
+            bitacora('Usuario '.$request['name'].' modificado');
+            $usuario->save();
+        endif;
 
         $rol=$usuario->roleuser;
         $rol->role_id=$request->roles;
         $rol->save();
 
-        return redirect('usuarios')->with('mensaje','Usuario '.$request['name'] .' modificado con éxito');
+        return array(1,'usuarios',$usuario);
     }
 
     /**
@@ -244,5 +255,25 @@ class UsuarioController extends Controller
                  ->update(['avatar' => $request->file('avatar')->getClientOriginalName()]);
             return redirect('/home')->with('mensaje', 'Su imagen de perfil ha sido cambiada con éxito');
         }
+    }
+
+    protected function validar_contraseñas(array $data)
+    {
+        $mensajes=array(
+            'username.required'=>'El nombre de usuario es obligatorio',
+            'email.unique'=>'El correo electrónico es obligatorio',
+            'password.required'=>'El campo contraseña es obligatorio',
+            'password.min'=>'El campo contraseña debe tener al menos 6 caracteres',
+            'password.confirmed'=>'El campo confirmación de contraseña no coincide',
+            'unidad_id.required' => 'Debe seleccionar una unidad administrativa',
+        );
+        return \Validator::make($data, [
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+            'unidad_id' => 'required',
+        ],$mensajes);
+
+        
     }
 }

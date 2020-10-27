@@ -14,6 +14,10 @@ class Empleado extends Model
     	return Empleado::nombre($nombre)->estado($estado)->orderBy('id')->paginate(10);
     }
 
+    public function getImgPathAttribute(){
+    	return \Storage::url('avatars/'.$this->avatar);
+    }
+
     public function scopeEstado($query,$estado)
     {
     	return $query->where('estado',$estado);
