@@ -40,10 +40,10 @@
               <div class="col-md-12" style="text-align: center;">
                 <h1>Logo alcaldia</h1>
                 @if($configuraciones!='')
-                <img src="{{ asset('img/logos/'.$configuraciones->escudo_alcaldia) }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                <!--img src="{{ $configuraciones->url_path }}" id="img_file" width="150" height="200" class="user-image" alt="User Image"-->
                 <form method='post' action="{{ url('configuraciones/logo/'.$configuraciones->id) }}" enctype='multipart/form-data'>
                 @else 
-                <img src="{{ asset('img/logos/escudo.png') }}" id="img_file" width="150" height="200" class="user-image" alt="User Image">
+                <!--img src="{{ asset('img/logos/escudo.png') }}" id="img_file" width="150" height="200" class="user-image" alt="User Image"-->
                 <form method='post' action="{{ url('configuraciones/logog') }}" enctype='multipart/form-data'>
                 @endif
     					  {{csrf_field()}}
