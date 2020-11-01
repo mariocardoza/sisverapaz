@@ -37,7 +37,7 @@
       
     </li>
 
-    <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':Route::currentRouteName() == 'empleados.show'?'active':null}}">
+    <li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active':null}}">
       <a href="{{ url('/empleados') }}">
         <i class="fa fa-user"></i> <span>Empleados</span>
       </a>
@@ -58,7 +58,7 @@
       </a>
     </li>
 
-    <li class="treeview {{ Route::currentRouteName() == 'cargos.index' ? 'active': Route::currentRouteName() == 'catcargos.index' ? 'active' : null }}">
+    <li class="treeview {{ Route::currentRouteName() == 'cargos.index' ? 'active': (Route::currentRouteName() == 'catcargos.index' ? 'active' : null) }}">
       <a href="#">
         <i class="fa fa-list"></i><span>Cargos</span>
         <span class="pull-right-container">
