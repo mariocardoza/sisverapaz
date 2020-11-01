@@ -56,7 +56,13 @@
                     		<td>{{ $user->empleado->nombre }}</td>
                         <td>{{ $user->roleuser->role->description }}</td>
                         <td>{{ $user->unidad->nombre_unidad }}</td>
-                        <td>{{ $user->bitacora->last()->created_at->format("d/m/Y h:i:s A")}}</td>
+                        <td>
+                          @if($user->bitacora->count() > 0)
+                          {{ $user->bitacora->last()->created_at->format("d/m/Y h:i:s A")}}
+                          @else
+                          - No ha realizado ninguna acción -
+                          @endif
+                        </td>
                         @if($user->estado == 1 )
                           <td><label for="" class="col-xs-12 label-success"> <i class="fa fa-thumbs-o-up" ></i> Activo</label></td>
                           <td>

@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'empleado_id','username', 'email', 'password','cargo',
+        'empleado_id','username', 'email', 'password','cargo','unidad_id',
     ];
 
     /**
@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     public function unidad()
     {
-      return $this->belongsTo('App\Unidad');
+      return $this->belongsTo('App\Unidad')->withDefault();
     }
 
     public function empleado()
