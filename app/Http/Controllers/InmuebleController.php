@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Inmueble;
 use Illuminate\Http\Request;
 use Validator;
+use App\Factura;
 
 class InmuebleController extends Controller
 {
@@ -324,5 +325,8 @@ class InmuebleController extends Controller
 
     public function buscarInmueble(Request $request){
       return Inmueble::where('contribuyente_id',$request['id'])->where('estado',1)->get(['id','direccion_inmueble']);
+    }
+    public function buscarFactura(Request $request){
+      return Factura::where('mueble_id',$request['id'])->where('estado',1)->get(['id','mesYear']);
     }
 }

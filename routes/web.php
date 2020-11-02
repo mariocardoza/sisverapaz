@@ -338,6 +338,7 @@ Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('co
 Route::get('contribuyentes/pagos/{id}','ContribuyenteController@pagos');
 Route::post('contribuyentes/generarpagos','ContribuyenteController@generarPagosContribuyente');
 Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->name('verpagosgenerados');;
+Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');;
 
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::Resource('contribuyentes','ContribuyenteController');
@@ -365,6 +366,7 @@ Route::post('inmuebles/quitarimpuesto', 'InmuebleController@quitarservicioinmueb
 Route::post('inmuebles/agregarimpuesto', 'InmuebleController@addTipoServicioInmueble'); //funcion para agregar impuesto
 Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 Route::get('inmuebles/buscarinmuebles','InmuebleController@buscarInmueble');
+Route::get('inmuebles/buscarfacturas','InmuebleController@buscarFactura');
 
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
 Route::Resource('inmueble','InmuebleController');

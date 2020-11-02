@@ -61,6 +61,9 @@
 {{ Form::open(['url' => url('verpagosgenerados'),'class' => 'form-horizontal','id'=>'verPagos','target'=>'_blank']) }}
     <input type="hidden" name="token" value="{{csrf_token()}}">
 </form>
+{{ Form::open(['url' => url('verfacturaspendientes'),'class' => 'form-horizontal','id'=>'verFacturas','target'=>'_blank']) }}
+    <input type="hidden" name="token" value="{{csrf_token()}}">
+</form>
 @include('contribuyentes.modales')
 @endsection
 
@@ -96,7 +99,7 @@
                     if(json.error==false){
                         toastr.success("Facturas generadas con éxito");
                         swal.closeModal();
-                        
+                        $('#verPagos').submit();        
                     }else{
                         toastr.error(json.message);
                         swal.closeModal();
@@ -106,7 +109,6 @@
                     swal.closeModal();
                 }
             });
-            $('#verPagos').submit();
         });
 
         //registrar un nuevo rubro
