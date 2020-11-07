@@ -71,6 +71,7 @@
 		$(document).on("click", "#btnguardar", function(e){
 			e.preventDefault();
 			var datos= $("#form_cargo").serialize();
+			modal_cargando();
 			$.ajax({
 				url:"cargos",
 				type:"post",
@@ -82,7 +83,8 @@
 						window.location.reload();
 					}
 					else{
-						toastr.error("Falló");
+						toastr.error("Ocurrió un error, contacte al administrador");
+						swal.closeModal();
 					}
 				},
 				error:function(error){
@@ -111,6 +113,13 @@
 					else{
 						toastr.error("error");
 					}
+				},
+				error:function(error){
+					console.log();
+					$.each(error.responseJSON.errors, function(key, value){
+						toastr.error(value);
+					});
+					swal.closeModal();
 				}
 			});
 		});  //Fin modal de editar
@@ -119,6 +128,7 @@
 			var id = $("#elid").val();
 			var cargo = $("#e_cargo").val();
 			var catcargo_id=$("#catcargo_edit").val();
+			modal_cargando();
 			$.ajax({
 				url:"cargos/"+id,
 				type: "put",
@@ -131,6 +141,7 @@
 					}
 					else{
 						toastr.error("error");
+						swal.closeModal();
 					}
 				}
 			});

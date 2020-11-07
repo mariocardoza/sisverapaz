@@ -110,12 +110,16 @@ class AfpController extends Controller
         $id=$datos[0];
         //$motivo=$datos[1];
         $afp = Afp::find($id);
-        $afp->estado= 2;
-        //$banco->motivo=$motivo;
-        //$banco->fechabaja=date('Y-m-d');
-        $afp->save();
-        bitacora('Dió de baja a una afp');
-        return redirect('/afps')->with('mensaje','Banco dado de baja');
+        if($afp->empleado->count() == 0):
+            $afp->estado= 2;
+            //$banco->motivo=$motivo;
+            //$banco->fechabaja=date('Y-m-d');
+            $afp->save();
+            bitacora('Dió de baja a una afp');
+            return redirect('/afps')->with('mensaje','Banco dado de baja');
+        else: 
+            return redirect('/afps')->with('info','El AFP ya esta asignado a empleados, no debe eliminarse');
+        endif;
 
     }
     public function alta($id)

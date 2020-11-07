@@ -21,4 +21,9 @@ class afp extends Model
     		return array(-1,"error",$e->getMessage());
     	}
     }
+
+     public function empleado()
+     {
+         return $this->hasMany('App\Empleado','afp_codigo');
+     }
 }

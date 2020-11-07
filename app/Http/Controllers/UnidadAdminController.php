@@ -105,9 +105,8 @@ class UnidadAdminController extends Controller
     {
         $unidad = Unidad::find($id);
         if($unidad->nombre_unidad!=$request->nombre_unidad){
-            $this->validate($request,['nombre_unidad'=>'required|unique:unidades|min:4']);
+            $this->validate($request,['nombre_unidad'=>'required|unique:unidads|min:4']);
         }
-        console($nombre_unidad);
         $unidad->nombre_unidad = $request->nombre_unidad;
         $unidad->save();
 
@@ -131,12 +130,18 @@ class UnidadAdminController extends Controller
         $id = $datos[0];
         $motivo = $datos[1];
         $unidad = Unidad::find($id);
-        $unidad->motivo = $motivo;
-        $unidad->fecha_baja = date('Y-m-d');
-        $unidad->estado = 2;
-        $unidad->save();
-        bitacora('Dió de baja la unidad administrativa');
-        return redirect('/unidades')->with('mensaje','Unidad dada de baja');
+        if($unidad->usuario->count() == 0):
+          $unidad->motivo = $motivo;
+          $unidad->fecha_baja = date('Y-m-d');
+          $unidad->estado = 2;
+          $unidad->save();
+          bitacora('Dió de baja la unidad administrativa');
+          return redirect('/unidades')->with('mensaje','Unidad dada de baja');
+        else:
+          //bitacora('Dió de baja la unidad administrativa');
+          return redirect('/unidades')->with('info','Unidad posee usuarios no debe eliminarse');
+        endif;
+        
     }
     public function alta($id)
     {

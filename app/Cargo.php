@@ -23,6 +23,11 @@ class Cargo extends Model
         return $cargos;
     }
 
+    public function detalleplanilla()
+    {
+        return $this->hasMany('App\Detalleplanilla');
+    }
+
     public function catcargo()
     {
         return $this->belongsTo('App\Catcargo');

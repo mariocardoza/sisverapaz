@@ -199,6 +199,11 @@ a.btn-floating.btn-large.red:hover {
           echo ("<script type='text/javascript'>toastr.success('". Session::get('mensaje') ."');</script>");
          ?>
     @endif
+    @if(Session::has('info'))
+        <?php
+          echo ("<script type='text/javascript'>toastr.info('". Session::get('info') ."');</script>");
+         ?>
+    @endif
     @if(Session::has('error'))
       <?php
         echo ("<script type='text/javascript'>toastr.error('". Session::get('error') ."');</script>");

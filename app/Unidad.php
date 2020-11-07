@@ -17,4 +17,9 @@ class Unidad extends Model
       return $this->hasMany('App\Requisicion');
     }
 
+    public function usuario()
+    {
+      return $this->hasMany('App\User','unidad_id');
+    }
+
 }

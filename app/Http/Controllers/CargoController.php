@@ -147,10 +147,14 @@ class CargoController extends Controller
         $id = $datos[0];
 
         $cargo = Cargo::find($id);
-        $cargo->estado = 2;
-        $cargo->save();
-        bitacora('Dió de baja cargo');
-        return redirect('/cargos')->with('mensaje','Cargo dado de baja');
+        if($cargo->detalleplanilla->count() == 0):
+            $cargo->estado = 2;
+            $cargo->save();
+            bitacora('Dió de baja cargo');
+            return redirect('/cargos')->with('mensaje','Cargo dado de baja');
+        else: 
+            return redirect('/cargos')->with('info','El cargo posee contratos activos, no debe eliminarse');
+        endif;
     }
 
     public function alta($id)

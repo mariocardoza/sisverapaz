@@ -6,7 +6,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Listado de Unidades</li>
+        <li class="active">Listado</li>
     </ol>
 @endsection
 
@@ -114,7 +114,7 @@
                 success:function(retorno){
                     if(retorno[0] == 1){
                         $("#modal_editar").modal("show");
-                        $("#e_unidad").val(retorno[2].unidad);
+                        $("#e_unidad").val(retorno[2].nombre_unidad);
                         $("#elid").val(retorno[2].id);
                     }
                     else{
@@ -126,9 +126,10 @@
 
         $(document).on("click", "#btneditar", function(e){
             e.preventDefault();
-            alert("llegó");
+            
             var id = $("#elid").val();
             var nombre_unidad = $("#e_unidad").val();
+            modal_cargando();
             $.ajax({
                 url:"unidades/"+id,
                 type:"put",
@@ -141,8 +142,17 @@
                         window.location.reload();
                     }
                     else{
+                        swal.closeModal();
                         toastr.error("error");
                     }
+                },
+                error: function(error)
+                {
+                    console.log(error.responseJSON.errors);
+                    $.each(error.responseJSON.errors, function(index,value){
+                        toastr.error(value);
+                    });
+                    swal.closeModal();
                 }
             });
         });///// Fin btneditar

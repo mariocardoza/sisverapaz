@@ -115,10 +115,14 @@ class CatCargoController extends Controller
         $id = $datos[0];
 
         $catcargo = CatCargo::find($id);
-        $catcargo->estado = 2;
-        $catcargo->save();
-        bitacora('Dió de baja una categoría');
-        return redirect('/catcargos')->with('mensaje','Categoría dada de baja');
+        if($catcargo->cargo->count() == 0):
+            $catcargo->estado = 2;
+            $catcargo->save();
+            bitacora('Dió de baja una categoría');
+            return redirect('/catcargos')->with('mensaje','Categoría dada de baja');
+        else:
+            return redirect('/catcargos')->with('info','La categoría posee subcategorías no debe eliminarse');
+        endif;
     }
 
     public function alta($id)
