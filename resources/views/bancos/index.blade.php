@@ -36,12 +36,12 @@
                     <td>
                       @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="javascript:(0)" id="edit" data-id="{{$banco->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
-                        <button class="btn btn-danger" type="button" onclick={{ "baja(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <a href="javascript:(0)" id="edit" data-id="{{$banco->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
+                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="fa fa-refresh"></span></button>
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="fa fa-refresh btn-sm"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>

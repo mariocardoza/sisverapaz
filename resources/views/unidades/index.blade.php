@@ -38,8 +38,8 @@
                                 <td>
                                     @if($unidad->estado == 1)
                                     {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                    <a href="javascript:(0)" id="edit" data-id="{{$unidad->id}}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span></a>
-                                    <button class="btn btn-danger" type="button" onclick={{ "baja(".$unidad->id.",'unidades')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a href="javascript:(0)" id="edit" data-id="{{$unidad->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
+                                    <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$unidad->id.",'unidades')" }}><span class="glyphicon glyphicon-trash"></span></button>
                                     {{ Form::close()}}
                                     @else
                                     {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}

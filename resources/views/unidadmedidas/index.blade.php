@@ -3,11 +3,11 @@
 @section('migasdepan')
 <h1>
         Unidades de medida
-        <small>Control de unidades de medida</small>
+        
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/unidadmedidas') }}"><i class="fa fa-dashboard"></i> Unidades de medida</a></li>
-        <li class="active">Listado de unidades de medida</li>
+        <li><a href="{{ url('/unidadmedidas') }}"><i class="glyphicon glyphicon-home"></i>Inicio</a></li>
+        <li class="active">Unidades de medida</li>
       </ol>
 @endsection
 
@@ -16,8 +16,12 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="javascript:void(0)" id="modal_reg" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <h3 class="box-title"></h3>
+                <div class="btn-group pull-right">
+                  <a href="javascript:void(0)" id="modal_reg" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                  <a href="{{ url('/unidadmedidas?estado=1') }}" class="btn btn-primary">Activos</a>
+                  <a href="{{ url('/unidadmedidas?estado=2') }}" class="btn btn-primary">Papelera</a>
+                </div>
 
             </div>
             <!-- /.box-header -->
@@ -29,15 +33,24 @@
                   <th>Acción</th>
                 </thead>
                 <tbody>
-                  @foreach($unidadmedidas as $index => $unidadmedida)
+                  @foreach($unidadmedidas as $key => $unidadmedida)
                   <tr>
-                    <td>{{ $index+1 }}</td>
+                    <td>{{ $key+1 }}</td>
                     <td>{{ $unidadmedida->nombre_medida }}</td>
                     <td>
-                      {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                      <a data-id="{{$unidadmedida->id}}" href="javascript:void(0)" id="modal_edit" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                    <button class="btn btn-danger btn-xs" type="button" id="quitar" data-id="{{$unidadmedida->id}}"><span class="glyphicon glyphicon-trash"></span></button>
-                      {{ Form::close()}}
+                      @if($unidadmedida->estado != 1)
+                        {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
+                        <a href="javascript:(0)" id="edit" data-id="{{$unidadmedida->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
+                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$unidadmedida->id.",'unidadmedidas')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        {{ Form::close()}}
+                      @else
+                        {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal']) }}
+                        <button class="btn btn-success btn-sm" type="button" onclick="{{ "alta(".$unidadmedida->id.",'unidadmedidas')" }}"><span class="fa fa-refresh btn-sm"></span></button>
+                        {{ Form::close() }}
+                      @endif
+
+
+                        
                     </td>
                   </tr>
                   @endforeach

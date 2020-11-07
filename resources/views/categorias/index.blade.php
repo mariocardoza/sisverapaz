@@ -42,7 +42,7 @@
                     <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
                     <button class="btn btn-danger btn-sm" type="button" id="baja" data-id="{{$categoria->id}}"><span class="glyphicon glyphicon-trash"></span></button>
                 @else
-                    <button class="btn btn-success btn-sm" type="button" id="alta" data-id="{{$categoria->id}}"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button class="btn btn-success btn-sm" type="button" id="alta" data-id="{{$categoria->id}}"><span class="fa fa-refresh"></span></button>
                 @endif
               </td>
             </tr>

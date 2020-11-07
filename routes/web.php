@@ -220,11 +220,12 @@ Route::get('materiales/modaleditar/{id}','MaterialesController@modaleditar');
 Route::post('materiales/baja/{id}','MaterialesController@baja')->name('materiales.baja');
 Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiales.alta');
 
-Route::get('unidadmedidas/create','UnidadMedidaController@create');
-route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');
+//Route::get('unidadmedidas/create','UnidadMedidaController@create');
+//route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');
 Route::Resource('unidadmedidas','UnidadMedidaController');
-//Route::Resource('unidadmedidas/baja/{id}','UnidadMedidaController@baja')->name('unidadmedidas.baja');
-//Route::Resource('unidadmedidas/alta/{id}','UnidadMedidaController@alta')->name('unidadmedidas.alta');
+Route::post('unidadmedidas/baja/{id}','UnidadMedidaController@baja')->name('unidadmedidas.baja');
+Route::post('unidadmedidas/alta/{id}','UnidadMedida.Controller@alta')->name('unidadmedidas.alta');
+
 
 Route::get('cotizaciones/ver/cuadros','CotizacionController@cuadros');
 Route::get('cotizaciones/ver/{id}', 'CotizacionController@cotizar');

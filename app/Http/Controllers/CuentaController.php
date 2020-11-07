@@ -290,6 +290,7 @@ class CuentaController extends Controller
     public function update(Request $request, $id)
     {
         //dd($request->All());
+        $cuenta = Cuenta::findorFail($id);
         $cuenta->fill($request->All());
         $cuenta->save();
         return redirect('cuentas')->with('mensaje','Cuenta modificada con éxito');

@@ -25,6 +25,8 @@ class AddFiestasToFacturasTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('facturas', function (Blueprint $table){
+            $table->dropColumn('porcentajeFiestas');
+        });
     }
 }

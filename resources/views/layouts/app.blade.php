@@ -32,15 +32,15 @@
 
 .fixed-action-btn.my-custom-btn {
     position: absolute;
-    right: 0px;
-    top: 23px;
+    right: 2px;
+    top: 25px;
     padding-top: 15px;
     margin-bottom: 0;
     z-index: 2;
 }
 a.btn-floating.btn-large.red {
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     border-radius: 100%;
     background: #F44336;
     right: 0;
@@ -49,7 +49,7 @@ a.btn-floating.btn-large.red {
     border: none;
     outline: none;
     color: #FFF;
-    font-size: 36px;
+    font-size: 26px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     transition: .3s;
     opacity: 0.5;

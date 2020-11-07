@@ -43,7 +43,7 @@ class Proveedor extends Model
         ->join('proveedors as p','c.proveedor_id','=','p.id','inner')
         ->where('c.seleccionado',1)
         ->whereYear('c.created_at',date("Y"))
-        ->groupby('c.proveedor_id')
+        ->groupby('c.proveedor_id','p.nombre')
         ->get();
         return [];
     }

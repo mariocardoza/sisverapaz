@@ -14,7 +14,7 @@
     <label class="control-label col-md-4">Precio estimado</label>
     <div class="col-md-6">
       
-        {{Form::number('precio_estimado',null,['class'=>'form-control','placeholder'=>'Digite el precio'])}}
+        {{Form::number('precio_estimado',null,['class'=>'form-control','placeholder'=>'$0.00'])}}
     </div>       
 </div>
 
