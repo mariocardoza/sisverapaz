@@ -1,4 +1,4 @@
-$(document).ready(function(e){
+$(function() {
 	var eltoken = $('meta[name="csrf-token"]').attr('content');
 	$(document).on("click","#btn_guardar",function(e){
 		e.preventDefault();
@@ -162,7 +162,7 @@ $(document).ready(function(e){
 		if(window.location.pathname=='/sisverapaz/public/empleados'){
 			var ruta='empleados/'+elempleado;
 		}else{
-			var ruta = "../empleados/"+elempleado;
+			var ruta = "/empleados/"+elempleado;
 		}
 		modal_cargando();
 		
@@ -435,7 +435,7 @@ $(document).ready(function(e){
 			modal_cargando();
 			var datos=$("#e_usuarios").serialize();
 			$.ajax({
-				url:'../empleados/eusuarios',
+				url:'/empleados/eusuarios',
 				headers: {'X-CSRF-TOKEN':eltoken},
 				type:'POST',
 				dataType:'json',

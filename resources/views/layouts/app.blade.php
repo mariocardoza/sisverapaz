@@ -126,7 +126,7 @@ a.btn-floating.btn-large.red:hover {
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ url('empleados/'.Auth::user()->empleado->id) }}" class="btn btn-default btn-flat"><i class="fa fa-user-circle"></i> Perfil</a>
+                  <a href="{{ url('empleados/perfil/'.Auth::user()->empleado->id) }}" class="btn btn-default btn-flat"><i class="fa fa-user-circle"></i> Perfil</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat"

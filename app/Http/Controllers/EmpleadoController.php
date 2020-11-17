@@ -15,6 +15,8 @@ use App\Http\Requests\UsuariosRequest;
 use App\User;
 use Auth;
 use App\Cargo;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Hash;
 
 class EmpleadoController extends Controller
 {
@@ -253,17 +255,25 @@ class EmpleadoController extends Controller
     }
 
     public function eusuarios(Request $request){
-        $this->validar_usuarios($request->all())->validate();
         try{
-            $empleado=Empleado::find($request->elempleado);
-            $usuario=$empleado->user;
-            $usuario->username=$request->username;
-            $usuario->email=$request->email;
-            $usuario->unidad_id=$request->unidad_id;
-            $empleado->email=$request->email;
-            $empleado->save();
-            $usuario->save();
-
+            if($request->contra_actual==''):
+                $this->validar_usuarios($request->all())->validate();
+                $empleado=Empleado::find($request->elempleado);
+                $usuario=$empleado->user;
+                $usuario->username=$request->username;
+                $usuario->email=$request->email;
+                $empleado->email=$request->email;
+                $empleado->save();
+                $usuario->save();
+            else:
+                $request->validate([
+                    'contra_actual' => ['required', new MatchOldPassword],
+                    'password' => ['required'],
+                    'confirm_password' => ['same:password'],
+                ]);
+                $empleado=Empleado::find($request->elempleado);
+                User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password)]);
+            endif;
             return array(1,"exito",$empleado);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
@@ -323,9 +333,9 @@ class EmpleadoController extends Controller
         $empleado->avatar=$archivo;
         $empleado->save();
          Auth()->user()->empleado->avatar=$empleado->avatar;
-        return redirect('empleados/'.$id)->with('mensaje','Imagen cambiada con exito');
+        return back()->with('mensaje','Imagen cambiada con exito');
       }catch(Exception $e){
-        return redirect('empleados/'.$id)->with('error','Ocurrió un error al subir la imagen');
+        return back()->with('error','Ocurrió un error al subir la imagen');
       }
       
     }
@@ -334,10 +344,29 @@ class EmpleadoController extends Controller
     {
         $mensajes=array(
             'username.required'=>'El número de cuenta es obligatorio',
-            'username.unique'=>'El nombre de usuario ya esta en uso'
+            //'username.unique'=>'El nombre de usuario ya esta en uso'
         );
         return Validator::make($data, [
-            'username' => 'required|unique:users',
+            'username' => 'required',
+        ],$mensajes);
+
+        
+    }
+
+    protected function validar_usuarios_contra(array $data)
+    {
+        $mensajes=array(
+            'username.required'=>'El nombre de usuario es obligatorio',
+           // 'email.unique'=>'El correo electrónico es obligatorio',
+            'password.required'=>'El campo contraseña es obligatorio',
+            'password.min'=>'El campo contraseña debe tener al menos 6 caracteres',
+            'password.confirmed'=>'El campo confirmación de contraseña no coincide',
+        );
+        return \Validator::make($data, [
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+           
         ],$mensajes);
 
         
@@ -404,5 +433,43 @@ class EmpleadoController extends Controller
         $unidad->save();
         bitacora('Dió de alta a un registro');
         return redirect('/empleados')->with('mensaje','Registro dado de alta');
+    }
+
+    public function perfil($id)
+    {
+       //Auth()->user()->authorizeRoles(['admin','tesoreria']);
+        //$roles = Role::all();
+        $losroles=Role::all();
+        $empleados = DB::table('empleados')->where('es_usuario','=','si')
+                    ->whereNotExists(function ($query)  {
+                         $query->from('users')
+                            ->whereRaw('empleados.id = users.empleado_id');
+                        })->get();
+        $empleado = Empleado::findorFail($id);
+        $losbancos=\App\Banco::where('estado',1)->get();
+        $lasafps=\App\afp::where('estado',1)->get();
+        $bancos=$afps=[];
+        foreach ($losbancos as $banco) {
+            $bancos[$banco->id]=$banco->nombre;
+        }
+
+        foreach ($lasafps as $afp) {
+            $afps[$afp->codigo]=$afp->nombre;
+        }
+
+        foreach ($losroles as $rol) {
+            $roles[$rol->id]=$rol->description;
+        }
+
+        $listaempleados=\App\Empleado::where('estado',1)->where('id',$id)->orderBy('nombre','ASC')->get();
+        //dd($listaempleados);
+          $empleados= [];
+          foreach($listaempleados as $e){
+            //if($e->detalleplanilla->count()>0){
+              $empleados[$e->id]=$e->nombre;
+           // }
+          }
+
+        return view('empleados.perfil', compact('empleado','bancos','afps','roles','empleados'));
     }
 }

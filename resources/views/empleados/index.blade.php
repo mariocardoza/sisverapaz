@@ -103,6 +103,7 @@
     $(document).on("submit","#fm_empleado",function(e){
       e.preventDefault();
       var datos=$("#fm_empleado").serialize();
+      modal_cargando();
       $.ajax({
         url:'empleados',
         type:'POST',
@@ -113,7 +114,8 @@
             toastr.success("Empleado registrado con éxito");
             location.reload();
           }else{
-
+            toastr.error("Ocurrioó un error");
+            swal.closeModal();
           }
         },
         error: function(error){

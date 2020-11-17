@@ -8,10 +8,11 @@
 
     
       $roles = App\Role::all();
-      $empleados = \DB::table('empleados')->where('es_usuario','=','si')
+      $empleados = \DB::table('empleados as e')->where('e.es_usuario','=','si')
+                    ->join('detalleplanillas  as dp','e.id','=','dp.empleado_id')
                     ->whereNotExists(function ($query)  {
                          $query->from('users')
-                            ->whereRaw('empleados.id = users.empleado_id');
+                            ->whereRaw('e.id = users.empleado_id');
                         })->get();
   @endphp
 @section('migasdepan')

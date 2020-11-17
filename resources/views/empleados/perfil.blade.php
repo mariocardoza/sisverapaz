@@ -5,8 +5,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Inicio</a></li>
-        <li><a href="{{ url('empleados')}}"><i class="fa fa-user"></i> Empleados</a></li>
-        <li class="active">Detalle</li>
+        <li class="active">Perfil</li>
       </ol>
 @endsection
 
@@ -16,7 +15,7 @@
         <div class="col-md-5">
 
           <div class="panel panel-primary">
-            <div class="panel-heading">Datos del empleado </div>
+            <div class="panel-heading">Datos personales </div>
             <div class="panel-body">
               <div class="box-body box-profile">
                 @if($empleado->avatar!="")
@@ -82,9 +81,9 @@
               </table>
 
               <center>
-              @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
+              
               <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> Editar</a>
-              @endif
+      
                 <!--button class="btn btn-danger" type="button" id="dar_baja"><span class="glyphicon glyphicon-trash"></span> Eliminar</button-->
               
               </center>
@@ -94,126 +93,13 @@
         
         <div class="col-md-7">
           <div class="btn-group">
-            <button class="btn btn-primary que_ver" type="button" data-opcion="1">Contrato</button>
             @if(isset($empleado->detalleplanilla) && $empleado->detalleplanilla->proyecto_id =='')
             <button class="btn btn-primary que_ver" type="button" data-opcion="2">Información</button>
             <button class="btn btn-primary que_ver" type="button" data-opcion="3">Descuentos</button>
             @endif
           </div>
           <br><br>
-          <div class="row" id="contrato">
-            <div class="col-md-10">
-              @if(isset($empleado->detalleplanilla))
-              <div class="panel panel-primary" id="info_contra">
-                <div class="panel-heading">Información del contrato</div>
-                <div class="panel" >
-                  <table class="table">
-                    <tr>
-                      <td>Salario</td>
-                      <th>${{number_format($empleado->detalleplanilla->salario,2)}}</th>
-                    </tr>
-                    <tr>
-                      <td>Área</td>
-                      @if($empleado->detalleplanilla->cargo)
-                      <th>{{$empleado->detalleplanilla->cargo->catcargo->nombre}}</th>
-                      @else
-                      <th>Área no asignado</th>
-                      @endif
-                    </tr>
-                    <tr>
-                      <td>Cargo</td>
-                      @if($empleado->detalleplanilla->cargo)
-                      <th>{{$empleado->detalleplanilla->cargo->cargo}}</th>
-                      @else
-                      <th>Cargo no asignado</th>
-                      @endif
-                    </tr>
-                    <tr>
-                        <td>Unidad</td>
-                        @if($empleado->detalleplanilla->unidad_id)
-                        <th>{{$empleado->detalleplanilla->unidad->nombre_unidad}}</th>
-                        @else
-                        <th>Unidad de proyectos</th>
-                        @endif
-                      </tr>
-                    <tr>
-                      <td>Tipo de pago</td>
-                      @if($empleado->detalleplanilla->tipo_pago==1)
-                      <th>Planilla</th>
-                      @else
-                      <th>Honorarios</th>
-                      @endif
-                    </tr>
-                    @if($empleado->detalleplanilla->proyecto_id != '')
-                    <tr>
-                      <td>Proyecto</td>
-                      <th>{{$empleado->detalleplanilla->proyecto->nombre}}</th>
-                    </tr>
-                    @else 
-                    
-                    @endif
-                    <tr>
-                      <td>Pago</td>
-                      @if($empleado->detalleplanilla->pago==1)
-                      <th>Mensual</th>
-                      @else
-                      <th>Quincenal</th>
-                      @endif
-                    </tr>
-                    <tr>
-                      <td>Fecha de inicio de labores</td>
-                      @if($empleado->detalleplanilla->fecha_inicio!="")
-                      <th>{{$empleado->detalleplanilla->fecha_inicio->format("d/m/Y")}}</th>
-                      @else
-                      <th>Fecha no registrada</th>
-                      @endif
-                    </tr>
-                    <tr>
-                      <td>N° de acuerdo</td>
-                      <th>{{$empleado->detalleplanilla->numero_acuerdo}}</th>
-                    </tr>
-                  </table>
-                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                  <center>
-                    <button class="btn btn-warning btn-sm" data-tipo="{{$empleado->detalleplanilla->tipo_pago}}" data-id="{{$empleado->detalleplanilla->id}}" id="formedit_contrato">Editar</button>
-                  </center>
-                  @endif
-                </div>
-              </div>
-              @else
-                <div class="panel panel-primary" id="reg_contrato">
-                <div class="panel-heading">Registrar contrato</div>
-                <div class="panel" >
-                 <form id="form_planilla" class="">
-                   @include('detalleplanillas.formulario')
-                   @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                   <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
-                    @endif
-                  </form>
-                </div>
-                
-              </div>
-              @endif
-              <div class="panel panel-primary" id="edi_contrato" style="display:none;">
-                <div class="panel-heading">Editar contrato</div>
-                @if(isset($empleado->detalleplanilla))
-                <div class="panel">
-                    {{ Form::model($empleado->detalleplanilla, array('method' => 'put','id'=>'form_editcontra' , 'route' => array('detalleplanillas.update', $empleado->detalleplanilla->id))) }}
-                    @include('detalleplanillas.formulario')
-
-                   <div class="form-group">
-                    <center>
-                      <button class="btn btn-primary" id="btn_editarcontrato" type="button">Guardar</button>
-                      <button class="btn btn-danger" id="btn_cancelarcontrato" type="button">Cancelar</button>
-                   </center>
-                   </div>
-                 </form>
-                </div>
-                @endif
-              </div>
-            </div>
-          </div>
-          <div class="row" id="general" style="display: none;">
+          <div class="row" id="general" >
             <?php if ($empleado->es_usuario=='si'): ?>
              <div class="col-md-10">
               <div class="panel panel-primary">
@@ -238,16 +124,14 @@
                           </tr>
                           @endif
                         </table>
-                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <center><button class="btn btn-primary btn-sm" id="editar_usuario" type="button">Editar información</button></center>
-                        @endif
+                        
+                        <center><button class="btn btn-warning btn-sm" id="editar_usuario" type="button">Editar información</button></center>
+                       
                       <?php else: ?>
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
-                          <span>Agregue los datos para iniciar sesión</span><br>
-                          @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                          <button class="btn btn-primary" id="modal_usuarios">Agregar</button>
-                          @endif
+                          <span>Aun no han sido asignados las credenciales para iniciar sesión</span><br>
+                          
                         </center>
                       
                     <?php endif; ?>
@@ -279,9 +163,7 @@
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                           <span>Agregue los datos bancarios para visualizar la información</span><br>
-                          @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                          <button class="btn btn-primary" id="modal_banco">Agregar</button>
-                          @endif
+                         
                         </center>
                       
                     <?php endif; ?>
@@ -311,9 +193,7 @@
                       <center>
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del AFP para visualizar la información</span><br>
-                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <button class="btn btn-primary" id="modal_afps">Agregar</button>
-                        @endif
+                        
                       </center>
                   <?php endif ?>
                 </div>
@@ -328,7 +208,7 @@
                   <?php if ($empleado->num_seguro_social): ?>
                     <table class="table">
                     <tr>
-                      <td>Numero del ISSS</td>
+                      <td>Número del ISSS</td>
                       <th>{{$empleado->num_seguro_social}}</th>
                     </tr>
                   </table>
@@ -336,9 +216,7 @@
                       <center>
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del ISSS para visualizar la información</span><br>
-                        @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <button class="btn btn-primary" id="modal_isss">Agregar</button>
-                        @endif
+                      
                       </center>
                   <?php endif ?>
                 </div>
@@ -350,9 +228,7 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Préstamos</div>
                 <div class="panel">
-                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                  <button class="btn btn-success btn-sm pull-right" type="button" id="modal_prestamo"><i class="fa fa-plus"></i></button><br>
-                  @endif
+                  
                   <table class="table">
                   <thead>
                     <tr>
@@ -386,9 +262,8 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">Otros descuentos</div>
                 <div class="panel">
-                  @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                  <button class="btn btn-success btn-sm pull-right" type="button" id="modal_descuento"><i class="fa fa-plus"></i></button><br>
-                  @endif
+                  
+                  
                   <table class="table">
                     <thead>
                       <tr>
@@ -417,8 +292,171 @@
 
 
     </div>
-    @include('empleados.modales')
-</div>
+    <div class="modal fade" tabindex="-1" id="modal_edit" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title text-center" id="gridSystemModalLabel">Editar empleado</h4>
+            </div>
+            <div class="modal-body">
+                {{ Form::model($empleado, array('class' => '','id'=>'e_empleados')) }}    	
+                <div class="row">
+                    <div class="col-md-12">
+                     
+                  <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
+                    <label for="nombre" class="control-label">Nombre</label>
+                
+                    <div class="">
+                        {{ Form::text('nombre', null,['class' => 'form-control','autocomplete'=>'off']) }}
+                    </div>
+                </div>
+                      
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group{{ $errors->has('dui') ? ' has-error' : '' }}">
+                    <label for="dui" class="control-label">Número de DUI</label>
+                
+                    <div class="">
+                        {{ Form::text('dui', null,['class' => 'form-control dui']) }}
+                    </div>
+                  </div>
+                
+                  <div class="form-group{{ $errors->has('sexo') ? ' has-error' : '' }}">
+                    <label for="sexo" class="control-label">Sexo</label>
+                
+                    <div class="">
+                        Másculino
+                        {{ Form::radio('sexo', 'Másculino', false,['id' => 'masculino']) }}
+                        Femenino
+                        {{ Form::radio('sexo', 'Femenino',false,['id' => 'femenino']) }}
+                
+                    </div>
+                  </div>
+                
+                  <div class="form-group{{ $errors->has('telefono_fijo') ? ' has-error' : '' }}">
+                    <label for="telefono_fijo" class="control-label">Teléfono fijo</label>
+                
+                    <div class="">
+                        {{ Form::text('telefono_fijo', null,['class' => 'form-control telefono','autocomplete'=>'off']) }}
+                
+                    </div>
+                  </div>
+                
+                  <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+                    <label for="direccion" class="control-label">Dirección</label>
+                
+                    <div class="">
+                        {{ Form::textarea('direccion', null,['class' => 'form-control','rows' => 3,'autocomplete'=>'off']) }}
+                
+                    </div>
+                  </div>
+                
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
+                    <label for="nit" class="control-label">Número de NIT</label>
+                
+                    <div class="">
+                        {{ Form::text('nit', null,['class' => 'form-control nit']) }}
+                    </div>
+                  </div>
+                
+                  <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+                    <label for="fecha_nacimiento" class="control-label">Fecha de Nacimiento</label>
+                
+                    <div class="">
+                    {{ Form::text('', $empleado->fecha_nacimiento->format("d-m-Y"),['readonly','class' => 'nacimiento form-control','autocomplete'=>'off']) }}
+                    </div>
+                  </div>
+                  <div class="form-group{{ $errors->has('celular') ? ' has-error' : '' }}">
+                    <label for="celular" class="control-label">Teléfono celular</label>
+                
+                    <div class="">
+                        {{ Form::text('celular', null,['class' => 'form-control telefono','autocomplete'=>'off']) }}
+                
+                    </div>
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="" class="control-label">Email</label>
+                    <div class="">
+                        {{ Form::text('email', null,['class' => 'form-control','autocomplete'=>'off']) }}
+                    </div>
+                </div>
+                </div>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+              <button type="button" id="btn_editar" class="btn btn-success">Registrar</button></center>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" tabindex="-1" id="editar_user" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="gridSystemModalLabel">Editar datos del usuario</h4>
+            </div>
+            <div class="modal-body">
+              {{ Form::model($empleado->user, array('class' => '','id'=>'e_usuarios')) }} 
+              <?php if ($empleado->es_usuario=='si' && $empleado->user): ?>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                       <div class="form-group">
+                          <label for="username" class="control-label">Nombre de Usuario</label>
+      
+                          <div class="">
+                              <input id="username" type="text" autocomplete="off" class="form-control" name="username" value="{{$empleado->user->username}}">
+                              <input id="empleado_id" type="hidden" autocomplete="off" class="form-control" name="elempleado" value="{{$empleado->id}}">
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                      <div class="form-group">
+                        <label for="" class="control-label">Email</label>
+                      <input type="text" name="email" value="{{$empleado->user->email}}" class="form-control">
+                      </div>
+                    </div>
+                      <br>
+                      <div class="col-sm-12">
+                        <h4>Si no desea cambiar la contraseñas dejar en blanco</h4>
+                      </div>
+                      <div class="col-md-12">
+                      <div class="form-group">
+                          <label for="" class="control-label">Contraseña actual</label>
+                          <input type="password" name="contra_actual" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="" class="control-label">Contraseña nueva</label>
+                        <input id="password" type="password" name="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label">Confirmar contraseña</label>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                    </div>
+                    </div>
+                </div>
+                <?php endif ?>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <center>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+              <button type="button" id="eledit_user" class="btn btn-success">Editar</button></center>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
 @endsection
 @section('scripts')
 <script type="text/javascript">

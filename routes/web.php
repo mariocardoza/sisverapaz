@@ -387,6 +387,7 @@ Route::post('empleados/isss','EmpleadoController@isss');
 Route::post('empleados/usuarios','EmpleadoController@usuarios');
 Route::post('empleados/eusuarios','EmpleadoController@eusuarios');
 Route::post('empleados/foto/{id}','EmpleadoController@foto');
+Route::get('empleados/perfil/{id}','EmpleadoController@perfil');
 
 Route::get('afps/get','AfpController@get');
 Route::Resource('afps','AfpController');
