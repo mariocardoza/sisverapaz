@@ -91,7 +91,7 @@
     $(document).on("click","#btn_anio",function(e){
       var anio=$("#select_anio").val();
       if(anio > 0){
-        location.href="../presupuestounidades/porunidad?anio="+anio;
+        location.href="/presupuestounidades/porunidad?anio="+anio;
       }
     });
 
@@ -100,7 +100,7 @@
       e.preventDefault();
       var id=$(this).attr("data-id");
       $.ajax({
-        url:'../presupuestounidades/clonar/'+id,
+        url:'/presupuestounidades/clonar/'+id,
         type:'get',
         dataType:'json',
         success: function(json){
@@ -115,13 +115,13 @@
       e.preventDefault();
       var datos=$("#form_presupuesto").serialize();
       $.ajax({
-        url:'../presupuestounidades',
+        url:'/presupuestounidades',
         type:'POST',
         data:datos,
         success: function(json){
           if(json[0]==1){
             toastr.success("Presupuesto guardado exitosamente");
-            window.location.href="presupuestounidades/"+json[2];
+            window.location.href="/presupuestounidades/"+json[2];
           }else{
             toastr.error("Ocurrió un error");
           }

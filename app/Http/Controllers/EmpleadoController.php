@@ -257,10 +257,17 @@ class EmpleadoController extends Controller
     public function eusuarios(Request $request){
         try{
             if($request->contra_actual==''):
-                $this->validar_usuarios($request->all())->validate();
+                //$this->validar_usuarios($request->all())->validate();
                 $empleado=Empleado::find($request->elempleado);
                 $usuario=$empleado->user;
+                if($usuario->username!= $request->username)
+                {
+                    $this->validate($request,['username'=> 'required|unique:users|min:5']);
+                }
                 $usuario->username=$request->username;
+                if($usuario->email!= $request->email){
+                    $this->validate($request,['email'=> 'required|unique:users|email']);
+                }
                 $usuario->email=$request->email;
                 $empleado->email=$request->email;
                 $empleado->save();
@@ -271,6 +278,20 @@ class EmpleadoController extends Controller
                     'password' => ['required'],
                     'confirm_password' => ['same:password'],
                 ]);
+                $empleado=Empleado::find($request->elempleado);
+                $usuario=$empleado->user;
+                if($usuario->username!= $request->username)
+                {
+                    $this->validate($request,['username'=> 'required|unique:users|min:5']);
+                }
+                $usuario->username=$request->username;
+                if($usuario->email!= $request->email){
+                    $this->validate($request,['email'=> 'required|unique:users|email']);
+                }
+                $usuario->email=$request->email;
+                $empleado->email=$request->email;
+                $empleado->save();
+                $usuario->save();
                 $empleado=Empleado::find($request->elempleado);
                 User::find(auth()->user()->id)->update(['password'=> Hash::make($request->password)]);
             endif;

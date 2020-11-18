@@ -95,6 +95,24 @@
     @if(Auth()->user()->hasRole('catastro'))
       @include('menu.ryct')
     @endif
+    @if(Auth()->user()->hasRole('proyectos'))
+    <li class="treeview {{Route::currentRouteName() == 'proyectos.index' ? 'active':(Route::currentRouteName()== 'proyectos.show' ? 'active':null)}}">
+      <a href="{{ url('proyectos')}}">
+          <i class="fa fa-industry"></i> <span>Proyectos</span>
+      </a>
+  </li>
+  <li class="treeview {{ Route::currentRouteName() == 'presupuestounidades.porunidad' ? 'active':null}}">
+    <a href="{{ url('presupuestounidades/porunidad') }}">
+        <i class="fa fa-edit"></i> <span>Presupuestos de la unidad</span>
+    </a>
+</li>
+
+<li class="treeview {{ Route::currentRouteName() == 'requisiciones.porusuario' ? 'active':null}}">
+    <a href="{{ url('requisiciones/porusuario') }}">
+        <i class="fa fa-edit"></i> <span>Requisiciones</span>
+    </a>
+</li>
+    @endif
     <li class="treeview">
       <a href="#">
         <i class="fa fa-share"></i> <span>Multinivel</span>

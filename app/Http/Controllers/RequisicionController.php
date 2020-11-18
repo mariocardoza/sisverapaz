@@ -63,17 +63,19 @@ class RequisicionController extends Controller
      */
     public function create()
     {
-      Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
+      Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario','proyectos']);
+      $medidas=[];
+      $fondos=[];
       $lasmedidas = UnidadMedida::all();
       $unidads = Unidad::all();
       foreach ($lasmedidas as $value) {
         $medidas[$value->id]=$value->nombre_medida;
       }
-      $losfondos = Fondocat::where('estado',1)->get();
+      /*$losfondos = Fondocat::where('estado',1)->get();
 
       foreach ($losfondos as $fondito) {
         $fondos[$fondito->id]=$fondito->categoria;
-      }
+      }*/
 
       foreach ($unidads as $launidad) {
         $unidades[$launidad->id]=$launidad->nombre_unidad; 
@@ -81,7 +83,7 @@ class RequisicionController extends Controller
 
 
 
-        return view('requisiciones.create',compact('medidas','fondos','unidades'));
+        return view('requisiciones.create',compact('medidas','unidades'));
     }
 
     /**
@@ -143,6 +145,7 @@ class RequisicionController extends Controller
      */
     public function show($id)
     {
+      $medidas=[];
       $unidades = UnidadMedida::all();
       foreach ($unidades as $value) {
         $medidas[$value->id]=$value->nombre_medida;
@@ -153,7 +156,7 @@ class RequisicionController extends Controller
                           $query->from('cotizacions')
                           ->whereRaw('cotizacions.proveedor_id = proveedors.id');
                         })->get();
-        Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario']);
+        Auth()->user()->authorizeRoles(['admin','uaci','catastro','tesoreria','usuario','proyectos']);
         $requisicion = Requisicione::findorFail($id);
         $elestado=Requisicione::estado_ver($id);
         return view('requisiciones.show',compact('requisicion','medidas','proveedores','elestado'));

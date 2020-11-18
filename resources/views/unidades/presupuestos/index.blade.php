@@ -74,7 +74,7 @@
       anio=$("#elaniopresu").val();
       var uni=$("#uni_id").val();
       $.ajax({
-        url:'presupuestounidades/anio/'+anio,
+        url:'/presupuestounidades/anio/'+anio,
         type:'get',
         dataType:'json',
         data:{unidad_id:uni},
@@ -84,13 +84,13 @@
           }else{
             var datos=$("#form_presupuesto").serialize();
             $.ajax({
-              url:'presupuestounidades',
+              url:'/presupuestounidades',
               type:'POST',
               data:datos,
               success: function(json){
                 if(json[0]==1){
                   toastr.success("Presupuesto guardado exitosamente");
-                  window.location.href="presupuestounidades/"+json[2];
+                  window.location.href="/presupuestounidades/"+json[2];
                 }else{
                   toastr.error("Ocurrió un error");
                 }
