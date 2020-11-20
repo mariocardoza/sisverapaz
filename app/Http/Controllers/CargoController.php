@@ -71,11 +71,11 @@ class CargoController extends Controller
     public function store(Request $request)
     {
         $this->validar($request->all())->validate();
-        Cargo::create([
+        $cargo=Cargo::create([
             'cargo'=>$request->cargo,
             'catcargo_id'=>$request->catcargo_id
         ]);
-        return array(1,"éxito");
+        return array(1,"éxito",$cargo);
     }
 
     protected function validar(array $data)

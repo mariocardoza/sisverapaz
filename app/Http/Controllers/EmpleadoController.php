@@ -240,6 +240,7 @@ class EmpleadoController extends Controller
             'username' => $request['username'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
+            'unidad_id' =>$request['unidad_id'],
         ]);
 
         $user

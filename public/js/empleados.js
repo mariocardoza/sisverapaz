@@ -536,6 +536,128 @@ $(function() {
 			}
 		});
 	});
+
+	/* abre los modales para registrar un nuevo cargo, categoria y unidad administrativa*/
+	$(document).on("click","#new_category",function(e){
+		e.preventDefault();
+		$("#modal_category").modal("show");
+	});
+
+	/*funcion submit para nueva categoria*/
+	$(document).on("submit","#form_catcargo",function(e){
+		e.preventDefault();
+		let datos=$(this).serialize();
+		modal_cargando();
+		$.ajax({
+			url:'/catcargos',
+			type:'post',
+			dataType:'json',
+			data:datos,
+			success: function(json){
+				if(json[0]==1){
+					toastr.success("Categoría registrada con exito");
+					$("#select_catcargo").append("<option selected value='"+json[2].id+"'>"+json[2].nombre+"</option>");
+					$("#select_catcargo").trigger("chosen:updated");
+					$("#form_catcargo").trigger("reset");
+					$("#modal_category").modal("hide");
+					swal.closeModal();
+					//window.location.reload();
+				}else{
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
+				}
+			}, 
+			error: function(error){
+				$.each(error.responseJSON.errors,function(index,value){
+					toastr.error(value);
+				});
+				swal.closeModal();
+			}
+		});
+	});
+
+	$(document).on("click","#new_cargo",function(e){
+		e.preventDefault();
+		let categoria=$("#select_catcargo").val();
+		if(categoria!=''){
+			let n_categoria=$("#select_catcargo option:selected").text();
+			$(".n_cargo").val(n_categoria);
+			$(".id_cargo").val(categoria);
+			$("#modal_cargo").modal("show");
+		}else{
+			swal('Aviso','Seleccione primero una categoría de empleado','warning');
+		}
+	});
+
+	/*funcion submit para nueva categoria*/
+	$(document).on("submit","#form_cargo",function(e){
+		e.preventDefault();
+		let datos=$(this).serialize();
+		modal_cargando();
+		$.ajax({
+			url:'/cargos',
+			type:'post',
+			dataType:'json',
+			data:datos,
+			success: function(json){
+				if(json[0]==1){
+					toastr.success("Categoría registrada con exito");
+					$("#select_cargo").append("<option selected value='"+json[2].id+"'>"+json[2].cargo+"</option>");
+					$("#select_cargo").trigger("chosen:updated");
+					$("#form_cargo").trigger("reset");
+					$("#modal_cargo").modal("hide");
+					swal.closeModal();
+					//window.location.reload();
+				}else{
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
+				}
+			}, 
+			error: function(error){
+				$.each(error.responseJSON.errors,function(index,value){
+					toastr.error(value);
+				});
+				swal.closeModal();
+			}
+		});
+	});
+
+	$(document).on("click","#new_unit",function(e){
+		e.preventDefault();
+		$("#modal_unit").modal("show");
+	});
+
+	$(document).on("submit","#form_unidades",function(e){
+		e.preventDefault();
+		let datos=$(this).serialize();
+		modal_cargando();
+		$.ajax({
+			url:'/unidades',
+			type:'post',
+			dataType:'json',
+			data:datos,
+			success: function(json){
+				if(json[0]==1){
+					toastr.success("Categoría registrada con exito");
+					$("#select_unidad").append("<option selected value='"+json[2].id+"'>"+json[2].nombre_unidad+"</option>");
+					$("#select_unidad").trigger("chosen:updated");
+					$("#form_unidades").trigger("reset");
+					$("#modal_unit").modal("hide");
+					swal.closeModal();
+					//window.location.reload();
+				}else{
+					toastr.error("Ocurrió un error");
+					swal.closeModal();
+				}
+			}, 
+			error: function(error){
+				$.each(error.responseJSON.errors,function(index,value){
+					toastr.error(value);
+				});
+				swal.closeModal();
+			}
+		});
+	});
 });
 
 

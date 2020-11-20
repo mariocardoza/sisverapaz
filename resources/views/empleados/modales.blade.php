@@ -320,3 +320,92 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="modal_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+			</div>
+			<div class="modal-body">
+				<form id="form_catcargo">
+					<div class="form-group">
+						<label for="">
+							Nombre de la categoría
+						</label>
+						<input type="text" name="nombre" autocomplete="off" class="form-control">
+						<input type="hidden" name="id" value="<?php echo date('Yidisus') ?>">
+					</div>
+				
+			</div>
+			<div class="modal-footer">
+				<center><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button type="submit" class="btn btn-success">Guardar</button></center>
+      </div>
+    </form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal_cargo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+			</div>
+			<div class="modal-body">
+				<form id="form_cargo">
+          <div class="form-group">
+						<label for="" class="control-label">Categoría</label>
+						<div>
+							<input type="text" readonly class="form-control n_cargo">
+							<input type="hidden" name="catcargo_id" class="form-control id_cargo">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="">
+							Cargo
+						</label>
+						<input type="text" name="cargo" autocomplete="off" class="form-control">
+					</div>
+			
+			</div>
+			<div class="modal-footer">
+				<center><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button type="submit" class="btn btn-success">Guardar</button></center>
+      </div>
+    </form>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal_unit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+			</div>
+			<div class="modal-body">
+				<form id="form_unidades">
+					<div class="form-group">
+						<label for="">
+							Unidad administrativa
+						</label>
+						<input type="text" name="nombre_unidad" autocomplete="off" class="form-control">
+					</div>
+					
+				
+			</div>
+			<div class="modal-footer">
+				<center><button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button type="submit" class="btn btn-success">Guardar</button></center>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>

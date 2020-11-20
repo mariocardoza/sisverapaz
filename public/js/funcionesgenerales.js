@@ -164,15 +164,15 @@
                     extend: 'excel'
 
                 },
-                {
+                /*{
                     extend: 'print',
                     text: 'Imprimir',
                     className: 'btn btn-primary',
                     exportOptions: {
                         columns: ':visible'
                     }
-                },
-                'colvis'
+                },*/
+             
             ],
             columnDefs: [ {
                 targets: -1,

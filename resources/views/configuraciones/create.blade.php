@@ -311,6 +311,7 @@
     $(document).on("submit","#form_emergencia",function(e){
       e.preventDefault();
       var datos=$("#form_emergencia").serialize();
+      modal_cargando();
       $.ajax({
         url:'api/emergencia',
         type:'post',
@@ -322,14 +323,17 @@
             location.reload();
           }else{
             if(json[0]==2){
+              swal.closeModal();
               swal('aviso',json[1],'warning');
             }else{
               toastr.error("Ocurrió un error en el servidor");
+              swal.closeModal();
             }
           }
         },
         error: function(error){
           toastr.error("Ocurrió un error en el servidor");
+          swal.closeModal();
         }
       });
     })

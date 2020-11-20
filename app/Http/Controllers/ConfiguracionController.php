@@ -159,7 +159,7 @@ class ConfiguracionController extends Controller
             'detalle'=>$request->detalle,
             'fecha_inicio'=>\invertir_fecha($request->fecha_inicio),
           ]);
-          $retormo=array(1);
+          $retorno=array(1);
         }else{
           $retorno=array(2,"Ya existe una declaratoria activa");
         }

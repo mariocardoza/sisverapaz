@@ -48,7 +48,7 @@ class CatCargoController extends Controller
         $this->validar($request->all())->validate();
         try{
             $catcategorias = CatCargo::create($request->all());
-            return array(1,'éxito');
+            return array(1,'éxito',$catcategorias);
         }catch(exception $e){
             return array(-1, $e);
         }

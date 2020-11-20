@@ -1,6 +1,6 @@
 var busca="";
 $(document).ready(function(e){
-inicializar_tabla("esta");
+esta_tabla("esta");
   $(".cmbusuario").hide();
   $(".txtdia").hide();
   $(".txtinicio").hide();
@@ -84,7 +84,7 @@ $("#consultar").on("click", function(e){
       if(json[0]==1){
         $("#aqui_bita").empty();
         $("#aqui_bita").html(json[2]);
-        inicializar_tabla("bitaco");
+        esta_tabla("bitaco");
         console.log(json);
       }
     },
@@ -96,6 +96,57 @@ $("#consultar").on("click", function(e){
 
 
 });
+
+function esta_tabla(tabla){
+  var consulta = $('#'+tabla).DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'pdf',orientation: 'landscape',
+            text: 'Descargar PDF',
+            title: 'Listado de actividades',
+  
+        },
+        {
+            extend: 'excel',
+            orientation: 'landscape',
+            text: 'Descargar PDF',
+            title: 'Listado de actividades',
+  
+        },
+     
+    ],
+    columnDefs: [ {
+        targets: -1,
+        visible: false
+    } ],
+      language: {
+          processing: "Búsqueda en curso...",
+          search: "Buscar:",
+          lengthMenu: "Mostrar _MENU_ Elementos",
+          info: "Mostrando _START_ de _END_ de un total de _TOTAL_ Elementos",
+          infoEmpty: "Visualizando 0 de 0 de un total de 0 elementos",
+          infoFiltered: "(Filtrado de _MAX_ elementos en total)",
+          infoPostFix: "",
+          loadingRecords: "Carga de datos en proceso..",
+          zeroRecords: "Elementos no encontrado",
+          emptyTable: "La tabla no contiene datos",
+          paginate: {
+              first: "Primero",
+              previous: "Anterior",
+              next: "siguiente",
+              last: "Último"
+          },
+      },
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+  });
+      
+}
 
 
   function busqueda(valor){

@@ -54,8 +54,8 @@ class UnidadAdminController extends Controller
     {
         if($request->ajax()){
           try{
-            Unidad::create($request->All());
-            return array(1,'éxito');
+            $unidad=Unidad::create($request->All());
+            return array(1,'éxito',$unidad);
           }catch(\Exception $e){
             return array(-1, $e->getMessage());
           }

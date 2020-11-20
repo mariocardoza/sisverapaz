@@ -102,7 +102,7 @@
           </div>
           <br><br>
           <div class="row" id="contrato">
-            <div class="col-md-10">
+            <div class="col-md-12">
               @if(isset($empleado->detalleplanilla))
               <div class="panel panel-primary" id="info_contra">
                 <div class="panel-heading">Información del contrato</div>
@@ -215,7 +215,7 @@
           </div>
           <div class="row" id="general" style="display: none;">
             <?php if ($empleado->es_usuario=='si'): ?>
-             <div class="col-md-10">
+             <div class="col-md-12">
               <div class="panel panel-primary">
                 <div class="panel-heading">Datos de inicio de sesión</div>
                 <div class="panel-body">
@@ -258,7 +258,7 @@
               </div>
             </div>
             <?php endif ?>
-            <div class="col-md-10">
+            <div class="col-md-12">
               <div class="panel panel-primary">
                 <div class="panel-heading">Datos bancarios</div>
                 <div class="panel-body">
@@ -292,7 +292,7 @@
               </div>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12">
               <div class="panel panel-primary">
                 <div class="panel-heading">Datos del AFP</div>
                 <div class="panel-body">
@@ -320,7 +320,7 @@
               </div>
             </div>
 
-            <div class="col-md-10">
+            <div class="col-md-12">
               <div class="panel panel-primary">
                 <div class="panel-heading">Datos del Seguro Social</div>
                 <div class="panel-body">
