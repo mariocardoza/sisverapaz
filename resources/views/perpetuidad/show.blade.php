@@ -47,6 +47,22 @@
                         <th>Costo</th>
                         <td>${{number_format($perpetuidad->costo,2)}}</td>
                     </tr>
+                    <tr>
+                      <th>L/Norte</th>
+                      <td>{{$perpetuidad->norte}}</td>
+                    </tr>
+                    <tr>
+                      <th>L/Sur</th>
+                      <td>{{$perpetuidad->sur}}</td>
+                    </tr>
+                    <tr>
+                      <th>L/Oriente</th>
+                      <td>{{$perpetuidad->oriente}}</td>
+                    </tr>
+                    <tr>
+                      <th>L/Poniente</th>
+                      <td>{{$perpetuidad->poniente}}</td>
+                    </tr>
                     </tbody>
                 </table>
                 <div style="display: block; margin: 0 auto;">
@@ -115,7 +131,7 @@
 		</div>
 	</div>
 </div>
-<div id="modal_aqui">|</div>
+<div id="modal_aqui"></div>
 @endsection
 @section('scripts')
 <script>

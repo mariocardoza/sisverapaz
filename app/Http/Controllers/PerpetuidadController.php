@@ -31,7 +31,8 @@ class PerpetuidadController extends Controller
     {
         $cementerios=Cementerio::all();
         $contribuyentes=Contribuyente::whereEstado(1)->get();
-        return view('perpetuidad.create',compact('cementerios','contribuyentes'));
+        $beneficiarios=PerpetuidadBeneficiario::whereEstado(1)->get();
+        return view('perpetuidad.create',compact('cementerios','contribuyentes','beneficiarios'));
     }
 
     /**
@@ -81,7 +82,8 @@ class PerpetuidadController extends Controller
      */
     public function show(Perpetuidad $perpetuidad)
     {
-        return view('perpetuidad.show',\compact('perpetuidad'));
+        $beneficiarios=PerpetuidadBeneficiario::whereEstado(1)->get();
+        return view('perpetuidad.show',\compact('perpetuidad','beneficiarios'));
     }
 
     /**
@@ -92,6 +94,7 @@ class PerpetuidadController extends Controller
      */
     public function edit(Perpetuidad $perpetuidad)
     {
+        $beneficiarios=PerpetuidadBeneficiario::whereEstado(1)->get();
         $html='<div class="modal fade" id="modal_edit_perpetuidad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -120,19 +123,39 @@ class PerpetuidadController extends Controller
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="" class="control-label">Linda al norte</label>
-                        <input type="text" class="form-control" value="'.$perpetuidad->norte.'" name="norte">
+                        <input type="text" list="norte" class="form-control" value="'.$perpetuidad->norte.'" name="norte">
+                        <datalist id="norte">';
+                            foreach($beneficiarios as $b):
+                                $html.='<option value="'.$b->beneficiario.'">';
+                            endforeach;
+                        $html.='</datalist>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="" class="control-label">Linda al sur</label>
-                        <input type="text" class="form-control" value="'.$perpetuidad->sur.'" name="sur">
+                        <input type="text" list="sur" class="form-control" value="'.$perpetuidad->sur.'" name="sur">
+                        <datalist id="sur">';
+                            foreach($beneficiarios as $b):
+                                $html.='<option value="'.$b->beneficiario.'">';
+                            endforeach;
+                        $html.='</datalist>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="" class="control-label">Linda al oriente</label>
-                        <input type="text" class="form-control" value="'.$perpetuidad->oriente.'" name="oriente">
+                        <input type="text" list="oriente" class="form-control" value="'.$perpetuidad->oriente.'" name="oriente">
+                        <datalist id="oriente">';
+                            foreach($beneficiarios as $b):
+                                $html.='<option value="'.$b->beneficiario.'">';
+                            endforeach;
+                        $html.='</datalist>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="" class="control-label">Linda al poniente</label>
-                        <input type="text" class="form-control" value="'.$perpetuidad->poniente.'" name="poniente">
+                        <input type="text" list="poniente" class="form-control" value="'.$perpetuidad->poniente.'" name="poniente">
+                        <datalist id="poniente">';
+                            foreach($beneficiarios as $b):
+                                $html.='<option value="'.$b->beneficiario.'">';
+                            endforeach;
+                        $html.='</datalist>
                     </div>
                     <div class="form-group col-sm-6">
                         <label for="" class="control-label">Valor del título</label>

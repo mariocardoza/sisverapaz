@@ -31,7 +31,7 @@
                     <br>
                     <div class="col-md-6">
                         <div class="panel panel-primary">
-                            <div class="panel-heading"></div>
+                            <div class="panel-heading">Detalles</div>
                             <div class="panel-body">
                                 <form class="form" id="form_perpetuidad">
                                     <div class="row">
@@ -73,19 +73,39 @@
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Linda al norte</label>
-                                            <input type="text" class="form-control" name="norte">
+                                            <input type="text" list="norte" class="form-control" name="norte">
+                                            <datalist id="norte">
+                                                @foreach($beneficiarios as $b)
+                                                    <option value="{{$b->beneficiario}}">
+                                                @endforeach
+                                            </datalist>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Linda al sur</label>
-                                            <input type="text" class="form-control" name="sur">
+                                            <input type="text" list="sur" class="form-control" name="sur">
+                                            <datalist id="sur">
+                                                @foreach($beneficiarios as $b)
+                                                    <option value="{{$b->beneficiario}}">
+                                                @endforeach
+                                            </datalist>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Linda al oriente</label>
-                                            <input type="text" class="form-control" name="oriente">
+                                            <input type="text" list="oriente" class="form-control" name="oriente">
+                                            <datalist id="oriente">
+                                                @foreach($beneficiarios as $b)
+                                                    <option value="{{$b->beneficiario}}">
+                                                @endforeach
+                                            </datalist>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Linda al poniente</label>
-                                            <input type="text" class="form-control" name="poniente">
+                                            <input type="text" list="poniente" class="form-control" name="poniente">
+                                            <datalist id="poniente">
+                                                @foreach($beneficiarios as $b)
+                                                    <option value="{{$b->beneficiario}}">
+                                                @endforeach
+                                            </datalist>
                                         </div>
                                         <div class="form-group col-sm-6">
                                             <label for="" class="control-label">Valor del título</label>
@@ -108,7 +128,11 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div id="mapita" style="height: 450px;"></div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Ubicación estimada</div>
+                            <div class="panel-body" id="mapita" style="height: 500px;"></div>
+                        </div>
+                  
                     </div>
                     <br><br>
 
