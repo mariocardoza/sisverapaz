@@ -31,7 +31,7 @@ class InmuebleController extends Controller
         $parameters = $request->all();
         
         $inmueble = Inmueble::find($parameters['id']);
-        $tipoServicio = \App\TipoServicio::find($parameters['idTipoServicio']);
+        $tipoServicio = \App\Tiposervicio::find($parameters['idTipoServicio']);
 
         if($inmueble->tipoServicio->contains($tipoServicio)){
             return array(
@@ -53,7 +53,7 @@ class InmuebleController extends Controller
         try{
             $inmueble = Inmueble::find($request['id']);
             //$inmueble->tipoServicio()->detach();
-            \DB::table('inmueble_tipo_servicio')->where('id' , $request->idTipoServicio)->delete();
+            \DB::table('inmueble_tiposervicio')->where('id' , $request->idTipoServicio)->delete();
             return array(1,"exito",$inmueble);
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
@@ -293,16 +293,16 @@ class InmuebleController extends Controller
     public function impuestos_inmueble($id)
     {
         $inmueble=Inmueble::find($id);
+       
         $servicios= \DB::table('tiposervicios as ts')
         ->whereNotExists(function ($query) use ($id)  {
-             $query->from('inmueble_tipo_servicio as its')
+             $query->from('inmueble_tiposervicio as its')
                 ->whereRaw('its.tiposervicio_id = ts.id')
                 ->whereRaw('its.inmueble_id ='.$id);
             })->get();
-
         $html="";
         $select="<option value=''>Seleccione..</option>";
-        foreach($inmueble->tipoServicio as $i => $t){
+        foreach($inmueble->tiposervicio as $i => $t){
             $html.='<tr>
               <td>'.($i+1).'</td>
               <td><span>'.$t->nombre.'</span></td>

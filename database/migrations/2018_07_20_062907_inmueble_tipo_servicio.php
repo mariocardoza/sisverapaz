@@ -13,7 +13,7 @@ class InmuebleTipoServicio extends Migration
      */
     public function up()
     {
-        Schema::create('inmueble_tipo_servicio', function (Blueprint $table) {
+        Schema::create('inmueble_tiposervicio', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('inmueble_id')->unsigned()->nullable();
             $table->bigInteger('tiposervicio_id')->unsigned()->nullable();
@@ -33,6 +33,6 @@ class InmuebleTipoServicio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inmueble_tipo_servicio');
+        Schema::dropIfExists('inmueble_tiposervicio');
     }
 }

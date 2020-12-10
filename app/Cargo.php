@@ -16,6 +16,7 @@ class Cargo extends Model
     public static function cargos()
     {
         $loscargos=Cargo::where('estado',1)->get();
+        $cargos=[];
         foreach ($loscargos as $cargoo) {
             $cargos[$cargoo->id]=$cargoo->cargo;
         }
@@ -30,7 +31,7 @@ class Cargo extends Model
 
     public function catcargo()
     {
-        return $this->belongsTo('App\Catcargo');
+        return $this->belongsTo('App\CatCargo');
     }
 
     public static function selectcargo($id)

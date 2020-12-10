@@ -20,8 +20,8 @@ class FacturasItems extends Model
     }
 
     public static function servicio($tipoinmueble_id){
-        $servicio_id=DB::table('inmueble_tipo_servicio')->where('id',$tipoinmueble_id)->get()->first()->tiposervicio_id;
+        $servicio_id=DB::table('inmueble_tiposervicio')->where('id',$tipoinmueble_id)->get()->first()->tiposervicio_id;
         
-        return tiposervicio::find($servicio_id)->nombre;
+        return Tiposervicio::find($servicio_id)->nombre;
     }
 }

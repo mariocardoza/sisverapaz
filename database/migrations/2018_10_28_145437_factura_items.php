@@ -22,7 +22,7 @@ class FacturaItems extends Migration
             $table->integer('estado')->unsigned()->default(1);
 
             $table->foreign('factura_id')->references('id')->on('facturas');
-            $table->foreign('tipoinmueble_id')->references('id')->on('inmueble_tipo_servicio');
+            $table->foreign('tipoinmueble_id')->references('id')->on('inmueble_tiposervicio');
             $table->timestamps();
         });
     }

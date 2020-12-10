@@ -59,7 +59,7 @@ Auth::routes([
   'verify' => true, 
 ]);
 
-Route::post('authenticate','Auth\loginController@authenticate')->name('authenticate');
+Route::post('authenticate','Auth\LoginController@authenticate')->name('authenticate');
 
 Route::get('/home', 'HomeController@index')->name('home');
 //administrador
@@ -348,7 +348,7 @@ Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');
 Route::get('perpetuidad/recibos','PerpetuidadController@recibos');
 Route::Resource('perpetuidad','PerpetuidadController');
 
-Route::Resource('tiposervicios','TiposervicioController');
+Route::Resource('tiposervicios','TipoServicioController');
 /*Route::post('impuestos/baja/{id}','impuestoController@baja')->name('impuestos.baja');
 Route::post('impuestos/alta/{id}','ImpuestoController@alta')->name('impuestos.alta');
 Route::Resource('impuestos','ImpuestoController');*/

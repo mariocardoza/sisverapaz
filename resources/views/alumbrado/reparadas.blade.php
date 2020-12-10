@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('migasdepan')
 <h1>
-        Bancos
+        Lámparas reparadas
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
