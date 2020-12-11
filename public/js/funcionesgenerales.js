@@ -240,8 +240,9 @@
           	     selectOtherMonths: true,
                  changeMonth: true,
                  changeYear: true,
+                 yearRange: "-100:+0", // last hundred years
                  dateFormat: 'dd-mm-yy',
-                 minDate: "-60Y",
+                 minDate: "-100Y",
                  maxDate: "-18Y",
     				     format: 'dd-mm-yyyy'
                  });
@@ -293,6 +294,7 @@
                         selectOtherMonths: true,
                         changeMonth: true,
                         changeYear: true,
+                        yearRange: "-100:+0", // last hundred years
                         dateFormat: 'dd-mm-yy',
                         format: 'dd-mm-yyyy'
                         });
@@ -341,7 +343,8 @@
         '.chosen-select-deselect'  : {allow_single_deselect:true},
         '.chosen-select-no-single' : {disable_search_threshold:10},
         '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        '.chosen-select-width'     : {width:"100%"}
+        '.chosen-select-width'     : {width:"100%"},
+        '.chosen'                  : {width:"100%"},
       }
     for (var selector in config) {
       $(selector).chosen(config[selector]);
