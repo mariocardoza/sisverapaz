@@ -71,20 +71,24 @@ class UsuarioController extends Controller
      */
     public function store(UsuariosRequest $request)
     {
-        $user = User::create([
-            'empleado_id' => $request['name'],
-            'username' => $request['username'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'unidad_id'=>$request->unidad_id,
-        ]);
-
-        $user
-        ->roles()
-        ->attach(Role::find($request->roles));
-
-        bitacora('Registró un usuario');
-        return redirect('usuarios')->with('mensaje','Usuario almacenado con éxito');
+        try{
+            $user = User::create([
+                'empleado_id' => $request['name'],
+                'username' => $request['username'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+                'unidad_id'=>$request->unidad_id,
+            ]);
+    
+            $user
+            ->roles()
+            ->attach(Role::find($request->roles));
+    
+            bitacora('Registró un usuario');
+            return array(1,"exito",$user);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
     }
 
     /**

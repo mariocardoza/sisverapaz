@@ -271,7 +271,15 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
               dataType:'json',
               data:{},
               success: function(json){
-
+                if(json[0]==1){
+                  toastr.success("Planilla aprobada");
+                  location.reload();
+                }else{
+                  toastr.error("ocurrió un error");
+                }
+              },
+              error:function(error){
+                toastr.error("ocurrió un error");
               }
             });
             

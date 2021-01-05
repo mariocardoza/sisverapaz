@@ -87,7 +87,6 @@ class PlanillaController extends Controller
         $retenciones = Retencion::all();
         $empleados= Detalleplanilla::empleadosPlanilla();
    
-        
         return view('planillas.create',compact('mes','year','empleados','retenciones'));
     }
 

@@ -37,7 +37,7 @@
           <input value="{{$empleado->id}}" type="hidden" name='empleado_id[]' class="form-control"/>
           {{$empleado->nombre}}
         </td>
-        <td>-</td>
+        <td>{{$empleado->ncargo}}</td>
         <td>
          @php
             $salario=$salario_dia=0.0;

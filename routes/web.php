@@ -401,6 +401,8 @@ Route::Resource('servicios','ServiciosController');
 
 Route::Resource('retenciones','RetencionController');
 
+Route::Resource('partidas','PartidaController');
+
 Route::post('planillas/pagar','PlanillaController@pagar');
 Route::Resource('planillas','PlanillaController');
 Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cambiarestado');

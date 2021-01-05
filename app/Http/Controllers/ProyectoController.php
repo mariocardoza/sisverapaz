@@ -62,7 +62,7 @@ class ProyectoController extends Controller
         FROM
             indicadores_proyectos AS ip
         WHERE
-            ip.proyecto_id = p.id
+            ip.proyectos_id = p.id
         AND ip.estado = 2) as avance'))
         ->where('p.anio','=',date('Y'))
         ->get();

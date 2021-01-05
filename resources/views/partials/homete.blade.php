@@ -94,6 +94,21 @@
                 <a href="javascript:void(0)" id="form_autorizacion" class="small-box-footer">Aceptar <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3><i class="fa fa-user"></i></h3>
+
+                    <p>Partidas de nacimiento</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="{{url('partidas')}}"  class="small-box-footer">Ver <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
         <!-- ./col -->
     </div>
     <!-- /.row -->

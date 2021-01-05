@@ -2,7 +2,7 @@
 	
 	<table rules="" width="100%">
 		<tr>
-			<td width="15%" rowspan=""><center><img  width="80px" height="100px" src="{{asset('img/logos/'.$configuracion->escudo_alcaldia)}}" width="130px" height="130px" alt=""></center></td>
+			<td width="15%" rowspan=""><center><img  width="80px" height="100px" src="{{ public_path("storage/logos/".$configuracion->escudo_alcaldia) }}" width="130px" height="130px" alt=""></center></td>
 
 			<td width="50%">
 				<div class="row">
