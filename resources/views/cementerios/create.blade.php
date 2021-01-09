@@ -9,7 +9,7 @@
         </div>
         <form action="#" id="formulario" name="formulario">
           <div class="box-body">
-            <div style="height: 400px;" class="form-group">
+            <div style="height: 500px;" class="form-group">
               {!! $map['html'] !!}
             </div>
             <div class="form-group col-sm-7">

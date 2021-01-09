@@ -29,7 +29,7 @@
     </a>
 </li>
 
-<li class="treeview {{ Route::currentRouteName() == 'servicios.index' ? 'active': Route::currentRouteName() == 'servicios.pagos' ? 'active':null }}">
+<li class="treeview {{ Route::currentRouteName() == 'servicios.index' ? 'active': ( Route::currentRouteName() == 'servicios.pagos' ? 'active':null ) }}">
     <a href="#">
         <i class="fa fa-edit"></i> <span>Pago de servicios</span>
         <span class="pull-right-container">
@@ -43,7 +43,7 @@
     </ul>
 </li>
 
-<li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active': Route::currentRouteName() == 'empleados.show' ? 'active' : null}}">
+<li class="treeview {{ Route::currentRouteName() == 'empleados.index' ? 'active': (Route::currentRouteName() == 'empleados.show' ? 'active' : null) }}">
     <a href="{{ url('empleados') }}">
         <i class="fa fa-edit"></i> <span>Empleados</span>
     </a>

@@ -33,6 +33,15 @@ class ReportesTesoreriaController extends Controller
     	return $pdf->stream('Recibo.pdf');	
 	}
 
+	public function partida($id)
+	{
+		$partida = \App\Partida::findorFail($id);
+    	$tipo = "REPORTE DE PAGO DE IMPUESTOS";
+    	$pdf = \PDF::loadView('pdf.tesoreria.partida',compact('partida','tipo'));
+    	$pdf->setPaper('letter','landscape');
+    	return $pdf->stream('Recibo.pdf');	
+	}
+
     public function pagorentas($id)
     {
     	$configuracion = \App\Configuracion::first();

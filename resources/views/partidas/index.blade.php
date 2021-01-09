@@ -30,7 +30,8 @@
                             <th>% fiestas</th>
                             <th>Total </th>
                             <th>Creación</th>
-                            <th>Acción</th>
+                            <th></th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +43,24 @@
                                 <td>${{number_format($partida->fiestas*$partida->monto,2)}}</td>
                                 <td>${{number_format($partida->monto+$partida->fiestas*$partida->monto,2)}}</td>
                                 <td>{{$partida->created_at->diffforhumans(null, false, false, 3)}}</td>
-                                <td><a href="{{url('partidas/'.$partida->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a></td>
+                                <td>
+                                    @if($partida->estado==1)
+                                    <label for="" class="label-primary col-xs-12"><span class="text-center">Pendiente de cobro</span></label>
+                                    @elseif($partida->estado==2)
+                                    <label for="" class="label-danger col-xs-12"><span class="text-center">Anulada</span></label>
+                                    @else 
+                                    <label for="" class="label-success col-xs-12"><span class="text-center">Cobrada</span></label>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($partida->estado==1)
+                                    <a href="javascript:void(0)" title="Editar" data-id="{{$partida->id}}" class="btn btn-warning edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:void(0)" title="Confirmar pago" data-id="{{$partida->id}}" class="btn btn-success cobrar"><i class="fa fa-money"></i></a>
+                                    <a target="_blank" href="{{url('reportestesoreria/partida/'.$partida->id)}}" title="Imprimir recibo" class="btn btn-primary"><i class="fa fa-print"></i></a>
+                                    @elseif($partida->estado==3)
+                                    <a target="_blank" href="{{url('reportestesoreria/partida/'.$partida->id)}}" class="btn btn-primary"><i class="fa fa-print"></i></a>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -88,7 +106,47 @@
         </div>
       </div>
       </div>
-    </div>
+</div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Editar datos de la partida de nacimiento</h4>
+        </div>
+        <div class="modal-body">
+          <form method="post" id="form_epartida">
+          <div class="form-group">
+            <label for="" class="control-label">Contribuyente</label>
+              <div class="">
+                <input type="text" list="contri2" name="contribuyente" class="form-control elname">
+                <datalist id="contri2">
+                    @foreach($contribuyentes as $c)
+                        <option value="{{$c->nombre}}">
+                    @endforeach
+                </datalist>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="" class="control-label">
+                  Monto
+              </label>
+              <div>
+                   <input type="number" step="any" name="monto" class="form-control elmonto">
+                   <input type="hidden" class="form-control" id="elid">
+              </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success">Agregar</button></center>
+          {{Form::close()}}
+        </div>
+      </div>
+      </div>
+</div>
 @endsection
 @section('scripts')
 <script>
@@ -96,6 +154,79 @@
         $(document).on("click",".new_partida",function(e){
             e.preventDefault();
             $("#modal_nuevo").modal("show");
+        });
+
+        /* editar partida */
+        $(document).on("click",".edit",function(e){
+            e.preventDefault();
+            let id=$(this).attr("data-id");
+            $.ajax({
+                url:'/partidas/'+id+'/edit',
+                type:'get',
+                dataType:'json',
+                success:function(json){
+                    if(json[0]==1){
+                        $(".elname").val(json[2].contribuyente);
+                        $(".elmonto").val(json[2].monto);
+                        $("#elid").val(json[2].id);
+                        $("#modal_edit").modal("show");
+                    }else{
+                        toastr.error("Ocurrió un error");
+                    }
+                },
+                error: function(error){
+                    toastr.error("Ocurrió un error");
+                }
+            })
+        });
+
+        /* cobrar la partida */
+        $(document).on("click",".cobrar",function(e){
+            e.preventDefault();
+            let id=$(this).attr("data-id");
+            swal({
+                title: '',
+                text: "¿Desea registrar este pago?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si!',
+                cancelButtonText: '¡No!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    modal_cargando();
+                    $.ajax({
+                        url:'/partidas/pago',
+                        type:'post',
+                        dataType:'json',
+                        data:{id},
+                        success: function(json){
+                            if(json[0]==1){
+                                toastr.success("Pago recibido");
+                                location.reload();
+                                }else{
+                                toastr.error("Ocurrió un error");
+                                swal.closeModal();
+                                }
+                            }, error: function(error){
+                                toastr.error("Ocurrió un error");
+                                swal.closeModal();
+                            }
+                    });
+                    
+                    } else if (result.dismiss === swal.DismissReason.cancel) {
+                        swal(
+                            'Revise el recibo por favor',
+                            '',
+                            'info'
+                        );
+                    }
+            });
         });
 
         $(document).on("submit","#form_partida",function(e){
@@ -110,6 +241,33 @@
                 success: function(json){
                     if(json[0]==1){
                         toastr.success('Partida registrada con éxito');
+                        location.reload();
+                    }else{
+                        toastr.error("Ocurrió un error");
+                        swal.closeModal();
+                    }
+                }, error: function(error){
+                    $.each(error.responseJSON.errors,function(index,value){
+	          		    toastr.error(value);
+	          	    });
+	          	    swal.closeModal();
+                }
+            })
+        })
+
+        $(document).on("submit","#form_epartida",function(e){
+            e.preventDefault();
+            var datos=$("#form_epartida").serialize();
+            let id=$("#elid").val();
+            modal_cargando();
+            $.ajax({
+                url:'partidas/'+id,
+                type:'put',
+                dataType:'json',
+                data:datos,
+                success: function(json){
+                    if(json[0]==1){
+                        toastr.success('Partida modificada con éxito');
                         location.reload();
                     }else{
                         toastr.error("Ocurrió un error");

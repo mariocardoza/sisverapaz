@@ -401,6 +401,7 @@ Route::Resource('servicios','ServiciosController');
 
 Route::Resource('retenciones','RetencionController');
 
+Route::post('partidas/pago','PartidaController@pago');
 Route::Resource('partidas','PartidaController');
 
 Route::post('planillas/pagar','PlanillaController@pagar');
@@ -472,6 +473,7 @@ Route::get('reportestesoreria/boletageneral/{id}','ReportesTesoreriaController@b
 Route::get('reportestesoreria/pagorenta/{id}','ReportesTesoreriaController@pagorentas');
 Route::get('reportestesoreria/reciboc/{id}','ReportesTesoreriaController@reciboc');
 Route::get('reportestesoreria/recibop/{id}','ReportesTesoreriaController@recibop');
+Route::get('reportestesoreria/partida/{id}','ReportesTesoreriaController@partida');
 //Ruta para detalle de planillas
 Route::post('detalleplanillas/store2','DetallePlanillaController@store2');
 Route::Resource('detalleplanillas','DetalleplanillaController');

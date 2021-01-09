@@ -160,14 +160,14 @@
                 $("#modal_aqui").empty();
                 $("#modal_aqui").html(json[2]);
                 $('.fechanomayor').datepicker({
-                      selectOtherMonths: true,
-                      changeMonth: true,
-                      changeYear: true,
-                      dateFormat: 'dd-mm-yy',
-                      maxDate: "+1m",
-                      format: 'dd-mm-yyyy'
-                      });
-                      $(".chosen-select-width").chosen({width:'100%'});
+                  selectOtherMonths: true,
+                  changeMonth: true,
+                  changeYear: true,
+                  dateFormat: 'dd-mm-yy',
+                  maxDate: "+1m",
+                  format: 'dd-mm-yyyy'
+                });
+                $(".chosen-select-width").chosen({width:'100%'});
                 $("#modal_edit_perpetuidad").modal("show");
               }
             }

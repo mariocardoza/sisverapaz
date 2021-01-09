@@ -47,6 +47,7 @@ class CementerioController extends Controller
         $config = array();
         $config['center'] = '13.644985, -88.865193';
         $config['zoom'] = '19';
+        $config['map_type'] = 'SATELLITE';
         $config['map_height'] = "100%";
         $config['scrollwheel'] = true;        
         $config['drawingModes'] = array('polygon');
@@ -114,8 +115,9 @@ class CementerioController extends Controller
         $gmap = new GMaps();
         $config = array();
         $config['center'] = $cementerio->posiciones[0]['latitud'].','.$cementerio->posiciones[0]['longitud'];
-        $config['zoom'] = '19';
+        $config['zoom'] = '18';
         $config['map_height'] = "100%";
+        $config['map_type'] = 'SATELLITE';
         $config['scrollwheel'] = true;     
         $config['drawingModes'] = array('polygon');
         if ($cementerio) {

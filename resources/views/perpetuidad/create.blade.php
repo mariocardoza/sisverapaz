@@ -46,13 +46,16 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form-group col-sm-12">
+                                        <div class="form-group col-sm-10">
                                             <label for="" class="control-label">Propietario</label>
-                                            <select name="contribuyente_id" class="chosen-select-width">
+                                            <select name="contribuyente_id" id="contribuyente_id" class="chosen-select-width">
                                                 @foreach ($contribuyentes as $c)
                                                     <option value="{{$c->id}}">{{$c->nombre}}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                        <div class="form-group col-sm-2">
+                                            <button class="btn btn-primary" id="newContri"><i class="fa fa-plus"></i></button>
                                         </div>
                                         <div class="form-group col-sm-12">
                                             <label for="" class="control-label">Tipo de nicho</label>
@@ -141,11 +144,71 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal_contri" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Agregar nuevo contribuyente</h4>
+			</div>
+			<div class="modal-body">
+				<form id="form_contribuyente">
+					@include('contribuyentes.formulario')
+				
+			</div>
+			<div class="modal-footer">
+				<center>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-success">Guardar</button></center>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 @section('scripts')
 <script>
     var cementerioCoords=[];
     $(document).ready(function(e){
+
+        //modal nuevo contribuyente
+        $(document).on("click","#newContri",function(e){
+            e.preventDefault();
+            $("#modal_contri").modal("show");
+        });
+
+        //registrar nuevo contribuyente
+        $(document).on("submit","#form_contribuyente",function(e){
+            e.preventDefault();
+            var datos=$("#form_contribuyente").serialize();
+            modal_cargando();
+            $.ajax({
+                url:'/contribuyentes',
+                type:'post',
+                dataType:'json',
+                data:datos,
+                success: function(json){
+                    if(json[0]==1){
+                        toastr.success("Contribuyente registrado");
+                        $("#contribuyente_id").append("<option selected value='"+json[2].id+"'>"+json[2].nombre+"</option>");
+                        $("#contribuyente_id").trigger("chosen:updated");
+                        $("#form_contribuyente").trigger("reset");
+                        $("#modal_contri").modal("hide");
+                        swal.closeModal();
+                    }else{
+                        swal.closeModal();
+                        toastr.error("Ocurrió un error, contacte al administrador");
+                    }
+                },
+                error: function(error){
+                    swal.closeModal();
+                    $.each(error.responseJSON.errors,function(i,v){
+                        toastr.error(v);
+                    }); 
+                }
+            })
+        });
 
         //guardar el titulo
         $(document).on("submit","#form_perpetuidad",function(e){
