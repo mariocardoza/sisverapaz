@@ -9,7 +9,9 @@ use Carbon\Carbon;
 use App\Bitacora;
 use Response;
 use App\Factura;
+use App\FacturaNegocio;
 use App\Inmueble;
+use App\Negocio;
 use DB;
 
 class ContribuyenteController extends Controller
@@ -145,7 +147,7 @@ class ContribuyenteController extends Controller
   
         if(($fechaActual >= 25 && $fechaActual <= 31)){
   
-          if(Factura::where('mesYear', $mesYear)->first()){
+          if(Factura::where('mesYear', $mesYear)->first() && FacturaNegocio::where('mesYear', $mesYear)->first()){
             return json_encode([
               "message"   => 'No puedes ingresar 2 veces las factura de este mes',
               "error"     => true
@@ -160,6 +162,14 @@ class ContribuyenteController extends Controller
             'mueble_id'             => 0,
             'mesYear'               => date('m/Y'),
             'fechaVecimiento'       => $venci,
+            'pagoTotal'             => 0.00,
+            'porcentajeFiestas'     => DB::table('porcentajes')->where('nombre_simple','fiestas')->get()->first()->porcentaje
+          );
+
+          $factura2Array = array(
+            'negocio_id'             => 0,
+            'mesYear'               => date('m/Y'),
+            'fechaVencimiento'       => $venci,
             'pagoTotal'             => 0.00,
             'porcentajeFiestas'     => DB::table('porcentajes')->where('nombre_simple','fiestas')->get()->first()->porcentaje
           );
@@ -201,7 +211,34 @@ class ContribuyenteController extends Controller
                      $factura->items()->saveMany($arrayFacturaItems);
                   }
               }
+
+
+              /* iteracion para negocios */
+              $negociosContribuyente = Negocio
+                  ::where('estado', 1)
+                  ->where('contribuyente_id', $value['id'])
+              ->get();
+              //dd($negociosContribuyente[0]->rubro);
+
+              foreach($negociosContribuyente as $negocio){
+                $total2=0;
+                
+                $total2=$negocio->capital*$negocio->rubro->porcentaje;
+
+                $factura2Array["pagoTotal"]=$total2;
+                $factura2Array["codigo"]=date("Yidisus");
+                $factura2Array['negocio_id'] = $value['id'];
+                $factura2 = \App\FacturaNegocio::create($factura2Array);
+                $arrayFactura2Items = array(
+                  'porcentaje'=>$negocio->rubro->porcentaje,
+                  'rubro_id'=>$negocio->rubro->id,
+                  'facturanegocio_id'=>$factura2->id,
+                );
+                //dd($factura2Array);
+                $facturaitem2=\App\FacturaNegocioItem::create($arrayFactura2Items);
+              }
           }
+
           return json_encode([
               "message" => 'Peticion realizada con exito',
               "error"   => false,

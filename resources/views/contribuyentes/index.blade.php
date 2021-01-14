@@ -92,7 +92,7 @@
             e.preventDefault();
             modal_cargando();
             $.ajax({
-                url:'contribuyentes/generarpagos',
+                url:'/contribuyentes/generarpagos',
                 type:'post',
                 dataType:'json',
                 success: function(json){
