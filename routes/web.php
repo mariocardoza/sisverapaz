@@ -338,7 +338,8 @@ Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('co
 Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('contribuyentes.alta');
 Route::get('contribuyentes/pagos/{id}','ContribuyenteController@pagos');
 Route::post('contribuyentes/generarpagos','ContribuyenteController@generarPagosContribuyente');
-Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->name('verpagosgenerados');;
+Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->name('verpagosgenerados');
+Route::post('verpagosnegociosgenerados','ContribuyenteController@verPagosNegociosGenerados')->name('verpagosnegociosgenerados');
 Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');;
 
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/

@@ -61,6 +61,9 @@
 {{ Form::open(['url' => url('verpagosgenerados'),'class' => 'form-horizontal','id'=>'verPagos','target'=>'_blank']) }}
     <input type="hidden" name="token" value="{{csrf_token()}}">
 </form>
+{{ Form::open(['url' => url('verpagosnegociosgenerados'),'class' => 'form-horizontal','id'=>'verPagos2','target'=>'_blank']) }}
+    <input type="hidden" name="token" value="{{csrf_token()}}">
+</form>
 {{ Form::open(['url' => url('verfacturaspendientes'),'class' => 'form-horizontal','id'=>'verFacturas','target'=>'_blank']) }}
     <input type="hidden" name="token" value="{{csrf_token()}}">
 </form>
@@ -100,6 +103,7 @@
                         toastr.success("Facturas generadas con éxito");
                         swal.closeModal();
                         $('#verPagos').submit();        
+                        $('#verPagos2').submit();        
                     }else{
                         toastr.error(json.message);
                         swal.closeModal();

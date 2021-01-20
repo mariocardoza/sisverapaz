@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SisVerapaz</title>
-  <link type="text/css" media="all" rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+  
   <style>
     
-    @page { margin: 100px 20px 5px 30px }
+    @page { margin: 70px 20px 5px 30px }
     #content { top: -120px; bottom: auto;  }
     #header { position: fixed; top: -100px; }
     #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 120px; text-align: center }

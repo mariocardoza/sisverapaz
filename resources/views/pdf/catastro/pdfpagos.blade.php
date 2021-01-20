@@ -57,13 +57,19 @@
             {{$factura->inmueble->contribuyente->nombre}}
             @endif
             @if(($i+1)==5)
+           
             {{App\Factura::convertir((int)$sumat)}} y {{number_format($sumat-((int)$sumat),2,'.','.')*100}}/100 US DOLARES
             @endif
             @if(($i+1)==9)
+           
             {{App\Factura::personal('tesoreria')}}
             @endif
             @if(($i+1)==12)
+            
             {{App\Factura::personal('contabilidad')}}
+            @endif
+            @if(($i+1)==13)
+            ----
             @endif
           </td>
           <td colspan="2">
@@ -89,14 +95,18 @@
               @if(($a+1)==9)
               {{App\Factura::personal('tesoreria')}}
               @endif
+              @if(($a+1)==7)
+              Factura correspodiente a: {{$factura->mesYear}}
+              @endif
               @if(($a+1)==12)
               {{App\Factura::personal('contabilidad')}}
-              @endif</td>
+              @endif
+            </td>
           @if($bandera)
           <td colspan="2">
           Fiestas ({{$factura->porcentajeFiestas}}%)
           </td>
-          <td>{{number_format($fiesta,2,'.', ',')}}</td>
+          <td>{{number_format($fiesta,2,'.', ',')}} </td>
           @else
           <td colspan="2" style="color:white">{{$a+1}}
           </td>
@@ -105,6 +115,7 @@
           <td></td>
           <td></td>
         </tr>
+
         @php
             $bandera=false;
         @endphp

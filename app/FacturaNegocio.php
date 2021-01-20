@@ -9,13 +9,13 @@ class FacturaNegocio extends Model
     protected $guarded = [];
     protected $dates=['fechaVecimiento'];
     
-    public function inmueble()
+    public function negocio()
     {
-        return $this->belongsTo('App\Inmueble','inmueble_id');
+        return $this->belongsTo('App\Negocio','negocio_id');
     }
 
     public function items()
     {
-        return $this->hasMany('App\FacturaNegocioItem');
+        return $this->hasMany('App\FacturaNegocioItem','facturanegocio_id');
     }
 }

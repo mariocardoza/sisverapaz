@@ -1,11 +1,10 @@
 @extends('pdf.catastro.plantilla')
 @section('reporte')
-  @foreach($ids as $key => $mid)
+  @foreach($facturas as $key => $factura)
 @php
-$factura= App\Factura::find($mid);
       $items=$factura->items;
-      $total=$items->sum('precio_servicio');
-      $fiesta=($factura->porcentajeFiestas/100)*$total;
+      $total=$factura->pagoTotal;
+      $fiesta=($factura->porcentajeFiestas/100)*$factura->pagoTotal;
       $sumat=$total+$fiesta;
       $array_meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 @endphp
@@ -55,23 +54,28 @@ $factura= App\Factura::find($mid);
         <tr>
           <td colspan="3">
             @if(($i+1)==1)
-            {{$factura->inmueble->contribuyente->nombre}}
+            {{$factura->negocio->nombre}}
             @endif
             @if(($i+1)==5)
+           
             {{App\Factura::convertir((int)$sumat)}} y {{number_format($sumat-((int)$sumat),2,'.','.')*100}}/100 US DOLARES
             @endif
             @if(($i+1)==9)
+           
             {{App\Factura::personal('tesoreria')}}
             @endif
-       
             @if(($i+1)==12)
+            
             {{App\Factura::personal('contabilidad')}}
+            @endif
+            @if(($i+1)==13)
+            ----
             @endif
           </td>
           <td colspan="2">
-            {{$item->servicio($item->tipoinmueble_id)}}
+            {{$item->rubro->nombre}} ({{$item->porcentaje*100}}%)
           </td>
-          <td>{{number_format($item->precio_servicio,2,'.', ',')}}</td>
+          <td>{{number_format($factura->pagoTotal,2,'.', ',')}}</td>
           <td></td>
           <td></td>
         </tr>
@@ -83,25 +87,26 @@ $factura= App\Factura::find($mid);
         <tr>
           <td colspan="3">           
               @if(($a+1)==1)
-              {{$factura->inmueble->contribuyente->nombre}}
+              {{$factura->negocio->nombre}}
               @endif
               @if(($a+1)==5)
               {{App\Factura::convertir((int)$sumat)}} y {{number_format($sumat-((int)$sumat),2,'.','.')*100}}/100 US DOLARES
               @endif
-              @if(($a+1)==7)
-              Factura correspodiente a: {{$factura->mesYear}}
-              @endif
               @if(($a+1)==9)
               {{App\Factura::personal('tesoreria')}}
               @endif
+              @if(($a+1)==7)
+              Factura correspodiente a: {{$factura->mesYear}}
+              @endif
               @if(($a+1)==12)
               {{App\Factura::personal('contabilidad')}}
-              @endif</td>
+              @endif
+            </td>
           @if($bandera)
           <td colspan="2">
           Fiestas ({{$factura->porcentajeFiestas}}%)
           </td>
-          <td>{{number_format($fiesta,2,'.', ',')}}</td>
+          <td>{{number_format($fiesta,2,'.', ',')}} </td>
           @else
           <td colspan="2" style="color:white">{{$a+1}}
           </td>
@@ -110,6 +115,7 @@ $factura= App\Factura::find($mid);
           <td></td>
           <td></td>
         </tr>
+
         @php
             $bandera=false;
         @endphp
@@ -124,7 +130,7 @@ $factura= App\Factura::find($mid);
       </tbody>
     </table>
   </div>
-  @if($key<(count($ids)-1))
+  @if($key<($facturas->count()-1))
   <div style="page-break-after:always;"></div>
   @endif
   @endforeach

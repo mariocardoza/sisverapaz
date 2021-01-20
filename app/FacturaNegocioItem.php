@@ -12,4 +12,8 @@ class FacturaNegocioItem extends Model
     {
         return $this->belongsTo('App\FacturaNegocio');
     }
+
+    public function rubro () {
+		return $this->belongsTo('App\Rubro','rubro_id');
+	}
 }

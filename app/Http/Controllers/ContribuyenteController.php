@@ -144,8 +144,9 @@ class ContribuyenteController extends Controller
         // Verificando las fechas del sistema
         $fechaActual = date('d');
         $mesYear = date('m/Y');
+        //$mesYear='02/2020';
   
-        if(($fechaActual >= 25 && $fechaActual <= 31)){
+        if(($fechaActual >= 1 && $fechaActual <= 31)){
   
           if(Factura::where('mesYear', $mesYear)->first() && FacturaNegocio::where('mesYear', $mesYear)->first()){
             return json_encode([
@@ -224,10 +225,11 @@ class ContribuyenteController extends Controller
                 $total2=0;
                 
                 $total2=$negocio->capital*$negocio->rubro->porcentaje;
-
+                
                 $factura2Array["pagoTotal"]=$total2;
                 $factura2Array["codigo"]=date("Yidisus");
-                $factura2Array['negocio_id'] = $value['id'];
+                $factura2Array['negocio_id'] = $negocio['id'];
+                
                 $factura2 = \App\FacturaNegocio::create($factura2Array);
                 $arrayFactura2Items = array(
                   'porcentaje'=>$negocio->rubro->porcentaje,
@@ -287,7 +289,7 @@ class ContribuyenteController extends Controller
 
       $facturas= Factura::where('mesYear',$mesYear)->get();
       // echo $facturas;
-      $unidad = "Unidad de Adquicisiones Institucionales";
+      $unidad = "Catastros";
 
       $pdf = \PDF::loadView('pdf.catastro.pdfpagos',compact('facturas','unidad'));
       // $pdf->setPaper('letter', 'portrait');
@@ -297,6 +299,23 @@ class ContribuyenteController extends Controller
     //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
       return $pdf->stream('reporte.pdf');
     }
+
+    public function verPagosNegociosGenerados(){
+      $mesYear = date('m/Y');
+
+      $facturas= FacturaNegocio::where('mesYear',$mesYear)->get();
+      // echo $facturas;
+      $unidad = "Catastros";
+
+      $pdf = \PDF::loadView('pdf.catastro.pdfpagosnegocios',compact('facturas','unidad'));
+      // $pdf->setPaper('letter', 'portrait');
+      $pdf->setPaper( [0, 0, 488.165,  323.56]);
+      // $pdf->render();
+      //$canvas = $pdf ->get_canvas();
+    //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
+      return $pdf->stream('reporte.pdf');
+    }
+
     public function verFacturasPendientes(Request $request){
       $ids= $request['cbid'];
 
