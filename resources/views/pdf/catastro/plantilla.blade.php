@@ -7,7 +7,7 @@
   
   <style>
     
-    @page { margin: 70px 20px 5px 30px }
+    @page { margin: 50px 20px 5px 30px }
     #content { top: -120px; bottom: auto;  }
     #header { position: fixed; top: -100px; }
     #footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 120px; text-align: center }

@@ -13,4 +13,9 @@ class Negocio extends Model {
 	public function rubro () {
 		return $this->belongsTo('App\Rubro');
 	}
+
+	public function mora()
+    {
+        return $this->hasOne('App\MoraNegocio');
+    }
 }

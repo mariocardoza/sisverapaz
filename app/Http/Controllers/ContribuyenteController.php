@@ -187,6 +187,9 @@ class ContribuyenteController extends Controller
               
               $este++;
               foreach ($inmueblesContribuyente as $value) {
+
+                //// calcular si aplica mora
+              Inmueble::aplicar_mora($value->id);
                 
                   $total = 0;
                   $arrayFacturaItems = array();

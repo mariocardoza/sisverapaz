@@ -4,7 +4,7 @@
 @php
       $items=$factura->items;
       $total=$items->sum('precio_servicio');
-      $fiesta=($factura->porcentajeFiestas/100)*$total;
+      $fiesta=($factura->porcentajeFiestas/100)*$total+$factura->inmueble->mora->mora;
       $sumat=$total+$fiesta;
       $array_meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 @endphp
@@ -74,12 +74,23 @@
           </td>
           <td colspan="2">
             {{$item->servicio($item->tipoinmueble_id)}}
+
           </td>
           <td>{{number_format($item->precio_servicio,2,'.', ',')}}</td>
           <td></td>
           <td></td>
         </tr>
+        
         @endforeach
+        @if($factura->inmueble->mora->mora>0)
+        <tr>
+          <td colspan="3"></td>
+          <td colspan="2">Mora e intereses ({{$factura->inmueble->mora->porcentaje}}%)</td>
+          <td>{{number_format($factura->inmueble->mora->mora,2)}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        @endif
         @php
             $bandera=true;
         @endphp
@@ -89,13 +100,13 @@
               @if(($a+1)==1)
               {{$factura->inmueble->contribuyente->nombre}}
               @endif
-              @if(($a+1)==5)
+              @if(($a+1)==6)
               {{App\Factura::convertir((int)$sumat)}} y {{number_format($sumat-((int)$sumat),2,'.','.')*100}}/100 US DOLARES
               @endif
               @if(($a+1)==9)
               {{App\Factura::personal('tesoreria')}}
               @endif
-              @if(($a+1)==7)
+              @if(($a+1)==8)
               Factura correspodiente a: {{$factura->mesYear}}
               @endif
               @if(($a+1)==12)
@@ -103,8 +114,9 @@
               @endif
             </td>
           @if($bandera)
+          
           <td colspan="2">
-          Fiestas ({{$factura->porcentajeFiestas}}%)
+          Fiestas patronales ({{$factura->porcentajeFiestas}}%)
           </td>
           <td>{{number_format($fiesta,2,'.', ',')}} </td>
           @else
