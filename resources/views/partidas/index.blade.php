@@ -14,14 +14,21 @@
 <div class="box">
     <div class="box-header">
         <div class="box-title">
-            <h3>Nuevo registro</h3>
-            <a href="javascript:void(0)" class="btn btn-success new_partida"><i class="fa fa-plus"></i> Nueva</a>
+            <h3></h3>
+            <a href="javascript:void(0)" class="btn btn-success new_partida pull-right"><i class="fa fa-plus"></i> Nueva</a>
+            <div class="btn-group">
+                <a href="{{url('ingresos?n=0')}}" class="btn btn-primary">Cobros inmuebles</a>
+                <a href="{{url('ingresos?n=1')}}" class="btn btn-primary">Cobros negocios</a>
+                <a href="{{ url('partidas') }}" class="btn btn-primary">Partidas <span class="label label-danger">{{\App\Partida::whereEstado(1)->count()}}</span></a>
+                <a href="{{url('construcciones/recibos')}}" class="btn btn-primary">Construcciones <span class="label label-danger">{{\App\Construccion::whereEstado(3)->count()}}</span></a>
+                <a href="{{url('perpetuidad/recibos')}}" class="btn btn-primary">Titulos a perpetuidad <span class="label label-danger">{{\App\Perpetuidad::whereEstado(1)->count()}}</span></a>
+            </div>
         </div>
     </div>
     <div class="box-body">
         <div class="row">
             <div class="col-sm-12">
-                <table class="table">
+                <table class="table" id="example2">
                     <thead>
                         <tr>
                             <th>N°</th>

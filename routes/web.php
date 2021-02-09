@@ -343,6 +343,7 @@ Route::post('verpagosnegociosgenerados','ContribuyenteController@verPagosNegocio
 Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');;
 
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
+Route::get('contribuyentes/recibosn/{id}','ContribuyenteController@recibosn');
 Route::Resource('contribuyentes','ContribuyenteController');
 
 Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');

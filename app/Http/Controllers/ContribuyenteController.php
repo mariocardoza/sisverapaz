@@ -60,6 +60,7 @@ class ContribuyenteController extends Controller
                     'telefono'=>$request->telefono,
                     'nacimiento'=>\invertir_fecha($request->nacimiento),
                     'direccion'=>$request->direccion,
+                    'numero_cuenta' => Contribuyente::count() == 0 ? 'CT' . sprintf('%05d', 1) : 'CT' . sprintf('%05d', Contribuyente::get()->last()->id + 1),
                 ]);
                 bitacora('Registro un contribuyente');
               return array(1,"exito",$contribuyente);
@@ -188,7 +189,7 @@ class ContribuyenteController extends Controller
               $este++;
               foreach ($inmueblesContribuyente as $value) {
 
-                //// calcular si aplica mora
+              //// calcular si aplica mora al inmueble
               Inmueble::aplicar_mora($value->id);
                 
                   $total = 0;
@@ -225,6 +226,9 @@ class ContribuyenteController extends Controller
               //dd($negociosContribuyente[0]->rubro);
 
               foreach($negociosContribuyente as $negocio){
+
+              /// calcular si aplica mora al inmueble
+              Negocio::aplicar_mora($negocio->id);
                 $total2=0;
                 
                 $total2=$negocio->capital*$negocio->rubro->porcentaje;
@@ -331,5 +335,11 @@ class ContribuyenteController extends Controller
       //$canvas = $pdf ->get_canvas();
     //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
       return $pdf->stream('reporte.pdf');
+    }
+
+    public function recibosn($id)
+    {
+      $negocio = Negocio::find($id);
+      return view('contribuyentes.recibosn',compact('negocio'));
     }
 }

@@ -190,7 +190,7 @@
                                   <i class="fa fa-thumbs-o-up"></i>
                                 </button>
                                 @endif
-                                
+                                <a href="{{ url('contribuyentes/recibosn/'.$n->id) }}" class="btn btn-success"><i class="fa fa-print"></i></a>
                               </div>
                             </td>
                           </tr>

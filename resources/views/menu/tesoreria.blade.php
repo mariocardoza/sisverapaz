@@ -1,14 +1,7 @@
 <li class="treeview {{ Route::currentRouteName() == 'cuentas.index' ? 'active':null}}">
-    <a href="#">
+    <a href="{{ url('cuentas') }}">
         <i class="fa fa-edit"></i> <span>Cuentas</span>
-        <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
     </a>
-    <ul class="treeview-menu">
-        <li><a href="{{ url('cuentas') }}"><i class="fa fa-circle-o"></i> Listado de cuentas</a></li>
-        
-    </ul>
 </li>
 
 <li class="treeview {{ Route::currentRouteName() == 'ingresos.index' ? 'active':null}}">
