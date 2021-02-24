@@ -31,7 +31,7 @@
                                     <th>Acciones</th>
                                 </thead>
                                 <tbody>
-                                    @foreach ($tipoServicio as $index => $item)
+                                    @foreach ($tipoServicios as $index => $item)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $item->nombre }}</td>
@@ -49,4 +49,28 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script>
+    $(function(){
+        cargar_servicios();
+    });
+
+    function cargar_servicios(){
+        $.ajax({
+            url:'/tiposervicios',
+            dataType:'json',
+            type:'get',
+            success: function(json){
+                if(json[0]==1){
+                    $("#example2").empty();
+                    $("#example2").html(json[2]);
+                }
+            },
+            error: function(error){
+
+            }
+        })
+    }
+</script>
 @endsection

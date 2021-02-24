@@ -9,11 +9,12 @@ use App\Http\Requests\TiposervicioRequest;
 
 class TipoServicioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+      if($request->ajax()):
         $servicios=TipoServicio::select('id', 'nombre', 'costo', 'estado', 'isObligatorio')->get();
         $html='';
-      foreach($servicios as $i => $r){
+        foreach($servicios as $i => $r){
         $html.='<tr>
           <td>'.($i+1).'</td>
           <td><span class="spanver'.$i.'">'.$r->nombre.'</span><input style="display:none;" class="form-control nombre_ser'.$i.' spannover'.$i.'" type="text" value="'.$r->nombre.'"></td>
@@ -54,6 +55,10 @@ class TipoServicioController extends Controller
         </tr>';
       }
       return array(1,"exito",$html);
+    else:
+      $tipoServicios = TipoServicio::all();
+      return view('tiposervicios.index',compact('tipoServicios'));
+    endif;
     }
 
     public function show(TipoServicio $tipoServicio)
