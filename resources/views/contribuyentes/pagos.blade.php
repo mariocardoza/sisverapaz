@@ -57,7 +57,7 @@
                     <tr>
                       <th class="text-center"># Catastral</th>
                       <th class="text-center"># Escritura</th>
-                      <th class="text-center">Medida (Ancho x largo</th>
+                      <th class="text-center">Medida (Ancho x largo)</th>
                       <th class="text-center">Metro Acera</th>
                       <th class="text-center">Estado</th>
                       <th class="text-center"></th>

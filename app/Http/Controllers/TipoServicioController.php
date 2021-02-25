@@ -6,6 +6,7 @@ use App\Http\Requests\TipocontratoRequest;
 use Illuminate\Http\Request;
 use App\Tiposervicio;
 use App\Http\Requests\TiposervicioRequest;
+use Validator;
 
 class TipoServicioController extends Controller
 {
@@ -54,16 +55,16 @@ class TipoServicioController extends Controller
           </td>
         </tr>';
       }
-      return array(1,"exito",$html);
+      return array(1,"éxito",$html);
     else:
       $tipoServicios = TipoServicio::all();
       return view('tiposervicios.index',compact('tipoServicios'));
     endif;
     }
 
-    public function show(TipoServicio $tipoServicio)
+    public function create()
     {
-        return $tipoServicio;
+      return view('tipoServicios.create');
     }
 
     /* Nuevo Servicio */
@@ -81,14 +82,21 @@ class TipoServicioController extends Controller
         return array(
           "response"  => true,
           "data"      => $tipo,
-          "message"   => 'Hemos agregado con exito al nuevo servicio',
+          "message"   => 'Hemos agregado con éxito al nuevo servicio',
         );
       }else{
         return array(
           "response"  => false,
-          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+          "message"   => 'Tenemos problema con el servidor por le momento. Intenta más tarde'
         );
       }
+    }
+
+    protected function validar(array $data)
+    {
+      return Validator::make($data, [
+        'nombre' => 'required|unique:tiposervicios',
+      ]);
     }
 
     /* Editar Servicio */
@@ -102,13 +110,13 @@ class TipoServicioController extends Controller
       
       if($tipo->save()) {
         return array(
-          "message"   => 'Hemos actualizado con exito la informacion',
+          "message"   => 'Hemos actualizado con éxito la información',
           "data"      => Tiposervicio::find($id),
           "ok"        => true
         );
       }else{
         return array(
-          "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "message"   => 'Tenemos problema con el servidor por le momento. Intenta más tarde',
           "ok"  => false
         );
       }
@@ -122,15 +130,40 @@ class TipoServicioController extends Controller
       
       if($tipo->save()) {
         return array(
-          "message"         => 'Hemos actualizado con exito el estado',
+          "message"         => 'Hemos actualizado con éxito el estado',
           "ok"  => true
         );
       }else{
         return array(
-          "message"         => 'Tenemos problema con el servidor por le momento. intenta mas tarde',
+          "message"         => 'Tenemos problema con el servidor por le momento. Intenta más tarde',
           "ok"  => false
         );
       }
+    }
+
+    public function baja($cadena)
+    {
+      $datos = explode("+", $cadena);
+      $id = $datos[0];
+      $motivo = $datos[1];
+      $tiposervicio = TipoServicio::find($id);
+      $tiposervicio->estado = 2;
+      $tiposervicio->motivo = $motivo;
+      $tiposervicio->fechabaja = date('Y-m-d');
+      $tiposervicio->save();
+      bitacora('Registro dado de baja');
+      return redirect('/tiposervicios')->with('mensaje','Registro dado de baja');
+    }
+
+    public function alta($id)
+    {
+      $tiposervicio = TipoServicio::find($id);
+      $tiposervicio->estado = 1;
+      $tiposervicio->motivo = null;
+      $tiposervicio->fechabaja = null;
+      $tiposervicio->save();
+      bitacora('Registro dado de alta');
+      return redirect('/tiposervicios')->with('mensaje','Registro dado de alta');
     }
 }
 

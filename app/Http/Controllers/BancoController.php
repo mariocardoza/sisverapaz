@@ -116,7 +116,7 @@ class BancoController extends Controller
         $banco->motivo=$motivo;
         $banco->fechabaja=date('Y-m-d');
         $banco->save();
-        bitacora('Dió de baja a un banco');
+        bitacora('Registro dado de baja');
         return redirect('/bancos')->with('mensaje','Banco dado de baja');
 
     }
@@ -127,7 +127,7 @@ class BancoController extends Controller
         $banco->motivo=null;
         $banco->fechabaja=null;
         $banco->save();
-        bitacora('Dió de alta a un registro');
+        bitacora('Registro dado de alta');
         return redirect('/bancos')->with('mensaje','Registro dado de alta');
     }
 }

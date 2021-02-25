@@ -351,6 +351,7 @@ Route::get('perpetuidad/recibos','PerpetuidadController@recibos');
 Route::Resource('perpetuidad','PerpetuidadController');
 
 Route::Resource('tiposervicios','TipoServicioController');
+
 /*Route::post('impuestos/baja/{id}','impuestoController@baja')->name('impuestos.baja');
 Route::post('impuestos/alta/{id}','ImpuestoController@alta')->name('impuestos.alta');
 Route::Resource('impuestos','ImpuestoController');*/

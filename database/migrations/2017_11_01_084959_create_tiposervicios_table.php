@@ -16,6 +16,8 @@ class CreateTiposerviciosTable extends Migration
         Schema::create('tiposervicios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
+            $table->string('motivo')->nullable();
+            $table->date('fechabaja')->nullable();
             $table->timestamps();
         });
     }
