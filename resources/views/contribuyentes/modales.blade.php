@@ -171,7 +171,7 @@
                 <div class="col-md-12">
                   <input type="hidden" name="lat" id="lat">
                   <input type="hidden" name="lng" id="lng">
-                  <input type="hidden" name="contribuyente_id" value="{{$c->id}}">
+                  <input type="hidden" name="contribuyente_id" value="{{empty($c)  ? '' : $c->id}}">
 
                   <div class="form-group">
                     <label for="" class="control-label">Dirección</label>
@@ -235,7 +235,7 @@
                 <div class="col-md-12">
                   <input type="hidden" name="lat" id="latnegocio">
                   <input type="hidden" name="lng" id="lngnegocio">
-                  <input type="hidden" name="contribuyente_id" value="{{$c->id}}">
+                  <input type="hidden" name="contribuyente_id" value="{{empty($c) ? '' : $c->id}}">
                 </div>
                 <div class="col-md-12">
                   <div id="elmapitanegocio" style="height:350px;"></div>
