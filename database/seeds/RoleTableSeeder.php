@@ -87,6 +87,98 @@ class RoleTableSeeder extends Seeder
             $user->password=bcrypt('sisadmin');
             $user->save();
 
+            $ru=new RoleUser();
+            $ru->role_id=1;
+            $ru->user_id=$user->id;
+            $ru->save();
+
+            /* catastro */
+            $emple=new Empleado();
+            $emple->nombre="Catastro";
+            $emple->dui='111111111-1';
+            $emple->nit='1111-111111-111-1';
+            $emple->sexo='No definido';
+            $emple->email='catastro@catastro.com';
+            $emple->celular='1111-1111';
+            $emple->direccion='Verapaz, San Vicente';
+            $emple->fecha_nacimiento='1990-01-01';
+            $emple->save();
+
+            $unidad=new Unidad();
+            $unidad->nombre_unidad='Registro y Control Tributario';
+            $unidad->save();
+
+            $user=new User();
+            $user->empleado_id=$emple->id;
+            $user->username='catastro';
+            $user->email=$emple->email;
+            $user->unidad_id=$unidad->id;
+            $user->password=bcrypt('awesome');
+            $user->save();
+
+            $ru=new RoleUser();
+            $ru->role_id=4;
+            $ru->user_id=$user->id;
+            $ru->save();
+
+            /* tesoreria */
+            $emple=new Empleado();
+            $emple->nombre="Catastro";
+            $emple->dui='22222222-2';
+            $emple->nit='2222-222222-222-2';
+            $emple->sexo='No definido';
+            $emple->email='tesoreria@tesoreria.com';
+            $emple->celular='2222-1111';
+            $emple->direccion='Verapaz, San Vicente';
+            $emple->fecha_nacimiento='1990-01-01';
+            $emple->save();
+
+            $unidad=new Unidad();
+            $unidad->nombre_unidad='Tesorería';
+            $unidad->save();
+
+            $user=new User();
+            $user->empleado_id=$emple->id;
+            $user->username='tesoreria';
+            $user->email=$emple->email;
+            $user->unidad_id=$unidad->id;
+            $user->password=bcrypt('awesome');
+            $user->save();
+            
+            $ru=new RoleUser();
+            $ru->role_id=3;
+            $ru->user_id=$user->id;
+            $ru->save();
+
+            /* uaci */
+            $emple=new Empleado();
+            $emple->nombre="Uaci";
+            $emple->dui='32222222-2';
+            $emple->nit='3322-222222-222-2';
+            $emple->sexo='No definido';
+            $emple->email='uaci@uaci.com';
+            $emple->celular='3222-1111';
+            $emple->direccion='Verapaz, San Vicente';
+            $emple->fecha_nacimiento='1990-01-01';
+            $emple->save();
+
+            $unidad=new Unidad();
+            $unidad->nombre_unidad='Unidad de Adquisiciones y Contrataciones Institucionales';
+            $unidad->save();
+
+            $user=new User();
+            $user->empleado_id=$emple->id;
+            $user->username='uaci';
+            $user->email=$emple->email;
+            $user->unidad_id=$unidad->id;
+            $user->password=bcrypt('awesome');
+            $user->save();
+            
+            $ru=new RoleUser();
+            $ru->role_id=2;
+            $ru->user_id=$user->id;
+            $ru->save();
+
             $bitacora=new Bitacora();
             $bitacora->accion='Se creó por primera vez el usuario administrador';
             $bitacora->hora=date("H:i:s");
@@ -94,10 +186,7 @@ class RoleTableSeeder extends Seeder
             $bitacora->user_id=$user->id;
             $bitacora->save();
 
-            $ru=new RoleUser();
-            $ru->role_id=1;
-            $ru->user_id=$user->id;
-            $ru->save();
+            
         }
     }
 

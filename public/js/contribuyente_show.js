@@ -155,6 +155,17 @@ $(function(e){
       $("#modal_mapainmueble").modal("show");
     });
 
+    //mapa negocio
+    $(document).on("click","#mapa_negocio",function(e){
+      e.preventDefault();
+      var lalat=parseFloat($(this).attr("data-lat"));
+      var lalng=parseFloat($(this).attr("data-lng"));
+      var id=$(this).attr('data-id');
+      $("#elidnegocio").val(id);
+      initMapNegocio(lalat,lalng);
+      $("#modal_mapanegocio").modal("show");
+    });
+
     //modal nuevo inmueble
     $(document).on("click","#nuevo_inmueble",function(e){
       e.preventDefault();
@@ -447,6 +458,51 @@ $(function(e){
 				var lat = this.getPosition().lat();
 				var lng = this.getPosition().lng();
 			
+			});
+		}
+
+    //mapa negocio
+    function initMapNegocio(lalat,lalng) {
+			console.log(lalat,lalng);
+			var map;
+			
+			map = new google.maps.Map(document.getElementById('elmapanegocio'), {
+			center: {lat: lalat, lng: lalng},
+			zoom: 15,   
+			});
+
+			marker = new google.maps.Marker({
+				position: {lat: lalat, lng: lalng},
+				map: map,
+				title: 'Inmueble',
+				draggable: true,
+			});
+
+			marker.addListener('click', toggleBounce);
+			
+
+			marker.addListener( 'dragend', function (event)
+			{
+				//escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
+				var lat = this.getPosition().lat();
+				var lng = this.getPosition().lng();
+        var id= $("#elidnegocio").val();
+        $.ajax({
+          url:'/negocios/ubicacion',
+          type:'post',
+          dataType:'json',
+          data:{lat,lng,id},
+          success: function(json){
+            if(json[0]==1){
+                toastr.success("Ubicación del negocio actualizada con éxito");
+                location.reload();
+            }else{
+              toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
+            }
+        },error: function(e){
+          toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
+        }
+        })
 			});
 		}
 

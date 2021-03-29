@@ -360,6 +360,7 @@ Route::post('rubros/baja/{id}','RubroController@baja')->name('rubros.baja');
 Route::post('rubros/alta/{id}','RubroController@alta')->name('rubros.alta');
 Route::Resource('rubros','RubroController');
 
+Route::post('negocios/ubicacion','NegocioController@ubicacion');
 Route::Resource('negocios','NegocioController');
 Route::post('alumbrado/reparar','AlumbradoController@reparar');
 Route::get('alumbrado/reparadas','AlumbradoController@reparadas');

@@ -34,7 +34,6 @@ class EmpleadoRequest extends FormRequest
             'fecha_nacimiento' => 'required|date',
             'sexo'=>'required',
             'celular' => 'required|min:9|unique:empleados',
-            'telefono_fijo' => 'min:9|unique:empleados'
         ];
     }
 }

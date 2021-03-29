@@ -98,6 +98,19 @@ class NegocioController extends Controller
         return view('negocios.show', compact('negocio'));
     }
 
+    public function ubicacion(Request $request)
+    {
+      try{
+        $negocio=Negocio::find($request->id);
+        $negocio->lat = $request->lat;
+        $negocio->lat = $request->lng;
+        $negocio->save();
+        return array(1);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -152,6 +152,7 @@
                             <th class="text-center">Capital</th>
                             <th class="text-center">Porcentaje</th>              
                             <th class="text-center">Cobro</th>
+                            <th class="text-center"></th>
                             <th class="text-center">Estado</th>
                             <th class="text-center"></th>
                           </tr>
@@ -165,6 +166,9 @@
                             <td class="text-center">${{number_format($n->capital,2)}}</td>
                             <td class="text-center">{{number_format(($n->rubro->porcentaje*100),2)}}% </td>
                             <td class="text-center">${{number_format($n->capital*$n->rubro->porcentaje,2)}}</td>
+                            <td class="text-center">
+                              <button data-lat="{{$n->lat}}" data-lng="{{$n->lng}}" data-id="{{$n->id}}" id="mapa_negocio" class="btn btn-primary">Ver Ubicación</button>
+                            </td>
                             <td class="text-center">
                                 @if($n->estado==1)
                                 <span class="label label-success">
