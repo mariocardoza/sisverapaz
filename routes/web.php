@@ -356,9 +356,10 @@ Route::Resource('tiposervicios','TipoServicioController');
 Route::post('impuestos/alta/{id}','ImpuestoController@alta')->name('impuestos.alta');
 Route::Resource('impuestos','ImpuestoController');*/
 
+
+Route::Resource('rubros','RubroController');
 Route::post('rubros/baja/{id}','RubroController@baja')->name('rubros.baja');
 Route::post('rubros/alta/{id}','RubroController@alta')->name('rubros.alta');
-Route::Resource('rubros','RubroController');
 
 Route::post('negocios/ubicacion','NegocioController@ubicacion');
 Route::Resource('negocios','NegocioController');

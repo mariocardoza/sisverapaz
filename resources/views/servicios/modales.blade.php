@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                          <label class="control-label">Nombre del servicio</label>
+                          <label class="control-label">Proveedor del servicio</label>
                           <div class="">
                               {{ Form::text('nombre', null,['placeholder'=>'Ej. Delsur','class' => 'form-control','autocomplete'=>'off','required']) }}
                           </div>       

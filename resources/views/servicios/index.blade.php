@@ -101,7 +101,7 @@ $(document).ready(function(e){
       var id=$(this).attr("data-id");
       swal({
         title: '¿Está seguro de realizar esta operación?',
-        text: "Se eliminará el servicio",
+        text: "Se cancelará el servicio",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
