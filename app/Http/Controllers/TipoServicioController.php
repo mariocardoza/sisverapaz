@@ -57,7 +57,8 @@ class TipoServicioController extends Controller
       }
       return array(1,"éxito",$html);
     else:
-      $tipoServicios = TipoServicio::all();
+      $estado = $request->estado==2 ? 2 : 1;
+      $tipoServicios = TipoServicio::whereEstado($estado)->get();
       return view('tiposervicios.index',compact('tipoServicios'));
     endif;
     }
