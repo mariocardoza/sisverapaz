@@ -97,7 +97,7 @@
                                 <td class="text-center"><span class="label label-success">{{$i->numero_escritura}}</span></td>
                                 <td class="text-center">{{number_format($i->metros_acera,2)}}</td>
                                 <td class="text-center">
-                                  <button data-lat="{{$i->latitude}}" data-lng="{{$i->longitude}}" id="mapa_inmueble" class="btn btn-primary">Ver Ubicación</button>
+                                  <button data-lat="{{$i->latitude}}" data-id="{{$i->id}}" data-lng="{{$i->longitude}}" id="mapa_inmueble" class="btn btn-primary">Ver Ubicación</button>
                                 </td>
                                 <td class="text-center">
                                   @if($i->estado==1)

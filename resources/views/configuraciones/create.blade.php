@@ -147,7 +147,7 @@
                         <div class="row">
                           @foreach($porcentajes as $p)
                           <div class="col-md-3">
-                            <label for="" class="control-label">% {{$p->nombre}}</label>
+                            <label for="" class="control-label"> {{$p->nombre}}</label>
                             <div class="input-group">
                               <input type="number" min="0" value="{{$p->porcentaje}}"  name="porcentaje" class="form-control {{$p->nombre_simple}}">
                               <span class="input-group-btn">

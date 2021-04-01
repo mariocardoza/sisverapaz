@@ -47,7 +47,7 @@
                                 <div class="btn-group">
                                     <a href="{{url('contribuyentes/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                                     <a href="{{ url('contribuyentes/pagos/'.$c->id) }}" class="btn btn-success"><i class="fa fa-money"></i></a>
-                                    <button class="btn btn-info ver_mis_inmuebles" data-id="{{$c->id}}"><i class="fa fa-money"></i></button>
+                                    <button class="btn btn-info ver_mis_inmuebles" data-id="{{$c->id}}"><i class="fa fa-credit-card"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -264,11 +264,12 @@
             var fila=$(this).attr("data-fila");
             var nombre=$(".nombre_ser"+fila).val();
             var costo=$(".costo_ser"+fila).val();
+            var isObligatorio=$(".obligatorio_ser"+fila).val();
             $.ajax({
                 url:'tiposervicios/'+id,
                 type:'put',
                 dataType:'json',
-                data:{nombre,costo},
+                data:{nombre,costo,isObligatorio},
                 success: function(json){
                     if(json.ok==true){
                         toastr.success("servicio modificado con éxito");

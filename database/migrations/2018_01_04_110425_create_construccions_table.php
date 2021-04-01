@@ -18,9 +18,15 @@ class CreateConstruccionsTable extends Migration
             $table->bigInteger('contribuyente_id')->unsigned();
             $table->string('direccion_construccion');
             $table->double('presupuesto',8,2);
-            $table->bigInteger('impuesto_id')->unsigned();
+            $table->unsignedInteger('estado')->default(1);
+            $table->double('fiestas',8,2);
+            $table->double('impuesto',8,2);
+            $table->double('total',8,2);
+            $table->date('fecha_pago')->nullable();
+            $table->bigInteger('inmueble_id')->unsigned();
+            $table->string('detalle')->nullable();
             $table->foreign('contribuyente_id')->references('id')->on('contribuyentes');
-            $table->foreign('impuesto_id')->references('id')->on('impuestos');
+            $table->foreign('inmueble_id')->references('id')->on('inmuebles');
             $table->timestamps();
         });
     }

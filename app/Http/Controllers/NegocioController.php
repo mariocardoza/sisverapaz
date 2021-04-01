@@ -66,7 +66,8 @@ class NegocioController extends Controller
             'direccion'         => $parameters['direccion'],
             'rubro_id'          => $parameters['rubro_id'],
             'lat'               => $parameters['lat'],
-            'lng'               => $parameters['lng']
+            'lng'               => $parameters['lng'],
+            'numero_cuenta'     => 'NG' . strtotime(date('Y-m-d h:m:s'))
         ]);
 
         if($negocios) {
@@ -103,7 +104,7 @@ class NegocioController extends Controller
       try{
         $negocio=Negocio::find($request->id);
         $negocio->lat = $request->lat;
-        $negocio->lat = $request->lng;
+        $negocio->lng = $request->lng;
         $negocio->save();
         return array(1);
       }catch(Exception $e){

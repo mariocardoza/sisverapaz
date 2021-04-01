@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FacturaNegocio extends Model
 {
     protected $guarded = [];
-    protected $dates=['fechaVecimiento'];
+    protected $dates=['fechaVencimiento'];
     
     public function negocio()
     {

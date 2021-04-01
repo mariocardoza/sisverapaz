@@ -337,10 +337,14 @@ Route::get('categoriaempleados/listarempleados/{id}','CategoriaEmpleadoControlle
 Route::post('contribuyentes/baja/{id}','ContribuyenteController@baja')->name('contribuyentes.baja');
 Route::post('contribuyentes/alta/{id}','ContribuyenteController@alta')->name('contribuyentes.alta');
 Route::get('contribuyentes/pagos/{id}','ContribuyenteController@pagos');
+Route::get('contribuyentes/verpagos/{id}','ContribuyenteController@verpagos');
+Route::get('contribuyentes/verpagosn/{id}','ContribuyenteController@verpagosn');
 Route::post('contribuyentes/generarpagos','ContribuyenteController@generarPagosContribuyente');
 Route::post('verpagosgenerados','ContribuyenteController@verPagosGenerados')->name('verpagosgenerados');
 Route::post('verpagosnegociosgenerados','ContribuyenteController@verPagosNegociosGenerados')->name('verpagosnegociosgenerados');
-Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');;
+Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');
+Route::get('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');
+Route::get('verfacturaspendientesn','ContribuyenteController@verFacturasPendientesn')->name('verfacturaspendientesn');
 
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::get('contribuyentes/recibosn/{id}','ContribuyenteController@recibosn');
@@ -373,6 +377,7 @@ Route::post('inmuebles/agregarimpuesto', 'InmuebleController@addTipoServicioInmu
 Route::get('inmuebles/impuestos/{id}','InmuebleController@impuestos_inmueble');
 Route::get('inmuebles/buscarinmuebles','InmuebleController@buscarInmueble');
 Route::get('inmuebles/buscarfacturas','InmuebleController@buscarFactura');
+Route::post('inmuebles/ubicacion','InmuebleController@ubicacion');
 
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
 Route::Resource('inmueble','InmuebleController');
@@ -553,3 +558,6 @@ Route::get('reporte', 'ReportesUaciController@reportePDF');
 
 // Routas para el cementerio
 Route::Resource("/cementerios", "CementerioController");
+
+
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

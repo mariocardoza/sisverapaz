@@ -48,10 +48,10 @@
             </div>
           </div>
       </div>
-
-      <div class="row" style="clear:both;padding-top:30px;">
+      <h4 class="text-center">Inmuebles</h4>
+      <div class="row" style="clear:both;padding-top:10px;">
         <div class="active tab-pane" id="inmuebles" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
-            <div class="col-xs-12 table-responsive" style="padding-top: 30px;">
+            <div class="col-xs-12 table-responsive" style="padding-top: 10px;">
                 <table class="table no-margin">
                   <thead>
                     <tr>
@@ -84,9 +84,59 @@
                         <td class="text-center">
                           <div class="btn-group text-align">
                             
-                            <button class="btn btn-success ver pagos" data-id="{{$i->id}}">
+                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagos/'.$i->id)}}" data-id="{{$i->id}}">
                               <i class="fa fa-fw fa-dollar"></i>
-                            </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    @empty
+                      <tr>
+                          <td colspan="5"><p>No hay registros</p></td>
+                      </tr>
+                    @endforelse
+                  </tbody>
+                </table>
+              </div>
+        </div>
+      </div>
+      <h4 class="text-center">Negocios</h4>
+      <div class="row" style="clear:both;padding-top:10px;">
+        <div class="active tab-pane" id="inmuebles" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
+            <div class="col-xs-12 table-responsive" style="padding-top: 10px;">
+                <table class="table no-margin">
+                  <thead>
+                    <tr>
+                      <th class="text-center">Nombre del negocio</th>
+                      <th class="text-center">Rubro</th>
+                      <th class="text-center">Capital</th>
+                      <th class="text-center">Estado</th>
+                      <th class="text-center"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @forelse ($c->negocios as $n)
+                    <tr>
+                      <td class="text-center">{{$n->nombre}}</td>              
+                      <td class="text-center"><span class="label label-success">{{$n->rubro->nombre}}</span></td>
+                      <td class="text-center">${{number_format($n->capital,2)}}</td>
+                      <td class="text-center">
+                          @if($i->estado==1)
+                          <span class="label label-success">
+                            Activo
+                          </span>
+                          @else 
+                          <span class="label label-danger">
+                            Inactivo
+                          </span>
+                          @endif
+                        </td>
+                        <td class="text-center">
+                          <div class="btn-group text-align">
+                            
+                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagosn/'.$i->id)}}" data-id="{{$i->id}}">
+                              <i class="fa fa-fw fa-dollar"></i>
+                            </a>
                           </div>
                         </td>
                       </tr>
@@ -106,7 +156,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{asset('js/contribuyente_show.js?cod='.date("Yidisus"))}}"></script>
+
 <script>
   
   var elid='<?php echo $c->id ?>'

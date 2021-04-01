@@ -1,19 +1,20 @@
 @extends('pdf.catastro.plantilla')
 @section('reporte')
-  @foreach($facturas as $key => $factura)
+  @foreach($ids as $key => $mid)
 @php
-      $items=$factura->items;
-      $total=$items->sum('precio_servicio');
-      $fiesta=($factura->porcentajeFiestas/100)*$total;
-      $sumat=$total+$fiesta+$factura->mora;
-      $array_meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+$factura= App\FacturaNegocio::find($mid);
+    $items=$factura->items;
+    $total=$factura->subTotal+$factura->mora;
+    $fiesta=($factura->porcentajeFiestas/100)*($factura->subTotal);
+    $sumat=$total+$fiesta;
+    $array_meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 @endphp
 <style>
   .table-simple th,.table-simple td{
   border: 1px white solid;
 }
 </style>
-  <div id="content">
+<div id="content">
     <table class="table-simple" width="100%" rules=all>
       <tbody>
         <tr>
@@ -54,7 +55,7 @@
         <tr>
           <td colspan="3">
             @if(($i+1)==1)
-            {{$factura->inmueble->contribuyente->nombre}}
+            {{$factura->negocio->nombre}}
             @endif
             @if(($i+1)==5)
            
@@ -73,24 +74,22 @@
             @endif
           </td>
           <td colspan="2">
-            {{$item->servicio($item->tipoinmueble_id)}}
-
+            {{$item->rubro->nombre}} ({{$item->porcentaje*100}}%)
           </td>
-          <td>{{number_format($item->precio_servicio,2,'.', ',')}}</td>
+          <td>{{number_format($factura->subTotal,2,'.', ',')}}</td>
           <td></td>
           <td></td>
         </tr>
-        
-        @endforeach
         @if($factura->mora>0)
         <tr>
           <td colspan="3"></td>
-          <td colspan="2">Mora e intereses</td>
+          <td colspan="2">Mora en intereses</td>
           <td>{{number_format($factura->mora,2)}}</td>
           <td></td>
           <td></td>
         </tr>
         @endif
+        @endforeach
         @php
             $bandera=true;
         @endphp
@@ -98,15 +97,15 @@
         <tr>
           <td colspan="3">           
               @if(($a+1)==1)
-              {{$factura->inmueble->contribuyente->nombre}}
+              {{$factura->negocio->nombre}}
               @endif
-              @if(($a+1)==6)
+              @if(($a+1)==5)
               {{App\Factura::convertir((int)$sumat)}} y {{number_format($sumat-((int)$sumat),2,'.','.')*100}}/100 US DOLARES
               @endif
               @if(($a+1)==9)
               {{App\Factura::personal('tesoreria')}}
               @endif
-              @if(($a+1)==8)
+              @if(($a+1)==7)
               Factura correspodiente a: {{$factura->mesYear}}
               @endif
               @if(($a+1)==12)
@@ -114,9 +113,8 @@
               @endif
             </td>
           @if($bandera)
-          
           <td colspan="2">
-          Fiestas patronales ({{$factura->porcentajeFiestas}}%)
+          Fiestas ({{$factura->porcentajeFiestas}}%)
           </td>
           <td>{{number_format($fiesta,2,'.', ',')}} </td>
           @else
@@ -142,7 +140,7 @@
       </tbody>
     </table>
   </div>
-  @if($key<($facturas->count()-1))
+  @if($key<(count($ids)-1))
   <div style="page-break-after:always;"></div>
   @endif
   @endforeach

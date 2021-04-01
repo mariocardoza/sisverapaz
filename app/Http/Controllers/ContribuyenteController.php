@@ -140,6 +140,18 @@ class ContribuyenteController extends Controller
         return view('contribuyentes.pagos',\compact('c'));
     }
 
+    public function verpagos($id)
+    {
+        $inmueble=Inmueble::findorFail($id);
+        return view('contribuyentes.verpagos',\compact('inmueble'));
+    }
+
+    public function verpagosn($id)
+    {
+        $negocio=Negocio::findorFail($id);
+        return view('contribuyentes.verpagosn',\compact('negocio'));
+    }
+
     /* Generar pagos del contribuyente por sus inmuebles */
     public function generarPagosContribuyente(Request $request, Response $response) {
         // Verificando las fechas del sistema
@@ -158,12 +170,15 @@ class ContribuyenteController extends Controller
   
           $factura= null;
           $elmes=intVal(date("m"));
+          if($elmes==12){
+            $elmes=0;
+          }
           $elmes++;
           $venci=date("Y")."-".$elmes."-28";
           $facturaArray = array(
             'mueble_id'             => 0,
             'mesYear'               => date('m/Y'),
-            'fechaVecimiento'       => $venci,
+            'fechaVencimiento'       => $venci,
             'pagoTotal'             => 0.00,
             'porcentajeFiestas'     => DB::table('porcentajes')->where('nombre_simple','fiestas')->get()->first()->porcentaje
           );
@@ -190,7 +205,7 @@ class ContribuyenteController extends Controller
               foreach ($inmueblesContribuyente as $value) {
 
               //// calcular si aplica mora al inmueble
-              Inmueble::aplicar_mora($value->id);
+              //Inmueble::aplicar_mora($value->id);
                 
                   $total = 0;
                   $arrayFacturaItems = array();
@@ -209,12 +224,20 @@ class ContribuyenteController extends Controller
                         //$arra[]=$item->pivot;
                       $total += $precio;
                     }
-                    $facturaArray["pagoTotal"]=$total;
-                    $facturaArray["codigo"]=date("Yidisus");
+                    $subt=0;
+                    $subt=$this->getMora($value->id) + $total; 
+                    $facturaArray["pagoTotal"]=$subt;
+                    $facturaArray["subTotal"]=$total;
+                    $facturaArray["mora"]=$this->getMora($value->id);
+                    $facturaArray["codigo"]=rand(1000000000,9999999999);
                     $factura = Factura::create($facturaArray);
                     
                      $factura->items()->saveMany($arrayFacturaItems);
+                     //aplicar mora
+                     //Inmueble::aplicar_mora($factura->id);
                   }
+
+
               }
 
 
@@ -227,15 +250,18 @@ class ContribuyenteController extends Controller
 
               foreach($negociosContribuyente as $negocio){
 
-              /// calcular si aplica mora al inmueble
-              Negocio::aplicar_mora($negocio->id);
+              
                 $total2=0;
                 
                 $total2=$negocio->capital*$negocio->rubro->porcentaje;
-                
-                $factura2Array["pagoTotal"]=$total2;
-                $factura2Array["codigo"]=date("Yidisus");
+                $subt=0;
+                $subt=$this->getMoraNegocio($negocio->id) + $total2; 
+                $factura2Array["subTotal"]=$total2;
+                $factura2Array["pagoTotal"]=$subt;
+                $factura2Array["codigo"]=rand(1000000000,9999999999);
                 $factura2Array['negocio_id'] = $negocio['id'];
+                $factura2Array['mora'] = $this->getMoraNegocio($negocio->id);
+                $factura2Array['intereses'] = 0;
                 
                 $factura2 = \App\FacturaNegocio::create($factura2Array);
                 $arrayFactura2Items = array(
@@ -245,6 +271,8 @@ class ContribuyenteController extends Controller
                 );
                 //dd($factura2Array);
                 $facturaitem2=\App\FacturaNegocioItem::create($arrayFactura2Items);
+                /// calcular si aplica mora al negocio
+                //Negocio::aplicar_mora($factura2->id);
               }
           }
 
@@ -325,10 +353,32 @@ class ContribuyenteController extends Controller
 
     public function verFacturasPendientes(Request $request){
       $ids= $request['cbid'];
-
+      if(!is_array($ids)){
+        $ids = array(
+          0 => $ids,
+        );
+      }
       $unidad = "Unidad de Adquicisiones Institucionales";
 
       $pdf = \PDF::loadView('pdf.catastro.pdfpendientes',compact('ids','unidad'));
+      // $pdf->setPaper('letter', 'portrait');
+      $pdf->setPaper( [0, 0, 488.165,  323.56]);
+      // $pdf->render();
+      //$canvas = $pdf ->get_canvas();
+    //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
+      return $pdf->stream('reporte.pdf');
+    }
+
+    public function verFacturasPendientesn(Request $request){
+      $ids= $request['cbid'];
+      if(!is_array($ids)){
+        $ids = array(
+          0 => $ids,
+        );
+      }
+      $unidad = "Unidad de Adquicisiones Institucionales";
+
+      $pdf = \PDF::loadView('pdf.catastro.pdfpendientesn',compact('ids','unidad'));
       // $pdf->setPaper('letter', 'portrait');
       $pdf->setPaper( [0, 0, 488.165,  323.56]);
       // $pdf->render();
@@ -341,5 +391,19 @@ class ContribuyenteController extends Controller
     {
       $negocio = Negocio::find($id);
       return view('contribuyentes.recibosn',compact('negocio'));
+    }
+
+    private function getMora($inmueble_id){
+      $pending_maintenances = Factura::where('mueble_id', $inmueble_id)
+        ->where('estado', 1)
+        ->get();
+      return el_porcentaje('mora') * $pending_maintenances->count();
+    }
+
+    private function getMoraNegocio($negocio_id){
+      $pending_maintenances = FacturaNegocio::where('negocio_id', $negocio_id)
+        ->where('estado', 1)
+        ->get();
+      return el_porcentaje('mora') * $pending_maintenances->count();
     }
 }

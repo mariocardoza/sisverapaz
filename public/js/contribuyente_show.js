@@ -151,6 +151,8 @@ $(function(e){
       e.preventDefault();
       var lalat=parseFloat($(this).attr("data-lat"));
       var lalng=parseFloat($(this).attr("data-lng"));
+      var id=$(this).attr("data-id");
+      $("#elidinmueble").val(id);
       initMap1(lalat,lalng);
       $("#modal_mapainmueble").modal("show");
     });
@@ -457,7 +459,23 @@ $(function(e){
 				//escribimos las coordenadas de la posicion actual del marcador dentro del input #coords
 				var lat = this.getPosition().lat();
 				var lng = this.getPosition().lng();
-			
+        var id = $("#elidinmueble").val();
+        $.ajax({
+          url:'/inmuebles/ubicacion',
+          type:'post',
+          dataType:'json',
+          data:{lat,lng,id},
+          success: function(json){
+            if(json[0]==1){
+                toastr.success("Ubicación del inmueble actualizada con éxito");
+                //location.reload();
+            }else{
+              toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
+            }
+          },error: function(e){
+            toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
+          }
+        })
 			});
 		}
 
@@ -495,13 +513,13 @@ $(function(e){
           success: function(json){
             if(json[0]==1){
                 toastr.success("Ubicación del negocio actualizada con éxito");
-                location.reload();
+                //location.reload();
             }else{
               toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
             }
-        },error: function(e){
-          toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
-        }
+          },error: function(e){
+            toastr.error("Ocurrió un error, o no se puede modificar la ubicación");
+          }
         })
 			});
 		}

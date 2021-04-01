@@ -22,6 +22,10 @@ class CreateInmueblesTable extends Migration
             $table->string('largo_inmueble');
             $table->string('numero_escritura');
             $table->integer('metros_acera');
+            $table->tinyInteger('estado');
+            $table->float('latitude', 20,  18);
+            $table->float('longitude', 20, 18);
+            $table->string('numero_cuenta');
             $table->foreign('contribuyente_id')->references('id')->on('contribuyentes');
             $table->timestamps();
         });

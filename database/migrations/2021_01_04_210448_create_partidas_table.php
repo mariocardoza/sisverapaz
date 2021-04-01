@@ -21,6 +21,7 @@ class CreatePartidasTable extends Migration
             $table->double('monto',8,2);
             $table->double('total',8,2);
             $table->integer('tipo');
+            $table->date('fecha_pago')->nullable();
             $table->timestamps();
         });
     }

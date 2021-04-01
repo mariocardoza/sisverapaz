@@ -132,6 +132,7 @@ class InmuebleController extends Controller
             $inmueble->numero_catastral    = $request['numero_catastral'];
             $inmueble->direccion_inmueble  = $request['direccion_inmueble'];
             $inmueble->contribuyente_id    = $request['contribuyente_id'];
+            $inmueble->numero_cuenta       = 'IM' . strtotime(date('Y-m-d h:m:s'));
             $inmueble->save();
             return array(1,"exito",$inmueble);
         }catch(Exception $e){
@@ -328,5 +329,18 @@ class InmuebleController extends Controller
     }
     public function buscarFactura(Request $request){
       return Factura::where('mueble_id',$request['id'])->where('estado',1)->get(['id','mesYear']);
+    }
+
+    public function ubicacion(Request $request)
+    {
+      try{
+        $negocio=Inmueble::find($request->id);
+        $negocio->latitude = $request->lat;
+        $negocio->longitude = $request->lng;
+        $negocio->save();
+        return array(1);
+      }catch(Exception $e){
+        return array(-1,"error",$e->getMessage());
+      }
     }
 }

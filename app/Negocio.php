@@ -23,24 +23,4 @@ class Negocio extends Model {
     {
         return $this->hasOne('App\MoraNegocio');
 	}
-	
-	public static function aplicar_mora($id)
-    {
-        $negocio=Negocio::find($id);
-        $moras=0;
-        $hoy = date('y-m-d');
-		$moraactual=0.0;
-        foreach($negocio->factura as $factura)
-        {
-            if($factura->fechaVencimiento < $hoy && $factura->estado == 1):
-                $moras++;
-                $moraactual = $moraactual+($factura->pagoTotal*retornar_porcentaje('mora'));
-            endif;
-        }
-        $mora= new MoraNegocio();
-        $mora->negocio_id = $negocio->id;
-        $mora->porcentaje = el_porcentaje('mora');
-        $mora->mora = $moraactual;
-        $mora->save();
-    }
 }

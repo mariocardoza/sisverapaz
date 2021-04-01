@@ -3,8 +3,8 @@
   @foreach($facturas as $key => $factura)
 @php
       $items=$factura->items;
-      $total=$factura->pagoTotal+$factura->negocio->mora->mora;
-      $fiesta=($factura->porcentajeFiestas/100)*($factura->pagoTotal+$factura->negocio->mora->mora);
+      $total=$factura->subTotal+$factura->mora;
+      $fiesta=($factura->porcentajeFiestas/100)*($factura->subTotal);
       $sumat=$total+$fiesta;
       $array_meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 @endphp
@@ -75,17 +75,19 @@
           <td colspan="2">
             {{$item->rubro->nombre}} ({{$item->porcentaje*100}}%)
           </td>
-          <td>{{number_format($factura->pagoTotal,2,'.', ',')}}</td>
+          <td>{{number_format($factura->subTotal,2,'.', ',')}}</td>
           <td></td>
           <td></td>
         </tr>
+        @if($factura->mora>0)
         <tr>
           <td colspan="3"></td>
           <td colspan="2">Mora en intereses</td>
-          <td>{{number_format($factura->negocio->mora->mora,2)}}</td>
+          <td>{{number_format($factura->mora,2)}}</td>
           <td></td>
           <td></td>
         </tr>
+        @endif
         @endforeach
         @php
             $bandera=true;

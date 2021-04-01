@@ -20,7 +20,11 @@ class TipoServicioController extends Controller
           <td>'.($i+1).'</td>
           <td><span class="spanver'.$i.'">'.$r->nombre.'</span><input style="display:none;" class="form-control nombre_ser'.$i.' spannover'.$i.'" type="text" value="'.$r->nombre.'"></td>
           <td><span class="spanver'.$i.'">$'.number_format($r->costo,2).'</span><input style="display:none;" class="form-control costo_ser'.$i.' spannover'.$i.'" type="text" value="'.$r->costo.'"></td>
-          <td>';
+          <td>
+            <select style="display:none;" class="form-control obligatorio_ser'.$i.' spannover'.$i.'">
+              <option value="0">Variable</option> 
+              <option value="1">Fijo</option> 
+            </select>';
           if($r->isObligatorio==1):
             $html.='<span class="spanver'.$i.' label label-primary">Fijo</span>';
           else:
@@ -107,6 +111,7 @@ class TipoServicioController extends Controller
 
       $tipo->nombre   = $params['nombre'];
       $tipo->costo    = $params['costo'];
+      $tipo->isObligatorio = $params['isObligatorio'];
       
       if($tipo->save()) {
         return array(

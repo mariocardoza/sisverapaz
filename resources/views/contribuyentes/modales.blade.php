@@ -113,6 +113,7 @@
         <h4 class="modal-title" id="gridSystemModalLabel">Ubicación del inmueble</h4>
       </div>
       <div class="modal-body">
+        <input type="hidden" id="elidinmueble">
           <div id="elmapaimueble" style="height: 300px;"></div>
           
       </div>
@@ -132,7 +133,7 @@
         <h4 class="modal-title" id="gridSystemModalLabel">Ubicación del negocio</h4>
       </div>
       <div class="modal-body">
-        <input type="text" id="elidnegocio">
+        <input type="hidden" id="elidnegocio">
           <div id="elmapanegocio" style="height: 300px;"></div>
           
       </div>

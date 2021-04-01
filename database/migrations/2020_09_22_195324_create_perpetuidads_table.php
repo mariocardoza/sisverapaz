@@ -27,6 +27,9 @@ class CreatePerpetuidadsTable extends Migration
             $table->double('costo',8,2);
             $table->decimal("lat", 20, 13);
             $table->decimal("lng", 20, 13);
+            $table->date('fecha_adquisicion')->nullable();
+            $table->decimal('fiestas')->nullable();
+            $table->integer('estado')->default(1)->unsigned();
             $table->timestamps();
         });
     }

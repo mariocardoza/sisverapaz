@@ -23,6 +23,7 @@ class CreateNegociosTable extends Migration
             $table->bigInteger('rubro_id')->unsigned();
             $table->integer('estado')->default(1);
             $table->double('capital',8,2)->default(0);
+            $table->string('numero_cuenta');
             $table->foreign('rubro_id')->references('id')->on('rubros');
             $table->foreign('contribuyente_id')->references('id')->on('contribuyentes');
             $table->timestamps();
