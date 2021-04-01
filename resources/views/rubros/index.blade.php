@@ -40,7 +40,7 @@
               <td>{{ $rubro->porcentaje }}</td>
               <td>{{ $rubro->estado }}</td>
               <td>
-                @if($estado == 1 || $estado == "")
+                @if($rubro->estado == 1)
                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                 <a href="javascript:(0)" id="edit" data-id="{{ $rubro->id }}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
                 <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$rubro->id.",'rubros')" }}><span class="glyphicon glyphicon-trash"></span></button>

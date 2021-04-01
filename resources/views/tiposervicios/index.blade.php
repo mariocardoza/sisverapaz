@@ -40,14 +40,14 @@
                             <td>{{ $item->estado }}</td>
                             <td>{{ $item->isObligatorio }}</td>
                             <td>
-                                @if($estado == 1 || $estado == "")
+                                @if($item->estado == 1)
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal']) }}
-                                <a href="javascript:(0)" id="edit" data-id="{{$tiposervicio->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
-                                <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$tiposervicio->id.",'tiposervicios')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <a href="javascript:(0)" id="edit" data-id="{{$item->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
+                                <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$item->id.",'tiposervicios')" }}><span class="glyphicon glyphicon-trash"></span></button>
                                 {{ Form::close() }}
                                 @else
                                 {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal']) }}
-                                <button class="btn btn-success" type="button" onclick={{ "alta(".$tiposervicio->id.",'tiposervicios')" }}><span class="fa fa-refresh btn-sm"></span></button>
+                                <button class="btn btn-success" type="button" onclick={{ "alta(".$item->id.",'tiposervicios')" }}><span class="fa fa-refresh btn-sm"></span></button>
                                 {{ Form::close() }}
                                 @endif
                             </td>
