@@ -65,7 +65,7 @@
                     <th>Fecha de actividad</th>
                     <th>Hora de la actividad</th>
                     <th>Acción</th>
-                    <th>Usuario</th>
+                    <th>Usuarios</th>
                   </thead>
                   <tbody id="bita">
                     @foreach($bitacoras as $key => $bitacora)

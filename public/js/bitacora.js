@@ -116,10 +116,7 @@ function esta_tabla(tabla){
         },
      
     ],
-    columnDefs: [ {
-        targets: -1,
-        visible: false
-    } ],
+   
       language: {
           processing: "Búsqueda en curso...",
           search: "Buscar:",

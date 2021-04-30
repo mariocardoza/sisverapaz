@@ -60,6 +60,9 @@
               <b>Por: </b> {{$c->motivo}} <br>
               @endif
             </div>
+            <div class="col-sm-4">
+              <button type="button" id="emitir_solvencia" class="btn btn-primary pull-right">Emitir solvencia</button>
+            </div>
           </div>
       </div>
 
@@ -215,7 +218,37 @@
 <script>
   
   var elid='<?php echo $c->id ?>'
-  
+  $(function(){
+    //emitir solvencia
+    $("#emitir_solvencia").on("click",function(e){
+      e.preventDefault();
+      $.ajax({
+        url:'/contribuyentes/solvencia/'+elid,
+        type:'get',
+        dataType:'json',
+        success: function(json){
+          if(json[0]==1){
+            if(json[2]){
+              modal_cargando();
+                  var url = '/contribuyentes/pdfsolvencia/'+elid;
+                  $('#verpdf').attr('src', url);
+                  let interval =setInterval(function(){ 
+                    $("#modal_pdf").modal("show");
+                    swal.closeModal();
+                    clearInterval(interval);
+                  }, 5000);
+            }else{
+              swal('Aviso',json[3],'warning');
+            }
+          }else{
+            swal('Aviso','Ocurrió un error en la petición, intente nuevamente','warning');
+          }
+        },error:function(error){
+          swal('Aviso','Ocurrió un error en la petición, intente nuevamente','warning');
+        }
+      })
+    });
+  });
 
 </script>
 @endsection

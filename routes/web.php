@@ -345,6 +345,8 @@ Route::post('verpagosnegociosgenerados','ContribuyenteController@verPagosNegocio
 Route::post('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');
 Route::get('verfacturaspendientes','ContribuyenteController@verFacturasPendientes')->name('verfacturaspendientes');
 Route::get('verfacturaspendientesn','ContribuyenteController@verFacturasPendientesn')->name('verfacturaspendientesn');
+Route::get('contribuyentes/solvencia/{id}','ContribuyenteController@solvencia')->name('solvencia');
+Route::get('contribuyentes/pdfsolvencia/{id}','ContribuyenteController@pdfsolvencia')->name('solvencia');
 
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::get('contribuyentes/recibosn/{id}','ContribuyenteController@recibosn');

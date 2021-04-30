@@ -406,4 +406,47 @@ class ContribuyenteController extends Controller
         ->get();
       return el_porcentaje('mora') * $pending_maintenances->count();
     }
+
+    public function solvencia($id)
+    {
+      $solvente=true;
+      $mensaje="";
+      $contribuyente = Contribuyente::find($id);
+      $negocios = $contribuyente->negocio;
+      $inmuebles = $contribuyente->inmueble;
+      $dn=0;$di=0;
+      foreach($contribuyente->negocios as $negocio){
+        foreach($negocio->factura as $factura){
+          if($factura->estado==1){
+            $dn++;
+          }
+        }
+      }
+      foreach($inmuebles as $inmueble){
+        foreach($inmueble->factura as $factura){
+          if($factura->estado==1){
+            $di++;
+          }
+        }
+      }
+      if($dn==0 & $di==0){
+        $solvente=true;
+      }else{
+        $solvente=false;
+        $mensaje = 'Aún posee deuda con la alcaldía, no es posible emitir la solvencia';
+      }
+      return array(1,"exito",$solvente,$mensaje);
+    }
+
+    public function pdfsolvencia($id){
+      $contribuyente = Contribuyente::find($id);
+
+      $pdf = \PDF::loadView('pdf.catastro.pdfsolvencia',compact('contribuyente'));
+      // $pdf->setPaper('letter', 'portrait');
+      $pdf->setPaper('letter', 'portrait');
+      // $pdf->render();
+      //$canvas = $pdf ->get_canvas();
+    //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
+      return $pdf->stream('solvencia.pdf');
+    }
 }
