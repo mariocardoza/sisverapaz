@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ingreso;
+use App\Factura;
+use App\FacturaNegocio;
 
 class IngresoController extends Controller
 {
@@ -12,11 +14,16 @@ class IngresoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ingresos=Ingreso::where('estado',1)->get();
-        $construcciones=\App\Construccion::where('estado','3')->count();
-        return view('ingresos.index',\compact('ingresos','construcciones'));
+        $n=0;
+        $n = $request->n;
+        if($n==0){
+            $facturas = Factura::whereEstado(1)->get();
+        }else{
+            $facturas = FacturaNegocio::whereEstado(1)->get();
+        }
+        return view('ingresos.index',\compact('facturas','n'));
     }
 
     /**

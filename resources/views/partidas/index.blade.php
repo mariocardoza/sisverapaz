@@ -34,7 +34,7 @@
                             <th>N°</th>
                             <th>Contribuyente</th>
                             <th>Monto </th>
-                            <th>% fiestas</th>
+                            <th>Fiestas</th>
                             <th>Total </th>
                             <th>Creación</th>
                             <th></th>

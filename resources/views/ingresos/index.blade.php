@@ -33,15 +33,41 @@
             <table class="table table-striped table-bordered table-hover" id="example2">
               <thead>
                 <th>N°</th>
+                <th>N° cuenta</th>
                 <th>Contribuyente</th>
                 <th>Detalle</th>
-                <th>Monto</th>
+                <th>Periodo</th>
+                <th>Subtotal</th>
+                <th>Mora</th>
                 <th>Fiestas</th>
-                <th>Fecha</th>
+                <th>Total</th>
+                <th>Fecha emisión</th>
                 <th>Acción</th>
               </thead>
               <tbody>
-                
+                @foreach($facturas as $index => $factura)
+                <tr>
+                  <td>{{$index+1}}</td>
+                  @if($n==0)
+                    <td>{{$factura->inmueble->numero_cuenta}}</td>
+                    <td>{{$factura->inmueble->contribuyente->nombre}}</td>
+                    <td>Cobro por inmueble con N° catastral: {{$factura->inmueble->numero_catastral}}</td>
+                  @else
+                    <td>{{$factura->negocio->numero_cuenta}}</td>
+                    <td>{{$factura->negocio->contribuyente->nombre}}</td>
+                    <td>Cobro por negocio: {{$factura->negocio->nombre}}</td>
+                  @endif
+                  <td>{{$factura->mesYear}}</td>
+                  <td>${{$factura->subTotal}}</td>
+                  <td>{{$factura->mora==0 ? 'N/A' : '$'.$factura->mora}}</td>
+                  <td>${{number_format($factura->pagoTotal*($factura->porcentajeFiestas/100),2)}}</td>
+                  <td>${{number_format($factura->pagoTotal+($factura->pagoTotal*($factura->porcentajeFiestas/100)),2)}}</td>
+                  <td>{{$factura->created_at->format("d/m/Y")}}</td>
+                  <td>
+                    <button class="btn btn-primary"><i class="fa fa-money"></i></button>
+                  </td>
+                </tr>
+                @endforeach
               </tbody>
             </table>
               
