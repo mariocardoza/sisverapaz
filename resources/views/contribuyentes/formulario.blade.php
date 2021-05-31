@@ -57,7 +57,7 @@
                 <select name="sexo" id="" class="chosen-select-width">
                     <option value="">Seleccione</option>
                     <option value="Másculino">Másculino</option>
-                    <option value="Femenino">Femenido</option>
+                    <option value="Femenino">Femenino</option>
                 </select>
             </div>
         </div>
