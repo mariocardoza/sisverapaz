@@ -50,27 +50,29 @@
                     <td>${{ number_format($construccion->fiestas,2) }}</td>
                       @if($construccion->estado==1)
                       <td>
-                      <label for="" class="col-md-12 label-primary">Pendiente</label>
+                      <label for="" class="col-md-12 label-primary text-center">Pendiente</label>
                       </td>
                       @elseif($construccion->estado==2)
                       <td>
-                      <label for="" class="col-md-12 label-danger">Anulada</label>
+                      <label for="" class="col-md-12 label-danger text-center">Anulada</label>
                       </td>
                       @elseif($construccion->estado==3)
                       <td>
-                      <label for="" class="col-md-12 label-success">Recibo emitido</label>
+                      <label for="" class="col-md-12 label-success text-center">Recibo emitido</label>
                       </td>
                       @else
                       <td>
-                      <label for="" class="col-md-12 label-success">Pagado</label>
+                      <label for="" class="col-md-12 label-success text-center">Pagado</label>
                     </td>
                       @endif
                     
                     <td>
                       @if($construccion->estado==1)
+                      {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                       <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
                       <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$construccion->id}}"><span class="fa fa-edit"></span></a>
                       <a class="btn btn-danger" type="button" onclick={{ "baja(".$construccion->id.",'construcciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                      {{ Form::close() }}
                       @elseif($construccion->estado==2)
                       @elseif($construccion->estado==3)
                       <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
@@ -190,6 +192,7 @@
 
                   <div class="form-group">
                     <label for="" class="control-label">Dirección</label>
+                    <textarea class="form-control" name="direccion_inmueble" id="ladireccion" rows="2"></textarea>
                     <h5 id="ladireccion"></h5>
                   </div>
                 </div>
@@ -501,7 +504,7 @@ function setMapa (coords)
           if (status == google.maps.GeocoderStatus.OK) {
             if (results[0]) {
               $("#direcc").val(results[0].formatted_address);
-              $("#ladireccion").text(results[0].formatted_address);
+              $("#ladireccion").val(results[0].formatted_address);
             }
           }
         });

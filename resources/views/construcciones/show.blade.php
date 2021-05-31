@@ -41,7 +41,7 @@
                     <span><b>Dirección inmueble:</b></span>
                 </div>
                 <div class="col-sm-12">
-                    <span>{{$c->direccion_construccion}}</span>
+                    <span>{{$c->inmueble->direccion_inmueble}}</span>
                 </div>
                 <div class="clearfix"></div>   
                 <hr style="margin-top: 3px; margin-bottom: 3px;">
@@ -69,6 +69,13 @@
                 </div>
                 <div class="clearfix"></div>   
                 <hr style="margin-top: 3px; margin-bottom: 3px;">
+                <div class="col-sm-12">
+                    <span><b>Detalle:</b></span>
+                </div>
+                <div class="col-sm-12">
+                    <span>{{($c->detalle)}}</span>
+                </div>
+                <div class="clearfix"></div>   
                 
             </div>
         </div>

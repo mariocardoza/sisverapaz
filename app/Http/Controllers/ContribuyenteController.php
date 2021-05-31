@@ -60,7 +60,7 @@ class ContribuyenteController extends Controller
                     'telefono'=>$request->telefono,
                     'nacimiento'=>\invertir_fecha($request->nacimiento),
                     'direccion'=>$request->direccion,
-                    'numero_cuenta' => Contribuyente::count() == 0 ? 'CT' . sprintf('%05d', 1) : 'CT' . sprintf('%05d', Contribuyente::get()->last()->id + 1),
+                    //'numero_cuenta' => Contribuyente::count() == 0 ? 'CT' . sprintf('%05d', 1) : 'CT' . sprintf('%05d', Contribuyente::get()->last()->id + 1),
                 ]);
                 bitacora('Registro un contribuyente');
               return array(1,"exito",$contribuyente);

@@ -33,6 +33,7 @@
                         <th>Teléfono</th>
                         <th>DUI</th>
                         <th>NIT</th>
+                        <th>Estado</th>
                         <th>Acciones</th>
                     </thead>
                     <tbody>
@@ -43,6 +44,7 @@
                             <td>{{$c->telefono}}</td>
                             <td>{{$c->dui}}</td>
                             <td>{{$c->nit}}</td>
+                            <td>{{$c->estado == 1 ? 'Activo' : 'Inactivo'}}</td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{{url('contribuyentes/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
@@ -181,6 +183,7 @@
                         toastr.success("Rubro registro con éxito");
                         rubros();
                         $("#nuevo_servicio").show();
+                        $("#nuevo_rubro").show();
                     }else{
                         toastr.error("Ocurrió un error");
                     }

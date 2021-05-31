@@ -386,6 +386,7 @@ Route::Resource('inmueble','InmuebleController');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::put('construcciones/cambiarestado/{id}','ConstruccionController@cambiarestado');
 Route::get('construcciones/recibos','ConstruccionController@recibo');
+Route::post('construcciones/baja/{id}','ConstruccionController@baja')->name('construcciones.baja');
 Route::Resource('construcciones','ConstruccionController');
 
 ////////// Tesoreria //////////////////////////////////

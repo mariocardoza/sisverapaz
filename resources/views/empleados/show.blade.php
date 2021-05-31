@@ -106,7 +106,7 @@
               @if(isset($empleado->detalleplanilla))
               <div class="panel panel-primary" id="info_contra">
                 <div class="panel-heading">Información del contrato</div>
-                <div class="panel" >
+                <div class="panel" style="padding: 6px;">
                   <table class="table">
                     <tr>
                       <td>Salario</td>
@@ -183,7 +183,7 @@
               @else
                 <div class="panel panel-primary" id="reg_contrato">
                 <div class="panel-heading">Registrar contrato</div>
-                <div class="panel" >
+                <div class="panel" style="padding: 10px;">
                  <form id="form_planilla" class="">
                    @include('detalleplanillas.formulario')
                    @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
@@ -197,7 +197,7 @@
               <div class="panel panel-primary" id="edi_contrato" style="display:none;">
                 <div class="panel-heading">Editar contrato</div>
                 @if(isset($empleado->detalleplanilla))
-                <div class="panel">
+                <div class="panel" style="padding: 10px;">
                     {{ Form::model($empleado->detalleplanilla, array('method' => 'put','id'=>'form_editcontra' , 'route' => array('detalleplanillas.update', $empleado->detalleplanilla->id))) }}
                     @include('detalleplanillas.formulario')
 
