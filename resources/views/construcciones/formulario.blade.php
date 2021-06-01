@@ -34,14 +34,6 @@
 	</div>
 </div>
 
-<div class="form-group{{$errors->has('direccion_construccion') ? 'has-error' : '' }}">
-	<label for="direccion_construccion" class="control-label">Dirección </label>
-
-	<div class="">
-		{{ Form::textarea('direccion_construccion', null, ['class' => 'form-control dir_cons','rows'=>2]) }}
-	</div>
-</div>
-
 <div class="form-group{{$errors->has('presupuesto') ? 'has-error' : '' }}">
 	<label for="presupuesto" class="control-label">Presupuesto </label>
 

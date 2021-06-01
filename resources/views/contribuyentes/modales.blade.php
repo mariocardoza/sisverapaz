@@ -166,13 +166,13 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="" class="control-label">Ancho inmueble (mts)</label>
-                        <input type="number" name="ancho_inmueble" placeholder="Digite el ancho" class="form-control">
+                        <input type="number" step="any" name="ancho_inmueble" placeholder="Digite el ancho" class="form-control">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="" class="control-label">Largo inmueble (mts)</label>
-                        <input type="number" name="largo_inmueble" placeholder="Digite el largo" class="form-control">
+                        <input type="number" step="any" name="largo_inmueble" placeholder="Digite el largo" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -186,7 +186,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="" class="control-label">Metros de acera</label>
-                    <input type="text" name="metros_acera" autocomplete="off" placeholder="Digite la longitud de la acera (mts)" class="form-control">
+                    <input type="number" step="any" name="metros_acera" autocomplete="off" placeholder="Digite la longitud de la acera (mts)" class="form-control">
                   </div>
                 </div>
                 <div class="col-md-12">

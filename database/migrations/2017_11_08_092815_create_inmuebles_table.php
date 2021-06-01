@@ -21,7 +21,7 @@ class CreateInmueblesTable extends Migration
             $table->double('ancho_inmueble');
             $table->double('largo_inmueble');
             $table->string('numero_escritura');
-            $table->integer('metros_acera');
+            $table->double('metros_acera',20,2);
             $table->tinyInteger('estado');
             $table->float('latitude', 20,  18);
             $table->float('longitude', 20, 18);

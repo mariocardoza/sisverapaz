@@ -61,7 +61,7 @@ class ConstruccionController extends Controller
                 $construccion=Construccion::create([
                     'contribuyente_id'=>$request->contribuyente_id,
                     'inmueble_id'=>$request->inmueble_id,
-                    'direccion_construccion'=>$request->direccion_construccion,
+                    'direccion_construccion'=>'N/A',
                     'presupuesto'=>$request->presupuesto,
                     'total'=>$total,
                     'fiestas'=>$fiestas,
@@ -166,9 +166,18 @@ class ConstruccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function baja($cadena)
     {
-        //
+        $datos = explode("+", $cadena);
+        $id=$datos[0];
+        $motivo=$datos[1];
+        $banco = Construccion::find($id);
+        $banco->estado= 2;
+        //$banco->motivo=$motivo;
+        //$banco->fechabaja=date('Y-m-d');
+        $banco->save();
+        bitacora('Registro dado de baja');
+        return redirect('/construcciones')->with('mensaje','Banco dado de baja');
     }
 
     public function cambiarestado(Request $request, $id)
@@ -189,7 +198,7 @@ class ConstruccionController extends Controller
             'contribuyente_id' => 'required',
             'inmueble_id' => 'required',
             'presupuesto' => 'required',
-            'direccion_construccion'=>'required',
+            //'direccion_construccion'=>'required',
         ]);
     }
 }

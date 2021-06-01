@@ -88,6 +88,7 @@
                               <th class="text-center"># Catastral</th>
                               <th class="text-center"># Escritura</th>
                               <th class="text-center">Metro Acera</th>
+                              <th class="text-center">Área</th>
                               <th class="text-center">Ubicación</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center"></th>
@@ -99,6 +100,7 @@
                                 <td class="text-center">{{$i->numero_catastral}}</td>
                                 <td class="text-center"><span class="label label-success">{{$i->numero_escritura}}</span></td>
                                 <td class="text-center">{{number_format($i->metros_acera,2)}}</td>
+                                <td class="text-center">{{number_format($i->largo_inmueble*$i->ancho_inmueble,2)}}M2</td>
                                 <td class="text-center">
                                   <button data-lat="{{$i->latitude}}" data-id="{{$i->id}}" data-lng="{{$i->longitude}}" id="mapa_inmueble" class="btn btn-primary">Ver Ubicación</button>
                                 </td>
