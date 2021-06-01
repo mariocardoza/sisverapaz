@@ -4,6 +4,11 @@
   </a>
 </li>
 <li>
+  <a href="{{ url('contribuyentes-morosos') }}">
+    <i class="fa fa-address-card"></i> <span>Contribuyentes en mora</span>
+  </a>
+</li>
+<li>
   <a href="{{ url('cementerios') }}">
     <i class="glyphicon glyphicon-plus-sign"></i><span>Cementerios</span>
   </a>

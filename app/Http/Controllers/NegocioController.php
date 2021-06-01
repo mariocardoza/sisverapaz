@@ -122,6 +122,7 @@ class NegocioController extends Controller
     {
         try{
             $rubros=Rubro::where('estado',1)->get();
+            $contribuyentes = Contribuyente::whereEstado(1)->get();
             $modal="";
             $modal.='<div class="modal fade" tabindex="-1" id="modal_enegocio" role="dialog" aria-labelledby="gridSystemModalLabel">
             <div class="modal-dialog" role="document">
@@ -133,6 +134,21 @@ class NegocioController extends Controller
                 <div class="modal-body">
                     <form id="form_enegocio" class="">
                         <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-group">
+                              <label for="" class="control-label">Propietario</label>
+                              <select name="contribuyente_id" class="chosen-select-width">
+                                <option value="">Seleccione un propietario</option>';
+                                foreach($contribuyentes as $contribuyente):
+                                  if($contribuyente->id==$negocio->contribuyente_id):
+                                    $modal.='<option selected value="'.$contribuyente->id.'">'.$contribuyente->nombre.'</option>';
+                                  else:
+                                    $modal.='<option value="'.$contribuyente->id.'">'.$contribuyente->nombre.'</option>';
+                                  endif;
+                                endforeach;
+                              $modal.='</select>
+                              </div>
+                            </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="" class="control-label">Nombre</label>
@@ -200,6 +216,7 @@ class NegocioController extends Controller
       $negocio->capital = $parameters['capital'];
       $negocio->rubro_id = $parameters['rubro_id'];
       $negocio->direccion = $parameters['direccion'];
+      $negocio->contribuyente_id = $parameters['contribuyente_id'];
 
       if($negocio->save()){
         return array(

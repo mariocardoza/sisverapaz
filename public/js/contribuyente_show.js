@@ -259,6 +259,7 @@ $(function(e){
             $("#modal_aqui").empty();
             $("#modal_aqui").html(json[2]);
             $("#modal_einmueble").modal("show");
+            $(".chosen-select-width").chosen({'width':'100%'});
           }
         }
       });
@@ -311,6 +312,7 @@ $(function(e){
             $("#modal_aqui").empty();
             $("#modal_aqui").html(json[2]);
             $(".esee").chosen({"width":'100%'});
+            $(".chosen-select-width").chosen({"width":'100%'});
             $("#modal_enegocio").modal("show");
           }
         }

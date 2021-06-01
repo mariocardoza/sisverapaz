@@ -12,6 +12,7 @@ use App\Factura;
 use App\FacturaNegocio;
 use App\Inmueble;
 use App\Negocio;
+use Illuminate\Database\Eloquent\Collection;
 use DB;
 
 class ContribuyenteController extends Controller
@@ -448,5 +449,49 @@ class ContribuyenteController extends Controller
       //$canvas = $pdf ->get_canvas();
     //$canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
       return $pdf->stream('solvencia.pdf');
+    }
+
+    public function morosos(Request $request)
+    {
+      $negocios = Negocio::whereEstado(1)->get();
+      $inmuebles = Inmueble::whereEstado(1)->get();
+      //$morosos = array();
+      $coleccion = array();
+      if($request->type==2 ):
+        $morosos = array();
+        foreach($negocios as $negocio){
+          foreach($negocio->factura as $factura){
+            if($factura->estado==1){
+              $morosos['contribuyente'] = $negocio->contribuyente->nombre;
+              $morosos['direccion'] = $negocio->contribuyente->direccion;
+              $morosos['nit'] = $negocio->contribuyente->nit;
+              $morosos['id'] = $negocio->contribuyente->id;
+              $morosos['detalle'] = 'Negocio: '.$negocio->nombre;
+              $morosos['periodo'] = $factura->mesYear;
+              $morosos['deuda'] = $factura->pagoTotal;
+              array_push($coleccion, $morosos);
+            }
+            
+          }
+        }
+      else:
+        $morosos = array();
+        foreach($inmuebles as $inmueble){
+          foreach($inmueble->factura as $factura){
+            if($factura->estado==1){
+              $morosos['contribuyente'] = $inmueble->contribuyente->nombre;
+              $morosos['direccion'] = $inmueble->contribuyente->direccion;
+              $morosos['nit'] = $inmueble->contribuyente->nit;
+              $morosos['id'] = $inmueble->contribuyente->id;
+              $morosos['detalle'] = 'Inmueble n°: '.$inmueble->numero_escritura;
+              $morosos['periodo'] = $factura->mesYear;
+              $morosos['deuda'] = $factura->pagoTotal;
+              array_push($coleccion, $morosos);
+            }
+            
+          }
+        }
+      endif;
+      return view('contribuyentes-morosos.index',compact('coleccion'));
     }
 }

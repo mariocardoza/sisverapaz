@@ -351,6 +351,7 @@ Route::get('contribuyentes/pdfsolvencia/{id}','ContribuyenteController@pdfsolven
 /*Route::get('contribuyentes/eliminados','ContribuyenteController@eliminados');*/
 Route::get('contribuyentes/recibosn/{id}','ContribuyenteController@recibosn');
 Route::Resource('contribuyentes','ContribuyenteController');
+Route::get('contribuyentes-morosos','ContribuyenteController@morosos');
 
 Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');
 Route::get('perpetuidad/recibos','PerpetuidadController@recibos');

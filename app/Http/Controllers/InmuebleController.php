@@ -6,6 +6,7 @@ use App\Inmueble;
 use Illuminate\Http\Request;
 use Validator;
 use App\Factura;
+use App\Contribuyente;
 
 class InmuebleController extends Controller
 {
@@ -159,6 +160,7 @@ class InmuebleController extends Controller
      */
     public function edit(Inmueble $inmueble)
     {
+      $contribuyentes = Contribuyente::whereEstado(1)->get();
         $modal="";
         try{
             $modal.='<div class="modal fade" tabindex="-1" id="modal_einmueble" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -171,6 +173,21 @@ class InmuebleController extends Controller
                 <div class="modal-body">
                     <form id="form_einmueble" class="">
                         <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                            <label for="" class="control-label">Propietario</label>
+                            <select name="contribuyente_id" class="chosen-select-width">
+                              <option value="">Seleccione un propietario</option>';
+                              foreach($contribuyentes as $contribuyente):
+                                if($contribuyente->id==$inmueble->contribuyente_id):
+                                  $modal.='<option selected value="'.$contribuyente->id.'">'.$contribuyente->nombre.'</option>';
+                                else:
+                                  $modal.='<option value="'.$contribuyente->id.'">'.$contribuyente->nombre.'</option>';
+                                endif;
+                              endforeach;
+                            $modal.='</select>
+                            </div>
+                          </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="" class="control-label"># Catastral</label>
@@ -247,6 +264,7 @@ class InmuebleController extends Controller
       $inmueble->numero_catastral = $all['numero_catastral'];
       $inmueble->numero_escritura = $all['numero_escritura'];
       $inmueble->direccion_inmueble = $all['direccion_inmueble'];
+      $inmueble->contribuyente_id = $all['contribuyente_id'];
       
       if($inmueble->save()) {
           return array(1,"exito");

@@ -134,7 +134,7 @@
                         <td class="text-center">
                           <div class="btn-group text-align">
                             
-                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagosn/'.$i->id)}}" data-id="{{$i->id}}">
+                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagosn/'.$n->id)}}" data-id="{{$i->id}}">
                               <i class="fa fa-fw fa-dollar"></i>
                             </a>
                           </div>
