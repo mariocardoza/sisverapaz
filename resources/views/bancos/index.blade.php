@@ -13,7 +13,6 @@
       <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
                 <div class="btn-group pull-right">
                     <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     <a href="{{ url('/bancos?estado=1') }}" class="btn btn-primary">Activos</a>
@@ -36,12 +35,14 @@
                     <td>
                       @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="javascript:(0)" id="edit" data-id="{{$banco->id}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
-                        <button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <div class="btn-group">
+                          <a href="javascript:(0)" id="edit" data-id="{{$banco->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                          <button class="btn btn-danger" type="button" onclick={{ "baja(".$banco->id.",'bancos')" }}><span class="fa fa-thumbs-o-down"></span></button>
+                        </div>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="glyphicon glyphicon-refresh btn-sm"></span></button>
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$banco->id.",'bancos')" }}><span class="fa fa-thumbs-o-up"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>

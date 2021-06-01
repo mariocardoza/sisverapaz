@@ -22,8 +22,9 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3><br>
-                <a href="{{ url('cementerios/create') }}" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                <div class="pull-right">
+                  <a href="{{ url('cementerios/create') }}" id="nuevo" class="btn btn-success"><span class="fa fa-plus-circle"></span> Agregar</a>
+                </div>
 
             </div>
             <!-- /.box-header -->

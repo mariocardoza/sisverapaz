@@ -17,7 +17,9 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/calendarizaciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <div class="btn-group pull-right">
+                <a href="{{ url('/calendarizaciones/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
+              </div>
 
             </div>
             <!-- /.box-header -->

@@ -15,7 +15,6 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
                 <div class="btn-group pull-right">
                   <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                   <a href="{{ url('/categorias?estado=1') }}" class="btn btn-primary">Activos</a>
@@ -39,10 +38,12 @@
 							<td>{{ $categoria->nombre_categoria}}</td>
               <td>
                   @if($categoria->estado == 1 )
-                    <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
-                    <button class="btn btn-danger btn-sm" type="button" id="baja" data-id="{{$categoria->id}}"><span class="glyphicon glyphicon-trash"></span></button>
+                    <div class="btn-group">
+                      <a href="javascript:(0)" id="edit" data-id="{{$categoria->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
+                      <button class="btn btn-danger btn-sm" type="button" id="baja" data-id="{{$categoria->id}}"><span class="fa fa-thumbs-o-down"></span></button>
+                    </div>
                 @else
-                    <button class="btn btn-success btn-sm" type="button" id="alta" data-id="{{$categoria->id}}"><span class="fa fa-refresh"></span></button>
+                    <button class="btn btn-success btn-sm" type="button" id="alta" data-id="{{$categoria->id}}"><span class="fa fa-thumbs-o-up"></span></button>
                 @endif
               </td>
             </tr>

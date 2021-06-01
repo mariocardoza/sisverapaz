@@ -110,7 +110,7 @@ function esta_tabla(tabla){
         {
             extend: 'excel',
             orientation: 'landscape',
-            text: 'Descargar PDF',
+            text: 'Descargar Archivo Excel',
             title: 'Listado de actividades',
   
         },

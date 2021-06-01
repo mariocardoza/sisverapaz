@@ -15,7 +15,6 @@
 	<div class="col-xs-12">
 		<div class="box">
 		<div class="box-header">
-			<h3 class="box-tittle"></h3>
 			<div class="btn-group pull-right">
 				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
 				<a href="{{ url('/cargos?estado=1') }}" class="btn btn-primary">Activos</a>
@@ -26,7 +25,7 @@
 		<div class="box-body table-responsive">
 			<table class="table table-striped table-bordered table-hover" id="example2">
 				<thead>
-					<th>Id</th>
+					<th>N°</th>
 					<th>Cargos</th>
 					<th>Categoría</th>
 					<th>Acciones</th>
@@ -40,12 +39,14 @@
 					<td>
 						@if($cargo->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-						<a href="javascript:(0)" id="edit" data-id="{{$cargo->id}}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger" type="button" onclick={{ "baja($cargo->id,'cargos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<div class="btn-group">
+							<a href="javascript:(0)" id="edit" data-id="{{$cargo->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+							<button class="btn btn-danger" type="button" onclick={{ "baja($cargo->id,'cargos')" }}><span class="fa fa-thumbs-o-down"></span></button>
+						</div>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success" type="button" onclick={{ "alta($cargo->id,'cargos')" }}><span class="fa fa-refresh"></span></button>
+						<button class="btn btn-success" type="button" onclick={{ "alta($cargo->id,'cargos')" }}><span class="fa fa-thumbs-o-up"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>
