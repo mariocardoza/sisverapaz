@@ -36,7 +36,7 @@
                         <tr>
                             <td>{{$i+1}}</td>
                             <td>{{$f->mesYear}}</td>
-                            <td>{{$f->fechaVencimiento}}</td>
+                            <td>{{$f->fechaVencimiento->format('d/m/Y')}}</td>
                             <td>{{$f->codigo}}</td>
                             <td>${{$f->pagoTotal}}</td>
                             <td>
@@ -50,7 +50,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{url('contribuyentes/'.$f->id)}}" class="btn btn-primary"><i class="fa fa-print"></i></a>
+                                    <a target="_blank" href="{{url('verfacturaspendientesn?cbid='.$f->id)}}" class="btn btn-primary"><i class="fa fa-print"></i></a>
                                 </div>
                             </td>
                         </tr>

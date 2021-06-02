@@ -85,7 +85,7 @@
                           </span>
                           @else 
                           <span class="label label-success">
-                            Cancelado
+                            Pagados
                           </span>
                           @endif
                         </td>

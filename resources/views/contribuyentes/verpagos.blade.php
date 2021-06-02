@@ -111,7 +111,6 @@
       </div>
 </div>
 <div id="modal_aqui"></div>
-@include('contribuyentes.modales')
 @endsection
 
 @section('scripts')

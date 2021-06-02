@@ -44,11 +44,18 @@ class HomeController extends Controller
         AND ip.estado = 2) as avance'))
         ->where('p.anio','=',date('Y'))
         ->get();
-        
 
+        $morosos = DB::table('factura_negocios as fn')
+            ->select('n.nombre','n.lat','n.lng','n.direccion','n.id',DB::raw('SUM(fn.pagoTotal) AS deuda'))
+            ->join('negocios as n','n.id','=','fn.negocio_id','inner')
+            ->where('fn.estado','=',1)
+            ->where('fn.fechaVencimiento','<',date("Y-m-d"))
+            ->groupBy('n.id','fn.negocio_id')
+            ->get();
+        
         if($configuracion!='')
         {
-            return view('home',compact('proyectos'));
+            return view('home',compact('proyectos','morosos'));
         }else{
             return redirect('configuraciones');
         }

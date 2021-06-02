@@ -121,7 +121,7 @@
                       <td class="text-center"><span class="label label-success">{{$n->rubro->nombre}}</span></td>
                       <td class="text-center">${{number_format($n->capital,2)}}</td>
                       <td class="text-center">
-                          @if($i->estado==1)
+                          @if($n->estado==1)
                           <span class="label label-success">
                             Activo
                           </span>
@@ -134,7 +134,7 @@
                         <td class="text-center">
                           <div class="btn-group text-align">
                             
-                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagosn/'.$n->id)}}" data-id="{{$i->id}}">
+                            <a class="btn btn-success ver pagos" href="{{url('contribuyentes/verpagosn/'.$n->id)}}" data-id="{{$n->id}}">
                               <i class="fa fa-fw fa-dollar"></i>
                             </a>
                           </div>
