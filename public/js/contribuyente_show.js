@@ -387,7 +387,7 @@ $(function(e){
             data:{id:inmueble_id,idTipoServicio:tiposervicio_id},
             success: function(json){
                 if(json.response==true){
-                    toastr.success("Impuesto agregado con éxito");
+                    toastr.success("Impuesto agregado");
                     cargar_impuesto_inmueble(inmueble_id);
                 }
             }
@@ -406,7 +406,7 @@ $(function(e){
             data:{id:inmueble_id,idTipoServicio:tiposervicio_id},
             success: function(json){
                 if(json[0]==1){
-                    toastr.success("Impuesto quitado con éxito");
+                    toastr.success("Impuesto removido");
                     cargar_impuesto_inmueble(inmueble_id);
                 }else{
                   toastr.error("Ocurrió un error, o no se puede eliminar el impuesto");

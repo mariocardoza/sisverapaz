@@ -19,6 +19,8 @@ class CreatePorcentajesTable extends Migration
             $table->double('porcentaje',8,2);
             $table->tinyInteger('estado')->default(1);
             $table->string('nombre_simple')->nullable();
+            $table->char('tipo')->nullable();
+            $table->tinyInteger('es_servicio')->default(0);
             $table->timestamps();
         });
     }

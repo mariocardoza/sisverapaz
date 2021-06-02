@@ -23,7 +23,7 @@
           <div class="box">
             <div class="box-header">
                 <div class="pull-right">
-                  <a href="{{ url('cementerios/create') }}" id="nuevo" class="btn btn-success"><span class="fa fa-plus-circle"></span> Agregar</a>
+                  <a href="{{ url('cementerios/create') }}" id="nuevo" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                 </div>
 
             </div>
@@ -62,7 +62,7 @@
                       @endif
                     
                     <td>
-                      <a href="{{ url('cementerios/'.$c->id) }}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a href="{{ url('cementerios/'.$c->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
                     </td>
                   </tr>
                   @endforeach

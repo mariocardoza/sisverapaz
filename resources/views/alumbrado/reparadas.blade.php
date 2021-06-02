@@ -13,7 +13,7 @@
       <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <h3 class="box-title"></h3>
                 <div class="btn-group pull-right">
    
                 </div>

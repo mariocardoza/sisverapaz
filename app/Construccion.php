@@ -40,7 +40,7 @@ class Construccion extends Model
                         <div class="form-group">
                         <label for="" class="control-label">Contribuyente</label>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <input class="form-control" name="contribuyente_id" readonly value="'.$con->contribuyente->nombre.'">
                             </div>
                         
@@ -50,7 +50,7 @@ class Construccion extends Model
                     <div class="form-group">
                         <label for="" class="control-label">Inmueble</label>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-12">
                                 <select name="inmueble_id" id="elinmueble_edit" class="chosen-select-width">
                                     <option value="">Seleccione el inmueble</option>';
                                     foreach($contri->inmueble as $i):
@@ -62,17 +62,6 @@ class Construccion extends Model
                                     endforeach;
                                 $modal.='</select>
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary" id="nuevo_einmueble" type="button"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="direccion_construccion" class="control-label">Dirección </label>
-                    
-                        <div class="">
-                            <textarea class="form-control" name="direccion_construccion" rows="2">'.$con->direccion_construccion.'</textarea>
                         </div>
                     </div>
                     

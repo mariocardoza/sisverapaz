@@ -20,8 +20,8 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_afp" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" id="registrar_afp" class="btn btn-success">Registrar</button>
       </div>
     </div>
   </div>
@@ -45,8 +45,8 @@
       </div>
       <div class="modal-footer">
         <center>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-          <button id="btneditar" type="button" class="btn btn-primary">Editar</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button id="btneditar" type="button" class="btn btn-success">Editar</button>
         </center>
       </div>
     </div>

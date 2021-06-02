@@ -38,7 +38,7 @@
                           <div class="form-group">
                               <div class="col-md-6 col-md-offset-4">
                                   <button type="submit" class="btn btn-success">
-                                      <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                      <span> Guardar</span>
                                   </button>
                               </div>
                           </div>
@@ -46,7 +46,7 @@
                           <div class="form-group">
                               <div class="col-md-6 col-md-offset-4">
                                   <button type="submit" class="btn btn-success">
-                                      <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                      <span> Guardar</span>
                                   </button>
                               </div>
                           </div>
@@ -73,7 +73,7 @@
                             <input type="file" class="hidden" name="logo" id="file_1" />
                             <div class='text-danger'>{{$errors->first('avatar')}}</div>
                           </div>
-                          <button type='submit' class='btn btn-primary elsub' style="display: none;">Cambiar</button>
+                          <button type='submit' class='btn btn-success elsub' style="display: none;">Cambiar</button>
                         
                               </form>
                     </div>
@@ -92,7 +92,7 @@
                               <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                   <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                    <span> Guardar</span>
                                   </button>
                                 </div>
                               </div>
@@ -100,7 +100,7 @@
                             <div class="form-group">
                               <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">
-                                  <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                  <span> Guardar</span>
                                 </button>
                               </div>
                             </div>
@@ -123,7 +123,7 @@
                               <div class="form-group">
                                 <div class="col-md-6 ">
                                   <button type="submit" class="btn btn-success">
-                                    <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                    <span> Guardar</span>
                                   </button>
                                 </div>
                               </div>
@@ -131,7 +131,7 @@
                             <div class="form-group">
                               <div class="col-md-6">
                                 <button type="submit" class="btn btn-success">
-                                  <span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+                                  <span> Guardar</span>
                                 </button>
                               </div>
                             </div>
@@ -147,13 +147,13 @@
                         <div class="row">
                           @foreach($porcentajes as $p)
                           <div class="col-md-3">
-                            <label for="" class="control-label"> {{$p->nombre}}</label>
+                            <label for="" class="control-label"> {{$p->tipo}} {{$p->nombre}}</label>
                             <div class="input-group">
                               <input type="number" min="0" value="{{$p->porcentaje}}"  name="porcentaje" class="form-control {{$p->nombre_simple}}">
                               <span class="input-group-btn">
                                 <button type="button" data-porcen="{{$p->nombre_simple}}" data-id="{{$p->id}}" class="btn btn-success porcen"><i class="fa fa-refresh"></i></button>
                               </span>
-                            </div>
+                            </div><p></p>
                           </div>
                           @endforeach 
                         </div>
@@ -173,7 +173,7 @@
                               <span class="input-group-btn">
                                 <button type="button" data-reten="{{$r->nombre}}" data-id="{{$r->id}}" class="btn btn-success reten"><i class="fa fa-refresh"></i></button>
                               </span>
-                            </div>
+                            </div><p></p>
                           </div>
                           @endforeach 
                         </div>
@@ -183,8 +183,8 @@
 
                   <div class="tab-pane" id="emergencia">
                     <div class="panel-body">
-                        <h3 class="text-center text-center">Hacer declaratoria de emergencia</h3>
-                        <button class="btn btn-primary pull-right nueva_declaratoria" type="button">Nueva declaratoria</button>
+                        <h3 class="text-center text-center">Declaratorias de emergencia</h3>
+                        <button class="btn btn-success pull-right nueva_declaratoria" type="button">Nueva declaratoria</button>
                         <br>
                         <br>
                         <table class="table table-stripped table-bordered" id="example2">

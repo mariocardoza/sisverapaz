@@ -20,7 +20,7 @@
                 <div class="btn-group pull-right">
                     <button id="rubros" class="btn btn-primary">Rubros</button>
                     <button id="servicios" class="btn btn-primary">Servicios</button>
-                    <button id="contribu" class="btn btn-primary">Contribuyente nuevo</button>
+                    <button id="contribu" class="btn btn-success">Contribuyente nuevo</button>
                     <button id="generar_pagos" class="btn btn-primary">Generar pagos</button>
                 </div>
                 <br><br>
@@ -372,7 +372,7 @@
                 data:{estado:true},
                 success: function(json){
                     if(json.ok==true){
-                        toastr.success("Rubro restaurado con éxito");
+                        toastr.success("Rubro restaurado");
                         rubros();
                     }else{
                         toastr.error("Ocurrió un error");

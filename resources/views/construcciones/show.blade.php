@@ -24,7 +24,8 @@
                     @if($c->estado==1)
                     <button class="btn btn-primary recibo">Emitir recibo</button>
                     @elseif($c->estado==3)
-                    <a class="btn btn-primary vista_previa" href="{{url ('reportestesoreria/reciboc/'.$c->id)}}" target="_blank">Imprimir recibo</a>
+                    <a class="btn btn-primary vista_previa" href="{{url ('reportestesoreria/reciboc/'.$c->id)}}" target="_blank"><span class="fa fa-print"></span></a>
+
                     @endif
                 </div>
                 <div class="clearfix"></div>   

@@ -20,8 +20,8 @@
                  @include('construcciones.formulario')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>    Editar
+                            <button type="submit" class="btn btn-success">
+                                <span class=""></span> Guardar
                             </button>
                         </div>
                     </div>

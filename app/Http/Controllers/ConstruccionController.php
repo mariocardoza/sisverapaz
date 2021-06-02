@@ -137,7 +137,7 @@ class ConstruccionController extends Controller
                 
                 $construccion=Construccion::find($id);
                 $construccion->inmueble_id=$request->inmueble_id;
-                $construccion->direccion_construccion=$request->direccion_construccion;
+                //$construccion->direccion_construccion=$request->direccion_construccion;
                 $construccion->presupuesto=$request->presupuesto;
                 $construccion->total=$total;
                 $construccion->fiestas=$fiestas;

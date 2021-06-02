@@ -45,6 +45,7 @@
                     </b>
                     <br>
                 @endif
+                <p></p>
                 Fecha de generación: <b>{{$dato[2]."-".$dato[1]."-".$dato[0]}}</b>
                 </h3>
             </div>

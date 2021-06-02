@@ -43,7 +43,7 @@
                 <button
                   type="submit"
                   style="position: absolute; top: 20px;"
-                  class="btn btn-primary">
+                  class="btn btn-success">
                   Guardar
                 </button>                  
               @endif

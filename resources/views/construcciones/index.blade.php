@@ -23,7 +23,7 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title"></h3><br>
-                <a href="javascript:void(0)" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                <a href="javascript:void(0)" id="nuevo" class="pull-right btn btn-success"><span class="fa fa-plus-circle"></span></a>
 
             </div>
             <!-- /.box-header -->
@@ -69,14 +69,20 @@
                     <td>
                       @if($construccion->estado==1)
                       {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                      <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$construccion->id}}"><span class="fa fa-edit"></span></a>
-                      <a class="btn btn-danger" type="button" onclick={{ "baja(".$construccion->id.",'construcciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                      <div class="btn-group">
+                        <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                        <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$construccion->id}}"><span class="fa fa-edit"></span></a>
+                        <button class="btn btn-danger" type="button" onclick={{ "baja(".$construccion->id.",'construcciones')" }}>
+                          <span class="fa fa-trash"></span>
+                        </button>
+                      </div>
                       {{ Form::close() }}
                       @elseif($construccion->estado==2)
                       @elseif($construccion->estado==3)
-                      <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a class="btn btn-success vista_previa" href="{{url ('reportestesoreria/reciboc/'.$construccion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
+                      <div class="btn-group">
+                        <a href="{{ url('construcciones/'.$construccion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                        <a class="btn btn-success vista_previa" href="{{url ('reportestesoreria/reciboc/'.$construccion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
+                      </div>
                       @else
                       @endif
                     </td>
@@ -95,7 +101,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar una construcción</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar construcción</h4>
       </div>
       <div class="modal-body">
           <form id="form_construccion" class="">
@@ -108,7 +114,7 @@
       </div>
       <div class="modal-footer">
         <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-success">Registrar</button></center>
+        <button type="submit" class="btn btn-success">Guardar</button></center>
       </div>
     </form>
     </div>
@@ -388,7 +394,7 @@
         data:datos,
         success: function(json){
           if(json[0]==1){
-            toastr.success("Contribuyente registros con éxito");
+            toastr.success("Contribuyente registrado con éxito");
             $("#elcontribuyente").append('<option selected value="'+json[2].id+'">'+json[2].nombre+'</option>');
             $("#elcontribuyente").trigger("chosen:updated");
             $("#form_contribuyente").trigger("reset");

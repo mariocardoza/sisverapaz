@@ -29,33 +29,46 @@ class ConfiguracionSeed extends Seeder
 
         
         $por= new Porcentaje();
+        $por->tipo='%';
         $por->nombre='Renta';
         $por->nombre_simple='renta';
-        $por->porcentaje=0.00;
+        $por->porcentaje=15;
         $por->save();
 
         $por= new Porcentaje();
+        $por->tipo='%';
         $por->nombre='IVA';
         $por->nombre_simple='iva';
-        $por->porcentaje=0.00;
+        $por->porcentaje=13;
         $por->save();
 
         $por= new Porcentaje();
+        $por->tipo='%';
         $por->nombre='Fiestas Patronales';
         $por->nombre_simple='fiestas';
-        $por->porcentaje=0.00;
+        $por->porcentaje=5;
         $por->save();
 
         $por= new Porcentaje();
+        $por->tipo='$';
         $por->nombre='Mora contribuyentes';
         $por->nombre_simple='mora';
-        $por->porcentaje=0.00;
+        $por->porcentaje=3.5;
         $por->save();
 
         $por= new Porcentaje();
+        $por->tipo='%';
         $por->nombre='Construcciones';
         $por->nombre_simple='construccion';
-        $por->porcentaje=0.00;
+        $por->porcentaje=6;
+        $por->save();
+
+        $por= new Porcentaje();
+        $por->tipo='%';
+        $por->nombre='Renta Servicio';
+        $por->nombre_simple='renta_servicio';
+        $por->porcentaje=10;
+        $por->es_servicio=1;
         $por->save();
     }
 

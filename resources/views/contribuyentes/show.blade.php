@@ -31,8 +31,8 @@
                 <i class="fa fa-thumbs-o-up"></i>
             </button>
             @endif
-              <button class="btn btn-primary" data-id="{{$c->id}}" id="edi_contri" title='Editar contribuyente'>
-                <i class="fa fa-pencil"></i>
+              <button class="btn btn-warning" data-id="{{$c->id}}" id="edi_contri" title='Editar contribuyente'>
+                <i class="fa fa-edit"></i>
               </button>
             </div>
           </div>
@@ -77,7 +77,7 @@
                     <div class="col-xs-12 table-responsive" style="padding-top: 30px;">
                         <div class="col-xs-12">
                             <div class="btn-group pull-right">
-                              <button class="btn btn-primary" tooltip-placement='left' id="nuevo_inmueble" tooltip='Agregar inmueble'>
+                              <button class="btn btn-success" tooltip-placement='left' id="nuevo_inmueble" tooltip='Agregar inmueble'>
                                 <i class="fa fa-plus-circle"></i>
                               </button>
                             </div>
@@ -143,7 +143,7 @@
                 <div class="tab-pane" id="negocios" style="max-height: 580px; overflow-y: scroll; overflow-y: auto;">
                     <div class="col-xs-12">
                         <div class="btn-group pull-right">
-                          <button class="btn btn-primary" title='Agregar negocio' id="nuevo_negocio">
+                          <button class="btn btn-success" title='Agregar negocio' id="nuevo_negocio">
                             <i class="fa fa-plus-circle"></i>
                           </button>
                         </div>
@@ -199,7 +199,7 @@
                                   <i class="fa fa-thumbs-o-up"></i>
                                 </button>
                                 @endif
-                                <a href="{{ url('contribuyentes/recibosn/'.$n->id) }}" class="btn btn-success"><i class="fa fa-print"></i></a>
+                                <a href="{{ url('contribuyentes/recibosn/'.$n->id) }}" class="btn btn-primary"><i class="fa fa-print"></i></a>
                               </div>
                             </td>
                           </tr>

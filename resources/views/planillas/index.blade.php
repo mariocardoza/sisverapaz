@@ -26,7 +26,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
           <br><br><br>
           <div class="row">
             <div class="col-md-10">
-              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Nueva</a>
+              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Nueva</a>
             </div>
             <div class="col-md-2 pull-right">
               <div class="form-group">
@@ -41,6 +41,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       @endif
                   @endforeach
                 </select>
+                <p></p>
                 <button class="btn btn-primary" id="btn_anio">Aceptar</button>
               </div>
             </div>

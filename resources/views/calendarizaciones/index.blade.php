@@ -16,7 +16,6 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
               <div class="btn-group pull-right">
                 <a href="{{ url('/calendarizaciones/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
               </div>
@@ -39,9 +38,11 @@
                     <td>{{ $calendarizacion->descripcion }}</td>
                     <td>
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                <a href="{{ url('calendarizaciones/'.$calendarizacion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('/calendarizaciones/'.$calendarizacion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$calendarizacion->id.",'calendarizaciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <div>
+                                  <a href="{{ url('calendarizaciones/'.$calendarizacion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                                  <a href="{{ url('/calendarizaciones/'.$calendarizacion->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                  <button class="btn btn-danger" type="button" onclick={{ "baja(".$calendarizacion->id.",'calendarizaciones')" }}><span class="fa fa-trash"></span></button>
+                                </div>
                                 {{ Form::close()}}
 
                         </td>

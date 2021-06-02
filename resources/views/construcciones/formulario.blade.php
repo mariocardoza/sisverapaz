@@ -14,7 +14,7 @@
 			</select>
 		</div>
 		<div class="col-md-2">
-			<button class="btn btn-primary" id="nuevo_contri" type="button"><i class="fa fa-plus"></i></button>
+			<button class="btn btn-success" id="nuevo_contri" type="button"><i class="fa fa-plus"></i></button>
 		</div>
 	</div>
 </div>
@@ -29,7 +29,7 @@
 			</select>
 		</div>
 		<div class="col-md-2">
-			<button class="btn btn-primary" id="nuevo_inmueble" type="button"><i class="fa fa-plus"></i></button>
+			<button class="btn btn-success" id="nuevo_inmueble" type="button"><i class="fa fa-plus"></i></button>
 		</div>
 	</div>
 </div>
