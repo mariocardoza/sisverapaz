@@ -86,7 +86,13 @@
     <label for="fecha_nacimiento" class="control-label">Fecha de Nacimiento</label>
 
     <div class="">
-    {{ Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','autocomplete'=>'off']) }}
+      @if(!empty($empleado))
+      {{ Form::text('fecha_nacimiento', $empleado->fecha_nacimiento->format('d-m-Y'),['class' => 'nacimiento form-control','autocomplete'=>'off']) }}
+
+      @else
+      {{ Form::text('fecha_nacimiento', null,['class' => 'nacimiento form-control','autocomplete'=>'off']) }}
+
+      @endif
     </div>
   </div>
 </div>

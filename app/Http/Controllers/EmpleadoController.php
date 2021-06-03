@@ -199,8 +199,16 @@ class EmpleadoController extends Controller
     public function update(Request $request, $id)
     {
         try{
-           $empleado = Empleado::find($id);
-            $empleado->fill($request->All());
+            $empleado = Empleado::find($id);
+            $empleado->nombre = $request->nombre;
+            $empleado->dui = $request->dui;
+            $empleado->nit = $request->nit;
+            $empleado->sexo = $request->sexo;
+            $empleado->telefono_fijo = $request->telefono_fijo;
+            $empleado->celular = $request->celular;
+            $empleado->direccion = $request->direccion;
+            $empleado->es_usuario=$request->es_usuario;
+            $empleado->fecha_nacimiento = invertir_fecha($request->fecha_nacimiento);
             $empleado->save();
             bitacora('Modificó un registro'); 
             return array(1,"exito");
