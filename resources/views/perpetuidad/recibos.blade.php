@@ -52,13 +52,15 @@
                         <td>
                             @if($r->estado==1)
                             <label for="" class="label-primary col-sm-12">Recibo emitido</label>
+                            @elseif($r->estado==2)
+                            <label for="" class="label-danger col-sm-12">Anulada</label>
                             @else
                             <label for="" class="label-success col-sm-12">Pagado</label>
                             @endif
                         </td>
                         <td>
                             <a class="btn btn-success vista_previa" href="{{url ('reportestesoreria/recibop/'.$r->id)}}" target="_blank"><i class="fa fa-print"></i></a>
-                            <button class="btn btn-primary"><i class="fa fa-money"></i></button>
+                            <button class="btn btn-primary cobrar" data-id="{{ $r->id }}"><i class="fa fa-money"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -74,4 +76,59 @@
         <!-- /.box -->
 </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+  $(function(){
+     /* cobrar la partida */
+     $(document).on("click",".cobrar",function(e){
+            e.preventDefault();
+            let id=$(this).attr("data-id");
+            swal({
+                title: '',
+                text: "¿Desea registrar este pago?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '¡Si!',
+                cancelButtonText: '¡No!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    modal_cargando();
+                    $.ajax({
+                        url:'/perpetuidad/cobro',
+                        type:'post',
+                        dataType:'json',
+                        data:{id},
+                        success: function(json){
+                            if(json[0]==1){
+                                toastr.success("Pago recibido");
+                                location.reload();
+                                }else{
+                                toastr.error("Ocurrió un error");
+                                swal.closeModal();
+                                }
+                            }, error: function(error){
+                                toastr.error("Ocurrió un error");
+                                swal.closeModal();
+                            }
+                    });
+                    
+                    } else if (result.dismiss === swal.DismissReason.cancel) {
+                        swal(
+                            'Revise el recibo por favor',
+                            '',
+                            'info'
+                        );
+                    }
+            });
+        });
+
+  });
+</script>
 @endsection

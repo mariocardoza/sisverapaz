@@ -16,7 +16,7 @@
     <div class="col-xs-12">
         <div class="panel panel-primary">
         <div class="panel-heading">Movimientos de la cuenta {{$cuenta->nombre}}</div>
-        <div class="panel">
+        <div class="panel-body">
             <div class="row">
                 <div class="col-xs-1"><b>N°</b></div>
                 <div class="col-xs-4"><b>Detalle</b></div>

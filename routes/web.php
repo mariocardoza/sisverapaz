@@ -355,6 +355,7 @@ Route::get('contribuyentes-morosos','ContribuyenteController@morosos');
 
 Route::post('perpetuidad/beneficiario','PerpetuidadController@beneficiario');
 Route::get('perpetuidad/recibos','PerpetuidadController@recibos');
+Route::post('perpetuidad/cobro','PerpetuidadController@cobro');
 Route::Resource('perpetuidad','PerpetuidadController');
 
 Route::Resource('tiposervicios','TipoServicioController');
@@ -384,6 +385,8 @@ Route::post('inmuebles/ubicacion','InmuebleController@ubicacion');
 
 /*Route::post('inmuebles/alta/{id}','InmuebleController@alta')->name('inmuebles.alta');*/
 Route::Resource('inmueble','InmuebleController');
+
+Route::post('construcciones/cobro','ConstruccionController@cobro');
 Route::get('construcciones/inmuebles/{id}','ConstruccionController@inmueble');
 Route::put('construcciones/cambiarestado/{id}','ConstruccionController@cambiarestado');
 Route::get('construcciones/recibos','ConstruccionController@recibo');
@@ -456,6 +459,7 @@ Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
 Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('desembolsos','DesembolsoController');
+Route::post('ingresos/cobro','IngresoController@cobro');
 Route::Resource('ingresos','IngresoController');
 Route::Resource('tipopagos','TipopagoController');
 Route::get('pagos/ordencompras','OrdencompraController@index2');

@@ -16,14 +16,18 @@ class CreateCuentasTable extends Migration
         Schema::create('cuentas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('numero_cuenta');
-            $table->bigInteger('proyecto_id')->unsigned();
-            $table->string('banco');
+            $table->bigInteger('banco_id')->unsigned();
             $table->date('fecha_de_apertura');
-            $table->double('monto_inicial',8,2);
+            $table->string('descripcion')->nullable();
+            $table->double('monto_inicial',20,2);
             $table->integer('estado')->default(1);
             $table->date('fecha_de_reasignacion')->nullable();
             $table->string('motivo_reasignacion')->nullable();
-            $table->foreign('proyecto_id')->references('id')->on('proyectos');
+            $table->string('nombre');
+            $table->integer('anio')->default(date('Y'))->nullable();
+            $table->date('fecha_liquidacion')->nullable();
+            $table->tinyInteger('tipo_cuenta')->unsigned();
+            $table->foreign('banco_id')->references('id')->on('bancos');
             $table->timestamps();
         });
     }

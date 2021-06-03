@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OnlyAccountByYear;
 
 class CuentaRequest extends FormRequest
 {
@@ -28,6 +29,7 @@ class CuentaRequest extends FormRequest
             'banco_id' => 'required',
             'fecha_de_apertura' => 'required',
             'monto_inicial' => 'required|numeric',
+            'tipo_cuenta' => ['required', new OnlyAccountByYear($this->tipo_cuenta)],
         ];
     }
 }

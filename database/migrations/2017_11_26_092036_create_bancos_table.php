@@ -15,8 +15,10 @@ class CreateBancosTable extends Migration
     {
         Schema::create('bancos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre',40);
+            $table->string('nombre');
             $table->boolean('estado')->default(1);
+            $table->string('motivo')->nullable();
+            $table->date('fechabaja')->nullable();
             $table->timestamps();
         });
     }

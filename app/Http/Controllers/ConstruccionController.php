@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Contribuyente;
 use App\Inmueble;
 use App\Construccion;
+use App\Cuenta;
+use App\CuentaDetalle;
 use App\Http\Requests\ConstruccionRequest;
 use Validator;
 
@@ -189,6 +191,56 @@ class ConstruccionController extends Controller
             return array(1,"exito",$construccion);
         }catch(Exception$e){
 
+        }
+    }
+
+    public function cobro(Request $request)
+    {
+        $factura=Construccion::find($request->id);
+        \DB::beginTransaction();
+        try{
+            $cuenta_origen=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',1)->first();
+            if($cuenta_origen){
+                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->pagoTotal;
+                $cuenta_origen->save();
+
+                $detalle_origen=CuentaDetalle::create([
+                    'id'=>CuentaDetalle::retonrar_id_insertar(),
+                    'cuenta_id'=>$cuenta_origen->id,
+                    'accion'=>'Se recibió la cantidad de $'.$factura->impuesto.' en concepto de cobro de impuesto por derecho de construcción para el inmueble con número catastral N°: '.$factura->inmueble->numero_catastral,
+                    'tipo'=>1,
+                    'monto'=>$factura->impuesto
+                ]);
+
+                $cuenta_fiestas=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',2)->first();
+                if($cuenta_fiestas){
+                    $monto_fiestas=0;
+                    $monto_fiestas=$factura->fiestas;
+                    $cuenta_fiestas->monto_inicial=$cuenta_fiestas->monto_inicial+$monto_fiestas;
+                    $cuenta_fiestas->save();
+
+                    $detalle_origen=CuentaDetalle::create([
+                        'id'=>CuentaDetalle::retonrar_id_insertar(),
+                        'cuenta_id'=>$cuenta_fiestas->id,
+                        'accion'=>'Se recibió la cantidad de $'.$monto_fiestas.' en concepto de cobro de impuesto por derecho de construcción para el inmueble con número catastral N°: '.$factura->inmueble->numero_catastral,
+                        'tipo'=>1,
+                        'monto'=>$monto_fiestas
+                    ]);
+                }
+
+                
+                $factura->estado=4;
+                $factura->fecha_pago=date('Y-m-d');
+                $factura->save();
+
+                \DB::commit();
+            }else{
+                \DB::rollback(); 
+            }
+            return array(1,"exito");
+        }catch(Exception $e){
+            \DB::rollback();
+            return array(-1,"error",$e->getMessage());
         }
     }
 

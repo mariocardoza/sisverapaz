@@ -102,7 +102,7 @@ class CuentaController extends Controller
                 'banco_id'=>$request->banco_id,
                 'numero_cuenta'=>$request->numero_cuenta,
                 'fecha_de_apertura'=>invertir_fecha($request->fecha_de_apertura),
-                'principal'=>0   
+                'tipo_cuenta'=>$request->tipo_cuenta,
             ]);
 
             $detalle=CuentaDetalle::create([
@@ -290,8 +290,23 @@ class CuentaController extends Controller
     public function update(Request $request, $id)
     {
         //dd($request->All());
+        $request->validate([
+            //'numero_cuenta' => 'required|unique:cuentas',
+            'banco_id' => 'required',
+            'fecha_de_apertura' => 'required',
+            'nombre' => 'required',
+            'descripcion' => 'required',
+          ]);
+  
         $cuenta = Cuenta::findorFail($id);
-        $cuenta->fill($request->All());
+        $cuenta->fecha_de_apertura = invertir_fecha($request->fecha_de_apertura);
+        if($request->numero_cuenta!=$cuenta->numero_cuenta):
+            $this->validate($request,['numero_cuenta'=> 'required|unique:cuentas']);
+        endif;
+        $cuenta->numero_cuenta = $request->numero_cuenta;
+        $cuenta->banco_id = $request->banco_id;
+        $cuenta->nombre = $request->nombre;
+        $cuenta->descripcion = $request->descripcion;
         $cuenta->save();
         return redirect('cuentas')->with('mensaje','Cuenta modificada con éxito');
     }

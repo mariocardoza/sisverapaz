@@ -64,7 +64,11 @@
                   <td>${{number_format($factura->pagoTotal+($factura->pagoTotal*($factura->porcentajeFiestas/100)),2)}}</td>
                   <td>{{$factura->created_at->format("d/m/Y")}}</td>
                   <td>
-                    <button class="btn btn-primary"><i class="fa fa-money"></i></button>
+                    @if($n==0)
+                      <button data-id="{{ $factura->id }}" id="cobrar_inmueble" class="btn btn-primary"><i class="fa fa-money"></i></button>
+                    @else
+                      <button data-id="{{ $factura->id }}" id="cobrar_negocio" class="btn btn-primary"><i class="fa fa-money"></i></button>
+                    @endif
                   </td>
                 </tr>
                 @endforeach
@@ -80,4 +84,125 @@
         <!-- /.box -->
 </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+$(function(){
+  //cobro a negocios
+  $(document).on("click","#cobrar_negocio",function(e){
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    swal({
+			title: '¿Está seguro?',
+			text: "¿Desea confirmar el pago?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '¡Si!',
+			cancelButtonText: '¡No!',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		}).then((result) => {
+			if (result.value) {
+        $.ajax({
+          url:'/ingresos/cobro',
+          type:'POST',
+          dataType:'json',
+          data:{id:id,tipo:2},
+          success: function(json){
+            if(json[0]==1){
+              swal(
+                '¡Realizado!',
+                'Cobro realizado con éxito.',
+                'success'
+              );
+              location.reload();
+            }else{
+              swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+            }
+          },error:function(error){
+            swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+          }
+        })
+
+			} else if (result.dismiss === swal.DismissReason.cancel) {
+				swal(
+					'Cancelado',
+					'Revise el monto de la factura',
+					'info'
+				)
+			}
+		})
+  });
+
+  //cobro a negocios
+  $(document).on("click","#cobrar_inmueble",function(e){
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    swal({
+			title: '¿Está seguro?',
+			text: "¿Desea confirmar el pago?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '¡Si!',
+			cancelButtonText: '¡No!',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		}).then((result) => {
+			if (result.value) {
+        $.ajax({
+          url:'/ingresos/cobro',
+          type:'POST',
+          dataType:'json',
+          data:{id:id,tipo:1},
+          success: function(json){
+            if(json[0]==1){
+              swal(
+                '¡Realizado!',
+                'Cobro realizado con éxito.',
+                'success'
+              );
+              location.reload();
+            }else{
+              swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+            }
+          },error:function(error){
+            swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+          }
+        })
+
+			} else if (result.dismiss === swal.DismissReason.cancel) {
+				swal(
+					'Cancelado',
+					'Revise el monto de la factura',
+					'info'
+				)
+			}
+		})
+  });
+});
+</script>
 @endsection

@@ -65,7 +65,7 @@
                     <td>
                       
                       <a class="btn btn-success vista_previa" href="{{url ('reportestesoreria/reciboc/'.$construccion->id)}}" target="_blank"><i class="fa fa-print"></i></a>
-                      <button class="btn btn-primary"><i class="fa fa-money"></i></button>
+                      <button class="btn btn-primary" data-id="{{ $construccion->id }}" id="cobrar_construccion" ><i class="fa fa-money"></i></button>
                     </td>
                   </tr>
                   @endforeach
@@ -203,6 +203,64 @@
 <script>
   $(document).ready(function(e){
     initMap();
+
+  //cobro a construccion
+  $(document).on("click","#cobrar_construccion",function(e){
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    swal({
+			title: '¿Está seguro?',
+			text: "¿Desea confirmar el pago?",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '¡Si!',
+			cancelButtonText: '¡No!',
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+			buttonsStyling: false,
+			reverseButtons: true
+		}).then((result) => {
+			if (result.value) {
+        $.ajax({
+          url:'/construcciones/cobro',
+          type:'POST',
+          dataType:'json',
+          data:{id:id,tipo:1},
+          success: function(json){
+            if(json[0]==1){
+              swal(
+                '¡Realizado!',
+                'Cobro realizado con éxito.',
+                'success'
+              );
+              location.reload();
+            }else{
+              swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+            }
+          },error:function(error){
+            swal(
+                '¡Error!',
+                'Contacte al administrador.',
+                'error'
+              );
+          }
+        })
+
+			} else if (result.dismiss === swal.DismissReason.cancel) {
+				swal(
+					'Cancelado',
+					'Revise el monto de la factura',
+					'info'
+				)
+			}
+		})
+  });
    
     //abrir nuevo modal
     $(document).on("click","#nuevo",function(e){

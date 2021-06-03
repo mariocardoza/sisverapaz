@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Cementerio;
 use App\Contribuyente;
 use App\Perpetuidad;
+use App\Cuenta;
+use App\CuentaDetalle;
 use App\PerpetuidadBeneficiario;
 Use Validator;
 
@@ -232,6 +234,56 @@ class PerpetuidadController extends Controller
                 return array(2,'No se pueden sepultar mas de dos personas en el mismo nicho');
             }
         }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function cobro(Request $request)
+    {
+        $factura=Perpetuidad::find($request->id);
+        \DB::beginTransaction();
+        try{
+            $cuenta_origen=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',1)->first();
+            if($cuenta_origen){
+                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->costo;
+                $cuenta_origen->save();
+
+                $detalle_origen=CuentaDetalle::create([
+                    'id'=>CuentaDetalle::retonrar_id_insertar(),
+                    'cuenta_id'=>$cuenta_origen->id,
+                    'accion'=>'Se recibió la cantidad de $'.$factura->costo.' en concepto de cobro de impuesto por emisión de título a perpetuidad',
+                    'tipo'=>1,
+                    'monto'=>$factura->costo
+                ]);
+
+                $cuenta_fiestas=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',2)->first();
+                if($cuenta_fiestas){
+                    $monto_fiestas=0;
+                    $monto_fiestas=round($factura->costo*($factura->fiestas/100),2);
+                    $cuenta_fiestas->monto_inicial=$cuenta_fiestas->monto_inicial+$monto_fiestas;
+                    $cuenta_fiestas->save();
+
+                    $detalle_origen=CuentaDetalle::create([
+                        'id'=>CuentaDetalle::retonrar_id_insertar(),
+                        'cuenta_id'=>$cuenta_fiestas->id,
+                        'accion'=>'Se recibió la cantidad de $'.$monto_fiestas.' en concepto de cobro de impuesto por emisión de título a perpetuidad',
+                        'tipo'=>1,
+                        'monto'=>$monto_fiestas
+                    ]);
+                }
+
+                
+                $factura->estado=3;
+                //$factura->fecha_pago=date('Y-m-d');
+                $factura->save();
+
+                \DB::commit();
+            }else{
+                \DB::rollback(); 
+            }
+            return array(1,"exito");
+        }catch(Exception $e){
+            \DB::rollback();
             return array(-1,"error",$e->getMessage());
         }
     }

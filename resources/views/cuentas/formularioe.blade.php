@@ -8,14 +8,14 @@
 <div class="row">
     <div class="col-md-12" style="text-align: center;">
         <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-primary active">
-              <input type="radio" name="tipo_cuenta" value="3" id="tipo_cuenta" checked> Común
+            <label class="btn btn-primary {{ $cuenta->tipo_cuenta==3 ? 'active':'' }}">
+              <input type="radio" name="tipo_cuenta" value="3" id="tipo_cuenta" {{ $cuenta->tipo_cuenta==3 ? 'checked':'' }}> Común
             </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="tipo_cuenta" value="1" id="tipo_cuenta"> Principal
+            <label class="btn btn-primary {{ $cuenta->tipo_cuenta==1 ? 'active':'' }}">
+              <input type="radio" name="tipo_cuenta" value="1" id="tipo_cuenta" {{ $cuenta->tipo_cuenta==1 ? 'checked':'' }}> Principal
             </label>
-            <label class="btn btn-primary">
-              <input type="radio" name="tipo_cuenta" value="2" id="tipo_cuenta"> Fiestas
+            <label class="btn btn-primary {{ $cuenta->tipo_cuenta==2 ? 'active':'' }}">
+              <input type="radio" name="tipo_cuenta" value="2" id="tipo_cuenta" {{ $cuenta->tipo_cuenta==2 ? 'checked':'' }}> Fiestas
             </label>
         </div>
     </div>
@@ -68,24 +68,12 @@
                 @endif
             </div>
         </div>
-        <div class="form-group{{ $errors->has('monto_inicial') ? ' has-error' : '' }}">
-            <label for="nombre" class="control-label">Monto inicial</label>
         
-            <div class="">
-                {{ Form::number('monto_inicial', null,['class' => 'form-control','min'=>0,'steps'=>'0.01']) }}
-        
-                @if ($errors->has('monto_inicial'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('monto_inicial') }}</strong>
-                    </span>
-                 @endif
-            </div>
-        </div>
         <div class="form-group{{ $errors->has('fecha_de_apertura') ? ' has-error' : '' }}">
             <label for="fecha_de_apertura" class="control-label">Fecha de apertura</label>
         
             <div class="">
-                {{ Form::text('fecha_de_apertura', null,['class' => 'form-control fechita','autocomplete'=>'off']) }}
+                {{ Form::text('fecha_de_apertura', $cuenta->fecha_de_apertura->format('d-m-Y'),['class' => 'form-control fechita','autocomplete'=>'off']) }}
         
                 @if ($errors->has('fecha_de_apertura'))
                     <span class="help-block">

@@ -46,9 +46,9 @@
           <th>N°</th>
           <th>Nombre</th>
           <th>Número de cuenta</th>
+          <th>Tipo de cuenta</th>
           <th>Monto</th>
           <th>Banco</th>
-          <th>Principal</th>
           <th>Acción</th>
         </thead>
         <tbody>
@@ -57,13 +57,16 @@
             <td>{{$index+1}}</td>
             <td>{{ $cuenta->nombre }}</td>
             <td>{{ $cuenta->numero_cuenta }}</td>
+            @if($cuenta->tipo_cuenta==1)
+              <td>Principal</td>
+            @elseif($cuenta->tipo_cuenta==2)
+              <td>Fiestas </td>
+            @else
+              <td>Común </td>
+            @endif
             <td>${{ number_format($cuenta->monto_inicial,2) }}</td>
             <td>{{ $cuenta->banco->nombre }}</td>
-            @if($cuenta->principal==1)
-            <td>Si</td>
-            @else
-            <td>No</td>
-            @endif
+            
             
             <td>
               @if($cuenta->estado == 1)
