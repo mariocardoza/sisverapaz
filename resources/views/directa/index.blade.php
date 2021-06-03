@@ -28,7 +28,7 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title"></h3><br>
-                <a href="javascript:void(0)" id="nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                <a href="javascript:void(0)" id="nuevo" class="btn btn-success pull-right"><span class="fa fa-plus-circle"></span></a>
 
             </div>
             <!-- /.box-header -->
@@ -53,8 +53,10 @@
                         <td class="text-right">${{number_format($c->monto,2)}}</td>
                         <td>{{$c->user->empleado->nombre}}</td>
                         <td>
-                          <a href="{{url('directa/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                          <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$c->id}}"><i class="fa fa-edit"></i></a>
+                          <div class="btn-group">
+                            <a href="{{url('directa/'.$c->id)}}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-warning editar" data-id="{{$c->id}}"><i class="fa fa-edit"></i></a>
+                          </div>
                         </td>
                       </tr>
                   @endforeach

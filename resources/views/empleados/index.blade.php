@@ -18,7 +18,7 @@
             <div class="box-header">
               <h3 class="box-title"></h3>
                 <div class="btn-group pull-right">
-                  <a href="javascript:void(0)" id="btn_n_empleado" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+                  <a href="javascript:void(0)" id="btn_n_empleado" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                   <a href="{{ url('/empleados?estado=1') }}" class="btn btn-primary">Activos</a>
                   <a href="{{ url('/empleados?estado=2') }}" class="btn btn-primary">Inactivos</a>
                 </div>
@@ -46,15 +46,16 @@
                     <td>
                       @if($estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST','id'=>"baja", 'class' => 'form-horizontal'])}}
-                          <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <button class="btn btn-danger" type="button" onclick={{ "baja(".$empleado->id.",'empleados')" }}><span class="glyphicon glyphicon-trash"></span></button>
 
-                      
+                        <div class="btn-group">
+                          <a href="{{ url('empleados/'.$empleado->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                          <button class="btn btn-danger" type="button" onclick={{ "baja(".$empleado->id.",'empleados')" }}><span class="fa fa-thumbs-o-down"></span></button>
+                        </div>
 
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST','id'=>'alta',  'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success" type="button" onclick={{ "alta(".$empleado->id.",'empleados')" }}><span class="fa fa-refresh"></span></button>
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$empleado->id.",'empleados')" }}><span class="fa fa-thumbs-o-up"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>

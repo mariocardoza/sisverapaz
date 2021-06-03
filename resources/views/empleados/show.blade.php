@@ -83,7 +83,7 @@
 
               <center>
               @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-              <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> Editar</a>
+              <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> </a>
               @endif
                 <!--button class="btn btn-danger" type="button" id="dar_baja"><span class="glyphicon glyphicon-trash"></span> Eliminar</button-->
               

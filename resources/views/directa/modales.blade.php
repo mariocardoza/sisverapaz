@@ -22,7 +22,7 @@
             <input id="file-upload" onchange='cambiar()' name="archivo" type="file" style='display: none;'/>
             <div id="info"></div>
                 <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-          <button type="submit"  class="btn btn-success">Guardar</button></center>
+          <button type="submit"  class="btn btn-primary">Guardar</button></center>
             </form>
         </div>
         <!--div class="modal-footer">
@@ -87,7 +87,7 @@
         </div>
         <div class="modal-footer">
           <center><button type="button" class="btn btn-danger" id="cierra_modal">Cerrar</button>
-            <button type="submit"  class="btn btn-success">Guardar</button></center>
+            <button type="submit"  class="btn btn-primary">Guardar</button></center>
         </div>
       </form>
       </div>

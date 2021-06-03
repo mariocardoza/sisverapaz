@@ -275,7 +275,7 @@
                 data:{nombre,costo,isObligatorio},
                 success: function(json){
                     if(json.ok==true){
-                        toastr.success("servicio modificado con éxito");
+                        toastr.success("servicio modificado");
                         servicios();
                         $("#can_edit").trigger("click");
                     }else{
@@ -304,7 +304,7 @@
                 data:{nombre,porcentaje},
                 success: function(json){
                     if(json.ok==true){
-                        toastr.success("Rubro modificado con éxito");
+                        toastr.success("Rubro modificado");
                         rubros();
                         $("#can_edit_r").trigger("click");
                     }else{
@@ -332,7 +332,7 @@
                 data:{estado:false},
                 success: function(json){
                     if(json.ok==true){
-                        toastr.success("Rubro eliminado con éxito");
+                        toastr.success("Rubro eliminado");
                         rubros();
                     }else{
                         toastr.error("Ocurrió un error");
@@ -352,7 +352,7 @@
                 data:{estado:false},
                 success: function(json){
                     if(json.ok==true){
-                        toastr.success("Servicio eliminado con éxito");
+                        toastr.success("Servicio eliminado");
                         servicios();
                     }else{
                         toastr.error("Ocurrió un error");
