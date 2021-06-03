@@ -30,6 +30,7 @@ class ProyectoRequest extends FormRequest
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
             'motivo' => 'required',
+            'monto_desarrollo' => 'required',
         ];
     }
 }

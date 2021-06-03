@@ -50,7 +50,7 @@ class HomeController extends Controller
             ->join('negocios as n','n.id','=','fn.negocio_id','inner')
             ->where('fn.estado','=',1)
             ->where('fn.fechaVencimiento','<',date("Y-m-d"))
-            ->groupBy('n.id','fn.negocio_id')
+            ->groupBy('n.id','fn.negocio_id','n.nombre','n.lat','n.lng','n.direccion','n.id')
             ->get();
         
         if($configuracion!='')

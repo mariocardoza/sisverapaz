@@ -455,8 +455,8 @@ Route::post('cuentas/remesarproyecto','CuentaController@remesarproyecto');
 Route::Resource('cuentas','CuentaController');
 
 //Route::Resource('cuentaprincipal','CuentaprincipalController');
-Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
-Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
+Route::post('cuentas/baja/{id}','CuentaController@baja')->name('cuentas.baja');
+//Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('desembolsos','DesembolsoController');
 Route::post('ingresos/cobro','IngresoController@cobro');

@@ -84,7 +84,7 @@
 <script>
 	$(document).ready(function(e){
 		$(document).on("click","#btnmodalagregar", function(e){
-			$("#registrar_material").modal("show");
+			$("#modal_registrar").modal("show");
 		});
 
 		$(document).on("click","#btnguardar", function(e){

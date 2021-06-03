@@ -338,12 +338,7 @@ class CuentaController extends Controller
 
     public function alta($id)
     {
-        $cuenta = Cuenta::find($id);
-        $cuenta->estado = 1;
-        $cuenta->motivo = "";
-        $cuenta->save();
-        bitacora('Dió de alta una cuenta');
-        return redirect('/cuentas')->with('mensaje', 'Cuenta dada de alta');
+
     }
 
     protected function validar_remesa(array $data)

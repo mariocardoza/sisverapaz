@@ -14,7 +14,7 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box">
-		<div class="box-header">
+		<div class="box-header"><p></p>
 			<div class="btn-group pull-right">
 				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
 				<a href="{{ url('/cargos?estado=1') }}" class="btn btn-primary">Activos</a>
