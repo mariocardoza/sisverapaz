@@ -214,16 +214,18 @@ class ContribuyenteController extends Controller
                     $facturaArray['mueble_id'] = $value['id'];
                     
                     foreach ($value->tipoServicio as $item) {
-                      $precio = ($item['isObligatorio'] == 1) ? 
-                          $precio = floatval($item['costo']) : 
-                          floatval($value['metros_acera']) * floatval($item['costo']);
-    
-                         array_push($arrayFacturaItems, new \App\FacturasItems([
-                          "tipoinmueble_id" => $item->pivot['id'],
-                          "precio_servicio" => $precio
-                        ])); 
-                        //$arra[]=$item->pivot;
-                      $total += $precio;
+                      if($item['estado']==1):
+                        $precio = ($item['isObligatorio'] == 1) ? 
+                            $precio = floatval($item['costo']) : 
+                            floatval($value['metros_acera']) * floatval($item['costo']);
+      
+                          array_push($arrayFacturaItems, new \App\FacturasItems([
+                            "tipoinmueble_id" => $item->pivot['id'],
+                            "precio_servicio" => $precio
+                          ])); 
+                          //$arra[]=$item->pivot;
+                        $total += $precio;
+                      endif;
                     }
                     $subt=0;
                     $subt=$this->getMora($value->id) + $total; 

@@ -565,6 +565,8 @@ Route::post('mapa/all', 'NegocioController@mapasAll');
 Route::get('reporte', 'ReportesUaciController@reportePDF');
 
 // Routas para el cementerio
+Route::post('cementerios/baja/{id}','CementerioController@baja')->name('cementerios.baja');
+Route::post('cementerios/alta/{id}','CementerioController@alta')->name('cementerios.alta');
 Route::Resource("/cementerios", "CementerioController");
 
 

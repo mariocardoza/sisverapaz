@@ -40,7 +40,11 @@
                         @foreach ($contribuyentes  as $i => $c)
                         <tr>
                             <td>{{$i+1}}</td>
+                            @if($c->estado==1)
                             <td>{{$c->nombre}}</td>
+                            @else
+                            <td><del>{{$c->nombre}}</del></td>
+                            @endif
                             <td>{{$c->telefono}}</td>
                             <td>{{$c->dui}}</td>
                             <td>{{$c->nit}}</td>
@@ -335,8 +339,10 @@
                         toastr.success("Rubro eliminado");
                         rubros();
                     }else{
-                        toastr.error("Ocurrió un error");
+                        toastr.error(json.message);
                     }
+                },error:function(error){
+                    toastr.error("Ocurrió un error, contacte al administrador");
                 }
             })
         });

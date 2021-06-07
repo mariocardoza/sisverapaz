@@ -302,10 +302,10 @@ class InmuebleController extends Controller
         return Validator::make($data, [
             'contribuyente_id' => 'required',
             'numero_catastral' => 'required',
-            'ancho_inmueble'=>'required|numeric',
-            'largo_inmueble'=>'required|numeric',
+            'ancho_inmueble'=>'required|numeric|min:1',
+            'largo_inmueble'=>'required|numeric|min:1',
             'numero_escritura'=>'required',
-            'metros_acera'=>'required|numeric',
+            'metros_acera'=>'required|numeric|min:0',
         ],$mensajes);
     }
 
@@ -314,6 +314,7 @@ class InmuebleController extends Controller
         $inmueble=Inmueble::find($id);
        
         $servicios= \DB::table('tiposervicios as ts')
+        ->where('ts.estado','=',1)
         ->whereNotExists(function ($query) use ($id)  {
              $query->from('inmueble_tiposervicio as its')
                 ->whereRaw('its.tiposervicio_id = ts.id')
@@ -323,9 +324,13 @@ class InmuebleController extends Controller
         $select="<option value=''>Seleccione..</option>";
         foreach($inmueble->tiposervicio as $i => $t){
             $html.='<tr>
-              <td>'.($i+1).'</td>
-              <td><span>'.$t->nombre.'</span></td>
-              <td><span>$'.number_format($t->costo,2).'</span></td>
+              <td>'.($i+1).'</td>';
+              if($t->estado==0):
+                $html.='<td><del>'.$t->nombre.'</del></td>';
+              else:
+                $html.='<td><span>'.$t->nombre.'</span></td>';
+              endif;
+              $html.='<td><span>$'.number_format($t->costo,2).'</span></td>
               <td>
                 <div class="btn-group">';
                   $html.='<button type="button" data-servicio="'.$t->pivot->id.'" data-inmueble="'.$id.'" id="quitar_r" class="btn btn-danger quitaimpuesto">

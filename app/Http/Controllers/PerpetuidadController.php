@@ -31,7 +31,7 @@ class PerpetuidadController extends Controller
      */
     public function create()
     {
-        $cementerios=Cementerio::all();
+        $cementerios=Cementerio::where('estado',1)->get();
         $contribuyentes=Contribuyente::whereEstado(1)->get();
         $beneficiarios=PerpetuidadBeneficiario::whereEstado(1)->get();
         return view('perpetuidad.create',compact('cementerios','contribuyentes','beneficiarios'));
@@ -299,7 +299,7 @@ class PerpetuidadController extends Controller
             'cementerio_id' => 'required',
             'ancho'=>'required',
             'largo'=>'required',
-            'costo'=>'required',
+            'costo'=>'required|numeric|min:0',
             'fecha_adquisicion'=>'required'
 
         ],$mensajes);

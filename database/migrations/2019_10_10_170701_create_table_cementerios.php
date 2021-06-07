@@ -15,8 +15,11 @@ class CreateTableCementerios extends Migration
     {
         Schema::create('cementerios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string("nombre", 100);
+            $table->string("nombre");
             $table->unsignedInteger("maximo");
+            $table->tinyInteger('estado')->default(1);
+            $table->string('motivo_baja')->nullable();
+            $table->date('fecha_baja')->nullable();
             $table->timestamps();
         });
     }

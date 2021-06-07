@@ -22,7 +22,7 @@
               <small style="margin-top: 0px; margin-left: 28px">DUI: {{$c->dui}}</small>
             </div>
             <div class="btn-group pull-right"> 
-                @if($c->estado==1)         
+            @if($c->estado==1)         
               <button title="Dar de baja" class="btn btn-danger baja" data-id="{{$c->id}}">
                   <i class="fa fa-thumbs-o-down"></i>
               </button>

@@ -154,6 +154,13 @@ class RubroController extends Controller
     {
       $params = $request->all();
       $rubro = Rubro::find($id);
+      $negocios = $rubro->negocios_activos;
+      if($negocios->count() > 0){
+        return array(
+          "message"   => 'Este rubro esta asignado a negocios activos, por favor verificar.',
+          "ok"  => false
+        );
+      }
       $rubro->estado = $params['estado'] == 'true' ? 1 : 0;
       
       if($rubro->save()) {

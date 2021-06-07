@@ -13,133 +13,124 @@
 @endsection
 @section('content')
 <div class="box">
-    <div class="box-header">
-        <div class="box-title">
-            <h4>Nuevo</h4>
-        </div>
-    </div>
-    <div class="box-body">
-        <div class="panel panel-primary elpanel-mapa">
-            <div class="panel-heading">
-                Registro de título a perpetuidad
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    
-                </div>
-                <div class="row" id="divmapa" style="display: block;">
-                    <br>
-                    <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Detalles</div>
-                            <div class="panel-body">
-                                <form class="form" id="form_perpetuidad">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="" class="control-label">Cementerio</label>
-                                                <select name="cementerio_id" id="elcem" class="chosen-select wisth">
-                                                    <option value="">Seleccione el cementerio</option>
-                                                    @foreach ($cementerios as $c)
-                                                        <option value="{{$c->id}}">{{$c->nombre}}</option>  
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-10">
-                                            <label for="" class="control-label">Propietario</label>
-                                            <select name="contribuyente_id" id="contribuyente_id" class="chosen-select-width">
-                                                @foreach ($contribuyentes as $c)
-                                                    <option value="{{$c->id}}">{{$c->nombre}}</option>
+    
+    <div class="panel elpanel-mapa">
+        
+        <div class="panel-body">
+            
+            <div class="row" id="divmapa" style="display: block;">
+                <br>
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Detalles</div>
+                        <div class="panel-body">
+                            <form class="form" id="form_perpetuidad">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">Cementerio</label>
+                                            <select name="cementerio_id" id="elcem" class="chosen-select wisth">
+                                                <option value="">Seleccione el cementerio</option>
+                                                @foreach ($cementerios as $c)
+                                                    <option value="{{$c->id}}">{{$c->nombre}}</option>  
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="form-group col-sm-2">
-                                            <button class="btn btn-primary" id="newContri"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                            <label for="" class="control-label">Tipo de nicho</label>
-                                            <select name="tipo" class="chosen-select-width">
-                                                <option value="Normal con sótano a contracava">Normal con sótano a contracava</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                            <span class="text-center">Medidas</span>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Centímetros de ancho</label>
-                                            <input type="number" step="any" class="form-control" name="ancho">
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Metros de largo</label>
-                                            <input type="number" step="any" class="form-control" name="largo">
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Linda al norte</label>
-                                            <input type="text" list="norte" class="form-control" name="norte">
-                                            <datalist id="norte">
-                                                @foreach($beneficiarios as $b)
-                                                    <option value="{{$b->beneficiario}}">
-                                                @endforeach
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Linda al sur</label>
-                                            <input type="text" list="sur" class="form-control" name="sur">
-                                            <datalist id="sur">
-                                                @foreach($beneficiarios as $b)
-                                                    <option value="{{$b->beneficiario}}">
-                                                @endforeach
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Linda al oriente</label>
-                                            <input type="text" list="oriente" class="form-control" name="oriente">
-                                            <datalist id="oriente">
-                                                @foreach($beneficiarios as $b)
-                                                    <option value="{{$b->beneficiario}}">
-                                                @endforeach
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Linda al poniente</label>
-                                            <input type="text" list="poniente" class="form-control" name="poniente">
-                                            <datalist id="poniente">
-                                                @foreach($beneficiarios as $b)
-                                                    <option value="{{$b->beneficiario}}">
-                                                @endforeach
-                                            </datalist>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Valor del título</label>
-                                            <input type="number" step="any" class="form-control" name="costo">
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <label for="" class="control-label">Fecha</label>
-                                            <input type="text" name="fecha_adquisicion" autocomplete="off" value="{{date("d-m-Y")}}" class="form-control fechanomayor">
-                                        </div>
-                                        <div class="hide col-sm-12">
-                                            <input type="text" name="lat" id="lat">
-                                            <input type="text" name="lng" id="lng">
-                                        </div>
-                                        <div class="form-group col-sm-12">
-                                            <button class="btn btn-primary" type="submit">Registrar</button>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="form-group col-sm-10">
+                                        <label for="" class="control-label">Propietario</label>
+                                        <select name="contribuyente_id" id="contribuyente_id" class="chosen-select-width">
+                                            @foreach ($contribuyentes as $c)
+                                                <option value="{{$c->id}}">{{$c->nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-2">
+                                        <button class="btn btn-primary" id="newContri"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label for="" class="control-label">Tipo de nicho</label>
+                                        <select name="tipo" class="chosen-select-width">
+                                            <option value="Normal con sótano a contracava">Normal con sótano a contracava</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <span class="text-center">Medidas</span>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Centímetros de ancho</label>
+                                        <input type="number" step="any" class="form-control" name="ancho">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Metros de largo</label>
+                                        <input type="number" step="any" class="form-control" name="largo">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Linda al norte</label>
+                                        <input type="text" list="norte" class="form-control" name="norte">
+                                        <datalist id="norte">
+                                            @foreach($beneficiarios as $b)
+                                                <option value="{{$b->beneficiario}}">
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Linda al sur</label>
+                                        <input type="text" list="sur" class="form-control" name="sur">
+                                        <datalist id="sur">
+                                            @foreach($beneficiarios as $b)
+                                                <option value="{{$b->beneficiario}}">
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Linda al oriente</label>
+                                        <input type="text" list="oriente" class="form-control" name="oriente">
+                                        <datalist id="oriente">
+                                            @foreach($beneficiarios as $b)
+                                                <option value="{{$b->beneficiario}}">
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Linda al poniente</label>
+                                        <input type="text" list="poniente" class="form-control" name="poniente">
+                                        <datalist id="poniente">
+                                            @foreach($beneficiarios as $b)
+                                                <option value="{{$b->beneficiario}}">
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Valor del título</label>
+                                        <input type="number" step="any" class="form-control" name="costo">
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Fecha</label>
+                                        <input type="text" name="fecha_adquisicion" autocomplete="off" value="{{date("d-m-Y")}}" class="form-control fechanomayor">
+                                    </div>
+                                    <div class="hide col-sm-12">
+                                        <input type="text" name="lat" id="lat">
+                                        <input type="text" name="lng" id="lng">
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <button class="btn btn-success" type="submit">Registrar</button>
+                                        <a href="{{ route('cementerios.index')}}" class="btn btn-danger" type="submit">Atrás</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Ubicación estimada</div>
-                            <div class="panel-body" id="mapita" style="height: 500px;"></div>
-                        </div>
-                  
-                    </div>
-                    <br><br>
-
                 </div>
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Ubicación estimada</div>
+                        <div class="panel-body" id="mapita" style="height: 500px;"></div>
+                    </div>
+                
+                </div>
+                <br><br>
+
             </div>
         </div>
     </div>
