@@ -124,7 +124,7 @@ class RoleTableSeeder extends Seeder
 
             /* tesoreria */
             $emple=new Empleado();
-            $emple->nombre="Catastro";
+            $emple->nombre="Tesorero";
             $emple->dui='22222222-2';
             $emple->nit='2222-222222-222-2';
             $emple->sexo='No definido';
