@@ -102,6 +102,7 @@ class RoleTableSeeder extends Seeder
             $emple->celular='1111-1111';
             $emple->direccion='Verapaz, San Vicente';
             $emple->fecha_nacimiento='1990-01-01';
+            $emple->es_usuario='si';
             $emple->save();
 
             $unidad=new Unidad();
@@ -131,6 +132,7 @@ class RoleTableSeeder extends Seeder
             $emple->celular='2222-1111';
             $emple->direccion='Verapaz, San Vicente';
             $emple->fecha_nacimiento='1990-01-01';
+            $emple->es_usuario='si';
             $emple->save();
 
             $unidad=new Unidad();
@@ -160,6 +162,7 @@ class RoleTableSeeder extends Seeder
             $emple->celular='3222-1111';
             $emple->direccion='Verapaz, San Vicente';
             $emple->fecha_nacimiento='1990-01-01';
+            $emple->es_usuario='si';
             $emple->save();
 
             $unidad=new Unidad();
@@ -179,14 +182,7 @@ class RoleTableSeeder extends Seeder
             $ru->user_id=$user->id;
             $ru->save();
 
-            $bitacora=new Bitacora();
-            $bitacora->accion='Se creó por primera vez el usuario administrador';
-            $bitacora->hora=date("H:i:s");
-            $bitacora->registro=date('Y-m-d');
-            $bitacora->user_id=$user->id;
-            $bitacora->save();
-
-            
+            bitacora('Se crearon los registros de prueba por el administrador','User');      
         }
     }
 

@@ -50,7 +50,7 @@ class LoginController extends Controller
             'password' => $request->password,'estado' => 1])
             ) {
             //dd('hola');
-            Bitacora::bitacora('inicio de sesion');
+            bitacora('inicio de sesion');
             return redirect()->intended('home');
         }else{
             return redirect('/')->with('error','El nombre de usuario o contraseña no existe en nuestros registros');
@@ -59,7 +59,7 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Bitacora::bitacora('Cerró Sesión del sistema');
+        bitacora('Cerró Sesión del sistema');
         session()->flush();
         Auth::logout();
         return redirect('/')->with('mensaje','Cerró Sesión del sistema exitósamente');

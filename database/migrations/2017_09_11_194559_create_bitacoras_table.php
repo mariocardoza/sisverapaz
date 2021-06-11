@@ -15,9 +15,12 @@ class CreateBitacorasTable extends Migration
     {
         Schema::create('bitacoras', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('registro');
-            $table->time('hora');
-            $table->string('accion');
+            $table->text('accion');
+            $table->text('ip');
+            $table->text('url');
+            $table->text('method');
+            $table->text('agent');
+            $table->text('tabla');
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

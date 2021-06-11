@@ -5,24 +5,28 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\BitacoraSaved;
+use Illuminate\Http\Request;
 
 class Bitacora extends Model
 {
     protected $guarded = [];
-    protected $dates = ['registro'];
+    protected $dates = ['created_at'];
 
     protected $events = [
         'saved'=>BitacoraSaved::class,
     ];
 
-    public static function bitacora($accion)
+    public static function bitacora($accion,$table='')
     {
-        $bitacora = new Bitacora;
-        $bitacora->registro = date('Y-m-d');
-        $bitacora->hora = date('H:i:s');
-        $bitacora->accion = $accion;
-        $bitacora->user_id = Auth()->user()->id;
-        $bitacora->save();
+      $log = [];
+      $log['tabla'] = $table==''? '-':$table;
+      $log['accion'] = $accion;
+      $log['url'] = Request()->fullUrl();
+      $log['method'] = Request()->method();
+      $log['ip'] = Request()->ip();
+      $log['agent'] = Request()->header('user-agent');
+      $log['user_id'] = auth()->check() ? auth()->user()->id : 1;
+      Bitacora::create($log);
     }
 
     public function user()
@@ -33,22 +37,30 @@ class Bitacora extends Model
     public static function pordia($dia)
     {
         $html="";
-        $bitacoras=Bitacora::where('registro',$dia)->orderby('registro','DESC')->orderby('hora','DESC')->get();
+        $bitacoras=Bitacora::where('created_at',$dia)->orderby('created_at','DESC')->orderby('created_at','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>
-         <th>Fecha de actividad</th>
-         <th>Hora de la actividad</th>
+         <th>Fecha</th>
+         <th>Hora</th>
          <th>Acción</th>
+         <th>Ip</th>
+          <th>URL</th>
+          <th>Tabla</th>
+          <th>Navegador</th>
          <th>Usuario</th>
        </thead>
        <tbody id="bita">';
          foreach($bitacoras as $key => $bitacora):
          $html.='<tr>
            <td>'.($key+1).'</td>
-           <td>'.fechaCastellano($bitacora->registro).'</td>
-           <td>'.$bitacora->hora.'</td>
+           <td>'.fechaCastellano($bitacora->created_at).'</td>
+           <td>'.$bitacora->created_at->format('H:i:s').'</td>
            <td>'.$bitacora->accion.'</td>
+           <td>'.$bitacora->ip.'</td>
+           <td>'.$bitacora->url.'</td>
+           <td>'.$bitacora->tabla.'</td>
+           <td>'.get_browser_name($bitacora->agent).'</td>
            <td>'.$bitacora->user->empleado->nombre.'</td>
            
          </tr>';
@@ -62,22 +74,30 @@ class Bitacora extends Model
     public static function porempleado($usuario)
     {
         $html="";
-        $bitacoras=Bitacora::where('user_id',$usuario)->orderby('registro','DESC')->orderby('hora','DESC')->get();
+        $bitacoras=Bitacora::where('user_id',$usuario)->orderby('created_at','DESC')->orderby('created_at','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>
-         <th>Fecha de actividad</th>
-         <th>Hora de la actividad</th>
+         <th>Fecha</th>
+         <th>Hora</th>
          <th>Acción</th>
+         <th>Ip</th>
+          <th>URL</th>
+          <th>Tabla</th>
+          <th>Navegador</th>
          <th>Usuario</th>
        </thead>
        <tbody id="bita">';
          foreach($bitacoras as $key => $bitacora):
          $html.='<tr>
            <td>'.($key+1).'</td>
-           <td>'.fechaCastellano($bitacora->registro).'</td>
-           <td>'.$bitacora->hora.'</td>
+           <td>'.fechaCastellano($bitacora->created_at).'</td>
+           <td>'.$bitacora->created_at->format('H:i:s').'</td>
            <td>'.$bitacora->accion.'</td>
+           <td>'.$bitacora->ip.'</td>
+           <td>'.$bitacora->url.'</td>
+           <td>'.$bitacora->tabla.'</td>
+           <td>'.get_browser_name($bitacora->agent).'</td>
            <td>'.$bitacora->user->empleado->nombre.'</td>
            
          </tr>';
@@ -85,29 +105,37 @@ class Bitacora extends Model
        $html.='</tbody>
      </table>';
 
-     return array(1,"exito",$html);
+     return array(1,"exito",$html,$bitacoras);
     }
 
     public static function porperiodo($inicio,$fin)
     {
         $html="";
-        $bitacoras=Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->orderby('registro','DESC')
+        $bitacoras=Bitacora::where('created_at','>=',$inicio)->where('created_at','<=',$fin)->orderby('created_at','DESC')
         ->orderby('hora','DESC')->get();
         $html.='<table class="table table-hover" id="bitaco">
         <thead>
          <th>N°</th>
-         <th>Fecha de actividad</th>
-         <th>Hora de la actividad</th>
+         <th>Fecha</th>
+         <th>Hora</th>
          <th>Acción</th>
+         <th>Ip</th>
+          <th>URL</th>
+          <th>Tabla</th>
+          <th>Navegador</th>
          <th>Usuario</th>
        </thead>
        <tbody id="bita">';
          foreach($bitacoras as $key => $bitacora):
          $html.='<tr>
            <td>'.($key+1).'</td>
-           <td>'.fechaCastellano($bitacora->registro).'</td>
-           <td>'.$bitacora->hora.'</td>
+           <td>'.fechaCastellano($bitacora->created_at).'</td>
+           <td>'.$bitacora->created_at->format('H:i:s').'</td>
            <td>'.$bitacora->accion.'</td>
+           <td>'.$bitacora->ip.'</td>
+           <td>'.$bitacora->url.'</td>
+           <td>'.$bitacora->tabla.'</td>
+           <td>'.get_browser_name($bitacora->agent).'</td>
            <td>'.$bitacora->user->empleado->nombre.'</td>
            
          </tr>';

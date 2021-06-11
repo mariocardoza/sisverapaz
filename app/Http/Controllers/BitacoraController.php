@@ -40,7 +40,7 @@ class BitacoraController extends Controller
               $bitacoras = Bitacora::porperiodo($inicio,$fin);
               return $bitacoras;
             }else{
-              $bitacoras = Bitacora::all()->with('user')->orderBy('registro','DESC');
+              $bitacoras = Bitacora::all()->with('user')->orderBy('created_at','DESC');
             }
           }
         }
@@ -51,7 +51,7 @@ class BitacoraController extends Controller
         if($request->get('dia'))
         {
           $dia=invertir_fecha($request->get('dia'));
-          $bitacoras = Bitacora::where('registro',$dia)->get();
+          $bitacoras = Bitacora::where('created_at',$dia)->get();
           //dd($bitacoras);
         }else{
           if($request->get('usuario')){
@@ -62,11 +62,11 @@ class BitacoraController extends Controller
             if($request->get('inicio') && $request->get('fin')){
               $inicio=invertir_fecha($request->get('inicio'));
               $fin=invertir_fecha($request->get('fin'));
-              $bitacoras = Bitacora::where('registro','>=',$inicio)->where('registro','<=',$fin)->get();
+              $bitacoras = Bitacora::where('created_at','>=',$inicio)->where('created_at','<=',$fin)->get();
             }else{
               $diahoy=date("Y-m-d");
               
-              $bitacoras = Bitacora::orderby('registro','DESC')->orderby('hora','DESC')->get();
+              $bitacoras = Bitacora::orderby('created_at','DESC')->orderby('created_at','DESC')->get();
             }
           }
         }
