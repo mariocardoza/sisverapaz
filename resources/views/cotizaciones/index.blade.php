@@ -17,7 +17,7 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <p></p>
               <div class="btn-group pull-right">
                 <a href="{{ url('/solicitudcotizaciones/versolicitudes') }}" class="btn btn-danger" title="Atras"><span class="glyphicon glyphicon-menu-left"></span></a>
               </div>
@@ -47,32 +47,32 @@
                             @if($estado == "")
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                                   <div class="btn-group">
-                                    <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                    <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                    <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                                    <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                    <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="fa fa-thumbs-o-down"></span></button>
                                   </div>
                                 {{ Form::close()}}
                             @endif
                             @if($estado == 1)
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                                   <div class="btn-group">
-                                    <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                    <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                    <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                                    <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                    <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="fa fa-thumbs-o-down"></span></button>
                                   </div>
                                 {{ Form::close()}}
                             @endif
                             @if($estado==2)
                                 {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$cotizacion->id.",'cotizaciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-success" type="button" onclick={{ "alta(".$cotizacion->id.",'cotizaciones')" }}><span class="fa fa-thumbs-o-up"></span></button>
                                 {{ Form::close()}}
                              @endif
                              @if($estado == 3)
                                  {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
                                    <div class="btn-group">
-                                     <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                     <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                     <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                     <a href="{{ url('cotizaciones/'.$cotizacion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                                     <a href="{{ url('cotizaciones/'.$cotizacion->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                     <button class="btn btn-danger" type="button" onclick={{ "baja(".$cotizacion->id.",'cotizaciones')" }}><span class="fa fa-thumbs-o-down"></span></button>
                                    </div>
                                  {{ Form::close()}}
                              @endif
