@@ -421,8 +421,10 @@ Route::Resource('retenciones','RetencionController');
 Route::post('partidas/pago','PartidaController@pago');
 Route::Resource('partidas','PartidaController');
 
+Route::post('eventuales/pagar','EventualController@pagar');
 Route::post('planillas/pagar','PlanillaController@pagar');
 Route::Resource('planillas','PlanillaController');
+Route::Resource('eventuales','EventualController');
 Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cambiarestado');
 Route::get('planillaproyectos/desembolso/{id}','PeriodoProyectoController@desembolso');
 Route::Resource('planillaproyectos','PeriodoProyectoController');

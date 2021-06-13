@@ -72,27 +72,27 @@ $(function() {
 				$(".elproy").show();
 				$("#select_proy").removeAttr("disabled");
 				$("#select_proy").trigger("chosen:updated");
-				$("#select_cargo").prop('disabled', 'disabled');
+				/*$("#select_cargo").prop('disabled', 'disabled');
 				$("#select_cargo").trigger("chosen:updated");
 				$("#select_unidad").prop('disabled', 'disabled');
-				$("#select_unidad").trigger("chosen:updated");
+				$("#select_unidad").trigger("chosen:updated");*/
 			}else{
 				$(".elproy").hide();
 				$("#select_proy").trigger("chosen:updated");
 				$("#select_proy").prop('disabled', 'disabled');
-				$("#select_cargo").removeAttr("disabled");
+				/*$("#select_cargo").removeAttr("disabled");
 				$("#select_cargo").trigger("chosen:updated");
 				$("#select_unidad").removeAttr("disabled");
-				$("#select_unidad").trigger("chosen:updated");
+				$("#select_unidad").trigger("chosen:updated");*/
 			}
 		}else{
 			$(".elproy").hide();
 			$("#select_proy").trigger("chosen:updated");
 			$("#select_proy").prop('disabled', 'disabled');
-			$("#select_cargo").removeAttr("disabled");
+			/*$("#select_cargo").removeAttr("disabled");
 			$("#select_cargo").trigger("chosen:updated");
 			$("#select_unidad").removeAttr("disabled");
-			$("#select_unidad").trigger("chosen:updated");
+			$("#select_unidad").trigger("chosen:updated");*/
 		}
 	});
 
@@ -104,18 +104,18 @@ $(function() {
 			$(".elproy").show();
 			$("#select_proy").removeAttr("disabled");
 			$("#select_proy").trigger("chosen:updated");
-			$("#select_cargo").prop('disabled', 'disabled');
+			/*$("#select_cargo").prop('disabled', 'disabled');
 			$("#select_cargo").trigger("chosen:updated");
 			$("#select_unidad").prop('disabled', 'disabled');
-			$("#select_unidad").trigger("chosen:updated");
+			$("#select_unidad").trigger("chosen:updated");*/
 		}else{
 			$(".elproy").hide();
 			$("#select_proy").trigger("chosen:updated");
 			$("#select_proy").prop('disabled', 'disabled');
-			$("#select_cargo").removeAttr("disabled");
+			/*$("#select_cargo").removeAttr("disabled");
 			$("#select_cargo").trigger("chosen:updated");
 			$("#select_unidad").removeAttr("disabled");
-			$("#select_unidad").trigger("chosen:updated");
+			$("#select_unidad").trigger("chosen:updated");*/
 		}
 
 		$("#btn_editarcontrato").attr("data-id",id);

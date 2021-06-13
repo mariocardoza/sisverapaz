@@ -201,7 +201,7 @@ class ConstruccionController extends Controller
         try{
             $cuenta_origen=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',1)->first();
             if($cuenta_origen){
-                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->pagoTotal;
+                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->impuesto;
                 $cuenta_origen->save();
 
                 $detalle_origen=CuentaDetalle::create([

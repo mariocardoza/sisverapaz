@@ -16,7 +16,7 @@ use DB;
 use Carbon\Carbon;
 use App\Prestamo;
 
-class PlanillaController extends Controller
+class EventualController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,7 +31,8 @@ class PlanillaController extends Controller
      public function pagar(Request $request)
      {
         $this->validar_pago($request->all())->validate();
-         $total=Datoplanilla::totalplanilla($request->id);
+
+         $total=Datoplanilla::totalplanilla_renta($request->id);
          $cuenta=Cuenta::find($request->cuenta_id);
          if($total>$cuenta->monto_inicial){
             return array(2,"exito","El total de la planilla supera a lo disponible en la cuenta");
@@ -44,7 +45,7 @@ class PlanillaController extends Controller
                 CuentaDetalle::create([
                     'id'=>CuentaDetalle::retonrar_id_insertar(),
                     'cuenta_id'=>$cuenta->id,
-                    'accion'=>'Pago de salarios al mes de '.obtenerMes($planilla->mes).' de '.$planilla->anio,
+                    'accion'=>'Pago de salarios a empleados eventuales al mes de '.obtenerMes($planilla->mes).' de '.$planilla->anio,
                     'tipo'=>2,
                     'monto'=>$total,
                 ]);
@@ -59,7 +60,7 @@ class PlanillaController extends Controller
                         $renta->total = $planilla->empleado->detalleplanilla->salario;
                         $renta->renta = $planilla->renta;
                         $renta->liquido = $renta->total-$planilla->renta;
-                        $renta->concepto = 'Pago de salario correspondiente a:'.$planilla->datoplanilla->mes.'/'.$planilla->datoplanilla->anio;
+                        $renta->concepto = 'Pago de hororarios correspondiente a:'.$planilla->datoplanilla->mes.'/'.$planilla->datoplanilla->anio;
                         $renta->save();
                     }
                 }
@@ -82,8 +83,8 @@ class PlanillaController extends Controller
         }else{
             $elanio=$request->get('anio');
         } 
-        $planillas = Datoplanilla::where('anio',$elanio)->where('tipo_planilla',1)->orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
-        return view('planillas.index',compact('planillas','anios','elanio'));
+        $planillas = Datoplanilla::where('anio',$elanio)->orderBy('created_at',"desc")->where('tipo_planilla',2)->orderBy('estado',"asc")->get();
+        return view('eventuales.index',compact('planillas','anios','elanio'));
     }
 
     /**
@@ -98,9 +99,9 @@ class PlanillaController extends Controller
         // $empleados = Contrato::all();
         // $retencion = Retencion::first();
         $retenciones = Retencion::all();
-        $empleados= Detalleplanilla::empleadosPlanilla();
-   
-        return view('planillas.create',compact('mes','year','empleados','retenciones'));
+        $empleados= Detalleplanilla::empleadosEventual();
+        $larenta = retornar_renta_servicio();
+        return view('eventuales.create',compact('mes','year','empleados','retenciones','larenta'));
     }
 
     /**
@@ -111,7 +112,7 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
-        $existe=Datoplanilla::whereMonth('fecha',date('m'))->whereIn('estado',[1,3,4])->count();
+        $existe=Datoplanilla::whereMonth('fecha',date('m'))->where('tipo_planilla',2)->whereIn('estado',[1,3,4])->count();
         if($existe==0){
             $retenciones = Retencion::all();
             $count = count($request->empleado_id);
@@ -120,40 +121,32 @@ class PlanillaController extends Controller
                 $datoplanilla=Datoplanilla::create([
                     'fecha'=>\Carbon\Carbon::now(),
                     'tipo_pago'=>$request->tipo,
+                    'tipo_planilla'=>$request->tipo_planilla,
                     'mes'=>$request->mes,
                     'anio'=>$request->anio
                 ]);
                 for($i=0;$i<$count;$i++){
-                    if($request->prestamos[$i]=='0'){
-                        $p=null;
-                    }else{
-                        $p=$request->prestamos[$i];
-                    }
-                    if($request->descuentos[$i]=='0'){
-                        $d=null;
-                    }else{
-                        $d=$request->descuentos[$i];
-                    }
+            
                     Planilla::create([
                         'empleado_id'=>$request->empleado_id[$i],
-                        'issse'=>$request->ISSSE[$i],
-                        'afpe'=>$request->AFPE[$i],
-                        'isssp'=>$request->ISSSP[$i],
-                        'afpp'=>$request->AFPP[$i],
-                        'insaforpp'=>$request->INSAFORPP[$i],
+                        'issse'=>0.0,
+                        'afpe'=>0.0,
+                        'isssp'=>0.0,
+                        'afpp'=>0.0,
+                        'insaforpp'=>0.0,
                         'estado'=>0,
                         'datoplanilla_id'=>$datoplanilla->id,
-                        'prestamos'=>$p,
-                        'descuentos'=>$d,
+                        'prestamos'=>0.0,
+                        'descuentos'=>0.0,
                         'renta'=>$request->renta[$i],
                     ]);
                 }
                 //Prestamo::actualizar();
                 DB::commit();
-                return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
+                return redirect('/eventuales')->with('mensaje', 'Planilla registrada exitosamente');
             } catch (\Exception $e) {
                 DB::rollback();
-                return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
+                return redirect('eventuales')->with('error','Ocurrió un error, contacte al administrador');
             }
         }else{
             if($existe == 1 && $request->tipo==2 && (date("d")>=25)){
@@ -194,13 +187,13 @@ class PlanillaController extends Controller
                     }
                     //Prestamo::actualizar();
                     DB::commit();
-                    return redirect('/planillas')->with('mensaje', 'Planilla registrada exitosamente');
+                    return redirect('/eventuales')->with('mensaje', 'Planilla registrada exitosamente');
                 }catch (\Exception $e) {
                     DB::rollback();
-                    return redirect('planillas')->with('error','Ocurrió un error, contacte al administrador');
+                    return redirect('eventuales')->with('error','Ocurrió un error, contacte al administrador');
                 }
             }else{
-                    return redirect('planillas')->with('error','Ya registró la planilla correspondiente a este mes de '.Datoplanilla::obtenerMes(date('m')).' del año '.date("Y"). ' Podrá registrar una nueva planilla el próximo mes a partir del dia 25');
+                    return redirect('eventuales')->with('error','Ya registró la planilla correspondiente a este mes de '.Datoplanilla::obtenerMes(date('m')).' del año '.date("Y"). ' Podrá registrar una nueva planilla el próximo mes a partir del dia 25');
             }
         }
         
@@ -217,7 +210,7 @@ class PlanillaController extends Controller
     {
         $datoplanilla=Datoplanilla::find($id);
         $planillas=Planilla::where('datoplanilla_id',$id)->get();
-        return view('planillas.show',compact('planillas','datoplanilla'));
+        return view('eventuales.show',compact('planillas','datoplanilla'));
     }
 
     /**

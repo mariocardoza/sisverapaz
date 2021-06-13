@@ -20,21 +20,29 @@
             <table class="table" id="example2">
                 <thead>
                     <tr>
-                        <th class="text-center">N°</th>
-                        <th class="text-center">Detalle</th>
-                        <th class="text-center">Fecha</th>
-                        <th class="text-center">Hora</th>
-                        <th class="text-right">Monto</th>
+                        <th>N°</th>
+                        <th  width="50%">Detalle</th>
+                        <th >Fecha</th>
+                        <th >Hora</th>
+                        <th class="text-right">Ingreso</th>
+                        <th class="text-right">Egreso</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($cuenta->cuentadetalle as $index => $detalle)
                     <tr>
-                        <td class="text-center">{{$index+1}}</td>
-                        <td class="text-center">{{$detalle->accion}}</td>
-                        <td class="text-center">{{$detalle->created_at->format('d/m/Y')}}</td>
-                        <td class="text-center">{{$detalle->created_at->format('g:i a')}}</td>
+                        <td>{{$index+1}}</td>
+                        <td >{{$detalle->accion}}</td>
+                        <td >{{$detalle->created_at->format('d/m/Y')}}</td>
+                        <td >{{$detalle->created_at->format('g:i a')}}</td>
+                        @if($detalle->tipo==1)
                         <td class="text-right">${{number_format($detalle->monto,2)}}</td>
+                        <td class="text-center">-</td>
+                        @else
+                        <td class="text-center">-</td>
+                        <td class="text-right">${{number_format($detalle->monto,2)}}</td>
+                        @endif
+                        
                     </tr>
                     @endforeach
                 </tbody>

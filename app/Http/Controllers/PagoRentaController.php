@@ -19,7 +19,7 @@ class PagoRentaController extends Controller
      */
     public function index()
     {
-        $pagorentas = PagoRenta::all();
+        $pagorentas = PagoRenta::whereEstado(1)->get();
         return view('pagorentas.index', compact('pagorentas'));
     }
 

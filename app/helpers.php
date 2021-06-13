@@ -105,6 +105,14 @@ function retornar_porcentaje($dato)
     return $valor;
 }
 
+function retornar_renta_servicio()
+{
+    $porcentajes=Porcentaje::where('es_servicio',true)->first();
+    $valor=0;
+    $valor=$porcentajes->porcentaje/100;
+    return $valor;
+}
+
 function el_porcentaje($dato)
 {
     $porcentajes=Porcentaje::where('nombre_simple',$dato)->first();

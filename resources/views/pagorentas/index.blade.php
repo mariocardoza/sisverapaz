@@ -27,7 +27,6 @@
                             <th>Concepto</th>
                             <th>Monto</th>
                             <th>Renta</th>
-                            <th>Líquido</th>
                             <th> </th>
                         </tr>
                     </thead>
@@ -41,7 +40,6 @@
                                 <td>{{$p->concepto}}</td>
                                 <td>${{number_format($p->total,2)}}</td>
                                 <td>${{number_format($p->renta,2)}}</td>
-                                <td>${{number_format($p->liquido,2)}}</td>
                                 <td>
                                     @if($p->estado == 1)
                                     <button type="button" class="btn btn-info" id="botoncito" data-id="{{$p->id}}">Pagar</button>

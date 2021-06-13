@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('migasdepan')
   <h1>
-    Planillas
+    Eventuales
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li class="active">Control de planillas</li>
+    <li class="active">Control de pagos empleados eventuales</li>
   </ol>
 @endsection
 @php
@@ -21,13 +21,13 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
           <div class="btn-group pull-left">
             <a href="javascript:void(0)" class="btn btn-primary">Pagos</a>
             <a href="{{ url('pagos/ordencompras?estado=3') }}" class="btn btn-primary">Ordenes de compra</a>
-            <a href="{{ url('planillas') }}" class="btn btn-primary active">Planilla</a>
-            <a href="{{ url('eventuales') }}" class="btn btn-primary">Eventuales</a>
+            <a href="{{ url('planillas') }}" class="btn btn-primary ">Planilla</a>
+            <a href="{{ url('eventuales') }}" class="btn btn-primary active">Eventuales</a>
           </div>
           <br><br><br>
           <div class="row">
             <div class="col-md-10">
-              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Nueva</a>
+              <a href="{{ url('/eventuales/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Nueva</a>
             </div>
             <div class="col-md-2 pull-right">
               <div class="form-group">
@@ -75,10 +75,10 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                     </td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a href="{{ url('eventuales/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
                         <a href="javascript:void(0)" id="anular_planilla" data-id="{{$planilla->id}}" title="Anular planilla" class="btn btn-danger"><span class="fa fa-trash"></span></a>
                         <a href="javascript:void(0)" id="emitir_boletas" data-id="{{$planilla->id}}" title="Emitir boletas de pago" class="btn btn-info"><span class="fa fa-check"></span></a>
-                        <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                        <a href="{{ url('reportestesoreria/eventuales/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
                       </div>
                     </td>
                       @elseif($planilla->estado==2) 
@@ -87,8 +87,8 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                          <a href="{{ url('eventuales/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('reportestesoreria/eventuales/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
                       @elseif($planilla->estado==3)
@@ -97,7 +97,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('eventuales/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
                           <button class="btn btn-info" id="pagar_planilla" data-id={{$planilla->id}}><i class="fa fa-check"></i></button>
                           <a href="{{ url('reportestesoreria/planillaaprobada/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                         </div>
@@ -108,7 +108,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('eventuales/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
                           <a href="{{ url('reportestesoreria/boletageneral/'.$planilla->id) }}" title="Imprimir detalle" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
@@ -226,7 +226,7 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
       e.preventDefault();
       var datos=$("#form_pagar").serialize();
       $.ajax({
-        url:'planillas/pagar',
+        url:'/eventuales/pagar',
         type:'POST',
         dataType:'json',
         data:datos,

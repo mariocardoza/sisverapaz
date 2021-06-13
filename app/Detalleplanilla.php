@@ -61,6 +61,19 @@ class Detalleplanilla extends Model
     ->get();
   }
 
+  public static function empleadosEventual(){
+    return DB::table('empleados')
+    ->select('empleados.*','cargos.cargo as ncargo','detalleplanillas.pago','detalleplanillas.salario','detalleplanillas.tipo_pago','detalleplanillas.fecha_inicio','detalleplanillas.id as elid')
+    ->join('detalleplanillas','empleados.id','=','detalleplanillas.empleado_id','left outer')
+    ->join('cargos','detalleplanillas.cargo_id','=','cargos.id','left outer')
+    ->where('empleados.estado',1)
+    ->where('detalleplanillas.id','<>',null)
+    ->where('detalleplanillas.tipo_pago',2)
+    ->where('detalleplanillas.proyecto_id',null)
+    ->orderby('empleados.nombre')
+    ->get();
+  }
+
   public static function pago($id){//Recibe detalle planilla id
     $detalle=Detalleplanilla::find($id);
     $salario=$detalle->salario;

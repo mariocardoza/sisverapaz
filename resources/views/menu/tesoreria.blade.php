@@ -48,6 +48,12 @@
     </a>
 </li>
 
+<li class="treeview {{ Route::currentRouteName() == 'eventuales.index' ? 'active':null}}">
+    <a href="{{ url('eventuales') }}">
+        <i class="fa fa-edit"></i> <span>Para a empleados eventuales</span>
+    </a>
+</li>
+
 
 <li class="treeview {{ Route::currentRouteName() == 'planillaproyectos.index' ? 'active':null}}">
     <a href="{{ url('planillaproyectos') }}">
