@@ -14,7 +14,9 @@
 <div class="row">
 <div class="col-xs-12">
   <div class="box">
+    <p></p>
     <div class="box-header">
+      <p></p>
       <div class="btn-group pull-right">
         <a href="{{ url('ordencompras?estado=1') }}" class="btn btn-primary">Pendientes</a>
         <a href="{{ url('ordencompras?estado=3') }}" class="btn btn-primary">Pagadas</a>

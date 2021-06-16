@@ -17,11 +17,14 @@
 <div class="row">
 	<div class="col-md-12" >
 		<div class="box-header">
+			<p></p>
 			<div class="btn-group pull-left">
 				<a href="#" class="btn btn-primary active" id="bm" onclick="cambio('m');">Mensual</a>
+				<p></p>
 				<!--a href="#" class="btn btn-primary" id="bq" onclick="cambio('q');">Quincenal</a-->
 			</div>
 		</div>
+		<p></p>
 		@for($i=0;$i<2;$i++)
 			@if ($i==0)
 				<div class="panel panel-primary" id='{{$cuadro[$i]}}' style="display:block;">
@@ -65,14 +68,15 @@
 		@include('planillas.planilla')
 		<div class="form-group">
 			<input type="hidden" name="tipo" value="{{$i+1}}">
-			<div class="col-md-6 col-md-offset-4">
+			<p></p>
+			<div class="col-md-6 col-md-offset-5">
 				
 				@if(App\Datoplanilla::comprobar($cuadro[$i]))
 					<button type="submit" class="btn btn-success">
 				@else
 					<button type="submit" class="btn btn-success">
 				@endif
-					<span class="glyphicon glyphicon-floppy-disk"> Registrar</span>
+					<span class=""> Agregar</span>
 					</button>
 			</div>
 		</div>

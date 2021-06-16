@@ -2,12 +2,12 @@
 
 @section('migasdepan')
 <h1>
-    Puestos a perpetuidad
+    Puestos a Perpetuidad
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li><a href="{{ url('/perpetuidad') }}"><i class="glyphicon glyphicon-home"></i> Titulos a perpetuidad</a></li>
+    <li><a href="{{ url('/perpetuidad') }}"><i class="glyphicon glyphicon-home"></i> Puestos a Perpetuidad</a></li>
     <li class="active">Nuevo</li>
   </ol>
 @endsection
@@ -46,23 +46,25 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-2">
-                                        <button class="btn btn-primary" id="newContri"><i class="fa fa-plus"></i></button>
+                                        <p></p>
+                                        <button class="btn btn-success" id="newContri"><i class="fa fa-plus"></i></button>
                                     </div>
                                     <div class="form-group col-sm-12">
-                                        <label for="" class="control-label">Tipo de nicho</label>
+                                        <label for="" class="control-label">Tipo de Nicho</label>
                                         <select name="tipo" class="chosen-select-width">
                                             <option value="Normal con sótano a contracava">Normal con sótano a contracava</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-12">
-                                        <span class="text-center">Medidas</span>
+                                        <p></p>
+                                        <b><span class="text-center">Medidas</span></b>
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <label for="" class="control-label">Centímetros de ancho</label>
+                                        <label for="" class="control-label">Ancho</label>
                                         <input type="number" step="any" class="form-control" name="ancho">
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <label for="" class="control-label">Metros de largo</label>
+                                        <label for="" class="control-label">Largo</label>
                                         <input type="number" step="any" class="form-control" name="largo">
                                     </div>
                                     <div class="form-group col-sm-6">
@@ -102,7 +104,7 @@
                                         </datalist>
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <label for="" class="control-label">Valor del título</label>
+                                        <label for="" class="control-label">Valor de título</label>
                                         <input type="number" step="any" class="form-control" name="costo">
                                     </div>
                                     <div class="form-group col-sm-6">
@@ -114,8 +116,8 @@
                                         <input type="text" name="lng" id="lng">
                                     </div>
                                     <div class="form-group col-sm-12">
-                                        <button class="btn btn-success" type="submit">Registrar</button>
-                                        <a href="{{ route('cementerios.index')}}" class="btn btn-danger" type="submit">Atrás</a>
+                                        <button class="btn btn-success" type="submit">Agregar</button>
+                                        <a href="{{ route('cementerios.index')}}" class="btn btn-danger" type="submit">Cancelar</a>
                                     </div>
                                 </div>
                             </form>
@@ -124,7 +126,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Ubicación estimada</div>
+                        <div class="panel-heading">Ubicación Estimada</div>
                         <div class="panel-body" id="mapita" style="height: 500px;"></div>
                     </div>
                 
@@ -141,7 +143,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo contribuyente</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Contribuyente</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_contribuyente">

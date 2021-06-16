@@ -17,7 +17,7 @@
                         </div>
 
                         <div class="form-group">
-                          <label for="" class="col-md-4">Ítem</label>
+                          <label for="" class="col-md-4">Item</label>
                           <div class="col-md-6">
                             {{Form::hidden('',$item1->id,['id' => 'itemid'])}}
                             {{Form::text('',$item1->item .' '. $item1->nombre_categoria,['class' => 'form-control'])}}
@@ -64,7 +64,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                      <label for="" class="col-md-4">Ítem</label>
+                      <label for="" class="col-md-4">Item</label>
                       <div class="col-md-6">
                         {{Form::hidden('',$item1->id,['id' => 'categoria_id'])}}
                         {{Form::text('',$item1->item .' '. $item1->nombre_categoria,['class' => 'form-control'])}}
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     <button type="button" id="guardarcatalogo" data-dismiss="modal" class="btn btn-success">Agregar</button>
                 </div>
             </div>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     <button type="button" id="guardarunidades" class="btn btn-success">Agregar</button>
                 </div>
             </div>

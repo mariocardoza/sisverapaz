@@ -7,7 +7,7 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li><a href="{{ url('/perpetuidad') }}"><i class="glyphicon glyphicon-home"></i> Titulos a perpetuidad</a></li>
+    <li><a href="{{ url('/perpetuidad') }}"><i class="glyphicon glyphicon-home"></i> Titulos a Perpetuidad</a></li>
     <li class="active">Ver</li>
   </ol>
 @endsection
@@ -65,12 +65,12 @@
                     </tr>
                     </tbody>
                 </table>
-                <div style="display: block; margin: 0 auto;">
+                <div style="display: block; margin: 0 auto;" class="btn-group">
                   <button id="edit_perpetuidad" data-id="{{$perpetuidad->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></button>
-                  <a href="{{url('reportestesoreria/recibop/'.$perpetuidad->id)}}" target="_blank" class="btn btn-info"><i class="fa fa-print"></i></a>
+                  <a href="{{url('reportestesoreria/recibop/'.$perpetuidad->id)}}" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i></a>
                 </div>
                 <br>
-                <h3>Beneficiarios <button type="button" class="btn btn-primary pull-right agregar_beneficiario"><i class="fa fa-plus"></i></button></h3>
+                <h3>Beneficiarios <button type="button" class="btn btn-success pull-right agregar_beneficiario"><i class="fa fa-plus"></i></button></h3>
                 <table class="table">
                   <thead>
                     <tr>
@@ -105,7 +105,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Registrar beneficiario</h4>
+				<h4 class="modal-title" id="myModalLabel">Registrar Beneficiario</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_beneficiario">

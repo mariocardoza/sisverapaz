@@ -2,8 +2,9 @@
 
 @section('migasdepan')
 <h1>
-
-        <small>Ver préstamo <b>{{ $prestamo->empleado->nombre }}</b></small>
+<p><small>Préstamo de <b>{{ $prestamo->empleado->nombre }}</b></small></p>
+        
+        <p></p>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/prestamos') }}"><i class="fa fa-dashboard"></i> Préstamos</a></li>
@@ -16,42 +17,44 @@
     <div class="row">
         <div class="col-md-11">
             <div class="panel panel-primary">
-                <div class="panel-heading">Datos del préstamo </div>
+                <div class="panel-heading">Datos del Préstamo </div>
                 <div class="panel-body">
+                    <p></p>
                         <div class="form-group{{ $errors->has('empleado') ? ' has-error' : '' }}">
-                            <label for="nombre" class="col-md-4 control-label">Nombre del empleado: </label>
+                            <label for="nombre" class="col-md-4 control-label">Empleado: </label>
                             <label for="nombre" class="col-md-4 control-label">{{$prestamo->empleado->nombre}}</label><br>
 
                         </div>
 
                          <div class="form-group{{ $errors->has('banco') ? ' has-error' : '' }}">
-                            <label for="dui" class="col-md-4 control-label">Nombre del banco: </label>
+                            <label for="dui" class="col-md-4 control-label">Banco: </label>
                             <label for="nombre" class="col-md-4 control-label"> {{$prestamo->banco->nombre}}</label><br>
 
                         </div>
 
                         <div class="form-group{{ $errors->has('numero_cuenta') ? ' has-error' : '' }}">
-                            <label for="nit" class="col-md-4 control-label">Número de cuenta:</label>
+                            <label for="nit" class="col-md-4 control-label">Número Cuenta:</label>
                             <label for="nombre" class="col-md-4 control-label">{{$prestamo->numero_de_cuenta}}</label><br>
 
                         </div>
 
                         <div class="form-group{{ $errors->has('monto') ? ' has-error' : '' }}">
-                            <label for="sexo" class="col-md-4 control-label">Monto del ´préstamo:</label>
+                            <label for="sexo" class="col-md-4 control-label">Monto del Préstamo:</label>
                             <label for="nombre" class="col-md-4 control-label">$ {{number_format($prestamo->monto,2)}}</label><br>
                         </div>
 
                         <div class="form-group{{ $errors->has('numero_cuotas') ? ' has-error' : '' }}">
-                            <label for="telefono_fijo" class="col-md-4 control-label">Número de cuotas:</label>
+                            <label for="telefono_fijo" class="col-md-4 control-label">Número de Cuotas:</label>
                             <label for="nombre" class="col-md-4 control-label">{{$prestamo->numero_de_cuotas}}</label><br>
 
                         </div>
 
                         <div class="form-group{{ $errors->has('cuota') ? ' has-error' : '' }}">
-                            <label for="celular" class="col-md-4 control-label">Cuota a pagar:</label>
+                            <label for="celular" class="col-md-4 control-label">Cuota a Pagar:</label>
                             <label for="nombre" class="col-md-4 control-label">$ {{number_format($prestamo->cuota,2)}}</label><br>
                         </div>
-                      <a href="{{ url('prestamos/'.$prestamo->id.'/edit') }}" class="btn btn-warning"><span class="glyphicon glyphicon-text-size"></span> Editar</a>
+                        <p></p>
+                        <p><a href="{{ url('prestamos/'.$prestamo->id.'/edit') }}" class="btn btn-warning"><span class=""></span> Editar</a></p>
 
                 </div>
             </div>

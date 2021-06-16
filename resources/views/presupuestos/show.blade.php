@@ -76,7 +76,7 @@ Ver detalle del presupuesto
                                     {!! Form::open(['method' => 'DELETE', 'route' => ['presupuestodetalles.destroy', $detalle->id]]) !!}
                                     <div class="btn-group">
                                       <a class="btn btn-warning btn-xs" href="{{url('presupuestodetalles/'.$detalle->id.'/edit')}}"><span class="glyphicon glyphicon-edit"></span></a>
-                                      <button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+                                      <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
                                       </div>
                                     {{ Form::close() }}
                                 </td>

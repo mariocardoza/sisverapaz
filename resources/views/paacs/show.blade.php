@@ -31,7 +31,7 @@
               <button type="button" id="guardar" class="btn btn-success">
                 Agregar
               </button>
-              <button class="btn btn-info" id="cancelar_guardar" type="button">
+              <button class="btn btn-danger" id="cancelar_guardar" type="button">
                 Cancelar
               </button>
             </center>

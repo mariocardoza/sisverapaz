@@ -21,8 +21,8 @@
                  @include('presupuestos.detalle.formularioedit')
                     <div class="form-group">
                         <div class="col-md-6 col-md-offset-2">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-edit"></span>    Editar
+                            <button type="submit" class="btn btn-warning">
+                                <span class="fa fa-edit"></span>    Editar
                             </button>
                         </div>
                     </div>

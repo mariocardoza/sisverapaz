@@ -5,8 +5,8 @@
         Inmuebles
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/inmuebles') }}"><i class="fa fa-dashboard"></i> Proveedores</a></li>
-        <li class="active">Listado de proveedores</li>
+        <li><a href="{{ url('/inmuebles') }}"><i class="fa fa-dashboard"></i> Inmuebles</a></li>
+        <li class="active">Listado de Inmuebles</li>
       </ol>
 @endsection
 
@@ -15,10 +15,12 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/inmuebles/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                <a href="{{ url('/inmuebles?estado=1') }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/inmuebles?estado=2') }}" class="btn btn-primary">Papelera</a>
+              <p></p>
+                <div class="btn-group pull-right">
+                  <a href="{{ url('/inmuebles/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Agregar</a>
+                  <a href="{{ url('/inmuebles?estado=1') }}" class="btn btn-primary">Activos</a>
+                  <a href="{{ url('/inmuebles?estado=2') }}" class="btn btn-primary">Papelera</a>
+                </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
@@ -44,8 +46,10 @@
                     <td>{{ $inmueble->numero_escritura }}</td>
                     <td>{{ $inmueble->metros_acera }}</td>
                     <td>
-                      <a href="{{ url('proveedores/'.$inmueble->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                      <a href="{{ url('/proveedores/'.$inmueble->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                      <div class="btn-group">
+                        <a href="{{ url('proveedores/'.$inmueble->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                        <a href="{{ url('/proveedores/'.$inmueble->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-text"></span></a>
+                      </div>
                     </td>
                   </tr>
                   @endforeach

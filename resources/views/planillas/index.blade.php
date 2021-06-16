@@ -6,34 +6,35 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li class="active">Control de planillas</li>
+    <li class="active">Control de Planillas</li>
   </ol>
 @endsection
 @php
-$tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
+$tipo_pago= ['1'=>'Planilla Mensual','2'=>'Planilla Quincenal'];
 @endphp
 @section('content')
   <div class="row">
     <div class="col-xs-12">
       <div class="box">
+        <p></p>
         <div class="box-header">
-          <h3 class="box-title"></h3>
+          <p></p>
           <div class="btn-group pull-left">
             <a href="javascript:void(0)" class="btn btn-primary">Pagos</a>
-            <a href="{{ url('pagos/ordencompras?estado=3') }}" class="btn btn-primary">Ordenes de compra</a>
+            <a href="{{ url('pagos/ordencompras?estado=3') }}" class="btn btn-primary">Ordenes de Compra</a>
             <a href="{{ url('planillas') }}" class="btn btn-primary active">Planilla</a>
             <a href="{{ url('eventuales') }}" class="btn btn-primary">Eventuales</a>
           </div>
           <br><br><br>
           <div class="row">
             <div class="col-md-10">
-              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Nueva</a>
+              <a href="{{ url('/planillas/create') }}" class="btn btn-success"><span ></span> Nueva Planilla</a>
             </div>
             <div class="col-md-2 pull-right">
               <div class="form-group">
-                <label for="" class="control-label">Seleccione el año</label>
+                <label for="" class="control-label">Seleccione Año</label>
                 <select name="" id="select_anio" class="chosen-select pull-right">
-                  <option  value="0">Seleccione un año</option>
+                  <option  value="0">Seleccione Año</option>
                   @foreach ($anios as $anio)
                       @if($anio->anio==$elanio)
                       <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
@@ -75,10 +76,10 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                     </td>
                     <td>
                       <div class="btn-group">
-                        <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                        <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="fa fa-eye"></span></a>
                         <a href="javascript:void(0)" id="anular_planilla" data-id="{{$planilla->id}}" title="Anular planilla" class="btn btn-danger"><span class="fa fa-trash"></span></a>
                         <a href="javascript:void(0)" id="emitir_boletas" data-id="{{$planilla->id}}" title="Emitir boletas de pago" class="btn btn-info"><span class="fa fa-check"></span></a>
-                        <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                        <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-info" target="_blank"><span class="fa fa-print"></span></a>
                       </div>
                     </td>
                       @elseif($planilla->estado==2) 
@@ -87,29 +88,29 @@ $tipo_pago= ['1'=>'Planilla mensual','2'=>'Planilla quincenal'];
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                          <a href="{{ url('reportestesoreria/planillas/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-info" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
                       @elseif($planilla->estado==3)
                       <td>
-                      <label for="" class="col-md-12 label-info">Boletas emitidas</label>
+                      <label for="" class="col-md-12 label-info">Boletas Emitidas</label>
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver Planilla" class="btn btn-primary"><span class="fa fa-eye"></span></a>
                           <button class="btn btn-info" id="pagar_planilla" data-id={{$planilla->id}}><i class="fa fa-check"></i></button>
                           <a href="{{ url('reportestesoreria/planillaaprobada/'.$planilla->id) }}" title="Imprimir planilla" class="btn btn-success" target="_blank"><span class="glyphicon glyphicon-list"></span></a>
                         </div>
                       </td>
                       @else 
                       <td>
-                      <label for="" class="col-md-12 label-success">Pago realizado</label>
+                      <label for="" class="col-md-12 label-success">Pago Realizado</label>
                       </td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a href="{{ url('reportestesoreria/boletageneral/'.$planilla->id) }}" title="Imprimir detalle" class="btn btn-success" target="_blank"><span class="fa fa-print"></span></a>
+                          <a href="{{ url('planillas/'.$planilla->id)}}" title="Ver planilla" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                          <a href="{{ url('reportestesoreria/boletageneral/'.$planilla->id) }}" title="Imprimir detalle" class="btn btn-info" target="_blank"><span class="fa fa-print"></span></a>
                         </div>
                       </td>
                       @endif

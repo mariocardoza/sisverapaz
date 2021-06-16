@@ -2,12 +2,12 @@
 
 @section('migasdepan')
   <h1>
-    Pago a cuenta
+    Pago a Cuenta
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li><a href="{{ url('/planillaproyectos') }}"><i class="fa fa-money"></i> Planilla proyectos</a></li>
-    <li class="active">pago a cuenta</li>
+    <li><a href="{{ url('/planillaproyectos') }}"><i class="fa fa-money"></i> Planilla Proyectos</a></li>
+    <li class="active">Pago a Cuenta</li>
   </ol>
 @endsection
 
@@ -15,13 +15,13 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
+            <p></p>
             <div class="box-header">
-                <h3 class="box-title">Listado</h3>
+                <p></p>
                 <div class="btn-group pull-right">
-                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    <a href="{{ url('/pagocuentas?estado=1') 
-                }}" class="btn btn-primary">Activos</a>
-                <a href="{{ url('/pagocuentas?estado=0') }}" class="btn btn-primary">Papelera</a>
+                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
+                    <a href="{{ url('/pagocuentas?estado=1') }}" class="btn btn-primary">Activos</a>
+                    <a href="{{ url('/pagocuentas?estado=0') }}" class="btn btn-primary">Papelera</a>
                 </div>
             </div>
             <div class="box-body table-responsive">
@@ -50,13 +50,15 @@
                                 <td>
                                     @if($estado == 1 || $estado == "")
                                     {{ Form::open(['method' => 'POST', 'id' => 'baja', 'clas' => 'form-horizontal']) }}
-                                    <a href="javascript:(0)" id="edit" data-id="{{$pagocuenta->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
-                                    <button class="btn btn-danger" type="button" onclick={{ "baja(".$pagocuenta->id.",'pagocuentas')"}}><span class="glyphicon glyphicon-trash"></span></button>
+                                    <div class="btn-group">
+                                        <a href="javascript:(0)" id="edit" data-id="{{$pagocuenta->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                        <button class="btn btn-danger" type="button" onclick={{ "baja(".$pagocuenta->id.",'pagocuentas')"}}><span class="fa fa-thumbs-o-down"></span></button>
+                                    </div>
                                     {{ Form::close() }}
 
                                     @else
                                     {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal']) }}
-                                    <button class="btn btn-success" type="button" onclick={{ "alta(".$pagocuenta->id.",'pagocuentas')" }}><span></span>
+                                    <button class="btn btn-success" type="button" onclick={{ "alta(".$pagocuenta->id.",'pagocuentas')" }}><span class="fa fa-thumbs-o-up"></span>
                                     </button>
                                     {{ Form::close() }}
                                     @endif

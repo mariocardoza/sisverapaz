@@ -2,13 +2,14 @@
 
 @section('migasdepan')
   <h1>
-    Pago de renta
+    <p></p>
+    Pago de Renta
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li><a href="{{ url('/planillaproyectos') }}"><i class="fa fa-money"></i> Pago de Renta</a></li>
-    <li class="active">pago de renta</li>
+    <li><a href="{{ url('/planillaproyectos') }}"><i class="fa fa-money"></i> Renta</a></li>
+    <li class="active">Pago de Renta</li>
   </ol>
 @endsection
 
@@ -16,7 +17,9 @@
 <div class="row">
     <div class="col-md-12">
         <div class="box">
+          <p></p>
             <div class="box-body">
+              <p></p>
                 <table class="table" id="example2">
                     <thead>
                         <tr>

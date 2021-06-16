@@ -3,21 +3,21 @@
 		<div class="modal-content modal-sm">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Nuevo</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_giro">
 					<div class="form-group">
 						<label for="">
-							Nombre del giro
+							Nombre del Giro
 						</label>
 						<input type="text" name="nombre" autocomplete="off" class="form-control">
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				<button id="btnguardar" type="button" class="btn btn-primary">Guardar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button id="btnguardar" type="button" class="btn btn-success">Guardar</button>
 			</div>
 		</div>
 	</div>
@@ -41,8 +41,8 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				<button id="btneditar" type="button" class="btn btn-primary">Editar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+				<button id="btneditar" type="button" class="btn btn-success">Guardar</button>
 			</div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Nuevo</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_pagocuenta">
@@ -35,7 +35,7 @@
 			<div class="modal-body">
 				<form id="form_edit">
 					<div class="form_group">
-						<label for="">Nombre cuenta</label>
+						<label for="">Cuenta</label>
 						<input type="text" name="nombre" id="e_nombre" class="form_control">
 						<input type="hidden" name="id" id="elid">
 					</div>

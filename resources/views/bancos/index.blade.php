@@ -12,6 +12,7 @@
 <div class="row">
       <div class="col-xs-12">
           <div class="box">
+            <p></p>
             <div class="box-header"><p></p>
                 <div class="btn-group pull-right">
                     <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>

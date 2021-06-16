@@ -2,7 +2,7 @@
 
 @section('migasdepan')
 <h1>
-    Partidas de nacimiento
+    Partidas de Nacimiento
     <small></small>
   </h1>
   <ol class="breadcrumb">
@@ -13,15 +13,16 @@
 @section('content')
 <div class="box">
     <div class="box-header">
+        <p></p>
         <div class="box-title">
-            <h3></h3>
-            <a href="javascript:void(0)" class="btn btn-success new_partida pull-right"><i class="fa fa-plus"></i> Nueva</a>
+            <p></p>
+            <a href="javascript:void(0)" class="btn btn-success new_partida pull-right"><i class="fa fa-plus-circle"></i></a>
             <div class="btn-group">
-                <a href="{{url('ingresos?n=0')}}" class="btn btn-primary">Cobros inmuebles</a>
-                <a href="{{url('ingresos?n=1')}}" class="btn btn-primary">Cobros negocios</a>
+                <a href="{{url('ingresos?n=0')}}" class="btn btn-primary">Cobros Inmuebles</a>
+                <a href="{{url('ingresos?n=1')}}" class="btn btn-primary">Cobros Negocios</a>
                 <a href="{{ url('partidas') }}" class="btn btn-primary">Partidas <span class="label label-danger">{{\App\Partida::whereEstado(1)->count()}}</span></a>
                 <a href="{{url('construcciones/recibos')}}" class="btn btn-primary">Construcciones <span class="label label-danger">{{\App\Construccion::whereEstado(3)->count()}}</span></a>
-                <a href="{{url('perpetuidad/recibos')}}" class="btn btn-primary">Titulos a perpetuidad <span class="label label-danger">{{\App\Perpetuidad::whereEstado(1)->count()}}</span></a>
+                <a href="{{url('perpetuidad/recibos')}}" class="btn btn-primary">Titulos a Perpetuidad <span class="label label-danger">{{\App\Perpetuidad::whereEstado(1)->count()}}</span></a>
             </div>
         </div>
     </div>
@@ -61,11 +62,13 @@
                                 </td>
                                 <td>
                                     @if($partida->estado==1)
-                                    <a href="javascript:void(0)" title="Editar" data-id="{{$partida->id}}" class="btn btn-warning edit"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:void(0)" title="Confirmar pago" data-id="{{$partida->id}}" class="btn btn-success cobrar"><i class="fa fa-money"></i></a>
-                                    <a target="_blank" href="{{url('reportestesoreria/partida/'.$partida->id)}}" title="Imprimir recibo" class="btn btn-primary"><i class="fa fa-print"></i></a>
+                                    <div class="btn-group">
+                                        <a href="javascript:void(0)" title="Editar" data-id="{{$partida->id}}" class="btn btn-warning edit"><i class="fa fa-edit"></i></a>
+                                        <a href="javascript:void(0)" title="Confirmar pago" data-id="{{$partida->id}}" class="btn btn-success cobrar"><i class="fa fa-money"></i></a>
+                                        <a target="_blank" href="{{url('reportestesoreria/partida/'.$partida->id)}}" title="Imprimir recibo" class="btn btn-primary"><i class="fa fa-print"></i></a>
                                     @elseif($partida->estado==3)
                                     <a target="_blank" href="{{url('reportestesoreria/partida/'.$partida->id)}}" class="btn btn-primary"><i class="fa fa-print"></i></a>
+                                    </div>
                                     @endif
                                 </td>
                             </tr>
@@ -107,7 +110,7 @@
           
         </div>
         <div class="modal-footer">
-          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-success">Agregar</button></center>
           {{Form::close()}}
         </div>
@@ -120,7 +123,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Editar datos de la partida de nacimiento</h4>
+          <h4 class="modal-title" id="myModalLabel">Editar Datos Partida de Nacimiento</h4>
         </div>
         <div class="modal-body">
           <form method="post" id="form_epartida">
@@ -147,7 +150,7 @@
           
         </div>
         <div class="modal-footer">
-          <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-success">Agregar</button></center>
           {{Form::close()}}
         </div>

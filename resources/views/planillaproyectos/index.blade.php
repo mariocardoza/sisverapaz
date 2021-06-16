@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('migasdepan')
   <h1>
-    Planilla por proyectos
+    Planilla por Proyecto
     <small></small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-    <li class="active">Control de planilla</li>
+    <li class="active">Control de Planilla</li>
   </ol>
 @endsection
 
@@ -14,8 +14,9 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="box">
+        <p></p>
         <div class="box-header">
-          <h3 class="box-title">Listado</h3>
+          <p></p>
         </div>
 
         <div class="box-body table-responsive">
@@ -36,10 +37,10 @@
                     <td>{!! \App\PeriodoProyecto::estado($c->id) !!}</td>
                     <td>
                         @if($c->estado==3)
-                            <button class="btn btn-primary btn-sm" id="desembolso" data-id="{{$c->id}}" title="Efectuar el desembolso"><i class="fa fa-money"></i></button>
-                            <a href="{{url('reportesuaci/planillaproyecto/'.$c->id)}}" target="_blank" class="btn btn-success btn-sm"><i class="fa fa-print"></i></a>
+                            <button class="btn btn-info" id="desembolso" data-id="{{$c->id}}" title="Efectuar el desembolso"><i class="fa fa-money"></i></button>
+                            <a href="{{url('reportesuaci/planillaproyecto/'.$c->id)}}" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i></a>
                         @else
-                            <a href="{{url('pagocuentas/'.$c->id)}}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a>
+                            <a href="{{url('pagocuentas/'.$c->id)}}" class="btn btn-success"><i class="fa fa-eye"></i></a>
                         @endif
                     </td>
                   </tr>

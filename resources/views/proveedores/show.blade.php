@@ -44,7 +44,12 @@
             </li>
           </ul>
 
-          <a href="javascript:void(0)" id="editar" class="btn btn-primary btn-block"><b>Editar</b></a>
+          <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+              <a href="javascript:void(0)" id="editar" class="btn btn-warning"><b>Editar</b></a>
+            </div>
+            
+          </div>
         </div>
         <!-- /.box-body -->
       </div>
@@ -135,7 +140,7 @@
                   
                 </center>
               <?php endif; ?>
-              <center><button class="btn btn-primary" id="show_representante">Agregar</button></center>
+              <center><button class="btn btn-warning" id="show_representante">Editar</button></center>
             </div>
           </div>
           <!-- /.tab-pane -->
