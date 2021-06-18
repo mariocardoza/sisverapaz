@@ -13,10 +13,10 @@ class RentaTableSeeder extends Seeder
      */
      public function run()
      {
-       $this->truncateTables([
+      /* $this->truncateTables([
              'rentas',
              'retencions'
-         ]);
+         ]);*/
          $pago=array("Mensual","Quincenal");
          $tramo_m=array("I","II","III","IV");
          $desde_m=array("0.01","472.01","895.25","2038.11");

@@ -20,7 +20,7 @@ class RoleTableSeeder extends Seeder
     public function run()
     {
         if(User::all()->count() == 0){
-            $this->truncateTables([
+            /*$this->truncateTables([
                 'role_user',
                 'roles',
                 'users',
@@ -28,7 +28,7 @@ class RoleTableSeeder extends Seeder
                 'unidads',
                 'bitacoras'
             ]);
-
+*/
             $role = new Role();
             $role->name = 'admin';
             $role->description = 'Administrador';
