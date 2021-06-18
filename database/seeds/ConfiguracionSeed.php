@@ -13,10 +13,10 @@ class ConfiguracionSeed extends Seeder
      */
     public function run()
     {
-        $this->truncateTables([
+       /* $this->truncateTables([
             'configuracions',
             'porcentajes',
-        ]);
+        ]);*/
 
         $con=new Configuracion();
         $con->direccion_alcaldia='Calle Norberto Marroquín, Barrio Mercedes';
