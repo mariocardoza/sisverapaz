@@ -89,12 +89,12 @@ class RentaTableSeeder extends Seeder
      }
      public function truncateTables(array $tables)
      {
-         DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
 
          foreach ($tables as $table) {
              DB::table($table)->truncate();
          }
 
-         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
      }
 }
