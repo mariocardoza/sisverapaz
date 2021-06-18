@@ -400,6 +400,7 @@ $(document).ready(function () {
             $.each(error.responseJSON.errors, function( key, value ) {
               toastr.error(value);
             });
+			swal.closeModal();
           }
         });
 	});
