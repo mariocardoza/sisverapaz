@@ -34,6 +34,8 @@ $factory->define(App\Contribuyente::class,function (Faker\generator $faker){
         'telefono' => random_int(6000,7999).'-'.random_int(0,9999),
         'sexo' => 'Másculino',
         'estado' => 1,
+        'departamento_id'=>10,
+        'municipio_id'=>175,
     ];
 });
 

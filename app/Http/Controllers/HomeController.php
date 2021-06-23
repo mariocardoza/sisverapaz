@@ -46,7 +46,8 @@ class HomeController extends Controller
         ->get();
 
         $morosos = DB::table('factura_negocios as fn')
-            ->select('n.nombre','n.lat','n.lng','n.direccion','n.id',DB::raw('SUM(fn.pagoTotal) AS deuda'))
+            ->select('n.nombre','n.lat','n.lng','n.direccion','n.id',
+            DB::raw('(select SUM(fn.pagoTotal)) as deuda'))
             ->join('negocios as n','n.id','=','fn.negocio_id','inner')
             ->where('fn.estado','=',1)
             ->where('fn.fechaVencimiento','<',date("Y-m-d"))

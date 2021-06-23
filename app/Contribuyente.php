@@ -115,10 +115,10 @@ class Contribuyente extends Model
                     
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nacimiento" class="control-label">Fecha de Nacimiento</label>
+                                <label for="nacimiento" class="control-label">Fecha de registro</label>
                             
                                 <div class="">
-                                <input type="text" value="'.$contri->nacimiento->format('d-m-Y').'" name="nacimiento" class="form-control nacimiento" autocomplete="off">
+                                <input type="text" value="'.($contri->nacimiento=='' ? '' : $contri->nacimiento->format('d-m-Y')).'" name="nacimiento" class="form-control fechita" autocomplete="off">
 
                                   
                                 </div>

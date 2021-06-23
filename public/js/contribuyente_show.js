@@ -15,13 +15,13 @@ $(function(e){
             $('.nit').inputmask("9999-999999-999-9", { "clearIncomplete": true });
             $('.dui').inputmask("99999999-9", { "clearIncomplete": true });
             $('.telefono').inputmask("9999-9999", { "clearIncomplete": true });
-            $('.nacimiento').datepicker({
+            $('.fechita').datepicker({
               selectOtherMonths: true,
               changeMonth: true,
               changeYear: true,
               dateFormat: 'dd-mm-yy',
               minDate: "-60Y",
-              maxDate: "-18Y",
+              maxDate: "1Y",
               format: 'dd-mm-yyyy'
     		    });
             $("#modal_editcontribuyente").modal("show");

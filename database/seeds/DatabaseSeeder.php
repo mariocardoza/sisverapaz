@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //La creación de datos de roles debe ejecutarse primero
+        $this->call(DepartamentoSeeder::class);
+        $this->call(MunicipioSeeder::class);
         $this->call(RoleTableSeeder::class);
         //factory(App\Proveedor::class,50)->create();
         $this->call(RentaTableSeeder::class);

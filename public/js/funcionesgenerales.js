@@ -204,6 +204,26 @@
               "autoWidth": false
           });
 
+
+          $(document).on("change", "#departamento_id", function(e){
+            e.preventDefault();
+            let id = $(this).val();
+            if(id > 0){
+              $.ajax({
+                url: 'municipios/' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function(json){
+                  if(json[0] == 1){
+                    $("#municipio_id").empty();
+                    $("#municipio_id").html(json[2]);
+                  }
+                }
+              });
+            }
+          });
+        
+
           var register = $("#form-register");
               register.steps({
                 headerTag: "h3",

@@ -46,8 +46,7 @@
               <b>NIT:</b> {{$c->nit}}<br>
               <b>Teléfono:</b> {{$c->telefono}}<br>
               <b>Género:</b> {{$c->sexo}}<br>
-              <b>Edad:</b> {{$c->nacimiento->age}}<br>
-              <b>Fecha de nacimiento:</b> {{$c->nacimiento->format("d/m/Y")}}<br>
+              <b>Fecha de registro:</b> {{$c->nacimiento!='' ? $c->nacimiento->format('d/m/Y') : ''}}<br>
              </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">

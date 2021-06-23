@@ -40,11 +40,11 @@
 
     <div class="col-md-6">
         <div class="form-group">
-            <label for="nacimiento" class="control-label">Fecha de Nacimiento</label>
+            <label for="nacimiento" class="control-label">Fecha de registro</label>
         
             <div class="">
                 
-                {{ Form::text('nacimiento',null, ['class' => 'form-control nacimiento','autocomplete'=>'off']) }}
+                {{ Form::text('nacimiento',null, ['class' => 'form-control fechita','autocomplete'=>'off']) }}
               
             </div>
         </div>
@@ -54,10 +54,33 @@
             <label for="sexo" class="control-label">Sexo</label>
         
             <div class="">
-                <select name="sexo" id="" class="chosen-select-width">
+                <select name="sexo" id="" class="form-control">
                     <option value="">Seleccione</option>
                     <option value="Másculino">Másculino</option>
                     <option value="Femenino">Femenino</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="" class="control-label">Departamento</label>
+            <div>
+                <select name="departamento_id" id="departamento_id" class="form-control">
+                    <option value="">Seleccione</option>
+                    @foreach($departamentos as $departamento)
+                        <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="" class="control-label">Municipio</label>
+            <div>
+                <select name="municipio_id" id="municipio_id" class="form-control">
+                    <option value="">Seleccione</option>
                 </select>
             </div>
         </div>

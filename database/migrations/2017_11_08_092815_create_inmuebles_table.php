@@ -15,12 +15,12 @@ class CreateInmueblesTable extends Migration
     {
         Schema::create('inmuebles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('numero_catastral');
+            $table->string('numero_catastral')->nullable();
             $table->bigInteger('contribuyente_id')->unsigned();
             $table->string('direccion_inmueble');
-            $table->double('ancho_inmueble');
-            $table->double('largo_inmueble');
-            $table->string('numero_escritura');
+            $table->double('ancho_inmueble')->nullable();
+            $table->double('largo_inmueble')->nullable();
+            $table->string('numero_escritura')->nullable();
             $table->double('metros_acera',20,2);
             $table->tinyInteger('estado');
             $table->float('latitude', 20,  18);

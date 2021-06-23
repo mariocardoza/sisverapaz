@@ -20,8 +20,10 @@
                         <table class="table tbrubro" id="example2">
                             <thead>
                                 <th>N°</th>
+                                <th>Categoría</th>
                                 <th>Nombre</th>
                                 <th>Porcentaje</th>
+                                <th>Formula</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </thead>
