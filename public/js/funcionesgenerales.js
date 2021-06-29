@@ -210,13 +210,33 @@
             let id = $(this).val();
             if(id > 0){
               $.ajax({
-                url: 'municipios/' + id,
+                url: '/municipios/' + id,
                 type: 'get',
                 dataType: 'json',
                 success: function(json){
                   if(json[0] == 1){
                     $("#municipio_id").empty();
                     $("#municipio_id").html(json[2]);
+                  }
+                }
+              });
+            }
+          });
+
+          $(document).on("change", "#categoriarubro_id", function(e){
+            e.preventDefault();
+            let id = $(this).val();
+            if(id > 0){
+              $.ajax({
+                url: '/losrubros/' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function(json){
+                  if(json[0] == 1){
+                    $("#rubro_id").empty();
+                    $("#rubro_id").html(json[2]);
+                    $("#rubro_id").trigger("chosen:updated");
+                    $("#rubro_id").chosen({'width':'100%'});
                   }
                 }
               });

@@ -29,6 +29,15 @@ Route::get('municipios/{id}',function($departamento_id){
 
 });
 
+Route::get('losrubros/{id}',function($categoriarubro_id){
+  $rubros = \App\Rubro::where('categoriarubro_id',$categoriarubro_id)->get();
+  $options='<option selected value=""> Seleccione un rubro</option>';
+    foreach ($rubros as $rubro) {
+      $options.='<option value="' . $rubro->id . '">' . $rubro->nombre . '</option>';
+    }
+    return array(1, $rubros, $options);
+});
+
 Route::get('pdf',function(){
   $usuarios = \App\Proveedor::where('estado',1)->get();
   $unidad = "Unidad de Adquicisiones Institucionales";

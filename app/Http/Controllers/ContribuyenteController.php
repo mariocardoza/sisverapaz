@@ -123,6 +123,8 @@ class ContribuyenteController extends Controller
         $contribuyente->dui=$request->dui;
         $contribuyente->sexo=$request->sexo;
         $contribuyente->direccion=$request->direccion;
+        $contribuyente->departamento_id=$request->departamento_id;
+        $contribuyente->municipio_id=$request->municipio_id;
         $contribuyente->nacimiento=invertir_fecha($request->nacimiento);
 
         $contribuyente->save();
