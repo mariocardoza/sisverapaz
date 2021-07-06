@@ -243,7 +243,7 @@ Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiale
 //route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');
 Route::Resource('unidadmedidas','UnidadMedidaController');
 Route::post('unidadmedidas/baja/{id}','UnidadMedidaController@baja')->name('unidadmedidas.baja');
-Route::post('unidadmedidas/alta/{id}','UnidadMedida.Controller@alta')->name('unidadmedidas.alta');
+Route::post('unidadmedidas/alta/{id}','UnidadMedidaController@alta')->name('unidadmedidas.alta');
 
 
 Route::get('cotizaciones/ver/cuadros','CotizacionController@cuadros');
@@ -393,6 +393,8 @@ Route::Resource('negocios','NegocioController');
 Route::post('alumbrado/reparar','AlumbradoController@reparar');
 Route::get('alumbrado/reparadas','AlumbradoController@reparadas');
 Route::Resource('alumbrado','AlumbradoController');
+Route::get('reportar-alumbrado','ReportePublicoController@yo_reporto');
+Route::post('guardar-alumbrado','ReportePublicoController@store');
 
 Route::post('inmuebles/guardar','InmuebleController@guardar')->name('inmuebles.guardar');
 Route::post('inmuebles/quitarimpuesto', 'InmuebleController@quitarservicioinmueble'); //funcion para quitar impuesto

@@ -293,19 +293,20 @@ class InmuebleController extends Controller
     protected function validar(array $data)
     {
         $mensajes=array(
-            'ancho_inmueble.required'=>'El ancho del inmueble obligatorio',
-            'largo_inmueble.required'=>'El largo del inmueble obligatorio',
+            //'ancho_inmueble.required'=>'El ancho del inmueble obligatorio',
+            //'largo_inmueble.required'=>'El largo del inmueble obligatorio',
             'numero_escritura.required'=>'El número de la escritura del inmueble obligatorio',
             'unidad_id.required'=>'La unidad de medida es obligatoria',
             'categoria_id.required'=>'La categoría es obligatoria',
         );
         return Validator::make($data, [
             'contribuyente_id' => 'required',
-            'numero_catastral' => 'required',
+            /*'numero_catastral' => 'required',
             'ancho_inmueble'=>'required|numeric|min:1',
-            'largo_inmueble'=>'required|numeric|min:1',
+            'largo_inmueble'=>'required|numeric|min:1',*/
             'numero_escritura'=>'required',
             'metros_acera'=>'required|numeric|min:0',
+            'direccion_inmueble'=>'required',
         ],$mensajes);
     }
 

@@ -337,7 +337,7 @@
                         yearRange: "-100:+0", // last hundred years
                         dateFormat: 'dd-mm-yy',
                         format: 'dd-mm-yyyy'
-                        });
+                      });
   
 
     /// establecer un periodo de tiempo

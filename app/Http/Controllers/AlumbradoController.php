@@ -8,6 +8,10 @@ use App\Bitacora_alumbrado;
 use Validator;
 class AlumbradoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +39,12 @@ class AlumbradoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function yo_reporto()
+    {
+        $alumbrados=Alumbrado::where('estado',1)->get();
+        return view('alumbrado.yo_reporto',compact('alumbrados'));
     }
 
     /**
