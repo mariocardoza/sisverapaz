@@ -12,9 +12,11 @@
       
         $proys=App\Proyecto::where('anio',date("Y"))->where('estado','!=',12)->get();
         $proyectos=[];
+        $proyectos['']='Sin proyecto';
         foreach ($proys as $e) {
             $proyectos[$e->id]=$e->nombre;
           }
+         // $proyectos->prepend('Sin proyecto', '');
         $unids=App\Unidad::where('estado',1)->get();
         $unidades=[];
         foreach ($unids as $u ) {

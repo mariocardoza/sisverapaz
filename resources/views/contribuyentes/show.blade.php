@@ -22,7 +22,7 @@
               <small style="margin-top: 0px; margin-left: 28px">DUI: {{$c->dui}}</small>
             </div>
             <div class="btn-group pull-right"> 
-                @if($c->estado==1)         
+            @if($c->estado==1)         
               <button title="Dar de baja" class="btn btn-danger baja" data-id="{{$c->id}}">
                   <i class="fa fa-thumbs-o-down"></i>
               </button>
@@ -46,8 +46,7 @@
               <b>NIT:</b> {{$c->nit}}<br>
               <b>Teléfono:</b> {{$c->telefono}}<br>
               <b>Género:</b> {{$c->sexo}}<br>
-              <b>Edad:</b> {{$c->nacimiento->age}}<br>
-              <b>Fecha de nacimiento:</b> {{$c->nacimiento->format("d/m/Y")}}<br>
+              <b>Fecha de registro:</b> {{$c->nacimiento!='' ? $c->nacimiento->format('d/m/Y') : ''}}<br>
              </div>
             <!-- /.col -->
             <div class="col-sm-4 invoice-col">

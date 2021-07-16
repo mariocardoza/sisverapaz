@@ -18,7 +18,6 @@ class NegocioRequest extends FormRequest
             'rubro_id'            =>'required',
             'contribuyente_id'    =>'required',
             'direccion'           =>'required|min:10|max:70',
-            'capital'           =>'required|numeric',
         ];
     }
 

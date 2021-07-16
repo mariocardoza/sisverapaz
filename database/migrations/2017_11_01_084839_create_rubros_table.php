@@ -16,8 +16,11 @@ class CreateRubrosTable extends Migration
         Schema::create('rubros', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->double('porcentaje',2,2);
+            $table->double('porcentaje',10,2);
             $table->integer('estado')->default(1);
+            $table->boolean('es_formula')->default(0);
+            $table->unsignedBigInteger('categoriarubro_id');
+            $table->foreign('categoriarubro_id')->references('id')->on('categoria_rubros');
             $table->timestamps();
         });
     }

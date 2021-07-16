@@ -55,25 +55,33 @@
                 <button onclick="busqueda('p');" class="btn" type="button">Periodo</button>
               </div>
               {{Form::close()}}
-              {{Form::hidden('',$ultimo->registro->format('Y-m-d'),['id'=>'ultimo'])}}
+              {{Form::hidden('',$ultimo->created_at->format('Y-m-d'),['id'=>'ultimo'])}}
               </div>
 
               <div class="panel-body" id="aqui_bita">
                 <table class="table table-hover" id="esta">
                    <thead>
                     <th>N°</th>
-                    <th>Fecha de actividad</th>
-                    <th>Hora de la actividad</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Acción</th>
-                    <th>Usuarios</th>
+                    <th>Ip</th>
+                    <th>URL</th>
+                    <th>Tabla</th>
+                    <th>Navegador</th>
+                    <th>Usuario</th>
                   </thead>
                   <tbody id="bita">
                     @foreach($bitacoras as $key => $bitacora)
                     <tr>
                       <td>{{ $key+1 }}</td>
-                      <td>{{ fechaCastellano($bitacora->registro) }}</td>
-                      <td>{{ $bitacora->hora }}</td>
+                      <td>{{ fechaCastellano($bitacora->created_at) }}</td>
+                      <td>{{ $bitacora->created_at->format('H:i:s') }}</td>
                       <td>{{ $bitacora->accion }}</td>
+                      <td>{{ $bitacora->ip }}</td>
+                      <td>{{ $bitacora->url }}</td>
+                      <td>{{ $bitacora->tabla }}</td>
+                      <td>{{ get_browser_name($bitacora->agent) }}</td>
                       <td>{{ $bitacora->user->empleado->nombre}}</td>
                       
                     </tr>

@@ -11,7 +11,7 @@ class ContribuyentesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Contribuyente::class, 100)->create()->each(function($contribuyente) {
+        factory(App\Contribuyente::class, 50)->create()->each(function($contribuyente) {
             $contribuyente->save();
         });
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Datoplanilla extends Model
 {
-    protected $fillable = ['fecha', 'tipo_pago','mes','anio'];
+    protected $fillable = ['fecha', 'tipo_pago','mes','anio','tipo_planilla'];
 
     public static function totalplanilla($id)
     {
@@ -14,6 +14,16 @@ class Datoplanilla extends Model
         $dato=Datoplanilla::find($id);
         foreach($dato->planilla as $p){
             $total+=$p->empleado->detalleplanilla->salario+$p->isssp+$p->afpp+$p->insaforpp;
+        }
+        return $total;
+    }
+
+    public static function totalplanilla_renta($id)
+    {
+        $total=0;
+        $dato=Datoplanilla::find($id);
+        foreach($dato->planilla as $p){
+            $total+=$p->empleado->detalleplanilla->salario;
         }
         return $total;
     }

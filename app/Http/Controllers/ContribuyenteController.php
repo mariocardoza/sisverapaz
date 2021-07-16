@@ -12,6 +12,7 @@ use App\Factura;
 use App\FacturaNegocio;
 use App\Inmueble;
 use App\Negocio;
+use App\Departamento;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
 
@@ -30,7 +31,8 @@ class ContribuyenteController extends Controller
     public function index(Request $request)
     {
         $contribuyentes=Contribuyente::all();
-        return view('contribuyentes.index',compact('contribuyentes'));        
+        $departamentos = Departamento::all();
+        return view('contribuyentes.index',compact('contribuyentes','departamentos'));        
     }
 
     /**
@@ -59,8 +61,10 @@ class ContribuyenteController extends Controller
                     'nit'=>$request->nit,
                     'sexo'=>$request->sexo,
                     'telefono'=>$request->telefono,
-                    'nacimiento'=>\invertir_fecha($request->nacimiento),
+                    'nacimiento'=>$request->nacimiento!='' ? \invertir_fecha($request->nacimiento): null,
                     'direccion'=>$request->direccion,
+                    'departamento_id'=>$request->departamento_id,
+                    'municipio_id'=>$request->municipio_id,
                     //'numero_cuenta' => Contribuyente::count() == 0 ? 'CT' . sprintf('%05d', 1) : 'CT' . sprintf('%05d', Contribuyente::get()->last()->id + 1),
                 ]);
                 bitacora('Registro un contribuyente');
@@ -84,9 +88,11 @@ class ContribuyenteController extends Controller
      */
     public function show($id)
     {
+      $departamentos = Departamento::all();
+
         $c = Contribuyente::findorFail($id);
 
-        return view('contribuyentes.show',compact('c'));
+        return view('contribuyentes.show',compact('c','departamentos'));
     }
 
     /**
@@ -117,6 +123,8 @@ class ContribuyenteController extends Controller
         $contribuyente->dui=$request->dui;
         $contribuyente->sexo=$request->sexo;
         $contribuyente->direccion=$request->direccion;
+        $contribuyente->departamento_id=$request->departamento_id;
+        $contribuyente->municipio_id=$request->municipio_id;
         $contribuyente->nacimiento=invertir_fecha($request->nacimiento);
 
         $contribuyente->save();
@@ -214,16 +222,18 @@ class ContribuyenteController extends Controller
                     $facturaArray['mueble_id'] = $value['id'];
                     
                     foreach ($value->tipoServicio as $item) {
-                      $precio = ($item['isObligatorio'] == 1) ? 
-                          $precio = floatval($item['costo']) : 
-                          floatval($value['metros_acera']) * floatval($item['costo']);
-    
-                         array_push($arrayFacturaItems, new \App\FacturasItems([
-                          "tipoinmueble_id" => $item->pivot['id'],
-                          "precio_servicio" => $precio
-                        ])); 
-                        //$arra[]=$item->pivot;
-                      $total += $precio;
+                      if($item['estado']==1):
+                        $precio = ($item['isObligatorio'] == 1) ? 
+                            $precio = floatval($item['costo']) : 
+                            floatval($value['metros_acera']) * floatval($item['costo']);
+      
+                          array_push($arrayFacturaItems, new \App\FacturasItems([
+                            "tipoinmueble_id" => $item->pivot['id'],
+                            "precio_servicio" => $precio
+                          ])); 
+                          //$arra[]=$item->pivot;
+                        $total += $precio;
+                      endif;
                     }
                     $subt=0;
                     $subt=$this->getMora($value->id) + $total; 

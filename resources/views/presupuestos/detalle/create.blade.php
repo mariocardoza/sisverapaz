@@ -16,6 +16,7 @@
         <div class="row">
             <div class="col-md-11">
             <div class="panel panel-primary">
+                <p></p>
                 <div class="panel-heading">Registro de presupuesto</div>
                 <div class="panel-body">
                     {{ Form::open(['action' => 'PresupuestoController@store','class' => 'form-horizontal','id' => 'presupuestodetalle']) }}
@@ -27,12 +28,12 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             <button type="button" id="btnsubmit" class="btn btn-success">
-                                <span class="glyphicon glyphicon-floppy-disk"></span>    Registrar
+                                <span class=""></span>    Guardar
                             </button>
                         </div>
                         <div class="col-md-6">
                             <button type="button" id="btnlimpiar" class="btn btn-info">
-                                <span class="glyphicon glyphicon-remove"></span>    Limpiar
+                                <span class="fa fa-remove"></span>    Limpiar
                             </button>
                         </div>
                     </div>

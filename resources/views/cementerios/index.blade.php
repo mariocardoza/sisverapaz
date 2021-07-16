@@ -42,10 +42,10 @@
                   <tr>
                     <td>{{ $index+1 }}</td>
                     <td>{{ $c->nombre }}</td>
-                    <td>{{ $c->maximo }}</td>
+                    <td>{{ $c->maximo }} estimados</td>
                       @if($c->estado==1)
                       <td>
-                      <label for="" class="col-md-12 label-primary">Libre</label>
+                      <label for="" class="col-md-12 label-success">Puestos disponibles</label>
                       </td>
                       @elseif($c->estado==2)
                       <td>

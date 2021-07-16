@@ -14,12 +14,13 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="box">
+			<p></p>
 		<div class="box-header">
-			<h3 class="box-tittle"></h3>
+			<p></p>
 			<div class="btn-group pull-right">
-				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
-				<a href="{{ url('/cargos?estado=1') }}" class="btn btn-primary">Activos</a>
-				<a href="{{ url('cargos?estado=0') }}" class="btn btn-primary">Papelera</a>
+				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
+				<a href="{{ url('/paaccategorias?estado=1') }}" class="btn btn-primary">Activos</a>
+				<a href="{{ url('paaccategorias?estado=2') }}" class="btn btn-primary">Papelera</a>
 			</div>
 		</div>
 
@@ -40,12 +41,14 @@
 					<td>
 						@if($c->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-						<a href="javascript:(0)" id="edit" data-id="{{$c->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-						<button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$c->id.",'paaccategorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<div class="btn-group">
+							<a href="javascript:(0)" id="edit" data-id="{{$c->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+							<button class="btn btn-danger" type="button" onclick={{ "baja(".$c->id.",'paaccategorias')" }}><span class="fa fa-thumbs-o-down"></span></button>
+						</div>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$c->id.",'paaccategorias')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-success" type="button" onclick={{ "alta(".$c->id.",'paaccategorias')" }}><span class="fa fa-thumbs-o-up"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>

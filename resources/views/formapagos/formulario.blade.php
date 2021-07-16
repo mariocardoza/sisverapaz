@@ -1,5 +1,5 @@
                         <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-                            <label for="nombre" class="col-md-4 control-label">Nombre de forma de pago</label>
+                            <label for="nombre" class="col-md-4 control-label">Forma de pago</label>
 
                             <div class="col-md-6">
 

@@ -15,14 +15,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar datos bancarios</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Datos Bancarios</h4>
       </div>
       <div class="modal-body">
       	<form id="bancarios" action="" class="form-horizontal">
       		<div class="row">
 	          	<div class="col-md-12">
 		          	<div class="form-group">
-		                <label class="control-label col-md-4">Seleccione el banco</label>
+		                <label class="control-label col-md-4">Seleccione el Banco</label>
 		                <div class="col-md-6">
 		                	<input type="hidden" name="codigo" value="{{$empleado->id}}">
 		                    {{Form::select('banco',$bancos,null,['class'=>'chosen-select-width','placeholder'=>'Seleccione un banco','required'])}}
@@ -30,7 +30,7 @@
 		            </div>
 
 		            <div class="form-group">
-		                <label class="control-label col-md-4">Número de cuenta</label>
+		                <label class="control-label col-md-4">Número de Cuenta</label>
 		                <div class="col-md-6">
 		                    {{ Form::number('num_cuenta', null,['id'=>'cuenta_empleado','class' => 'form-control','autocomplete'=>'off','required']) }}
 		                </div>       
@@ -40,8 +40,8 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_bancarios" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_bancarios" class="btn btn-success">Agregar</button>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar datos de la AFP</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Datos de la AFP</h4>
       </div>
       <div class="modal-body">
       	<form id="afps" action="" class="form-horizontal">
@@ -67,7 +67,7 @@
 		            </div>
 
 		            <div class="form-group">
-		                <label class="control-label col-md-4">Número de afp</label>
+		                <label class="control-label col-md-4">Número de AFP</label>
 		                <div class="col-md-6">
 		                    {{ Form::number('num_afp', null,['id'=>'afp_empleado','class' => 'form-control','autocomplete'=>'off','required']) }}
 		                </div>       
@@ -89,7 +89,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar número de Seguro Social</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Número de Seguro Social</h4>
       </div>
       <div class="modal-body">
       	<form id="isss" action="" class="form-horizontal">
@@ -109,8 +109,8 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_isss" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_isss" class="btn btn-success">Agregar</button>
       </div>
     </div>
   </div>
@@ -121,7 +121,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title text-center" id="gridSystemModalLabel">Editar empleado</h4>
+        <h4 class="modal-title text-center" id="gridSystemModalLabel">Editar Datos de Empleado</h4>
       </div>
       <div class="modal-body">
       	{{ Form::model($empleado, array('class' => '','id'=>'e_empleados')) }}    	
@@ -130,7 +130,7 @@
       </div>
       <div class="modal-footer">
         <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="btn_editar" class="btn btn-success">Registrar</button></center>
+        <button type="button" id="btn_editar" class="btn btn-success">Agregar</button></center>
       </div>
     </div>
   </div>
@@ -141,7 +141,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar datos del usuario</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Datos de Usuario</h4>
       </div>
       <div class="modal-body">
       	<form id="n_usuario">
@@ -206,8 +206,8 @@
       	</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_user" class="btn btn-primary">Registrar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="registrar_user" class="btn btn-success">Agregar</button>
       </div>
     </div>
   </div>
@@ -218,7 +218,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Editar datos del usuario</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Editar Datos de Usuario</h4>
       </div>
       <div class="modal-body">
         {{ Form::model($empleado->user, array('class' => '','id'=>'e_usuarios')) }} 
@@ -262,8 +262,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="eledit_user" class="btn btn-primary">Editar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="eledit_user" class="btn btn-success">Agregar</button>
       </div>
     </div>
   </div>
@@ -274,7 +274,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar préstamo</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Préstamo</h4>
       </div>
       <div class="modal-body">
         <form action="" id="form_prestamo" class="form-horizontal"> 
@@ -288,8 +288,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="regi_prestamo" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="regi_prestamo" class="btn btn-success">Guardar</button>
       </div>
     </div>
   </div>
@@ -300,7 +300,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Registrar descuento</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Registrar Descuento</h4>
       </div>
       <div class="modal-body">
         <form action="" id="form_descuento" class="form-horizontal"> 
@@ -314,8 +314,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="regi_descuento" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="regi_descuento" class="btn btn-success">Guardar</button>
       </div>
     </div>
   </div>
@@ -327,7 +327,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Nuevo</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_catcargo">
@@ -354,7 +354,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Nuevo</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_cargo">
@@ -388,7 +388,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Agregar nuevo</h4>
+				<h4 class="modal-title" id="myModalLabel">Agregar Nuevo</h4>
 			</div>
 			<div class="modal-body">
 				<form id="form_unidades">

@@ -204,6 +204,46 @@
               "autoWidth": false
           });
 
+
+          $(document).on("change", "#departamento_id", function(e){
+            e.preventDefault();
+            let id = $(this).val();
+            if(id > 0){
+              $.ajax({
+                url: '/municipios/' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function(json){
+                  if(json[0] == 1){
+                    $("#municipio_id").empty();
+                    $("#municipio_id").html(json[2]);
+                  }
+                }
+              });
+            }
+          });
+
+          $(document).on("change", "#categoriarubro_id", function(e){
+            e.preventDefault();
+            let id = $(this).val();
+            if(id > 0){
+              $.ajax({
+                url: '/losrubros/' + id,
+                type: 'get',
+                dataType: 'json',
+                success: function(json){
+                  if(json[0] == 1){
+                    $("#rubro_id").empty();
+                    $("#rubro_id").html(json[2]);
+                    $("#rubro_id").trigger("chosen:updated");
+                    $("#rubro_id").chosen({'width':'100%'});
+                  }
+                }
+              });
+            }
+          });
+        
+
           var register = $("#form-register");
               register.steps({
                 headerTag: "h3",
@@ -297,7 +337,7 @@
                         yearRange: "-100:+0", // last hundred years
                         dateFormat: 'dd-mm-yy',
                         format: 'dd-mm-yyyy'
-                        });
+                      });
   
 
     /// establecer un periodo de tiempo

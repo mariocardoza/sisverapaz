@@ -16,12 +16,14 @@ class CreateContribuyentesTable extends Migration
         Schema::create('contribuyentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->string('dui');
-            $table->string('nit');
-            $table->date('nacimiento');
+            $table->string('dui')->nullable();
+            $table->string('nit')->nullable();
+            $table->date('nacimiento')->nullable();
             $table->string('direccion');
-            $table->string('telefono');
+            $table->string('telefono')->nullable();
             $table->string('sexo');
+            $table->bigInteger('departamento_id')->nullable();
+            $table->bigInteger('municipio_id')->nullable();
             $table->integer('estado')->default(1);
             $table->string('motivo')->nullable();
             $table->date('fechabaja')->nullable();

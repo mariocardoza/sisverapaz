@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('migasdepan')
 <h1>
-        Tipos de préstamos
+        Tipos de Préstamos
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Listado de tipos</li>
+        <li class="active">Tipos de Préstamo</li>
       </ol>
 @endsection
 @section('content')
@@ -13,9 +13,9 @@
       <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <p></p>
                 <div class="btn-group pull-right">
-                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                     <a href="{{ url('/prestamotipos?estado=1') }}" id="este" class="btn btn-primary">Activos</a>
                     <a href="{{ url('/prestamotipos?estado=0') }}" class="btn btn-primary">Papelera</a>
                 </div>
@@ -36,12 +36,14 @@
                     <td>
                       @if($tipo->estado == 1 || $estado == "")
                         {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                        <a href="javascript:void(0)" id="edit" data-id="{{$tipo->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                        <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja('".$tipo->id."','prestamotipos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                        <div class="btn-group">
+                          <a href="javascript:void(0)" id="edit" data-id="{{$tipo->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                        <button class="btn btn-danger" type="button" onclick={{ "baja('".$tipo->id."','prestamotipos')" }}><span class="fa fa-thumbs-o-down"></span></button>
+                        </div>
                         {{ Form::close()}}
                       @else
                         {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                          <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$tipo->id.",'pretamotipos')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                          <button class="btn btn-success" type="button" onclick={{ "alta(".$tipo->id.",'pretamotipos')" }}><span class="fa fa-thumbs-o-up"></span></button>
                         {{ Form::close()}}
                       @endif
                     </td>

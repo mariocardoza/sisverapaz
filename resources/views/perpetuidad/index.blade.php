@@ -13,9 +13,10 @@
 @section('content')
 <div class="box">
     <div class="box-header">
-        <div class="box-title">
-            <h3>Puesto a perpetuidad</h3>
-            <a href="{{url("perpetuidad/create")}}" class="btn btn-success"><i class="fa fa-plus"></i> Nuevo</a>
+        <p></p>
+        <div class="pull-right">
+            <p></p>
+            <a href="{{url("perpetuidad/create")}}" class="btn btn-success"><i class="fa fa-plus-circle"></i></a>
         </div>
     </div>
     <div class="box-body">

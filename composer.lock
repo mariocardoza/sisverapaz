@@ -301,6 +301,7 @@
         },
         {
             "name": "doctrine/cache",
+<<<<<<< HEAD
             "version": "2.1.0",
             "source": {
                 "type": "git",
@@ -311,13 +312,30 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/cache/zipball/ac77408b22cc6c4d0b4947d20a3889be3043566e",
                 "reference": "ac77408b22cc6c4d0b4947d20a3889be3043566e",
+=======
+            "version": "1.11.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/cache.git",
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/3bb5588cec00a0268829cc4a518490df6741af9d",
+                "reference": "3bb5588cec00a0268829cc4a518490df6741af9d",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "shasum": ""
             },
             "require": {
                 "php": "~7.1 || ^8.0"
             },
             "conflict": {
+<<<<<<< HEAD
                 "doctrine/common": ">2.2,<2.4"
+=======
+                "doctrine/common": ">2.2,<2.4",
+                "psr/cache": ">=3"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
@@ -326,9 +344,14 @@
                 "mongodb/mongodb": "^1.1",
                 "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
                 "predis/predis": "~1.0",
+<<<<<<< HEAD
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
                 "symfony/cache": "^4.4 || ^5.2 || ^6.0@dev",
                 "symfony/var-exporter": "^4.4 || ^5.2 || ^6.0@dev"
+=======
+                "psr/cache": "^1.0 || ^2.0",
+                "symfony/cache": "^4.4 || ^5.2"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
@@ -380,7 +403,11 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/cache/tree/2.1.0"
+=======
+                "source": "https://github.com/doctrine/cache/tree/1.11.3"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "funding": [
                 {
@@ -396,6 +423,7 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-07-14T11:22:57+00:00"
         },
         {
@@ -414,18 +442,46 @@
             },
             "require": {
                 "doctrine/cache": "^1.0|^2.0",
+=======
+            "time": "2021-05-25T09:01:55+00:00"
+        },
+        {
+            "name": "doctrine/dbal",
+            "version": "2.13.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/dbal.git",
+                "reference": "c800380457948e65bbd30ba92cc17cda108bf8c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c800380457948e65bbd30ba92cc17cda108bf8c9",
+                "reference": "c800380457948e65bbd30ba92cc17cda108bf8c9",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "^1.0",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "doctrine/deprecations": "^0.5.3",
                 "doctrine/event-manager": "^1.0",
                 "ext-pdo": "*",
                 "php": "^7.1 || ^8"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "doctrine/coding-standard": "9.0.0",
                 "jetbrains/phpstorm-stubs": "2020.2",
                 "phpstan/phpstan": "0.12.81",
                 "phpunit/phpunit": "^7.5.20|^8.5|9.5.5",
                 "squizlabs/php_codesniffer": "3.6.0",
                 "symfony/cache": "^4.4",
+=======
+                "doctrine/coding-standard": "8.2.0",
+                "jetbrains/phpstorm-stubs": "2020.2",
+                "phpstan/phpstan": "0.12.81",
+                "phpunit/phpunit": "^7.5.20|^8.5|9.5.0",
+                "squizlabs/php_codesniffer": "3.6.0",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
                 "vimeo/psalm": "4.6.4"
             },
@@ -488,7 +544,11 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/doctrine/dbal/tree/2.13.2"
+=======
+                "source": "https://github.com/doctrine/dbal/tree/2.13.1"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "funding": [
                 {
@@ -504,7 +564,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-06-18T21:48:39+00:00"
+=======
+            "time": "2021-04-17T17:30:19+00:00"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
         },
         {
             "name": "doctrine/deprecations",
@@ -1870,6 +1934,7 @@
         },
         {
             "name": "league/flysystem",
+<<<<<<< HEAD
             "version": "1.1.4",
             "source": {
                 "type": "git",
@@ -1880,6 +1945,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
                 "reference": "f3ad69181b8afed2c9edf7be5a2918144ff4ea32",
+=======
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem.git",
+                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/9be3b16c877d477357c015cec057548cf9b2a14a",
+                "reference": "9be3b16c877d477357c015cec057548cf9b2a14a",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "shasum": ""
             },
             "require": {
@@ -1895,6 +1972,10 @@
                 "phpunit/phpunit": "^8.5.8"
             },
             "suggest": {
+<<<<<<< HEAD
+=======
+                "ext-fileinfo": "Required for MimeType",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "ext-ftp": "Allows you to use FTP server storage",
                 "ext-openssl": "Allows you to use FTPS server storage",
                 "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
@@ -1952,7 +2033,11 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/thephpleague/flysystem/tree/1.1.4"
+=======
+                "source": "https://github.com/thephpleague/flysystem/tree/1.x"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "funding": [
                 {
@@ -1960,7 +2045,11 @@
                     "type": "other"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-06-23T21:56:05+00:00"
+=======
+            "time": "2020-08-23T07:39:11+00:00"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
         },
         {
             "name": "league/mime-type-detection",
@@ -2473,6 +2562,7 @@
         },
         {
             "name": "myclabs/php-enum",
+<<<<<<< HEAD
             "version": "1.8.3",
             "source": {
                 "type": "git",
@@ -2483,6 +2573,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/myclabs/php-enum/zipball/b942d263c641ddb5190929ff840c68f78713e937",
                 "reference": "b942d263c641ddb5190929ff840c68f78713e937",
+=======
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/php-enum.git",
+                "reference": "46cf3d8498b095bd33727b13fd5707263af99421"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/46cf3d8498b095bd33727b13fd5707263af99421",
+                "reference": "46cf3d8498b095bd33727b13fd5707263af99421",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "shasum": ""
             },
             "require": {
@@ -2492,7 +2594,11 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5",
                 "squizlabs/php_codesniffer": "1.*",
+<<<<<<< HEAD
                 "vimeo/psalm": "^4.6.2"
+=======
+                "vimeo/psalm": "^4.5.1"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "type": "library",
             "autoload": {
@@ -2517,7 +2623,11 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/php-enum/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/myclabs/php-enum/tree/1.8.3"
+=======
+                "source": "https://github.com/myclabs/php-enum/tree/1.8.0"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "funding": [
                 {
@@ -2529,7 +2639,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-07-05T08:18:36+00:00"
+=======
+            "time": "2021-02-15T16:11:48+00:00"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
         },
         {
             "name": "nesbot/carbon",
@@ -2617,6 +2731,7 @@
         },
         {
             "name": "nikic/php-parser",
+<<<<<<< HEAD
             "version": "v4.11.0",
             "source": {
                 "type": "git",
@@ -2627,6 +2742,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fe14cf3672a149364fb66dfe11bf6549af899f94",
                 "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94",
+=======
+            "version": "v4.10.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4432ba399e47c66624bc73c8c0f811e5c109576f",
+                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "shasum": ""
             },
             "require": {
@@ -2667,9 +2794,15 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.11.0"
             },
             "time": "2021-07-03T13:36:55+00:00"
+=======
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.5"
+            },
+            "time": "2021-05-03T19:11:20+00:00"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
         },
         {
             "name": "paragonie/random_compat",
@@ -5440,6 +5573,7 @@
         },
         {
             "name": "filp/whoops",
+<<<<<<< HEAD
             "version": "2.14.0",
             "source": {
                 "type": "git",
@@ -5450,6 +5584,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/filp/whoops/zipball/fdf92f03e150ed84d5967a833ae93abffac0315b",
                 "reference": "fdf92f03e150ed84d5967a833ae93abffac0315b",
+=======
+            "version": "2.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filp/whoops.git",
+                "reference": "2edbc73a4687d9085c8f20f398eebade844e8424"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/2edbc73a4687d9085c8f20f398eebade844e8424",
+                "reference": "2edbc73a4687d9085c8f20f398eebade844e8424",
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
                 "shasum": ""
             },
             "require": {
@@ -5499,7 +5645,11 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/filp/whoops/tree/2.14.0"
+=======
+                "source": "https://github.com/filp/whoops/tree/2.13.0"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
             },
             "funding": [
                 {
@@ -5507,7 +5657,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2021-07-13T12:00:00+00:00"
+=======
+            "time": "2021-06-04T12:00:00+00:00"
+>>>>>>> f67e032d0b3aaac523b474084df66ad01dd53303
         },
         {
             "name": "fzaninotto/faker",

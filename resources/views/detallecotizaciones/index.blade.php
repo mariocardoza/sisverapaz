@@ -16,10 +16,13 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/detallecotizaciones/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <p></p>
+              <div class="btn-group pull-right">
+                <a href="{{ url('/detallecotizaciones/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                 <a href="{{ url('/detallecotizaciones?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/detallecotizaciones?estado=2') }}" class="btn btn-primary">Papelera</a>
+              </div>
+                
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
@@ -43,13 +46,13 @@
                     <td>
                             @if($estado == 1 || $estado == "")
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                <a href="{{ url('detallecotizaciones/'.$detallecotizacion->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('/detallecotizaciones/'.$detallecotizacion->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$detallecotizacion->id.")" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <a href="{{ url('detallecotizaciones/'.$detallecotizacion->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                                <a href="{{ url('/detallecotizaciones/'.$detallecotizacion->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                <button class="btn btn-danger" type="button" onclick={{ "baja(".$detallecotizacion->id.")" }}><span class="fa fa-thumbs-o-down"></span></button>
                                 {{ Form::close()}}
                             @else
                                 {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$detallecotizacion->id.")" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-success" type="button" onclick={{ "alta(".$detallecotizacion->id.")" }}><span class="fa fa-thumbs-o-up"></span></button>
                                 {{ Form::close()}}
                              @endif
                         </td>

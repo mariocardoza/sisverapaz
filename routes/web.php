@@ -19,6 +19,25 @@ Route::get('/', function () {
     //}
 });
 
+Route::get('municipios/{id}',function($departamento_id){
+  $municipios = \App\Municipio::where('departamento_id',$departamento_id)->get();
+  $options='<option selected value=""> Seleccione Municipio</option>';
+    foreach ($municipios as $municipality) {
+      $options.='<option value="' . $municipality->id . '">' . $municipality->nombre . '</option>';
+    }
+    return array(1, $municipios, $options);
+
+});
+
+Route::get('losrubros/{id}',function($categoriarubro_id){
+  $rubros = \App\Rubro::where('categoriarubro_id',$categoriarubro_id)->get();
+  $options='<option selected value=""> Seleccione un rubro</option>';
+    foreach ($rubros as $rubro) {
+      $options.='<option value="' . $rubro->id . '">' . $rubro->nombre . '</option>';
+    }
+    return array(1, $rubros, $options);
+});
+
 Route::get('pdf',function(){
   $usuarios = \App\Proveedor::where('estado',1)->get();
   $unidad = "Unidad de Adquicisiones Institucionales";
@@ -224,7 +243,7 @@ Route::post('materiales/alta/{id}','MaterialesController@alta')->name('materiale
 //route::post('unidadmedidas/guardar','UnidadMedidaController@guardar');
 Route::Resource('unidadmedidas','UnidadMedidaController');
 Route::post('unidadmedidas/baja/{id}','UnidadMedidaController@baja')->name('unidadmedidas.baja');
-Route::post('unidadmedidas/alta/{id}','UnidadMedida.Controller@alta')->name('unidadmedidas.alta');
+Route::post('unidadmedidas/alta/{id}','UnidadMedidaController@alta')->name('unidadmedidas.alta');
 
 
 Route::get('cotizaciones/ver/cuadros','CotizacionController@cuadros');
@@ -374,6 +393,8 @@ Route::Resource('negocios','NegocioController');
 Route::post('alumbrado/reparar','AlumbradoController@reparar');
 Route::get('alumbrado/reparadas','AlumbradoController@reparadas');
 Route::Resource('alumbrado','AlumbradoController');
+Route::get('reportar-alumbrado','ReportePublicoController@yo_reporto');
+Route::post('guardar-alumbrado','ReportePublicoController@store');
 
 Route::post('inmuebles/guardar','InmuebleController@guardar')->name('inmuebles.guardar');
 Route::post('inmuebles/quitarimpuesto', 'InmuebleController@quitarservicioinmueble'); //funcion para quitar impuesto
@@ -421,8 +442,10 @@ Route::Resource('retenciones','RetencionController');
 Route::post('partidas/pago','PartidaController@pago');
 Route::Resource('partidas','PartidaController');
 
+Route::post('eventuales/pagar','EventualController@pagar');
 Route::post('planillas/pagar','PlanillaController@pagar');
 Route::Resource('planillas','PlanillaController');
+Route::Resource('eventuales','EventualController');
 Route::get('planillaproyectos/cambiarestado/{id}','PeriodoProyectoController@cambiarestado');
 Route::get('planillaproyectos/desembolso/{id}','PeriodoProyectoController@desembolso');
 Route::Resource('planillaproyectos','PeriodoProyectoController');
@@ -455,8 +478,8 @@ Route::post('cuentas/remesarproyecto','CuentaController@remesarproyecto');
 Route::Resource('cuentas','CuentaController');
 
 //Route::Resource('cuentaprincipal','CuentaprincipalController');
-Route::post('cuentas/baja{id}','CuentaController@baja')->name('cuentas.baja');
-Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
+Route::post('cuentas/baja/{id}','CuentaController@baja')->name('cuentas.baja');
+//Route::post('cuentas/alta/{id}','CuentaController@alta')->name('cuentas.alta');
 
 Route::Resource('desembolsos','DesembolsoController');
 Route::post('ingresos/cobro','IngresoController@cobro');
@@ -565,6 +588,8 @@ Route::post('mapa/all', 'NegocioController@mapasAll');
 Route::get('reporte', 'ReportesUaciController@reportePDF');
 
 // Routas para el cementerio
+Route::post('cementerios/baja/{id}','CementerioController@baja')->name('cementerios.baja');
+Route::post('cementerios/alta/{id}','CementerioController@alta')->name('cementerios.alta');
 Route::Resource("/cementerios", "CementerioController");
 
 

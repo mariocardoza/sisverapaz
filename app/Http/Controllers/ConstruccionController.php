@@ -8,6 +8,7 @@ use App\Inmueble;
 use App\Construccion;
 use App\Cuenta;
 use App\CuentaDetalle;
+use App\Departamento;
 use App\Http\Requests\ConstruccionRequest;
 use Validator;
 
@@ -27,7 +28,9 @@ class ConstruccionController extends Controller
     public function index()
     {
         $construcciones = Construccion::all();
-        return view('construcciones.index',compact('construcciones'));
+        $departamentos = Departamento::all();
+
+        return view('construcciones.index',compact('construcciones','departamentos'));
     }
 
     /**
@@ -40,7 +43,8 @@ class ConstruccionController extends Controller
         $contribuyentes = Contribuyente::all();
         $impuestos = Impuesto::all();
         $construcciones = Construccion::all();
-        return view('construcciones.create',compact('contribuyentes','impuestos','construcciones'));
+        $departamentos = Departamento::all();
+        return view('construcciones.create',compact('contribuyentes','impuestos','construcciones','departamentos'));
     }
 
     /**
@@ -201,7 +205,7 @@ class ConstruccionController extends Controller
         try{
             $cuenta_origen=Cuenta::where('estado',1)->where('anio',date('Y'))->where('tipo_cuenta',1)->first();
             if($cuenta_origen){
-                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->pagoTotal;
+                $cuenta_origen->monto_inicial=$cuenta_origen->monto_inicial+$factura->impuesto;
                 $cuenta_origen->save();
 
                 $detalle_origen=CuentaDetalle::create([

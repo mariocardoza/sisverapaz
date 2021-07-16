@@ -26,7 +26,7 @@
               <form method='post' action="{{ url('empleados/foto/'.$empleado->id) }}" enctype='multipart/form-data'>
                 {{csrf_field()}}
               <input type="file" class="archivos hidden" id="file_1" name="foto" />
-              <center><button type="submit" class="btn btn-primary" style="display: none;" id="elquecambia">Cambiar</button></center>
+              <center><button type="submit" class="btn btn-success" style="display: none;" id="elquecambia">Cambiar</button></center>
               </form>
               <div class="form-group">
                 <div id="error_formato1" class="hidden"><span style="color: red;">Formato de archivo invalido. Solo se permiten los formatos JPG y PNG.</span>

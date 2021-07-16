@@ -52,7 +52,14 @@
                 <div class="col-sm-12">
                     <span>{{$lampara->reporto}}</span>
                 </div>
-                <div class="clearfix"></div>   
+                <div class="clearfix"></div>
+                <div class="col-sm-12">
+                    <span><b>Correo electrónico de la persona que reportó:</b></span>
+                </div>
+                <div class="col-sm-12">
+                    <span>{{$lampara->email}}</span>
+                </div>
+                <div class="clearfix"></div>      
                 <hr style="margin-top: 3px; margin-bottom: 3px;">
                 <div class="col-sm-12">
                     <span><b>Dirección:</b></span>
@@ -189,6 +196,17 @@
         //imprimir reporte
         $(document).on("click",".imprime",function(e){
             e.preventDefault();
+            var body               = $('body');
+            var appendMap          = $('#elmapita');
+            var printContainer     = $('<div>');
+            var mapContainer       = $('.panel-body');    
+            printContainer
+            .prepend(appendMap)
+            .addClass('print-container')
+            .css('position', 'relative')
+            .height(mapContainer.height())
+            .append(mapContainer)
+            .prependTo(body);
             window.print();
         });
 

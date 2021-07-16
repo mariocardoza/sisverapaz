@@ -17,6 +17,7 @@ class CreateAlumbradosTable extends Migration
             $table->bigIncrements('id');
             $table->text('detalle');
             $table->string('reporto')->nullable();
+            $table->string('email')->nullable();
             $table->decimal("lat", 20, 13);
             $table->decimal("lng", 20, 13);
             $table->date('fecha');

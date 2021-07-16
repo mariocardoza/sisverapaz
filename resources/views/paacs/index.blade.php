@@ -6,7 +6,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('/home') }}"><i class="glyphicon glyphicon-home"></i> Inicio</a></li>
-        <li class="active">Plan anual de comprar y adquisiciones</li>
+        <li class="active">Plan anual de compras y adquisiciones</li>
       </ol>
 @endsection
 
@@ -14,26 +14,26 @@
 <div class="row">
 <div class="col-xs-12">
           <div class="box">
+            <p></p>
             <div class="box-header">
-              <h3 class="box-title"></h3>
-              <div class="row">
-                <div class="col-md-10">
-                  <a id="crear" href="javascript:void(0)" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
-                </div>
-                <div class="col-md-2">
-                  <select name="" id="select_anio" class="chosen-select-width pull-right">
-                    <option value="0">Seleccione el año</option>
-                    @foreach ($anios as $anio)
-                      @if($elanio==$anio->anio)
-                      <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
-                      @else 
-                      <option value="{{$anio->anio}}">{{$anio->anio}}</option>
-                      @endif
-                    @endforeach
-                  </select>
-                  <button class="btn btn-primary" id="btn_anio">Aceptar</button>
-                </div>    
-              </div>
+              <p></p>
+                  <div class="pull-right">
+                    <a id="crear" href="javascript:void(0)" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
+                    <p></p>                    
+                  </div>
+                  <div class="col-md-2">
+                    <select name="" id="select_anio" class="chosen-select-width pull-right">
+                      <option value="0">Seleccione el año</option>
+                      @foreach ($anios as $anio)
+                        @if($elanio==$anio->anio)
+                          <option selected value="{{$anio->anio}}">{{$anio->anio}}</option>
+                        @else 
+                          <option value="{{$anio->anio}}">{{$anio->anio}}</option>
+                        @endif
+                      @endforeach
+                    </select><p></p>
+                    <button class="btn btn-primary" id="btn_anio">Aceptar</button>
+                  </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">

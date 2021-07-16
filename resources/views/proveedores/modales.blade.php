@@ -77,7 +77,7 @@
       <div class="modal-footer">
         <center>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="registrar_representante" class="btn btn-primary">Registrar</button></center>
+        <button type="button" id="registrar_representante" class="btn btn-success">Guardar</button></center>
       </div>
     </div>
   </div>
@@ -90,7 +90,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="gridSystemModalLabel">Editar datos del proveedor</h4>
+        <h4 class="modal-title" id="gridSystemModalLabel">Editar Proveedor</h4>
       </div>
       <div class="modal-body">
         {{ Form::model($proveedor, array('id' => 'form_proveedor')) }}
@@ -100,7 +100,7 @@
       <div class="modal-footer">
         <center>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="editar_proveedor" class="btn btn-primary">Registrar</button></center>
+        <button type="button" id="editar_proveedor" class="btn btn-success">Guardar</button></center>
       </div>
     </div>
   </div>

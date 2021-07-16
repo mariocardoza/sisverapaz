@@ -5,7 +5,7 @@
        Pago de ordenes de compras
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{{ url('/ordencompras') }}"><i class="fa fa-dashboard"></i> Ordenes de compra</a></li>
+        <li><a href="{{ url('/ordencompras') }}"><i class="fa fa-dashboard"></i> Ordenes de Compra</a></li>
         <li class="active">Listado de ordenes</li>
       </ol>
 @endsection
@@ -14,13 +14,15 @@
 <div class="row">
 <div class="col-xs-12">
   <div class="box">
+    <p></p>
     <div class="box-header">
+      <p></p>
       <div class="btn-group pull-left">
         <a href="{{url('pagos')}}" class="btn btn-primary ">Pagos</a>
-        <a href="javascript:void(0)" class="btn btn-primary active">Ordenes de compra</a>
+        <a href="javascript:void(0)" class="btn btn-primary active">Ordenes de Compra</a>
       </div>
       <div class="btn-group pull-right">
-        <a href="{{ url('pagos/ordencompras?estado=1') }}" class="btn btn-primary">Pendientes</a>
+        <a href="{{ url('pagos/ordencompras?estado=1') }}" class="btn btn-danger">Pendientes</a>
         <a href="{{ url('pagos/ordencompras?estado=3') }}" class="btn btn-primary">Pagadas</a>
       </div>
     </div>

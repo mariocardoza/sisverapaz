@@ -71,16 +71,19 @@
             <td>
               @if($cuenta->estado == 1)
               {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-              <a href="{{ url('cuentas/'.$cuenta->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-              <a href="{{ url('cuentas/'.$cuenta->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-              <a href="javascript:void(0)" id="remesar" data-id="{{$cuenta->id}}" class="btn btn-success btn-xs"><span class="fa fa-money"></span></a>
-              <a href="javascript:void(0)" id="asignar_fondos" data-id="{{$cuenta->id}}" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-retweet"></span></a>
+              
+              <div class="btn-group">
+                <a href="{{ url('cuentas/'.$cuenta->id)}}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                <a href="{{ url('cuentas/'.$cuenta->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                <a href="javascript:void(0)" id="remesar" data-id="{{$cuenta->id}}" class="btn btn-success"><span class="fa fa-money"></span></a>
+                <a href="javascript:void(0)" id="asignar_fondos" data-id="{{$cuenta->id}}" class="btn btn-info"><span class="fa fa-retweet"></span></a>
+                <button class="btn btn-danger" type="button" onclick={{ "baja(".$cuenta->id.",'cuentas')" }}><span class="fa fa-thumbs-o-down"></span></button>
+              </div>
 
-              <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$cuenta->id.",'cuentas')" }}><span class="glyphicon glyphicon-trash"></span></button>
               {{ Form::close()}}
               @else
               {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-              <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$cuenta->id.",'cuentas')" }}><span class="glyphicon glyphicon-trash"></span></button>
+              <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$cuenta->id.",'cuentas')" }}><span class=""></span></button>
               {{ Form::close()}}
               @endif
             </td>

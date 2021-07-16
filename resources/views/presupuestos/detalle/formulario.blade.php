@@ -82,7 +82,7 @@
   </div>
 </div>
 <div class="panel-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 <button type="button" id="guardarcatalogo" data-dismiss="modal" class="btn btn-success">Agregar</button>
 </div>
 </div>
@@ -106,7 +106,7 @@
 </div>
 </div>
 <div class="panel-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 <button type="button" id="guardarunidades" data-dismiss="modal" class="btn btn-success">Agregar</button>
 </div>
 </div>

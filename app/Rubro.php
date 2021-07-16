@@ -26,4 +26,14 @@ class Rubro extends Model
     public function negocios () {
         return $this->hasMany('App\Negocio');
     }
+
+    public function categoriarubro()
+    {
+        return $this->belongsTo('App\CategoriaRubro');
+    }
+
+    public function negocios_activos() {
+        return $this->hasMany('App\Negocio')->where('estado',1);
+    }
+
 }

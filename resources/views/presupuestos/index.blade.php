@@ -15,8 +15,9 @@
 <div class="row">
 <div class="col-xs-12">
           <div class="box">
+            <p></p>
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <p></p>
               <div class="btn-group pull-right">
                 
                   <a title="Registar el presupuesto para este proyecto" href="{{ url('presupuestos/seleccionaritem/'.$proyecto) }}" class="btn btn-success"><span class="fa fa-balance-scale"></span></a>
@@ -48,8 +49,8 @@
                       <td>${{number_format($presupuesto->total,2)}}</td>
                       <td>
                         <div class="btn-group">
-                          <a href="{{url('presupuestos/'.$presupuesto->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                          <a title="Agregar elementos al presupuesto" class="btn btn-success btn-xs" href="{{url('presupuestodetalles/create/'.$presupuesto->id)}}"><span class="glyphicon glyphicon-plus"></span></a>
+                          <a href="{{url('presupuestos/'.$presupuesto->id)}}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
+                          <a title="Agregar elementos al presupuesto" class="btn btn-success" href="{{url('presupuestodetalles/create/'.$presupuesto->id)}}"><span class="fa fa-plus-circle"></span></a>
                         </div>
                       </td>
                     </tr>

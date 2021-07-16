@@ -12,8 +12,9 @@
 <div class="row">
       <div class="col-xs-12">
           <div class="box">
+            <p></p>
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
+              <p></p>
               <div class="btn-group pull-right">
                 <a href="{{ url('/prestamos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                 <a href="{{ url('/prestamos?estado=1') }}" class="btn btn-primary">Activos</a>
@@ -40,9 +41,9 @@
                     <td>{{ $prestamo->numero_de_cuenta }}</td>
                     <td>$ {{ number_format($prestamo->monto,2)}}</td>
                     <td>
-                      <a href="{{ url('prestamos/'.$prestamo->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                      <a href="{{ url('prestamos/'.$prestamo->id) }}" class="btn btn-primary"><span class="fa fa-eye"></span></a>
                       @if($estado == 1 || $estado == "")
-                          <a href="{{ url('prestamos/'.$prestamo->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                          <a href="{{ url('prestamos/'.$prestamo->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
                       @endif
                     </td>
                   </tr>

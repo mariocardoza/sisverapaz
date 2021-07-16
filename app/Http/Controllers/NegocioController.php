@@ -56,30 +56,69 @@ class NegocioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NegocioRequest $request)
+    public function store(Request $request)
     {
-        $parameters = $request->all();
-        $negocios = Negocio::create([
-            'contribuyente_id'  => $parameters['contribuyente_id'],
-            'nombre'            => $parameters['nombre'],
-            'capital'           => $parameters['capital'],
-            'direccion'         => $parameters['direccion'],
-            'rubro_id'          => $parameters['rubro_id'],
-            'lat'               => $parameters['lat'],
-            'lng'               => $parameters['lng'],
-            'numero_cuenta'     => 'NG' . strtotime(date('Y-m-d h:m:s'))
+      $negocio = new Negocio();
+      if($request->tipo_cobro==1){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'capital' => 'required|numeric|min:0.01',
         ]);
+        $negocio->capital =$request->capital;
+      }else if($request->tipo_cobro==2){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'licencia' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->licencia =$request->licencia;
+      }
+      else if($request->tipo_cobro==3){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'otro' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->otro =$request->otro;
+      }else{
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'numero_cabezas' => 'required|numeric|min:1',
+          'precio_cabezas' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->es_granja =1;
+        $negocio->numero_cabezas =$request->numero_cabezas;
+        $negocio->precio_cabezas =$request->precio_cabezas;
+      }
+        $negocio->tipo_cobro = $request->tipo_cobro;
+        $negocio->contribuyente_id = $request->contribuyente_id;
+        $negocio->nombre = $request->nombre;
+        $negocio->direccion = $request->direccion;
+        $negocio->rubro_id = $request->rubro_id;
+        $negocio->lat = $request->lat;
+        $negocio->lng = $request->lng;
+        $negocio->numero_cuenta = 'NG' . strtotime(date('Y-m-d h:m:s'));
 
-        if($negocios) {
+        if($negocio->save()) {
             return array(
                 "response"  => true,
                 "message"   => 'Hemos agregado con exito al nuevo negocio',
-                "data"      => Negocio::where('id', $negocios['id'])->with('rubro')->first()
+                "data"      => Negocio::where('id', $negocio['id'])->with('rubro')->first()
             );
         }else {
             return array(
                 "response"  => false,
-                "message"   => 'Tenemos problema con el servidor por le momento. intenta mas tarde'
+                "message"   => 'Tenemos problema con el servidor por el momento. intenta mas tarde'
             );
         }
         //Negocio::create($request->All());
@@ -134,6 +173,23 @@ class NegocioController extends Controller
                 <div class="modal-body">
                     <form id="form_enegocio" class="">
                         <div class="row">
+                        <div class="col-md-12" style="text-align: center;">
+                          <div class="btn-group" data-toggle="buttons">
+                              <label class="btn btn-primary active">
+                                <input type="radio" name="tipo_cobro_edit" value="1" id="capitall" checked> Capital
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="tipo_cobro_edit" value="2" id="licencia"> Licencia
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="tipo_cobro_edit" value="3" id="otro"> Otro
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="tipo_cobro_edit" value="4" id="ganado"> Ganado
+                              </label>
+                          </div>
+                      </div>
+                      <br><br><br>
                           <div class="col-md-12">
                               <div class="form-group">
                               <label for="" class="control-label">Propietario</label>
@@ -157,8 +213,8 @@ class NegocioController extends Controller
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="" class="control-label">Capital</label>
-                              <input type="number" value="'.$negocio->capital.'" name="capital" placeholder="Digite el capital inicial" class="form-control">
+                              <label for="" class="control-label tipo_cobro_text">Capital</label>
+                              <input type="number" value="'.$negocio->capital.'" name="capital" placeholder="Digite el capital inicial" class="form-control tipo_cobro_field">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -193,7 +249,7 @@ class NegocioController extends Controller
               </div>
             </div>
           </div>';
-          return array(1,"exito",$modal);
+          return array(1,"exito",$modal,$negocio);
 
         }catch(Exception $e){
             return array(-1,"error",$e->getMessage());
@@ -212,12 +268,53 @@ class NegocioController extends Controller
     {
       $parameters = $request->All();
       $negocio = Negocio::find($id);
-      $negocio->nombre = $parameters['nombre'];
-      $negocio->capital = $parameters['capital'];
-      $negocio->rubro_id = $parameters['rubro_id'];
-      $negocio->direccion = $parameters['direccion'];
-      $negocio->contribuyente_id = $parameters['contribuyente_id'];
-
+      if($request->tipo_cobro==1){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'capital' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->capital =$request->capital;
+      }else if($request->tipo_cobro==2){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'licencia' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->licencia =$request->licencia;
+      }
+      else if($request->tipo_cobro==3){
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'otro' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->otro =$request->otro;
+      }else{
+        $request->validate([
+          'nombre' => 'required',
+          'contribuyente_id' => 'required',
+          'direccion' => 'required',
+          'rubro_id' => 'required',
+          'numero_cabezas' => 'required|numeric|min:1',
+          'precio_cabezas' => 'required|numeric|min:0.01',
+        ]);
+        $negocio->es_granja =1;
+        $negocio->numero_cabezas =$request->numero_cabezas;
+        $negocio->precio_cabezas =$request->precio_cabezas;
+      }
+        $negocio->tipo_cobro = $request->tipo_cobro;
+        $negocio->contribuyente_id = $request->contribuyente_id;
+        $negocio->nombre = $request->nombre;
+        $negocio->direccion = $request->direccion;
+        $negocio->rubro_id = $request->rubro_id;
+       
       if($negocio->save()){
         return array(
           "response"  => true,

@@ -14,10 +14,11 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="box">
+			<p></p>
 		<div class="box-header">
-			<h3 class="box-tittle"></h3>
+			<p></p>
 			<div class="btn-group pull-right">
-				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+				<a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
 				<a href="{{ url('/materiales?estado=1') }}" class="btn btn-primary">Activos</a>
 				<a href="{{ url('/materiales?estado=2') }}" class="btn btn-primary">Papelera</a>
 			</div>
@@ -53,12 +54,14 @@
 					<td>
 						@if($material->estado == 1)
 						{{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-					<a href="javascript:(0)" id="edit" data-id="{{$material->id}}" class="btn btn-primary btn-sm"><span class="fa fa-edit"></span></a>
-						<button class="btn btn-danger btn-sm" type="button" onclick={{ "baja(".$material->id.",'materiales')" }}><span class="glyphicon glyphicon-trash"></span></button>
+						<div class="btn-group">
+							<a href="javascript:(0)" id="edit" data-id="{{$material->id}}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+							<button class="btn btn-danger" type="button" onclick={{ "baja(".$material->id.",'materiales')" }}><span class="fa fa-thumbs-o-down"></span></button>
+						</div>
 						{{ Form::close()}}
 						@else
 						{{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-						<button class="btn btn-success btn-sm" type="button" onclick={{ "alta(".$material->id.",'material')" }}><span class="fa fa-refresh btn-sm"></span></button>
+						<button class="btn btn-success" type="button" onclick={{ "alta(".$material->id.",'material')" }}><span class="fa fa-thumbs-o-up"></span></button>
 						{{ Form::close()}}
 						@endif
 					</td>
@@ -84,7 +87,7 @@
 <script>
 	$(document).ready(function(e){
 		$(document).on("click","#btnmodalagregar", function(e){
-			$("#registrar_material").modal("show");
+			$("#modal_registrar").modal("show");
 		});
 
 		$(document).on("click","#btnguardar", function(e){

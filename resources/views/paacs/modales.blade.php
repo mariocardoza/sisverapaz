@@ -14,14 +14,14 @@ foreach($lospaacs as $p){
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Registrar nuevo plan</h4>
+              <h4 class="modal-title" id="myModalLabel">Registrar Nuevo Plan</h4>
             </div>
             <div class="modal-body">
               {{ Form::open(['class' => '','id' => 'form_paac']) }}
               
               <input type="hidden" name="total" id="total" value="0.00" readonly>
               <div class="form-group">
-                <label for="" class="control-label">Descripcion plan anual</label>
+                <label for="" class="control-label">Descripcion Plan Anual</label>
                   <div class="">
                     {!! Form::select('paaccategoria_id',$paacsitos,null,['class'=>'chosen-select-width']) !!}
                   </div>
@@ -37,7 +37,7 @@ foreach($lospaacs as $p){
               {{Form::close()}}
             </div>
             <div class="modal-footer">
-              <center><button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              <center><button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
               <button type="button" id="registrar_paac" class="btn btn-success">Agregar</button></center>
             </div>
           </div>

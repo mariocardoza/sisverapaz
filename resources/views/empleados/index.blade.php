@@ -16,7 +16,7 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title"></h3>
+              <p></p>
                 <div class="btn-group pull-right">
                   <a href="javascript:void(0)" id="btn_n_empleado" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                   <a href="{{ url('/empleados?estado=1') }}" class="btn btn-primary">Activos</a>

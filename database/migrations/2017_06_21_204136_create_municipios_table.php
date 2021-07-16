@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddDesembolsoId extends Migration
+class CreateMunicipiosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddDesembolsoId extends Migration
      */
     public function up()
     {
-        Schema::table('pago_rentas', function (Blueprint $table) {
-            $table->string('desembolso_id')->nullable();
+        Schema::create('municipios', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->string('codigo');
+            $table->unsignedBigInteger('departamento_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddDesembolsoId extends Migration
      */
     public function down()
     {
-        Schema::table('pago_rentas', function (Blueprint $table) {
-            $table->dropColumn('desembolso_id');
-        });
+        Schema::dropIfExists('municipios');
     }
 }

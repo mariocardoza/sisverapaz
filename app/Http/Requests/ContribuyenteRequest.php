@@ -25,12 +25,12 @@ class ContribuyenteRequest extends FormRequest
     {
         return [
             'nombre' => 'required|min:3|regex:/^([a-zA-ZñÑáéíóúÁÉÍÓÚ])+((\s*)+([a-zA-ZñÑáéíóúÁÉÍÓÚ]*)*)+$/|max:255',
-            'dui' => 'required|max:10',
-            'nit' => 'required',
+            'dui' => 'nullable|max:10',
+            'nit' => 'nullable',
             'direccion' => 'required|max:100',
-            'telefono' => 'required',
+            'telefono' => 'nullable',
             'sexo' => 'required',
-            'nacimiento' => 'required|date',
+            'nacimiento' => 'nullable',
         ];
     }
 }

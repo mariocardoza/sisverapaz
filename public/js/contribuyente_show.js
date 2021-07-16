@@ -15,13 +15,13 @@ $(function(e){
             $('.nit').inputmask("9999-999999-999-9", { "clearIncomplete": true });
             $('.dui').inputmask("99999999-9", { "clearIncomplete": true });
             $('.telefono').inputmask("9999-9999", { "clearIncomplete": true });
-            $('.nacimiento').datepicker({
+            $('.fechita').datepicker({
               selectOtherMonths: true,
               changeMonth: true,
               changeYear: true,
               dateFormat: 'dd-mm-yy',
               minDate: "-60Y",
-              maxDate: "-18Y",
+              maxDate: "1Y",
               format: 'dd-mm-yyyy'
     		    });
             $("#modal_editcontribuyente").modal("show");
@@ -181,6 +181,10 @@ $(function(e){
       e.preventDefault();
       $("#form_negocio").trigger("reset");
       $("#modal_negocio").modal("show");
+      $("#elmapitanegocio").show();
+      $(".modal-title-negocio").text("Registrar negocio");
+      $(".submit_editarnegocio").hide();
+      $(".text-button").show();
       initMap2();
     });
 
@@ -219,6 +223,7 @@ $(function(e){
     $(document).on("submit","#form_negocio",function(e){
       e.preventDefault();
       var datos=$("#form_negocio").serialize();
+      modal_cargando();
       $.ajax({
         url:'../negocios',
         type:'POST',
@@ -234,6 +239,7 @@ $(function(e){
           
           else{
             toastr.error('Ocurrió un error');
+            swal.closeModal()
           }
           
         },
@@ -264,6 +270,35 @@ $(function(e){
         }
       });
     });
+
+    /* cambiar radio button */
+    $('input[type=radio][name=tipo_cobro]').change(function() {
+      if (this.value == '1') {
+          $(".tipo_cobro_text").text('Capital');
+          $(".tipo_cobro_field").attr('name', 'capital'); 
+          $(".tipo_cobro_field").attr('placeholder', 'Digite el capital inicial'); 
+          $( ".tipo_cobro_field" ).prop( "disabled", false );
+          $(".ganado").hide();
+      }
+      else if (this.value == '2') {
+        $(".tipo_cobro_text").text('Licencia');
+        $(".tipo_cobro_field").attr('name', 'licencia'); 
+        $(".tipo_cobro_field").attr('placeholder', 'Digite el costo de la licencia'); 
+        $( ".tipo_cobro_field" ).prop( "disabled", false );
+        $(".ganado").hide();
+      }else if(this.value == '3'){
+        $(".tipo_cobro_text").text('Otro');
+        $(".tipo_cobro_field").attr('name', 'otro'); 
+        $(".tipo_cobro_field").attr('placeholder', 'Digite el valor'); 
+        $( ".tipo_cobro_field" ).prop( "disabled", false );
+        $(".ganado").hide();
+      }else{
+        $(".ganado").show();
+        $( ".tipo_cobro_field" ).prop( "disabled", true );
+        $(".tipo_cobro_text").text('Ganado');
+      }
+  });
+
 
       //submit editar a inmueble
       $(document).on("click",".submit_editinmueble",function(e){
@@ -309,11 +344,80 @@ $(function(e){
         dataType:'json',
         success: function(json){
           if(json[0]==1){
-            $("#modal_aqui").empty();
+            $("#n_negocio").val(json[3].nombre);
+            $("#direcc_negocio").val(json[3].direccion);
+            $("#n_id").val(json[3].id);
+            $("#elmapitanegocio").hide();
+            $(".modal-title-negocio").text("Editar negocio");
+            $(".submit_editarnegocio").show();
+            $(".text-button").hide();
+            if(json[3].tipo_cobro==1){
+              $(".tipo_cobro_field").val(json[3].capital);
+              $( ".tipo_cobro_field" ).prop( "disabled", false );
+              $(".tipo_cobro_text").text('Capital');
+              $(".tipo_cobro_field").attr('name', 'capital'); 
+              $(".tipo_cobro_field").attr('placeholder', 'Digite el capital inicial');
+              $(".ganado").hide();
+              $("#ganado").prop("checked", false);
+              $("#otro").prop("checked", false);
+              $("#licencia").prop("checked", false);
+              $("#capitall").prop("checked", true);
+              $("#ganado").parent().removeClass("active");
+              $("#capitall").parent().addClass("active");
+              $("#licencia").parent().removeClass("active");
+              $("#otro").parent().removeClass("active");
+            }else if(json[3].tipo_cobro==2){
+              $(".tipo_cobro_field").val(json[3].licencia);
+              $( ".tipo_cobro_field" ).prop( "disabled", false );
+              $(".tipo_cobro_text").text('Licencia');
+              $(".tipo_cobro_field").attr('name', 'licencia'); 
+              $(".tipo_cobro_field").attr('placeholder', 'Digite el costo de la licencia');
+              $(".ganado").hide();
+              $("#ganado").prop("checked", false);
+              $("#otro").prop("checked", false);
+              $("#licencia").prop("checked", true);
+              $("#capitall").prop("checked", false);
+              $("#ganado").parent().removeClass("active");
+              $("#capitall").parent().removeClass("active");
+              $("#licencia").parent().addClass("active");
+              $("#otro").parent().removeClass("active");
+            }else if(json[3].tipo_cobro==3){
+              $(".tipo_cobro_field").val(json[3].otro);
+              $( ".tipo_cobro_field" ).prop( "disabled", false );
+              $(".tipo_cobro_text").text('Otro');
+              $(".tipo_cobro_field").attr('name', 'otro'); 
+              $(".tipo_cobro_field").attr('placeholder', 'Digite el otro valor');
+              $(".ganado").hide();
+              $("#ganado").prop("checked", false);
+              $("#otro").prop("checked", true);
+              $("#licencia").prop("checked", false);
+              $("#capitall").prop("checked", false);
+              $("#ganado").parent().removeClass("active");
+              $("#capitall").parent().removeClass("active");
+              $("#licencia").parent().removeClass("active");
+              $("#otro").parent().addClass("active");
+            }else{
+              $("#ganado").prop("checked", true);
+              $("#otro").prop("checked", false);
+              $("#licencia").prop("checked", false);
+              $("#capitall").prop("checked", false);
+              $("#ganado").parent().addClass("active");
+              $("#capitall").parent().removeClass("active");
+              $("#licencia").parent().removeClass("active");
+              $("#otro").parent().removeClass("active");
+              $( ".tipo_cobro_field" ).prop( "disabled", true );
+              $(".tipo_cobro_text").text('Ganado'); 
+              $(".ganado").show();
+              $("#p_cabezas").val(json[3].precio_cabezas);
+              $("#n_cabezas").val(json[3].numero_cabezas);
+            }
+            
+            $("#modal_negocio").modal("show");
+            /*$("#modal_aqui").empty();
             $("#modal_aqui").html(json[2]);
             $(".esee").chosen({"width":'100%'});
             $(".chosen-select-width").chosen({"width":'100%'});
-            $("#modal_enegocio").modal("show");
+            $("#modal_enegocio").modal("show");*/
           }
         }
       });
@@ -322,8 +426,8 @@ $(function(e){
      //submit a inmueble
      $(document).on("click",".submit_editarnegocio",function(e){
       e.preventDefault();
-      var datos=$("#form_enegocio").serialize();
-      var id=$(this).attr("data-id");
+      var datos=$("#form_negocio").serialize();
+      var id=$("#n_id").val();
       modal_cargando();
       $.ajax({
         url:'../negocios/'+id,

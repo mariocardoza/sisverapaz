@@ -3,6 +3,9 @@ use App\Bitacora;
 use App\Presupuesto;
 use App\Cargo;
 use App\Porcentaje;
+use Illuminate\Http\Request;
+use App\Bitacora as LogActivityModel;
+
 
 function invertir_fecha($fecha)
 {
@@ -15,6 +18,56 @@ function invertir_fecha($fecha)
         return $nueva;
   }
 }
+
+function bitacora($accion,$table='')
+{
+	$log = [];
+    $log['tabla'] = $table==''? '-':$table;
+	$log['accion'] = $accion;
+	$log['url'] = Request()->fullUrl();
+	$log['method'] = Request()->method();
+	$log['ip'] = Request()->ip();
+	$log['agent'] = Request()->header('user-agent');
+	$log['user_id'] = auth()->check() ? auth()->user()->id : 1;
+	LogActivityModel::create($log);
+}
+
+function get_browser_name($user_agent)
+{
+        // Make case insensitive.
+    $t = strtolower($user_agent);
+    $t = " " . $t;
+
+    // Humans / Regular Users     
+    if     (strpos($t, 'opera'     ) || strpos($t, 'opr/')     ) return 'Opera'            ;
+    elseif (strpos($t, 'edge'      )                           ) return 'Edge'             ;
+    elseif (strpos($t, 'chrome'    )                           ) return 'Chrome'           ;
+    elseif (strpos($t, 'safari'    )                           ) return 'Safari'           ;
+    elseif (strpos($t, 'firefox'   )                           ) return 'Firefox'          ;
+    elseif (strpos($t, 'msie'      ) || strpos($t, 'trident/7')) return 'Internet Explorer';
+    elseif (strpos($t, 'symfony'   )                           ) return 'Consola administrativa';
+
+    // Common Tools and Bots
+    elseif (strpos($t, 'mj12bot'   )                           ) return '[Bot] Majestic'     ;
+    elseif (strpos($t, 'ahrefs'    )                           ) return '[Bot] Ahrefs'       ;
+    elseif (strpos($t, 'semrush'   )                           ) return '[Bot] SEMRush'      ;
+    elseif (strpos($t, 'rogerbot'  ) || strpos($t, 'dotbot')   ) return '[Bot] Moz or OpenSiteExplorer';
+    elseif (strpos($t, 'frog'      ) || strpos($t, 'screaming')) return '[Bot] Screaming Frog';
+   
+    // Miscellaneous
+    elseif (strpos($t, 'facebook'  )                           ) return '[Bot] Facebook'     ;
+    elseif (strpos($t, 'pinterest' )                           ) return '[Bot] Pinterest'    ;
+   
+    // Check for strings commonly used in bot user agents  
+    elseif (strpos($t, 'crawler' ) || strpos($t, 'api'    ) ||
+            strpos($t, 'spider'  ) || strpos($t, 'http'   ) ||
+            strpos($t, 'bot'     ) || strpos($t, 'archive') ||
+            strpos($t, 'info'    ) || strpos($t, 'data'   )    ) return '[Bot] Other'   ;
+   
+    return 'Otro (Sin identificar)';
+}
+
+
 
 function obtenerMes($n){
     if($n==1){
@@ -47,6 +100,14 @@ function obtenerMes($n){
 function retornar_porcentaje($dato)
 {
     $porcentajes=Porcentaje::where('nombre_simple',$dato)->first();
+    $valor=0;
+    $valor=$porcentajes->porcentaje/100;
+    return $valor;
+}
+
+function retornar_renta_servicio()
+{
+    $porcentajes=Porcentaje::where('es_servicio',true)->first();
     $valor=0;
     $valor=$porcentajes->porcentaje/100;
     return $valor;
@@ -267,7 +328,7 @@ function prestamos($id)
 	return $monto;
 }
 
-function bitacora($accion)
+/*function bitacora($accion)
 {
 
 	$bitacora = new Bitacora;
@@ -276,7 +337,7 @@ function bitacora($accion)
 	$bitacora->accion = $accion;
 	$bitacora->user_id = Auth()->user()->id;
 	$bitacora->save();
-}
+}*/
 
 function usuario($id)
 {

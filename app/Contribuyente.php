@@ -59,6 +59,8 @@ class Contribuyente extends Model
     public static function modal_edit($id)
     {
         $contri=Contribuyente::find($id);
+        $departamentos = Departamento::all();
+        $municipios = Municipio::where('departamento_id',$contri->departamento_id)->get();
         $modal="";
         $modal.='<div class="modal fade" tabindex="-1" id="modal_editcontribuyente" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="gridSystemModalLabel">
         <div class="modal-dialog" role="document">
@@ -115,10 +117,10 @@ class Contribuyente extends Model
                     
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="nacimiento" class="control-label">Fecha de Nacimiento</label>
+                                <label for="nacimiento" class="control-label">Fecha de registro</label>
                             
                                 <div class="">
-                                <input type="text" value="'.$contri->nacimiento->format('d-m-Y').'" name="nacimiento" class="form-control nacimiento" autocomplete="off">
+                                <input type="text" value="'.($contri->nacimiento=='' ? '' : $contri->nacimiento->format('d-m-Y')).'" name="nacimiento" class="form-control fechita" autocomplete="off">
 
                                   
                                 </div>
@@ -140,6 +142,38 @@ class Contribuyente extends Model
                                         endif;
                                     $modal.='</select>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Departamento</label>
+                                <select class="form-control" name="departamento_id" id="departamento_id">
+                                    <option value="">Seleccione..</option>';
+                                    foreach($departamentos as $depar):
+                                        if($contri->departamento_id==$depar->id):
+                                            $modal.='<option selected value="'.$depar->id.'">'.$depar->nombre.'</option>';
+                                        else:
+                                            $modal.='<option value="'.$depar->id.'">'.$depar->nombre.'</option>';
+                                        endif;
+                                    endforeach;
+                                $modal.='</select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Municipio</label>
+                                <select class="form-control" name="municipio_id" id="municipio_id">
+                                    <option value="">Seleccione..</option>';
+                                    foreach($municipios as $muni):
+                                        if($contri->municipio_id==$muni->id):
+                                            $modal.='<option selected value="'.$muni->id.'">'.$muni->nombre.'</option>';
+                                        else:
+                                            $modal.='<option value="'.$muni->id.'">'.$muni->nombre.'</option>';
+                                        endif;
+                                    endforeach;
+                                $modal.='</select>
                             </div>
                         </div>
                     

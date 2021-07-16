@@ -13,6 +13,7 @@
       <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
+              <p></p>
                 <div class="btn-group pull-right">
                     <a id="modal_nuevo" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
                     <a href="{{ url('/afps?estado=1') }}" class="btn btn-primary">Activos</a>

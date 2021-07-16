@@ -45,11 +45,24 @@ class PlanillaController extends Controller
                     'id'=>CuentaDetalle::retonrar_id_insertar(),
                     'cuenta_id'=>$cuenta->id,
                     'accion'=>'Pago de salarios al mes de '.obtenerMes($planilla->mes).' de '.$planilla->anio,
-                    'tipo'=>1,
+                    'tipo'=>2,
                     'monto'=>$total,
                 ]);
                 $planilla->estado=4;
                 $planilla->save();
+                foreach($planilla->planilla as $planilla){
+                    if($planilla->renta>0){
+                        $renta= new PagoRenta();
+                        $renta->nombre = $planilla->empleado->nombre;
+                        $renta->dui = $planilla->empleado->dui;
+                        $renta->nit = $planilla->empleado->nit;
+                        $renta->total = $planilla->empleado->detalleplanilla->salario;
+                        $renta->renta = $planilla->renta;
+                        $renta->liquido = $renta->total-$planilla->renta;
+                        $renta->concepto = 'Pago de salario correspondiente a:'.$planilla->datoplanilla->mes.'/'.$planilla->datoplanilla->anio;
+                        $renta->save();
+                    }
+                }
                 DB::commit();
                 return array(1,"exito",$total);
             }catch(Exception $e){
@@ -69,7 +82,7 @@ class PlanillaController extends Controller
         }else{
             $elanio=$request->get('anio');
         } 
-        $planillas = Datoplanilla::where('anio',$elanio)->orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
+        $planillas = Datoplanilla::where('anio',$elanio)->where('tipo_planilla',1)->orderBy('created_at',"desc")->orderBy('estado',"asc")->get();
         return view('planillas.index',compact('planillas','anios','elanio'));
     }
 

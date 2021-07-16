@@ -12,9 +12,10 @@
 <div class="row">
       <div class="col-xs-12">
           <div class="box">
-            <div class="box-header">
+            <p></p>
+            <div class="box-header"><p></p>
                 <div class="btn-group pull-right">
-                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    <a href="javascript:void(0)" id="btnmodalagregar" class="btn btn-success"><span class="fa fa-plus-circle"></span></a>
                     <a href="{{ url('/bancos?estado=1') }}" class="btn btn-primary">Activos</a>
                     <a href="{{ url('/bancos?estado=2') }}" class="btn btn-primary">Papelera</a>
                 </div>

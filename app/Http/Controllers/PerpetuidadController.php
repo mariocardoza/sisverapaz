@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Cementerio;
 use App\Contribuyente;
 use App\Perpetuidad;
+use App\Departamento;
 use App\Cuenta;
 use App\CuentaDetalle;
 use App\PerpetuidadBeneficiario;
@@ -31,10 +32,11 @@ class PerpetuidadController extends Controller
      */
     public function create()
     {
-        $cementerios=Cementerio::all();
+        $cementerios=Cementerio::where('estado',1)->get();
         $contribuyentes=Contribuyente::whereEstado(1)->get();
         $beneficiarios=PerpetuidadBeneficiario::whereEstado(1)->get();
-        return view('perpetuidad.create',compact('cementerios','contribuyentes','beneficiarios'));
+        $departamentos = Departamento::all();
+        return view('perpetuidad.create',compact('cementerios','contribuyentes','beneficiarios','departamentos'));
     }
 
     /**
@@ -299,7 +301,7 @@ class PerpetuidadController extends Controller
             'cementerio_id' => 'required',
             'ancho'=>'required',
             'largo'=>'required',
-            'costo'=>'required',
+            'costo'=>'required|numeric|min:0',
             'fecha_adquisicion'=>'required'
 
         ],$mensajes);

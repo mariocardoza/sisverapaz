@@ -174,4 +174,34 @@ class CementerioController extends Controller
     {
         //
     }
+
+    public function baja($id,Request $r)
+    {
+        try{
+            $contribuyente = Cementerio::find($id);
+            $contribuyente->estado=2;
+            $contribuyente->motivo_baja=$r->motivo;
+            $contribuyente->fecha_baja=date('Y-m-d');
+            $contribuyente->save();
+            bitacora('Dió de baja a un cementerio');
+            return array(1,"exito",$contribuyente);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
+
+    public function alta($id)
+    {
+        try{
+            $contribuyente = Cementerio::find($id);
+            $contribuyente->estado=1;
+            $contribuyente->motivo_baja="";
+            $contribuyente->fecha_baja=null;
+            $contribuyente->save();
+            bitacora('Dió de alta a un cementerio');
+            return array(1,"exito",$contribuyente);
+        }catch(Exception $e){
+            return array(-1,"error",$e->getMessage());
+        }
+    }
 }

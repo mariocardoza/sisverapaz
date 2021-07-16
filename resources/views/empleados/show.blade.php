@@ -14,6 +14,8 @@
 <div class="">
     <div class="row">
         <div class="col-md-5">
+          <p></p>
+          <h1></h1>
 
           <div class="panel panel-primary">
             <div class="panel-heading">Datos del empleado </div>
@@ -83,7 +85,7 @@
 
               <center>
               @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-              <a id="modal_editar" class="btn btn-warning"><span class="fa fa-edit"></span> </a>
+              <a id="modal_editar" class="btn btn-warning"><span>Editar</span> </a>
               @endif
                 <!--button class="btn btn-danger" type="button" id="dar_baja"><span class="glyphicon glyphicon-trash"></span> Eliminar</button-->
               
@@ -175,7 +177,7 @@
                   </table>
                   @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
                   <center>
-                    <button class="btn btn-warning btn-sm" data-tipo="{{$empleado->detalleplanilla->tipo_pago}}" data-id="{{$empleado->detalleplanilla->id}}" id="formedit_contrato">Editar</button>
+                    <button class="btn btn-warning" data-tipo="{{$empleado->detalleplanilla->tipo_pago}}" data-id="{{$empleado->detalleplanilla->id}}" id="formedit_contrato">Editar</button>
                   </center>
                   @endif
                 </div>
@@ -187,7 +189,7 @@
                  <form id="form_planilla" class="">
                    @include('detalleplanillas.formulario')
                    @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                   <center><button class="btn btn-primary" id="btn_guardarcontrato" type="button">Guardar</button></center>
+                   <center><button class="btn btn-success" id="btn_guardarcontrato" type="button">Guardar</button></center>
                     @endif
                   </form>
                 </div>
@@ -203,7 +205,7 @@
 
                    <div class="form-group">
                     <center>
-                      <button class="btn btn-primary" id="btn_editarcontrato" type="button">Guardar</button>
+                      <button class="btn btn-success" id="btn_editarcontrato" type="button">Guardar</button>
                       <button class="btn btn-danger" id="btn_cancelarcontrato" type="button">Cancelar</button>
                    </center>
                    </div>
@@ -239,14 +241,14 @@
                           @endif
                         </table>
                         @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <center><button class="btn btn-primary btn-sm" id="editar_usuario" type="button">Editar información</button></center>
+                        <center><button class="btn btn-warning" id="editar_usuario" type="button">Editar</button></center>
                         @endif
                       <?php else: ?>
                         <center>
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                           <span>Agregue los datos para iniciar sesión</span><br>
                           @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                          <button class="btn btn-primary" id="modal_usuarios">Agregar</button>
+                          <button class="btn btn-success" id="modal_usuarios">Agregar</button>
                           @endif
                         </center>
                       
@@ -280,7 +282,7 @@
                           <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                           <span>Agregue los datos bancarios para visualizar la información</span><br>
                           @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                          <button class="btn btn-primary" id="modal_banco">Agregar</button>
+                          <button class="btn btn-success" id="modal_banco">Agregar</button>
                           @endif
                         </center>
                       
@@ -312,7 +314,7 @@
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del AFP para visualizar la información</span><br>
                         @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <button class="btn btn-primary" id="modal_afps">Agregar</button>
+                        <button class="btn btn-success" id="modal_afps">Agregar</button>
                         @endif
                       </center>
                   <?php endif ?>
@@ -337,7 +339,7 @@
                         <h4 class="text-yellow"><i class="glyphicon glyphicon-warning-sign"></i> Advertencia</h4>
                         <span>Agregue datos del ISSS para visualizar la información</span><br>
                         @if(Auth()->user()->hasAnyRole(['admin','tesoreria']))
-                        <button class="btn btn-primary" id="modal_isss">Agregar</button>
+                        <button class="btn btn-success" id="modal_isss">Agregar</button>
                         @endif
                       </center>
                   <?php endif ?>

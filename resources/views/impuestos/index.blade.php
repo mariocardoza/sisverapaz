@@ -15,7 +15,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Listado</h3>
+                    <p></p>
                     <a href="{{ url('/impuestos/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
                 </div>
                 <!-- /.box-header -->
@@ -35,8 +35,10 @@
                                 <td>$ {{ $impuesto->impuesto }}</td>
                                 <td>
                                     {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                    <a href="{{ url('impuestos/'.$impuesto->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                    <a href="{{ url('/impuestos/'.$impuesto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                                    <div class="btn-group">
+                                        <a href="{{ url('impuestos/'.$impuesto->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                        <a href="{{ url('/impuestos/'.$impuesto->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
+                                    </div>
                                     {{ Form::close()}}
                                 </td>
                             </tr>

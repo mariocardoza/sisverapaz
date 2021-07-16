@@ -20,12 +20,12 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body table-responsive">
-            <div class="btn-group">
-              <a href="{{url('ingresos?n=0')}}" class="btn btn-primary">Cobros inmuebles</a>
-              <a href="{{url('ingresos?n=1')}}" class="btn btn-primary">Cobros negocios</a>
+            <div class="btn-group pull-right">
+              <a href="{{url('ingresos?n=0')}}" class="btn btn-primary">Cobros Inmuebles</a>
+              <a href="{{url('ingresos?n=1')}}" class="btn btn-primary">Cobros Negocios</a>
               <a href="{{ url('partidas') }}" class="btn btn-primary">Partidas</a>
               <a href="{{url('construcciones/recibos')}}" class="btn btn-primary">Construcciones <span class="label label-danger">{{\App\Construccion::whereEstado(3)->count()}}</span></a>
-              <a href="{{url('perpetuidad/recibos')}}" class="btn btn-primary">Titulos a perpetuidad <span class="label label-danger">{{\App\Perpetuidad::whereEstado(1)->count()}}</span></a>
+              <a href="{{url('perpetuidad/recibos')}}" class="btn btn-primary">Titulos a Perpetuidad <span class="label label-danger">{{\App\Perpetuidad::whereEstado(1)->count()}}</span></a>
               <button class="btn btn-primary">Otros</button>
             </div>
             <br><br>
@@ -65,7 +65,7 @@
                   <td>{{$factura->created_at->format("d/m/Y")}}</td>
                   <td>
                     @if($n==0)
-                      <button data-id="{{ $factura->id }}" id="cobrar_inmueble" class="btn btn-primary"><i class="fa fa-money"></i></button>
+                      <button data-id="{{ $factura->id }}" id="cobrar_inmueble" class="btn btn-success"><i class="fa fa-money"></i></button>
                     @else
                       <button data-id="{{ $factura->id }}" id="cobrar_negocio" class="btn btn-primary"><i class="fa fa-money"></i></button>
                     @endif

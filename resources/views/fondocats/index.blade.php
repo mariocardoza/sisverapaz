@@ -16,8 +16,8 @@
 <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Listado</h3>
-                <a href="{{ url('/fondocats/create') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Agregar</a>
+              <p></p>
+                <a href="{{ url('/fondocats/create') }}" class="btn btn-success"><span class="fa fa-plus-circle"></span> Agregar</a>
                 <a href="{{ url('/fondocats?estado=1') }}" class="btn btn-primary">Activos</a>
                 <a href="{{ url('/fondocats?estado=2') }}" class="btn btn-primary">Papelera</a>
             </div>
@@ -38,13 +38,13 @@
 
                       @if($fondocat->estado == 1)
                                 {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                                <a href="{{ url('fondocats/'.$fondocat->id) }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a>
-                                <a href="{{ url('/fondocats/'.$fondocat->id.'/edit') }}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-text-size"></span></a>
-                                <button class="btn btn-danger btn-xs" type="button" onclick={{ "baja(".$fondocat->id.",'fondocats')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <a href="{{ url('fondocats/'.$fondocat->id) }}" class="btn btn-primary btn-xs"><span class="fa fa-eye"></span></a>
+                                <a href="{{ url('/fondocats/'.$fondocat->id.'/edit') }}" class="btn btn-warning"><span class="fa fa-edit"></span></a>
+                                <button class="btn btn-danger" type="button" onclick={{ "baja(".$fondocat->id.",'fondocats')" }}><span class="fa fa-thumbs-o-down"></span></button>
                                 {{ Form::close()}}
                             @else
                                 {{ Form::open(['method' => 'POST', 'id' => 'alta', 'class' => 'form-horizontal'])}}
-                                <button class="btn btn-success btn-xs" type="button" onclick={{ "alta(".$fondocat->id.",'fondocats')" }}><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-success" type="button" onclick={{ "alta(".$fondocat->id.",'fondocats')" }}><span class="fa fa-thumbs-o-up"></span></button>
                                 {{ Form::close()}}
                              @endif
                         </td>

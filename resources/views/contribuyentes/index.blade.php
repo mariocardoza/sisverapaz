@@ -10,6 +10,9 @@
         <li class="active">Listado de contribuyentes</li>
       </ol>
 @endsection
+@php
+    $categorias = \App\CategoriaRubro::all();
+@endphp
 
 @section('content')
 <div class="row">
@@ -40,7 +43,11 @@
                         @foreach ($contribuyentes  as $i => $c)
                         <tr>
                             <td>{{$i+1}}</td>
+                            @if($c->estado==1)
                             <td>{{$c->nombre}}</td>
+                            @else
+                            <td><del>{{$c->nombre}}</del></td>
+                            @endif
                             <td>{{$c->telefono}}</td>
                             <td>{{$c->dui}}</td>
                             <td>{{$c->nit}}</td>
@@ -75,7 +82,9 @@
 @section('scripts')
 <script src="{{asset('js/generar_factura.js?cod='.date("Yidisus"))}}"></script>
 <script>
+    const categorias = '<?php echo $categorias; ?>';
     $(document).ready(function(e){
+        console.log(categorias);
         //modal de los rubros
         $(document).on("click","#rubros",function(e){
             e.preventDefault();
@@ -122,8 +131,17 @@
             e.preventDefault();
             var html="<tr class='rfila'>"+
                 "<td></td>"+
+                "<td><select id='n_categoria' class='form-control'>"+
+                    "<option value='1'>Servicios</option>"+
+                    "<option value='2'>Comercios</option>"+
+                    "<option value='3'>Licencias</option>"+
+                "</select></td>"+
                 "<td><input class='form-control' type='text' id='n_rubro'></td>"+
                 "<td><input class='form-control' type='number' id='n_porcentaje'></td>"+
+                "<td><select id='n_formula' class='form-control'>"+
+                    "<option value='0'>No</option>"+
+                    "<option value='1'>Si</option>"+
+                "</select></td>"+
                 "<td></td>"+
                 "<td>"+
                 "<div class='btn-group'><button class='btn btn-success' type='button' id='r_rubro'><i class='fa fa-check'></i></button>"+
@@ -173,11 +191,13 @@
             e.preventDefault();
             var nombre=$("#n_rubro").val();
             var porcentaje=$("#n_porcentaje").val();
+            var categoriarubro=$("#n_categoria").val();
+            var formula=$("#n_formula").val();
             $.ajax({
                 url:'rubros',
                 type:'post',
                 dataType:'json',
-                data:{nombre,porcentaje},
+                data:{nombre,porcentaje,formula,categoriarubro},
                 success: function(json){
                     if(json.response==true){
                         toastr.success("Rubro registro con éxito");
@@ -289,6 +309,7 @@
                 }
             });
         });
+        
 
         //editar el rubro
         $(document).on("click","#eleditar_r",function(e){
@@ -297,11 +318,13 @@
             var fila=$(this).attr("data-fila");
             var nombre=$(".nonr"+fila).val();
             var porcentaje=$(".porcen"+fila).val();
+            var categoria=$(".cate"+fila).val();
+            var formula=$(".formu"+fila).val();
             $.ajax({
                 url:'rubros/'+id,
                 type:'put',
                 dataType:'json',
-                data:{nombre,porcentaje},
+                data:{nombre,porcentaje,categoria,formula},
                 success: function(json){
                     if(json.ok==true){
                         toastr.success("Rubro modificado");
@@ -335,8 +358,10 @@
                         toastr.success("Rubro eliminado");
                         rubros();
                     }else{
-                        toastr.error("Ocurrió un error");
+                        toastr.error(json.message);
                     }
+                },error:function(error){
+                    toastr.error("Ocurrió un error, contacte al administrador");
                 }
             })
         });

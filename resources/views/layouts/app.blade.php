@@ -15,12 +15,11 @@
 @php
   $cod=date("Yisisus");
 @endphp
-  {!! Html::style('css/sisverapaz.css')!!}
-  <link rel="stylesheet" type="text/css" media="print" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/1.6.4/fullcalendar.print.css">
-  
-  {!! Html::script('js/sisverapaz.js') !!}
+  <link rel="stylesheet" href="{{ asset('css/sisverapaz.css') }}">
+  <link rel="stylesheet" type="text/css" media="print" href="{{ asset('css/fullcalendar.print.css')}}">
+  <script src="{{ asset('js/sisverapaz.js') }}"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhvC3rIiMvEM4JUPAl4fG1xNPRKoRnoTg"></script>
-  {!! Html::script('js/funcionesgenerales.js') !!}
+  <script src="{{ asset('js/funcionesgenerales.js') }}"></script>
   <script src="{{asset('js/gmaps.min.js')}}"></script>
 <style>
   .error{

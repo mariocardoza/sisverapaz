@@ -16,12 +16,11 @@
 <div class="col-xs-12">
   <div class="box">
     <div class="box-header">
-      <h3 class="box-title">Listado</h3>
+      <p></p>
       <div class="btn-group pull-right">
         <!---->
         <a href="{{ url('/negocios/create') }}" class="btn btn-success">
-            <span class="glyphicon glyphicon-plus-sign"></span> Agregar
-        </a>
+            <span class="fa fa-plus-circle"></span> </a>
         <a href="{{ url('/Negocios?estado=1') }}" class="btn btn-primary">Activos</a>
         <a href="{{ url('/Negocios?estado=2') }}" class="btn btn-primary">Papelera</a>
       </div>
@@ -45,19 +44,21 @@
                     <td>{{ $negocio->rubro->nombre }}</td>
                     <td>
                       {{ Form::open(['method' => 'POST', 'id' => 'baja', 'class' => 'form-horizontal'])}}
-                          <a href="{{ url('negocios/'.$negocio->id) }}" class="btn btn-primary btn-xs">
-                            <span class="glyphicon glyphicon-eye-open"></span>
+                          <div class="btn-group">
+                            <a href="{{ url('negocios/'.$negocio->id) }}" class="btn btn-primary">
+                            <span class="fa fa-eye"></span>
                           </a>
-                          <a href="{{ url('negocio/mapa/'.$negocio->id) }}" class="btn btn-primary btn-xs">
-                            <span class="glyphicon glyphicon-eye-open"></span>
+                          <a href="{{ url('negocio/mapa/'.$negocio->id) }}" class="btn btn-primary">
+                            <span class="fa fa-eye"></span>
                           </a>
-                          <a href="{{ url('/negocios/'.$negocio->id.'/edit') }}" class="btn btn-warning btn-xs">
-                            <span class="glyphicon glyphicon-text-size"></span>
+                          <a href="{{ url('/negocios/'.$negocio->id.'/edit') }}" class="btn btn-warning">
+                            <span class="fa fa-text"></span>
                           </a>
-                          <button class="btn btn-danger btn-xs" 
+                          <button class="btn btn-danger" 
                             type="button" onclick={{ "baja(".$negocio->id.")" }}>
-                              <span class="glyphicon glyphicon-trash"></span>
+                              <span class="fa fa-trash"></span>
                           </button>
+                          </div>
                       {{ Form::close()}}
                     </td>
                 </tr>

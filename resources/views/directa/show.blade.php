@@ -58,7 +58,7 @@
         <div class="panel panel-primary documentos" style="display: none;">
             <div class="panel-heading">Documentos</div>
             <div class="panel-body">
-              <button class="btn btn-primary agregar" type="button">Agregar</button>
+              <button class="btn btn-success agregar" type="button">Agregar</button>
               <table class="table">
                 <thead>
                   <tr>
